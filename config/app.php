@@ -173,6 +173,7 @@ return [
         /*
          * Package Service Providers that aren't auto-discover...
          */
+        DevDojo\Chatter\ChatterServiceProvider::class,
 
         /*
          * Application Service Providers...

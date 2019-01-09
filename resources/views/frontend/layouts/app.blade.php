@@ -21,6 +21,7 @@
         {{ style(mix('css/frontend.css')) }}
 
         @stack('after-styles')
+        @yield('css')
     </head>
     <body>
         <div id="app">
@@ -39,6 +40,7 @@
         {!! script(mix('js/vendor.js')) !!}
         {!! script(mix('js/frontend.js')) !!}
         @stack('after-scripts')
+        @yield('js')
 
         @include('includes.partials.ga')
     </body>
