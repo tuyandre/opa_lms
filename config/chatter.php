@@ -69,7 +69,7 @@ return [
     |
     */
 
-    'master_file_extend' => 'layouts.app',
+    'master_file_extend' => 'frontend.layouts.app',
 
     /*
     |--------------------------------------------------------------------------
@@ -122,7 +122,7 @@ return [
     */
 
     'user' => [
-        'namespace'                     => 'App\User',
+        'namespace'                     => 'App\Models\Auth\User',
         'database_field_with_user_name' => 'name',
         'relative_url_to_profile'       => '',
         'relative_url_to_image_assets'  => '',
