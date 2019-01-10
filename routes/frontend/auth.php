@@ -35,6 +35,9 @@ Route::group(['namespace' => 'Auth', 'as' => 'auth.'], function () {
             Route::get('password/expired', [PasswordExpiredController::class, 'expired'])->name('password.expired');
             Route::patch('password/expired', [PasswordExpiredController::class, 'update'])->name('password.expired.update');
         }
+
+        Route::get('change-password', 'Auth\ChangePasswordController@showChangePasswordForm')->name('change_password');
+       Route::patch('change-password', 'Auth\ChangePasswordController@changePassword')->name('change_password');
     });
 
     /*

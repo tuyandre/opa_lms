@@ -6,6 +6,7 @@
 
 @section('content')
     <div class="row">
+
         <div class="col-md-3">
             <canvas id="stats-doughnut-chart" height="300"></canvas>
         </div>

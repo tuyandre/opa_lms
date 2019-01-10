@@ -33,7 +33,6 @@ return [
         'create_new'        => 'Create New',
         'toolbar_btn_groups' => 'Toolbar with button groups',
         'more'              => 'More',
-        'none'              => 'None',
     ],
 
     'backend' => [
@@ -114,6 +113,38 @@ return [
                 'view' => 'View User',
             ],
         ],
+        /*====================Custom strings====================*/
+        'courses' =>[
+            'title' => 'Courses',
+            'create' => 'Create Course',
+            'edit' => 'Edit Course',
+            'view' => 'View Courses',
+            'fields' => [
+                'teachers' => 'Teachers',
+                'title' => 'Title',
+                'slug' => 'Slug',
+                'description' => 'Description',
+                'price' => 'Price',
+                'course_image' => 'Course Image',
+                'start_date' => 'Start Date',
+                'published' => 'Published'
+            ]
+        ],
+        'lessons' => [
+            'title' => 'Lessons',
+            'create' => 'Create Lesson',
+            'edit' => 'Edit Lesson',
+            'view' => 'View Lessons',
+            'fields' => [
+                'course' => 'Course',
+                'title' => 'Title',
+                'position' => 'Position',
+                'free_lesson' => 'Free Lesson',
+                'published' => 'Published',
+            ]
+
+        ]
+        /*======================================================*/
     ],
 
     'frontend' => [

@@ -11,12 +11,27 @@ use Stripe\Customer;
 class CoursesController extends Controller
 {
 
+
+    public function all(){
+        $purchased_courses = NULL;
+        if (\Auth::check()) {
+            $purchased_courses = Course::whereHas('students', function($query) {
+                $query->where('id', \Auth::id());
+            })
+                ->with('lessons')
+                ->orderBy('id', 'desc')
+                ->get();
+        }
+        $courses = Course::where('published', 1)->orderBy('id', 'desc')->get();
+        return view('frontend.courses.index', compact('courses', 'purchased_courses'));
+    }
+
     public function show($course_slug)
     {
         $course = Course::where('slug', $course_slug)->with('publishedLessons')->firstOrFail();
         $purchased_course = \Auth::check() && $course->students()->where('user_id', \Auth::id())->count() > 0;
 
-        return view('course', compact('course', 'purchased_course'));
+        return view('frontend.courses.course', compact('course', 'purchased_course'));
     }
 
     public function payment(Request $request)

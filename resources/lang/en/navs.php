@@ -24,6 +24,9 @@ return [
         'login'     => 'Login',
         'macros'    => 'Macros',
         'register'  => 'Register',
+        /*========= Custom data starts ============*/
+        'courses' => 'Courses',
+        /*=========================================*/
 
         'user' => [
             'account'         => 'My Account',

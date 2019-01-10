@@ -1,3 +1,5 @@
+@inject('request', 'Illuminate\Http\Request')
+
 <div class="sidebar">
     <nav class="sidebar-nav">
         <ul class="nav">
@@ -9,6 +11,63 @@
                     <i class="nav-icon icon-speedometer"></i> @lang('menus.backend.sidebar.dashboard')
                 </a>
             </li>
+
+
+            <!--=======================Custom menus===============================-->
+            @can('course_access')
+                <li class="nav-item ">
+                    <a class="nav-link {{ $request->segment(2) == 'courses' ? 'active' : '' }}" href="{{ route('admin.courses.index') }}">
+                        <i class="nav-icon icon-puzzle"></i> <span class="title">@lang('menus.backend.sidebar.courses.title')</span>
+                    </a>
+                </li>
+            @endcan
+
+            @can('lesson_access')
+                <li class="nav-item ">
+                    <a class="nav-link {{ $request->segment(2) == 'lessons' ? 'active' : '' }}" href="{{ route('admin.lessons.index') }}">
+                        <i class="nav-icon icon-grid"></i> <span class="title">@lang('menus.backend.sidebar.lessons.title')</span>
+                    </a>
+                </li>
+            @endcan
+
+            @can('question_access')
+                <li class="nav-item">
+                    <a class="nav-link {{ $request->segment(2) == 'questions' ? 'active' : '' }}" href="{{ route('admin.questions.index') }}">
+                        <i class="nav-icon icon-question"></i> <span class="title">@lang('menus.backend.sidebar.questions.title')</span>
+                    </a>
+                </li>
+            @endcan
+
+            @can('questions_option_access')
+                <li class="nav-item">
+                    <a class="nav-link {{ $request->segment(2) == 'questions_options' ? 'active' : '' }}" href="{{ route('admin.questions_options.index') }}">
+                        <i class="nav-icon icon-note"></i> <span class="title">@lang('menus.backend.sidebar.questions-options.title')</span>
+                    </a>
+                </li>
+            @endcan
+
+            @can('test_access')
+                <li  class="nav-item ">
+                    <a class="nav-link {{ $request->segment(2) == 'tests' ? 'active' : '' }}" href="{{ route('admin.tests.index') }}">
+                        <i class="nav-icon icon-book-open"></i> <span class="title">@lang('menus.backend.sidebar.tests.title')</span>
+                    </a>
+                </li>
+            @endcan
+
+
+
+
+            <li class="nav-item ">
+                <a class="nav-link {{ $request->segment(1) == 'change_password' ? 'active' : '' }}" href="{{ route('frontend.auth.change_password') }}">
+                    <i class="nav-icon icon-key"></i>
+                    <span class="title">@lang('menus.backend.sidebar.change-password.title')</span>
+                </a>
+            </li>
+            <!--==================================================================-->
+
+
+
+
 
             <li class="nav-title">
                 @lang('menus.backend.sidebar.system')

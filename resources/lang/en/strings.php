@@ -30,9 +30,28 @@ return [
         ],
 
         'general' => [
+            /*==================Custom String=================================*/
+            'app_create' => 'Create',
+            'app_save' => 'Save',
+            'app_edit' => 'Edit',
+            'app_view' => 'View',
+            'app_update' => 'Update',
+            'app_list' => 'List',
+            'app_no_entries_in_table' => 'No entries in table',
+            'custom_controller_index' => 'Custom controller index.',
+            'app_logout' => 'Logout',
+            'app_add_new' => 'Add new',
+            'app_restore' => 'Restore',
+            'app_permadel' => 'Permanently Delete',
+            'app_are_you_sure' => 'Are you sure?',
+            'app_back_to_list' => 'Back to list',
+            'app_dashboard' => 'Dashboard',
+            'app_delete' => 'Delete',
+            'actions' => 'Actions',
+            /*===================================================*/
             'all_rights_reserved' => 'All Rights Reserved.',
             'are_you_sure'        => 'Are you sure you want to do this?',
-            'boilerplate_link'    => 'Laravel 5 Boilerplate',
+            'boilerplate_link'    => 'JThemes Studio',
             'continue'            => 'Continue',
             'member_since'        => 'Member since',
             'minutes'             => ' minutes',
@@ -69,6 +88,7 @@ return [
 
     'emails' => [
         'auth' => [
+
             'account_confirmed' => 'Your account has been confirmed.',
             'error'                   => 'Whoops!',
             'greeting'                => 'Hello!',

@@ -7,6 +7,7 @@
 
     <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
         <ul class="navbar-nav">
+            <li class="nav-item"><a href="{{route('courses.all')}}" class="nav-link {{ active_class(Active::checkRoute('courses.all')) }}">@lang('navs.frontend.courses')</a></li>
             @if(config('locale.status') && count(config('locale.languages')) > 1)
                 <li class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" id="navbarDropdownLanguageLink" data-toggle="dropdown"

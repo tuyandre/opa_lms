@@ -48,6 +48,28 @@ return [
             'general'   => 'General',
             'history'   => 'History',
             'system'    => 'System',
+            'courses'    => [
+                'title' => 'Courses'
+            ],
+            'lessons'    => [
+                'title' => 'Lessons'
+            ],
+            'questions'    => [
+                'title' => 'Questions'
+            ],
+            'questions-options'    => [
+                'title' => 'Questions Options'
+            ],
+            'tests'    => [
+                'title' => 'Tests'
+            ],
+            'change-password'    => [
+                'title' => 'Change Password'
+            ],
+
+            /*=====Custom content========*/
+            ''
+            /*===========================*/
         ],
     ],
 

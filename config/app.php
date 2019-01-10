@@ -69,6 +69,19 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Application Date Format
+    |--------------------------------------------------------------------------
+    |
+    | Here you may specify the default date format for your application, which
+    | will be used with date and date-time functions.
+    |
+    */
+
+    'date_format' => 'Y-m-d',
+    'date_format_js' => 'yy-mm-dd',
+
+    /*
+    |--------------------------------------------------------------------------
     | Application Locale Configuration
     |--------------------------------------------------------------------------
     |
@@ -169,11 +182,16 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
+        Collective\Html\HtmlServiceProvider::class,
+
 
         /*
          * Package Service Providers that aren't auto-discover...
          */
         DevDojo\Chatter\ChatterServiceProvider::class,
+        UniSharp\LaravelFilemanager\LaravelFilemanagerServiceProvider::class,
+        Intervention\Image\ImageServiceProvider::class,
+
 
         /*
          * Application Service Providers...
@@ -242,6 +260,10 @@ return [
         'Active' => HieuLe\Active\Facades\Active::class,
         'Gravatar' => Creativeorange\Gravatar\Facades\Gravatar::class,
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
+        'Form' => Collective\Html\FormFacade::class,
+        'Html' => Collective\Html\HtmlFacade::class,
+        'Image' => Intervention\Image\Facades\Image::class,
+
 
     ],
 

@@ -34,6 +34,11 @@ return [
             'updated'             => 'The user was successfully updated.',
             'updated_password'    => "The user's password was successfully updated.",
         ],
+        'general' => [
+            'created' => 'Created successfully.',
+            'deleted' => 'Deleted successfully.',
+            'updated' => 'Updated successfully.',
+        ]
     ],
 
     'frontend' => [
