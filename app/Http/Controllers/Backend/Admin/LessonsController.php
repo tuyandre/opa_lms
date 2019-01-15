@@ -69,9 +69,19 @@ class LessonsController extends Controller
         if (! Gate::allows('lesson_create')) {
             return abort(401);
         }
-        $request = $this->saveFiles($request);
-        $lesson = Lesson::create($request->all()
+
+
+        $lesson = Lesson::create($request->except('downloadable_files','lesson_image')
             + ['position' => Lesson::where('course_id', $request->course_id)->max('position') + 1]);
+
+        $request = $this->saveDownloadableFiles($request,'downloadable_files',Lesson::class,$lesson);
+
+
+        if(($request->slug == "") || $request->slug == null){
+            $lesson->slug = str_slug($request->title);
+            $lesson->save();
+        }
+
 
         foreach ($request->input('downloadable_files_id', []) as $index => $id) {
             $model          = config('laravel-medialibrary.media_model');
@@ -117,9 +127,13 @@ class LessonsController extends Controller
         $request = $this->saveFiles($request);
         $lesson = Lesson::findOrFail($id);
         $lesson->update($request->all());
-
+        if(($request->slug == "") || $request->slug == null){
+            $lesson->slug = str_slug($request->title);
+            $lesson->save();
+        }
 
         $media = [];
+
         foreach ($request->input('downloadable_files_id', []) as $index => $id) {
             $model          = config('laravel-medialibrary.media_model');
             $file           = $model::find($id);

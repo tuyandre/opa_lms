@@ -65,18 +65,18 @@
                                         {!! Form::open(array(
                                             'style' => 'display: inline-block;',
                                             'method' => 'POST',
-                                            'onsubmit' => "return confirm('".trans("global.app_are_you_sure")."');",
+                                            'onsubmit' => "return confirm('".trans("strings.backend.general.app_are_you_sure")."');",
                                             'route' => ['admin.lessons.restore', $lesson->id])) !!}
-                                        {!! Form::submit(trans('global.app_restore'), array('class' => 'btn btn-xs btn-success')) !!}
+                                        {!! Form::submit(trans('strings.backend.general.app_restore'), array('class' => 'btn btn-xs btn-success')) !!}
                                         {!! Form::close() !!}
 
 
                                         {!! Form::open(array(
             'style' => 'display: inline-block;',
             'method' => 'DELETE',
-            'onsubmit' => "return confirm('".trans("global.app_are_you_sure")."');",
+            'onsubmit' => "return confirm('".trans("strings.backend.general.app_are_you_sure")."');",
             'route' => ['admin.lessons.perma_del', $lesson->id])) !!}
-                                        {!! Form::submit(trans('global.app_permadel'), array('class' => 'btn btn-xs btn-danger')) !!}
+                                        {!! Form::submit(trans('strings.backend.general.app_permadel'), array('class' => 'btn btn-xs btn-danger')) !!}
                                         {!! Form::close() !!}
                                     </td>
                                 @else
@@ -108,7 +108,7 @@
                         @endforeach
                     @else
                         <tr>
-                            <td colspan="14">@lang('global.app_no_entries_in_table')</td>
+                            <td colspan="14">@lang('strings.backend.general.app_no_entries_in_table')</td>
                         </tr>
                     @endif
                     </tbody>

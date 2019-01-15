@@ -26,6 +26,7 @@ class CoursesController extends Controller
             return abort(401);
         }
 
+
         if (request('show_deleted') == 1) {
             if (! Gate::allows('course_delete')) {
                 return abort(401);
@@ -64,8 +65,14 @@ class CoursesController extends Controller
         if (! Gate::allows('course_create')) {
             return abort(401);
         }
+        $request->all();
+
         $request = $this->saveFiles($request);
         $course = Course::create($request->all());
+        if(($request->slug == "") || $request->slug == null){
+            $course->slug = str_slug($request->title);
+            $course->save();
+        }
         $teachers = \Auth::user()->isAdmin() ? array_filter((array)$request->input('teachers')) : [\Auth::user()->id];
         $course->teachers()->sync($teachers);
 
@@ -103,9 +110,15 @@ class CoursesController extends Controller
         if (! Gate::allows('course_edit')) {
             return abort(401);
         }
+
         $request = $this->saveFiles($request);
         $course = Course::findOrFail($id);
+
         $course->update($request->all());
+        if(($request->slug == "") || $request->slug == null){
+            $course->slug = str_slug($request->title);
+            $course->save();
+        }
         $teachers = \Auth::user()->isAdmin() ? array_filter((array)$request->input('teachers')) : [\Auth::user()->id];
         $course->teachers()->sync($teachers);
 

@@ -10,6 +10,14 @@ use App\Http\Controllers\LanguageController;
 // Switch between the included languages
 Route::get('lang/{lang}', [LanguageController::class, 'swap']);
 
+Route::get('test',function (){
+    $url = 'https://images.unsplash.com/photo-1546864903-e99c8237840d?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max&ixid=eyJhcHBfaWQiOjF9';
+    $model = new \App\Models\Lesson();
+    $model->addMediaFromUrl($url)
+        ->toMediaCollection();
+    dd(\Spatie\MediaLibrary\Models\Media::all());
+});
+
 /*
  * Frontend Routes
  * Namespaces indicate folder structure

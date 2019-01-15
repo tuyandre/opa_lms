@@ -61,7 +61,7 @@
                 </div>
                 <div class="col-12 col-lg-4  form-group">
                     {!! Form::label('start_date', trans('labels.backend.courses.fields.start_date'), ['class' => 'control-label']) !!}
-                    {!! Form::text('start_date', old('start_date'), ['class' => 'form-control date', 'placeholder' => '']) !!}
+                    {!! Form::text('start_date', old('start_date'), ['class' => 'form-control date', 'placeholder' => '', 'autocomplete' => 'off']) !!}
 
                 </div>
             </div>

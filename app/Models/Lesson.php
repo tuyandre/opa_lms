@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
 
+
 /**
  * Class Lesson
  *
@@ -21,9 +22,9 @@ use Spatie\MediaLibrary\HasMedia\HasMedia;
  * @property tinyInteger $free_lesson
  * @property tinyInteger $published
 */
-class Lesson extends Model implements HasMedia
+class Lesson extends Model
 {
-    use SoftDeletes, HasMediaTrait;
+    use SoftDeletes;
 
     protected $fillable = ['title', 'slug', 'lesson_image', 'short_text', 'full_text', 'position', 'downloadable_files', 'free_lesson', 'published', 'course_id'];
     
@@ -58,6 +59,11 @@ class Lesson extends Model implements HasMedia
     public function students()
     {
         return $this->belongsToMany('App\Models\Auth\User', 'lesson_student')->withTimestamps();
+    }
+
+    public function media()
+    {
+        return $this->morphMany('App\Models\Media', 'model');
     }
     
 }
