@@ -78,7 +78,7 @@ class QuestionsController extends Controller
             }
         }
 
-        return redirect()->route('admin.questions.index');
+        return redirect()->route('admin.questions.index')->withFlashSuccess(trans('alerts.backend.general.created'));
     }
 
 
@@ -118,7 +118,7 @@ class QuestionsController extends Controller
 
 
 
-        return redirect()->route('admin.questions.index');
+        return redirect()->route('admin.questions.index')->withFlashSuccess(trans('alerts.backend.general.updated'));
     }
 
 
@@ -158,7 +158,7 @@ class QuestionsController extends Controller
         $question = Question::findOrFail($id);
         $question->delete();
 
-        return redirect()->route('admin.questions.index');
+        return redirect()->route('admin.questions.index')->withFlashSuccess(trans('alerts.backend.general.deleted'));
     }
 
     /**
@@ -195,7 +195,7 @@ class QuestionsController extends Controller
         $question = Question::onlyTrashed()->findOrFail($id);
         $question->restore();
 
-        return redirect()->route('admin.questions.index');
+        return redirect()->route('admin.questions.index')->withFlashSuccess(trans('alerts.backend.general.restored'));
     }
 
     /**
@@ -212,6 +212,6 @@ class QuestionsController extends Controller
         $question = Question::onlyTrashed()->findOrFail($id);
         $question->forceDelete();
 
-        return redirect()->route('admin.questions.index');
+        return redirect()->route('admin.questions.index')->withFlashSuccess(trans('alerts.backend.general.deleted'));
     }
 }

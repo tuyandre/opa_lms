@@ -64,22 +64,30 @@
                                 <td>{{ Form::checkbox("published", 1, $lesson->published == 1 ? true : false, ["disabled"]) }}</td>
                                 @if( request('show_deleted') == 1 )
                                     <td>
-                                        {!! Form::open(array(
-                                            'style' => 'display: inline-block;',
-                                            'method' => 'POST',
-                                            'onsubmit' => "return confirm('".trans("strings.backend.general.app_are_you_sure")."');",
-                                            'route' => ['admin.lessons.restore', $lesson->id])) !!}
-                                        {!! Form::submit(trans('strings.backend.general.app_restore'), array('class' => 'btn btn-xs btn-success')) !!}
-                                        {!! Form::close() !!}
+
+                                        <a data-method="delete" data-trans-button-cancel="Cancel"
+                                           data-trans-button-confirm="Restore" data-trans-title="Are you sure?"
+                                           class="btn btn-xs  btn-success" style="cursor:pointer;"
+                                           onclick="$(this).find('form').submit();">
+                                            {{trans('strings.backend.general.app_restore')}}
+                                            <form action="{{route('admin.lessons.restore',['lesson'=> $lesson->id ])}}"
+                                                  method="POST" name="delete_item" style="display:none">
+                                                @csrf
+                                            </form>
+                                        </a>
 
 
-                                        {!! Form::open(array(
-            'style' => 'display: inline-block;',
-            'method' => 'DELETE',
-            'onsubmit' => "return confirm('".trans("strings.backend.general.app_are_you_sure")."');",
-            'route' => ['admin.lessons.perma_del', $lesson->id])) !!}
-                                        {!! Form::submit(trans('strings.backend.general.app_permadel'), array('class' => 'btn btn-xs btn-danger')) !!}
-                                        {!! Form::close() !!}
+                                        <a data-method="delete" data-trans-button-cancel="Cancel"
+                                           data-trans-button-confirm="Delete" data-trans-title="Are you sure?"
+                                           class="btn btn-xs btn-danger" style="cursor:pointer;"
+                                           onclick="$(this).find('form').submit();">
+                                            {{trans('strings.backend.general.app_permadel')}}
+                                            <form action="{{route('admin.lessons.perma_del',['lesson'=>$lesson->id])}}"
+                                                  method="POST" name="delete_item" style="display:none">
+                                                @csrf
+                                                {{method_field('DELETE')}}
+                                            </form>
+                                        </a>
                                     </td>
                                 @else
                                     <td>

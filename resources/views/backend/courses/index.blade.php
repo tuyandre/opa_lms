@@ -78,9 +78,10 @@
                                 <td>{{ $course->slug }}</td>
                                 <td>{!! $course->description !!}</td>
                                 <td>{{ $course->price }}</td>
-                                <td>@if($course->course_image)<a href="{{ asset('uploads/' . $course->course_image) }}"
-                                                                 target="_blank"><img
-                                                src="{{ asset('uploads/thumb/' . $course->course_image) }}"/></a>@endif
+                                <td>@if($course->course_image)
+                                        <a href="{{ asset('storage/uploads/' . $course->course_image) }}"
+                                                                 target="_blank">
+                                        <img height="50px" src="{{ asset('storage/uploads/' . $course->course_image) }}"/></a>@endif
                                 </td>
                                 <td>{{ $course->start_date }}</td>
                                 <td>{{ Form::checkbox("published", 1, $course->published == 1 ? true : false, ["disabled"]) }}</td>
@@ -116,8 +117,8 @@
                                     <td>
                                         @can('course_view')
 
-                                            <a href="{{ route('admin.lessons.index',['course_id' => $course->id]) }}"
-                                               class="btn btn-xs mb-1 btn-primary">@lang('labels.backend.lessons.title')</a>
+                                            <a href="{{ route('admin.courses.show',['course_id' => $course->id]) }}"
+                                               class="btn btn-xs mb-1 btn-primary"><i class="icon-eye"></i></a>
                                         @endcan
                                         @can('course_edit')
                                             <a href="{{ route('admin.courses.edit',[$course->id]) }}"

@@ -4,12 +4,9 @@
     <h3 class="page-title">@lang('labels.backend.courses.title')</h3>
 
     <div class="card">
-        <div class="card-title">
-            @lang('strings.backend.general.app_view')
-        </div>
         <div class="card-body">
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-12">
                     <table class="table table-bordered table-striped">
                         <tr>
                             <th>@lang('labels.backend.courses.fields.teachers')</th>
@@ -54,31 +51,30 @@
             </div><!-- Nav tabs -->
             <ul class="nav nav-tabs" role="tablist">
 
-                <li role="presentation" class="active"><a href="#lessons" aria-controls="lessons" role="tab"
-                                                          data-toggle="tab">Lessons</a></li>
-                <li role="presentation" class=""><a href="#tests" aria-controls="tests" role="tab" data-toggle="tab">Tests</a>
+                <li role="presentation" class="nav-item">
+                    <a href="#lessons" class="nav-link active" aria-controls="lessons" role="tab"
+                       data-toggle="tab">Lessons</a></li>
+                <li role="presentation" class="nav-item"><a href="#tests" class="nav-link" aria-controls="tests" role="tab" data-toggle="tab">Tests</a>
                 </li>
             </ul>
 
             <!-- Tab panes -->
             <div class="tab-content">
 
-                <div role="tabpanel" class="tab-pane active" id="lessons">
+                <div role="tabpanel" class="tab-pane container active" id="lessons">
                     <table class="table table-bordered table-striped {{ count($lessons) > 0 ? 'datatable' : '' }}">
                         <thead>
                         <tr>
-                            <th>@lang('labels.backend.courses.fields.course')</th>
-                            <th>@lang('labels.backend.courses.fields.title')</th>
-                            <th>@lang('labels.backend.courses.fields.slug')</th>
-                            <th>@lang('labels.backend.courses.fields.description')</th>
-                            <th>@lang('labels.backend.courses.fields.price')</th>
-                            <th>@lang('labels.backend.courses.fields.course_image')</th>
-                            <th>@lang('labels.backend.courses.fields.start_date')</th>
-                            <th>@lang('labels.backend.courses.fields.published')</th>
+                            <th>@lang('labels.backend.lessons.fields.course')</th>
+                            <th>@lang('labels.backend.lessons.fields.title')</th>
+                            <th>@lang('labels.backend.lessons.fields.short_text')</th>
+                            <th>@lang('labels.backend.lessons.fields.lesson_image')</th>
+                            <th>@lang('labels.backend.lessons.fields.free_lesson')</th>
+                            <th>@lang('labels.backend.lessons.fields.published')</th>
                             @if( request('show_deleted') == 1 )
-                                <th>&nbsp;</th>
+                                <th>@lang('labels.general.actions')</th>
                             @else
-                                <th>&nbsp;</th>
+                                <th>@lang('labels.general.actions')</th>
                             @endif
                         </tr>
                         </thead>
@@ -87,60 +83,67 @@
                         @if (count($lessons) > 0)
                             @foreach ($lessons as $lesson)
                                 <tr data-entry-id="{{ $lesson->id }}">
-                                    <td>{{ $lesson->course->title or '' }}</td>
+                                    <td>{{ ($lesson->course) ? $lesson->course->title : '' }}</td>
                                     <td>{{ $lesson->title }}</td>
-                                    <td>{{ $lesson->slug }}</td>
+                                    <td>{!! $lesson->short_text !!}</td>
                                     <td>@if($lesson->lesson_image)<a
                                                 href="{{ asset('uploads/' . $lesson->lesson_image) }}"
                                                 target="_blank"><img
                                                     src="{{ asset('uploads/thumb/' . $lesson->lesson_image) }}"/></a>@endif
                                     </td>
-                                    <td>{!! $lesson->short_text !!}</td>
-                                    <td>{!! $lesson->full_text !!}</td>
-                                    <td>{{ $lesson->position }}</td>
-                                    <td> @foreach($lesson->getMedia('downloadable_files') as $media)
-                                            <p class="form-group">
-                                                <a href="{{ $media->getUrl() }}" target="_blank">{{ $media->name }}
-                                                    ({{ $media->size }} KB)</a>
-                                            </p>
-                                        @endforeach</td>
                                     <td>{{ Form::checkbox("free_lesson", 1, $lesson->free_lesson == 1 ? true : false, ["disabled"]) }}</td>
                                     <td>{{ Form::checkbox("published", 1, $lesson->published == 1 ? true : false, ["disabled"]) }}</td>
                                     @if( request('show_deleted') == 1 )
                                         <td>
-                                            {!! Form::open(array(
-                                                'style' => 'display: inline-block;',
-                                                'method' => 'POST',
-                                                'onsubmit' => "return confirm('".trans("global.app_are_you_sure")."');",
-                                                'route' => ['admin.lessons.restore', $lesson->id])) !!}
-                                            {!! Form::submit(trans('global.app_restore'), array('class' => 'btn btn-xs btn-success')) !!}
-                                            {!! Form::close() !!}
-                                            {!! Form::open(array(
-                'style' => 'display: inline-block;',
-                'method' => 'DELETE',
-                'onsubmit' => "return confirm('".trans("global.app_are_you_sure")."');",
-                'route' => ['admin.lessons.perma_del', $lesson->id])) !!}
-                                            {!! Form::submit(trans('global.app_permadel'), array('class' => 'btn btn-xs btn-danger')) !!}
-                                            {!! Form::close() !!}
+                                            <a data-method="delete" data-trans-button-cancel="Cancel"
+                                               data-trans-button-confirm="Restore" data-trans-title="Are you sure?"
+                                               class="btn btn-xs mb-2  btn-success" style="cursor:pointer;"
+                                               onclick="$(this).find('form').submit();">
+                                                {{trans('strings.backend.general.app_restore')}}
+                                                <form action="{{route('admin.lessons.restore',['lesson'=> $lesson->id ])}}"
+                                                      method="POST" name="delete_item" style="display:none">
+                                                    @csrf
+                                                </form>
+                                            </a>
+
+
+                                            <a data-method="delete" data-trans-button-cancel="Cancel"
+                                               data-trans-button-confirm="Delete" data-trans-title="Are you sure?"
+                                               class="btn btn-xs  mb-2  btn-danger" style="cursor:pointer;"
+                                               onclick="$(this).find('form').submit();">
+                                                {{trans('strings.backend.general.app_permadel')}}
+                                                <form action="{{route('admin.lessons.perma_del',['lesson'=>$lesson->id])}}"
+                                                      method="POST" name="delete_item" style="display:none">
+                                                    @csrf
+                                                    {{method_field('DELETE')}}
+                                                </form>
+                                            </a>
+
                                         </td>
                                     @else
                                         <td>
                                             @can('lesson_view')
                                                 <a href="{{ route('admin.lessons.show',[$lesson->id]) }}"
-                                                   class="btn btn-xs btn-primary">@lang('global.app_view')</a>
+                                                   class="btn  mb-2  btn-xs btn-primary"><i class="icon-eye"></i></a>
                                             @endcan
                                             @can('lesson_edit')
                                                 <a href="{{ route('admin.lessons.edit',[$lesson->id]) }}"
-                                                   class="btn btn-xs btn-info">@lang('global.app_edit')</a>
-                                            @endcan
+                                                   class="btn  mb-2  btn-xs btn-info">
+                                                    <i class="icon-pencil">
+                                                    </i>
+                                                </a>
+                                                        @endcan
                                             @can('lesson_delete')
-                                                {!! Form::open(array(
-                                                                                        'style' => 'display: inline-block;',
-                                                                                        'method' => 'DELETE',
-                                                                                        'onsubmit' => "return confirm('".trans("global.app_are_you_sure")."');",
-                                                                                        'route' => ['admin.lessons.destroy', $lesson->id])) !!}
-                                                {!! Form::submit(trans('string.backend.general.app_delete'), array('class' => 'btn btn-xs btn-danger')) !!}
-                                                {!! Form::close() !!}
+                                                    <a data-method="delete" data-trans-button-cancel="Cancel"
+                                                       data-trans-button-confirm="Delete" data-trans-title="Are you sure?"
+                                                       class="btn  mb-2  btn-xs btn-danger" style="cursor:pointer;"
+                                                       onclick="$(this).find('form').submit();"><i class="fa fa-trash" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete"></i>
+                                                        <form action="{{route('admin.lessons.destroy',['lesson'=>$lesson->id])}}"
+                                                              method="POST" name="delete_item" style="display:none">
+                                                            @csrf
+                                                            {{method_field('DELETE')}}
+                                                        </form>
+                                                    </a>
                                             @endcan
                                         </td>
                                     @endif
@@ -154,20 +157,20 @@
                         </tbody>
                     </table>
                 </div>
-                <div role="tabpanel" class="tab-pane " id="tests">
+                <div role="tabpanel" class="tab-pane container" id="tests">
                     <table class="table table-bordered table-striped {{ count($tests) > 0 ? 'datatable' : '' }}">
                         <thead>
                         <tr>
-                            <th>@lang('global.tests.fields.course')</th>
-                            <th>@lang('global.tests.fields.lesson')</th>
-                            <th>@lang('global.tests.fields.title')</th>
-                            <th>@lang('global.tests.fields.description')</th>
-                            <th>@lang('global.tests.fields.questions')</th>
-                            <th>@lang('global.tests.fields.published')</th>
+                            <th>@lang('labels.backend.tests.fields.course')</th>
+                            <th>@lang('labels.backend.tests.fields.lesson')</th>
+                            <th>@lang('labels.backend.tests.fields.title')</th>
+                            <th>@lang('labels.backend.tests.fields.description')</th>
+                            <th>@lang('labels.backend.tests.fields.questions')</th>
+                            <th>@lang('labels.backend.tests.fields.published')</th>
                             @if( request('show_deleted') == 1 )
-                                <th>&nbsp;</th>
+                                <th>@lang('labels.general.actions')</th>
                             @else
-                                <th>&nbsp;</th>
+                                <th>@lang('labels.general.actions')</th>
                             @endif
                         </tr>
                         </thead>
@@ -176,8 +179,8 @@
                         @if (count($tests) > 0)
                             @foreach ($tests as $test)
                                 <tr data-entry-id="{{ $test->id }}">
-                                    <td>{{ $test->course->title or '' }}</td>
-                                    <td>{{ $test->lesson->title or '' }}</td>
+                                    <td>{{ ($test->course) ? $test->course->title : ''  }}</td>
+                                    <td>{{ ($test->lesson) ? $test->lesson->title : ''  }}</td>
                                     <td>{{ $test->title }}</td>
                                     <td>{!! $test->description !!}</td>
                                     <td>
@@ -188,20 +191,30 @@
                                     <td>{{ Form::checkbox("published", 1, $test->published == 1 ? true : false, ["disabled"]) }}</td>
                                     @if( request('show_deleted') == 1 )
                                         <td>
-                                            {!! Form::open(array(
-                                                'style' => 'display: inline-block;',
-                                                'method' => 'POST',
-                                                'onsubmit' => "return confirm('".trans("global.app_are_you_sure")."');",
-                                                'route' => ['admin.tests.restore', $test->id])) !!}
-                                            {!! Form::submit(trans('global.app_restore'), array('class' => 'btn btn-xs btn-success')) !!}
-                                            {!! Form::close() !!}
-                                            {!! Form::open(array(
-                'style' => 'display: inline-block;',
-                'method' => 'DELETE',
-                'onsubmit' => "return confirm('".trans("global.app_are_you_sure")."');",
-                'route' => ['admin.tests.perma_del', $test->id])) !!}
-                                            {!! Form::submit(trans('global.app_permadel'), array('class' => 'btn btn-xs btn-danger')) !!}
-                                            {!! Form::close() !!}
+                                            <a data-method="delete" data-trans-button-cancel="Cancel"
+                                               data-trans-button-confirm="Restore" data-trans-title="Are you sure?"
+                                               class="btn btn-xs  btn-success" style="cursor:pointer;"
+                                               onclick="$(this).find('form').submit();">
+                                                {{trans('strings.backend.general.app_restore')}}
+                                                <form action="{{route('admin.tests.restore',['test'=> $test->id ])}}"
+                                                      method="POST" name="delete_item" style="display:none">
+                                                    @csrf
+                                                </form>
+                                            </a>
+
+
+                                            <a data-method="delete" data-trans-button-cancel="Cancel"
+                                               data-trans-button-confirm="Delete" data-trans-title="Are you sure?"
+                                               class="btn btn-xs btn-danger" style="cursor:pointer;"
+                                               onclick="$(this).find('form').submit();">
+                                                {{trans('strings.backend.general.app_permadel')}}
+                                                <form action="{{route('admin.tests.perma_del',['test'=>$test->id])}}"
+                                                      method="POST" name="delete_item" style="display:none">
+                                                    @csrf
+                                                    {{method_field('DELETE')}}
+                                                </form>
+                                            </a>
+
                                         </td>
                                     @else
                                         <td>
@@ -214,13 +227,17 @@
                                                    class="btn btn-xs btn-info">@lang('global.app_edit')</a>
                                             @endcan
                                             @can('test_delete')
-                                                {!! Form::open(array(
-                                                                                        'style' => 'display: inline-block;',
-                                                                                        'method' => 'DELETE',
-                                                                                        'onsubmit' => "return confirm('".trans("global.app_are_you_sure")."');",
-                                                                                        'route' => ['admin.tests.destroy', $test->id])) !!}
-                                                {!! Form::submit(trans('global.app_delete'), array('class' => 'btn btn-xs btn-danger')) !!}
-                                                {!! Form::close() !!}
+                                                    <a data-method="delete" data-trans-button-cancel="Cancel"
+                                                       data-trans-button-confirm="Delete" data-trans-title="Are you sure?"
+                                                       class="btn btn-xs btn-danger" style="cursor:pointer;"
+                                                       onclick="$(this).find('form').submit();">
+                                                        {{trans('strings.backend.general.destroy')}}
+                                                        <form action="{{route('admin.tests.destroy',['test'=>$test->id])}}"
+                                                              method="POST" name="delete_item" style="display:none">
+                                                            @csrf
+                                                            {{method_field('DELETE')}}
+                                                        </form>
+                                                    </a>
                                             @endcan
                                         </td>
                                     @endif
@@ -228,7 +245,7 @@
                             @endforeach
                         @else
                             <tr>
-                                <td colspan="10">@lang('global.app_no_entries_in_table')</td>
+                                <td colspan="10">@lang('strings.backend.general.app_no_entries_in_table')</td>
                             </tr>
                         @endif
                         </tbody>

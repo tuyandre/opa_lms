@@ -1,18 +1,21 @@
-@extends('layouts.app')
+@extends('backend.layouts.app')
 
 @section('content')
-    <h3 class="page-title">@lang('global.questions.title')</h3>
+    <div class="d-inline-block w-100">
+        <h3 class="page-title float-left">@lang('labels.backend.questions.create')</h3>
+        <div class="float-right">
+            <a href="{{ route('admin.questions.index') }}"
+               class="btn btn-success">@lang('labels.backend.questions.view')</a>
+        </div>
+    </div>
+
     {!! Form::open(['method' => 'POST', 'route' => ['admin.questions.store'], 'files' => true,]) !!}
 
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            @lang('global.app_create')
-        </div>
-        
-        <div class="panel-body">
+    <div class="card">
+        <div class="card-body">
             <div class="row">
-                <div class="col-xs-12 form-group">
-                    {!! Form::label('question', 'Question*', ['class' => 'control-label']) !!}
+                <div class="col-12 form-group">
+                    {!! Form::label('question', trans('labels.backend.questions.fields.question').'*', ['class' => 'control-label']) !!}
                     {!! Form::textarea('question', old('question'), ['class' => 'form-control ', 'placeholder' => '', 'required' => '']) !!}
                     <p class="help-block"></p>
                     @if($errors->has('question'))
@@ -23,8 +26,8 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-xs-12 form-group">
-                    {!! Form::label('question_image', 'Question image', ['class' => 'control-label']) !!}
+                <div class="col-12 form-group">
+                    {!! Form::label('question_image', trans('labels.backend.questions.fields.question_image'), ['class' => 'control-label']) !!}
                     {!! Form::file('question_image', ['class' => 'form-control', 'style' => 'margin-top: 4px;']) !!}
                     {!! Form::hidden('question_image_max_size', 8) !!}
                     {!! Form::hidden('question_image_max_width', 4000) !!}
@@ -38,8 +41,8 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-xs-12 form-group">
-                    {!! Form::label('score', 'Score*', ['class' => 'control-label']) !!}
+                <div class="col-12 form-group">
+                    {!! Form::label('score', trans('labels.backend.questions.fields.score').'*', ['class' => 'control-label']) !!}
                     {!! Form::number('score', old('score', 1), ['class' => 'form-control', 'placeholder' => '', 'required' => '']) !!}
                     <p class="help-block"></p>
                     @if($errors->has('score'))
@@ -50,8 +53,8 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-xs-12 form-group">
-                    {!! Form::label('tests', 'Tests', ['class' => 'control-label']) !!}
+                <div class="col-12 form-group">
+                    {!! Form::label('tests', trans('labels.backend.questions.fields.tests'), ['class' => 'control-label']) !!}
                     {!! Form::select('tests[]', $tests, old('tests'), ['class' => 'form-control select2', 'multiple' => 'multiple']) !!}
                     <p class="help-block"></p>
                     @if($errors->has('tests'))
@@ -66,11 +69,11 @@
     </div>
 
     @for ($question=1; $question<=4; $question++)
-    <div class="panel panel-default">
-        <div class="panel-body">
+    <div class="card">
+        <div class="card-body">
             <div class="row">
-                <div class="col-xs-12 form-group">
-                    {!! Form::label('option_text_' . $question, 'Option text*', ['class' => 'control-label']) !!}
+                <div class="col-12 form-group">
+                    {!! Form::label('option_text_' . $question, trans('labels.backend.questions.fields.option_text').'*', ['class' => 'control-label']) !!}
                     {!! Form::textarea('option_text_' . $question, old('option_text'), ['class' => 'form-control ', 'rows' => 3]) !!}
                     <p class="help-block"></p>
                     @if($errors->has('option_text_' . $question))
@@ -81,8 +84,8 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-xs-12 form-group">
-                    {!! Form::label('correct_' . $question, 'Correct', ['class' => 'control-label']) !!}
+                <div class="col-12 form-group">
+                    {!! Form::label('correct_' . $question, trans('labels.backend.questions.fields.correct'), ['class' => 'control-label']) !!}
                     {!! Form::hidden('correct_' . $question, 0) !!}
                     {!! Form::checkbox('correct_' . $question, 1, false, []) !!}
                     <p class="help-block"></p>
@@ -96,8 +99,10 @@
         </div>
     </div>
     @endfor
+    <div class="col-12 text-center">
+        {!! Form::submit(trans('strings.backend.general.app_save'), ['class' => 'btn btn-danger mb-4 form-group']) !!}
+    </div>
 
-    {!! Form::submit(trans('global.app_save'), ['class' => 'btn btn-danger']) !!}
     {!! Form::close() !!}
 @stop
 

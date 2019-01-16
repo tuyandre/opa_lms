@@ -121,6 +121,7 @@ return [
             'view' => 'View Courses',
             'fields' => [
                 'teachers' => 'Teachers',
+                'course' => 'Course',
                 'title' => 'Title',
                 'slug' => 'Slug',
                 'description' => 'Description',
@@ -161,6 +162,42 @@ return [
                 'description' => 'Description',
                 'questions' => 'Questions',
                 'published' => 'Published',
+
+            ]
+
+        ],
+        'questions' => [
+            'title' => 'Questions',
+            'create' => 'Create Question',
+            'edit' => 'Edit Question',
+            'view' => 'View Questions',
+            'fields' => [
+                'course' => 'Course',
+                'lesson' => 'Lesson',
+                'title' => 'Title',
+                'question' => 'Question',
+                'question_image' => 'Question Image',
+                'score' => 'Score',
+                'tests' => 'Tests',
+                'option_text' => 'Option Text',
+                'correct' => 'Correct',
+            ]
+        ],
+        'questions_options' => [
+            'title' => 'Questions Option',
+            'create' => 'Create Option',
+            'edit' => 'Edit Option',
+            'view' => 'View Question Options',
+            'fields' => [
+                'course' => 'Course',
+                'lesson' => 'Lesson',
+                'title' => 'Title',
+                'question' => 'Question',
+                'question_option' => 'Question Option',
+                'score' => 'Score',
+                'tests' => 'Tests',
+                'option_text' => 'Option Text',
+                'correct' => 'Correct',
 
             ]
 

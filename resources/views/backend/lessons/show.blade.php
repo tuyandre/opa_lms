@@ -3,10 +3,6 @@
 @section('content')
     <div class="d-inline-block w-100">
         <h3 class="page-title float-left">@lang('labels.backend.lessons.title')</h3>
-        <div class="float-right">
-            <a href="{{ route('admin.lessons.index') }}"
-               class="btn btn-success">@lang('labels.backend.lessons.view')</a>
-        </div>
     </div>
 
     <div class="card">
@@ -75,7 +71,6 @@
 
             <!-- Tab panes -->
             <div class="tab-content">
-
                 <div role="tabpanel" class="tab-pane active" id="tests">
                     <h3>@lang('labels.backend.tests.title')</h3>
                     <table class="table table-bordered table-striped {{ count($tests) > 0 ? 'datatable' : '' }}">
@@ -165,7 +160,6 @@
                 </div>
             </div>
 
-            <p>&nbsp;</p>
 
             <a href="{{ route('admin.lessons.index') }}"
                class="btn btn-default">@lang('strings.backend.general.app_back_to_list')</a>

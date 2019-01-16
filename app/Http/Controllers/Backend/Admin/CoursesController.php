@@ -196,7 +196,7 @@ class CoursesController extends Controller
         $course = Course::onlyTrashed()->findOrFail($id);
         $course->restore();
 
-        return redirect()->route('admin.courses.index');
+        return redirect()->route('admin.courses.index')->withFlashSuccess(trans('alerts.backend.general.restored'));
     }
 
     /**
@@ -213,6 +213,6 @@ class CoursesController extends Controller
         $course = Course::onlyTrashed()->findOrFail($id);
         $course->forceDelete();
 
-        return redirect()->route('admin.courses.index');
+        return redirect()->route('admin.courses.index')->withFlashSuccess(trans('alerts.backend.general.deleted'));
     }
 }
