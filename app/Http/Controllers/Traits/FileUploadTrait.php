@@ -59,7 +59,7 @@ trait FileUploadTrait
     }
 
 
-    public function saveDownloadableFiles(Request $request, $downloadable_file_input = null, $model_type = null, $model = null)
+    public function saveAllFiles(Request $request, $downloadable_file_input = null, $model_type = null, $model = null)
     {
         if (!file_exists(public_path('storage/uploads'))) {
             mkdir(public_path('storage/uploads'), 0777);

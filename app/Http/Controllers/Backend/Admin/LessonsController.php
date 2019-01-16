@@ -74,7 +74,7 @@ class LessonsController extends Controller
         $lesson = Lesson::create($request->except('downloadable_files','lesson_image')
             + ['position' => Lesson::where('course_id', $request->course_id)->max('position') + 1]);
 
-        $request = $this->saveDownloadableFiles($request,'downloadable_files',Lesson::class,$lesson);
+        $request = $this->saveAllFiles($request,'downloadable_files',Lesson::class,$lesson);
 
 
         if(($request->slug == "") || $request->slug == null){
@@ -82,15 +82,7 @@ class LessonsController extends Controller
             $lesson->save();
         }
 
-
-        foreach ($request->input('downloadable_files_id', []) as $index => $id) {
-            $model          = config('laravel-medialibrary.media_model');
-            $file           = $model::find($id);
-            $file->model_id = $lesson->id;
-            $file->save();
-        }
-
-        return redirect()->route('admin.lessons.index', ['course_id' => $request->course_id]);
+        return redirect()->route('admin.lessons.index', ['course_id' => $request->course_id])->withFlashSuccess(__('alerts.backend.general.created'));
     }
 
 
@@ -124,26 +116,15 @@ class LessonsController extends Controller
         if (! Gate::allows('lesson_edit')) {
             return abort(401);
         }
-        $request = $this->saveFiles($request);
         $lesson = Lesson::findOrFail($id);
-        $lesson->update($request->all());
+        $lesson->update($request->except('downloadable_files','lesson_image'));
         if(($request->slug == "") || $request->slug == null){
             $lesson->slug = str_slug($request->title);
             $lesson->save();
         }
+        $request = $this->saveAllFiles($request,'downloadable_files',Lesson::class,$lesson);
 
-        $media = [];
-
-        foreach ($request->input('downloadable_files_id', []) as $index => $id) {
-            $model          = config('laravel-medialibrary.media_model');
-            $file           = $model::find($id);
-            $file->model_id = $lesson->id;
-            $file->save();
-            $media[] = $file;
-        }
-        $lesson->updateMedia($media, 'downloadable_files');
-
-        return redirect()->route('admin.lessons.index', ['course_id' => $request->course_id]);
+        return redirect()->route('admin.lessons.index', ['course_id' => $request->course_id])->withFlashSuccess(__('alerts.backend.general.updated'));
     }
 
 
@@ -158,11 +139,13 @@ class LessonsController extends Controller
         if (! Gate::allows('lesson_view')) {
             return abort(401);
         }
-        $courses = Course::get()->pluck('title', 'id')->prepend('Please select', '');$tests = Test::where('lesson_id', $id)->get();
+        $courses = Course::get()->pluck('title', 'id')->prepend('Please select', '');
+
+        $tests = Test::where('lesson_id', $id)->get();
 
         $lesson = Lesson::findOrFail($id);
 
-        return view('backend.lessons.show', compact('lesson', 'tests'));
+        return view('backend.lessons.show', compact('lesson', 'tests','courses'));
     }
 
 
@@ -180,7 +163,7 @@ class LessonsController extends Controller
         $lesson = Lesson::findOrFail($id);
         $lesson->delete();
 
-        return redirect()->route('admin.lessons.index');
+        return redirect()->route('admin.lessons.index')->withFlashSuccess(__('alerts.backend.general.deleted'));
     }
 
     /**

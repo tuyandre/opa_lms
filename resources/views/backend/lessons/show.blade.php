@@ -1,90 +1,96 @@
 @extends('backend.layouts.app')
 
 @section('content')
-    <h3 class="page-title">@lang('global.lessons.title')</h3>
-
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            @lang('global.app_view')
+    <div class="d-inline-block w-100">
+        <h3 class="page-title float-left">@lang('labels.backend.lessons.title')</h3>
+        <div class="float-right">
+            <a href="{{ route('admin.lessons.index') }}"
+               class="btn btn-success">@lang('labels.backend.lessons.view')</a>
         </div>
+    </div>
 
-        <div class="panel-body">
+    <div class="card">
+        <div class="card-body">
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-12">
                     <table class="table table-bordered table-striped">
                         <tr>
-                            <th>@lang('global.lessons.fields.course')</th>
+                            <th>@lang('labels.backend.lessons.fields.course')</th>
                             <td>{{ $lesson->course->title or '' }}</td>
                         </tr>
                         <tr>
-                            <th>@lang('global.lessons.fields.title')</th>
+                            <th>@lang('labels.backend.lessons.fields.title')</th>
                             <td>{{ $lesson->title }}</td>
                         </tr>
                         <tr>
-                            <th>@lang('global.lessons.fields.slug')</th>
+                            <th>@lang('labels.backend.lessons.fields.slug')</th>
                             <td>{{ $lesson->slug }}</td>
                         </tr>
                         <tr>
-                            <th>@lang('global.lessons.fields.lesson-image')</th>
-                            <td>@if($lesson->lesson_image)<a href="{{ asset('uploads/' . $lesson->lesson_image) }}"
+                            <th>@lang('labels.backend.lessons.fields.lesson_image')</th>
+                            <td>@if($lesson->lesson_image)<a href="{{ asset('storage/uploads/' . $lesson->lesson_image) }}"
                                                              target="_blank"><img
-                                            src="{{ asset('uploads/thumb/' . $lesson->lesson_image) }}"/></a>@endif</td>
+                                            src="{{ asset('storage/uploads/' . $lesson->lesson_image) }}" height="100px"/></a>@endif</td>
                         </tr>
                         <tr>
-                            <th>@lang('global.lessons.fields.short-text')</th>
+                            <th>@lang('labels.backend.lessons.fields.short_text')</th>
                             <td>{!! $lesson->short_text !!}</td>
                         </tr>
                         <tr>
-                            <th>@lang('global.lessons.fields.full-text')</th>
+                            <th>@lang('labels.backend.lessons.fields.full_text')</th>
                             <td>{!! $lesson->full_text !!}</td>
                         </tr>
                         <tr>
-                            <th>@lang('global.lessons.fields.position')</th>
+                            <th>@lang('labels.backend.lessons.fields.position')</th>
                             <td>{{ $lesson->position }}</td>
                         </tr>
                         <tr>
-                            <th>@lang('global.lessons.fields.downloadable-files')</th>
-                            <td> @foreach($lesson->getMedia('downloadable_files') as $media)
-                                    <p class="form-group">
-                                        <a href="{{ $media->getUrl() }}" target="_blank">{{ $media->name }}
-                                            ({{ $media->size }} KB)</a>
-                                    </p>
-                                @endforeach</td>
+
+                            <th>@lang('labels.backend.lessons.fields.downloadable_files')</th>
+                            <td>
+                                @if(count($lesson->media) > 0 )
+                                    @foreach($lesson->media as $media)
+                                        <p class="form-group">
+                                            <a href="{{ asset('storage/'.$media->name) }}"
+                                               target="_blank">{{ $media->name }}
+                                                ({{ $media->size }} KB)</a>
+                                        </p>
+                                    @endforeach
+                                @else
+                                    <p>No Files</p>
+                                @endif
+                            </td>
                         </tr>
                         <tr>
-                            <th>@lang('global.lessons.fields.free-lesson')</th>
+                            <th>@lang('labels.backend.lessons.fields.free_lesson')</th>
                             <td>{{ Form::checkbox("free_lesson", 1, $lesson->free_lesson == 1 ? true : false, ["disabled"]) }}</td>
                         </tr>
                         <tr>
-                            <th>@lang('global.lessons.fields.published')</th>
+                            <th>@lang('labels.backend.lessons.fields.published')</th>
                             <td>{{ Form::checkbox("published", 1, $lesson->published == 1 ? true : false, ["disabled"]) }}</td>
                         </tr>
                     </table>
                 </div>
             </div><!-- Nav tabs -->
-            <ul class="nav nav-tabs" role="tablist">
-
-                <li role="presentation" class="active"><a href="#tests" aria-controls="tests" role="tab"
-                                                          data-toggle="tab">Tests</a></li>
-            </ul>
 
             <!-- Tab panes -->
             <div class="tab-content">
 
                 <div role="tabpanel" class="tab-pane active" id="tests">
+                    <h3>@lang('labels.backend.tests.title')</h3>
                     <table class="table table-bordered table-striped {{ count($tests) > 0 ? 'datatable' : '' }}">
                         <thead>
                         <tr>
-                            <th>@lang('global.tests.fields.course')</th>
-                            <th>@lang('global.tests.fields.lesson')</th>
-                            <th>@lang('global.tests.fields.title')</th>
-                            <th>@lang('global.tests.fields.description')</th>
-                            <th>@lang('global.tests.fields.questions')</th>
-                            <th>@lang('global.tests.fields.published')</th>
+                            <th>@lang('labels.backend.tests.fields.course')</th>
+                            <th>@lang('labels.backend.tests.fields.lesson')</th>
+                            <th>@lang('labels.backend.tests.fields.title')</th>
+                            <th>@lang('labels.backend.tests.fields.description')</th>
+                            <th>@lang('labels.backend.tests.fields.questions')</th>
+                            <th>@lang('labels.backend.tests.fields.published')</th>
                             @if( request('show_deleted') == 1 )
-                                <th>&nbsp;</th>
+                                <th>@lang('strings.backend.general.actions')</th>
                             @else
-                                <th>&nbsp;</th>
+                                <th>@lang('strings.backend.general.actions')</th>
                             @endif
                         </tr>
                         </thead>
@@ -93,8 +99,8 @@
                         @if (count($tests) > 0)
                             @foreach ($tests as $test)
                                 <tr data-entry-id="{{ $test->id }}">
-                                    <td>{{ $test->course->title or '' }}</td>
-                                    <td>{{ $test->lesson->title or '' }}</td>
+                                    <td>{{ ($test->course) ? $test->course->title : 'N/A' }}</td>
+                                    <td>{{ ($test->lesson->title) ? $test->lesson->title : 'N/A' }}</td>
                                     <td>{{ $test->title }}</td>
                                     <td>{!! $test->description !!}</td>
                                     <td>
@@ -105,39 +111,45 @@
                                     <td>{{ Form::checkbox("published", 1, $test->published == 1 ? true : false, ["disabled"]) }}</td>
                                     @if( request('show_deleted') == 1 )
                                         <td>
-                                            {!! Form::open(array(
-                                                'style' => 'display: inline-block;',
-                                                'method' => 'POST',
-                                                'onsubmit' => "return confirm('".trans("global.app_are_you_sure")."');",
-                                                'route' => ['admin.tests.restore', $test->id])) !!}
-                                            {!! Form::submit(trans('global.app_restore'), array('class' => 'btn btn-xs btn-success')) !!}
-                                            {!! Form::close() !!}
-                                            {!! Form::open(array(
-                'style' => 'display: inline-block;',
-                'method' => 'DELETE',
-                'onsubmit' => "return confirm('".trans("global.app_are_you_sure")."');",
-                'route' => ['admin.tests.perma_del', $test->id])) !!}
-                                            {!! Form::submit(trans('global.app_permadel'), array('class' => 'btn btn-xs btn-danger')) !!}
-                                            {!! Form::close() !!}
+
+                                            <a data-method="delete" data-trans-button-cancel="Cancel"
+                                               data-trans-button-confirm="Delete" data-trans-title="Are you sure?"
+                                               class="btn btn-xs btn-danger mb-2" style="cursor:pointer;"
+                                               onclick="$(this).find('form').submit();">
+                                                <i class="fa fa-trash" data-toggle="tooltip"
+                                                   data-placement="top" title="" data-original-title="Delete"></i>
+                                                <form action="{{route('admin.tests.perma_del',['test'=>$test->id])}}"
+                                                      method="POST" name="delete_item" style="display:none">
+                                                    @csrf
+                                                    {{method_field('DELETE')}}
+                                                </form>
+                                            </a>
                                         </td>
                                     @else
                                         <td>
                                             @can('test_view')
                                                 <a href="{{ route('admin.tests.show',[$test->id]) }}"
-                                                   class="btn btn-xs btn-primary">@lang('global.app_view')</a>
+                                                   class="btn btn-xs btn-primary mb-2"><i class="icon-eye"></i></a>
                                             @endcan
                                             @can('test_edit')
                                                 <a href="{{ route('admin.tests.edit',[$test->id]) }}"
-                                                   class="btn btn-xs btn-info">@lang('global.app_edit')</a>
+                                                   class="btn btn-xs btn-info mb-2"><i class="icon-pencil"></i></a>
                                             @endcan
                                             @can('test_delete')
-                                                {!! Form::open(array(
-                                                                                        'style' => 'display: inline-block;',
-                                                                                        'method' => 'DELETE',
-                                                                                        'onsubmit' => "return confirm('".trans("global.app_are_you_sure")."');",
-                                                                                        'route' => ['admin.tests.destroy', $test->id])) !!}
-                                                {!! Form::submit(trans('global.app_delete'), array('class' => 'btn btn-xs btn-danger')) !!}
-                                                {!! Form::close() !!}
+
+
+                                                <a data-method="delete" data-trans-button-cancel="Cancel"
+                                                   data-trans-button-confirm="Delete" data-trans-title="Are you sure?"
+                                                   class="btn btn-xs btn-danger mb-2" style="cursor:pointer;"
+                                                   onclick="$(this).find('form').submit();">
+                                                    <i class="fa fa-trash" data-toggle="tooltip"
+                                                       data-placement="top" title="" data-original-title="Delete"></i>
+                                                    <form action="{{route('admin.tests.destroy',['test'=>$test->id])}}"
+                                                          method="POST" name="delete_item" style="display:none">
+                                                        @csrf
+                                                        {{method_field('DELETE')}}
+                                                    </form>
+                                                </a>
                                             @endcan
                                         </td>
                                     @endif
@@ -145,7 +157,7 @@
                             @endforeach
                         @else
                             <tr>
-                                <td colspan="10">@lang('global.app_no_entries_in_table')</td>
+                                <td colspan="10">@lang('strings.backend.general.app_no_entries_in_table')</td>
                             </tr>
                         @endif
                         </tbody>
@@ -155,7 +167,8 @@
 
             <p>&nbsp;</p>
 
-            <a href="{{ route('admin.lessons.index') }}" class="btn btn-default">@lang('global.app_back_to_list')</a>
+            <a href="{{ route('admin.lessons.index') }}"
+               class="btn btn-default">@lang('strings.backend.general.app_back_to_list')</a>
         </div>
     </div>
 @stop

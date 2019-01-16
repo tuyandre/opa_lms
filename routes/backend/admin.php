@@ -29,5 +29,5 @@ Route::resource('tests', 'Admin\TestsController');
 Route::post('tests_mass_destroy', ['uses' => 'Admin\TestsController@massDestroy', 'as' => 'tests.mass_destroy']);
 Route::post('tests_restore/{id}', ['uses' => 'Admin\TestsController@restore', 'as' => 'tests.restore']);
 Route::delete('tests_perma_del/{id}', ['uses' => 'Admin\TestsController@perma_del', 'as' => 'tests.perma_del']);
-Route::post('/spatie/media/upload', 'Admin\SpatieMediaController@create')->name('media.upload');
-Route::post('/spatie/media/remove', 'Admin\SpatieMediaController@destroy')->name('media.remove');
+
+Route::post('media/remove', ['uses' => 'Admin\MediaController@destroy', 'as' => 'media.destroy']);

@@ -19,11 +19,13 @@
             <div class="table-responsive">
                 <div class="d-block">
                     <ul class="list-inline">
-                        <li class="list-inline-item"><a  href="{{ route('admin.lessons.index') }}"
-                               style="{{ request('show_deleted') == 1 ? '' : 'font-weight: 700' }}">All</a></li>
+                        <li class="list-inline-item"><a href="{{ route('admin.lessons.index') }}"
+                                                        style="{{ request('show_deleted') == 1 ? '' : 'font-weight: 700' }}">All</a>
+                        </li>
                         |
-                        <li class="list-inline-item"><a  href="{{ route('admin.lessons.index') }}?show_deleted=1"
-                               style="{{ request('show_deleted') == 1 ? 'font-weight: 700' : '' }}">Trash</a></li>
+                        <li class="list-inline-item"><a href="{{ route('admin.lessons.index') }}?show_deleted=1"
+                                                        style="{{ request('show_deleted') == 1 ? 'font-weight: 700' : '' }}">Trash</a>
+                        </li>
                     </ul>
                 </div>
                 <table class="table table-bordered table-striped {{ count($lessons) > 0 ? 'datatable' : '' }} @can('lesson_delete') @if ( request('show_deleted') != 1 ) dt-select @endif @endcan">
@@ -42,7 +44,7 @@
                         @if( request('show_deleted') == 1 )
                             <th>@lang('strings.backend.general.actions') &nbsp;</th>
                         @else
-                            <th>@lang('strings.backend.general.actions')  &nbsp;</th>
+                            <th>@lang('strings.backend.general.actions') &nbsp;</th>
                         @endif
                     </tr>
                     </thead>
@@ -91,16 +93,20 @@
                                         @endcan
                                         @can('lesson_delete')
 
-                                                <a data-method="delete" data-trans-button-cancel="Cancel"
-                                                   data-trans-button-confirm="Delete" data-trans-title="Are you sure?"
-                                                   class="btn btn-xs btn-danger" style="cursor:pointer;"
-                                                   onclick="$(this).find('form').submit();"><i class="fa fa-trash" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete"></i>
-                                                    <form action="{{route('admin.lessons.destroy',['lesson'=>$lesson])}}"
-                                                          method="POST" name="delete_item" style="display:none">
-                                                        @csrf
-                                                        {{method_field('DELETE')}}
-                                                    </form>
-                                                </a>
+                                            <a data-method="delete" data-trans-button-cancel="Cancel"
+                                               data-trans-button-confirm="Delete" data-trans-title="Are you sure?"
+                                               class="btn btn-xs btn-danger" style="cursor:pointer;"
+                                               onclick="$(this).find('form').submit();">
+                                                <i class="fa fa-trash"
+                                                   data-toggle="tooltip"
+                                                   data-placement="top" title=""
+                                                   data-original-title="Delete"></i>
+                                                <form action="{{route('admin.lessons.destroy',['lesson'=>$lesson])}}"
+                                                      method="POST" name="delete_item" style="display:none">
+                                                    @csrf
+                                                    {{method_field('DELETE')}}
+                                                </form>
+                                            </a>
                                         @endcan
                                     </td>
                                 @endif

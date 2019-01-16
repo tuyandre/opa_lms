@@ -48,7 +48,6 @@
                 <div class="col-12 col-lg-6 form-group">
                     {!! Form::label('slug', 'Slug', ['class' => 'control-label']) !!}
                     {!! Form::text('slug', old('slug'), ['class' => 'form-control', 'placeholder' => '']) !!}
-                    <p class="help-block"></p>
 
                 </div>
                 <div class="col-12 col-lg-6 form-group">
@@ -81,10 +80,6 @@
                     {!! Form::file('downloadable_files[]', [
                         'multiple',
                         'class' => 'form-control file-upload',
-                        'data-url' => route('admin.media.upload'),
-                        'data-model-id' => 0,
-                        'data-bucket' => 'downloadable_files',
-                        'data-filekey' => 'downloadable_files',
                         'id' => 'downloadable_files',
                         ]) !!}
                     <div class="photo-block">

@@ -141,6 +141,27 @@ return [
                 'position' => 'Position',
                 'free_lesson' => 'Free Lesson',
                 'published' => 'Published',
+                'lesson_image' => 'Lesson Image',
+                'short_text' => 'Short Text',
+                'slug' => 'Slug',
+                'full_text' => 'Full Text',
+                'downloadable_files' => 'Downloadable Files',
+            ]
+
+        ],
+        'tests' => [
+            'title' => 'Tests',
+            'create' => 'Create Test',
+            'edit' => 'Edit Test',
+            'view' => 'View Tests',
+            'fields' => [
+                'course' => 'Course',
+                'lesson' => 'Lesson',
+                'title' => 'Title',
+                'description' => 'Description',
+                'questions' => 'Questions',
+                'published' => 'Published',
+
             ]
 
         ]
