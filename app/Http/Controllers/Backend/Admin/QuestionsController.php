@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StoreQuestionsRequest;
 use App\Http\Requests\Admin\UpdateQuestionsRequest;
 use App\Http\Controllers\Traits\FileUploadTrait;
+use Yajra\DataTables\Facades\DataTables;
 
 class QuestionsController extends Controller
 {
@@ -36,6 +37,71 @@ class QuestionsController extends Controller
         }
 
         return view('backend.questions.index', compact('questions'));
+    }
+
+
+    /**
+     * Display a listing of Questions via ajax DataTable.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getData(Request $request)
+    {
+        $has_view = false;
+        $has_delete = false;
+        $has_edit = false;
+        if ($request->show_deleted == 1) {
+            if (!Gate::allows('question_delete')) {
+                return abort(401);
+            }
+            $questions = Question::query()->onlyTrashed()->get();
+        } else {
+            $questions = Question::query()->get();
+        }
+
+        if (auth()->user()->can('question_view')) {
+            $has_view = true;
+        }
+        if (auth()->user()->can('question_edit')) {
+            $has_edit = true;
+        }
+        if (auth()->user()->can('question_delete')) {
+            $has_delete = true;
+        }
+
+        return DataTables::of($questions)
+            ->addColumn('actions', function ($q) use ($has_view, $has_edit, $has_delete, $request) {
+                $view = "";
+                $edit = "";
+                $delete = "";
+                if ($request->show_deleted == 1) {
+                    return view('backend.datatable.action-trashed')->with(['route_label' => 'admin.questions', 'label' => 'question', 'value' => $q->id]);
+                }
+                if ($has_view) {
+                    $view = view('backend.datatable.action-view')
+                        ->with(['route' => route('admin.questions.show', ['questions_option' => $q->id])])->render();
+                }
+                if ($has_edit) {
+                    $edit = view('backend.datatable.action-edit')
+                        ->with(['route' => route('admin.questions.edit', ['questions_option' => $q->id])])
+                        ->render();
+                    $view .= $edit;
+                }
+
+                if ($has_delete) {
+                    $delete = view('backend.datatable.action-delete')
+                        ->with(['route' => route('admin.questions.destroy', ['questions_option' => $q->id])])
+                        ->render();
+                    $view .= $delete;
+                }
+                return $view;
+
+            })
+            ->editColumn('question_image', function ($q) {
+                return ($q->question_image != null) ? '<img src="'.asset('storage/uploads/').$q->question_image.'">' : 'N/A';
+            })
+            ->rawColumns(['actions'])
+            ->make();
     }
 
     /**

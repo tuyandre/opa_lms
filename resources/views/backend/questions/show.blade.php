@@ -123,7 +123,7 @@
                             @endforeach
                         @else
                             <tr>
-                                <td colspan="7">@lang('strings.backend.generalapp_no_entries_in_table')</td>
+                                <td colspan="7">@lang('strings.backend.general.app_no_entries_in_table')</td>
                             </tr>
                         @endif
                         </tbody>
@@ -221,7 +221,7 @@
                             @endforeach
                         @else
                             <tr>
-                                <td colspan="10">@lang('strings.backend.generalapp_no_entries_in_table')</td>
+                                <td colspan="10">@lang('strings.backend.general.app_no_entries_in_table')</td>
                             </tr>
                         @endif
                         </tbody>

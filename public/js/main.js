@@ -23,15 +23,15 @@ $(document).ready(function () {
         "iDisplayLength": 10,
         "aaSorting": [],
         buttons: [
-            {
-                extend: 'copy',
-                exportOptions: {
-                    columns: ':visible',
-                    format: {
-                        body: handleCheckboxes
-                    }
-                }
-            },
+            // {
+            //     extend: 'copy',
+            //     exportOptions: {
+            //         columns: ':visible',
+            //         format: {
+            //             body: handleCheckboxes
+            //         }
+            //     }
+            // },
             {
                 extend: 'csv',
                 exportOptions: {
@@ -41,15 +41,15 @@ $(document).ready(function () {
                     }
                 }
             },
-            {
-                extend: 'excel',
-                exportOptions: {
-                    columns: ':visible',
-                    format: {
-                        body: handleCheckboxes
-                    }
-                }
-            },
+            // {
+            //     extend: 'excel',
+            //     exportOptions: {
+            //         columns: ':visible',
+            //         format: {
+            //             body: handleCheckboxes
+            //         }
+            //     }
+            // },
             {
                 extend: 'pdf',
                 exportOptions: {
@@ -59,15 +59,15 @@ $(document).ready(function () {
                     }
                 }
             },
-            {
-                extend: 'print',
-                exportOptions: {
-                    columns: ':visible',
-                    format: {
-                        body: handleCheckboxes
-                    }
-                }
-            },
+            // {
+            //     extend: 'print',
+            //     exportOptions: {
+            //         columns: ':visible',
+            //         format: {
+            //             body: handleCheckboxes
+            //         }
+            //     }
+            // },
             'colvis'
         ]
     };

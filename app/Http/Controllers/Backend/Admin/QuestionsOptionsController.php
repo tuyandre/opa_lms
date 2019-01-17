@@ -25,23 +25,19 @@ class QuestionsOptionsController extends Controller
             return abort(401);
         }
 
-
-//        if (request('show_deleted') == 1) {
-//            if (! Gate::allows('questions_option_delete')) {
-//                return abort(401);
-//            }
-//            $questions_options = QuestionsOption::onlyTrashed()->get();
-//        } else {
-//            $questions_options = QuestionsOption::all();
-//        }
-
-
         return view('backend.questions_options.index', compact('questions_options'));
     }
 
+    /**
+     * Display a listing of QuestionsOption via ajax DataTable.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function getData(Request $request)
     {
-        $has_view = false; $has_delete = false; $has_edit = false;
+        $has_view = false;
+        $has_delete = false;
+        $has_edit = false;
         if ($request->show_deleted == 1) {
             if (!Gate::allows('questions_option_delete')) {
                 return abort(401);
@@ -51,47 +47,48 @@ class QuestionsOptionsController extends Controller
             $questions_options = QuestionsOption::query()->with('question')->get();
         }
 
-        if(auth()->user()->can('questions_option_view')){
-           $has_view = true;
+        if (auth()->user()->can('questions_option_view')) {
+            $has_view = true;
         }
-        if(auth()->user()->can('questions_option_edit')){
+        if (auth()->user()->can('questions_option_edit')) {
             $has_edit = true;
         }
-        if(auth()->user()->can('questions_option_delete')){
+        if (auth()->user()->can('questions_option_delete')) {
             $has_delete = true;
         }
 
         return DataTables::of($questions_options)
-            ->addColumn('actions', function ($q) use ($has_view,$has_edit,$has_delete,$request){
-                $view = ""; $edit=""; $delete="";
-                if($request->show_deleted == 1){
-                    return view('backend.datatable.action-trashed')->with(['route_label'=>'admin.questions_options','label'=>'questions_option','value' => $q->id]);
+            ->addColumn('actions', function ($q) use ($has_view, $has_edit, $has_delete, $request) {
+                $view = "";
+                $edit = "";
+                $delete = "";
+                if ($request->show_deleted == 1) {
+                    return view('backend.datatable.action-trashed')->with(['route_label' => 'admin.questions_options', 'label' => 'questions_option', 'value' => $q->id]);
                 }
-                if($has_view){
-                    $view =  view('backend.datatable.action-view')
-                        ->with(['route'=>route('admin.questions_options.show',['questions_option'=>$q->id])])->render();
+                if ($has_view) {
+                    $view = view('backend.datatable.action-view')
+                        ->with(['route' => route('admin.questions_options.show', ['questions_option' => $q->id])])->render();
                 }
-                if($has_edit) {
+                if ($has_edit) {
                     $edit = view('backend.datatable.action-edit')
                         ->with(['route' => route('admin.questions_options.edit', ['questions_option' => $q->id])])
                         ->render();
                     $view .= $edit;
                 }
 
-                if($has_delete) {
+                if ($has_delete) {
                     $delete = view('backend.datatable.action-delete')
                         ->with(['route' => route('admin.questions_options.destroy', ['questions_option' => $q->id])])
                         ->render();
-                    $view.= $delete;
+                    $view .= $delete;
                 }
                 return $view;
 
             })
-
             ->editColumn('question', function ($q) {
-               return ($q->question) ? $q->question->question :  '';
+                return ($q->question) ? $q->question->question : '';
             })
-            ->editColumn('correct',function ($q){
+            ->editColumn('correct', function ($q) {
                 return ($q->correct == 1) ? "Yes" : "No";
             })
             ->rawColumns(['actions'])

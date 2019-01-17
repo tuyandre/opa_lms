@@ -1,11 +1,7 @@
 @inject('request', 'Illuminate\Http\Request')
 @extends('backend.layouts.app')
 @push('after-styles')
-    <link rel="stylesheet" href="https://cdn.datatables.net/select/1.2.7/css/select.dataTables.min.css" type="text/css">
 
-    <style>
-
-    </style>
 @endpush
 
 @section('content')
@@ -38,16 +34,15 @@
                 </ul>
             </div>
 
-            {{--<table id="myTable" class="table table-bordered table-striped {{ count($questions_options) > 0 ? 'datatable' : '' }} @can('questions_option_delete') @if ( request('show_deleted') != 1 ) dt-select @endif @endcan">--}}
-            <table id="myTable"
-                   class="table table-bordered table-striped @can('questions_option_delete') @if ( request('show_deleted') != 1 ) dt-select @endif @endcan">
+
+            <table id="myTable" class="table table-bordered table-striped @can('questions_option_delete') @if ( request('show_deleted') != 1 ) dt-select @endif @endcan">
                 <thead>
                 <tr>
                     @can('questions_option_delete')
                         @if ( request('show_deleted') != 1 )
-                            <th style="text-align:center;"><input onchange="checkAll(this)" type="checkbox"
-                                                                  id="select-all"/></th>
-
+                            <th style="text-align:center;">
+                                <input onchange="checkAll(this)" type="checkbox" id="select-all"/>
+                            </th>
                         @endif
                     @endcan
                     <th>@lang('labels.backend.questions_options.fields.question')</th>
@@ -66,81 +61,7 @@
                 </thead>
 
                 <tbody>
-                {{--@if (count($questions_options) > 0)--}}
-                {{--@foreach ($questions_options as $questions_option)--}}
-                {{--<tr data-entry-id="{{ $questions_option->id }}">--}}
-                {{--@can('questions_option_delete')--}}
-                {{--@if ( request('show_deleted') != 1 )--}}
-                {{--<td></td>@endif--}}
-                {{--@endcan--}}
 
-                {{--<td>{{ ($questions_option->question) ? $questions_option->question->question : '' }}</td>--}}
-                {{--<td>{!! $questions_option->option_text !!}</td>--}}
-                {{--<td>{{ Form::checkbox("correct", 1, $questions_option->correct == 1 ? true : false, ["disabled"]) }}</td>--}}
-                {{--@if( request('show_deleted') == 1 )--}}
-                {{--<td>--}}
-
-                {{--<a data-method="delete" data-trans-button-cancel="Cancel"--}}
-                {{--data-trans-button-confirm="Restore" data-trans-title="Are you sure?"--}}
-                {{--class="btn btn-xs  btn-success" style="cursor:pointer;"--}}
-                {{--onclick="$(this).find('form').submit();">--}}
-                {{--{{trans('strings.backend.general.app_restore')}}--}}
-                {{--<form action="{{route('admin.questions_options.restore',['questions_option'=> $questions_option->id ])}}"--}}
-                {{--method="POST" name="delete_item" style="display:none">--}}
-                {{--@csrf--}}
-                {{--</form>--}}
-                {{--</a>--}}
-
-
-                {{--<a data-method="delete" data-trans-button-cancel="Cancel"--}}
-                {{--data-trans-button-confirm="Delete" data-trans-title="Are you sure?"--}}
-                {{--class="btn btn-xs btn-danger" style="cursor:pointer;"--}}
-                {{--onclick="$(this).find('form').submit();">--}}
-                {{--{{trans('strings.backend.general.app_permadel')}}--}}
-                {{--<form action="{{route('aadmin.questions_options.perma_del',['questions_option'=>$questions_option->id])}}"--}}
-                {{--method="POST" name="delete_item" style="display:none">--}}
-                {{--@csrf--}}
-                {{--{{method_field('DELETE')}}--}}
-                {{--</form>--}}
-                {{--</a>--}}
-
-                {{--</td>--}}
-                {{--@else--}}
-                {{--<td>--}}
-                {{--@can('questions_option_view')--}}
-                {{--<a href="{{ route('admin.questions_options.show',[$questions_option->id]) }}"--}}
-                {{--class="btn btn-xs btn-primary"><i class="icon-eye"></i></a>--}}
-                {{--@endcan--}}
-                {{--@can('questions_option_edit')--}}
-                {{--<a href="{{ route('admin.questions_options.edit',[$questions_option->id]) }}"--}}
-                {{--class="btn btn-xs btn-info"><i class="icon-pencil"></i></a>--}}
-                {{--@endcan--}}
-                {{--@can('questions_option_delete')--}}
-
-                {{--<a data-method="delete" data-trans-button-cancel="Cancel"--}}
-                {{--data-trans-button-confirm="Delete" data-trans-title="Are you sure?"--}}
-                {{--class="btn btn-xs btn-danger" style="cursor:pointer;"--}}
-                {{--onclick="$(this).find('form').submit();">--}}
-                {{--<i class="fa fa-trash"--}}
-                {{--data-toggle="tooltip"--}}
-                {{--data-placement="top" title=""--}}
-                {{--data-original-title="Delete"></i>--}}
-                {{--<form action="{{route('admin.questions_options.destroy',['questions_option'=>$questions_option->id])}}"--}}
-                {{--method="POST" name="delete_item" style="display:none">--}}
-                {{--@csrf--}}
-                {{--{{method_field('DELETE')}}--}}
-                {{--</form>--}}
-                {{--</a>--}}
-                {{--@endcan--}}
-                {{--</td>--}}
-                {{--@endif--}}
-                {{--</tr>--}}
-                {{--@endforeach--}}
-                {{--@else--}}
-                {{--<tr>--}}
-                {{--<td colspan="7">@lang('strings.backend.general.app_no_entries_in_table')</td>--}}
-                {{--</tr>--}}
-                {{--@endif--}}
                 </tbody>
             </table>
         </div>
@@ -148,17 +69,14 @@
 @stop
 
 @push('after-scripts')
-    <script src="https://cdn.datatables.net/select/1.2.7/js/dataTables.select.min.js"></script>
 
     <script>
 
         $(document).ready(function () {
-
-
-            var route = '{{route('admin.questions_options.get_q_data')}}';
+            var route = '{{route('admin.questions_options.get_data')}}';
 
             @if(request('show_deleted') == 1)
-                route = '{{route('admin.questions_options.get_q_data',['show_deleted' => 1])}}';
+                route = '{{route('admin.questions_options.get_data',['show_deleted' => 1])}}';
             @endif
 
             $('#myTable').DataTable({
