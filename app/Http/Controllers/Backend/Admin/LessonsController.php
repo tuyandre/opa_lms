@@ -11,6 +11,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StoreLessonsRequest;
 use App\Http\Requests\Admin\UpdateLessonsRequest;
 use App\Http\Controllers\Traits\FileUploadTrait;
+use Yajra\DataTables\Facades\DataTables;
 
 class LessonsController extends Controller
 {
@@ -41,6 +42,86 @@ class LessonsController extends Controller
         }
 
         return view('backend.lessons.index', compact('lessons'));
+    }
+
+    /**
+     * Display a listing of Lessons via ajax DataTable.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getData(Request $request)
+    {
+        $has_view = false;
+        $has_delete = false;
+        $has_edit = false;
+        $lessons = "";
+
+        $lessons = Lesson::whereIn('course_id', Course::ofTeacher()->pluck('id'));
+        if ($request->course_id) {
+            $lessons = $lessons->where('course_id', $request->course_id);
+        }
+
+        if ($request->show_deleted == 1) {
+            if (!Gate::allows('lesson_delete')) {
+                return abort(401);
+            }
+            $lessons = Lesson::query()->with('course')->onlyTrashed()->get();
+        } else {
+            $lessons = Lesson::query()->with('course')->get();
+        }
+
+        if (auth()->user()->can('lesson_view')) {
+            $has_view = true;
+        }
+        if (auth()->user()->can('lesson_edit')) {
+            $has_edit = true;
+        }
+        if (auth()->user()->can('lesson_delete')) {
+            $has_delete = true;
+        }
+
+        return DataTables::of($lessons)
+            ->addColumn('actions', function ($q) use ($has_view, $has_edit, $has_delete, $request) {
+                $view = "";
+                $edit = "";
+                $delete = "";
+                if ($request->show_deleted == 1) {
+                    return view('backend.datatable.action-trashed')->with(['route_label' => 'admin.lessons', 'label' => 'lesson', 'value' => $q->id]);
+                }
+                if ($has_view) {
+                    $view = view('backend.datatable.action-view')
+                        ->with(['route' => route('admin.lessons.show', ['lesson' => $q->id])])->render();
+                }
+                if ($has_edit) {
+                    $edit = view('backend.datatable.action-edit')
+                        ->with(['route' => route('admin.lessons.edit', ['lesson' => $q->id])])
+                        ->render();
+                    $view .= $edit;
+                }
+
+                if ($has_delete) {
+                    $delete = view('backend.datatable.action-delete')
+                        ->with(['route' => route('admin.lessons.destroy', ['lesson' => $q->id])])
+                        ->render();
+                    $view .= $delete;
+                }
+                return $view;
+
+            })
+            ->editColumn('course', function ($q) {
+                return ($q->course) ? $q->course->title : 'N/A';
+            })
+            ->editColumn('lesson_image', function ($q) {
+                return ($q->lesson_image != null) ? '<img height="50px" src="'.asset('storage/uploads/'.$q->lesson_image).'">' : 'N/A';
+            })
+            ->editColumn('free_lesson', function ($q) {
+                return ($q->free_lesson == 1) ? "Yes" : "No";
+            })
+            ->editColumn('published', function ($q) {
+                return ($q->published == 1) ? "Yes" : "No";
+            })
+            ->rawColumns(['lesson_image','actions'])
+            ->make();
     }
 
     /**

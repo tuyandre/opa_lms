@@ -16,6 +16,8 @@ Route::delete('courses_perma_del/{id}', ['uses' => 'Admin\CoursesController@perm
 
 //Lessons Routes
 Route::resource('lessons', 'Admin\LessonsController');
+Route::get('get-lessons-data',['uses' => 'Admin\LessonsController@getData', 'as' => 'lessons.get_data']);
+
 Route::post('lessons_mass_destroy', ['uses' => 'Admin\LessonsController@massDestroy', 'as' => 'lessons.mass_destroy']);
 Route::post('lessons_restore/{id}', ['uses' => 'Admin\LessonsController@restore', 'as' => 'lessons.restore']);
 Route::delete('lessons_perma_del/{id}', ['uses' => 'Admin\LessonsController@perma_del', 'as' => 'lessons.perma_del']);
@@ -27,6 +29,7 @@ Route::get('get-questions-data',['uses' => 'Admin\QuestionsController@getData', 
 Route::post('questions_mass_destroy', ['uses' => 'Admin\QuestionsController@massDestroy', 'as' => 'questions.mass_destroy']);
 Route::post('questions_restore/{id}', ['uses' => 'Admin\QuestionsController@restore', 'as' => 'questions.restore']);
 Route::delete('questions_perma_del/{id}', ['uses' => 'Admin\QuestionsController@perma_del', 'as' => 'questions.perma_del']);
+
 
 //Questions Options Routes
 Route::resource('questions_options', 'Admin\QuestionsOptionsController');

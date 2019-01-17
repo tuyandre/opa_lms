@@ -98,9 +98,9 @@ class QuestionsController extends Controller
 
             })
             ->editColumn('question_image', function ($q) {
-                return ($q->question_image != null) ? '<img src="'.asset('storage/uploads/').$q->question_image.'">' : 'N/A';
+                return ($q->question_image != null) ? '<img height="50px" src="'.asset('storage/uploads/'.$q->question_image).'">' : 'N/A';
             })
-            ->rawColumns(['actions'])
+            ->rawColumns(['question_image','actions'])
             ->make();
     }
 
