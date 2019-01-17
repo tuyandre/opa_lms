@@ -25,7 +25,9 @@
         "stripe/stripe-php": "^6.28",
         "torann/geoip": "^1.0",
         "unisharp/laravel-filemanager": "~1.8",
-        "webpatser/laravel-uuid": "^3.0"
+        "webpatser/laravel-uuid": "^3.0",
+        "yajra/laravel-datatables-buttons": "^4.5",
+        "yajra/laravel-datatables-oracle": "^8.13"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",

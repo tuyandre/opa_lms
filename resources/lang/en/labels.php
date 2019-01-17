@@ -18,6 +18,7 @@ return [
         'yes'     => 'Yes',
         'no'      => 'No',
         'copyright' => 'Copyright',
+        'delete_selected' => 'Delete Selected',
         'custom'  => 'Custom',
         'actions' => 'Actions',
         'active'  => 'Active',

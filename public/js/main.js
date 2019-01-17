@@ -12,6 +12,10 @@ $(document).ready(function () {
         activeSub.parent().parent().find('.arrow').addClass('open');
         activeSub.parent().parent().addClass('open');
     }
+
+    $(document).on('click','.dataTable input[type=checkbox]',function () {
+        $(this).parents('tr').toggleClass('selected');
+    })
     window.dtDefaultOptions = {
         retrieve: true,
         dom: 'lBfrtip<"actions">',
@@ -67,7 +71,7 @@ $(document).ready(function () {
             'colvis'
         ]
     };
-    $('.datatable').each(function () {
+    $('.datatable, .dataTable').each(function () {
         if ($(this).hasClass('dt-select')) {
             window.dtDefaultOptions.select = {
                 style: 'multi',
@@ -83,7 +87,7 @@ $(document).ready(function () {
         $(this).dataTable(window.dtDefaultOptions);
     });
     if (typeof window.route_mass_crud_entries_destroy != 'undefined') {
-        $('.datatable, .ajaxTable').siblings('.actions').html('<a href="' + window.route_mass_crud_entries_destroy + '" class="btn btn-xs btn-danger js-delete-selected" style="margin-top:0.755em;margin-left: 20px;">Delete selected</a>');
+        console.log($('.datatable, .ajaxTable, .dataTable').siblings('.actions'))
     }
 
     $(document).on('click', '.js-delete-selected', function (e) {
@@ -92,8 +96,7 @@ $(document).ready(function () {
 
             var ids = [];
 
-            $(this).closest('.actions').siblings('.datatable, .ajaxTable').find('tbody tr.selected').each(function () {
-                console.log("selected", $(this).data('entry-id'));
+            $(this).closest('.actions').siblings('.datatable,.dataTable, .ajaxTable').find('tbody tr.selected').each(function () {
                 ids.push($(this).data('entry-id'));
             });
 

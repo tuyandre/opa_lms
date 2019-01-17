@@ -69,7 +69,7 @@
                                        class="btn btn-xs  btn-success" style="cursor:pointer;"
                                        onclick="$(this).find('form').submit();">
                                         {{trans('strings.backend.general.app_restore')}}
-                                        <form action="{{route('admin.questions.restore',['lesson'=> $question->id ])}}"
+                                        <form action="{{route('admin.questions.restore',['question'=> $question->id ])}}"
                                               method="POST" name="delete_item" style="display:none">
                                             @csrf
                                         </form>
@@ -99,7 +99,6 @@
                                            class="btn btn-xs btn-info"><i class="icon-pencil"></i></a>
                                     @endcan
                                     @can('question_delete')
-
                                             <a data-method="delete" data-trans-button-cancel="Cancel"
                                                data-trans-button-confirm="Delete" data-trans-title="Are you sure?"
                                                class="btn btn-xs btn-danger" style="cursor:pointer;"
@@ -130,11 +129,11 @@
     </div>
 @stop
 
-@section('javascript')
+@push('after-scripts')
     <script>
         @can('question_delete')
                 @if ( request('show_deleted') != 1 ) window.route_mass_crud_entries_destroy = '{{ route('admin.questions.mass_destroy') }}'; @endif
         @endcan
 
     </script>
-@endsection
+@endpush
