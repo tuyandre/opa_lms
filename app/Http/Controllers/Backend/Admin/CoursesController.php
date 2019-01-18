@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StoreCoursesRequest;
 use App\Http\Requests\Admin\UpdateCoursesRequest;
 use App\Http\Controllers\Traits\FileUploadTrait;
+use Yajra\DataTables\Facades\DataTables;
 
 class CoursesController extends Controller
 {
@@ -38,6 +39,84 @@ class CoursesController extends Controller
 
         return view('backend.courses.index', compact('courses'));
     }
+
+    /**
+     * Display a listing of Lessons via ajax DataTable.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getData(Request $request)
+    {
+        $has_view = false;
+        $has_delete = false;
+        $has_edit = false;
+        $courses = "";
+
+
+        if (request('show_deleted') == 1) {
+            if (! Gate::allows('course_delete')) {
+                return abort(401);
+            }
+            $courses = Course::onlyTrashed()->ofTeacher()->get();
+        } else {
+            $courses = Course::ofTeacher()->get();
+        }
+
+        if (auth()->user()->can('course_view')) {
+            $has_view = true;
+        }
+        if (auth()->user()->can('course_edit')) {
+            $has_edit = true;
+        }
+        if (auth()->user()->can('course_delete')) {
+            $has_delete = true;
+        }
+
+        return DataTables::of($courses)
+            ->addColumn('actions', function ($q) use ($has_view, $has_edit, $has_delete, $request) {
+                $view = "";
+                $edit = "";
+                $delete = "";
+                if ($request->show_deleted == 1) {
+                    return view('backend.datatable.action-trashed')->with(['route_label' => 'admin.courses', 'label' => 'lesson', 'value' => $q->id]);
+                }
+                if ($has_view) {
+                    $view = view('backend.datatable.action-view')
+                        ->with(['route' => route('admin.courses.show', ['lesson' => $q->id])])->render();
+                }
+                if ($has_edit) {
+                    $edit = view('backend.datatable.action-edit')
+                        ->with(['route' => route('admin.courses.edit', ['lesson' => $q->id])])
+                        ->render();
+                    $view .= $edit;
+                }
+
+                if ($has_delete) {
+                    $delete = view('backend.datatable.action-delete')
+                        ->with(['route' => route('admin.courses.destroy', ['lesson' => $q->id])])
+                        ->render();
+                    $view .= $delete;
+                }
+                return $view;
+
+            })
+            ->editColumn('teachers',function ($q){
+                $teachers = "";
+                foreach ($q->teachers as $singleTeachers){
+                    $teachers.= '<span class="label label-info label-many">'.$singleTeachers->name.' </span>';
+                }
+                return $teachers;
+            })
+            ->editColumn('course_image', function ($q) {
+                return ($q->course_image != null) ? '<img height="50px" src="'.asset('storage/uploads/'.$q->course_image).'">' : 'N/A';
+            })
+            ->editColumn('published', function ($q) {
+                return ($q->published == 1) ? "Yes" : "No";
+            })
+            ->rawColumns(['course_image','teachers','actions'])
+            ->make();
+    }
+
 
     /**
      * Show the form for creating new Course.

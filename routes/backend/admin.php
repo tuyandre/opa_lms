@@ -10,6 +10,8 @@ Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard'
 
 //Courses Routes
 Route::resource('courses', 'Admin\CoursesController');
+Route::get('get-courses-data',['uses' => 'Admin\CoursesController@getData', 'as' => 'courses.get_data']);
+
 Route::post('courses_mass_destroy', ['uses' => 'Admin\CoursesController@massDestroy', 'as' => 'courses.mass_destroy']);
 Route::post('courses_restore/{id}', ['uses' => 'Admin\CoursesController@restore', 'as' => 'courses.restore']);
 Route::delete('courses_perma_del/{id}', ['uses' => 'Admin\CoursesController@perma_del', 'as' => 'courses.perma_del']);

@@ -28,18 +28,6 @@ class LessonsController extends Controller
             return abort(401);
         }
 
-        $lessons = Lesson::whereIn('course_id', Course::ofTeacher()->pluck('id'));
-        if ($request->input('course_id')) {
-            $lessons = $lessons->where('course_id', $request->input('course_id'));
-        }
-        if (request('show_deleted') == 1) {
-            if (! Gate::allows('lesson_delete')) {
-                return abort(401);
-            }
-            $lessons = $lessons->onlyTrashed()->get();
-        } else {
-            $lessons = $lessons->get();
-        }
 
         return view('backend.lessons.index', compact('lessons'));
     }

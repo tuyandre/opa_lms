@@ -255,7 +255,7 @@
 
             <p>&nbsp;</p>
 
-            <a href="{{ route('admin.courses.index') }}" class="btn btn-default">@lang('global.app_back_to_list')</a>
+            <a href="{{ route('admin.courses.index') }}" class="btn btn-default border">@lang('strings.backend.general.app_back_to_list')</a>
         </div>
     </div>
 @stop
