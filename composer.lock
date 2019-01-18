@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "283a7a818109f8daa93088114a0380d0",
+    "content-hash": "4f8492261b75d29180ba00bf723483c7",
     "packages": [
         {
             "name": "appstract/laravel-blade-directives",
@@ -1138,6 +1138,63 @@
             ],
             "description": "A PHP class to ping hosts.",
             "time": "2017-02-02T15:38:40+00:00"
+        },
+        {
+            "name": "gerardojbaez/messenger",
+            "version": "v1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/gerardojbaez/messenger.git",
+                "reference": "0c0094e11873129920ac8157f6ae21287ca351d5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/gerardojbaez/messenger/zipball/0c0094e11873129920ac8157f6ae21287ca351d5",
+                "reference": "0c0094e11873129920ac8157f6ae21287ca351d5",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "~5.0",
+                "php": ">=5.5.9"
+            },
+            "require-dev": {
+                "orchestra/testbench": "~3.0",
+                "phpunit/phpunit": "4.*"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Gerardojbaez\\Messenger\\MessengerServiceProvider"
+                    ],
+                    "aliases": {
+                        "Messenger": "Gerardojbaez\\Messenger\\Facades\\Messenger"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Gerardojbaez\\Messenger\\Tests\\": "tests",
+                    "Gerardojbaez\\Messenger\\": "src/Messenger/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Gerardo Báez",
+                    "email": "g@gerardobaez.com"
+                }
+            ],
+            "description": "Messenger functionality for Laravel 5.2.",
+            "keywords": [
+                "Messenger",
+                "laravel",
+                "messages"
+            ],
+            "time": "2018-03-04T02:44:22+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",

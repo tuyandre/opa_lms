@@ -13,11 +13,14 @@ use App\Models\Auth\Traits\SendUserPasswordReset;
 use App\Models\Auth\Traits\Attribute\UserAttribute;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Models\Auth\Traits\Relationship\UserRelationship;
+use Gerardojbaez\Messenger\Contracts\MessageableInterface;
+use Gerardojbaez\Messenger\Traits\Messageable;
+
 
 /**
  * Class User.
  */
-class User extends Authenticatable
+class User extends Authenticatable implements MessageableInterface
 {
     use HasRoles,
         Notifiable,
@@ -27,7 +30,8 @@ class User extends Authenticatable
         UserMethod,
         UserRelationship,
         UserScope,
-        Uuid;
+        Uuid,
+        Messageable;
 
     /**
      * The attributes that are mass assignable.

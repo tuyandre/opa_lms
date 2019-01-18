@@ -48,6 +48,9 @@ return [
             'general'   => 'General',
             'history'   => 'History',
             'system'    => 'System',
+
+
+            /*=====Custom content========*/
             'courses'    => [
                 'title' => 'Courses'
             ],
@@ -66,9 +69,9 @@ return [
             'change-password'    => [
                 'title' => 'Change Password'
             ],
-
-            /*=====Custom content========*/
-            ''
+            'account'    => [
+                'title' => 'Account'
+            ],
             /*===========================*/
         ],
     ],

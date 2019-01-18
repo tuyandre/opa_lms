@@ -1,11 +1,11 @@
 @extends('backend.layouts.app')
 
 @section('content')
-    <div class="d-inline-block w-100">
-        <h3 class="page-title float-left">@lang('labels.backend.questions_options.title')</h3>
-    </div>
 
     <div class="card">
+        <div class="card-header">
+            <h3 class="page-title float-left mb-0">@lang('labels.backend.questions_options.title')</h3>
+        </div>
         <div class="card-body">
 
             <div class="row">

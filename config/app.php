@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Laravel '.app()->version().' Boilerplate'),
+    'name' => env('APP_NAME', 'Laravel'),
 
     /*
     |--------------------------------------------------------------------------
@@ -195,6 +195,7 @@ return [
         Yajra\DataTables\DataTablesServiceProvider::class,
         Yajra\DataTables\ButtonsServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
+        Gerardojbaez\Messenger\MessengerServiceProvider::class,
 
 
         /*
@@ -268,6 +269,8 @@ return [
         'Html' => Collective\Html\HtmlFacade::class,
         'Image' => Intervention\Image\Facades\Image::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+        'Messenger' => Gerardojbaez\Messenger\Facades\Messenger::class,
+
 
     ],
 

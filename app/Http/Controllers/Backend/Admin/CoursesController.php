@@ -41,7 +41,7 @@ class CoursesController extends Controller
     }
 
     /**
-     * Display a listing of Lessons via ajax DataTable.
+     * Display a listing of Courses via ajax DataTable.
      *
      * @return \Illuminate\Http\Response
      */
@@ -68,7 +68,7 @@ class CoursesController extends Controller
         if (auth()->user()->can('course_edit')) {
             $has_edit = true;
         }
-        if (auth()->user()->can('course_delete')) {
+        if (auth()->user()->can('lesson_delete')) {
             $has_delete = true;
         }
 
@@ -82,18 +82,18 @@ class CoursesController extends Controller
                 }
                 if ($has_view) {
                     $view = view('backend.datatable.action-view')
-                        ->with(['route' => route('admin.courses.show', ['lesson' => $q->id])])->render();
+                        ->with(['route' => route('admin.courses.show', ['course' => $q->id])])->render();
                 }
                 if ($has_edit) {
                     $edit = view('backend.datatable.action-edit')
-                        ->with(['route' => route('admin.courses.edit', ['lesson' => $q->id])])
+                        ->with(['route' => route('admin.courses.edit', ['course' => $q->id])])
                         ->render();
                     $view .= $edit;
                 }
 
                 if ($has_delete) {
                     $delete = view('backend.datatable.action-delete')
-                        ->with(['route' => route('admin.courses.destroy', ['lesson' => $q->id])])
+                        ->with(['route' => route('admin.courses.destroy', ['course' => $q->id])])
                         ->render();
                     $view .= $delete;
                 }
@@ -113,7 +113,7 @@ class CoursesController extends Controller
             ->editColumn('published', function ($q) {
                 return ($q->published == 1) ? "Yes" : "No";
             })
-            ->rawColumns(['course_image','teachers','actions'])
+            ->rawColumns(['teachers','course_image','actions'])
             ->make();
     }
 

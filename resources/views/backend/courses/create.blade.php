@@ -1,16 +1,17 @@
 @extends('backend.layouts.app')
 
 @section('content')
-    <div class="d-inline-block w-100">
-        <h3 class="page-title float-left">@lang('labels.backend.courses.create')</h3>
-        <div class="float-right">
-            <a href="{{ route('admin.courses.index') }}"
-               class="btn btn-success">@lang('labels.backend.courses.view')</a>
-        </div>
-    </div>
+
     {!! Form::open(['method' => 'POST', 'route' => ['admin.courses.store'], 'files' => true,]) !!}
 
     <div class="card">
+        <div class="card-header">
+            <h3 class="page-title float-left">@lang('labels.backend.courses.create')</h3>
+            <div class="float-right">
+                <a href="{{ route('admin.courses.index') }}"
+                   class="btn btn-success">@lang('labels.backend.courses.view')</a>
+            </div>
+        </div>
 
         <div class="card-body">
             @if (Auth::user()->isAdmin())

@@ -11,11 +11,7 @@ use App\Http\Controllers\LanguageController;
 Route::get('lang/{lang}', [LanguageController::class, 'swap']);
 
 Route::get('test',function (){
-    $url = 'https://images.unsplash.com/photo-1546864903-e99c8237840d?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max&ixid=eyJhcHBfaWQiOjF9';
-    $model = new \App\Models\Lesson();
-    $model->addMediaFromUrl($url)
-        ->toMediaCollection();
-    dd(\Spatie\MediaLibrary\Models\Media::all());
+    dd(bcrypt('secret'));
 });
 
 /*
@@ -30,7 +26,7 @@ Route::group(['namespace' => 'Frontend', 'as' => 'frontend.'], function () {
  * Backend Routes
  * Namespaces indicate folder structure
  */
-Route::group(['namespace' => 'Backend', 'prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'admin'], function () {
+Route::group(['namespace' => 'Backend', 'prefix' => 'user', 'as' => 'admin.', 'middleware' => 'admin'], function () {
     /*
      * These routes need view-backend permission
      * (good if you want to allow more than one group in the backend,

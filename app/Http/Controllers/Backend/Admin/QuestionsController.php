@@ -126,6 +126,7 @@ class QuestionsController extends Controller
      */
     public function store(StoreQuestionsRequest $request)
     {
+
         if (! Gate::allows('question_create')) {
             return abort(401);
         }

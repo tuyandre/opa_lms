@@ -1,19 +1,16 @@
 @extends('backend.layouts.app')
 
 @section('content')
-
-    <div class="d-inline-block w-100">
-        <h3 class="page-title float-left">@lang('labels.backend.lessons.edit')</h3>
-        <div class="float-right">
-            <a href="{{ route('admin.lessons.index') }}"
-               class="btn btn-success">@lang('labels.backend.lessons.view')</a>
-        </div>
-    </div>
-
-
     {!! Form::model($lesson, ['method' => 'PUT', 'route' => ['admin.lessons.update', $lesson->id], 'files' => true,]) !!}
 
     <div class="card">
+        <div class="card-header">
+            <h3 class="page-title float-left mb-0">@lang('labels.backend.lessons.edit')</h3>
+            <div class="float-right">
+                <a href="{{ route('admin.lessons.index') }}"
+                   class="btn btn-success">@lang('labels.backend.lessons.view')</a>
+            </div>
+        </div>
         <div class="card-body">
             <div class="row">
                 <div class="col-12 col-lg-6 form-group">

@@ -19,18 +19,17 @@
 
 @section('content')
 
-
-    <div class="d-inline-block w-100">
-        <h3 class="page-title float-left">@lang('labels.backend.lessons.create')</h3>
-        <div class="float-right">
-            <a href="{{ route('admin.lessons.index') }}"
-               class="btn btn-success">@lang('labels.backend.lessons.view')</a>
-        </div>
-    </div>
     {!! Form::open(['method' => 'POST', 'route' => ['admin.lessons.store'], 'files' => true,]) !!}
     {!! Form::hidden('model_id',0,['id'=>'lesson_id']) !!}
 
     <div class="card">
+        <div class="card-header">
+            <h3 class="page-title float-left mb-0">@lang('labels.backend.lessons.create')</h3>
+            <div class="float-right">
+                <a href="{{ route('admin.lessons.index') }}"
+                   class="btn btn-success">@lang('labels.backend.lessons.view')</a>
+            </div>
+        </div>
 
         <div class="card-body">
             <div class="row">

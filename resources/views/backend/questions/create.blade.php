@@ -1,17 +1,16 @@
 @extends('backend.layouts.app')
 
 @section('content')
-    <div class="d-inline-block w-100">
-        <h3 class="page-title float-left">@lang('labels.backend.questions.create')</h3>
-        <div class="float-right">
-            <a href="{{ route('admin.questions.index') }}"
-               class="btn btn-success">@lang('labels.backend.questions.view')</a>
-        </div>
-    </div>
-
     {!! Form::open(['method' => 'POST', 'route' => ['admin.questions.store'], 'files' => true,]) !!}
 
     <div class="card">
+        <div class="card-header">
+            <h3 class="page-title float-left mb-0">@lang('labels.backend.questions.create')</h3>
+            <div class="float-right">
+                <a href="{{ route('admin.questions.index') }}"
+                   class="btn btn-success">@lang('labels.backend.questions.view')</a>
+            </div>
+        </div>
         <div class="card-body">
             <div class="row">
                 <div class="col-12 form-group">

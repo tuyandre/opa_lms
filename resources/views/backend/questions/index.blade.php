@@ -2,19 +2,18 @@
 @extends('backend.layouts.app')
 
 @section('content')
-    <div class="d-inline-block w-100">
-        <h3 class="page-title float-left">@lang('labels.backend.questions.title')</h3>
-        @can('question_create')
-            <div class="float-right">
-                <a href="{{ route('admin.questions.create') }}"
-                   class="btn btn-success">@lang('strings.backend.general.app_add_new')</a>
-
-            </div>
-        @endcan
-    </div>
-
 
     <div class="card">
+        <div class="card-header">
+            <h3 class="page-title float-left mb-0">@lang('labels.backend.questions.title')</h3>
+            @can('question_create')
+                <div class="float-right">
+                    <a href="{{ route('admin.questions.create') }}"
+                       class="btn btn-success">@lang('strings.backend.general.app_add_new')</a>
+
+                </div>
+            @endcan
+        </div>
         <div class="card-body table-responsive">
             <div class="d-block">
                 <ul class="list-inline">

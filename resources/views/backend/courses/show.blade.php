@@ -1,9 +1,12 @@
 @extends('backend.layouts.app')
 
 @section('content')
-    <h3 class="page-title">@lang('labels.backend.courses.title')</h3>
 
     <div class="card">
+
+        <div class="card-header">
+            <h3 class="page-title mb-0">@lang('labels.backend.courses.title')</h3>
+        </div>
         <div class="card-body">
             <div class="row">
                 <div class="col-12">
@@ -34,9 +37,9 @@
                         </tr>
                         <tr>
                             <th>@lang('labels.backend.courses.fields.course_image')</th>
-                            <td>@if($course->course_image)<a href="{{ asset('uploads/' . $course->course_image) }}"
+                            <td>@if($course->course_image)<a href="{{ asset('storage/uploads/' . $course->course_image) }}"
                                                              target="_blank"><img
-                                            src="{{ asset('uploads/thumb/' . $course->course_image) }}"/></a>@endif</td>
+                                            src="{{ asset('storage/uploads/' . $course->course_image) }}" height="50px" /></a>@endif</td>
                         </tr>
                         <tr>
                             <th>@lang('labels.backend.courses.fields.start_date')</th>
@@ -87,9 +90,9 @@
                                     <td>{{ $lesson->title }}</td>
                                     <td>{!! $lesson->short_text !!}</td>
                                     <td>@if($lesson->lesson_image)<a
-                                                href="{{ asset('uploads/' . $lesson->lesson_image) }}"
+                                                href="{{ asset('storage/uploads/' . $lesson->lesson_image) }}"
                                                 target="_blank"><img
-                                                    src="{{ asset('uploads/thumb/' . $lesson->lesson_image) }}"/></a>@endif
+                                                    src="{{ asset('storage/uploads/' . $lesson->lesson_image) }}" height="50px" /></a>@endif
                                     </td>
                                     <td>{{ Form::checkbox("free_lesson", 1, $lesson->free_lesson == 1 ? true : false, ["disabled"]) }}</td>
                                     <td>{{ Form::checkbox("published", 1, $lesson->published == 1 ? true : false, ["disabled"]) }}</td>
@@ -220,18 +223,18 @@
                                         <td>
                                             @can('test_view')
                                                 <a href="{{ route('admin.tests.show',[$test->id]) }}"
-                                                   class="btn btn-xs btn-primary">@lang('global.app_view')</a>
+                                                   class="btn btn-xs mb-1 btn-primary"><i class="icon-eye"></i></a>
                                             @endcan
                                             @can('test_edit')
                                                 <a href="{{ route('admin.tests.edit',[$test->id]) }}"
-                                                   class="btn btn-xs btn-info">@lang('global.app_edit')</a>
+                                                   class="btn btn-xs mb-1 btn-info"><i class="icon-pencil"></i></a>
                                             @endcan
                                             @can('test_delete')
                                                     <a data-method="delete" data-trans-button-cancel="Cancel"
                                                        data-trans-button-confirm="Delete" data-trans-title="Are you sure?"
-                                                       class="btn btn-xs btn-danger" style="cursor:pointer;"
+                                                       class="btn btn-xs btn-danger mb-1" style="cursor:pointer;"
                                                        onclick="$(this).find('form').submit();">
-                                                        {{trans('strings.backend.general.destroy')}}
+                                                       <i class="fa fa-trash"></i>
                                                         <form action="{{route('admin.tests.destroy',['test'=>$test->id])}}"
                                                               method="POST" name="delete_item" style="display:none">
                                                             @csrf

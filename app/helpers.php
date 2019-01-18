@@ -75,7 +75,7 @@ if (! function_exists('home_route')) {
     function home_route()
     {
         if (auth()->check()) {
-            if (auth()->user()->can('view backend')) {
+            if (auth()->user()->can('view backend') && auth()->user()->isAdmin()) {
                 return 'admin.dashboard';
             } else {
                 return 'frontend.user.dashboard';

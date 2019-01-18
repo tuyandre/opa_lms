@@ -1,118 +1,135 @@
 @inject('request', 'Illuminate\Http\Request')
-@extends('layouts.app')
+@extends('backend.layouts.app')
 
 @section('content')
-    <h3 class="page-title">@lang('global.tests.title')</h3>
-    @can('test_create')
-    <p>
-        <a href="{{ route('admin.tests.create') }}" class="btn btn-success">@lang('global.app_add_new')</a>
-        
-    </p>
-    @endcan
 
-    <p>
-        <ul class="list-inline">
-            <li><a href="{{ route('admin.tests.index') }}" style="{{ request('show_deleted') == 1 ? '' : 'font-weight: 700' }}">All</a></li> |
-            <li><a href="{{ route('admin.tests.index') }}?show_deleted=1" style="{{ request('show_deleted') == 1 ? 'font-weight: 700' : '' }}">Trash</a></li>
-        </ul>
-    </p>
-    
 
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            @lang('global.app_list')
+    <div class="card">
+        <div class="card-header">
+            <h3 class="page-title float-left">@lang('labels.backend.tests.title')</h3>
+            @can('test_create')
+                <div class="float-right">
+                    <a href="{{ route('admin.tests.create') }}"
+                       class="btn btn-success">@lang('strings.backend.general.app_add_new')</a>
+
+                </div>
+            @endcan
         </div>
-
-        <div class="panel-body table-responsive">
-            <table class="table table-bordered table-striped {{ count($tests) > 0 ? 'datatable' : '' }} @can('test_delete') @if ( request('show_deleted') != 1 ) dt-select @endif @endcan">
+        <div class="card-body table-responsive">
+            <div class="d-block">
+                <ul class="list-inline">
+                    <li class="list-inline-item">
+                        <a href="{{ route('admin.tests.index') }}"
+                           style="{{ request('show_deleted') == 1 ? '' : 'font-weight: 700' }}">All</a>
+                    </li>
+                    |
+                    <li class="list-inline-item">
+                        <a href="{{ route('admin.tests.index') }}?show_deleted=1"
+                           style="{{ request('show_deleted') == 1 ? 'font-weight: 700' : '' }}">Trash</a>
+                    </li>
+                </ul>
+            </div>
+            <table id="myTable"
+                   class="table table-bordered table-striped @can('test_delete') @if ( request('show_deleted') != 1 ) dt-select @endif @endcan">
                 <thead>
-                    <tr>
-                        @can('test_delete')
-                            @if ( request('show_deleted') != 1 )<th style="text-align:center;"><input type="checkbox" id="select-all" /></th>@endif
-                        @endcan
+                <tr>
+                    @can('test_delete')
+                        @if ( request('show_deleted') != 1 )
+                            <th style="text-align:center;"><input type="checkbox" id="select-all"/></th>@endif
+                    @endcan
 
-                        <th>@lang('global.tests.fields.course')</th>
-                        <th>@lang('global.tests.fields.lesson')</th>
-                        <th>@lang('global.tests.fields.title')</th>
-                        <th>@lang('global.tests.fields.description')</th>
-                        <th>@lang('global.tests.fields.questions')</th>
-                        <th>@lang('global.tests.fields.published')</th>
-                        @if( request('show_deleted') == 1 )
-                        <th>&nbsp;</th>
-                        @else
-                        <th>&nbsp;</th>
-                        @endif
-                    </tr>
-                </thead>
-                
-                <tbody>
-                    @if (count($tests) > 0)
-                        @foreach ($tests as $test)
-                            <tr data-entry-id="{{ $test->id }}">
-                                @can('test_delete')
-                                    @if ( request('show_deleted') != 1 )<td></td>@endif
-                                @endcan
+                    <th>@lang('labels.backend.tests.fields.course')</th>
+                    <th>@lang('labels.backend.tests.fields.lesson')</th>
+                    <th>@lang('labels.backend.tests.fields.title')</th>
+                    <th>@lang('labels.backend.tests.fields.description')</th>
+                    <th>@lang('labels.backend.tests.fields.questions')</th>
+                    <th>@lang('labels.backend.tests.fields.published')</th>
+                    @if( request('show_deleted') == 1 )
+                        <th>@lang('labels.general.actions')</th>
 
-                                <td>{{ $test->course->title or '' }}</td>
-                                <td>{{ $test->lesson->title or '' }}</td>
-                                <td>{{ $test->title }}</td>
-                                <td>{!! $test->description !!}</td>
-                                <td>{{ $test->questions->count() }}</td>
-                                <td>{{ Form::checkbox("published", 1, $test->published == 1 ? true : false, ["disabled"]) }}</td>
-                                @if( request('show_deleted') == 1 )
-                                <td>
-                                    {!! Form::open(array(
-                                        'style' => 'display: inline-block;',
-                                        'method' => 'POST',
-                                        'onsubmit' => "return confirm('".trans("global.app_are_you_sure")."');",
-                                        'route' => ['admin.tests.restore', $test->id])) !!}
-                                    {!! Form::submit(trans('global.app_restore'), array('class' => 'btn btn-xs btn-success')) !!}
-                                    {!! Form::close() !!}
-                                                                    {!! Form::open(array(
-                                        'style' => 'display: inline-block;',
-                                        'method' => 'DELETE',
-                                        'onsubmit' => "return confirm('".trans("global.app_are_you_sure")."');",
-                                        'route' => ['admin.tests.perma_del', $test->id])) !!}
-                                    {!! Form::submit(trans('global.app_permadel'), array('class' => 'btn btn-xs btn-danger')) !!}
-                                    {!! Form::close() !!}
-                                                                </td>
-                                @else
-                                <td>
-                                    @can('test_view')
-                                    <a href="{{ route('admin.tests.show',[$test->id]) }}" class="btn btn-xs btn-primary">@lang('global.app_view')</a>
-                                    @endcan
-                                    @can('test_edit')
-                                    <a href="{{ route('admin.tests.edit',[$test->id]) }}" class="btn btn-xs btn-info">@lang('global.app_edit')</a>
-                                    @endcan
-                                    @can('test_delete')
-{!! Form::open(array(
-                                        'style' => 'display: inline-block;',
-                                        'method' => 'DELETE',
-                                        'onsubmit' => "return confirm('".trans("global.app_are_you_sure")."');",
-                                        'route' => ['admin.tests.destroy', $test->id])) !!}
-                                    {!! Form::submit(trans('global.app_delete'), array('class' => 'btn btn-xs btn-danger')) !!}
-                                    {!! Form::close() !!}
-                                    @endcan
-                                </td>
-                                @endif
-                            </tr>
-                        @endforeach
                     @else
-                        <tr>
-                            <td colspan="10">@lang('global.app_no_entries_in_table')</td>
-                        </tr>
+                        <th>@lang('labels.general.actions')</th>
                     @endif
+                </tr>
+                </thead>
+
+                <tbody>
+
                 </tbody>
             </table>
         </div>
     </div>
 @stop
 
-@section('javascript') 
+@push('after-scripts')
     <script>
-        @can('test_delete')
-            @if ( request('show_deleted') != 1 ) window.route_mass_crud_entries_destroy = '{{ route('admin.tests.mass_destroy') }}'; @endif
-        @endcan
+
+        $(document).ready(function () {
+            var route = '{{route('admin.tests.get_data')}}';
+
+            @if(request('show_deleted') == 1)
+                route = '{{route('admin.tests.get_data',['show_deleted' => 1])}}';
+            @endif
+
+            $('#myTable').DataTable({
+                processing: true,
+                serverSide: true,
+                iDisplayLength: 10,
+                retrieve: true,
+                dom: 'lBfrtip<"actions">',
+                buttons: [
+                    {
+                        extend: 'csv',
+                        exportOptions: {
+                            columns: ':visible',
+                        }
+                    },
+                    {
+                        extend: 'pdf',
+                        exportOptions: {
+                            columns: ':visible',
+                        }
+                    },
+                    'colvis'
+                ],
+                ajax: route,
+                columns: [
+                        @if(request('show_deleted') != 1)
+                    {
+                        "data": function (data) {
+                            return '<input type="checkbox" name="id[]" value="' + data.id + '" />';
+                        }, "orderable": false, "searchable": false, "name": "id"
+                    },
+                        @endif
+
+                    {
+                        data: "course", name: 'course'
+                    },
+                    {data: "lesson", name: 'lesson'},
+                    {data: "title", name: 'title'},
+                    {data: "description", name: "description"},
+                    {data: "questions", name: "questions"},
+                    {data: "published", name: "published"},
+                    {data: "actions", name: "actions"}
+                ],
+                @if(request('show_deleted') != 1)
+                columnDefs: [
+                    {"width": "5%", "targets": 0},
+                    {"className": "text-center", "targets": [0]}
+                ],
+                @endif
+
+                createdRow: function (row, data, dataIndex) {
+                    $(row).attr('data-entry-id', data.id);
+                },
+            });
+            @can('test_delete')
+            @if(request('show_deleted') != 1)
+            $('.actions').html('<a href="' + '{{ route('admin.tests.mass_destroy') }}' + '" class="btn btn-xs btn-danger js-delete-selected" style="margin-top:0.755em;margin-left: 20px;">Delete selected</a>');
+            @endif
+            @endcan
+        });
 
     </script>
-@endsection
+
+@endpush

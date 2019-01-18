@@ -1,35 +1,33 @@
-@extends('layouts.app')
+@extends('backend.layouts.app')
 
 @section('content')
-    <h3 class="page-title">@lang('global.tests.title')</h3>
 
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            @lang('global.app_view')
+    <div class="card">
+        <div class="card-header">
+            <h3 class="page-title float-left mb-0">@lang('labels.backend.tests.title')</h3>
         </div>
-
-        <div class="panel-body">
+        <div class="card-body">
             <div class="row">
                 <div class="col-md-6">
                     <table class="table table-bordered table-striped">
                         <tr>
-                            <th>@lang('global.tests.fields.course')</th>
-                            <td>{{ $test->course->title or '' }}</td>
+                            <th>@lang('labels.backend.tests.fields.course')</th>
+                            <td>{{ ($test->course) ? $test->course->title : 'N/A' }}</td>
                         </tr>
                         <tr>
-                            <th>@lang('global.tests.fields.lesson')</th>
-                            <td>{{ $test->lesson->title or '' }}</td>
+                            <th>@lang('labels.backend.tests.fields.lesson')</th>
+                            <td>{{ ($test->lesson) ? $test->lesson->title : 'N/A' }}</td>
                         </tr>
                         <tr>
-                            <th>@lang('global.tests.fields.title')</th>
+                            <th>@lang('labels.backend.tests.fields.title')</th>
                             <td>{{ $test->title }}</td>
                         </tr>
                         <tr>
-                            <th>@lang('global.tests.fields.description')</th>
+                            <th>@lang('labels.backend.tests.fields.description')</th>
                             <td>{!! $test->description !!}</td>
                         </tr>
                         <tr>
-                            <th>@lang('global.tests.fields.questions')</th>
+                            <th>@lang('labels.backend.tests.fields.questions')</th>
                             <td>
                                 @foreach ($test->questions as $singleQuestions)
                                     <span class="label label-info label-many">{{ $singleQuestions->question }}</span>
@@ -37,16 +35,14 @@
                             </td>
                         </tr>
                         <tr>
-                            <th>@lang('global.tests.fields.published')</th>
+                            <th>@lang('labels.backend.tests.fields.published')</th>
                             <td>{{ Form::checkbox("published", 1, $test->published == 1 ? true : false, ["disabled"]) }}</td>
                         </tr>
                     </table>
                 </div>
             </div>
 
-            <p>&nbsp;</p>
-
-            <a href="{{ route('admin.tests.index') }}" class="btn btn-default">@lang('global.app_back_to_list')</a>
+            <a href="{{ route('admin.tests.index') }}" class="btn btn-default border">@lang('strings.backend.general.app_back_to_list')</a>
         </div>
     </div>
 @stop

@@ -26,6 +26,7 @@ return [
         'register'  => 'Register',
         /*========= Custom data starts ============*/
         'courses' => 'Courses',
+        'forums' => 'Forums',
         /*=========================================*/
 
         'user' => [

@@ -3,18 +3,17 @@
 
 @section('content')
 
-    <div class="d-inline-block w-100">
-        <h3 class="page-title float-left">@lang('labels.backend.lessons.title')</h3>
-        @can('lesson_create')
-            <div class="float-right">
-                <a href="{{ route('admin.lessons.create') }}"
-                   class="btn btn-success">@lang('strings.backend.general.app_add_new')</a>
-
-            </div>
-        @endcan
-    </div>
-
     <div class="card">
+        <div class="card-header">
+            <h3 class="page-title float-left">@lang('labels.backend.lessons.title')</h3>
+            @can('lesson_create')
+                <div class="float-right">
+                    <a href="{{ route('admin.lessons.create') }}"
+                       class="btn btn-success">@lang('strings.backend.general.app_add_new')</a>
+
+                </div>
+            @endcan
+        </div>
         <div class="card-body">
             <div class="table-responsive">
                 <div class="d-block">
