@@ -67,7 +67,13 @@
                 </li>
             @endcan
 
-
+            <li class="nav-item ">
+                <a class="nav-link {{ $request->segment(1) == 'messages' ? 'active' : '' }}"
+                   href="{{ route('admin.messages') }}">
+                    <i class="nav-icon icon-envelope-open"></i> <span
+                            class="title">@lang('menus.backend.sidebar.messages.title')</span>
+                </a>
+            </li>
             <li class="nav-item ">
                 <a class="nav-link {{ $request->segment(1) == 'account' ? 'active' : '' }}"
                    href="{{ route('admin.account') }}">
@@ -137,6 +143,7 @@
                     </ul>
                 </li>
             @endif
+
 
 
         </ul>

@@ -72,6 +72,9 @@ return [
             'account'    => [
                 'title' => 'Account'
             ],
+            'messages'    => [
+                'title' => 'Messages'
+            ],
             /*===========================*/
         ],
     ],

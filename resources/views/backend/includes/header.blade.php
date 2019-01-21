@@ -48,7 +48,7 @@
               <strong>Account</strong>
             </div>
 
-            <a class="dropdown-item" href="#">
+            <a class="dropdown-item" href="{{route('admin.messages')}}">
               <i class="fa fa-envelope"></i> Messages
               <span class="badge badge-success">5</span>
             </a>
