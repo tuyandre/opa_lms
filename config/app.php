@@ -196,6 +196,8 @@ return [
         Yajra\DataTables\ButtonsServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
         Gerardojbaez\Messenger\MessengerServiceProvider::class,
+        Jenssegers\Agent\AgentServiceProvider::class,
+
 
 
         /*
@@ -270,6 +272,8 @@ return [
         'Image' => Intervention\Image\Facades\Image::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
         'Messenger' => Gerardojbaez\Messenger\Facades\Messenger::class,
+        'Agent' => Jenssegers\Agent\Facades\Agent::class,
+
 
 
     ],

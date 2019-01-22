@@ -18176,8 +18176,13 @@ textarea:focus {
   line-height: 35px;
 }
 
-.message-box .box-header .chat_ib h5 a span {
+.message-box .box-header .chat_ib a {
+  text-decoration: none;
+}
+
+.message-box .box-header .chat_ib a i {
   font-size: 20px;
+  line-height: 2;
 }
 
 .message-box .recent_heading {
@@ -18257,20 +18262,27 @@ textarea:focus {
   clear: both;
 }
 
-.message-box .chat_list {
-  border-bottom: 1px solid #c4c4c4;
-  margin: 0;
-  padding: 18px 16px 10px;
-}
-
-.message-box .chat_list.unread {
+.message-box a.unread {
+  width: 100%;
+  display: inline-block;
   background-color: #272a2e;
   color: white !important;
 }
 
-.message-box .chat_list.unread .chat_ib h5,
-.message-box .chat_list.unread p {
+.message-box a.unread .chat_ib h5,
+.message-box a.unread p {
   color: white;
+}
+
+.message-box a.unread .active_chat .chat_ib h5,
+.message-box a.unread .active_chat p {
+  color: #464646;
+}
+
+.message-box .chat_list {
+  border-bottom: 1px solid #c4c4c4;
+  margin: 0;
+  padding: 18px 16px 10px;
 }
 
 .message-box .chat_people.header .chat_img {
@@ -18441,6 +18453,10 @@ textarea:focus {
 
   .message-box .headind_srch .box-header .chat_ib h5 {
     line-height: 35px;
+  }
+
+  .message-box .headind_srch .box-header .chat_ib a {
+    text-decoration: none;
   }
 
   .message-box .headind_srch .box-header .chat_ib a i {

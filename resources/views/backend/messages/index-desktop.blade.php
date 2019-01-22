@@ -8,16 +8,20 @@
     </style>
 @endpush
 @section('content')
-
-
     <div class="card message-box">
         <div class="card-header">
-            <h3 class="page-title float-left mb-0">@lang('labels.backend.messages.title')</h3>
+            <h3 class="page-title mb-0">@lang('labels.backend.messages.title')
+
+                <a href="{{route('admin.messages').'?threads'}}"
+                   class="d-lg-none text-decoration-none threads d-md-none float-right">
+                    <i class="icon-speech font-weight-bold"></i>
+                </a>
+            </h3>
         </div>
         <div class="card-body">
             <div class="messaging">
                 <div class="inbox_msg">
-                    <div class="inbox_people">
+                    <div class="inbox_people d-md-block d-lg-block ">
                         <div class="headind_srch">
                             <div class="recent_heading btn-sm btn btn-dark">
                                 <a class="text-decoration-none" href="{{route('admin.messages')}}">
@@ -26,29 +30,33 @@
                             </div>
                             <div class="srch_bar">
                                 <div class="stylish-input-group">
-                                    <input type="text" class="search-bar" placeholder="Search">
+                                    <input type="text" class="search-bar" id="myInput" placeholder="Search">
                                     <span class="input-group-addon">
-                <button type="button">
-                    <i class="fa fa-search" aria-hidden="true"></i>
-                </button>
-                </span></div>
+                                        <button type="button">
+                                            <i class="fa fa-search" aria-hidden="true"></i>
+                                        </button>
+                                    </span>
+                                </div>
                             </div>
                         </div>
                         <div class="inbox_chat">
                             @if($threads->count() > 0)
                                 @foreach($threads as $item)
                                     @if($item->lastMessage)
-                                        <a href="{{route('admin.messages').'?thread='.$item->id}}">
+                                        <a class="@if($item->unreadMessagesCount > 0) unread
+                                            @endif" href="{{route('admin.messages').'?thread='.$item->id}}">
                                             <div data-thread="{{$item->id}}"
-                                                 class="chat_list @if(($thread != "") && ($thread->id == $item->id))  active_chat @endif @if($item->unreadMessagesCount > 0) unread
-                                            @endif">
+                                                 class="chat_list @if(($thread != "") && ($thread->id == $item->id))  active_chat @endif" >
                                                 <div class="chat_people">
                                                     <div class="chat_img">
                                                         <img src="https://ptetutorials.com/images/user-profile.png"
                                                              alt=""></div>
                                                     <div class="chat_ib">
-                                                        <h5>{{ $item->title }}<span
+                                                        <h5>{{ $item->title }} <span
                                                                     class="chat_date">{{ $item->lastMessage->created_at->diffForHumans() }}</span>
+                                                            @if($item->unreadMessagesCount > 0)
+                                                                <span class="badge badge-primary mr-5">{{$item->unreadMessagesCount}}</span>
+                                                            @endif
                                                         </h5>
                                                         <p>{{ str_limit($item->lastMessage->body, 35) }}</p>
                                                     </div>
@@ -61,8 +69,6 @@
                             @endif
                         </div>
                     </div>
-
-
                     @if(request()->has('thread'))
                         <form method="post" action="{{route('admin.messages.reply')}}">
                             @csrf
@@ -77,14 +83,9 @@
 
                                         <h5 class="mb-0 d-inline float-left">{{$thread->title}}</h5>
                                         <p class="float-right d-inline mb-0">
-                                            <a class="mr-3" href="{{route('admin.messages',['thread'=>$thread->id])}}">
+                                            <a class="" href="{{route('admin.messages',['thread'=>$thread->id])}}">
                                                 <i class="icon-refresh font-weight-bold"></i>
                                             </a>
-                                                 <a href="#" class="">
-                                               <i class="icon-speech font-weight-bold"></i>
-                                            </a>
-
-
                                         </p>
                                     </div>
                                 </div>
@@ -113,11 +114,8 @@
                                                     </div>
                                                 </div>
                                             @endif
-
                                         @endforeach
-
                                     @endif
-
                                 </div>
                                 <div class="type_msg">
                                     <div class="input_msg_write">
@@ -130,8 +128,6 @@
                                 </div>
                             </div>
                         </form>
-
-
                     @else
                         <form method="post" action="{{route('admin.messages.send')}}">
                             @csrf
@@ -170,20 +166,32 @@
         </div>
     </div>
 @endsection
-
-
 @push('after-scripts')
     <script>
+
         $(document).ready(function () {
+            //Get to the last message in conversation
             $('.msg_history').animate({
                 scrollTop: $('.msg_history')[0].scrollHeight
             }, 1000);
-            var thread = '{{request('thread')}}';
 
+            //Read message
             setTimeout(function () {
                 var thread = '{{request('thread')}}';
-                $(".inbox_chat").find("[data-thread='" + thread + "']").removeClass('unread');
-            }, 1000);
+               var message =  $(".inbox_chat").find("[data-thread='" + thread + "']");
+                message.parent('a').removeClass('unread');
+                message.find('span.badge').remove();
+            }, 500 );
+
+            //Filter in conversation
+            $("#myInput").on("keyup", function () {
+                var value = $(this).val().toLowerCase();
+                $(".chat_list").parent('a').filter(function () {
+                    $(this).toggle($(this).find('h5,p').text().toLowerCase().trim().indexOf(value) > -1)
+                });
+            });
+
         });
+
     </script>
 @endpush

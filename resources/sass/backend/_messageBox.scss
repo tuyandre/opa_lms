@@ -23,13 +23,16 @@
       padding-left: 0px;
       h5{
         line-height: 35px;
-        a{
-          span{
-            font-size: 20px;
-          }
+      }
+      a{
+        text-decoration: none;
+        i{
+          font-size: 20px;
+          line-height: 2;
         }
       }
     }
+
   }
 
   .recent_heading {float: left; width:35%;}
@@ -71,17 +74,25 @@
 
 
   .chat_people{ overflow:hidden; clear:both;  }
+  a.unread{
+    width: 100%;
+    display: inline-block;
+    background-color: #272a2e;
+    color: white!important;
+    .chat_ib h5,p{
+      color: white;
+    }
+    .active_chat{
+      .chat_ib h5,p{
+        color: #464646;
+      }
+    }
+
+  }
   .chat_list {
     border-bottom: 1px solid #c4c4c4;
     margin: 0;
     padding: 18px 16px 10px;
-    &.unread{
-      background-color: #272a2e;
-      color: white!important;
-      .chat_ib h5,p{
-        color: white;
-      }
-    }
   }
   .chat_people.header{
     .chat_img {
@@ -215,6 +226,7 @@
             line-height: 35px;
           }
           a{
+            text-decoration: none;
             i{
               font-size: 20px;
               line-height: 2;

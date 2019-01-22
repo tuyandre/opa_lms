@@ -86,4 +86,5 @@ class User extends Authenticatable implements MessageableInterface
     {
         return $this->belongsToMany(Lesson::class, 'lesson_student');
     }
+
 }

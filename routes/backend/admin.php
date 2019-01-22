@@ -8,8 +8,11 @@ use \App\Http\Controllers\Backend\Auth\User\UpdatePasswordController;
 /*
  * All route names are prefixed with 'admin.'.
  */
+
+//===== General Routes =====//
 Route::redirect('/', '/user/dashboard', 301);
 Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
 
 //===== Courses Routes =====//
 Route::resource('courses', 'Admin\CoursesController');
@@ -55,7 +58,7 @@ Route::delete('tests_perma_del/{id}', ['uses' => 'Admin\TestsController@perma_de
 Route::post('media/remove', ['uses' => 'Admin\MediaController@destroy', 'as' => 'media.destroy']);
 
 
-//===== Account Routes =====//
+//===== User Account Routes =====//
 Route::group(['middleware' => ['auth', 'password_expires']], function () {
     Route::get('account', [AccountController::class, 'index'])->name('account');
     Route::patch('account', [UpdatePasswordController::class, 'update'])->name('account.post');
@@ -65,5 +68,6 @@ Route::group(['middleware' => ['auth', 'password_expires']], function () {
 
 //==== Messages Routes =====//
 Route::get('messages', ['uses' => 'MessagesController@index','as' => 'messages']);
+Route::post('messages/unread', ['uses' => 'MessagesController@getUnreadMessages','as' => 'messages.unread']);
 Route::post('messages/send', ['uses' => 'MessagesController@send','as' => 'messages.send']);
 Route::post('messages/reply', ['uses' => 'MessagesController@reply','as' => 'messages.reply']);

@@ -70,6 +70,10 @@
     {!! script(mix('js/manifest.js')) !!}
     {!! script(mix('js/vendor.js')) !!}
     {!! script(mix('js/backend.js')) !!}
+    <script>
+        //Route for message notification
+        var messageNotificationRoute = '{{route('admin.messages.unread')}}'
+    </script>
     <script src="https://code.jquery.com/ui/1.11.3/jquery-ui.min.js"></script>
     <script src="//cdn.datatables.net/1.10.9/js/jquery.dataTables.min.js"></script>
     <script src="//cdn.datatables.net/buttons/1.2.4/js/dataTables.buttons.min.js"></script>
@@ -87,5 +91,6 @@
         window._token = '{{ csrf_token() }}';
     </script>
     @stack('after-scripts')
+
 </body>
 </html>

@@ -32,10 +32,32 @@
 
     <ul class="nav navbar-nav ml-auto mr-4">
         <li class="nav-item d-md-down-none">
-            <a class="nav-link" href="#">
+            <a class="nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
                 <i class="icon-envelope"></i>
-                <span class="badge badge-pill badge-danger">5</span>
+                <span class="badge badge-pill d-none badge-success unreadMessageCounter"></span>
             </a>
+            <div class="dropdown-menu dropdown-menu-right">
+                <div class="dropdown-header text-center">
+                    <strong>Messages</strong>
+                </div>
+                <div class="unreadMessages">
+                    <a class="dropdown-item" href="{{route('admin.messages')}}">
+                        <i class="fa fa-envelope"></i> Messages
+                        <span class="badge badge-success">5</span>
+                    </a>
+
+                    <a class="dropdown-item" href="{{ route('admin.account') }}">
+                        <i class="fa fa-user"></i> Profile
+                    </a>
+
+                    <div class="divider"></div>
+                    <a class="dropdown-item" href="{{ route('frontend.auth.logout') }}">
+                        <i class="fas fa-lock"></i> @lang('navs.general.logout')
+                    </a>
+                </div>
+
+
+            </div>
         </li>
 
         <li class="nav-item dropdown">
