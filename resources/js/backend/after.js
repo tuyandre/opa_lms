@@ -13,6 +13,7 @@ setInterval(function()
         {
           if(data.unreadMessageCount > 0){
               $('.unreadMessages').empty();
+              $('.mob-notification').removeClass('d-none').html('!');
               $('.unreadMessageCounter').removeClass('d-none').html(data.unreadMessageCount)
               var html = "";
               var host = $(location).attr('protocol')+'//'+$(location).attr('hostname')+'/user/messages/?thread=';
@@ -26,6 +27,7 @@ setInterval(function()
               $('.unreadMessages').html(html);
           }else{
               $('.unreadMessageCounter').addClass('d-none');
+              $('.mob-notification').addClass('d-none')
           }
         }
     });

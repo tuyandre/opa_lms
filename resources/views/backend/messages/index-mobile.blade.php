@@ -50,10 +50,10 @@
                             @if($threads->count() > 0)
                                 @foreach($threads as $item)
                                     @if($item->lastMessage)
-                                        <a href="{{route('admin.messages').'?thread='.$item->id}}">
-                                            <div data-thread="{{$item->id}}"
-                                                 class="chat_list @if(($thread != "") && ($thread->id == $item->id))  active_chat @endif @if($item->unreadMessagesCount > 0) unread
+                                        <a  href="{{route('admin.messages').'?thread='.$item->id}}" class="@if($item->unreadMessagesCount > 0) unread
                                             @endif">
+                                            <div data-thread="{{$item->id}}"
+                                                 class="chat_list @if(($thread != "") && ($thread->id == $item->id))  active_chat @endif ">
                                                 <div class="chat_people">
                                                     <div class="chat_img">
                                                         <img src="https://ptetutorials.com/images/user-profile.png"

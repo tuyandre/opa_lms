@@ -41,19 +41,7 @@
                     <strong>Messages</strong>
                 </div>
                 <div class="unreadMessages">
-                    <a class="dropdown-item" href="{{route('admin.messages')}}">
-                        <i class="fa fa-envelope"></i> Messages
-                        <span class="badge badge-success">5</span>
-                    </a>
-
-                    <a class="dropdown-item" href="{{ route('admin.account') }}">
-                        <i class="fa fa-user"></i> Profile
-                    </a>
-
-                    <div class="divider"></div>
-                    <a class="dropdown-item" href="{{ route('frontend.auth.logout') }}">
-                        <i class="fas fa-lock"></i> @lang('navs.general.logout')
-                    </a>
+                   <p class="mb-0 text-center py-2">No Messages</p>
                 </div>
 
 
@@ -63,6 +51,7 @@
         <li class="nav-item dropdown">
           <a class="nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
             <img src="{{ $logged_in_user->picture }}" class="img-avatar" alt="{{ $logged_in_user->email }}">
+              <span style="right: 0;left: inherit" class="badge d-md-none d-lg-none d-none mob-notification badge-success">!</span>
             <span class="d-md-down-none">{{ $logged_in_user->full_name }}</span>
           </a>
           <div class="dropdown-menu dropdown-menu-right">
@@ -72,7 +61,7 @@
 
             <a class="dropdown-item" href="{{route('admin.messages')}}">
               <i class="fa fa-envelope"></i> Messages
-              <span class="badge badge-success">5</span>
+              <span class="badge unreadMessageCounter d-none badge-success">5</span>
             </a>
 
             <a class="dropdown-item" href="{{ route('admin.account') }}">
