@@ -48,6 +48,8 @@ return [
             'app_dashboard' => 'Dashboard',
             'app_delete' => 'Delete',
             'actions' => 'Actions',
+            'all' => 'All',
+            'trashed' => 'Trashed',
             /*===================================================*/
             'all_rights_reserved' => 'All Rights Reserved.',
             'are_you_sure'        => 'Are you sure you want to do this?',

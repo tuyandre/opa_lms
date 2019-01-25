@@ -20,12 +20,12 @@
                 <ul class="list-inline">
                     <li class="list-inline-item">
                         <a href="{{ route('admin.tests.index') }}"
-                           style="{{ request('show_deleted') == 1 ? '' : 'font-weight: 700' }}">All</a>
+                           style="{{ request('show_deleted') == 1 ? '' : 'font-weight: 700' }}">{{trans('labels.general.all')}}</a>
                     </li>
                     |
                     <li class="list-inline-item">
                         <a href="{{ route('admin.tests.index') }}?show_deleted=1"
-                           style="{{ request('show_deleted') == 1 ? 'font-weight: 700' : '' }}">Trash</a>
+                           style="{{ request('show_deleted') == 1 ? 'font-weight: 700' : '' }}">{{trans('labels.general.trash')}}</a>
                     </li>
                 </ul>
             </div>

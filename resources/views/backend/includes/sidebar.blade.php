@@ -15,6 +15,15 @@
 
 
             <!--=======================Custom menus===============================-->
+            @if ($logged_in_user->isAdmin())
+            <li class="nav-item ">
+                <a class="nav-link {{ $request->segment(1) == 'orders' ? 'active' : '' }}"
+                   href="{{ route('admin.orders.index') }}">
+                    <i class="nav-icon icon-bag"></i>
+                    <span class="title">@lang('menus.backend.sidebar.orders.title')</span>
+                </a>
+            </li>
+            @endif
             @can('course_access')
                 <li class="nav-item ">
                     <a class="nav-link {{ $request->segment(2) == 'courses' ? 'active' : '' }}"
@@ -90,6 +99,7 @@
                 <li class="nav-title">
                     @lang('menus.backend.sidebar.system')
                 </li>
+
                 <li class="nav-item nav-dropdown {{ active_class(Active::checkUriPattern('admin/auth*'), 'open') }}">
                     <a class="nav-link nav-dropdown-toggle {{ active_class(Active::checkUriPattern('admin/auth*')) }}"
                        href="#">

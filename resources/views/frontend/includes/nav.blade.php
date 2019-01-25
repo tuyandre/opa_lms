@@ -7,6 +7,11 @@
 
     <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
         <ul class="navbar-nav">
+            <li class="nav-item"><a href="{{route('cart.index')}}" class="nav-link {{ active_class(Active::checkRoute('cart.index')) }}">My Cart
+                @if(auth()->check() && Cart::session(auth()->user()->id)->getTotalQuantity() != 0)
+                    <span class="badge badge-danger" >{{Cart::session(auth()->user()->id)->getTotalQuantity()}}</span>
+                @endif
+                </a></li>
             <li class="nav-item"><a href="{{route('chatter.home')}}" class="nav-link {{ active_class(Active::checkRoute('courses.all')) }}">@lang('navs.frontend.forums')</a></li>
             <li class="nav-item"><a href="{{route('courses.all')}}" class="nav-link {{ active_class(Active::checkRoute('courses.all')) }}">@lang('navs.frontend.courses')</a></li>
             @if(config('locale.status') && count(config('locale.languages')) > 1)

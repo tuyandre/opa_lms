@@ -11,6 +11,7 @@
         <title>@yield('title', app_name())</title>
         <meta name="description" content="@yield('meta_description', 'Laravel 5 Boilerplate')">
         <meta name="author" content="@yield('meta_author', 'Anthony Rappa')">
+        <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
         @yield('meta')
 
         {{-- See https://laravel.com/docs/5.5/blade#stacks for usage --}}
@@ -39,8 +40,9 @@
         {!! script(mix('js/manifest.js')) !!}
         {!! script(mix('js/vendor.js')) !!}
         {!! script(mix('js/frontend.js')) !!}
-        @stack('after-scripts')
         @yield('js')
+        @stack('after-scripts')
+
 
         @include('includes.partials.ga')
     </body>

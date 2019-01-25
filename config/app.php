@@ -197,7 +197,7 @@ return [
         Maatwebsite\Excel\ExcelServiceProvider::class,
         Gerardojbaez\Messenger\MessengerServiceProvider::class,
         Jenssegers\Agent\AgentServiceProvider::class,
-
+        Darryldecode\Cart\CartServiceProvider::class,
 
 
         /*
@@ -261,6 +261,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
 
+
         /*
          * Package Aliases
          */
@@ -273,8 +274,7 @@ return [
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
         'Messenger' => Gerardojbaez\Messenger\Facades\Messenger::class,
         'Agent' => Jenssegers\Agent\Facades\Agent::class,
-
-
+        'Cart' => Darryldecode\Cart\Facades\CartFacade::class
 
     ],
 

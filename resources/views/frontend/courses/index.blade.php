@@ -6,6 +6,12 @@
 
     @if (!is_null($purchased_courses))
         <h3>My courses</h3>
+        @if(session()->has('success'))
+            <div class="alert alert-dismissable alert-success fade show">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                {{session('success')}}
+            </div>
+        @endif
         <div class="row">
 
             @foreach($purchased_courses as $course)

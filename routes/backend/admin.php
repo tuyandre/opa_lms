@@ -71,3 +71,11 @@ Route::get('messages', ['uses' => 'MessagesController@index','as' => 'messages']
 Route::post('messages/unread', ['uses' => 'MessagesController@getUnreadMessages','as' => 'messages.unread']);
 Route::post('messages/send', ['uses' => 'MessagesController@send','as' => 'messages.send']);
 Route::post('messages/reply', ['uses' => 'MessagesController@reply','as' => 'messages.reply']);
+
+
+//===== Orders Routes =====//
+Route::resource('orders', 'Admin\OrderController');
+Route::get('get-orders-data', ['uses' => 'Admin\OrderController@getData', 'as' => 'orders.get_data']);
+Route::post('orders_mass_destroy', ['uses' => 'Admin\OrderController@massDestroy', 'as' => 'orders.mass_destroy']);
+Route::post('orders/complete', ['uses' => 'Admin\OrderController@complete', 'as' => 'orders.complete']);
+Route::delete('orders_perma_del/{id}', ['uses' => 'Admin\OrderController@perma_del', 'as' => 'orders.perma_del']);

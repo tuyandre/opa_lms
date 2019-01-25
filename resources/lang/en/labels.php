@@ -17,6 +17,7 @@ return [
         'all'     => 'All',
         'yes'     => 'Yes',
         'no'      => 'No',
+        'trash'      => 'Trash',
         'copyright' => 'Copyright',
         'delete_selected' => 'Delete Selected',
         'custom'  => 'Custom',
@@ -200,6 +201,31 @@ return [
                 'option_text' => 'Option Text',
                 'correct' => 'Correct',
 
+            ]
+
+        ],
+        'orders' => [
+            'title' => 'Orders',
+            'complete' => 'Complete Manually',
+            'offline_requests' => 'Offline Requests',
+            'fields' => [
+                'reference_no' => 'Reference No.',
+                'items' => 'Items',
+                'amount' => 'Amount',
+                'user_email' => 'User Email',
+                'date' => 'Order date',
+                'payment_status' => [
+                    'title' => 'Payment',
+                    'completed' => 'Completed',
+                    'pending' => 'Pending',
+                    'failed' => 'Failed',
+                ],
+                'payment_type' => [
+                    'title' => 'Payment Type',
+                    'stripe' => 'Credit / Debit Card (Stripe Payment Gateway)',
+                    'offline' => 'Offline',
+                    'paypal' => 'Paypal',
+                ]
             ]
 
         ],

@@ -75,6 +75,9 @@ return [
             'messages'    => [
                 'title' => 'Messages'
             ],
+            'orders'    => [
+                'title' => 'Orders'
+            ],
             /*===========================*/
         ],
     ],

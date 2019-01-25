@@ -100,4 +100,8 @@ class Course extends Model
         return number_format(\DB::table('course_student')->where('course_id', $this->attributes['id'])->average('rating'), 2);
     }
 
+    public function orderItem(){
+        return $this->hasMany(OrderItem::class);
+    }
+
 }

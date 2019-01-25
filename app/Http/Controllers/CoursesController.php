@@ -4,18 +4,21 @@ namespace App\Http\Controllers;
 
 use App\Models\Course;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 use Stripe\Stripe;
 use Stripe\Charge;
 use Stripe\Customer;
+use Cart;
 
 class CoursesController extends Controller
 {
 
 
-    public function all(){
+    public function all()
+    {
         $purchased_courses = NULL;
         if (\Auth::check()) {
-            $purchased_courses = Course::whereHas('students', function($query) {
+            $purchased_courses = Course::whereHas('students', function ($query) {
                 $query->where('id', \Auth::id());
             })
                 ->with('lessons')
@@ -33,7 +36,6 @@ class CoursesController extends Controller
 
         return view('frontend.courses.course', compact('course', 'purchased_course'));
     }
-
     public function payment(Request $request)
     {
         $course = Course::findOrFail($request->get('course_id'));
@@ -51,7 +53,7 @@ class CoursesController extends Controller
         try {
             $customer = Customer::create([
                 'email' => $request->get('stripeEmail'),
-                'source'  => $request->get('stripeToken')
+                'source' => $request->get('stripeToken')
             ]);
 
             $charge = Charge::create([
