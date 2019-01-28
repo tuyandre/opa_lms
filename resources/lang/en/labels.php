@@ -210,6 +210,7 @@ return [
             'offline_requests' => 'Offline Requests',
             'fields' => [
                 'reference_no' => 'Reference No.',
+                'ordered_by' => 'Ordered By',
                 'items' => 'Items',
                 'amount' => 'Amount',
                 'user_email' => 'User Email',

@@ -110,6 +110,12 @@ return [
             'email_body_title' => 'You have a new contact form request: Below are the details:',
             'subject' => 'A new :app_name contact form submission!',
         ],
+
+        /* ====================== Custom strings starts ======================*/
+        'offline_order' => [
+            'subject' => 'Regarding your recent order on '.env('APP_NAME'),
+        ]
+        /* ====================== Custom strings over ========================*/
     ],
 
     'frontend' => [

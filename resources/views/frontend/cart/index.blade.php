@@ -13,6 +13,18 @@
         <div class="col-12">
             <h1>My Cart</h1>
         </div>
+        @if(session()->has('success'))
+            <div class="alert alert-dismissable alert-success fade show">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                {{session('success')}}
+            </div>
+        @endif
+        @if(session()->has('failure'))
+            <div class="alert alert-dismissable alert-danger fade show">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                {{session('failure')}}
+            </div>
+        @endif
 
         @if(count(Cart::session(auth()->user()->id)->getContent()) > 0)
             <div class="col-9">

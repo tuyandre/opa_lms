@@ -21,6 +21,12 @@
                     {{session('failure')}}
                 </div>
             @endif
+            @if(session()->has('success'))
+                <div class="alert alert-dismissable alert-danger fade show">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    {{session('success')}}
+                </div>
+            @endif
         </div>
 
 
@@ -45,6 +51,7 @@
                                            value="✓"/>
                                     @csrf
                                 </div>
+                                <input type="hidden">
                                 <div class='form-row'>
                                     <div class='col-12 form-group required'>
                                         <label class='control-label'>Name on Card</label>
@@ -103,7 +110,12 @@
                     </div>
                     <div id="collapseTwo" class="collapse" data-parent="#accordion">
                         <div class="card-body disabled">
-                            <p>Dummy data</p>
+                            <form class="w3-container w3-display-middle w3-card-4 " method="POST" id="payment-form"  action="{{route('cart.paypal.payment')}}">
+                                {{ csrf_field() }}
+                                <p>Pay securely with PayPal</p>
+
+                                <button class="w3-btn btn btn-success w3-blue">Proceed</button></p>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -121,10 +133,10 @@
                             <p>In this payment method our executives will contact you and give you instructions
                                 regarding
                                 payment and course purchase.</p>
-                            <form method="post" action="">
-
+                            <form method="post" action="{{route('cart.offline.payment')}}">
+                                @csrf
+                                <button class="btn btn-primary">Request Assistance</button>
                             </form>
-                            <button class="btn btn-primary">Request Assistance</button>
                         </div>
                     </div>
                 </div>

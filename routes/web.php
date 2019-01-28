@@ -46,11 +46,15 @@ Route::post('course/{course_id}/rating', ['uses' => 'CoursesController@rating', 
 Route::get('lesson/{course_id}/{slug}', ['uses' => 'LessonsController@show', 'as' => 'lessons.show']);
 Route::post('lesson/{slug}/test', ['uses' => 'LessonsController@test', 'as' => 'lessons.test']);
 
-Route::group(['middleware'=>'auth'],function (){
+Route::group(['middleware'=>'auth'],function () {
     Route::post('cart/checkout', ['uses' => 'CartController@checkout', 'as' => 'cart.checkout']);
     Route::post('cart/add', ['uses' => 'CartController@addToCart', 'as' => 'cart.addToCart']);
     Route::get('cart', ['uses' => 'CartController@index', 'as' => 'cart.index']);
     Route::get('cart/clear', ['uses' => 'CartController@clear', 'as' => 'cart.clear']);
     Route::get('cart/remove', ['uses' => 'CartController@remove', 'as' => 'cart.remove']);
-    Route::post('cart/stripe-payment', ['uses' => 'CartController@payment', 'as' => 'cart.stripe.payment']);
+    Route::post('cart/stripe-payment', ['uses' => 'CartController@stripePayment', 'as' => 'cart.stripe.payment']);
+    Route::post('cart/paypal-payment', ['uses' => 'CartController@paypalPayment', 'as' => 'cart.paypal.payment']);
+    Route::get('cart/paypal-payment/status', ['uses' => 'CartController@getPaymentStatus'])->name('cart.paypal.status');
+    Route::post('cart/offline-payment', ['uses' => 'CartController@offlinePayment', 'as' => 'cart.offline.payment']);
+
 });

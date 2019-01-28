@@ -18,17 +18,20 @@
                             </td>
                         </tr>
                         <tr>
+                            <th>@lang('labels.backend.orders.fields.ordered_by')</th>
+                            <td>
+                                Name    : <b>{{$order->user->name}}</b><br>
+                                Email   : <b>{{$order->user->email}}</b>
+                            </td>
+                        </tr>
+                        <tr>
                             <th>@lang('labels.backend.orders.fields.items')</th>
                             <td>
                                 @foreach($order->items as $key=>$item)
                                     @php $key++ @endphp
-                                    <a class="text-decoration-none" target="_blank" href="{{route('admin.courses.show',$item->course_id)}}">{{$key.'. '.$item->course->title}}</a>
+                                    <a class="text-decoration-none" target="_blank" href="{{route('admin.courses.show',$item->course_id)}}">{{$key.'. '.$item->course->title}}</a><br>
                                 @endforeach
                             </td>
-                        </tr>
-                        <tr>
-                            <th>@lang('labels.backend.orders.fields.amount')</th>
-                            <td>{{ $order->amount }}</td>
                         </tr>
                         <tr>
                             <th>@lang('labels.backend.orders.fields.amount')</th>
@@ -68,6 +71,7 @@
                             <th>@lang('labels.backend.orders.fields.date')</th>
                             <td>{{ $order->created_at->format('d M, Y | h:i A') }}</td>
                         </tr>
+
                     </table>
                 </div>
             </div><!-- Nav tabs -->

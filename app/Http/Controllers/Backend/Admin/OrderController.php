@@ -62,7 +62,7 @@ class OrderController extends Controller
                 $items = "";
                 foreach ($q->items as $key=>$item){
                     $key++;
-                    $items .= "<a class='text-decoration-none' target='_blank' href='".route('admin.courses.show',$item->course_id)."'> ". $key.'. '.$item->course->title ."</a>";
+                    $items .= "<a class='text-decoration-none' target='_blank' href='".route('admin.courses.show',$item->course_id)."'> ". $key.'. '.$item->course->title ."</a><br>";
                 }
                 return $items;
             })
@@ -95,6 +95,10 @@ class OrderController extends Controller
         $order = Order::findOrfail($request->order);
         $order->status = 1;
         $order->save();
+
+        foreach ($order->items as $item){
+            $item->course->students()->attach($order->user_id);
+        }
         return back()->withFlashSuccess(trans('alerts.backend.general.updated'));
     }
 
