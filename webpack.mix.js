@@ -27,11 +27,6 @@ mix.sass('resources/sass/frontend/app.scss', 'css/frontend.css')
         'popper.js/dist/umd/popper',
         'axios',
         'sweetalert2',
-        'lodash',
-        '@fortawesome/fontawesome-svg-core',
-        '@fortawesome/free-brands-svg-icons',
-        '@fortawesome/free-regular-svg-icons',
-        '@fortawesome/free-solid-svg-icons'
     ]);
 
 if (mix.inProduction() || process.env.npm_lifecycle_event !== 'hot') {

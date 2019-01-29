@@ -210,7 +210,9 @@ return [
                     'captcha_site_key' => 'Captcha Key',
                     'captcha_site_secret' => 'Captcha Secret',
                     'google_analytics' => 'Google Analytics Code',
-                    'theme_layout' => 'Theme Layout'
+                    'theme_layout' => 'Theme Layout',
+                    'font_color' => 'Font Color',
+                    'layout_type' => 'Layout Type'
                 ],
                 'social_settings' => [
                     'facebook' => [

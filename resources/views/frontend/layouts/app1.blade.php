@@ -43,27 +43,11 @@
     @stack('after-styles')
     @yield('css')
 </head>
-<body>
+<body class="{{config('layout_type')}}">
 <div id="app">
     <div id="preloader"></div>
 
-    <div id="switch-color" class="color-switcher">
-        <div class="open"><i class="fas fa-cog fa-spin"></i></div>
-        <h4>COLOR OPTION</h4>
-        <ul>
-            <li><a class="color-2" onclick="setActiveStyleSheet('color-2'); return true;" href="#!"><i class="fas fa-circle"></i></a> </li>
-            <li><a class="color-3" onclick="setActiveStyleSheet('color-3'); return true;" href="#!"><i class="fas fa-circle"></i></a> </li>
-            <li><a class="color-4" onclick="setActiveStyleSheet('color-4'); return true;" href="#!"><i class="fas fa-circle"></i></a> </li>
-            <li><a class="color-5" onclick="setActiveStyleSheet('color-5'); return true;" href="#!"><i class="fas fa-circle"></i></a> </li>
-            <li><a class="color-6" onclick="setActiveStyleSheet('color-6'); return true;" href="#!"><i class="fas fa-circle"></i></a> </li>
-            <li><a class="color-7" onclick="setActiveStyleSheet('color-7'); return true;" href="#!"><i class="fas fa-circle"></i></a> </li>
-            <li><a class="color-8" onclick="setActiveStyleSheet('color-8'); return true;" href="#!"><i class="fas fa-circle"></i></a> </li>
-            <li><a class="color-9" onclick="setActiveStyleSheet('color-9'); return true;" href="#!"><i class="fas fa-circle"></i></a> </li>
-        </ul>
-        <button class="switcher-light">WIDE </button>
-        <button class="switcher-dark">BOX </button>
-        {{--<a class="rtl-v" href="RTL_Genius/index.html">RTL </a>--}}
-    </div>
+
     <!-- Start of Header section
     ============================================= -->
     <header>
@@ -190,6 +174,7 @@
 
 <!-- Scripts -->
 @stack('before-scripts')
+
 <!-- For Js Library -->
 <script src="{{asset('assets/js/jquery-2.1.4.min.js')}}"></script>
 <script src="{{asset('assets/js/bootstrap.min.js')}}"></script>
@@ -204,10 +189,18 @@
 <script src="{{asset('assets/js/waypoints.min.js')}}"></script>
 <script src="{{asset('assets/js/jquery-ui.js')}}"></script>
 <script src="{{asset('assets/js/gmap3.min.js')}}"></script>
+
 <script src="{{asset('assets/js/switch.js')}}"></script>
+
 <script src="http://maps.google.com/maps/api/js?key=AIzaSyC61_QVqt9LAhwFdlQmsNwi5aUJy9B2SyA"></script>
 <script src="{{asset('assets/js/script.js')}}"></script>
+<script>
+    var font_color = "{{config('font_color')}}"
+    setActiveStyleSheet(font_color);
+</script>
+
 @yield('js')
+
 @stack('after-scripts')
 
 @include('includes.partials.ga')

@@ -16,16 +16,16 @@ import 'bootstrap';
  * You can see at next link, how it works: https://github.com/FortAwesome/Font-Awesome/blob/master/UPGRADING.md#no-more-default-imports
  * Also you can import the icons separately on the frontend and backend
  */
-
-import { library, dom } from '@fortawesome/fontawesome-svg-core';
-import { fab } from '@fortawesome/free-brands-svg-icons';
-import { far } from '@fortawesome/free-regular-svg-icons';
-import { fas } from '@fortawesome/free-solid-svg-icons';
-
-library.add(fab, far, fas);
+//
+// import { library, dom } from '@fortawesome/fontawesome-svg-core';
+// import { fab } from '@fortawesome/free-brands-svg-icons';
+// import { far } from '@fortawesome/free-regular-svg-icons';
+// import { fas } from '@fortawesome/free-solid-svg-icons';
+//
+// library.add(fab, far, fas);
 
 // Kicks off the process of finding <i> tags and replacing with <svg>
-dom.watch();
+// dom.watch();
 
 /**
  * We'll load jQuery and the Bootstrap jQuery plugin which provides support

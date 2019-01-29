@@ -11,7 +11,8 @@
 
 // Import styles
 @import "~@coreui/coreui/scss/coreui";
-
+$fa-font-path: "~font-awesome/fonts";
+@import "~font-awesome/scss/font-awesome";
 // If you want to add something do it here
 @import "custom";
 @import "messageBox";
