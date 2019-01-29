@@ -78,6 +78,11 @@ return [
             'orders'    => [
                 'title' => 'Orders'
             ],
+            'settings'    => [
+                'title' => 'Settings',
+                'general' => 'General',
+                'social-login' => 'Social Login'
+            ],
             /*===========================*/
         ],
     ],

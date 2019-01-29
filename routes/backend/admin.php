@@ -79,3 +79,9 @@ Route::get('get-orders-data', ['uses' => 'Admin\OrderController@getData', 'as' =
 Route::post('orders_mass_destroy', ['uses' => 'Admin\OrderController@massDestroy', 'as' => 'orders.mass_destroy']);
 Route::post('orders/complete', ['uses' => 'Admin\OrderController@complete', 'as' => 'orders.complete']);
 Route::delete('orders_perma_del/{id}', ['uses' => 'Admin\OrderController@perma_del', 'as' => 'orders.perma_del']);
+
+//===== Settings Routes =====//
+Route::get('settings/general', ['uses' => 'Admin\ConfigController@getGeneralSettings', 'as' => 'general-settings']);
+Route::post('settings/general', ['uses' =>'Admin\ConfigController@saveGeneralSettings'])->name('general-settings');
+Route::get('settings/social', ['uses' =>'Admin\ConfigController@getSocialSettings'])->name('social-settings');
+Route::post('settings/social', ['uses' =>'Admin\ConfigController@saveSocialSettings'])->name('social-settings');

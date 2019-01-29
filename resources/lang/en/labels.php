@@ -114,6 +114,7 @@ return [
 
                 'view' => 'View User',
             ],
+
         ],
         /*====================Custom strings====================*/
         'courses' =>[
@@ -232,7 +233,13 @@ return [
         ],
         'messages' => [
             'title' => 'Messages'
-        ]
+        ],
+        'general_settings' => [
+            'management' => 'General Settings',
+        ],
+        'social_settings' => [
+            'management' => 'Social Settings',
+        ],
         /*======================================================*/
     ],
 

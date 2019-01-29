@@ -185,6 +185,72 @@ return [
                     'language'                => 'Language',
                 ],
             ],
+
+            'settings' => [
+                'general_settings' => [
+                    'app_name' => 'App Name',
+                    'app_url' => 'App URL',
+                    'app_locale' => 'App Locale',
+                    'app_timezone' => 'App Timezone',
+                    'mail_driver' => 'Mail Driver',
+                    'mail_host' => 'Mail Host',
+                    'mail_port' => 'Mail Port',
+                    'mail_from_name' => 'Mail From Name',
+                    'mail_from_address' => 'Mail From Address',
+                    'mail_username' => 'Mail Username',
+                    'mail_password' => 'Mail Password',
+                    'enable_registration' => 'Enable Registration',
+                    'change_email' => 'Change Email',
+                    'password_history' => 'Password History',
+                    'password_expires_days' => 'Password Expires Days',
+                    'requires_approval' => 'Requires Approval',
+                    'confirm_email' => 'Confirm Email',
+                    'homepage' => 'Select Homepage',
+                    'captcha_status' => 'Captcha Status',
+                    'captcha_site_key' => 'Captcha Key',
+                    'captcha_site_secret' => 'Captcha Secret',
+                    'google_analytics' => 'Google Analytics Code',
+                    'theme_layout' => 'Theme Layout'
+                ],
+                'social_settings' => [
+                    'facebook' => [
+                        'label' => 'Facebook Login Status',
+                        'client_id' => 'Client ID',
+                        'client_secret' => 'Client Secret',
+                        'redirect' => 'Redirect URL'
+                    ],
+                    'google' => [
+                        'label' => 'Google Login Status',
+                        'client_id' => 'Client ID',
+                        'client_secret' => 'Client Secret',
+                        'redirect' => 'Redirect URL'
+                    ],
+                    'twitter' => [
+                        'label' => 'Twitter Login Status',
+                        'client_id' => 'Client ID',
+                        'client_secret' => 'Client Secret',
+                        'redirect' => 'Redirect URL'
+                    ],
+                    'linkedin' => [
+                        'label' => 'LinkedIn Login Status',
+                        'client_id' => 'Client ID',
+                        'client_secret' => 'Client Secret',
+                        'redirect' => 'Redirect URL'
+                    ],
+                    'github' => [
+                        'label' => 'Github Login Status',
+                        'client_id' => 'Client ID',
+                        'client_secret' => 'Client Secret',
+                        'redirect' => 'Redirect URL'
+                    ],
+                    'bitbucket' => [
+                        'label' => 'Bitbucket Login Status',
+                        'client_id' => 'Client ID',
+                        'client_secret' => 'Client Secret',
+                        'redirect' => 'Redirect URL'
+                    ]
+                ],
+            ],
         ],
 
         'frontend' => [

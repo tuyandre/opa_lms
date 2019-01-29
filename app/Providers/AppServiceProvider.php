@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Config;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
@@ -58,6 +59,13 @@ class AppServiceProvider extends ServiceProvider
         // Set the default template for Pagination to use the included Bootstrap 4 template
         \Illuminate\Pagination\AbstractPaginator::defaultView('pagination::bootstrap-4');
         \Illuminate\Pagination\AbstractPaginator::defaultSimpleView('pagination::simple-bootstrap-4');
+
+
+        if (Schema::hasTable('configs')) {
+            foreach (Config::all() as $setting) {
+                \Illuminate\Support\Facades\Config::set($setting->key, $setting->value);
+            }
+        }
     }
 
     /**
