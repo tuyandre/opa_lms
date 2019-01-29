@@ -134,7 +134,7 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="copy-right-text">
-                            <p>© 2018 - Designed & Developed by <a href="https://jthemes.com" title="Best Premium WordPress, HTML Template Store"> Jthemes Studio</a>. All rights reserved</p>
+                            <p>© {{now()->format('Y')}} - Designed & Developed by <a href="https://jthemes.com" title="Best Premium WordPress, HTML Template Store"> Jthemes Studio</a>. All rights reserved</p>
                         </div>
                     </div>
                     <div class="col-md-6">

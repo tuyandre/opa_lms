@@ -98,15 +98,7 @@
                         <nav class="navbar-menu float-right">
                             <div class="nav-menu ul-li">
                                 <ul>
-                                    <li class="menu-item-has-children ul-li-block">
-                                        <a href="#">Home</a>
-                                        <ul class="sub-menu">
-                                            <li><a href="{{url('index-1')}}">Home 1</a></li>
-                                            <li><a href="{{url('index-2')}}">Home 2</a></li>
-                                            <li><a href="{{url('index-3')}}">Home 3</a></li>
-                                            <li><a href="{{url('index-4')}}">Home 4</a></li>
-                                        </ul>
-                                    </li>
+                                    <li><a href="{{url('/')}}">Home</a></li>
                                     <li><a href="{{url('about-us')}}">About Us</a></li>
                                     <li><a href="{{url('shop')}}">shop</a></li>
                                     <li><a href="{{url('contact')}}">Contact Us</a></li>
