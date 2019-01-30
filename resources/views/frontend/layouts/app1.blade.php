@@ -66,7 +66,7 @@
                     <div class="container">
                         <div class="navbar-default">
                             <div class="navbar-header float-left">
-                                <a class="navbar-brand text-uppercase" href="#"><img
+                                <a class="navbar-brand text-uppercase" href="{{url('/')}}"><img
                                             src={{asset("assets/img/logo/logo.png")}} alt="logo"></a>
                             </div><!-- /.navbar-header -->
 
@@ -134,8 +134,7 @@
                                                 <ul class="sub-menu">
                                                     @can('view backend')
                                                         <li>
-                                                            <a href="{{ route('admin.dashboard') }}"
-                                                               class="dropdown-item">@lang('navs.frontend.user.administration')</a>
+                                                            <a href="{{ route('admin.dashboard') }}">@lang('navs.frontend.user.administration')</a>
                                                         </li>
                                                     @endcan
 
@@ -169,16 +168,38 @@
                                         <li><a href="shop">Shop</a>
                                         </li>
                                         <li><a href="contact">Contact</a></li>
-                                        <li><a href="#">Pages</a>
-                                            <ul>
-                                                <li><a href="course">Course</a></li>
-                                                <li><a href="course-details">course sinlge</a></li>
-                                                <li><a href="teacher">teacher</a></li>
-                                                <li><a href="teacher-details">teacher details</a></li>
-                                                <li><a href="faq">FAQ</a></li>
-                                                <li><a href="check-out">Check Out</a></li>
-                                            </ul>
-                                        </li>
+                                        {{--<li><a href="#">Pages</a>--}}
+                                            {{--<ul>--}}
+                                                {{--<li><a href="course">Course</a></li>--}}
+                                                {{--<li><a href="course-details">course sinlge</a></li>--}}
+                                                {{--<li><a href="teacher">teacher</a></li>--}}
+                                                {{--<li><a href="teacher-details">teacher details</a></li>--}}
+                                                {{--<li><a href="faq">FAQ</a></li>--}}
+                                                {{--<li><a href="check-out">Check Out</a></li>--}}
+                                            {{--</ul>--}}
+                                        {{--</li>--}}
+                                        @if(auth()->check())
+                                            <li class="">
+                                                <a href="#!"><i class="fa fa-user"></i></a>
+                                                <ul class="">
+                                                    <li>
+                                                        <a href="{{ route('admin.dashboard') }}">{{ $logged_in_user->name}}</a>
+                                                    </li>
+                                                    @can('view backend')
+                                                        <li>
+                                                            <a href="{{ route('admin.dashboard') }}">@lang('navs.frontend.user.administration')</a>
+                                                        </li>
+                                                    @endcan
+
+                                                    <li>
+                                                        <a href="{{ route('frontend.user.account') }}">@lang('navs.frontend.user.account')</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="{{ route('frontend.auth.logout') }}">@lang('navs.general.logout')</a>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                        @endif
                                     </ul>
                                 </nav>
 

@@ -53,7 +53,7 @@
         <div class="container">
             <div class="navbar-default">
                 <div class="navbar-header float-left">
-                    <a class="navbar-brand text-uppercase" href="#"><img src="{{asset('assets/img/logo/logo-2.png')}}" alt="logo"></a>
+                    <a class="navbar-brand text-uppercase" href="{{url('/')}}"><img src="{{asset('assets/img/logo/logo-2.png')}}" alt="logo"></a>
                 </div><!-- /.navbar-header -->
                 <div class="header-info ul-li">
                     <ul>
@@ -139,12 +139,14 @@
                                     </select>
                                 </div>
                             </li>
+                            @if(!auth()->check())
                             <li>
                                 <div class="login">
                                     <a data-toggle="modal" data-target="#myModal" href="#">LogIn</a>
                                 </div>
                                @include('frontend.layouts.modals.loginModal')
                             </li>
+                            @endif
 
                         </ul>
                     </div>
@@ -160,6 +162,25 @@
                                 <li><a  href="#faq">faq</a></li>
                                 <li><a  href="#latest-area">BLOG</a></li>
                                 <li><a  href="#contact-form">Contact Us</a></li>
+                                @if(auth()->check())
+                                    <li class="menu-item-has-children ul-li-block">
+                                        <a href="#!">{{ $logged_in_user->name }}</a>
+                                        <ul class="sub-menu">
+                                            @can('view backend')
+                                                <li>
+                                                    <a href="{{ route('admin.dashboard') }}">@lang('navs.frontend.user.administration')</a>
+                                                </li>
+                                            @endcan
+
+                                            <li>
+                                                <a href="{{ route('frontend.user.account') }}">@lang('navs.frontend.user.account')</a>
+                                            </li>
+                                            <li>
+                                                <a href="{{ route('frontend.auth.logout') }}">@lang('navs.general.logout')</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                @endif
                             </ul>
                         </div>
                     </nav>
@@ -185,11 +206,34 @@
 
                     <div class="cart-btn pulse  ul-li float-right">
                         <ul>
-                            <li><a data-toggle="modal" data-target="#myModal-2"  href="#"><i class="fas fa-user"></i></a>
-                            </li>
+                            @if(!auth()->check())
+                                <li>
+                                    <div class="login">
+                                        <a data-toggle="modal" data-target="#myModal" href="#">LogIn</a>
+                                    </div>
+                                    @include('frontend.layouts.modals.loginModal')
+                                </li>
+                            @else
+                                <li class="menu-item-has-children ul-li-block">
+                                    <a href="#!"><i class="fa fa-user"></i></a>
+                                    <ul class="sub-menu" style="width: auto">
+                                        @can('view backend')
+                                            <li>
+                                                <a href="{{ route('admin.dashboard') }}">@lang('navs.frontend.user.administration')</a>
+                                            </li>
+                                        @endcan
+
+                                        <li>
+                                            <a href="{{ route('frontend.user.account') }}">@lang('navs.frontend.user.account')</a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ route('frontend.auth.logout') }}">@lang('navs.general.logout')</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            @endif
                             <li><a href="#"><i class="fas fa-shopping-bag"></i></a></li>
                         </ul>
-                        @include('frontend.layouts.modals.loginModal')
 
                     </div>
 
@@ -203,11 +247,11 @@
                     </form>
                 </li>
                 <li class="card">
-                    <a class="menu-link" href="index-1.html">Home</a>
+                    <a class="menu-link" href="index-1">Home</a>
                 </li>
 
                 <li class="card">
-                    <a class="menu-link" href="about.html">About Us</a>
+                    <a class="menu-link" href="about">About Us</a>
                 </li>
 
                 <!-- services - start -->
@@ -218,8 +262,8 @@
                         </button>
                     </div>
                     <ul id="collapse1" class="submenu collapse show" aria-labelledby="heading1" data-parent="#accordion" style="">
-                        <li class="active"><a href="service.html">Service</a></li>
-                        <li><a href="service-details.html">Service Details</a></li>
+                        <li class="active"><a href="service">Service</a></li>
+                        <li><a href="service-details">Service Details</a></li>
                     </ul>
                 </li>
                 <!-- services - end -->
@@ -232,8 +276,8 @@
                         </button>
                     </div>
                     <ul id="collapsetwo" class="submenu collapse" aria-labelledby="headingtwo" data-parent="#accordion">
-                        <li><a href="team.html">Team</a></li>
-                        <li><a href="team-details.html">Team Details</a></li>
+                        <li><a href="team">Team</a></li>
+                        <li><a href="team-details">Team Details</a></li>
                     </ul>
                 </li>
                 <!-- team - end -->
@@ -246,9 +290,9 @@
                         </button>
                     </div>
                     <ul id="collapsethree" class="submenu collapse show" aria-labelledby="headingthree" data-parent="#accordion" style="">
-                        <li><a href="shop.html">Shop</a></li>
-                        <li><a href="checkout.html">Checkout</a></li>
-                        <li><a href="product-details.html">Product Details</a></li>
+                        <li><a href="shop">Shop</a></li>
+                        <li><a href="checkout">Checkout</a></li>
+                        <li><a href="product-details">Product Details</a></li>
                     </ul>
                 </li>
                 <!-- shop - end -->
@@ -261,8 +305,8 @@
                         </button>
                     </div>
                     <ul id="collapsefour" class="submenu collapse" aria-labelledby="headingfour" data-parent="#accordion">
-                        <li><a href="blog.html">Blog</a></li>
-                        <li><a href="blog-details.html">Blog Details</a></li>
+                        <li><a href="blog">Blog</a></li>
+                        <li><a href="blog-details">Blog Details</a></li>
                     </ul>
                 </li>
                 <!-- newses - end -->
@@ -275,8 +319,8 @@
                         </button>
                     </div>
                     <ul id="collapsefive" class="submenu collapse" aria-labelledby="headingfive" data-parent="#accordion">
-                        <li><a href="contact.html">Contact</a></li>
-                        <li><a href="contactv2.html">Contact V2</a></li>
+                        <li><a href="contact">Contact</a></li>
+                        <li><a href="contactv2">Contact V2</a></li>
                     </ul>
                 </li>
                 <!-- contact - end -->
@@ -289,10 +333,10 @@
                         </button>
                     </div>
                     <ul id="collapsesix" class="submenu collapse" aria-labelledby="headingsix" data-parent="#accordion">
-                        <li><a href="error.html">error</a></li>
-                        <li><a href="errorv2.html">error V2</a></li>
-                        <li><a href="work-process.html">work process</a></li>
-                        <li><a href="register.html">Register</a></li>
+                        <li><a href="error">error</a></li>
+                        <li><a href="errorv2">error V2</a></li>
+                        <li><a href="work-process">work process</a></li>
+                        <li><a href="register">Register</a></li>
                     </ul>
                 </li>
                 <!-- pages - end -->

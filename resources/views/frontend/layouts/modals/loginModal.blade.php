@@ -21,6 +21,7 @@
 
                 <!-- Modal Header -->
                 <div class="modal-header backgroud-style">
+
                     <div class="gradient-bg"></div>
                     <div class="popup-logo">
                         <img src="{{asset('assets/img/logo/p-logo.jpg')}}" alt="">
@@ -30,6 +31,8 @@
                         <p><a href="#" class="font-weight-bold go-login px-0">Login</a> to our website, or <a href="#" class="font-weight-bold go-register px-0" id="">REGISTER</a>
                         </p>
                     </div>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+
                 </div>
 
                 <!-- Modal body -->
