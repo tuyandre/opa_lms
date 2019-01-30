@@ -6,8 +6,14 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\RegisterRequest;
 use App\Helpers\Frontend\Auth\Socialite;
 use App\Events\Frontend\Auth\UserRegistered;
+use App\Models\Auth\User;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use App\Repositories\Frontend\Auth\UserRepository;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Validator;
 
 /**
  * Class RegisterController.
@@ -60,26 +66,46 @@ class RegisterController extends Controller
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      * @throws \Throwable
      */
-    public function register(RegisterRequest $request)
+    public function register(Request $request)
     {
-        $user = $this->userRepository->create($request->only('first_name', 'last_name', 'email', 'password'));
+        $validator = Validator::make(Input::all(), [
+            'first_name' => 'required|max:255',
+            'last_name' => 'required|max:255',
+            'email' => 'required|email|max:255|unique:users',
+            'password' => 'required|min:6|confirmed',
+        ]);
 
-        // If the user must confirm their email or their account requires approval,
-        // create the account but don't log them in.
-        if (config('access.users.confirm_email') || config('access.users.requires_approval')) {
-            event(new UserRegistered($user));
+        if ($validator->passes()) {
+            // Store your user in database
+            event(new Registered($user = $this->create($request->all())));
+            return response(['success' => true]);
 
-            return redirect($this->redirectPath())->withFlashSuccess(
-                config('access.users.requires_approval') ?
-                    __('exceptions.frontend.auth.confirmation.created_pending') :
-                    __('exceptions.frontend.auth.confirmation.created_confirm')
-            );
-        } else {
-            auth()->login($user);
-
-            event(new UserRegistered($user));
-
-            return redirect($this->redirectPath());
         }
+
+        return response(['errors' => $validator->errors()]);
     }
+
+    /**
+     * Create a new user instance after a valid registration.
+     *
+     * @param  array $data
+     * @return \App\Models\User
+     */
+    protected function create(array $data)
+    {
+        $user = User::create([
+            'first_name' => $data['first_name'],
+            'last_name' => $data['last_name'],
+            'email' => $data['email'],
+            'password' => Hash::make($data['password']),
+        ]);
+        $userForRole = User::find($user->id);
+        $userForRole->confirmed = 1;
+        $userForRole->save();
+        $userForRole->assignRole('user');
+        return $user;
+    }
+
+
+
 }

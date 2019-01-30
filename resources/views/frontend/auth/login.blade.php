@@ -1,4 +1,4 @@
-@extends('frontend.layouts.app')
+@extends('frontend.layouts.app'.config('theme_layout'))
 
 @section('title', app_name() . ' | ' . __('labels.frontend.auth.login_box_title'))
 

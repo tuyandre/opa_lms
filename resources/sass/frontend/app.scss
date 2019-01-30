@@ -1,8 +1,10 @@
-// Fonts
-@import url('https://fonts.googleapis.com/css?family=Nunito');
+//// Fonts
+//@import url('https://fonts.googleapis.com/css?family=Nunito');
+//
+//// Bootstrap
+//@import '../../../node_modules/bootstrap/scss/bootstrap';
 
-// Bootstrap
-@import '../../../node_modules/bootstrap/scss/bootstrap';
+@import "gc-theme/style";
 
 // Global
 @import 'global';
@@ -12,5 +14,3 @@
 
 // Bootstrap Overrides
 @import 'custom';
-
-// Plugins

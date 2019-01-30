@@ -51,7 +51,7 @@
 </head>
 <body class="{{config('layout_type')}}">
 <div id="app">
-    <div id="preloader"></div>
+    {{--<div id="preloader"></div>--}}
 
     <!-- Start of Header section
     ============================================= -->

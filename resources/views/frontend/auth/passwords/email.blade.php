@@ -1,31 +1,35 @@
-@extends('frontend.layouts.app')
+@extends('frontend.layouts.app'.config('theme_layout'))
 
 @section('title', app_name() . ' | ' . __('labels.frontend.passwords.reset_password_box_title'))
 
 @section('content')
-    <div class="row justify-content-center align-items-center">
-        <div class="col col-sm-6 align-self-center">
-            <div class="card">
-                <div class="card-header">
-                    <strong>
-                        @lang('labels.frontend.passwords.reset_password_box_title')
-                    </strong>
-                </div><!--card-header-->
+    <section id="breadcrumb" class="breadcrumb-section relative-position backgroud-style">
+        <div class="blakish-overlay"></div>
+        <div class="container">
+            <div class="page-breadcrumb-content text-center">
+                <div class="page-breadcrumb-title">
+                    <h2 class="breadcrumb-head black bold">Reset Password</h2>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="about-page" class="about-page-section pb-0">
+        <div class="row justify-content-center align-items-center">
+            <div class="col col-md-4 align-self-center">
+                <div class="card border-0">
 
-                <div class="card-body">
+                    <div class="card-body">
 
-                    @if(session('status'))
-                        <div class="alert alert-success">
-                            {{ session('status') }}
-                        </div>
-                    @endif
+                        @if(session('status'))
+                            <div class="alert alert-success">
+                                {{ session('status') }}
+                            </div>
+                        @endif
 
-                    {{ html()->form('POST', route('frontend.auth.password.email.post'))->open() }}
+                        {{ html()->form('POST', route('frontend.auth.password.email.post'))->open() }}
                         <div class="row">
                             <div class="col">
                                 <div class="form-group">
-                                    {{ html()->label(__('validation.attributes.frontend.email'))->for('email') }}
-
                                     {{ html()->email('email')
                                         ->class('form-control')
                                         ->placeholder(__('validation.attributes.frontend.email'))
@@ -39,13 +43,17 @@
                         <div class="row">
                             <div class="col">
                                 <div class="form-group mb-0 clearfix">
-                                    {{ form_submit(__('labels.frontend.passwords.send_password_reset_link_button')) }}
+                                    <div class="text-center  text-capitalize">
+                                        <button type="submit" class="nws-button btn-info btn "
+                                                value="Submit">{{__('labels.frontend.passwords.send_password_reset_link_button')}}</button>
+                                    </div>
                                 </div><!--form-group-->
                             </div><!--col-->
                         </div><!--row-->
-                    {{ html()->form()->close() }}
-                </div><!-- card-body -->
-            </div><!-- card -->
-        </div><!-- col-6 -->
-    </div><!-- row -->
+                        {{ html()->form()->close() }}
+                    </div><!-- card-body -->
+                </div><!-- card -->
+            </div><!-- col-6 -->
+        </div><!-- row -->
+    </section>
 @endsection

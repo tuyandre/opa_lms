@@ -6,6 +6,7 @@ use App\Rules\Auth\ChangePassword;
 use App\Rules\Auth\UnusedPassword;
 use Illuminate\Foundation\Http\FormRequest;
 use DivineOmega\LaravelPasswordExposedValidationRule\PasswordExposed;
+use Illuminate\Support\Facades\Validator;
 
 /**
  * Class ResetPasswordRequest.

@@ -10,9 +10,7 @@ use App\Http\Controllers\LanguageController;
 // Switch between the included languages
 Route::get('lang/{lang}', [LanguageController::class, 'swap']);
 
-Route::get('test',function (){
-    dd(bcrypt('secret'));
-});
+
 
 /*
  * Frontend Routes

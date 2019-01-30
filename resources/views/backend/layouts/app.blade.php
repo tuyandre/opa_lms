@@ -29,6 +29,8 @@
         <link rel="stylesheet"
               href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker.standalone.min.css"/>
         {{-- See https://laravel.com/docs/5.5/blade#stacks for usage --}}
+        <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+
         @stack('before-styles')
 
     <!-- Check if the language is set to RTL, so apply the RTL layouts -->
@@ -86,6 +88,8 @@
     <script src="https://cdn.datatables.net/buttons/1.2.4/js/buttons.print.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/1.2.4/js/buttons.colVis.min.js"></script>
     <script src="https://cdn.datatables.net/select/1.2.0/js/dataTables.select.min.js"></script>
+    <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+
     <script src="{{asset('js/select2.full.min.js')}}" type="text/javascript"></script>
     <script src="{{asset('js/main.js')}}" type="text/javascript"></script>
     <script>

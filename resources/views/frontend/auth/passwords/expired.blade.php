@@ -1,17 +1,23 @@
-@extends('frontend.layouts.app')
+@extends('frontend.layouts.app'.config('theme_layout'))
 
 @section('title', app_name() . ' | ' . __('labels.frontend.passwords.expired_password_box_title'))
 
 @section('content')
+    <section id="breadcrumb" class="breadcrumb-section relative-position backgroud-style">
+        <div class="blakish-overlay"></div>
+        <div class="container">
+            <div class="page-breadcrumb-content text-center">
+                <div class="page-breadcrumb-title">
+                    <h2 class="breadcrumb-head black bold">Password Expired</h2>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="about-page" class="about-page-section pb-0">
+
     <div class="row justify-content-center align-items-center">
         <div class="col col-sm-6 align-self-center">
-            <div class="card">
-                <div class="card-header">
-                    <strong>
-                        @lang('labels.frontend.passwords.expired_password_box_title')
-                    </strong>
-                </div><!--card-header-->
-
+            <div class="card border-0">
                 <div class="card-body">
                     {{ html()->form('PATCH', route('frontend.auth.password.expired.update'))->class('form-horizontal')->open() }}
 
@@ -57,7 +63,7 @@
                         <div class="row">
                             <div class="col">
                                 <div class="form-group mb-0 clearfix">
-                                    {{ form_submit(__('labels.frontend.passwords.update_password_button')) }}
+                                   <button class="btn btn-info" type="submit">{{__('labels.frontend.passwords.update_password_button')}}</button>
                                 </div><!--form-group-->
                             </div><!--col-->
                         </div><!--row-->
@@ -67,4 +73,5 @@
             </div><!-- card -->
         </div><!-- col-6 -->
     </div><!-- row -->
+    </section>
 @endsection

@@ -2,10 +2,12 @@
 
 namespace App\Providers;
 
+use App\Helpers\Frontend\Auth\Socialite;
 use App\Models\Config;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\View\View;
 
 /**
  * Class AppServiceProvider.

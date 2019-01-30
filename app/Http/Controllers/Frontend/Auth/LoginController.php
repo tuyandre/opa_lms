@@ -11,6 +11,7 @@ use App\Events\Frontend\Auth\UserLoggedIn;
 use App\Events\Frontend\Auth\UserLoggedOut;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use App\Repositories\Frontend\Auth\UserSessionRepository;
+use Illuminate\Http\Response;
 
 /**
  * Class LoginController.
@@ -34,6 +35,9 @@ class LoginController extends Controller
      */
     public function showLoginForm()
     {
+        if(request()->ajax()){
+            return ['socialLinks' => (new Socialite)->getSocialLinks()];
+        }
         return view('frontend.auth.login')
             ->withSocialiteLinks((new Socialite)->getSocialLinks());
     }
@@ -47,6 +51,43 @@ class LoginController extends Controller
     {
         return config('access.users.username');
     }
+
+
+
+    public function login(Request $request)
+    {
+        $credentials = $request->only($this->username(), 'password');
+        $authSuccess = \Illuminate\Support\Facades\Auth::attempt($credentials, $request->has('remember'));
+
+        if($authSuccess) {
+            $request->session()->regenerate();
+            if(auth()->user()->active > 0){
+                if(auth()->user()->isAdmin()){
+                    $redirect = 'dashboard';
+                }else{
+                    $redirect = 'back';
+                }
+                return response(['success' => true,'redirect' => $redirect], Response::HTTP_OK);
+            }else{
+                return
+                    response([
+                        'success' => false,
+                        'message' => 'Login failed. Account is not active'
+                    ], Response::HTTP_FORBIDDEN);
+            }
+
+        }
+
+        return
+            response([
+                'success' => false,
+                'message' => 'Login failed. Please check your Email or Password'
+            ], Response::HTTP_FORBIDDEN);
+    }
+
+
+
+
 
     /**
      * The user has been authenticated.
