@@ -1,4 +1,4 @@
-@extends(Config::get('chatter.master_file_extend'))
+@extends(Config::get('chatter.master_file_extend').config("theme_layout"))
 
 @section(Config::get('chatter.yields.head'))
     @if(Config::get('chatter.sidebar_in_discussion_view'))
@@ -17,17 +17,41 @@
     @endif
 @stop
 
+@push('after-styles')
+    <style>
+        @media screen and (max-width: 768px) {
+
+            #chatter #chatter_header h1 {
+                margin-top: 0px;
+                margin-bottom: 0px;
+                line-height: 1.3;
+                font-size: 24px;
+                color: #f1f1f1;
+                float: left;
+            }
+        }
+
+    </style>
+@endpush
 
 @section('content')
 
 <div id="chatter" class="discussion">
+		<section id="chatter_header"  style="background:{{ ($discussion->color) ? $discussion->color : 'inherit	' }}!important;">
+			<div class="container breadcrumb-section  relative-position" style="background: inherit" >
+				<div class="page-breadcrumb-content text-center px-3">
+					<a class="back_btn" href="/{{ Config::get('chatter.routes.home') }}"><i class="chatter-back"></i></a>
+					<h1>{{ $discussion->title }}</h1><span class="chatter_head_details"> @lang('chatter::messages.discussion.head_details')<a class="chatter_cat" href="/{{ Config::get('chatter.routes.home') }}/{{ Config::get('chatter.routes.category') }}/{{ $discussion->category->slug }}" style="background-color:{{ $discussion->category->color }}">{{ $discussion->category->name }}</a></span>
+				</div>
+			</div>
+		</section>
 
-	<div id="chatter_header" style="background-color:{{ $discussion->color }}">
-		<div class="container">
-			<a class="back_btn" href="/{{ Config::get('chatter.routes.home') }}"><i class="chatter-back"></i></a>
-			<h1>{{ $discussion->title }}</h1><span class="chatter_head_details"> @lang('chatter::messages.discussion.head_details')<a class="chatter_cat" href="/{{ Config::get('chatter.routes.home') }}/{{ Config::get('chatter.routes.category') }}/{{ $discussion->category->slug }}" style="background-color:{{ $discussion->category->color }}">{{ $discussion->category->name }}</a></span>
-		</div>
-	</div>
+	{{--<div id="chatter_header" style="background-color:{{ $discussion->color }}">--}}
+		{{--<div class="container">--}}
+			{{--<a class="back_btn" href="/{{ Config::get('chatter.routes.home') }}"><i class="chatter-back"></i></a>--}}
+			{{--<h1>{{ $discussion->title }}</h1><span class="chatter_head_details"> @lang('chatter::messages.discussion.head_details')<a class="chatter_cat" href="/{{ Config::get('chatter.routes.home') }}/{{ Config::get('chatter.routes.category') }}/{{ $discussion->category->slug }}" style="background-color:{{ $discussion->category->color }}">{{ $discussion->category->name }}</a></span>--}}
+		{{--</div>--}}
+	{{--</div>--}}
 
 	@if(config('chatter.errors'))
 		@if(Session::has('chatter_alert'))

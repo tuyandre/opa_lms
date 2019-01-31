@@ -38,8 +38,8 @@ class LoginController extends Controller
         if(request()->ajax()){
             return ['socialLinks' => (new Socialite)->getSocialLinks()];
         }
-        return view('frontend.auth.login')
-            ->withSocialiteLinks((new Socialite)->getSocialLinks());
+
+        return redirect('/')->with('show_login', true);
     }
 
     /**

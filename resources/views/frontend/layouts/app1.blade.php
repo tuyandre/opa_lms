@@ -115,19 +115,21 @@
                                         <li><a href="{{url('about-us')}}">About Us</a></li>
                                         <li><a href="{{url('shop')}}">shop</a></li>
                                         <li><a href="{{url('contact')}}">Contact Us</a></li>
-                                        <li class="menu-item-has-children ul-li-block">
-                                            <a href="#!">Pages</a>
-                                            <ul class="sub-menu">
-                                                <li><a href="{{url('teacher')}}">Teacher</a></li>
-                                                <li><a href="{{url('teacher-details')}}">Teacher Details</a></li>
-                                                <li><a href="{{url('blog')}}">Blog</a></li>
-                                                <li><a href="{{url('blog-single')}}">Blog Single</a></li>
-                                                <li><a href="{{url('course')}}">Course</a></li>
-                                                <li><a href="{{url('course-details')}}">Course Details</a></li>
-                                                <li><a href="{{url('faq')}}">FAQ</a></li>
-                                                <li><a href="{{url('check-out')}}">Check Out</a></li>
-                                            </ul>
-                                        </li>
+                                        <li><a href="{{asset('forums')}}">Forums</a></li>
+
+                                        {{--<li class="menu-item-has-children ul-li-block">--}}
+                                            {{--<a href="#!">Pages</a>--}}
+                                            {{--<ul class="sub-menu">--}}
+                                                {{--<li><a href="{{url('teacher')}}">Teacher</a></li>--}}
+                                                {{--<li><a href="{{url('teacher-details')}}">Teacher Details</a></li>--}}
+                                                {{--<li><a href="{{url('blog')}}">Blog</a></li>--}}
+                                                {{--<li><a href="{{url('blog-single')}}">Blog Single</a></li>--}}
+                                                {{--<li><a href="{{url('course')}}">Course</a></li>--}}
+                                                {{--<li><a href="{{url('course-details')}}">Course Details</a></li>--}}
+                                                {{--<li><a href="{{url('faq')}}">FAQ</a></li>--}}
+                                                {{--<li><a href="{{url('check-out')}}">Check Out</a></li>--}}
+                                            {{--</ul>--}}
+                                        {{--</li>--}}
                                         @if(auth()->check())
                                             <li class="menu-item-has-children ul-li-block">
                                                 <a href="#!">{{ $logged_in_user->name }}</a>
@@ -168,6 +170,7 @@
                                         <li><a href="shop">Shop</a>
                                         </li>
                                         <li><a href="contact">Contact</a></li>
+                                        <li><a href="{{asset('forums')}}">Forums</a></li>
                                         {{--<li><a href="#">Pages</a>--}}
                                             {{--<ul>--}}
                                                 {{--<li><a href="course">Course</a></li>--}}
@@ -242,6 +245,9 @@
     <script src="http://maps.google.com/maps/api/js?key=AIzaSyC61_QVqt9LAhwFdlQmsNwi5aUJy9B2SyA"></script>
     <script src="{{asset('assets/js/script.js')}}"></script>
     <script>
+        @if((session()->has('show_login')) && (session('show_login') == true))
+                $('#myModal').modal('show');
+        @endif
         var font_color = "{{config('font_color')}}"
         setActiveStyleSheet(font_color);
     </script>

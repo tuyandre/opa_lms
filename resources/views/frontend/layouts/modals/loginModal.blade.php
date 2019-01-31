@@ -7,12 +7,20 @@
         flex-direction: column;
         justify-content: center;
     }
+    #myModal .close{
+        position: absolute;
+        right: 0.3rem;
+    }
 
     @media (max-width: 768px) {
         .modal-dialog {
             min-height: calc(100vh - 20px);
         }
+        #myModal .modal-body{
+            padding: 15px;
+        }
     }
+
 </style>
 @if(!auth()->check())
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
