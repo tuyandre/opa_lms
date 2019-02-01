@@ -41,9 +41,9 @@
                             <th>@lang('labels.backend.orders.fields.payment_type.title')</th>
                             <td>
 
-                                @if($order->status == 1)
+                                @if($order->payment_type == 1)
                                     {{trans('labels.backend.orders.fields.payment_type.stripe') }}
-                                @elseif($order->status == 2)
+                                @elseif($order->payment_type == 2)
                                     {{trans('labels.backend.orders.fields.payment_type.paypal')}}
                                 @else
                                     {{trans('labels.backend.orders.fields.payment_type.offline')}}

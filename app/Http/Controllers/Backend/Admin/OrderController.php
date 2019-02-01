@@ -95,7 +95,6 @@ class OrderController extends Controller
         $order = Order::findOrfail($request->order);
         $order->status = 1;
         $order->save();
-
         foreach ($order->items as $item){
             $item->course->students()->attach($order->user_id);
         }
