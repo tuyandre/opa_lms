@@ -2,7 +2,7 @@
 @langrtl
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" dir="rtl">
 @else
-    <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     @endlangrtl
     <head>
         <meta charset="utf-8">
@@ -55,10 +55,10 @@
     </head>
     <body class="{{config('layout_type')}}">
     <div id="app">
-        {{--<div id="preloader"></div>--}}
+    {{--<div id="preloader"></div>--}}
 
 
-        <!-- Start of Header section
+    <!-- Start of Header section
         ============================================= -->
         <header>
             <div id="main-menu" class="main-menu-container">
@@ -80,7 +80,15 @@
                             </div>
                             <div class="cart-search float-right ul-li">
                                 <ul>
-                                    <li><a href="#"><i class="fas fa-shopping-bag"></i></a></li>
+                                    <li>
+
+                                        <a href="{{route('cart.index')}}"><i class="fas fa-shopping-bag"></i>
+                                            @if(auth()->check() && Cart::session(auth()->user()->id)->getTotalQuantity() != 0)
+                                                <span class="badge badge-danger position-absolute" >{{Cart::session(auth()->user()->id)->getTotalQuantity()}}</span>
+                                            @endif
+                                        </a>
+
+                                    </li>
                                     <li>
                                         <button type="button" class="toggle-overlay search-btn">
                                             <i class="fas fa-search"></i>
@@ -116,20 +124,6 @@
                                         <li><a href="{{url('shop')}}">shop</a></li>
                                         <li><a href="{{url('contact')}}">Contact Us</a></li>
                                         <li><a href="{{asset('forums')}}">Forums</a></li>
-
-                                        {{--<li class="menu-item-has-children ul-li-block">--}}
-                                            {{--<a href="#!">Pages</a>--}}
-                                            {{--<ul class="sub-menu">--}}
-                                                {{--<li><a href="{{url('teacher')}}">Teacher</a></li>--}}
-                                                {{--<li><a href="{{url('teacher-details')}}">Teacher Details</a></li>--}}
-                                                {{--<li><a href="{{url('blog')}}">Blog</a></li>--}}
-                                                {{--<li><a href="{{url('blog-single')}}">Blog Single</a></li>--}}
-                                                {{--<li><a href="{{url('course')}}">Course</a></li>--}}
-                                                {{--<li><a href="{{url('course-details')}}">Course Details</a></li>--}}
-                                                {{--<li><a href="{{url('faq')}}">FAQ</a></li>--}}
-                                                {{--<li><a href="{{url('check-out')}}">Check Out</a></li>--}}
-                                            {{--</ul>--}}
-                                        {{--</li>--}}
                                         @if(auth()->check())
                                             <li class="menu-item-has-children ul-li-block">
                                                 <a href="#!">{{ $logged_in_user->name }}</a>
@@ -154,8 +148,11 @@
                             </nav>
 
                             <div class="mobile-menu">
-                                <div class="logo"><a href="index-1"><img
-                                                src={{asset("assets/img/logo/logo.png")}} alt="Logo"></a></div>
+                                <div class="logo">
+                                    <a href="index-1">
+                                        <img src={{asset("assets/img/logo/logo.png")}} alt="Logo">
+                                    </a>
+                                </div>
                                 <nav>
                                     <ul>
                                         <li><a href="index-1">Home</a>
@@ -171,16 +168,7 @@
                                         </li>
                                         <li><a href="contact">Contact</a></li>
                                         <li><a href="{{asset('forums')}}">Forums</a></li>
-                                        {{--<li><a href="#">Pages</a>--}}
-                                            {{--<ul>--}}
-                                                {{--<li><a href="course">Course</a></li>--}}
-                                                {{--<li><a href="course-details">course sinlge</a></li>--}}
-                                                {{--<li><a href="teacher">teacher</a></li>--}}
-                                                {{--<li><a href="teacher-details">teacher details</a></li>--}}
-                                                {{--<li><a href="faq">FAQ</a></li>--}}
-                                                {{--<li><a href="check-out">Check Out</a></li>--}}
-                                            {{--</ul>--}}
-                                        {{--</li>--}}
+
                                         @if(auth()->check())
                                             <li class="">
                                                 <a href="#!"><i class="fa fa-user"></i></a>
@@ -215,7 +203,6 @@
         <!-- Start of Header section
             ============================================= -->
 
-
         @yield('content')
 
         @include('frontend.layouts.partials.footer')
@@ -246,8 +233,8 @@
     <script src="{{asset('assets/js/script.js')}}"></script>
     <script>
         @if((session()->has('show_login')) && (session('show_login') == true))
-                $('#myModal').modal('show');
-        @endif
+        $('#myModal').modal('show');
+                @endif
         var font_color = "{{config('font_color')}}"
         setActiveStyleSheet(font_color);
     </script>

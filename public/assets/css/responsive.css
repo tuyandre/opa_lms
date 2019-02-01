@@ -1093,6 +1093,9 @@
 		margin-top: 15px;
 
 	}
+	.shorting-filter select.form-control{
+		width: 80%!important;
+	}
 
 	.footer-area-section {
 

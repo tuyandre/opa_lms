@@ -4,10 +4,10 @@ $(function() {
             inputSelector = ['input[type=email]', 'input[type=password]',
                 'input[type=text]', 'input[type=file]',
                 'textarea'].join(', '),
-            $inputs       = $form.find('.required').find(inputSelector),
+            $inputs       = $form.find('.required'),
             $errorMessage = $form.find('div.error'),
             valid         = true;
-
+            console.log($errorMessage);
         $errorMessage.addClass('d-none');
         $('.has-error').removeClass('has-error');
         $inputs.each(function(i, el) {
@@ -30,6 +30,7 @@ $(function() {
             e.preventDefault();
             Stripe.setPublishableKey($form.data('stripe-publishable-key'));
             Stripe.createToken({
+                name: $('.card-name').val(),
                 number: $('.card-number').val(),
                 cvc: $('.card-cvc').val(),
                 exp_month: $('.card-expiry-month').val(),

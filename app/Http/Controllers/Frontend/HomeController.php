@@ -14,6 +14,6 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('frontend.index-1');
+        return view('frontend.index-'.config('theme_layout'));
     }
 }

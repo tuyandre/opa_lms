@@ -25,7 +25,7 @@ class CoursesController extends Controller
                 ->orderBy('id', 'desc')
                 ->get();
         }
-        $courses = Course::where('published', 1)->orderBy('id', 'desc')->get();
+        $courses = Course::where('published', 1)->orderBy('id', 'desc')->paginate(3);
         return view('frontend.courses.index', compact('courses', 'purchased_courses'));
     }
 

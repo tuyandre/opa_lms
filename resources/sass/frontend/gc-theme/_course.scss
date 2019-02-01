@@ -46,7 +46,7 @@
 		margin-right: 20px;
 	}
 	.course-list-text {
-		max-width: 225px;
+		width: 200px;
 		display: inline-block;
 		h3 {
 			font-size: 16px;
@@ -393,7 +393,6 @@
 	label {
 		font-size: 14px;
 		font-weight: 700;
-		color: 700;
 		color: $black;
 		display: block; 
 	}

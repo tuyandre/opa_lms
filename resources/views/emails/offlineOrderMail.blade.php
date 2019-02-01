@@ -5,7 +5,6 @@ We have successfully received your request for following:<br>
 Order Reference No. {{$content['reference_no']}}
 @foreach($content['items'] as $item)
 #{{$item['number']}}. {{$item['name']}} {{'$'.$item['price']}}
-
 @endforeach
 
 #Total Amount : ${{$content['total']}}

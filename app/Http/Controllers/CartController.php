@@ -7,6 +7,7 @@ use App\Models\Course;
 use App\Models\Order;
 use Illuminate\Http\Request;
 use Cart;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
@@ -38,9 +39,11 @@ class CartController extends Controller
         $this->_api_context->setConfig($paypal_conf['settings']);
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        return view('frontend.cart.index');
+        $ids[] = Cart::session(auth()->user()->id)->getContent()->keys()->implode(',');
+        $courses = Course::find($ids);
+        return view('frontend.cart.checkout', compact('courses'));
     }
 
     public function addToCart(Request $request)
@@ -61,8 +64,17 @@ class CartController extends Controller
 
     public function checkout(Request $request)
     {
-        $ids = explode(',', $request->course_id);
-        $courses = Course::findOrFail($ids);
+        $course = Course::findOrFail($request->get('course_id'));
+        $teachers = $course->teachers->pluck('id', 'name');
+        Cart::session(auth()->user()->id)
+            ->add($course->id, $course->title, $course->price, 1,
+                [
+                    'user_id' => auth()->user()->id,
+                    'description' => $course->description,
+                    'image' => $course->course_image,
+                    'teachers' => $teachers
+                ]);
+        $courses = new Collection([$course]);
         return view('frontend.cart.checkout', compact('courses'));
     }
 
@@ -75,7 +87,7 @@ class CartController extends Controller
     public function remove(Request $request)
     {
         Cart::session(auth()->user()->id)->remove($request->course);
-        return back();
+        return redirect(route('cart.index'));
     }
 
     public function stripePayment(Request $request)
@@ -94,12 +106,12 @@ class CartController extends Controller
                 $item->course->students()->attach(\Auth::id());
             }
             Cart::session(auth()->user()->id)->clear();
-            return redirect()->route('courses.all');
+            return redirect()->route('status');
 
         }else{
             $order->status = 2;
             $order->save();
-            return back();
+            return redirect()->route('cart.index');
         }
     }
 
@@ -221,7 +233,7 @@ class CartController extends Controller
             foreach ($order->items as $item){
                 $item->course->students()->attach(\Auth::id());
             }
-            return Redirect::route('courses.all');
+            return Redirect::route('status');
         }else{
             \Session::flash('failure', 'Payment failed');
             $order->status = 2;

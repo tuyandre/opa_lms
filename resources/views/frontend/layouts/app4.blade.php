@@ -162,6 +162,8 @@
                                 <li><a  href="#faq">faq</a></li>
                                 <li><a  href="#latest-area">BLOG</a></li>
                                 <li><a  href="#contact-form">Contact Us</a></li>
+                                <li><a  href="{{url('forums')}}">Contact Us</a></li>
+
                                 @if(auth()->check())
                                     <li class="menu-item-has-children ul-li-block">
                                         <a href="#!">{{ $logged_in_user->name }}</a>
@@ -339,6 +341,9 @@
                         <li><a href="register">Register</a></li>
                     </ul>
                 </li>
+                <li class="card">
+                    <a class="menu-link" href="{{url('forums')}}">Forums</a>
+                </li>
                 <!-- pages - end -->
 
             </ul>
@@ -373,6 +378,9 @@
 <script src="http://maps.google.com/maps/api/js?key=AIzaSyC61_QVqt9LAhwFdlQmsNwi5aUJy9B2SyA"></script>
 <script src="{{asset('assets/js/script.js')}}"></script>
 <script>
+    @if((session()->has('show_login')) && (session('show_login') == true))
+    $('#myModal').modal('show');
+            @endif
     var font_color = "{{config('font_color')}}"
     setActiveStyleSheet(font_color);
 </script>
