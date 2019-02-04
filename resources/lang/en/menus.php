@@ -81,6 +81,9 @@ return [
             'categories'    => [
                 'title' => 'Categories'
             ],
+            'teachers'    => [
+                'title' => 'Teachers'
+            ],
             'settings'    => [
                 'title' => 'Settings',
                 'general' => 'General',

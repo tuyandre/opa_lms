@@ -118,6 +118,9 @@ class CoursesController extends Controller
             ->editColumn('published', function ($q) {
                 return ($q->published == 1) ? "Yes" : "No";
             })
+            ->addColumn('category', function ($q) {
+                return $q->category->name;
+            })
             ->rawColumns(['teachers','lessons','course_image','actions'])
             ->make();
     }

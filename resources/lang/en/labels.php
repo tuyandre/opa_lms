@@ -85,6 +85,9 @@ return [
                     'abilities'      => 'Abilities',
                     'roles'          => 'Roles',
                     'social'         => 'Social',
+
+                    'status'         => 'Status',/*=== Custom String ===*/
+
                     'total'          => 'user total|users total',
                 ],
 
@@ -118,6 +121,20 @@ return [
 
         ],
         /*====================Custom strings====================*/
+        'teachers' => [
+            'title' => 'Teachers',
+            'create' => 'Create Teacher',
+            'edit' => 'Edit Teacher',
+            'view' => 'View Teachers',
+            'fields' => [
+                'first_name' => 'First Name',
+                'last_name' => 'Last Name',
+                'email' => 'Email Address',
+                'password' => 'Password',
+                'image' => 'Image',
+                'status' => 'Status',
+            ]
+        ],
         'categories' => [
             'title' => 'Categories',
             'create' => 'Create Categories',
@@ -146,6 +163,7 @@ return [
                 'title' => 'Title',
                 'slug' => 'Slug',
                 'description' => 'Description',
+                'category' => 'Category',
                 'price' => 'Price',
                 'course_image' => 'Course Image',
                 'start_date' => 'Start Date',

@@ -25,6 +25,7 @@ class DatabaseSeeder extends Seeder
         $this->call(AuthTableSeeder::class);
         $this->call(CourseSeed::class);
         $this->call(QuestionsSeed::class);
+        $this->call(ConfigSeeder::class);
 
         Model::reguard();
     }

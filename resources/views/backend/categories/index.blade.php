@@ -39,10 +39,6 @@
                             @else
                                 {!! Form::file('image', ['class' => 'form-control d-inline-block', 'placeholder' => '']) !!}
                             @endif
-
-
-
-
                         </div>
                         <div class="col-lg-2 col-12 form-group d-flex mb-0 flex-column">
 
@@ -169,7 +165,7 @@
                     $(row).attr('data-entry-id', data.id);
                 },
             });
-            @can('course_delete')
+            @can('category_index')
             @if(request('show_deleted') != 1)
             $('.actions').html('<a href="' + '{{ route('admin.categories.mass_destroy') }}' + '" class="btn btn-xs btn-danger js-delete-selected" style="margin-top:0.755em;margin-left: 20px;">Delete selected</a>');
             @endif
