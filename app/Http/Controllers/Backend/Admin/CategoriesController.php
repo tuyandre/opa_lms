@@ -80,10 +80,10 @@ class CategoriesController extends Controller
                 if ($request->show_deleted == 1) {
                     return view('backend.datatable.action-trashed')->with(['route_label' => 'admin.categories', 'label' => 'category', 'value' => $q->id]);
                 }
-                if ($has_view) {
-                    $view = view('backend.datatable.action-view')
-                        ->with(['route' => route('admin.categories.show', ['category' => $q->id])])->render();
-                }
+//                if ($has_view) {
+//                    $view = view('backend.datatable.action-view')
+//                        ->with(['route' => route('admin.categories.show', ['category' => $q->id])])->render();
+//                }
                 if ($has_edit) {
                     $edit = view('backend.datatable.action-edit')
                         ->with(['route' => route('admin.categories.edit', ['category' => $q->id])])
@@ -153,10 +153,10 @@ class CategoriesController extends Controller
         }
         $request = $this->saveFiles($request);
 
-        $category = Category::create($request->all());
+        Category::create($request->all());
         if(($request->slug == "") || $request->slug == null){
-            $category->slug = str_slug($request->name);
-            $category->save();
+            $course->slug = str_slug($request->title);
+            $course->save();
         }
 
         return redirect()->route('admin.categories.index')->withFlashSuccess(trans('alerts.backend.general.created'));
@@ -174,10 +174,14 @@ class CategoriesController extends Controller
         if (! Gate::allows('category_edit')) {
             return abort(401);
         }
+        $courses = \App\Models\Course::ofTeacher()->get();
+        $courses_ids = $courses->pluck('id');
+        $courses = $courses->pluck('title', 'id')->prepend('Please select', '');
+        $lessons = \App\Models\Lesson::whereIn('course_id', $courses_ids)->get()->pluck('title', 'id')->prepend('Please select', '');
 
         $category = Category::findOrFail($id);
 
-        return view('backend.categories.index', compact('category'));
+        return view('backend.categories.edit', compact('category', 'courses', 'lessons'));
     }
 
     /**
@@ -192,7 +196,6 @@ class CategoriesController extends Controller
         if (! Gate::allows('category_edit')) {
             return abort(401);
         }
-        $request = $this->saveFiles($request);
         $category = Category::findOrFail($id);
         $category->update($request->all());
 

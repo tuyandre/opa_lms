@@ -153,6 +153,7 @@ return [
             'create' => 'Create Course',
             'edit' => 'Edit Course',
             'view' => 'View Courses',
+            'add_teachers' => 'Add Teachers',
             'fields' => [
                 'teachers' => 'Teachers',
                 'lessons' => [

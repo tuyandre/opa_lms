@@ -16,9 +16,12 @@
         <div class="card-body">
             @if (Auth::user()->isAdmin())
                 <div class="row">
-                    <div class="col-12 form-group">
+                    <div class="col-10 form-group">
                         {!! Form::label('teachers',trans('labels.backend.courses.fields.teachers'), ['class' => 'control-label']) !!}
                         {!! Form::select('teachers[]', $teachers, old('teachers'), ['class' => 'form-control select2', 'multiple' => 'multiple']) !!}
+                    </div>
+                    <div class="col-2 d-flex form-group flex-column">
+                        <a class="btn btn-primary mt-auto" href="{{route('admin.teachers.create')}}">{{trans('labels.backend.courses.add_teachers')}}</a>
                     </div>
                 </div>
 
@@ -70,14 +73,10 @@
 
                 <div class="col-12 form-group">
                     <div class="checkbox">
-
-
                         {!! Form::hidden('published', 0) !!}
                         {!! Form::checkbox('published', 1, false, []) !!}
                         {!! Form::label('published',  trans('labels.backend.courses.fields.published'), ['class' => 'checkbox control-label font-weight-bold']) !!}
-
                     </div>
-
 
                 </div>
                 <div class="col-12  text-center form-group">

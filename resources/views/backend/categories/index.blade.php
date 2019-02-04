@@ -10,12 +10,22 @@
         <div class="card-header">
             @if(isset($category))
             <h3 class="page-title float-left">@lang('labels.backend.categories.edit')</h3>
+                <div class="float-right">
+                    <a href="{{ route('admin.categories.index') }}"
+                       class="btn btn-success">@lang('labels.backend.categories.view')</a>
+                </div>
             @else
                 <h3 class="page-title float-left">@lang('labels.backend.categories.create')</h3>
+                <div class="float-right">
+                    <a data-toggle="collapse" data-target="#createCat" href="#"
+                       class="btn btn-success">@lang('strings.backend.general.app_add_new')</a>
+
+                </div>
             @endif
+
         </div>
         <div class="card-body">
-            <div class="row">
+            <div class="row @if(!isset($category)) collapse @endif" id="createCat">
                 <div class="col-12">
                     @if(isset($category))
                         {!! Form::model($category, ['method' => 'PUT', 'route' => ['admin.categories.update', $category->id], 'files' => true,]) !!}
@@ -47,10 +57,12 @@
                     </div>
 
                     {!! Form::close() !!}
+                        <hr>
+
 
                 </div>
+
             </div>
-            <hr>
             <div class="row">
                 <div class="col-12">
                     <div class="table-responsive">
