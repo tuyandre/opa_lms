@@ -15,7 +15,7 @@
 
 
             <!--=======================Custom menus===============================-->
-            @if ($logged_in_user->isAdmin())
+            @can('order_access')
             <li class="nav-item ">
                 <a class="nav-link {{ $request->segment(1) == 'orders' ? 'active' : '' }}"
                    href="{{ route('admin.orders.index') }}">
@@ -23,7 +23,16 @@
                     <span class="title">@lang('menus.backend.sidebar.orders.title')</span>
                 </a>
             </li>
-            @endif
+            @endcan
+            @can('category_access')
+                <li class="nav-item ">
+                    <a class="nav-link {{ $request->segment(1) == 'categories' ? 'active' : '' }}"
+                       href="{{ route('admin.categories.index') }}">
+                        <i class="nav-icon icon-folder-alt"></i>
+                        <span class="title">@lang('menus.backend.sidebar.categories.title')</span>
+                    </a>
+                </li>
+            @endcan
             @can('course_access')
                 <li class="nav-item ">
                     <a class="nav-link {{ $request->segment(2) == 'courses' ? 'active' : '' }}"
@@ -55,7 +64,6 @@
             @endcan
 
 
-
             @can('question_access')
                 <li class="nav-item">
                     <a class="nav-link {{ $request->segment(2) == 'questions' ? 'active' : '' }}"
@@ -66,15 +74,15 @@
                 </li>
             @endcan
 
-            @can('questions_option_access')
-                <li class="nav-item">
-                    <a class="nav-link {{ $request->segment(2) == 'questions_options' ? 'active' : '' }}"
-                       href="{{ route('admin.questions_options.index') }}">
-                        <i class="nav-icon icon-note"></i> <span
-                                class="title">@lang('menus.backend.sidebar.questions-options.title')</span>
-                    </a>
-                </li>
-            @endcan
+            {{--@can('questions_option_access')--}}
+                {{--<li class="nav-item">--}}
+                    {{--<a class="nav-link {{ $request->segment(2) == 'questions_options' ? 'active' : '' }}"--}}
+                       {{--href="{{ route('admin.questions_options.index') }}">--}}
+                        {{--<i class="nav-icon icon-note"></i> <span--}}
+                                {{--class="title">@lang('menus.backend.sidebar.questions-options.title')</span>--}}
+                    {{--</a>--}}
+                {{--</li>--}}
+            {{--@endcan--}}
 
             <li class="nav-item ">
                 <a class="nav-link {{ $request->segment(1) == 'messages' ? 'active' : '' }}"

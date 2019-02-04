@@ -13,6 +13,14 @@ use \App\Http\Controllers\Backend\Auth\User\UpdatePasswordController;
 Route::redirect('/', '/user/dashboard', 301);
 Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
+//===== Categories Routes =====//
+Route::resource('categories', 'Admin\CategoriesController');
+Route::get('get-categories-data', ['uses' => 'Admin\CategoriesController@getData', 'as' => 'categories.get_data']);
+Route::post('categories_mass_destroy', ['uses' => 'Admin\CategoriesController@massDestroy', 'as' => 'categories.mass_destroy']);
+Route::post('categories_restore/{id}', ['uses' => 'Admin\CategoriesController@restore', 'as' => 'categories.restore']);
+Route::delete('categories_perma_del/{id}', ['uses' => 'Admin\CategoriesController@perma_del', 'as' => 'categories.perma_del']);
+
+
 
 //===== Courses Routes =====//
 Route::resource('courses', 'Admin\CoursesController');

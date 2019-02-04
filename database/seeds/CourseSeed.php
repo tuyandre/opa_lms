@@ -14,7 +14,11 @@ class CourseSeed extends Seeder
      */
     public function run()
     {
-        factory(Course::class, 5)->create()->each(function ($course) {
+        //Adding Categories
+        factory(\App\Models\Category::class, 10)->create();
+
+        //Creating Course
+        factory(Course::class, 50)->create()->each(function ($course) {
             $course->teachers()->sync([1]);
             $course->lessons()->saveMany(factory(Lesson::class, 10)->create()->each(function ($lesson) {
                 $lesson->test()->save(factory(Test::class)->create());

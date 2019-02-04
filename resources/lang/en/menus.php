@@ -78,6 +78,9 @@ return [
             'orders'    => [
                 'title' => 'Orders'
             ],
+            'categories'    => [
+                'title' => 'Categories'
+            ],
             'settings'    => [
                 'title' => 'Settings',
                 'general' => 'General',

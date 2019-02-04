@@ -35,7 +35,7 @@
             <div class="row">
                 <div class="col-12 col-lg-6 form-group">
                     {!! Form::label('course_id', trans('labels.backend.lessons.fields.course'), ['class' => 'control-label']) !!}
-                    {!! Form::select('course_id', $courses, old('course_id'), ['class' => 'form-control select2']) !!}
+                    {!! Form::select('course_id', $courses,  (request('course_id')) ? request('course_id') : old('course_id'), ['class' => 'form-control select2']) !!}
                 </div>
                 <div class="col-12 col-lg-6 form-group">
                     {!! Form::label('title', trans('labels.backend.lessons.fields.title').'*', ['class' => 'control-label']) !!}

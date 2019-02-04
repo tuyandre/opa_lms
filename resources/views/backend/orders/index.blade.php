@@ -29,9 +29,9 @@
                 <table id="myTable" class="table table-bordered table-striped ">
                     <thead>
                     <tr>
-                        <th style="text-align:center;"><input type="checkbox" id="select-all"/></th>
+                        <th style="text-align:center;"><input type="checkbox" class="mass" id="select-all"/></th>
 
-
+                        <th>@lang('labels.general.sr_no')</th>
                         <th>@lang('labels.backend.orders.fields.reference_no')</th>
                         <th>@lang('labels.backend.orders.fields.items')</th>
                         <th>@lang('labels.backend.orders.fields.amount')</th>
@@ -52,7 +52,6 @@
 
 @push('after-scripts')
     <script>
-
         $(document).ready(function () {
             var route = '{{route('admin.orders.get_data')}}';
 
@@ -84,9 +83,9 @@
                 ajax: route,
                 columns: [
                     { data: function(data){
-                        return '<input type="checkbox" name="id[]" value="'+ data.id +'" />';
+                        return '<input type="checkbox" class="single" name="id[]" value="'+ data.id +'" />';
                     }, "orderable": false, "searchable":false, "name":"id" },
-
+                    {data: "DT_RowIndex", name: 'DT_RowIndex'},
                     {data: "reference_no", name: 'reference_no'},
                     {data: "items", name: 'items'},
                     {data: "amount", name: 'amount'},
@@ -112,7 +111,5 @@
             @endif
             @endcan
         });
-
     </script>
-
 @endpush

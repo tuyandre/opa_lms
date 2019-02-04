@@ -35,20 +35,26 @@
                 <table id="myTable" class="table table-bordered table-striped @can('course_delete') @if ( request('show_deleted') != 1 ) dt-select @endif @endcan">
                     <thead>
                     <tr>
+
                         @can('course_delete')
                             @if ( request('show_deleted') != 1 )
-                                <th style="text-align:center;"><input type="checkbox" id="select-all"/></th>@endif
+                                <th style="text-align:center;"><input type="checkbox" class="mass" id="select-all"/></th>@endif
                         @endcan
 
+
                         @if (Auth::user()->isAdmin())
-                            <th>@lang('labels.backend.courses.fields.teachers')</th>
-                        @endif
+                                <th>@lang('labels.general.sr_no')</th>
+                                <th>@lang('labels.backend.courses.fields.teachers')</th>
+                        @else
+                                <th>@lang('labels.general.sr_no')</th>
+                            @endif
+
                         <th>@lang('labels.backend.courses.fields.title')</th>
                         <th>@lang('labels.backend.courses.fields.slug')</th>
                         <th>@lang('labels.backend.courses.fields.price')</th>
                         <th>@lang('labels.backend.courses.fields.course_image')</th>
-                        <th>@lang('labels.backend.courses.fields.start_date')</th>
-                        <th>@lang('labels.backend.courses.fields.published')</th>
+                            <th>@lang('labels.backend.courses.fields.published')</th>
+                            <th>@lang('labels.backend.lessons.title')</th>
                         @if( request('show_deleted') == 1 )
                             <th>&nbsp; @lang('strings.backend.general.actions')</th>
                         @else
@@ -100,18 +106,23 @@
                 columns: [
                         @if(request('show_deleted') != 1)
                     { "data": function(data){
-                        return '<input type="checkbox" name="id[]" value="'+ data.id +'" />';
+                        return '<input type="checkbox" class="single" name="id[]" value="'+ data.id +'" />';
                     }, "orderable": false, "searchable":false, "name":"id" },
                         @endif
                         @if (Auth::user()->isAdmin())
-                        {data: "teachers", name: 'teachers'},
+                    {data: "DT_RowIndex", name: 'DT_RowIndex'},
+                    {data: "teachers", name: 'teachers'},
+
+                    @else
+                    {data: "DT_RowIndex", name: 'DT_RowIndex'},
+
                     @endif
                     {data: "title", name: 'title'},
                     {data: "slug", name: 'slug'},
                     {data: "price", name: "price"},
                     {data: "course_image", name: "course_image"},
-                    {data: "start_date", name: "start_date"},
                     {data: "published", name: "published"},
+                    {data: "lessons", name: "lessons"},
                     {data: "actions", name: "actions"}
                 ],
                 @if(request('show_deleted') != 1)

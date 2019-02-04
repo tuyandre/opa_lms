@@ -117,8 +117,7 @@ $(document).ready(function () {
 
     $(document).on('click', '#select-all', function () {
         var selected = $(this).is(':checked');
-
-        $(this).closest('table.datatable, table.ajaxTable').find('td:first-child').each(function () {
+        $(this).closest('table.datatable, table.dataTable, table.ajaxTable').find('td:first-child').each(function () {
             if (selected != $(this).closest('tr').hasClass('selected')) {
                 $(this).click();
             }

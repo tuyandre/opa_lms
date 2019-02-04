@@ -15,6 +15,7 @@ class Create1500441827CoursesTable extends Migration
         if(! Schema::hasTable('courses')) {
             Schema::create('courses', function (Blueprint $table) {
                 $table->increments('id');
+                $table->integer('category_id')->nullable();
                 $table->string('title');
                 $table->string('slug')->nullable();
                 $table->text('description')->nullable();
@@ -22,7 +23,6 @@ class Create1500441827CoursesTable extends Migration
                 $table->string('course_image')->nullable();
                 $table->date('start_date')->nullable();
                 $table->tinyInteger('published')->nullable()->default(0);
-                
                 $table->timestamps();
                 $table->softDeletes();
 

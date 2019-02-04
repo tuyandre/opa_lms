@@ -12,14 +12,11 @@
 */
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
-$factory->define(App\Models\Course::class, function (Faker\Generator $faker) {
-    $name = $faker->name;
+$factory->define(App\Models\Category::class, function (Faker\Generator $faker) {
+    $name = $faker->word;
     return [
-        'title' => $name,
-        'category_id' => rand(1,10),
+        'name' => $name,
         'slug' => str_slug($name),
-        'description' => $faker->text(),
-        'price' => $faker->randomFloat(2, 0, 199),
-        'published' => 1,
+        'status' => 1,
     ];
 });

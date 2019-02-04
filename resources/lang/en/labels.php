@@ -35,6 +35,7 @@ return [
         'create_new'        => 'Create New',
         'toolbar_btn_groups' => 'Toolbar with button groups',
         'more'              => 'More',
+        'sr_no'              => 'Sr No.',
     ],
 
     'backend' => [
@@ -117,6 +118,19 @@ return [
 
         ],
         /*====================Custom strings====================*/
+        'categories' => [
+            'title' => 'Categories',
+            'create' => 'Create Categories',
+            'edit' => 'Edit Categories',
+            'view' => 'View Categories',
+            'fields' => [
+                'name' => 'Name',
+                'image' => 'Image',
+                'slug' => 'Slug',
+                'courses' => 'Courses',
+                'status' => 'Status',
+            ]
+        ],
         'courses' =>[
             'title' => 'Courses',
             'create' => 'Create Course',
@@ -124,6 +138,10 @@ return [
             'view' => 'View Courses',
             'fields' => [
                 'teachers' => 'Teachers',
+                'lessons' => [
+                  'add' => 'Add Lessons',
+                  'view' => 'View Lessons'
+                ],
                 'course' => 'Course',
                 'title' => 'Title',
                 'slug' => 'Slug',
@@ -231,6 +249,7 @@ return [
             ]
 
         ],
+
         'messages' => [
             'title' => 'Messages'
         ],

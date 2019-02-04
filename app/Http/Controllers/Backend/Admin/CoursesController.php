@@ -57,9 +57,9 @@ class CoursesController extends Controller
             if (! Gate::allows('course_delete')) {
                 return abort(401);
             }
-            $courses = Course::onlyTrashed()->ofTeacher()->get();
+            $courses = Course::onlyTrashed()->ofTeacher()->orderBy('created_at','desc')->get();
         } else {
-            $courses = Course::ofTeacher()->get();
+            $courses = Course::ofTeacher()->orderBy('created_at','desc')->get();
         }
 
         if (auth()->user()->can('course_view')) {
@@ -73,6 +73,7 @@ class CoursesController extends Controller
         }
 
         return DataTables::of($courses)
+            ->addIndexColumn()
             ->addColumn('actions', function ($q) use ($has_view, $has_edit, $has_delete, $request) {
                 $view = "";
                 $edit = "";
@@ -107,13 +108,17 @@ class CoursesController extends Controller
                 }
                 return $teachers;
             })
+            ->addColumn('lessons',function ($q){
+                $lesson = '<a href="'.route('admin.lessons.create',['course_id' => $q->id]).'" class="btn btn-success btn-block mb-1">'.trans('labels.backend.courses.fields.lessons.add') .'</a><a href="'.route('admin.lessons.index',['course_id' => $q->id]).'" class="btn btn-block btn-primary">'.trans('labels.backend.courses.fields.lessons.view') .'</a>';
+                return $lesson;
+            })
             ->editColumn('course_image', function ($q) {
                 return ($q->course_image != null) ? '<img height="50px" src="'.asset('storage/uploads/'.$q->course_image).'">' : 'N/A';
             })
             ->editColumn('published', function ($q) {
                 return ($q->published == 1) ? "Yes" : "No";
             })
-            ->rawColumns(['teachers','course_image','actions'])
+            ->rawColumns(['teachers','lessons','course_image','actions'])
             ->make();
     }
 

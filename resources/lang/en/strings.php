@@ -35,6 +35,7 @@ return [
             'app_save' => 'Save',
             'app_edit' => 'Edit',
             'app_view' => 'View',
+            'app_add' => 'Add',
             'app_update' => 'Update',
             'app_list' => 'List',
             'app_no_entries_in_table' => 'No entries in table',

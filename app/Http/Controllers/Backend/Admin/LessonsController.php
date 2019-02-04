@@ -123,7 +123,6 @@ class LessonsController extends Controller
             return abort(401);
         }
         $courses = \App\Models\Course::ofTeacher()->get()->pluck('title', 'id')->prepend('Please select', '');
-
         return view('backend.lessons.create', compact('courses'));
     }
 
