@@ -28,6 +28,10 @@
                             <td>{{ $course->slug }}</td>
                         </tr>
                         <tr>
+                            <th>@lang('labels.backend.courses.fields.category')</th>
+                            <td>{{ $course->category->name }}</td>
+                        </tr>
+                        <tr>
                             <th>@lang('labels.backend.courses.fields.description')</th>
                             <td>{!! $course->description !!}</td>
                         </tr>
@@ -154,7 +158,7 @@
                             @endforeach
                         @else
                             <tr>
-                                <td colspan="14">@lang('string.backend.general.app_no_entries_in_table')</td>
+                                <td colspan="14">@lang('strings.backend.general.app_no_entries_in_table')</td>
                             </tr>
                         @endif
                         </tbody>
@@ -248,7 +252,7 @@
                             @endforeach
                         @else
                             <tr>
-                                <td colspan="10">@lang('strings.backend.general.app_no_entries_in_table')</td>
+                                <td colspan="10">{{trans('strings.backend.general.app_no_entries_in_table')}}</td>
                             </tr>
                         @endif
                         </tbody>

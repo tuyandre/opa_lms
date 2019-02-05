@@ -154,6 +154,11 @@ return [
             'edit' => 'Edit Course',
             'view' => 'View Courses',
             'add_teachers' => 'Add Teachers',
+            'add_categories' => 'Add Categories',
+            'select_teachers' => 'Select Teachers',
+            'select_category' => 'Select Category',
+            'slug_placeholder' => 'Input slug or it will be generated automatically',
+            'category' => 'Category',
             'fields' => [
                 'teachers' => 'Teachers',
                 'lessons' => [

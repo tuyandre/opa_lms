@@ -17,7 +17,7 @@
             @else
                 <h3 class="page-title float-left">@lang('labels.backend.categories.create')</h3>
                 <div class="float-right">
-                    <a data-toggle="collapse" data-target="#createCat" href="#"
+                    <a data-toggle="collapse" id="createCatBtn" data-target="#createCat" href="#"
                        class="btn btn-success">@lang('strings.backend.general.app_add_new')</a>
 
                 </div>
@@ -182,6 +182,11 @@
             $('.actions').html('<a href="' + '{{ route('admin.categories.mass_destroy') }}' + '" class="btn btn-xs btn-danger js-delete-selected" style="margin-top:0.755em;margin-left: 20px;">Delete selected</a>');
             @endif
             @endcan
+
+
+            @if(request()->has('create'))
+                $('#createCatBtn').click();
+            @endif
         });
 
     </script>

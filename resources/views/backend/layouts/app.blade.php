@@ -16,9 +16,7 @@
         <link rel="stylesheet" href="{{asset('css/select2.min.css')}}">
         <link rel="stylesheet" href="{{asset('assets/css/fontawesome-all.css')}}">
 
-        <link href="https://code.jquery.com/ui/1.11.3/themes/smoothness/jquery-ui.css">
-        <link rel="stylesheet"
-              href="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-timepicker-addon/1.4.5/jquery-ui-timepicker-addon.min.css"/>
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
         <link rel="stylesheet"
               href="//cdn.datatables.net/1.10.9/css/jquery.dataTables.min.css"/>
@@ -26,10 +24,11 @@
               href="https://cdn.datatables.net/select/1.2.0/css/select.dataTables.min.css"/>
         <link rel="stylesheet"
               href="//cdn.datatables.net/buttons/1.2.4/css/buttons.dataTables.min.css"/>
-        <link rel="stylesheet"
-              href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker.standalone.min.css"/>
+        {{--<link rel="stylesheet"--}}
+              {{--href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker.standalone.min.css"/>--}}
         {{-- See https://laravel.com/docs/5.5/blade#stacks for usage --}}
         <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+
 
         @stack('before-styles')
 
@@ -77,7 +76,6 @@
         //Route for message notification
         var messageNotificationRoute = '{{route('admin.messages.unread')}}'
     </script>
-    <script src="https://code.jquery.com/ui/1.11.3/jquery-ui.min.js"></script>
     <script src="//cdn.datatables.net/1.10.9/js/jquery.dataTables.min.js"></script>
     <script src="//cdn.datatables.net/buttons/1.2.4/js/dataTables.buttons.min.js"></script>
     <script src="//cdn.datatables.net/buttons/1.2.4/js/buttons.flash.min.js"></script>
@@ -89,6 +87,8 @@
     <script src="https://cdn.datatables.net/buttons/1.2.4/js/buttons.colVis.min.js"></script>
     <script src="https://cdn.datatables.net/select/1.2.0/js/dataTables.select.min.js"></script>
     <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
 
     <script src="{{asset('js/select2.full.min.js')}}" type="text/javascript"></script>
     <script src="{{asset('js/main.js')}}" type="text/javascript"></script>

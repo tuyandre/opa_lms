@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backend\Admin;
 
 use App\Models\Auth\User;
+use App\Models\Category;
 use App\Models\Course;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
@@ -138,7 +139,9 @@ class CoursesController extends Controller
         }
         $teachers = \App\Models\Auth\User::whereHas('roles', function ($q) { $q->where('role_id', 2); } )->get()->pluck('name', 'id');
 
-        return view('backend.courses.create', compact('teachers'));
+        $categories = Category::where('status','=',1)->pluck('name','id');
+
+        return view('backend.courses.create', compact('teachers','categories'));
     }
 
     /**
@@ -179,10 +182,12 @@ class CoursesController extends Controller
             return abort(401);
         }
         $teachers = \App\Models\Auth\User::whereHas('roles', function ($q) { $q->where('role_id', 2); } )->get()->pluck('name', 'id');
+        $categories = Category::where('status','=',1)->pluck('name','id');
+
 
         $course = Course::findOrFail($id);
 
-        return view('backend.courses.edit', compact('course', 'teachers'));
+        return view('backend.courses.edit', compact('course', 'teachers','categories'));
     }
 
     /**

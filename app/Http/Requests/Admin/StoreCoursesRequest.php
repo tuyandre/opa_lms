@@ -25,6 +25,7 @@ class StoreCoursesRequest extends FormRequest
         return [
             'teachers.*' => 'exists:users,id',
             'title' => 'required',
+            'category_id' => 'required',
             'start_date' => 'date_format:'.config('app.date_format'),
         ];
     }
