@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend\Admin;
 use App\Models\Auth\User;
 use App\Models\Category;
 use App\Models\Course;
+use function foo\func;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use App\Http\Controllers\Controller;
@@ -24,13 +25,13 @@ class CoursesController extends Controller
      */
     public function index()
     {
-        if (! Gate::allows('course_access')) {
+        if (!Gate::allows('course_access')) {
             return abort(401);
         }
 
 
         if (request('show_deleted') == 1) {
-            if (! Gate::allows('course_delete')) {
+            if (!Gate::allows('course_delete')) {
                 return abort(401);
             }
             $courses = Course::onlyTrashed()->ofTeacher()->get();
@@ -53,15 +54,26 @@ class CoursesController extends Controller
         $has_edit = false;
         $courses = "";
 
-
         if (request('show_deleted') == 1) {
-            if (! Gate::allows('course_delete')) {
+            if (!Gate::allows('course_delete')) {
                 return abort(401);
             }
-            $courses = Course::onlyTrashed()->ofTeacher()->orderBy('created_at','desc')->get();
-        } else {
-            $courses = Course::ofTeacher()->orderBy('created_at','desc')->get();
+            $courses = Course::onlyTrashed()->ofTeacher()->orderBy('created_at', 'desc')->get();
+        } else if (request('teacher_id')  != "") {
+            $id = request('teacher_id');
+            $courses = Course::ofTeacher()
+                ->whereHas('teachers',function($q) use ($id){
+                    $q->where('course_user.user_id','=',$id);
+                })->orderBy('created_at', 'desc')->get();
+        } else if (request('cat_id')  != "") {
+            $id = request('cat_id');
+            $courses = Course::ofTeacher()->where('category_id','=',$id)->orderBy('created_at', 'desc')->get();
+        }else{
+            $courses = Course::ofTeacher()->orderBy('created_at', 'desc')->get();
+
         }
+
+
 
         if (auth()->user()->can('course_view')) {
             $has_view = true;
@@ -134,32 +146,34 @@ class CoursesController extends Controller
      */
     public function create()
     {
-        if (! Gate::allows('course_create')) {
+        if (!Gate::allows('course_create')) {
             return abort(401);
         }
-        $teachers = \App\Models\Auth\User::whereHas('roles', function ($q) { $q->where('role_id', 2); } )->get()->pluck('name', 'id');
+        $teachers = \App\Models\Auth\User::whereHas('roles', function ($q) {
+            $q->where('role_id', 2);
+        })->get()->pluck('name', 'id');
 
-        $categories = Category::where('status','=',1)->pluck('name','id');
+        $categories = Category::where('status', '=', 1)->pluck('name', 'id');
 
-        return view('backend.courses.create', compact('teachers','categories'));
+        return view('backend.courses.create', compact('teachers', 'categories'));
     }
 
     /**
      * Store a newly created Course in storage.
      *
-     * @param  \App\Http\Requests\StoreCoursesRequest  $request
+     * @param  \App\Http\Requests\StoreCoursesRequest $request
      * @return \Illuminate\Http\Response
      */
     public function store(StoreCoursesRequest $request)
     {
-        if (! Gate::allows('course_create')) {
+        if (!Gate::allows('course_create')) {
             return abort(401);
         }
         $request->all();
 
         $request = $this->saveFiles($request);
         $course = Course::create($request->all());
-        if(($request->slug == "") || $request->slug == null){
+        if (($request->slug == "") || $request->slug == null) {
             $course->slug = str_slug($request->title);
             $course->save();
         }
@@ -173,33 +187,35 @@ class CoursesController extends Controller
     /**
      * Show the form for editing Course.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
-        if (! Gate::allows('course_edit')) {
+        if (!Gate::allows('course_edit')) {
             return abort(401);
         }
-        $teachers = \App\Models\Auth\User::whereHas('roles', function ($q) { $q->where('role_id', 2); } )->get()->pluck('name', 'id');
-        $categories = Category::where('status','=',1)->pluck('name','id');
+        $teachers = \App\Models\Auth\User::whereHas('roles', function ($q) {
+            $q->where('role_id', 2);
+        })->get()->pluck('name', 'id');
+        $categories = Category::where('status', '=', 1)->pluck('name', 'id');
 
 
         $course = Course::findOrFail($id);
 
-        return view('backend.courses.edit', compact('course', 'teachers','categories'));
+        return view('backend.courses.edit', compact('course', 'teachers', 'categories'));
     }
 
     /**
      * Update Course in storage.
      *
-     * @param  \App\Http\Requests\UpdateCoursesRequest  $request
-     * @param  int  $id
+     * @param  \App\Http\Requests\UpdateCoursesRequest $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(UpdateCoursesRequest $request, $id)
     {
-        if (! Gate::allows('course_edit')) {
+        if (!Gate::allows('course_edit')) {
             return abort(401);
         }
 
@@ -207,7 +223,7 @@ class CoursesController extends Controller
         $course = Course::findOrFail($id);
 
         $course->update($request->all());
-        if(($request->slug == "") || $request->slug == null){
+        if (($request->slug == "") || $request->slug == null) {
             $course->slug = str_slug($request->title);
             $course->save();
         }
@@ -221,15 +237,17 @@ class CoursesController extends Controller
     /**
      * Display Course.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-        if (! Gate::allows('course_view')) {
+        if (!Gate::allows('course_view')) {
             return abort(401);
         }
-        $teachers = User::get()->pluck('name', 'id');$lessons = \App\Models\Lesson::where('course_id', $id)->get();$tests = \App\Models\Test::where('course_id', $id)->get();
+        $teachers = User::get()->pluck('name', 'id');
+        $lessons = \App\Models\Lesson::where('course_id', $id)->get();
+        $tests = \App\Models\Test::where('course_id', $id)->get();
 
         $course = Course::findOrFail($id);
 
@@ -240,12 +258,12 @@ class CoursesController extends Controller
     /**
      * Remove Course from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        if (! Gate::allows('course_delete')) {
+        if (!Gate::allows('course_delete')) {
             return abort(401);
         }
         $course = Course::findOrFail($id);
@@ -261,7 +279,7 @@ class CoursesController extends Controller
      */
     public function massDestroy(Request $request)
     {
-        if (! Gate::allows('course_delete')) {
+        if (!Gate::allows('course_delete')) {
             return abort(401);
         }
         if ($request->input('ids')) {
@@ -277,12 +295,12 @@ class CoursesController extends Controller
     /**
      * Restore Course from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function restore($id)
     {
-        if (! Gate::allows('course_delete')) {
+        if (!Gate::allows('course_delete')) {
             return abort(401);
         }
         $course = Course::onlyTrashed()->findOrFail($id);
@@ -294,12 +312,12 @@ class CoursesController extends Controller
     /**
      * Permanently delete Course from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function perma_del($id)
     {
-        if (! Gate::allows('course_delete')) {
+        if (!Gate::allows('course_delete')) {
             return abort(401);
         }
         $course = Course::onlyTrashed()->findOrFail($id);

@@ -2,6 +2,7 @@
 
 namespace App\Models\Auth;
 
+use App\Models\Course;
 use App\Models\Invoice;
 use App\Models\Lesson;
 use App\Models\Traits\Uuid;
@@ -87,6 +88,7 @@ class User extends Authenticatable implements MessageableInterface
     {
         return $this->belongsToMany(Lesson::class, 'lesson_student');
     }
+
 
     public function invoices(){
         return $this->hasMany(Invoice::class);

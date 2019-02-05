@@ -67,7 +67,7 @@ class Course extends Model
     
     public function teachers()
     {
-        return $this->belongsToMany(User::class, 'course_user');
+        return $this->belongsToMany(User::class, 'course_user')->withPivot('user_id');
     }
 
     public function students()

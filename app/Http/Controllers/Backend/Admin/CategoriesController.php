@@ -97,6 +97,10 @@ class CategoriesController extends Controller
                         ->render();
                     $view .= $delete;
                 }
+
+                $view .= '<a class="btn btn-warning mb-1" href="'.route('admin.courses.index',['cat_id' => $q->id]).'">'.trans('labels.backend.courses.title').'</a>';
+
+
                 return $view;
 
             })
