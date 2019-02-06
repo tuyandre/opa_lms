@@ -1,5 +1,9 @@
 @extends('backend.layouts.app')
 
+@push('after-styles')
+    <link rel="stylesheet" type="text/css" href="{{asset('plugins/amigo-sorter/css/theme-default.css')}}">
+@endpush
+
 @section('content')
 
     <div class="card">
@@ -56,6 +60,24 @@
                     </table>
                 </div>
             </div><!-- Nav tabs -->
+            <div class="row">
+                <div class="col-12  text-center">
+                    <ul class="sorter d-inline-block">
+                        <li>
+                            <span>Sci-Fi</span>
+                        </li>
+                        <li>
+                            <span>Fantasy</span>
+
+                        </li>
+                        <li>
+                            <span>Bondiana</span>
+                        </li>
+                    </ul>
+
+                </div>
+            </div>
+
             <ul class="nav nav-tabs" role="tablist">
 
                 <li role="presentation" class="nav-item">
@@ -266,3 +288,19 @@
         </div>
     </div>
 @stop
+
+@push('after-scripts')
+    <script src="{{asset('plugins/amigo-sorter/js/amigo-sorter.min.js')}}"></script>
+    <script>
+        $( function() {
+            $('ul.sorter').amigoSorter({
+                li_helper: "li_helper",
+                li_empty: "empty",
+                onTouchStart : function() {},
+                onTouchMove : function() {},
+                onTouchEnd : function() {}
+            });
+        });
+
+    </script>
+@endpush

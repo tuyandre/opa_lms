@@ -32,10 +32,10 @@
                 <tr>
                     @can('question_delete')
                         @if ( request('show_deleted') != 1 )
-                            <th style="text-align:center;"><input type="checkbox" id="select-all"/></th>@endif
+                            <th style="text-align:center;"><input type="checkbox" class="mass" id="select-all"/></th>@endif
                     @endcan
-
-                    <th>@lang('labels.backend.questions.fields.question')</th>
+                        <th>@lang('labels.general.sr_no')</th>
+                        <th>@lang('labels.backend.questions.fields.question')</th>
                     <th>@lang('labels.backend.questions.fields.question_image')</th>
                     <th>@lang('labels.backend.questions.fields.score')</th>
                     @if( request('show_deleted') == 1 )
@@ -64,6 +64,10 @@
                 route = '{{route('admin.questions.get_data',['show_deleted' => 1])}}';
             @endif
 
+            @if(request('test_id') != "")
+                route = '{{route('admin.questions.get_data',['test_id' => request('test_id')])}}';
+            @endif
+
             $('#myTable').DataTable({
                 processing: true,
                 serverSide: true,
@@ -89,9 +93,10 @@
                 columns: [
                         @if(request('show_deleted') != 1)
                     { "data": function(data){
-                        return '<input type="checkbox" name="id[]" value="'+ data.id +'" />';
+                        return '<input type="checkbox" class="single" name="id[]" value="'+ data.id +'" />';
                     }, "orderable": false, "searchable":false, "name":"id" },
                         @endif
+                    {data: "DT_RowIndex", name: 'DT_RowIndex'},
                     {data: "question", name: 'question'},
                     {data: "question_image", name: 'question_image'},
                     {data: "score", name: "score"},

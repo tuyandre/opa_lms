@@ -19,10 +19,9 @@ class CourseSeed extends Seeder
 
         //Creating Course
         factory(Course::class, 50)->create()->each(function ($course) {
-            $course->teachers()->sync([1]);
-            $course->lessons()->saveMany(factory(Lesson::class, 10)->create()->each(function ($lesson) {
-                $lesson->test()->save(factory(Test::class)->create());
-            }));
+            $course->teachers()->sync([2]);
+            $course->lessons()->saveMany(factory(Lesson::class, 10)->create());
+            $course->tests()->saveMany(factory(Test::class,2)->create());
         });
     }
 }

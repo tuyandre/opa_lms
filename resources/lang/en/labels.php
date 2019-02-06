@@ -183,6 +183,7 @@ return [
             'view' => 'View Lessons',
             'slug_placeholder' => 'Input slug or it will be generated automatically',
             'short_description_placeholder' => 'Input short description of lesson',
+            'select_course' => 'Select Course',
             'max_file_size' => '(max file size 10MB)',
             'fields' => [
                 'course' => 'Course',

@@ -15,46 +15,56 @@
             @endcan
         </div>
         <div class="card-body">
-            <div class="table-responsive">
-                <div class="d-block">
-                    <ul class="list-inline">
-                        <li class="list-inline-item">
-                            <a href="{{ route('admin.lessons.index') }}"
-                                                        style="{{ request('show_deleted') == 1 ? '' : 'font-weight: 700' }}">{{trans('labels.general.all')}}</a>
-                        </li>
-                        |
-                        <li class="list-inline-item"><a href="{{ route('admin.lessons.index') }}?show_deleted=1"
-                                                        style="{{ request('show_deleted') == 1 ? 'font-weight: 700' : '' }}">{{trans('labels.general.trash')}}</a>
-                        </li>
-                    </ul>
+            <div class="row">
+                <div class="col-12 col-lg-6 form-group">
+                    {!! Form::label('course_id', trans('labels.backend.lessons.fields.course'), ['class' => 'control-label']) !!}
+                    {!! Form::select('course_id', $courses,  (request('course_id')) ? request('course_id') : old('course_id'), ['class' => 'form-control js-example-placeholder-single select2 ', 'id' => 'course_id']) !!}
                 </div>
-                <table id="myTable" class="table table-bordered table-striped @can('lesson_delete') @if ( request('show_deleted') != 1 ) dt-select @endif @endcan">
-                    <thead>
-                    <tr>
-                        @can('lesson_delete')
-                            @if ( request('show_deleted') != 1 )
-                                <th style="text-align:center;"><input class="mass" type="checkbox" id="select-all"/></th>@endif
-                        @endcan
-
-                        <th>@lang('labels.backend.lessons.fields.course')</th>
-                        <th>@lang('labels.backend.lessons.fields.title')</th>
-                        <th>@lang('labels.backend.lessons.fields.position')</th>
-                        <th>@lang('labels.backend.lessons.fields.free_lesson')</th>
-                        <th>@lang('labels.backend.lessons.fields.published')</th>
-                        @if( request('show_deleted') == 1 )
-                            <th>@lang('strings.backend.general.actions') &nbsp;</th>
-                        @else
-                            <th>@lang('strings.backend.general.actions') &nbsp;</th>
-                        @endif
-                    </tr>
-                    </thead>
-
-                    <tbody>
-
-                    </tbody>
-                </table>
-
             </div>
+
+            @if(request('course_id') != "")
+
+
+                <div class="table-responsive">
+                    <div class="d-block">
+                        <ul class="list-inline">
+                            <li class="list-inline-item">
+                                <a href="{{ route('admin.lessons.index') }}"
+                                   style="{{ request('show_deleted') == 1 ? '' : 'font-weight: 700' }}">{{trans('labels.general.all')}}</a>
+                            </li>
+                            |
+                            <li class="list-inline-item"><a href="{{ route('admin.lessons.index') }}?show_deleted=1"
+                                                            style="{{ request('show_deleted') == 1 ? 'font-weight: 700' : '' }}">{{trans('labels.general.trash')}}</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <table id="myTable"
+                           class="table table-bordered table-striped @can('lesson_delete') @if ( request('show_deleted') != 1 ) dt-select @endif @endcan">
+                        <thead>
+                        <tr>
+                            @can('lesson_delete')
+                                @if ( request('show_deleted') != 1 )
+                                    <th style="text-align:center;"><input class="mass" type="checkbox" id="select-all"/>
+                                    </th>@endif
+                            @endcan
+                            <th>@lang('labels.general.sr_no')</th>
+                            <th>@lang('labels.backend.lessons.fields.title')</th>
+                            <th>@lang('labels.backend.lessons.fields.free_lesson')</th>
+                            <th>@lang('labels.backend.lessons.fields.published')</th>
+                            @if( request('show_deleted') == 1 )
+                                <th>@lang('strings.backend.general.actions') &nbsp;</th>
+                            @else
+                                <th>@lang('strings.backend.general.actions') &nbsp;</th>
+                            @endif
+                        </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+
+                </div>
+            @endif
+
         </div>
     </div>
 
@@ -69,7 +79,8 @@
             @if(request('show_deleted') == 1)
                 route = '{{route('admin.lessons.get_data',['show_deleted' => 1])}}';
             @endif
-
+            @if(request('course_id') != "")
+                route = '{{route('admin.lessons.get_data',['course_id' => request('course_id')])}}';
             $('#myTable').DataTable({
                 processing: true,
                 serverSide: true,
@@ -94,13 +105,16 @@
                 ajax: route,
                 columns: [
                         @if(request('show_deleted') != 1)
-                    { "data": function(data){
-                        return '<input type="checkbox" class="single" name="id[]" value="'+ data.id +'" />';
-                    }, "orderable": false, "searchable":false, "name":"id" },
+                    {
+                        "data": function (data) {
+                            return '<input type="checkbox" class="single" name="id[]" value="' + data.id + '" />';
+                        }, "orderable": false, "searchable": false, "name": "id"
+                    },
                         @endif
-                    {data: "course", name: 'course'},
+                    {
+                        data: "DT_RowIndex", name: 'DT_RowIndex'
+                    },
                     {data: "title", name: 'title'},
-                    {data: "position", name: "position"},
                     {data: "free_lesson", name: "free_lesson"},
                     {data: "published", name: "published"},
                     {data: "actions", name: "actions"}
@@ -116,11 +130,23 @@
                     $(row).attr('data-entry-id', data.id);
                 },
             });
+
+            @endif
+
             @can('lesson_delete')
             @if(request('show_deleted') != 1)
             $('.actions').html('<a href="' + '{{ route('admin.lessons.mass_destroy') }}' + '" class="btn btn-xs btn-danger js-delete-selected" style="margin-top:0.755em;margin-left: 20px;">Delete selected</a>');
             @endif
             @endcan
+
+
+            $(".js-example-placeholder-single").select2({
+                placeholder: "{{trans('labels.backend.lessons.select_course')}}",
+            });
+            $(document).on('change', '#course_id', function (e) {
+                var course_id = $(this).val();
+                window.location.href = "{{route('admin.lessons.index')}}" + "?course_id=" + course_id
+            });
         });
 
     </script>

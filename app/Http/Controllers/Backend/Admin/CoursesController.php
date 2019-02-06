@@ -59,20 +59,19 @@ class CoursesController extends Controller
                 return abort(401);
             }
             $courses = Course::onlyTrashed()->ofTeacher()->orderBy('created_at', 'desc')->get();
-        } else if (request('teacher_id')  != "") {
+        } else if (request('teacher_id') != "") {
             $id = request('teacher_id');
             $courses = Course::ofTeacher()
-                ->whereHas('teachers',function($q) use ($id){
-                    $q->where('course_user.user_id','=',$id);
+                ->whereHas('teachers', function ($q) use ($id) {
+                    $q->where('course_user.user_id', '=', $id);
                 })->orderBy('created_at', 'desc')->get();
-        } else if (request('cat_id')  != "") {
+        } else if (request('cat_id') != "") {
             $id = request('cat_id');
-            $courses = Course::ofTeacher()->where('category_id','=',$id)->orderBy('created_at', 'desc')->get();
-        }else{
+            $courses = Course::ofTeacher()->where('category_id', '=', $id)->orderBy('created_at', 'desc')->get();
+        } else {
             $courses = Course::ofTeacher()->orderBy('created_at', 'desc')->get();
 
         }
-
 
 
         if (auth()->user()->can('course_view')) {
@@ -114,19 +113,19 @@ class CoursesController extends Controller
                 return $view;
 
             })
-            ->editColumn('teachers',function ($q){
+            ->editColumn('teachers', function ($q) {
                 $teachers = "";
-                foreach ($q->teachers as $singleTeachers){
-                    $teachers.= '<span class="label label-info label-many">'.$singleTeachers->name.' </span>';
+                foreach ($q->teachers as $singleTeachers) {
+                    $teachers .= '<span class="label label-info label-many">' . $singleTeachers->name . ' </span>';
                 }
                 return $teachers;
             })
-            ->addColumn('lessons',function ($q){
-                $lesson = '<a href="'.route('admin.lessons.create',['course_id' => $q->id]).'" class="btn btn-success btn-block mb-1">'.trans('labels.backend.courses.fields.lessons.add') .'</a><a href="'.route('admin.lessons.index',['course_id' => $q->id]).'" class="btn btn-block btn-primary">'.trans('labels.backend.courses.fields.lessons.view') .'</a>';
+            ->addColumn('lessons', function ($q) {
+                $lesson = '<a href="' . route('admin.lessons.create', ['course_id' => $q->id]) . '" class="btn btn-success mb-1"><i class="fa fa-plus-circle"></i></a>  <a href="' . route('admin.lessons.index', ['course_id' => $q->id]) . '" class="btn mb-1 btn-warning text-white"><i class="fa fa-arrow-circle-right"></a>';
                 return $lesson;
             })
             ->editColumn('course_image', function ($q) {
-                return ($q->course_image != null) ? '<img height="50px" src="'.asset('storage/uploads/'.$q->course_image).'">' : 'N/A';
+                return ($q->course_image != null) ? '<img height="50px" src="' . asset('storage/uploads/' . $q->course_image) . '">' : 'N/A';
             })
             ->editColumn('published', function ($q) {
                 return ($q->published == 1) ? "Yes" : "No";
@@ -134,7 +133,7 @@ class CoursesController extends Controller
             ->addColumn('category', function ($q) {
                 return $q->category->name;
             })
-            ->rawColumns(['teachers','lessons','course_image','actions'])
+            ->rawColumns(['teachers', 'lessons', 'course_image', 'actions'])
             ->make();
     }
 

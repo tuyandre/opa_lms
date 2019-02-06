@@ -41,7 +41,7 @@
                 </div>
                 <div class="col-12 col-lg-4  form-group">
                     {!! Form::label('title',trans('labels.backend.tests.fields.title'), ['class' => 'control-label']) !!}
-                    {!! Form::text('title', old('title'), ['class' => 'form-control', 'placeholder' => '']) !!}
+                    {!! Form::text('title', old('title'), ['class' => 'form-control', 'placeholder' => trans('labels.backend.tests.fields.title')]) !!}
 
                 </div>
             </div>
@@ -49,7 +49,7 @@
             <div class="row">
                 <div class="col-12 form-group">
                     {!! Form::label('description',trans('labels.backend.tests.fields.description'), ['class' => 'control-label']) !!}
-                    {!! Form::textarea('description', old('description'), ['class' => 'form-control ', 'placeholder' => '']) !!}
+                    {!! Form::textarea('description', old('description'), ['class' => 'form-control ', 'placeholder' => trans('labels.backend.tests.fields.description')]) !!}
                 </div>
             </div>
             <div class="row">

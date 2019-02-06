@@ -126,7 +126,7 @@
             <div class="row">
                 <div class="col-md-12 form-group">
                     <h4>Add <span class="text-danger text-bold">YOUTUBE</span> videos</h4>
-                    <h6 class="text-success"><b>Instructions to add Video link: </b><br> Go to youtube -> open video -> right click on video and <b>Copy Video URL</b> and paste here.<br> If you want to add multiple videos, then separate them with <b>,</b> (Comma) Sign.</h6>
+                    <h6 class="text-success"><b>Instructions to add Video link: </b><br> Go to youtube -> open video -> right click on video and <b>Copy Video URL</b> and paste here.<br> If you want to add multiple videos, then separate them with <b>,</b> (Comma) Sign. Video should be public and listed in youtube.</h6>
                     <p class="text text-primary font-bold mb-0">Ex. https://youtu.be/XXX0XX1X</p>
 
                     {!! Form::text('videos', $videos, ['class' => 'form-control', 'placeholder' => '', 'data-role' => 'tagsinput']) !!}

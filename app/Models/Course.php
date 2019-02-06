@@ -108,4 +108,13 @@ class Course extends Model
         return $this->belongsTo(Category::class);
     }
 
+    public function tests() {
+        return $this->hasMany('App\Models\Test');
+    }
+
+    public function courseTimeline()
+    {
+        return $this->morphMany(CourseTimeline::class,'model');
+    }
+
 }

@@ -16,6 +16,15 @@
             @endcan
         </div>
         <div class="card-body table-responsive">
+            <div class="row">
+                <div class="col-12 col-lg-6 form-group">
+                    {!! Form::label('course_id', trans('labels.backend.lessons.fields.course'), ['class' => 'control-label']) !!}
+                    {!! Form::select('course_id', $courses,  (request('course_id')) ? request('course_id') : old('course_id'), ['class' => 'form-control js-example-placeholder-single select2 ', 'id' => 'course_id']) !!}
+                </div>
+            </div>
+
+            @if(request('course_id') != "")
+
             <div class="d-block">
                 <ul class="list-inline">
                     <li class="list-inline-item">
@@ -35,13 +44,12 @@
                 <tr>
                     @can('test_delete')
                         @if ( request('show_deleted') != 1 )
-                            <th style="text-align:center;"><input type="checkbox" id="select-all"/></th>@endif
+                            <th style="text-align:center;"><input type="checkbox" class="mass" id="select-all"/>
+                            </th>@endif
                     @endcan
-
+                    <th>@lang('labels.general.sr_no')</th>
                     <th>@lang('labels.backend.tests.fields.course')</th>
-                    <th>@lang('labels.backend.tests.fields.lesson')</th>
                     <th>@lang('labels.backend.tests.fields.title')</th>
-                    <th>@lang('labels.backend.tests.fields.description')</th>
                     <th>@lang('labels.backend.tests.fields.questions')</th>
                     <th>@lang('labels.backend.tests.fields.published')</th>
                     @if( request('show_deleted') == 1 )
@@ -57,6 +65,7 @@
 
                 </tbody>
             </table>
+            @endif
         </div>
     </div>
 @stop
@@ -70,6 +79,8 @@
             @if(request('show_deleted') == 1)
                 route = '{{route('admin.tests.get_data',['show_deleted' => 1])}}';
             @endif
+            @if ( request('course_id') != "" )
+                route = '{{route('admin.tests.get_data',['course_id' => request('course_id')])}}';
 
             $('#myTable').DataTable({
                 processing: true,
@@ -97,17 +108,13 @@
                         @if(request('show_deleted') != 1)
                     {
                         "data": function (data) {
-                            return '<input type="checkbox" name="id[]" value="' + data.id + '" />';
+                            return '<input type="checkbox" class="single" name="id[]" value="' + data.id + '" />';
                         }, "orderable": false, "searchable": false, "name": "id"
                     },
                         @endif
-
-                    {
-                        data: "course", name: 'course'
-                    },
-                    {data: "lesson", name: 'lesson'},
+                    {data: "DT_RowIndex", name: 'DT_RowIndex'},
+                    {data: "course", name: 'course'},
                     {data: "title", name: 'title'},
-                    {data: "description", name: "description"},
                     {data: "questions", name: "questions"},
                     {data: "published", name: "published"},
                     {data: "actions", name: "actions"}
@@ -123,11 +130,24 @@
                     $(row).attr('data-entry-id', data.id);
                 },
             });
+
+            @endif
+
             @can('test_delete')
             @if(request('show_deleted') != 1)
             $('.actions').html('<a href="' + '{{ route('admin.tests.mass_destroy') }}' + '" class="btn btn-xs btn-danger js-delete-selected" style="margin-top:0.755em;margin-left: 20px;">Delete selected</a>');
             @endif
             @endcan
+
+            $(document).on('change', '#course_id', function (e) {
+                var course_id = $(this).val();
+                window.location.href = "{{route('admin.tests.index')}}" + "?course_id=" + course_id
+            });
+
+            $(".js-example-placeholder-single").select2({
+                placeholder: "{{trans('labels.backend.lessons.select_course')}}",
+            });
+
         });
 
     </script>

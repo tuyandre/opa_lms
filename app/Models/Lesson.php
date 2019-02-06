@@ -65,5 +65,10 @@ class Lesson extends Model
     {
         return $this->morphMany(Media::class,'model');
     }
+
+    public function courseTimeline()
+    {
+        return $this->morphMany(CourseTimeline::class,'model');
+    }
     
 }

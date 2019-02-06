@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backend\Admin;
 
 use App\Models\Question;
 use App\Models\QuestionsOption;
+use function foo\func;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use App\Http\Controllers\Controller;
@@ -54,9 +55,15 @@ class QuestionsController extends Controller
             if (!Gate::allows('question_delete')) {
                 return abort(401);
             }
-            $questions = Question::query()->onlyTrashed()->get();
+            $questions = Question::onlyTrashed()->orderBy('created_at','desc')->get();
+        }elseif($request->test_id != "") {
+            $test_id = $request->test_id;
+            $questions = Question::orderBy('created_at','desc')
+                ->whereHas('tests',function ($q) use   ($test_id){
+                   $q->where('question_test.test_id','=',$test_id);
+                } )->get();
         } else {
-            $questions = Question::query()->get();
+            $questions = Question::orderBy('created_at','desc')->get();
         }
 
         if (auth()->user()->can('question_view')) {
@@ -70,6 +77,7 @@ class QuestionsController extends Controller
         }
 
         return DataTables::of($questions)
+            ->addIndexColumn()
             ->addColumn('actions', function ($q) use ($has_view, $has_edit, $has_delete, $request) {
                 $view = "";
                 $edit = "";
@@ -183,7 +191,20 @@ class QuestionsController extends Controller
         $question->update($request->all());
         $question->tests()->sync(array_filter((array)$request->input('tests')));
 
-
+        for ($q=1; $q <= 4; $q++) {
+            $option = $request->input('option_text_' . $q, '');
+            $option_id = $request->input('option_id_' . $q, '');
+            $correct = ($request->input('correct_' . $q ) == 1) ? 1 : 0;
+            if ($option != '') {
+                $option_data = QuestionsOption::find($option_id);
+                if($option_data){
+                    $option_data->question_id = $question->id;
+                    $option_data->option_text = $option;
+                    $option_data->correct = $correct;
+                    $option_data->save();
+                }
+            }
+        }
 
         return redirect()->route('admin.questions.index')->withFlashSuccess(trans('alerts.backend.general.updated'));
     }

@@ -50,7 +50,6 @@
                             @endif
 
                         <th>@lang('labels.backend.courses.fields.title')</th>
-                        <th>@lang('labels.backend.courses.fields.slug')</th>
                         <th>@lang('labels.backend.courses.fields.category')</th>
                         <th>@lang('labels.backend.courses.fields.price')</th>
                         <th>@lang('labels.backend.courses.fields.course_image')</th>
@@ -127,7 +126,6 @@
 
                     @endif
                     {data: "title", name: 'title'},
-                    {data: "slug", name: 'slug'},
                     {data: "category", name: 'category'},
                     {data: "price", name: "price"},
                     {data: "course_image", name: "course_image"},

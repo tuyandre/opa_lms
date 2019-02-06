@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Backend\Admin;
 
+use App\Models\Course;
 use App\Models\Test;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
@@ -32,8 +33,9 @@ class TestsController extends Controller
         } else {
             $tests = Test::all();
         }
+        $courses = $courses = Course::ofTeacher()->pluck('title','id')->prepend('Please select', '');
 
-        return view('backend.tests.index', compact('tests'));
+        return view('backend.tests.index', compact('tests','courses'));
     }
 
     /**
@@ -54,8 +56,11 @@ class TestsController extends Controller
                 return abort(401);
             }
             $tests = Test::onlyTrashed()->get();
-        } else {
-            $tests = Test::all();
+
+        }  elseif(request('course_id') != "") {
+            $tests = Test::where('course_id','=',$request->course_id)->orderBy('created_at', 'desc')->get();
+        }else {
+            $tests = Test::orderBy('created_at', 'desc')->get();
         }
 
         if (auth()->user()->can('test_view')) {
@@ -69,6 +74,7 @@ class TestsController extends Controller
         }
 
         return DataTables::of($tests)
+            ->addIndexColumn()
             ->addColumn('actions', function ($q) use ($has_view, $has_edit, $has_delete, $request) {
                 $view = "";
                 $edit = "";
@@ -97,6 +103,9 @@ class TestsController extends Controller
 
             })
             ->editColumn('questions',function ($q){
+                if(count($q->questions) > 0){
+                    return "<span>".count($q->questions)."</span><a class='btn btn-success float-right' href='".route('admin.questions.index',['test_id'=>$q->id])."'><i class='fa fa-arrow-circle-o-right'></i></a> ";
+                }
               return count($q->questions);
             })
 
@@ -111,7 +120,7 @@ class TestsController extends Controller
             ->editColumn('published', function ($q) {
                 return ($q->published == 1) ? "Yes" : "No";
             })
-            ->rawColumns(['actions'])
+            ->rawColumns(['actions','questions'])
             ->make();
     }
 
@@ -142,9 +151,10 @@ class TestsController extends Controller
     public function store(StoreTestsRequest $request)
     {
         $this->validate($request,[
+            'course_id' => 'required',
             'title' => 'required',
             'description' => 'required'
-        ]);
+        ],['course_id.required' => 'The course field is required']);
 
         if (! Gate::allows('test_create')) {
             return abort(401);

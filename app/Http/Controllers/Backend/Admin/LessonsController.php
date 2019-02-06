@@ -28,9 +28,9 @@ class LessonsController extends Controller
         if (!Gate::allows('lesson_access')) {
             return abort(401);
         }
+        $courses = $courses = Course::ofTeacher()->pluck('title','id')->prepend('Please select', '');
 
-
-        return view('backend.lessons.index', compact('lessons'));
+        return view('backend.lessons.index', compact('courses'));
     }
 
     /**
@@ -46,16 +46,16 @@ class LessonsController extends Controller
         $lessons = "";
 
         $lessons = Lesson::whereIn('course_id', Course::ofTeacher()->pluck('id'));
-        if ($request->course_id) {
-            $lessons = $lessons->where('course_id', $request->course_id)->orderBy('created_at', 'desc');
-        }
 
         if ($request->show_deleted == 1) {
             if (!Gate::allows('lesson_delete')) {
                 return abort(401);
             }
             $lessons = Lesson::query()->with('course')->orderBy('created_at', 'desc')->onlyTrashed()->get();
-        } else {
+        } elseif ($request->course_id != "") {
+            $lessons = $lessons->where('course_id', $request->course_id)->orderBy('created_at', 'desc');
+        }
+        else {
             $lessons = Lesson::query()->with('course')->orderBy('created_at', 'desc')->get();
         }
 
@@ -70,6 +70,7 @@ class LessonsController extends Controller
         }
 
         return DataTables::of($lessons)
+            ->addIndexColumn()
             ->addColumn('actions', function ($q) use ($has_view, $has_edit, $has_delete, $request) {
                 $view = "";
                 $edit = "";
@@ -94,6 +95,13 @@ class LessonsController extends Controller
                         ->render();
                     $view .= $delete;
                 }
+
+                if (auth()->user()->can('test_view')) {
+                    if($q->test != ""){
+                        $view .= '<a href="'.route('admin.tests.index',['lesson_id' => $q->id]).'" class="btn btn-success btn-block mb-1">'.trans('labels.backend.tests.title') .'</a>';
+                    }
+                }
+
                 return $view;
 
             })

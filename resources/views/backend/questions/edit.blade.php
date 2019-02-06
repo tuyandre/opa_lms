@@ -90,6 +90,39 @@
             </div>
         </div>
     </div>
+    @foreach ($question->options as $key=>$option)
+        @php $key++ @endphp
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12 form-group">
+                        {!! Form::label('option_text_' . $option->id, trans('labels.backend.questions.fields.option_text').'*', ['class' => 'control-label']) !!}
+                        {!! Form::textarea('option_text_' . $key, $option->option_text, ['class' => 'form-control ', 'rows' => 3]) !!}
+                        <p class="help-block"></p>
+                        @if($errors->has('option_text_' . $option->id))
+                            <p class="help-block">
+                                {{ $errors->first('option_text_' . $option->id) }}
+                            </p>
+                        @endif
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 form-group">
+                        {!! Form::label('correct_' . $key, trans('labels.backend.questions.fields.correct'), ['class' => 'control-label']) !!}
+                        {!! Form::hidden('correct_' . $option->id, 0) !!}
+                        {!! Form::hidden('option_id_'.$key,  $option->id ) !!}
+                        {!! Form::checkbox('correct_' . $key, 1, ($option->correct == 1) ? true : false, []) !!}
+                        <p class="help-block"></p>
+                        @if($errors->has('correct_' . $question))
+                            <p class="help-block">
+                                {{ $errors->first('correct_' . $question) }}
+                            </p>
+                        @endif
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endforeach
     <div class="row">
         <div class="col-12 text-center mb-4">
             {!! Form::submit(trans('strings.backend.general.app_update'), ['class' => 'btn btn-danger']) !!}
