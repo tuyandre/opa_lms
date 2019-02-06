@@ -24,8 +24,7 @@
                         </tr>
                         <tr>
                             <th>@lang('labels.backend.lessons.fields.lesson_image')</th>
-                            <td>@if($lesson->lesson_image)<a href="{{ asset('storage/uploads/' . $lesson->lesson_image) }}"
-                                                             target="_blank"><img
+                            <td>@if($lesson->lesson_image)<a href="{{ asset('storage/uploads/' . $lesson->lesson_image) }}" target="_blank"><img
                                             src="{{ asset('storage/uploads/' . $lesson->lesson_image) }}" height="100px"/></a>@endif</td>
                         </tr>
                         <tr>
@@ -44,16 +43,31 @@
 
                             <th>@lang('labels.backend.lessons.fields.downloadable_files')</th>
                             <td>
-                                @if(count($lesson->media) > 0 )
+                                @if(count($lesson->media()->where('type','!=','YT')->get()) > 0 )
                                     @foreach($lesson->media as $media)
                                         <p class="form-group">
-                                            <a href="{{ asset('storage/'.$media->name) }}"
+                                            <a href="{{ asset('storage/uploads/'.$media->name) }}"
                                                target="_blank">{{ $media->name }}
                                                 ({{ $media->size }} KB)</a>
                                         </p>
                                     @endforeach
                                 @else
                                     <p>No Files</p>
+                                @endif
+                            </td>
+                        </tr>
+                        <tr>
+
+                            <th>@lang('labels.backend.lessons.fields.youtube_videos')</th>
+                            <td>
+                                @if(count($lesson->media()->where('type','=','YT')->get()) > 0 )
+                                    @foreach($lesson->media as $media)
+                                        <p class="form-group">
+                                           <a href="{{$media->url}}" target="_blank">{{$media->url}}</a>
+                                        </p>
+                                    @endforeach
+                                @else
+                                    <p>No Videos</p>
                                 @endif
                             </td>
                         </tr>

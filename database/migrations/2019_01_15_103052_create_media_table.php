@@ -17,6 +17,8 @@ class CreateMediaTable extends Migration
             $table->increments('id')->unsigned();
             $table->nullableMorphs('model');
             $table->string('name');
+            $table->string('url')->nullable();
+            $table->string('type')->nullable();
             $table->string('file_name');
             $table->unsignedInteger('size');
             $table->timestamps();

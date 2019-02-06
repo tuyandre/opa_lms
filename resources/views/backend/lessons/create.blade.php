@@ -1,6 +1,7 @@
 @extends('backend.layouts.app')
 
 @push('after-styles')
+    <link rel="stylesheet" type="text/css" href="{{asset('plugins/bootstrap-tagsinput/bootstrap-tagsinput.css')}}">
     <style>
         .select2-container--default .select2-selection--single {
             height: 35px;
@@ -13,8 +14,21 @@
         .select2-container--default .select2-selection--single .select2-selection__arrow {
             height: 35px;
         }
+        .bootstrap-tagsinput{
+            width: 100%!important;
+            display: inline-block;
+        }
+        .bootstrap-tagsinput .tag{
+            line-height: 1;
+            margin-right: 2px;
+            background-color: #2f353a ;
+            color: white;
+            padding: 3px;
+            border-radius: 3px;
+        }
 
     </style>
+
 @endpush
 
 @section('content')
@@ -39,19 +53,19 @@
                 </div>
                 <div class="col-12 col-lg-6 form-group">
                     {!! Form::label('title', trans('labels.backend.lessons.fields.title').'*', ['class' => 'control-label']) !!}
-                    {!! Form::text('title', old('title'), ['class' => 'form-control', 'placeholder' => '', 'required' => '']) !!}
+                    {!! Form::text('title', old('title'), ['class' => 'form-control', 'placeholder' => trans('labels.backend.lessons.fields.title'), 'required' => '']) !!}
                 </div>
             </div>
 
             <div class="row">
                 <div class="col-12 col-lg-6 form-group">
                     {!! Form::label('slug',trans('labels.backend.lessons.fields.slug'), ['class' => 'control-label']) !!}
-                    {!! Form::text('slug', old('slug'), ['class' => 'form-control', 'placeholder' => '']) !!}
+                    {!! Form::text('slug', old('slug'), ['class' => 'form-control', 'placeholder' => trans('labels.backend.lessons.slug_placeholder')]) !!}
 
                 </div>
                 <div class="col-12 col-lg-6 form-group">
-                    {!! Form::label('lesson_image', trans('labels.backend.lessons.fields.lesson_image'), ['class' => 'control-label']) !!}
-                    {!! Form::file('lesson_image', ['class' => 'form-control']) !!}
+                    {!! Form::label('lesson_image', trans('labels.backend.lessons.fields.lesson_image').' '.trans('labels.backend.lessons.max_file_size'), ['class' => 'control-label']) !!}
+                    {!! Form::file('lesson_image', ['class' => 'form-control' , 'accept' => 'image/jpeg,image/gif,image/png']) !!}
                     {!! Form::hidden('lesson_image_max_size', 8) !!}
                     {!! Form::hidden('lesson_image_max_width', 4000) !!}
                     {!! Form::hidden('lesson_image_max_height', 4000) !!}
@@ -62,7 +76,7 @@
             <div class="row">
                 <div class="col-12 form-group">
                     {!! Form::label('short_text', trans('labels.backend.lessons.fields.short_text'), ['class' => 'control-label']) !!}
-                    {!! Form::textarea('short_text', old('short_text'), ['class' => 'form-control ', 'placeholder' => '']) !!}
+                    {!! Form::textarea('short_text', old('short_text'), ['class' => 'form-control ', 'placeholder' => trans('labels.backend.lessons.short_description_placeholder')]) !!}
 
                 </div>
             </div>
@@ -75,11 +89,12 @@
             </div>
             <div class="row">
                 <div class="col-12 form-group">
-                    {!! Form::label('downloadable_files', trans('labels.backend.lessons.fields.downloadable_files'), ['class' => 'control-label']) !!}
+                    {!! Form::label('downloadable_files', trans('labels.backend.lessons.fields.downloadable_files').' '.trans('labels.backend.lessons.max_file_size'), ['class' => 'control-label']) !!}
                     {!! Form::file('downloadable_files[]', [
                         'multiple',
                         'class' => 'form-control file-upload',
                         'id' => 'downloadable_files',
+                        'accept' => "image/jpeg,image/gif,image/png,application/msword,audio/mpeg,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application,application/vnd.openxmlformats-officedocument.presentationml.presentation,application/vnd.ms-powerpoint,application/pdf,video/mp4"
                         ]) !!}
                     <div class="photo-block">
                         <div class="files-list"></div>
@@ -87,6 +102,17 @@
 
                 </div>
             </div>
+            <div class="row">
+                <div class="col-md-12 form-group">
+                    <h4>Add <span class="text-danger text-bold">YOUTUBE</span> videos</h4>
+                    <h6 class="text-success"><b>Instructions to add Video link: </b><br> Go to youtube -> open video -> right click on video and <b>Copy Video URL</b> and paste here.<br> If you want to add multiple videos, then separate them with <b>,</b> (Comma) Sign.</h6>
+                    <p class="text text-primary font-bold mb-0">Ex. https://youtu.be/XXX0XX1X</p>
+
+                    {!! Form::text('videos', old('videos'), ['class' => 'form-control', 'placeholder' => '', 'data-role' => 'tagsinput' ]) !!}
+
+                </div>
+            </div>
+
             <div class="row">
                 <div class="col-12 col-lg-3  form-group">
                     <div class="checkbox">
@@ -116,15 +142,60 @@
 
 @push('after-scripts')
     <script src="//cdn.ckeditor.com/4.5.4/full/ckeditor.js"></script>
+    <script src="{{asset('plugins/bootstrap-tagsinput/bootstrap-tagsinput.js')}}"></script>
     <script>
         $('.editor').each(function () {
             CKEDITOR.replace($(this).attr('id'), {
                 filebrowserImageBrowseUrl: '/laravel-filemanager?type=Images',
                 filebrowserImageUploadUrl: '/laravel-filemanager/upload?type=Images&_token={{csrf_token()}}',
                 filebrowserBrowseUrl: '/laravel-filemanager?type=Files',
-                filebrowserUploadUrl: '/laravel-filemanager/upload?type=Files&_token={{csrf_token()}}'
+                filebrowserUploadUrl: '/laravel-filemanager/upload?type=Files&_token={{csrf_token()}}',
+                toolbarGroups: [{
+                    "name": "basicstyles",
+                    "groups": ["basicstyles"]
+                },
+                    {
+                        "name": "links",
+                        "groups": ["links"]
+                    },
+                    {
+                        "name": "paragraph",
+                        "groups": ["list", "blocks"]
+                    },
+                    {
+                        "name": "document",
+                        "groups": ["mode"]
+                    },
+                    {
+                        "name": "insert",
+                        "groups": ["insert"]
+                    },
+                    {
+                        "name": "styles",
+                        "groups": ["styles"]
+                    },
+                    {
+                        "name": "about",
+                        "groups": ["about"]
+                    }
+                ],
+                // Remove the redundant buttons from toolbar groups defined above.
+                removeButtons: 'Underline,Strike,Subscript,Superscript,Anchor,Styles,Specialchar'
             });
         });
+
+        var uploadField = $('input[type="file"]');
+
+       $(document).on('change','input[type="file"]',function () {
+          var $this = $(this);
+           $(this.files).each(function (key,value) {
+               if(value.size > 10240){
+                   alert('"'+value.name+'"'+'exceeds limit of maximum file upload size' )
+                   $this.val("");
+               }
+           })
+       })
+
     </script>
 
 @endpush

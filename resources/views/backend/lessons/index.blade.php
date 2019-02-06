@@ -33,7 +33,7 @@
                     <tr>
                         @can('lesson_delete')
                             @if ( request('show_deleted') != 1 )
-                                <th style="text-align:center;"><input type="checkbox" id="select-all"/></th>@endif
+                                <th style="text-align:center;"><input class="mass" type="checkbox" id="select-all"/></th>@endif
                         @endcan
 
                         <th>@lang('labels.backend.lessons.fields.course')</th>
@@ -95,7 +95,7 @@
                 columns: [
                         @if(request('show_deleted') != 1)
                     { "data": function(data){
-                        return '<input type="checkbox" name="id[]" value="'+ data.id +'" />';
+                        return '<input type="checkbox" class="single" name="id[]" value="'+ data.id +'" />';
                     }, "orderable": false, "searchable":false, "name":"id" },
                         @endif
                     {data: "course", name: 'course'},

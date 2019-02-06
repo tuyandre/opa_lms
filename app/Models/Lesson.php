@@ -63,7 +63,7 @@ class Lesson extends Model
 
     public function media()
     {
-        return $this->morphMany(Media::class, 'model');
+        return $this->morphMany(Media::class,'model');
     }
     
 }

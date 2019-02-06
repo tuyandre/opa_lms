@@ -80,6 +80,7 @@ trait FileUploadTrait
                             'model_type' => $model_type,
                             'model_id' => $model->id,
                             'name' => $filename,
+                            'type' => $item->getClientMimeType(),
                             'file_name' => $filename,
                             'size' => $size,
                         ]);

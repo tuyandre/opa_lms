@@ -181,6 +181,9 @@ return [
             'create' => 'Create Lesson',
             'edit' => 'Edit Lesson',
             'view' => 'View Lessons',
+            'slug_placeholder' => 'Input slug or it will be generated automatically',
+            'short_description_placeholder' => 'Input short description of lesson',
+            'max_file_size' => '(max file size 10MB)',
             'fields' => [
                 'course' => 'Course',
                 'title' => 'Title',
@@ -189,6 +192,7 @@ return [
                 'published' => 'Published',
                 'lesson_image' => 'Lesson Image',
                 'short_text' => 'Short Text',
+                'youtube_videos' => 'YouTube Videos',
                 'slug' => 'Slug',
                 'full_text' => 'Full Text',
                 'downloadable_files' => 'Downloadable Files',
