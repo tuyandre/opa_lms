@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend\Admin;
 use App\Models\Auth\User;
 use App\Models\Category;
 use App\Models\Course;
+use App\Models\CourseTimeline;
 use function foo\func;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
@@ -249,8 +250,9 @@ class CoursesController extends Controller
         $tests = \App\Models\Test::where('course_id', $id)->get();
 
         $course = Course::findOrFail($id);
+        $courseTimeline = $course->courseTimeline()->orderBy('sequence', 'asc')->get();
 
-        return view('backend.courses.show', compact('course', 'lessons', 'tests'));
+        return view('backend.courses.show', compact('course', 'lessons', 'tests', 'courseTimeline'));
     }
 
 
@@ -323,5 +325,25 @@ class CoursesController extends Controller
         $course->forceDelete();
 
         return redirect()->route('admin.courses.index')->withFlashSuccess(trans('alerts.backend.general.deleted'));
+    }
+
+    /**
+     * Permanently save Sequence from storage.
+     *
+     * @param  Request
+     */
+    public function saveSequence(Request $request)
+    {
+        if (!Gate::allows('course_edit')) {
+            return abort(401);
+        }
+
+        foreach ($request->list as $item) {
+            $courseTimeline = CourseTimeline::find($item['id']);
+            $courseTimeline->sequence= $item['sequence'];
+            $courseTimeline->save();
+        }
+
+        return 'success';
     }
 }

@@ -8,7 +8,7 @@
             <h3 class="page-title float-left">@lang('labels.backend.lessons.title')</h3>
             @can('lesson_create')
                 <div class="float-right">
-                    <a href="{{ route('admin.lessons.create') }}"
+                    <a href="{{ route('admin.lessons.create') }}@if(request('course_id')){{'?course_id='.request('course_id')}}@endif"
                        class="btn btn-success">@lang('strings.backend.general.app_add_new')</a>
 
                 </div>
@@ -22,9 +22,7 @@
                 </div>
             </div>
 
-            @if(request('course_id') != "")
-
-
+            @if(request('course_id') != "" || request('show_deleted') != "")
                 <div class="table-responsive">
                     <div class="d-block">
                         <ul class="list-inline">
@@ -81,6 +79,10 @@
             @endif
             @if(request('course_id') != "")
                 route = '{{route('admin.lessons.get_data',['course_id' => request('course_id')])}}';
+            @endif
+
+            @if(request('course_id') != "" || request('show_deleted') != "")
+
             $('#myTable').DataTable({
                 processing: true,
                 serverSide: true,

@@ -13,4 +13,9 @@ class CourseTimeline extends Model
     {
         return $this->morphTo();
     }
+
+    public function course(){
+        return $this->belongsTo(Course::class);
+    }
+
 }

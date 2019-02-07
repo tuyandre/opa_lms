@@ -11,7 +11,6 @@ use App\Http\Controllers\LanguageController;
 Route::get('lang/{lang}', [LanguageController::class, 'swap']);
 
 
-
 /*
  * Frontend Routes
  * Namespaces indicate folder structure

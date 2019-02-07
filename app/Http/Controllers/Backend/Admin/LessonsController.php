@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backend\Admin;
 
 use App\Models\Course;
+use App\Models\CourseTimeline;
 use App\Models\Lesson;
 use App\Models\Media;
 use App\Models\Test;
@@ -52,6 +53,7 @@ class LessonsController extends Controller
                 return abort(401);
             }
             $lessons = Lesson::query()->with('course')->orderBy('created_at', 'desc')->onlyTrashed()->get();
+
         } elseif ($request->course_id != "") {
             $lessons = $lessons->where('course_id', $request->course_id)->orderBy('created_at', 'desc');
         }
@@ -150,6 +152,18 @@ class LessonsController extends Controller
 
         $lesson = Lesson::create($request->except('downloadable_files', 'lesson_image')
             + ['position' => Lesson::where('course_id', $request->course_id)->max('position') + 1]);
+
+        $sequence = 1;
+        if(count($lesson->course->courseTimeline) > 0) {
+            $sequence =   $lesson->course->courseTimeline->max('sequence');
+            $sequence = $sequence+1;
+        }
+        $timeline = new CourseTimeline();
+        $timeline->course_id = $request->course_id;
+        $timeline->model_id = $lesson->id;
+        $timeline->model_type = Lesson::class;
+        $timeline->sequence = $sequence;
+        $timeline->save();
 
         //Saving youtube videos
         if ($request->videos != "") {
@@ -357,6 +371,6 @@ class LessonsController extends Controller
         $lesson = Lesson::onlyTrashed()->findOrFail($id);
         $lesson->forceDelete();
 
-        return redirect()->route('admin.lessons.index')->withFlashSuccess(trans('alerts.backend.general.deleted'));
+        return back()->withFlashSuccess(trans('alerts.backend.general.deleted'));
     }
 }

@@ -2,6 +2,28 @@
 
 @push('after-styles')
     <link rel="stylesheet" type="text/css" href="{{asset('plugins/amigo-sorter/css/theme-default.css')}}">
+    <style>
+        ul.sorter > span {
+            display: inline-block;
+            width: 100%;
+            height: 100%;
+            background: #f5f5f5;
+            color: #333333;
+            border: 1px solid #cccccc;
+            border-radius: 6px;
+            padding: 0px;
+        }
+
+        ul.sorter li > span .title {
+            padding-left: 15px;
+        }
+
+        ul.sorter li > span .btn {
+            width: 20%;
+        }
+
+
+    </style>
 @endpush
 
 @section('content')
@@ -45,9 +67,11 @@
                         </tr>
                         <tr>
                             <th>@lang('labels.backend.courses.fields.course_image')</th>
-                            <td>@if($course->course_image)<a href="{{ asset('storage/uploads/' . $course->course_image) }}"
-                                                             target="_blank"><img
-                                            src="{{ asset('storage/uploads/' . $course->course_image) }}" height="50px" /></a>@endif</td>
+                            <td>@if($course->course_image)<a
+                                        href="{{ asset('storage/uploads/' . $course->course_image) }}"
+                                        target="_blank"><img
+                                            src="{{ asset('storage/uploads/' . $course->course_image) }}"
+                                            height="50px"/></a>@endif</td>
                         </tr>
                         <tr>
                             <th>@lang('labels.backend.courses.fields.start_date')</th>
@@ -60,231 +84,43 @@
                     </table>
                 </div>
             </div><!-- Nav tabs -->
-            <div class="row">
-                <div class="col-12  text-center">
-                    <ul class="sorter d-inline-block">
-                        <li>
-                            <span>Sci-Fi</span>
-                        </li>
-                        <li>
-                            <span>Fantasy</span>
 
-                        </li>
-                        <li>
-                            <span>Bondiana</span>
-                        </li>
-                    </ul>
+            @if(count($courseTimeline) > 0)
+                <div class="row justify-content-center">
+                    <div class="col-6  ">
+                        <h4>@lang('labels.backend.courses.course_timeline')</h4>
+                        <p class="">@lang('labels.backend.courses.timeline_description')</p>
+                        <ul class="sorter d-inline-block">
+                            @foreach($courseTimeline as $item)
+                                <li>
+                            <span data-id="{{$item->id}}" data-sequence="{{$item->sequence}}">
+                              @if($item->model_type == 'App\Models\Test')
+                                    <p class="d-inline-block mb-0 btn btn-primary">
+                                        @lang('labels.backend.courses.test')
+                                    </p>
+                                @elseif($item->model_type == 'App\Models\Lesson')
+                                    <p class="d-inline-block mb-0 btn btn-success">
+                                        @lang('labels.backend.courses.lesson')
+                                    </p>
+                                @endif
+                                <p class="title d-inline ml-2">{{$item->model->title}}</p>
+                           </span>
 
-                </div>
-            </div>
-
-            <ul class="nav nav-tabs" role="tablist">
-
-                <li role="presentation" class="nav-item">
-                    <a href="#lessons" class="nav-link active" aria-controls="lessons" role="tab"
-                       data-toggle="tab">Lessons</a></li>
-                <li role="presentation" class="nav-item"><a href="#tests" class="nav-link" aria-controls="tests" role="tab" data-toggle="tab">Tests</a>
-                </li>
-            </ul>
-
-            <!-- Tab panes -->
-            <div class="tab-content">
-
-                <div role="tabpanel" class="tab-pane container active" id="lessons">
-                    <table class="table table-bordered table-striped {{ count($lessons) > 0 ? 'datatable' : '' }}">
-                        <thead>
-                        <tr>
-                            <th>@lang('labels.backend.lessons.fields.course')</th>
-                            <th>@lang('labels.backend.lessons.fields.title')</th>
-                            <th>@lang('labels.backend.lessons.fields.short_text')</th>
-                            <th>@lang('labels.backend.lessons.fields.lesson_image')</th>
-                            <th>@lang('labels.backend.lessons.fields.free_lesson')</th>
-                            <th>@lang('labels.backend.lessons.fields.published')</th>
-                            @if( request('show_deleted') == 1 )
-                                <th>@lang('labels.general.actions')</th>
-                            @else
-                                <th>@lang('labels.general.actions')</th>
-                            @endif
-                        </tr>
-                        </thead>
-
-                        <tbody>
-                        @if (count($lessons) > 0)
-                            @foreach ($lessons as $lesson)
-                                <tr data-entry-id="{{ $lesson->id }}">
-                                    <td>{{ ($lesson->course) ? $lesson->course->title : '' }}</td>
-                                    <td>{{ $lesson->title }}</td>
-                                    <td>{!! $lesson->short_text !!}</td>
-                                    <td>@if($lesson->lesson_image)<a
-                                                href="{{ asset('storage/uploads/' . $lesson->lesson_image) }}"
-                                                target="_blank"><img
-                                                    src="{{ asset('storage/uploads/' . $lesson->lesson_image) }}" height="50px" /></a>@endif
-                                    </td>
-                                    <td>{{ Form::checkbox("free_lesson", 1, $lesson->free_lesson == 1 ? true : false, ["disabled"]) }}</td>
-                                    <td>{{ Form::checkbox("published", 1, $lesson->published == 1 ? true : false, ["disabled"]) }}</td>
-                                    @if( request('show_deleted') == 1 )
-                                        <td>
-                                            <a data-method="delete" data-trans-button-cancel="Cancel"
-                                               data-trans-button-confirm="Restore" data-trans-title="Are you sure?"
-                                               class="btn btn-xs mb-2  btn-success" style="cursor:pointer;"
-                                               onclick="$(this).find('form').submit();">
-                                                {{trans('strings.backend.general.app_restore')}}
-                                                <form action="{{route('admin.lessons.restore',['lesson'=> $lesson->id ])}}"
-                                                      method="POST" name="delete_item" style="display:none">
-                                                    @csrf
-                                                </form>
-                                            </a>
-
-
-                                            <a data-method="delete" data-trans-button-cancel="Cancel"
-                                               data-trans-button-confirm="Delete" data-trans-title="Are you sure?"
-                                               class="btn btn-xs  mb-2  btn-danger" style="cursor:pointer;"
-                                               onclick="$(this).find('form').submit();">
-                                                {{trans('strings.backend.general.app_permadel')}}
-                                                <form action="{{route('admin.lessons.perma_del',['lesson'=>$lesson->id])}}"
-                                                      method="POST" name="delete_item" style="display:none">
-                                                    @csrf
-                                                    {{method_field('DELETE')}}
-                                                </form>
-                                            </a>
-
-                                        </td>
-                                    @else
-                                        <td>
-                                            @can('lesson_view')
-                                                <a href="{{ route('admin.lessons.show',[$lesson->id]) }}"
-                                                   class="btn  mb-2  btn-xs btn-primary"><i class="icon-eye"></i></a>
-                                            @endcan
-                                            @can('lesson_edit')
-                                                <a href="{{ route('admin.lessons.edit',[$lesson->id]) }}"
-                                                   class="btn  mb-2  btn-xs btn-info">
-                                                    <i class="icon-pencil">
-                                                    </i>
-                                                </a>
-                                                        @endcan
-                                            @can('lesson_delete')
-                                                    <a data-method="delete" data-trans-button-cancel="Cancel"
-                                                       data-trans-button-confirm="Delete" data-trans-title="Are you sure?"
-                                                       class="btn  mb-2  btn-xs btn-danger" style="cursor:pointer;"
-                                                       onclick="$(this).find('form').submit();"><i class="fa fa-trash" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete"></i>
-                                                        <form action="{{route('admin.lessons.destroy',['lesson'=>$lesson->id])}}"
-                                                              method="POST" name="delete_item" style="display:none">
-                                                            @csrf
-                                                            {{method_field('DELETE')}}
-                                                        </form>
-                                                    </a>
-                                            @endcan
-                                        </td>
-                                    @endif
-                                </tr>
+                                </li>
                             @endforeach
-                        @else
-                            <tr>
-                                <td colspan="14">@lang('strings.backend.general.app_no_entries_in_table')</td>
-                            </tr>
-                        @endif
-                        </tbody>
-                    </table>
+                        </ul>
+                        <a href="{{ route('admin.courses.index') }}"
+                           class="btn btn-default border float-left">@lang('strings.backend.general.app_back_to_list')</a>
+
+                        <a href="#" id="save_timeline"
+                           class="btn btn-primary float-right">@lang('labels.backend.courses.save_timeline')</a>
+
+                    </div>
+
                 </div>
-                <div role="tabpanel" class="tab-pane container" id="tests">
-                    <table class="table table-bordered table-striped {{ count($tests) > 0 ? 'datatable' : '' }}">
-                        <thead>
-                        <tr>
-                            <th>@lang('labels.backend.tests.fields.course')</th>
-                            <th>@lang('labels.backend.tests.fields.lesson')</th>
-                            <th>@lang('labels.backend.tests.fields.title')</th>
-                            <th>@lang('labels.backend.tests.fields.description')</th>
-                            <th>@lang('labels.backend.tests.fields.questions')</th>
-                            <th>@lang('labels.backend.tests.fields.published')</th>
-                            @if( request('show_deleted') == 1 )
-                                <th>@lang('labels.general.actions')</th>
-                            @else
-                                <th>@lang('labels.general.actions')</th>
-                            @endif
-                        </tr>
-                        </thead>
-
-                        <tbody>
-                        @if (count($tests) > 0)
-                            @foreach ($tests as $test)
-                                <tr data-entry-id="{{ $test->id }}">
-                                    <td>{{ ($test->course) ? $test->course->title : ''  }}</td>
-                                    <td>{{ ($test->lesson) ? $test->lesson->title : ''  }}</td>
-                                    <td>{{ $test->title }}</td>
-                                    <td>{!! $test->description !!}</td>
-                                    <td>
-                                        @foreach ($test->questions as $singleQuestions)
-                                            <span class="label label-info label-many">{{ $singleQuestions->question }}</span>
-                                        @endforeach
-                                    </td>
-                                    <td>{{ Form::checkbox("published", 1, $test->published == 1 ? true : false, ["disabled"]) }}</td>
-                                    @if( request('show_deleted') == 1 )
-                                        <td>
-                                            <a data-method="delete" data-trans-button-cancel="Cancel"
-                                               data-trans-button-confirm="Restore" data-trans-title="Are you sure?"
-                                               class="btn btn-xs  btn-success" style="cursor:pointer;"
-                                               onclick="$(this).find('form').submit();">
-                                                {{trans('strings.backend.general.app_restore')}}
-                                                <form action="{{route('admin.tests.restore',['test'=> $test->id ])}}"
-                                                      method="POST" name="delete_item" style="display:none">
-                                                    @csrf
-                                                </form>
-                                            </a>
+            @endif
 
 
-                                            <a data-method="delete" data-trans-button-cancel="Cancel"
-                                               data-trans-button-confirm="Delete" data-trans-title="Are you sure?"
-                                               class="btn btn-xs btn-danger" style="cursor:pointer;"
-                                               onclick="$(this).find('form').submit();">
-                                                {{trans('strings.backend.general.app_permadel')}}
-                                                <form action="{{route('admin.tests.perma_del',['test'=>$test->id])}}"
-                                                      method="POST" name="delete_item" style="display:none">
-                                                    @csrf
-                                                    {{method_field('DELETE')}}
-                                                </form>
-                                            </a>
-
-                                        </td>
-                                    @else
-                                        <td>
-                                            @can('test_view')
-                                                <a href="{{ route('admin.tests.show',[$test->id]) }}"
-                                                   class="btn btn-xs mb-1 btn-primary"><i class="icon-eye"></i></a>
-                                            @endcan
-                                            @can('test_edit')
-                                                <a href="{{ route('admin.tests.edit',[$test->id]) }}"
-                                                   class="btn btn-xs mb-1 btn-info"><i class="icon-pencil"></i></a>
-                                            @endcan
-                                            @can('test_delete')
-                                                    <a data-method="delete" data-trans-button-cancel="Cancel"
-                                                       data-trans-button-confirm="Delete" data-trans-title="Are you sure?"
-                                                       class="btn btn-xs btn-danger mb-1" style="cursor:pointer;"
-                                                       onclick="$(this).find('form').submit();">
-                                                       <i class="fa fa-trash"></i>
-                                                        <form action="{{route('admin.tests.destroy',['test'=>$test->id])}}"
-                                                              method="POST" name="delete_item" style="display:none">
-                                                            @csrf
-                                                            {{method_field('DELETE')}}
-                                                        </form>
-                                                    </a>
-                                            @endcan
-                                        </td>
-                                    @endif
-                                </tr>
-                            @endforeach
-                        @else
-                            <tr>
-                                <td colspan="10">{{trans('strings.backend.general.app_no_entries_in_table')}}</td>
-                            </tr>
-                        @endif
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <p>&nbsp;</p>
-
-            <a href="{{ route('admin.courses.index') }}" class="btn btn-default border">@lang('strings.backend.general.app_back_to_list')</a>
         </div>
     </div>
 @stop
@@ -292,14 +128,31 @@
 @push('after-scripts')
     <script src="{{asset('plugins/amigo-sorter/js/amigo-sorter.min.js')}}"></script>
     <script>
-        $( function() {
+        $(function () {
             $('ul.sorter').amigoSorter({
                 li_helper: "li_helper",
                 li_empty: "empty",
-                onTouchStart : function() {},
-                onTouchMove : function() {},
-                onTouchEnd : function() {}
             });
+            $(document).on('click', '#save_timeline', function (e) {
+                e.preventDefault();
+                var list = [];
+                $('ul.sorter li').each(function (key, value) {
+                    key++;
+                    var val = $(value).find('span').data('id');
+                    list.push({id: val, sequence: key});
+                });
+
+                $.ajax({
+                    method: 'POST',
+                    url: "{{route('admin.courses.saveSequence')}}",
+                    data: {
+                        _token: '{{csrf_token()}}',
+                        list: list
+                    }
+                }).done(function () {
+                    location.reload();
+                });
+            })
         });
 
     </script>

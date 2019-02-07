@@ -159,6 +159,12 @@ return [
             'select_category' => 'Select Category',
             'slug_placeholder' => 'Input slug or it will be generated automatically',
             'category' => 'Category',
+            'save_timeline' => 'Save timeline',
+            'course_timeline' => 'Course timeline',
+            'timeline_description' => 'Drag and change sequence of Lessons/Tests for course',
+            'test' => 'Test',
+            'lesson' => 'lesson',
+
             'fields' => [
                 'teachers' => 'Teachers',
                 'lessons' => [

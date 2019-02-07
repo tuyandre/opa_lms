@@ -114,7 +114,7 @@ class Course extends Model
 
     public function courseTimeline()
     {
-        return $this->morphMany(CourseTimeline::class,'model');
+        return $this->hasMany(CourseTimeline::class);
     }
 
 }

@@ -16,7 +16,8 @@ class CreateCourseTimelineTable extends Migration
         Schema::create('course_timeline', function (Blueprint $table) {
             $table->increments('id');
             $table->nullableMorphs('model');
-            $table->string('sequence');
+            $table->integer('course_id');
+            $table->integer('sequence');
             $table->timestamps();
         });
     }
