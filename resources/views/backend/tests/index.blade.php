@@ -22,9 +22,6 @@
                     {!! Form::select('course_id', $courses,  (request('course_id')) ? request('course_id') : old('course_id'), ['class' => 'form-control js-example-placeholder-single select2 ', 'id' => 'course_id']) !!}
                 </div>
             </div>
-
-            @if(request('course_id') != "")
-
             <div class="d-block">
                 <ul class="list-inline">
                     <li class="list-inline-item">
@@ -38,6 +35,10 @@
                     </li>
                 </ul>
             </div>
+
+            @if(request('course_id') != "" || request('show_deleted') == 1)
+
+
             <table id="myTable"
                    class="table table-bordered table-striped @can('test_delete') @if ( request('show_deleted') != 1 ) dt-select @endif @endcan">
                 <thead>
@@ -81,6 +82,9 @@
             @endif
             @if ( request('course_id') != "" )
                 route = '{{route('admin.tests.get_data',['course_id' => request('course_id')])}}';
+            @endif
+
+            @if(request('show_deleted') == 1 ||  request('course_id') != "")
 
             $('#myTable').DataTable({
                 processing: true,
@@ -133,16 +137,17 @@
 
             @endif
 
-            @can('test_delete')
-            @if(request('show_deleted') != 1)
-            $('.actions').html('<a href="' + '{{ route('admin.tests.mass_destroy') }}' + '" class="btn btn-xs btn-danger js-delete-selected" style="margin-top:0.755em;margin-left: 20px;">Delete selected</a>');
-            @endif
-            @endcan
+
 
             $(document).on('change', '#course_id', function (e) {
                 var course_id = $(this).val();
                 window.location.href = "{{route('admin.tests.index')}}" + "?course_id=" + course_id
             });
+            @can('test_delete')
+            @if(request('show_deleted') != 1)
+            $('.actions').html('<a href="' + '{{ route('admin.tests.mass_destroy') }}' + '" class="btn btn-xs btn-danger js-delete-selected" style="margin-top:0.755em;margin-left: 20px;">Delete selected</a>');
+            @endif
+            @endcan
 
             $(".js-example-placeholder-single").select2({
                 placeholder: "{{trans('labels.backend.lessons.select_course')}}",

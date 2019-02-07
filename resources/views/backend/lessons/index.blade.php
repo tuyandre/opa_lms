@@ -21,21 +21,22 @@
                     {!! Form::select('course_id', $courses,  (request('course_id')) ? request('course_id') : old('course_id'), ['class' => 'form-control js-example-placeholder-single select2 ', 'id' => 'course_id']) !!}
                 </div>
             </div>
+            <div class="d-block">
+                <ul class="list-inline">
+                    <li class="list-inline-item">
+                        <a href="{{ route('admin.lessons.index',['course_id'=>request('course_id')]) }}"
+                           style="{{ request('show_deleted') == 1 ? '' : 'font-weight: 700' }}">{{trans('labels.general.all')}}</a>
+                    </li>
+                    |
+                    <li class="list-inline-item"><a href="{{ route('admin.lessons.index') }}?show_deleted=1"
+                                                    style="{{ request('show_deleted') == 1 ? 'font-weight: 700' : '' }}">{{trans('labels.general.trash')}}</a>
+                    </li>
+                </ul>
+            </div>
 
             @if(request('course_id') != "" || request('show_deleted') != "")
                 <div class="table-responsive">
-                    <div class="d-block">
-                        <ul class="list-inline">
-                            <li class="list-inline-item">
-                                <a href="{{ route('admin.lessons.index') }}"
-                                   style="{{ request('show_deleted') == 1 ? '' : 'font-weight: 700' }}">{{trans('labels.general.all')}}</a>
-                            </li>
-                            |
-                            <li class="list-inline-item"><a href="{{ route('admin.lessons.index') }}?show_deleted=1"
-                                                            style="{{ request('show_deleted') == 1 ? 'font-weight: 700' : '' }}">{{trans('labels.general.trash')}}</a>
-                            </li>
-                        </ul>
-                    </div>
+
                     <table id="myTable"
                            class="table table-bordered table-striped @can('lesson_delete') @if ( request('show_deleted') != 1 ) dt-select @endif @endcan">
                         <thead>

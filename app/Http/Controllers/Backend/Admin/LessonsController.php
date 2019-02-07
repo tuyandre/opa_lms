@@ -317,7 +317,7 @@ class LessonsController extends Controller
         $lesson = Lesson::findOrFail($id);
         $lesson->delete();
 
-        return redirect()->route('admin.lessons.index')->withFlashSuccess(__('alerts.backend.general.deleted'));
+        return back()->withFlashSuccess(__('alerts.backend.general.deleted'));
     }
 
     /**
@@ -354,7 +354,7 @@ class LessonsController extends Controller
         $lesson = Lesson::onlyTrashed()->findOrFail($id);
         $lesson->restore();
 
-        return redirect()->route('admin.lessons.index')->withFlashSuccess(trans('alerts.backend.general.restored'));
+        return back()->withFlashSuccess(trans('alerts.backend.general.restored'));
     }
 
     /**
@@ -370,6 +370,10 @@ class LessonsController extends Controller
         }
         $lesson = Lesson::onlyTrashed()->findOrFail($id);
         $lesson->forceDelete();
+        $timelineStep = CourseTimeline::where('model_id','=',$id)
+            ->where('course_id','=',$lesson->course->id)->first();
+        $timelineStep->delete();
+
 
         return back()->withFlashSuccess(trans('alerts.backend.general.deleted'));
     }

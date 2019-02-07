@@ -24,7 +24,6 @@ class TestsController extends Controller
             return abort(401);
         }
 
-
         if (request('show_deleted') == 1) {
             if (! Gate::allows('test_delete')) {
                 return abort(401);
@@ -59,6 +58,7 @@ class TestsController extends Controller
 
         }  elseif(request('course_id') != "") {
             $tests = Test::where('course_id','=',$request->course_id)->orderBy('created_at', 'desc')->get();
+
         }else {
             $tests = Test::orderBy('created_at', 'desc')->get();
         }
@@ -236,7 +236,7 @@ class TestsController extends Controller
         $test = Test::findOrFail($id);
         $test->delete();
 
-        return redirect()->route('admin.tests.index')->withFlashSuccess(trans('alerts.backend.general.deleted'));
+        return back()->withFlashSuccess(trans('alerts.backend.general.deleted'));
     }
 
     /**
@@ -273,7 +273,7 @@ class TestsController extends Controller
         $test = Test::onlyTrashed()->findOrFail($id);
         $test->restore();
 
-        return redirect()->route('admin.tests.index')->withFlashSuccess(trans('alerts.backend.general.restored'));
+        return back()->withFlashSuccess(trans('alerts.backend.general.restored'));
     }
 
     /**
@@ -290,6 +290,6 @@ class TestsController extends Controller
         $test = Test::onlyTrashed()->findOrFail($id);
         $test->forceDelete();
 
-        return redirect()->route('admin.tests.index')->withFlashSuccess(trans('alerts.backend.general.deleted'));
+        return back()->withFlashSuccess(trans('alerts.backend.general.deleted'));
     }
 }
