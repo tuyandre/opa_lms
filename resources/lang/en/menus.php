@@ -52,7 +52,9 @@ return [
 
             /*=====Custom content========*/
             'courses'    => [
-                'title' => 'Courses'
+                'title' => 'Courses',
+                'management' => 'Courses Management',
+                'manage' => 'Manage Courses',
             ],
             'lessons'    => [
                 'title' => 'Lessons'
@@ -88,6 +90,9 @@ return [
                 'title' => 'Settings',
                 'general' => 'General',
                 'social-login' => 'Social Login'
+            ],
+            'hero-slider'    => [
+                'title' => 'Hero Slider',
             ],
             /*===========================*/
         ],

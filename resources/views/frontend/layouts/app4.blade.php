@@ -170,13 +170,11 @@
                                         <ul class="sub-menu">
                                             @can('view backend')
                                                 <li>
-                                                    <a href="{{ route('admin.dashboard') }}">@lang('navs.frontend.user.administration')</a>
+                                                    <a href="{{ route('admin.dashboard') }}">@lang('navs.frontend.dashboard')</a>
                                                 </li>
                                             @endcan
 
-                                            <li>
-                                                <a href="{{ route('frontend.user.account') }}">@lang('navs.frontend.user.account')</a>
-                                            </li>
+
                                             <li>
                                                 <a href="{{ route('frontend.auth.logout') }}">@lang('navs.general.logout')</a>
                                             </li>
@@ -221,13 +219,10 @@
                                     <ul class="sub-menu" style="width: auto">
                                         @can('view backend')
                                             <li>
-                                                <a href="{{ route('admin.dashboard') }}">@lang('navs.frontend.user.administration')</a>
+                                                <a href="{{ route('admin.dashboard') }}">@lang('navs.frontend.dashboard')</a>
                                             </li>
                                         @endcan
 
-                                        <li>
-                                            <a href="{{ route('frontend.user.account') }}">@lang('navs.frontend.user.account')</a>
-                                        </li>
                                         <li>
                                             <a href="{{ route('frontend.auth.logout') }}">@lang('navs.general.logout')</a>
                                         </li>

@@ -104,3 +104,7 @@ Route::get('settings/general', ['uses' => 'Admin\ConfigController@getGeneralSett
 Route::post('settings/general', ['uses' =>'Admin\ConfigController@saveGeneralSettings'])->name('general-settings');
 Route::get('settings/social', ['uses' =>'Admin\ConfigController@getSocialSettings'])->name('social-settings');
 Route::post('settings/social', ['uses' =>'Admin\ConfigController@saveSocialSettings'])->name('social-settings');
+
+
+//===== Slider Routes =====/
+Route::resource('slider', 'Admin\SliderController');

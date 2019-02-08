@@ -291,6 +291,29 @@ return [
         'general_settings' => [
             'management' => 'General Settings',
         ],
+        'hero_slider' => [
+            'title' => 'Hero Slider',
+            'on' => 'On',
+            'off' => 'Off',
+            'create' => 'Create Slide',
+            'edit' => 'Edit Slide',
+            'view' => 'View Slides',
+            'note' => 'Note: Please upload .jpg or .png in <b>1920x900</b> resolution for best result. Use darker or Overlayed images for better result.',
+            'fields' => [
+                'name' => 'Name',
+                'bg_image' => 'BG Image',
+                'hero_text' => 'Hero Text',
+                'sub_text' => 'Sub Text',
+                'widget' => [
+                    'title' => 'Widget',
+                    'select_widget' => 'Select Widget',
+                    'search_bar' => 'Search Bar',
+                    'countdown_timer' => 'Countdown Timer'
+                ],
+                'sequence' => 'Sequence',
+                'status' => 'Status'
+            ],
+        ],
         'social_settings' => [
             'management' => 'Social Settings',
         ],

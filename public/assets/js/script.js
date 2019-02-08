@@ -914,6 +914,7 @@ Author:         HTMLMATE Team
                 if ($('.coming-countdown').length > 0) {
                     // Specify the deadline date
                     var deadlineDate = new Date('Decembar 21, 2018 23:59:59').getTime();
+                    // var deadlineDate = new Date('2019/02/09 22:00').getTime();
 
                     // Cache all countdown boxes into consts
                     var countdownDays = document.querySelector('.days .number');
