@@ -308,7 +308,17 @@ return [
                     'title' => 'Widget',
                     'select_widget' => 'Select Widget',
                     'search_bar' => 'Search Bar',
-                    'countdown_timer' => 'Countdown Timer'
+                    'countdown_timer' => 'Countdown Timer',
+                    'input_date_time' => 'Input date and time'
+                ],
+                'buttons' => [
+                    'title' => 'Buttons',
+                    'name' => 'Button',
+                    'add' => 'Add',
+                    'label' => 'Label',
+                    'link' => 'Link',
+                    'placeholder' => 'Add number of buttons you want to add',
+                    'note' => 'Note: Maximum 4 buttons can be added. Please add label and link for the button for redirecting action when button is clicked.'
                 ],
                 'sequence' => 'Sequence',
                 'status' => 'Status'

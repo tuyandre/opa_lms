@@ -107,4 +107,4 @@ Route::post('settings/social', ['uses' =>'Admin\ConfigController@saveSocialSetti
 
 
 //===== Slider Routes =====/
-Route::resource('slider', 'Admin\SliderController');
+Route::resource('sliders', 'Admin\SliderController');

@@ -178,8 +178,8 @@
                             </a>
                         </li>
                         <li class="nav-item ">
-                            <a class="nav-link {{ active_class(Active::checkUriPattern('admin/slider*')) }}"
-                               href="{{ route('admin.slider.index') }}">
+                            <a class="nav-link {{ active_class(Active::checkUriPattern('admin/sliders*')) }}"
+                               href="{{ route('admin.sliders.index') }}">
                                 <span class="title">@lang('menus.backend.sidebar.hero-slider.title')</span>
                             </a>
                         </li>

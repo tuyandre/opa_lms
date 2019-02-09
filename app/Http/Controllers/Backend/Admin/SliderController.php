@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers\Backend\Admin;
 
+use App\Http\Controllers\Traits\FileUploadTrait;
 use App\Models\Slider;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 class SliderController extends Controller
 {
+
+    use FileUploadTrait;
+
     /**
      * Display a listing of the resource.
      *
@@ -16,7 +20,7 @@ class SliderController extends Controller
     public function index()
     {
         $slides = Slider::get();
-        return view('backend.slider.index',compact('slides'));
+        return view('backend.slider.index', compact('slides'));
     }
 
     /**
@@ -32,18 +36,34 @@ class SliderController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'name' => 'required',
+            'image' => 'required|file',
+        ]);
+
+        $request = $this->saveFiles($request);
+        $sequence = Slider::max('sequence');
+        $sequence += 1;
+        $slide = new Slider();
+        $slide->name = $request->name;
+        $slide->bg_image = $request->image;
+        $slide->sequence = $sequence;
+        $slide->content = $request->dataJson;
+        $slide->status = 1;
+        $slide->save();
+
+        return redirect()->route('admin.sliders.index')->withFlashSuccess(trans('alerts.backend.general.created'));
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -54,7 +74,7 @@ class SliderController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -65,8 +85,8 @@ class SliderController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -77,7 +97,7 @@ class SliderController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)

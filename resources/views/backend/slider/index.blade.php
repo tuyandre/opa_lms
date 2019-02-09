@@ -7,7 +7,7 @@
         <div class="card-header">
             <h3 class="page-title float-left">@lang('labels.backend.hero_slider.title')</h3>
                 <div class="float-right">
-                    <a href="{{ route('admin.slider.create') }}"
+                    <a href="{{ route('admin.sliders.create') }}"
                        class="btn btn-success">@lang('strings.backend.general.app_add_new')</a>
 
                 </div>
@@ -42,7 +42,7 @@
                                             {{$slide->name}}
                                         </td>
                                         <td>
-                                            <img src="{{asset('storage/uploads/'.$slide->bg_image)}}" href="50px">
+                                            <img src="{{asset('storage/uploads/'.$slide->bg_image)}}" height="50px">
                                         </td>
                                         <td>
                                            {{ $slide->sequence }}
@@ -53,6 +53,25 @@
                                             @else
                                                 @lang('labels.backend.hero_slider.off')
                                             @endif
+                                        </td>
+                                        <td>
+                                            <a href="{{route('admin.sliders.edit',['id'=>$slide->id]) }}"
+                                               class="btn btn-xs btn-info mb-1"><i class="icon-pencil"></i></a>
+
+                                            <a data-method="delete" data-trans-button-cancel="Cancel"
+                                               data-trans-button-confirm="Delete" data-trans-title="Are you sure?"
+                                               class="btn btn-xs btn-danger text-white mb-1" style="cursor:pointer;"
+                                               onclick="$(this).find('form').submit();">
+                                                <i class="fa fa-trash"
+                                                   data-toggle="tooltip"
+                                                   data-placement="top" title=""
+                                                   data-original-title="Delete"></i>
+                                                <form action="{{route('admin.sliders.destroy',['id'=>$slide->id])}}"
+                                                      method="POST" name="delete_item" style="display:none">
+                                                    @csrf
+                                                    {{method_field('DELETE')}}
+                                                </form>
+                                            </a>
                                         </td>
                                     </tr>
                                 @endforeach
