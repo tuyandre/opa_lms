@@ -26,7 +26,7 @@ $(document).on('click', '#btn-submit', function (e) {
         }
 
 
-        if($('#buttons').val() > 0){
+        if($('.button-wrapper').length > 0){
             var buttons=[];
             $('.button-container .button-wrapper').each(function (key, value) {
                var label = $(value).find('input[name="button_label"]').val();
@@ -41,22 +41,6 @@ $(document).on('click', '#btn-submit', function (e) {
 
         $('<input>').attr('type','hidden').attr('name','dataJson').val(dataJson).appendTo($('#slider-create')[0]);
         $('#slider-create')[0].submit();
-
-
-        // $.ajax({
-        //     type: 'POST',
-        //     url: $('#slider-create').attr('action'),
-        //     data: {requestData: form,my:'my'},
-        //     contentType:false,
-        //     processData:false,
-        //     success: function (response) {
-        //       console.log(response)
-        //
-        //     },
-        //     error: function (jqXHR) {
-        //
-        //     }
-        // });
 
     } else {
         $('.alert.alert-danger').removeClass('d-none')
@@ -73,18 +57,18 @@ function validateForm(form) {
     }
 
     if ($('input[name="image"]').val() == "") {
-        $('.error-list').append('<p class="mb-0">The BG Image field is required</p>')
-        success = false;
+        if(!$('input[name="old_image"]')){
+            $('.error-list').append('<p class="mb-0">The BG Image field is required</p>')
+            success = false;
+        }
+
     }
     if ($('select[name="widget"]').val() == 2 && ($('input[name="timer"]').val() == "____/__/__ __:__" || $('input[name="timer"]').val() == "")) {
         $('.error-list').append('<p class="mb-0">The Countdown timer setup field is required</p>')
         success = false;
     }
 
-    if (!isNaN($('input[name="buttons"]').val()) && ($('input[name="buttons"]').val() != "") && ($('input[name="buttons"]').val() != "") && (($('input[name="buttons"]').val() > 4) || ($('input[name="buttons"]').val() < 1))) {
-        $('.error-list').append('<p class="mb-0">Input valid number of buttons.</p>')
-        success = false;
-    } else if (!isNaN($('input[name="buttons"]').val()) && ($('input[name="buttons"]').val() != "") && (($('input[name="buttons"]').val() < 4) || ($('input[name="buttons"]').val() > 1))) {
+   if ($('.button-wrapper').length != 0 && (($('.button-wrapper').length  < 4) || ($('.button-wrapper').length  > 1))) {
         var empty = false;
         $('.button-wrapper').find('input[type="text"]').each(function (key, value) {
             console.log()

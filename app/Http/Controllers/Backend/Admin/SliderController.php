@@ -79,7 +79,8 @@ class SliderController extends Controller
      */
     public function edit($id)
     {
-        //
+        $slide = Slider::findOrFail($id);
+        return view('backend.slider.edit',compact('slide'));
     }
 
     /**
@@ -91,7 +92,19 @@ class SliderController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+
+
+        $request = $this->saveFiles($request);
+        $slide = Slider::findOrFail($id);
+
+        $slide->name = $request->name;
+        if($request->bg_image != ""){
+            $slide->bg_image = $request->image;
+        }
+        $slide->content = $request->dataJson;
+        $slide->save();
+
+        return redirect()->route('admin.sliders.index')->withFlashSuccess(trans('alerts.backend.general.updated'));
     }
 
     /**
@@ -103,5 +116,19 @@ class SliderController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+
+    public function status($id)
+    {
+        $slide = Slider::findOrFail($id);
+        if ($slide->status == 1) {
+            $slide->status = 0;
+        } else {
+            $slide->status = 1;
+        }
+        $slide->save();
+
+        return back()->withFlashSuccess(trans('alerts.backend.general.updated'));
     }
 }

@@ -34,9 +34,10 @@
                             </thead>
                             <tbody>
                                 @foreach($slides as $key=>$slide)
+                                    @php $key++ @endphp
                                     <tr>
                                         <td>
-                                           {{ $key++ }}
+                                           {{ $key }}
                                         </td>
                                         <td>
                                             {{$slide->name}}
@@ -55,6 +56,21 @@
                                             @endif
                                         </td>
                                         <td>
+                                            @if($slide->status == 1)
+                                                <a href="{{route('admin.sliders.status',['id'=>$slide->id])}}" class="btn mb-1 btn-danger">
+                                                    <i class="fa fa-power-off"></i>
+                                                </a>
+
+                                            @else
+                                                <a href={{route('admin.sliders.status',['id'=>$slide->id])}}"" class="btn mb-1 btn-success">
+                                                    <i class="fa fa-power-off"></i>
+                                                </a>
+
+                                            @endif
+
+
+
+
                                             <a href="{{route('admin.sliders.edit',['id'=>$slide->id]) }}"
                                                class="btn btn-xs btn-info mb-1"><i class="icon-pencil"></i></a>
 

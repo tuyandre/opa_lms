@@ -5,13 +5,15 @@
         .form-control-label {
             line-height: 35px;
         }
-        .remove{
+
+        .remove {
             float: right;
             color: red;
             font-size: 20px;
             cursor: pointer;
         }
-        .error{
+
+        .error {
             color: red;
         }
 
@@ -21,7 +23,7 @@
           href="{{asset('plugins/jqueryui-datetimepicker/jquery.datetimepicker.css')}}">
 @endpush
 @section('content')
-    {{ html()->form('POST', route('admin.sliders.store'))->id('slider-create')->class('form-horizontal')->acceptsFiles()->open() }}
+    {{ html()->modelForm($slide, 'PATCH', route('admin.sliders.update', $slide->id))->class('form-horizontal')->id('slider-create')->open() }}
     <div class="alert alert-danger d-none" role="alert">
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">×</span>
@@ -31,7 +33,7 @@
     </div>
     <div class="card">
         <div class="card-header">
-            <h3 class="page-title float-left">@lang('labels.backend.hero_slider.create')</h3>
+            <h3 class="page-title float-left">@lang('labels.backend.hero_slider.edit')</h3>
             <div class="float-right">
                 <a href="{{ route('admin.sliders.index') }}"
                    class="btn btn-success">@lang('labels.backend.hero_slider.view')</a>
@@ -55,9 +57,13 @@
             <div class="row form-group">
                 {{ html()->label(__('labels.backend.hero_slider.fields.bg_image'))->class('col-md-2 form-control-label')->for('image') }}
 
-                <div class="col-md-10">
-                    {!! Form::file('image', ['class' => 'form-control d-inline-block', 'placeholder' => '', 'accept' => 'image/jpeg,image/gif,image/png']) !!}
+                <div class="col-md-8">
+                    {!! Form::file('image', ['class' => 'form-control d-inline-block', 'placeholder' => '','value' => $slide->bg_image, 'accept' => 'image/jpeg,image/gif,image/png']) !!}
                     <p class="help-text mb-0 font-italic">{!!  __('labels.backend.hero_slider.note')!!}</p>
+                    <input type="hidden" value="{{$slide->bg_image}}" name="old_image">
+                </div>
+                <div class="col-md-2">
+                    <img src="{{asset('storage/uploads/'.$slide->bg_image)}}" height="50px">
                 </div>
             </div>
             <div class="row form-group">
@@ -96,17 +102,18 @@
             <div class="row form-group">
                 {{ html()->label(__('labels.backend.hero_slider.fields.buttons.title'))->class('col-md-2 col-2 form-control-label')->for('buttons') }}
                 <div class="col-2">
-                    <button type="button" id="add-button" class="btn-block btn  btn-primary">{{__('labels.backend.hero_slider.fields.buttons.add')}}</button>
+                    <button type="button" id="add-button"
+                            class="btn-block btn  btn-primary">{{__('labels.backend.hero_slider.fields.buttons.add')}}</button>
                 </div>
 
 
                 <div class="col-md-8 col-8">
                     {{--{{ html()->input('number','buttons')--}}
-                           {{--->class('form-control')--}}
-                           {{--->placeholder(__('labels.backend.hero_slider.fields.buttons.placeholder'))--}}
-                           {{--->attributes(['max'=>4,'pattern'=>'[0-9]','min'=>1])--}}
-                         {{--->id('buttons')--}}
-                          {{--}}--}}
+                    {{--->class('form-control')--}}
+                    {{--->placeholder(__('labels.backend.hero_slider.fields.buttons.placeholder'))--}}
+                    {{--->attributes(['max'=>4,'pattern'=>'[0-9]','min'=>1])--}}
+                    {{--->id('buttons')--}}
+                    {{--}}--}}
                     <p class="help-text mb-0 font-italic">{!!  __('labels.backend.hero_slider.fields.buttons.note')!!}</p>
                 </div><!--col-->
                 <div class="col-12 col-md-10 ml-auto button-container mt-2">
@@ -119,7 +126,8 @@
                 <div class="col-4">
                     {{ form_cancel(route('admin.teachers.index'), __('buttons.general.cancel')) }}
 
-                    <button class="btn btn-success pull-right" type="button" id="btn-submit">{{__('buttons.general.crud.create')}}</button>
+                    <button class="btn btn-success pull-right" type="button"
+                            id="btn-submit">{{__('buttons.general.crud.update')}}</button>
                 </div>
             </div><!--col-->
         </div>
@@ -138,9 +146,8 @@
                 placeholder: "{{trans('labels.backend.hero_slider.fields.widget.select_widget')}}",
             });
 
-            $('#timer').datetimepicker({
-               mask:true
-            });
+
+
 
             $(document).on('change', '#widget', function () {
                 if ($(this).val() == 2) {
@@ -150,12 +157,11 @@
                 }
             })
 
-            $(document).on('click','#add-button',function (e) {
+            $(document).on('click', '#add-button', function (e) {
                 e.preventDefault()
-
-                if($('.button-wrapper').length <= 3){
-                    var name = 'Button';
-                    var html = "<div class='button-wrapper'> <h6 class='mt-3'> "+name+" <span class='remove'><i class='fa fa-window-close'></i></span></h6>" +
+                if ($('.button-wrapper').length <= 3) {
+                    var name ='Button';
+                    var html = "<div class='button-wrapper'> <h6 class='mt-3'> " + name + " <span class='remove'><i class='fa fa-window-close'></i></span></h6>" +
                         "<div class='row'>" +
                         "<div class='col-lg-6'>" +
                         "<input type='text' required name='button_label' class='form-control' placeholder='Button label'>" +
@@ -166,18 +172,62 @@
                         "</div></div>";
 
                     $('.button-container').append(html);
-                }else{
+                } else {
                     alert('Maximum limit of button exceeded!')
                 }
-
             });
 
-            $(document).on('click','.remove',function () {
-                if(confirm('Are you sure want to remove button?')){
+            $(document).on('click', '.remove', function () {
+                if (confirm('Are you sure want to remove button?')) {
                     $(this).parents('.button-wrapper').remove();
-                    $('#buttons').val($('.button-wrapper').length)
                 }
+            })
+            var date;
+           @if($slide->content != "")
+            var dataJson = "{{$slide->content}}";
+            dataJson = JSON.parse(dataJson.replace(/&quot;/g, '"'));
+
+            //Adding texts
+            $('input[name="hero_text"]').val(dataJson.hero_text);
+            $('input[name="sub_text"]').val(dataJson.sub_text);
+
+            //Adding widgets
+            if(dataJson.widget.type == 1){
+                $('select[name="widget"] option:eq(1)').prop('selected', true)
+                date = new Date();
+
+            }else{
+                $('select[name="widget"] option:eq(2)').prop('selected', true);
+                $('.widget-container ').removeClass('d-none');
+                date = dataJson.widget.timer;
+            }
+
+            //Adding buttons
+            $(dataJson.buttons).each(function (key,data) {
+                var name = 'Button';
+                var html = "<div class='button-wrapper'> <h6 class='mt-3'> " + name + " <span class='remove'><i class='fa fa-window-close'></i></span></h6>" +
+                    "<div class='row'>" +
+                    "<div class='col-lg-6'>" +
+                    "<input type='text' value='"+data.label+"' required name='button_label' class='form-control' placeholder='Button label'>" +
+                    "</div>" +
+                    "<div class='col-lg-6'>" +
+                    "<input type='text' required name='button_link' value='"+data.link+"' class='form-control' placeholder='Button Link'>" +
+                    "</div>" +
+                    "</div></div>";
+
+                $('.button-container').append(html);
             });
+
+            @endif
+
+
+
+
+            $('#timer').datetimepicker({
+                mask: true,
+                value:date
+            });
+
 
 
         })
