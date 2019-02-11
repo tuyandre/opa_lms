@@ -50,14 +50,28 @@
                         ->attribute('maxlength', 191)
                     ->autofocus()
                     }}
+
                 </div><!--col-->
             </div>
+
             <div class="row form-group">
                 {{ html()->label(__('labels.backend.hero_slider.fields.bg_image'))->class('col-md-2 form-control-label')->for('image') }}
 
                 <div class="col-md-10">
                     {!! Form::file('image', ['class' => 'form-control d-inline-block', 'placeholder' => '', 'accept' => 'image/jpeg,image/gif,image/png']) !!}
                     <p class="help-text mb-0 font-italic">{!!  __('labels.backend.hero_slider.note')!!}</p>
+                </div>
+            </div>
+            <div class="row form-group">
+                {{ html()->label(__('labels.backend.hero_slider.fields.overlay.title'))->class('col-md-2 form-control-label')->for('overlay') }}
+
+                <div class="col-md-10">
+                    {{ html()->label(html()->checkbox('overlay')
+                                              ->class('switch-input')->value(1)
+                                        . '<span class="switch-label"></span><span class="switch-handle"></span>')
+                                    ->class('switch switch-sm switch-3d switch-primary')
+                                }}
+                    <p class="help-text mb-0 font-italic">{!!  __('labels.backend.hero_slider.fields.overlay.note')!!}</p>
                 </div>
             </div>
             <div class="row form-group">

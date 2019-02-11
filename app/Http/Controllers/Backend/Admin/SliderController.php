@@ -52,6 +52,7 @@ class SliderController extends Controller
         $slide = new Slider();
         $slide->name = $request->name;
         $slide->bg_image = $request->image;
+        $slide->overlay = $request->overlay;
         $slide->sequence = $sequence;
         $slide->content = $request->dataJson;
         $slide->status = 1;
@@ -101,6 +102,7 @@ class SliderController extends Controller
         if($request->bg_image != ""){
             $slide->bg_image = $request->image;
         }
+        $slide->overlay = $request->overlay;
         $slide->content = $request->dataJson;
         $slide->save();
 

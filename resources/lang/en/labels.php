@@ -304,6 +304,10 @@ return [
                 'bg_image' => 'BG Image',
                 'hero_text' => 'Hero Text',
                 'sub_text' => 'Sub Text',
+                'overlay' => [
+                    'title' => 'Overlay',
+                    'note' => 'If you turn it on. A black overlay will be displayed on your image. It will be helpful when BG image is not darker or does not have Overlay'
+                ],
                 'widget' => [
                     'title' => 'Widget',
                     'select_widget' => 'Select Widget',

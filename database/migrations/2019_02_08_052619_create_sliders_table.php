@@ -18,6 +18,7 @@ class CreateSlidersTable extends Migration
             $table->string('name');
             $table->longText('content')->nullable();
             $table->text('bg_image')->nullable();
+            $table->integer('overlay')->default(0)->nullable();
             $table->integer('sequence');
             $table->integer('status')->default(1)->comment('1 - enabled, 0 - disabled');
             $table->timestamps();

@@ -67,6 +67,18 @@
                 </div>
             </div>
             <div class="row form-group">
+                {{ html()->label(__('labels.backend.hero_slider.fields.overlay.title'))->class('col-md-2 form-control-label')->for('overlay') }}
+
+                <div class="col-md-10">
+                    {{ html()->label(html()->checkbox('overlay')
+                                              ->class('switch-input')->value(1)
+                                        . '<span class="switch-label"></span><span class="switch-handle"></span>')
+                                    ->class('switch switch-sm switch-3d switch-primary')
+                                }}
+                    <p class="help-text mb-0 font-italic">{!!  __('labels.backend.hero_slider.fields.overlay.note')!!}</p>
+                </div>
+            </div>
+            <div class="row form-group">
                 {{ html()->label(__('labels.backend.hero_slider.fields.hero_text'))->class('col-md-2 form-control-label')->for('hero_text') }}
 
                 <div class="col-md-10">
@@ -192,31 +204,38 @@
             $('input[name="sub_text"]').val(dataJson.sub_text);
 
             //Adding widgets
-            if(dataJson.widget.type == 1){
-                $('select[name="widget"] option:eq(1)').prop('selected', true)
-                date = new Date();
 
-            }else{
-                $('select[name="widget"] option:eq(2)').prop('selected', true);
-                $('.widget-container ').removeClass('d-none');
-                date = dataJson.widget.timer;
+            if(dataJson.widget){
+                if(dataJson.widget.type == 1){
+                    $('select[name="widget"] option:eq(1)').prop('selected', true)
+                    date = new Date();
+
+                }else{
+                    $('select[name="widget"] option:eq(2)').prop('selected', true);
+                    $('.widget-container ').removeClass('d-none');
+                    date = dataJson.widget.timer;
+                }
+
             }
 
             //Adding buttons
-            $(dataJson.buttons).each(function (key,data) {
-                var name = 'Button';
-                var html = "<div class='button-wrapper'> <h6 class='mt-3'> " + name + " <span class='remove'><i class='fa fa-window-close'></i></span></h6>" +
-                    "<div class='row'>" +
-                    "<div class='col-lg-6'>" +
-                    "<input type='text' value='"+data.label+"' required name='button_label' class='form-control' placeholder='Button label'>" +
-                    "</div>" +
-                    "<div class='col-lg-6'>" +
-                    "<input type='text' required name='button_link' value='"+data.link+"' class='form-control' placeholder='Button Link'>" +
-                    "</div>" +
-                    "</div></div>";
+            if(dataJson.buttons){
+                $(dataJson.buttons).each(function (key,data) {
+                    var name = 'Button';
+                    var html = "<div class='button-wrapper'> <h6 class='mt-3'> " + name + " <span class='remove'><i class='fa fa-window-close'></i></span></h6>" +
+                        "<div class='row'>" +
+                        "<div class='col-lg-6'>" +
+                        "<input type='text' value='"+data.label+"' required name='button_label' class='form-control' placeholder='Button label'>" +
+                        "</div>" +
+                        "<div class='col-lg-6'>" +
+                        "<input type='text' required name='button_link' value='"+data.link+"' class='form-control' placeholder='Button Link'>" +
+                        "</div>" +
+                        "</div></div>";
 
-                $('.button-container').append(html);
-            });
+                    $('.button-container').append(html);
+                });
+
+            }
 
             @endif
 
