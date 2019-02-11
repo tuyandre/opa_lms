@@ -2,7 +2,7 @@
 @langrtl
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" dir="rtl">
 @else
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+    <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     @endlangrtl
     <head>
         <meta charset="utf-8">
@@ -84,7 +84,7 @@
 
                                         <a href="{{route('cart.index')}}"><i class="fas fa-shopping-bag"></i>
                                             @if(auth()->check() && Cart::session(auth()->user()->id)->getTotalQuantity() != 0)
-                                                <span class="badge badge-danger position-absolute" >{{Cart::session(auth()->user()->id)->getTotalQuantity()}}</span>
+                                                <span class="badge badge-danger position-absolute">{{Cart::session(auth()->user()->id)->getTotalQuantity()}}</span>
                                             @endif
                                         </a>
 
@@ -197,6 +197,14 @@
             </div>
         </header>
         <!-- Start of Header section
+            ============================================= -->
+
+
+        <!-- Start of slider section
+            ============================================= -->
+    @include('frontend.layouts.partials.slider')
+
+    <!-- End of slider section
             ============================================= -->
 
         @yield('content')

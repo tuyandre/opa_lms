@@ -1,16 +1,40 @@
 @extends('backend.layouts.app')
+@push('after-styles')
+    <link rel="stylesheet" type="text/css" href="{{asset('plugins/amigo-sorter/css/theme-default.css')}}">
+    <style>
+        ul.sorter > span {
+            display: inline-block;
+            width: 100%;
+            height: 100%;
+            background: #f5f5f5;
+            color: #333333;
+            border: 1px solid #cccccc;
+            border-radius: 6px;
+            padding: 0px;
+        }
 
+        ul.sorter li > span .title {
+            padding-left: 15px;
+        }
+
+        ul.sorter li > span .btn {
+            width: 20%;
+        }
+
+
+    </style>
+@endpush
 
 @section('content')
 
     <div class="card">
         <div class="card-header">
             <h3 class="page-title float-left">@lang('labels.backend.hero_slider.title')</h3>
-                <div class="float-right">
-                    <a href="{{ route('admin.sliders.create') }}"
-                       class="btn btn-success">@lang('strings.backend.general.app_add_new')</a>
+            <div class="float-right">
+                <a href="{{ route('admin.sliders.create') }}"
+                   class="btn btn-success">@lang('strings.backend.general.app_add_new')</a>
 
-                </div>
+            </div>
         </div>
         <div class="card-body">
             <div class="row">
@@ -33,64 +57,64 @@
                             </tr>
                             </thead>
                             <tbody>
-                                @foreach($slides as $key=>$slide)
-                                    @php $key++ @endphp
-                                    <tr>
-                                        <td>
-                                           {{ $key }}
-                                        </td>
-                                        <td>
-                                            {{$slide->name}}
-                                        </td>
-                                        <td>
-                                            <img src="{{asset('storage/uploads/'.$slide->bg_image)}}" height="50px">
-                                        </td>
-                                        <td>
-                                           {{ $slide->sequence }}
-                                        </td>
-                                        <td>
-                                            @if($slide->status == 1)
-                                                @lang('labels.backend.hero_slider.on')
-                                            @else
-                                                @lang('labels.backend.hero_slider.off')
-                                            @endif
-                                        </td>
-                                        <td>
-                                            @if($slide->status == 1)
-                                                <a href="{{route('admin.sliders.status',['id'=>$slide->id])}}" class="btn mb-1 btn-danger">
-                                                    <i class="fa fa-power-off"></i>
-                                                </a>
-
-                                            @else
-                                                <a href={{route('admin.sliders.status',['id'=>$slide->id])}}"" class="btn mb-1 btn-success">
-                                                    <i class="fa fa-power-off"></i>
-                                                </a>
-
-                                            @endif
-
-
-
-
-                                            <a href="{{route('admin.sliders.edit',['id'=>$slide->id]) }}"
-                                               class="btn btn-xs btn-info mb-1"><i class="icon-pencil"></i></a>
-
-                                            <a data-method="delete" data-trans-button-cancel="Cancel"
-                                               data-trans-button-confirm="Delete" data-trans-title="Are you sure?"
-                                               class="btn btn-xs btn-danger text-white mb-1" style="cursor:pointer;"
-                                               onclick="$(this).find('form').submit();">
-                                                <i class="fa fa-trash"
-                                                   data-toggle="tooltip"
-                                                   data-placement="top" title=""
-                                                   data-original-title="Delete"></i>
-                                                <form action="{{route('admin.sliders.destroy',['id'=>$slide->id])}}"
-                                                      method="POST" name="delete_item" style="display:none">
-                                                    @csrf
-                                                    {{method_field('DELETE')}}
-                                                </form>
+                            @foreach($slides as $key=>$slide)
+                                @php $key++ @endphp
+                                <tr>
+                                    <td>
+                                        {{ $key }}
+                                    </td>
+                                    <td>
+                                        {{$slide->name}}
+                                    </td>
+                                    <td>
+                                        <img src="{{asset('storage/uploads/'.$slide->bg_image)}}" height="50px">
+                                    </td>
+                                    <td>
+                                        {{ $slide->sequence }}
+                                    </td>
+                                    <td>
+                                        @if($slide->status == 1)
+                                            @lang('labels.backend.hero_slider.on')
+                                        @else
+                                            @lang('labels.backend.hero_slider.off')
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if($slide->status == 1)
+                                            <a href="{{route('admin.sliders.status',['id'=>$slide->id])}}"
+                                               class="btn mb-1 btn-danger">
+                                                <i class="fa fa-power-off"></i>
                                             </a>
-                                        </td>
-                                    </tr>
-                                @endforeach
+
+                                        @else
+                                            <a href={{route('admin.sliders.status',['id'=>$slide->id])}}""
+                                               class="btn mb-1 btn-success">
+                                                <i class="fa fa-power-off"></i>
+                                            </a>
+
+                                        @endif
+
+
+                                        <a href="{{route('admin.sliders.edit',['id'=>$slide->id]) }}"
+                                           class="btn btn-xs btn-info mb-1"><i class="icon-pencil"></i></a>
+
+                                        <a data-method="delete" data-trans-button-cancel="Cancel"
+                                           data-trans-button-confirm="Delete" data-trans-title="Are you sure?"
+                                           class="btn btn-xs btn-danger text-white mb-1" style="cursor:pointer;"
+                                           onclick="$(this).find('form').submit();">
+                                            <i class="fa fa-trash"
+                                               data-toggle="tooltip"
+                                               data-placement="top" title=""
+                                               data-original-title="Delete"></i>
+                                            <form action="{{route('admin.sliders.destroy',['id'=>$slide->id])}}"
+                                                  method="POST" name="delete_item" style="display:none">
+                                                @csrf
+                                                {{method_field('DELETE')}}
+                                            </form>
+                                        </a>
+                                    </td>
+                                </tr>
+                            @endforeach
 
                             </tbody>
                         </table>
@@ -100,10 +124,46 @@
         </div>
     </div>
 
+    <div class="card">
+        <div class="card-header">
+            <h3>@lang('labels.backend.hero_slider.manage_sequence')</h3>
+        </div>
+        <div class="card-body">
+            @if(count($slides) > 0)
+                <div class="row justify-content-center">
+                    <div class="col-6  ">
+                        <h4 class="">@lang('labels.backend.hero_slider.sequence_note')</h4>
+                        <ul class="sorter d-inline-block">
+                            @foreach($slides as $item)
+                                <li>
+                            <span data-id="{{$item->id}}" data-sequence="{{$item->sequence}}">
+
+                                <p class="title d-inline ml-2">{{$item->name}}</p>
+                           </span>
+
+                                </li>
+                            @endforeach
+                        </ul>
+                        <a href="{{ route('admin.courses.index') }}"
+                           class="btn btn-default border float-left">@lang('strings.backend.general.app_back_to_list')</a>
+
+                        <a href="#" id="save_timeline"
+                           class="btn btn-primary float-right">@lang('labels.backend.hero_slider.save_sequence')</a>
+
+                    </div>
+
+                </div>
+            @endif
+        </div>
+    </div>
+
 @endsection
 
 @push('after-scripts')
+    <script src="{{asset('plugins/amigo-sorter/js/amigo-sorter.min.js')}}"></script>
+
     <script>
+
 
         $(document).ready(function () {
 
@@ -137,5 +197,31 @@
 
             });
         });
+
+        $('ul.sorter').amigoSorter({
+            li_helper: "li_helper",
+            li_empty: "empty",
+        });
+        $(document).on('click', '#save_timeline', function (e) {
+            e.preventDefault();
+            var list = [];
+            $('ul.sorter li').each(function (key, value) {
+                key++;
+                var val = $(value).find('span').data('id');
+                list.push({id: val, sequence: key});
+            });
+
+            $.ajax({
+                method: 'POST',
+                url: "{{route('admin.sliders.saveSequence')}}",
+                data: {
+                    _token: '{{csrf_token()}}',
+                    list: list
+                }
+            }).done(function () {
+                location.reload();
+            });
+        })
     </script>
 @endpush
+

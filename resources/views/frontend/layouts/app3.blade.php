@@ -27,7 +27,9 @@
     <link rel="stylesheet" href="{{asset('assets/css/lightbox.css')}}">
     <link rel="stylesheet" href="{{asset('assets/css/progess.css')}}">
     <link rel="stylesheet" href="{{asset('assets/css/animate.min.css')}}">
-    <link rel="stylesheet" href="{{asset('assets/css/style.css')}}">
+    {{--<link rel="stylesheet" href="{{asset('assets/css/style.css')}}">--}}
+    <link rel="stylesheet" href="{{ mix('css/frontend.css') }}">
+
     <link rel="stylesheet" href="{{asset('assets/css/responsive.css')}}">
 
     <link rel="stylesheet"  href="{{asset('assets/css/colors/switch.css')}}">
@@ -200,6 +202,13 @@
     </header>
     <!-- Start of Header section
         ============================================= -->
+
+        <!-- Start of slider section
+    ============================================= -->
+    @include('frontend.layouts.partials.slider')
+
+    <!-- End of slider section
+            ============================================= -->
 
     @yield('content')
 

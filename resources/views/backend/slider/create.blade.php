@@ -59,6 +59,9 @@
 
                 <div class="col-md-10">
                     {!! Form::file('image', ['class' => 'form-control d-inline-block', 'placeholder' => '', 'accept' => 'image/jpeg,image/gif,image/png']) !!}
+                    {!! Form::hidden('slide_image_max_size', 8) !!}
+                    {!! Form::hidden('slide_image_max_width', 4000) !!}
+                    {!! Form::hidden('slide_image_max_height', 4000) !!}
                     <p class="help-text mb-0 font-italic">{!!  __('labels.backend.hero_slider.note')!!}</p>
                 </div>
             </div>
@@ -131,7 +134,7 @@
 
             <div class="form-group row justify-content-center">
                 <div class="col-4">
-                    {{ form_cancel(route('admin.teachers.index'), __('buttons.general.cancel')) }}
+                    {{ form_cancel(route('admin.slider.index'), __('buttons.general.cancel')) }}
 
                     <button class="btn btn-success pull-right" type="button" id="btn-submit">{{__('buttons.general.crud.create')}}</button>
                 </div>

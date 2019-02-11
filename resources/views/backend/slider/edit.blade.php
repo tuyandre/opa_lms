@@ -23,7 +23,7 @@
           href="{{asset('plugins/jqueryui-datetimepicker/jquery.datetimepicker.css')}}">
 @endpush
 @section('content')
-    {{ html()->modelForm($slide, 'PATCH', route('admin.sliders.update', $slide->id))->class('form-horizontal')->id('slider-create')->open() }}
+    {{ html()->modelForm($slide, 'PATCH', route('admin.sliders.update', $slide->id))->class('form-horizontal')->acceptsFiles()->id('slider-create')->open() }}
     <div class="alert alert-danger d-none" role="alert">
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">×</span>
@@ -58,8 +58,11 @@
                 {{ html()->label(__('labels.backend.hero_slider.fields.bg_image'))->class('col-md-2 form-control-label')->for('image') }}
 
                 <div class="col-md-8">
-                    {!! Form::file('image', ['class' => 'form-control d-inline-block', 'placeholder' => '','value' => $slide->bg_image, 'accept' => 'image/jpeg,image/gif,image/png']) !!}
+                    {!! Form::file('image', ['class' => 'form-control d-inline-block', 'placeholder' => '', 'accept' => 'image/jpeg,image/gif,image/png']) !!}
                     <p class="help-text mb-0 font-italic">{!!  __('labels.backend.hero_slider.note')!!}</p>
+                    {!! Form::hidden('slide_image_max_size', 8) !!}
+                    {!! Form::hidden('slide_image_max_width', 4000) !!}
+                    {!! Form::hidden('slide_image_max_height', 4000) !!}
                     <input type="hidden" value="{{$slide->bg_image}}" name="old_image">
                 </div>
                 <div class="col-md-2">
@@ -136,7 +139,7 @@
 
             <div class="form-group row justify-content-center">
                 <div class="col-4">
-                    {{ form_cancel(route('admin.teachers.index'), __('buttons.general.cancel')) }}
+                    {{ form_cancel(route('admin.sliders.index'), __('buttons.general.cancel')) }}
 
                     <button class="btn btn-success pull-right" type="button"
                             id="btn-submit">{{__('buttons.general.crud.update')}}</button>

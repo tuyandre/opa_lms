@@ -299,6 +299,10 @@ return [
             'edit' => 'Edit Slide',
             'view' => 'View Slides',
             'note' => 'Note: Please upload .jpg or .png in <b>1920x900</b> resolution for best result. Use darker or Overlayed images for better result.',
+            'manage_sequence' => 'Manage Sequence of Slides',
+            'sequence_note' => 'Drag and change sequence of a Slide',
+            'save_sequence' => 'Save Sequence',
+
             'fields' => [
                 'name' => 'Name',
                 'bg_image' => 'BG Image',

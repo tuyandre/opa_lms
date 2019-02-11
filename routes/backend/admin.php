@@ -109,3 +109,5 @@ Route::post('settings/social', ['uses' =>'Admin\ConfigController@saveSocialSetti
 //===== Slider Routes =====/
 Route::resource('sliders', 'Admin\SliderController');
 Route::get('sliders/status/{id}', 'Admin\SliderController@status')->name('sliders.status','id');
+Route::post('sliders/save-sequence', ['uses' => 'Admin\SliderController@saveSequence', 'as' => 'sliders.saveSequence']);
+

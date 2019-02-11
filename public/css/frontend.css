@@ -1314,10 +1314,28 @@ button.alt-menu-btn.float-left {
           transform: translateY(-50%);
 }
 
+.slider-text .section-title {
+  width: 70%;
+  margin: auto;
+}
+
 .slider-text .section-title h2 {
-  font-size: 90px;
+  font-size: 60px;
   color: #fff;
   font-weight: 100;
+}
+
+@media screen and (max-width: 768px) {
+  .slider-text .section-title {
+    width: 100%;
+    margin: auto;
+  }
+
+  .slider-text .section-title h2 {
+    font-size: 25px !important;
+    color: #fff;
+    font-weight: 100;
+  }
 }
 
 #slider-item:hover {
@@ -1560,6 +1578,41 @@ button.alt-menu-btn.float-left {
 .slider-bg-5 .slider-text {
   max-width: 1170px;
   margin: 0 auto;
+}
+
+.bg-image {
+  height: 100vh;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+.bg-image:after {
+  opacity: 0;
+  content: attr(data-content);
+  color: #fff;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.6);
+  transition: all 0.5s;
+  -webkit-transition: all 0.5s;
+}
+
+.bg-image.overlay:after {
+  content: attr(data-content);
+  color: #fff;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.6);
+  opacity: 1;
+  transition: all 0.5s;
+  -webkit-transition: all 0.5s;
 }
 
 #course-btn .genius-btn {

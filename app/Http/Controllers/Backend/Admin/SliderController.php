@@ -20,6 +20,7 @@ class SliderController extends Controller
     public function index()
     {
         $slides = Slider::get();
+
         return view('backend.slider.index', compact('slides'));
     }
 
@@ -93,16 +94,17 @@ class SliderController extends Controller
      */
     public function update(Request $request, $id)
     {
-
+        $this->validate($request, [
+            'name' => 'required',
+        ]);
 
         $request = $this->saveFiles($request);
         $slide = Slider::findOrFail($id);
-
-        $slide->name = $request->name;
-        if($request->bg_image != ""){
+        if($request->image != ""){
             $slide->bg_image = $request->image;
         }
-        $slide->overlay = $request->overlay;
+        $slide->name = $request->name;
+        $slide->overlay = ($request->overlay == "") ? 0 : 1 ;
         $slide->content = $request->dataJson;
         $slide->save();
 
@@ -117,7 +119,10 @@ class SliderController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $slide = Slider::findOrFail($id);
+        $slide->delete();
+        return back()->withFlashSuccess(trans('alerts.backend.general.deleted'));
+
     }
 
 
@@ -132,5 +137,21 @@ class SliderController extends Controller
         $slide->save();
 
         return back()->withFlashSuccess(trans('alerts.backend.general.updated'));
+    }
+
+    /**
+     * Permanently save Sequence from storage.
+     *
+     * @param  Request
+     */
+    public function saveSequence(Request $request)
+    {
+
+        foreach ($request->list as $item) {
+            $slide = Slider::find($item['id']);
+            $slide->sequence= $item['sequence'];
+            $slide->save();
+        }
+        return 'success';
     }
 }

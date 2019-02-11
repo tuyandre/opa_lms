@@ -27,7 +27,9 @@
         <link rel="stylesheet" href="{{asset('assets/css/lightbox.css')}}">
         <link rel="stylesheet" href="{{asset('assets/css/progess.css')}}">
         <link rel="stylesheet" href="{{asset('assets/css/animate.min.css')}}">
-        <link rel="stylesheet" href="{{asset('assets/css/style.css')}}">
+        {{--<link rel="stylesheet" href="{{asset('assets/css/style.css')}}">--}}
+        <link rel="stylesheet" href="{{ mix('css/frontend.css') }}">
+
         <link rel="stylesheet" href="{{asset('assets/css/responsive.css')}}">
 
         <link rel="stylesheet" href="{{asset('assets/css/colors/switch.css')}}">
@@ -114,7 +116,7 @@
                                         <li><a href="contact">Contact Us</a></li>
                                         <li><a href="{{asset('forums')}}">Forums</a></li>
 
-                                         @if(auth()->check())
+                                        @if(auth()->check())
                                             <li class="menu-item-has-children ul-li-block">
                                                 <a href="#!">{{ $logged_in_user->name }}</a>
                                                 <ul class="sub-menu">
@@ -154,7 +156,7 @@
                                         <li><a href="contact">Contact</a></li>
                                         <li><a href="{{asset('forums')}}">Forums</a></li>
 
-                                    @if(auth()->check())
+                                        @if(auth()->check())
                                             <li class="">
                                                 <a href="#!"><i class="fa fa-user"></i></a>
                                                 <ul class="">
@@ -185,6 +187,14 @@
         </header>
         <!-- Start of Header section
             ============================================= -->
+
+        <!-- Start of slider section
+     ============================================= -->
+    @include('frontend.layouts.partials.slider')
+
+    <!-- End of slider section
+            ============================================= -->
+
         @yield('content')
         @if(!isset($no_footer))
             @include('frontend.layouts.partials.footer')

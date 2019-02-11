@@ -48,7 +48,7 @@ Author:         HTMLMATE Team
                 this.searchBAR();
                 this.mobileMenu();
                 this.mainSlide();
-                this.countDown();
+                // this.countDown();
                 this.switchOpen();
                 this.quickScroll();
             },

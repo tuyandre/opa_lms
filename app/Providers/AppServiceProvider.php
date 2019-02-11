@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Helpers\Frontend\Auth\Socialite;
 use App\Models\Config;
+use App\Models\Slider;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
@@ -68,6 +69,11 @@ class AppServiceProvider extends ServiceProvider
                 \Illuminate\Support\Facades\Config::set($setting->key, $setting->value);
             }
         }
+
+        $slides = Slider::where('status', 1)->get();
+        view()->composer('*', function($view) use($slides) {
+            $view->with('slides',$slides);
+        });
     }
 
     /**
