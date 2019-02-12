@@ -97,6 +97,12 @@ return [
             'sponsors'    => [
                 'title' => 'Sponsors',
             ],
+            'testimonials'    => [
+                'title' => 'Testimonials',
+            ],
+            'blogs'    => [
+                'title' => 'Blogs',
+            ],
             /*===========================*/
         ],
     ],

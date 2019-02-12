@@ -43,6 +43,15 @@
                     </a>
                 </li>
             @endcan
+            @can('blog_access')
+                <li class="nav-item ">
+                    <a class="nav-link {{ $request->segment(2) == 'blogs' ? 'active' : '' }}"
+                       href="{{ route('admin.blogs.index') }}">
+                        <i class="nav-icon icon-note"></i>
+                        <span class="title">@lang('menus.backend.sidebar.blogs.title')</span>
+                    </a>
+                </li>
+            @endcan
 
             <li class="nav-item nav-dropdown {{ active_class(Active::checkUriPattern('admin/*'), 'open') }}">
                 <a class="nav-link nav-dropdown-toggle {{ active_class(Active::checkUriPattern('admin/*')) }}"
@@ -130,6 +139,14 @@
                         <span class="title">@lang('menus.backend.sidebar.sponsors.title')</span>
                     </a>
                 </li>
+                <li class="nav-item ">
+                    <a class="nav-link {{ $request->segment(2) == 'testimonials' ? 'active' : '' }}"
+                       href="{{ route('admin.testimonials.index') }}">
+                        <i class="nav-icon icon-speech"></i>
+                        <span class="title">@lang('menus.backend.sidebar.testimonials.title')</span>
+                    </a>
+                </li>
+
                 <li class="nav-title">
                     @lang('menus.backend.sidebar.system')
                 </li>

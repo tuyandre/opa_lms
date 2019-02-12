@@ -252,48 +252,22 @@
                     <div class="section-title-2 mb65 headline text-left ">
                         <h2>Students <span>Testimonial.</span></h2>
                     </div>
+                    @if($testimonials->count() > 0)
+                        <div id="testimonial-slide-item" class="testimonial-slide-area">
 
-                    <div id="testimonial-slide-item" class="testimonial-slide-area">
-                        <div class="student-qoute ">
-                            <p>“This was our first time lorem ipsum and we <b> were very pleased with the whole
-                                    experience</b>. Your price was lower than other companies. Our experience was good
-                                from start to finish, so we’ll be back in the future lorem ipsum diamet.”</p>
-                            <div class="student-name-designation">
-                                <span class="st-name bold-font">Robertho Garcia </span>
-                                <span class="st-designation">Graphic Designer</span>
-                            </div>
+                            @foreach($testimonials as $item)
+                                <div class="student-qoute ">
+                                    <p>{{$item->content}}</p>
+                                    <div class="student-name-designation">
+                                        <span class="st-name bold-font">{{$item->name}} </span>
+                                        <span class="st-designation">{{$item->occupation}}</span>
+                                    </div>
+                                </div>
+                            @endforeach
                         </div>
-
-                        <div class="student-qoute ">
-                            <p>“This was our first time lorem ipsum and we <b> were very pleased with the whole
-                                    experience</b>. Your price was lower than other companies. Our experience was good
-                                from start to finish, so we’ll be back in the future lorem ipsum diamet.”</p>
-                            <div class="student-name-designation">
-                                <span class="st-name bold-font">Robertho Garcia </span>
-                                <span class="st-designation">Graphic Designer</span>
-                            </div>
-                        </div>
-
-                        <div class="student-qoute ">
-                            <p>“This was our first time lorem ipsum and we <b> were very pleased with the whole
-                                    experience</b>. Your price was lower than other companies. Our experience was good
-                                from start to finish, so we’ll be back in the future lorem ipsum diamet.”</p>
-                            <div class="student-name-designation">
-                                <span class="st-name bold-font">Robertho Garcia </span>
-                                <span class="st-designation">Graphic Designer</span>
-                            </div>
-                        </div>
-
-                        <div class="student-qoute">
-                            <p>“This was our first time lorem ipsum and we <b> were very pleased with the whole
-                                    experience</b>. Your price was lower than other companies. Our experience was good
-                                from start to finish, so we’ll be back in the future lorem ipsum diamet.”</p>
-                            <div class="student-name-designation">
-                                <span class="st-name bold-font">Robertho Garcia </span>
-                                <span class="st-designation">Graphic Designer</span>
-                            </div>
-                        </div>
-                    </div>
+                    @else
+                        <h4>Not Available</h4>
+                    @endif
                 </div>
             </div>
         </div>
@@ -463,27 +437,27 @@
 
 
     @if(count($sponsors) > 0 )
-    <!-- Start of sponsor section
+        <!-- Start of sponsor section
         ============================================= -->
-    <section id="sponsor" class="sponsor-section">
-        <div class="container">
-            <div class="section-title-2 mb65 headline text-left ">
-                <h2>Genius <span>Sponsors.</span></h2>
+        <section id="sponsor" class="sponsor-section">
+            <div class="container">
+                <div class="section-title-2 mb65 headline text-left ">
+                    <h2>Genius <span>Sponsors.</span></h2>
+                </div>
+
+                <div class="sponsor-item sponsor-1 text-center">
+                    @foreach($sponsors as $sponsor)
+                        <div class="sponsor-pic text-center">
+                            <a href="{{ ($sponsor->link != "") ? $sponsor->link : '#' }}">
+                                <img src={{asset("storage/uploads/".$sponsor->logo)}} alt="{{$sponsor->name}}">
+                            </a>
+
+                        </div>
+                    @endforeach
+
+                </div>
             </div>
-
-            <div class="sponsor-item sponsor-1 text-center">
-                @foreach($sponsors as $sponsor)
-                    <div class="sponsor-pic text-center">
-                        <a href="{{ ($sponsor->link != "") ? $sponsor->link : '#' }}">
-                            <img src={{asset("storage/uploads/".$sponsor->logo)}} alt="{{$sponsor->name}}">
-                        </a>
-
-                    </div>
-                @endforeach
-
-            </div>
-        </div>
-    </section>
+        </section>
     @endif
 
     <!-- End of sponsor section

@@ -27,6 +27,7 @@ class DatabaseSeeder extends Seeder
         $this->call(QuestionsSeed::class);
         $this->call(ConfigSeeder::class);
         $this->call(SliderSeeder::class);
+        $this->call(TestimonialSeeder::class);
 
         Model::reguard();
     }

@@ -17,11 +17,12 @@
         }
 
         .color-default {
-            font-size: 18px!important;
+            font-size: 18px !important;
             background: #101010;
             border-radius: 100%;
         }
-        .form-control-label{
+
+        .form-control-label {
             line-height: 35px;
         }
 
@@ -63,7 +64,7 @@
 
                         </div><!--col-->
                     </div><!--form-group-->
-                    
+
                     <div class="form-group row">
                         {{ html()->label(__('labels.backend.general_settings.theme_layout'))->class('col-md-2 form-control-label')->for('theme_layout') }}
 
@@ -78,7 +79,7 @@
 
                         </div><!--col-->
                     </div><!--form-group-->
-                    
+
                     <div class="form-group row">
                         {{ html()->label(__('labels.backend.general_settings.font_color'))->class('col-md-2 form-control-label')->for('font_color') }}
 
@@ -139,7 +140,7 @@
                             <span class="help-text font-italic">This will change frontend theme font colors</span>
                         </div><!--col-->
                     </div><!--form-group-->
-                    
+
                     <div class="form-group row">
                         {{ html()->label(__('labels.backend.general_settings.layout_type'))->class('col-md-2 form-control-label')->for('layout_type') }}
 
@@ -157,18 +158,21 @@
                         {{ html()->label(__('labels.backend.general_settings.counter'))->class('col-md-2 form-control-label')->for('counter') }}
 
                         <div class="col-md-10">
-                            <select class="form-control" id="counter" name="layout_type">
+                            <select class="form-control" id="counter" name="counter">
                                 <option selected value="1">Static</option>
                                 <option value="2">Database / Real</option>
                             </select>
                             <span class="help-text font-italic">{!!  __('labels.backend.general_settings.counter_note') !!}</span>
-                            <div class="counter-container">
+                            <div class="counter-container" id="counter-container">
 
-                                <input class="form-control my-2" type="text" id="total_students" name="total_students" placeholder="{{__('labels.backend.general_settings.total_students')}}">
+                                <input class="form-control my-2" type="text" id="total_students" required name="total_students"
+                                       placeholder="{{__('labels.backend.general_settings.total_students')}}">
 
-                                <input type="text" id="total_courses" class="form-control mb-2" name="total_courses" placeholder="{{__('labels.backend.general_settings.total_courses')}}">
+                                <input type="text" required id="total_courses" class="form-control mb-2" name="total_courses"
+                                       placeholder="{{__('labels.backend.general_settings.total_courses')}}">
 
-                                <input type="text" class="form-control mb-2" id="total_teachers" name="total_teachers" placeholder="{{__('labels.backend.general_settings.total_teachers')}}">
+                                <input type="text" required class="form-control mb-2" id="total_teachers" name="total_teachers"
+                                       placeholder="{{__('labels.backend.general_settings.total_teachers')}}">
                             </div>
 
                         </div><!--col-->
@@ -216,6 +220,21 @@
             $('#layout_type').find('option[value="{{config('layout_type')}}"]').attr('selected', 'selected');
             @endif
 
+            @if(config('counter') != "")
+
+            @if((int)config('counter') == 1)
+            $('.counter-container').removeClass('d-none')
+            $('#total_students').val("{{config('total_students')}}");
+            $('#total_teachers').val("{{config('total_teachers')}}");
+            $('#total_courses').val("{{config('total_courses')}}");
+            @else
+            $('#counter-container').empty();
+            @endif
+
+            $('#counter').find('option').removeAttr('selected')
+            $('#counter').find('option[value="{{config('counter')}}"]').attr('selected', 'selected');
+            @endif
+
 
             $(document).on('click', '.color-list li', function () {
                 $(this).siblings('li').find('a').removeClass('active')
@@ -235,19 +254,19 @@
                 }
             })
 
-            $(document).on('change','#counter',function () {
-              if($(this).val() == 1) {
-                  $('.counter-container').empty().removeClass('d-none');
-                  var html = "<input class='form-control my-2' type='text' id='total_students' name='total_students' placeholder='"+"{{__('labels.backend.general_settings.total_students')}}"+"'><input type='text' id='total_courses' class='form-control mb-2' name='total_courses' placeholder='"+"{{__('labels.backend.general_settings.total_courses')}}"+"'><input type='text' class='form-control mb-2' id='total_teachers' name='total_teachers' placeholder='"+"{{__('labels.backend.general_settings.total_teachers')}}"+"'>";
+            $(document).on('change', '#counter', function () {
+                if ($(this).val() == 1) {
+                    $('.counter-container').empty().removeClass('d-none');
+                    var html = "<input class='form-control my-2' type='text' id='total_students' name='total_students' placeholder='" + "{{__('labels.backend.general_settings.total_students')}}" + "'><input type='text' id='total_courses' class='form-control mb-2' name='total_courses' placeholder='" + "{{__('labels.backend.general_settings.total_courses')}}" + "'><input type='text' class='form-control mb-2' id='total_teachers' name='total_teachers' placeholder='" + "{{__('labels.backend.general_settings.total_teachers')}}" + "'>";
 
-                  $('.counter-container').append(html);
-              }else{
-                  $('.counter-container').addClass('d-none');
-              }
+                    $('.counter-container').append(html);
+                } else {
+                    $('.counter-container').addClass('d-none');
+                }
             });
 
             @if(config('counter') != "")
-                $('.counter-container').removeClass('d-none');
+            $('.counter-container').removeClass('d-none');
             @endif
         });
     </script>

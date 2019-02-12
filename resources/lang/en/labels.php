@@ -382,6 +382,34 @@ return [
                 'status' => 'Status',
             ]
         ],
+        'testimonials' => [
+            'title' => 'Testimonials',
+            'create' => 'Create Testimonial',
+            'edit' => 'Edit Testimonial',
+            'view' => 'View Testimonials',
+            'fields' => [
+                'name' => 'Name',
+                'occupation' => 'Occupation',
+                'content' => 'Content',
+                'status' => 'Status',
+            ]
+        ],
+        'blogs' => [
+            'title' => 'Blogs',
+            'create' => 'Create Blog',
+            'edit' => 'Edit Blog',
+            'view' => 'View Blogs',
+            'fields' => [
+                'title' => 'Title',
+                'slug' => 'Slug',
+                'image' => 'Image',
+                'status' => 'Status',
+                'views' => 'Views',
+                'category' => 'Category',
+                'created' => 'Created',
+                'comments' => 'Comments',
+            ]
+        ],
         /*======================================================*/
     ],
 

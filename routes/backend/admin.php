@@ -111,11 +111,35 @@ Route::resource('sliders', 'Admin\SliderController');
 Route::get('sliders/status/{id}', 'Admin\SliderController@status')->name('sliders.status','id');
 Route::post('sliders/save-sequence', ['uses' => 'Admin\SliderController@saveSequence', 'as' => 'sliders.saveSequence']);
 
-//===== Categories Routes =====//
+
+//===== Sponsors Routes =====//
 Route::resource('sponsors', 'Admin\SponsorController');
 Route::get('get-sponsors-data', ['uses' => 'Admin\SponsorController@getData', 'as' => 'sponsors.get_data']);
 Route::post('sponsors_mass_destroy', ['uses' => 'Admin\SponsorController@massDestroy', 'as' => 'sponsors.mass_destroy']);
 Route::get('sponsors/status/{id}', 'Admin\SponsorController@status')->name('sponsors.status','id');
+
+
+//===== Testimonials Routes =====//
+Route::resource('testimonials', 'Admin\TestimonialController');
+Route::get('get-testimonials-data', ['uses' => 'Admin\TestimonialController@getData', 'as' => 'testimonials.get_data']);
+Route::post('testimonials_mass_destroy', ['uses' => 'Admin\TestimonialController@massDestroy', 'as' => 'testimonials.mass_destroy']);
+Route::get('testimonials/status/{id}', 'Admin\TestimonialController@status')->name('testimonials.status','id');
+
+//======= Blog Routes =====//
+Route::group(['prefix' => 'blog'], function () {
+    Route::get('/create','Admin\BlogController@create');
+    Route::post('/create','Admin\BlogController@store');
+    Route::get('delete/{id}', 'Admin\BlogController@destroy')->name('blogs.delete');
+    Route::get('edit/{id}', 'Admin\BlogController@edit')->name('blogs.edit');
+    Route::post('edit/{id}', 'Admin\BlogController@update');
+    Route::get('view/{id}', 'Admin\BlogController@show');
+//        Route::get('{blog}/restore', 'BlogController@restore')->name('blog.restore');
+    Route::post('{id}/storecomment', 'Admin\BlogController@storeComment')->name('storeComment');
+});
+Route::resource('blogs', 'Admin\BlogController');
+Route::get('get-blogs-data', ['uses' => 'Admin\BlogController@getData', 'as' => 'blogs.get_data']);
+
+Route::post('blogs_mass_destroy', ['uses' => 'Admin\TestimonialController@massDestroy', 'as' => 'blogs.mass_destroy']);
 
 
 

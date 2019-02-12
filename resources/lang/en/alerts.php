@@ -39,6 +39,8 @@ return [
             'deleted' => 'Deleted successfully.',
             'updated' => 'Updated successfully.',
             'restored' => 'Restored successfully.',
+            /* custom string */
+            'error' => 'Something went wrong. Try Again',
         ]
     ],
 
