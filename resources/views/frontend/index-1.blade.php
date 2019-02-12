@@ -3,8 +3,12 @@
 
 @section('content')
 
+    <!-- Start of slider section
+            ============================================= -->
+    @include('frontend.layouts.partials.slider')
 
-
+    <!-- End of slider section
+            ============================================= -->
     <section id="search-course" class="search-course-section">
         <div class="container">
             <div class="section-title mb20 headline text-center ">
@@ -21,7 +25,7 @@
             </div>
             <div class="search-counter-up">
                 <div class="row">
-                    <div class="col-md-3 col-sm-6">
+                    <div class="col-md-4 col-sm-4">
                         <div class="counter-icon-number ">
                             <div class="counter-icon">
                                 <i class="text-gradiant flaticon-graduation-hat"></i>
@@ -34,7 +38,7 @@
                     </div>
                     <!-- /counter -->
 
-                    <div class="col-md-3 col-sm-6">
+                    <div class="col-md-4 col-sm-4">
                         <div class="counter-icon-number ">
                             <div class="counter-icon">
                                 <i class="text-gradiant flaticon-book"></i>
@@ -47,20 +51,8 @@
                     </div>
                     <!-- /counter -->
 
-                    <div class="col-md-3 col-sm-6">
-                        <div class="counter-icon-number ">
-                            <div class="counter-icon">
-                                <i class="text-gradiant flaticon-favorites-button"></i>
-                            </div>
-                            <div class="counter-number">
-                                <span class="counter-count bold-font">15</span><span>.000+</span>
-                                <p>Premium Quality Products</p>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- /counter -->
 
-                    <div class="col-md-3 col-sm-6">
+                    <div class="col-md-4 col-sm-4">
                         <div class="counter-icon-number ">
                             <div class="counter-icon">
                                 <i class="text-gradiant flaticon-group"></i>
@@ -82,338 +74,76 @@
 
     <!-- Start popular course
         ============================================= -->
-    <section id="popular-course" class="popular-course-section">
-        <div class="container">
-            <div class="section-title mb20 headline text-left ">
-                <span class="subtitle text-uppercase">LEARN NEW SKILLS</span>
-                <h2><span>Popular</span> Courses.</h2>
-            </div>
-            <div id="course-slide-item" class="course-slide">
-                <div class="course-item-pic-text ">
-                    <div class="course-pic relative-position mb25">
-                        <img src={{asset("assets/img/course/c-1.jpg")}} alt="">
-                        <div class="course-price text-center gradient-bg">
-                            <span>$99.00</span>
-                        </div>
-                        <div class="course-details-btn">
-                            <a href="#">COURSE DETAIL <i class="fas fa-arrow-right"></i></a>
-                        </div>
-                    </div>
-                    <div class="course-item-text">
-                        <div class="course-meta">
-                            <span class="course-category bold-font"><a href="#">Web Design</a></span>
-                            <span class="course-author bold-font"><a href="#">John Luis Fernandes</a></span>
-                            <div class="course-rate ul-li">
-                                <ul>
-                                    <li><i class="fas fa-star"></i></li>
-                                    <li><i class="fas fa-star"></i></li>
-                                    <li><i class="fas fa-star"></i></li>
-                                    <li><i class="fas fa-star"></i></li>
-                                    <li><i class="fas fa-star"></i></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="course-title mt10 headline pb45 relative-position">
-                            <h3><a href="#">Fully Responsive Web Design & Development.</a> <span
-                                        class="trend-badge text-uppercase bold-font"><i class="fas fa-bolt"></i> TRENDING</span>
-                            </h3>
-                        </div>
-                        <div class="course-viewer ul-li">
-                            <ul>
-                                <li><a href=""><i class="fas fa-user"></i> 1.220</a></li>
-                                <li><a href=""><i class="fas fa-comment-dots"></i> 1.015</a></li>
-                                <li><a href="">125k Unrolled</a></li>
-                            </ul>
-                        </div>
-                    </div>
+    @if(count($popular_courses) > 0)
+        <section id="popular-course" class="popular-course-section">
+            <div class="container">
+                <div class="section-title mb20 headline text-left ">
+                    <span class="subtitle text-uppercase">LEARN NEW SKILLS</span>
+                    <h2><span>Popular</span> Courses.</h2>
                 </div>
-                <!-- /item -->
-
-                <div class="course-item-pic-text ">
-                    <div class="course-pic relative-position mb25">
-                        <img src={{asset("assets/img/course/c-2.jpg")}} alt="">
-                        <div class="course-price text-center gradient-bg">
-                            <span>$99.00</span>
-                        </div>
-                        <div class="course-details-btn">
-                            <a href="#">COURSE DETAIL <i class="fas fa-arrow-right"></i></a>
-                        </div>
-                    </div>
-                    <div class="course-item-text">
-                        <div class="course-meta">
-                            <span class="course-category bold-font"><a href="#">Mobile Apps</a></span>
-                            <span class="course-author bold-font"><a href="#">Fernando Torres</a></span>
-                            <div class="course-rate ul-li">
-                                <ul>
-                                    <li><i class="fas fa-star"></i></li>
-                                    <li><i class="fas fa-star"></i></li>
-                                    <li><i class="fas fa-star"></i></li>
-                                    <li><i class="fas fa-star"></i></li>
-                                    <li><i class="fas fa-star"></i></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="course-title mt10 headline pb45 relative-position">
-                            <h3><a href="#">Introduction to Mobile Application Development.</a></h3>
-                        </div>
-                        <div class="course-viewer ul-li">
-                            <ul>
-                                <li><a href=""><i class="fas fa-user"></i> 1.220</a></li>
-                                <li><a href=""><i class="fas fa-comment-dots"></i> 1.015</a></li>
-                                <li><a href="">125k Unrolled</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <!-- /item -->
-
-                <div class="course-item-pic-text ">
-                    <div class="course-pic relative-position mb25">
-                        <img src={{asset("assets/img/course/c-3.jpg")}} alt="">
-                        <div class="course-price text-center gradient-bg">
-                            <span>$99.00</span>
-                        </div>
-                        <div class="course-details-btn">
-                            <a href="#">COURSE DETAIL <i class="fas fa-arrow-right"></i></a>
-                        </div>
-                    </div>
-                    <div class="course-item-text">
-                        <div class="course-meta">
-                            <span class="course-category bold-font"><a href="#">Motion Graphic </a></span>
-                            <span class="course-author bold-font"><a href="#">enny Garcias</a></span>
-                            <div class="course-rate ul-li">
-                                <ul>
-                                    <li><i class="fas fa-star"></i></li>
-                                    <li><i class="fas fa-star"></i></li>
-                                    <li><i class="fas fa-star"></i></li>
-                                    <li><i class="fas fa-star"></i></li>
-                                    <li><i class="fas fa-star"></i></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="course-title mt10 headline pb45 relative-position">
-                            <h3><a href="#">Learning IOS Apps Programming & Development.</a></h3>
-                        </div>
-                        <div class="course-viewer ul-li">
-                            <ul>
-                                <li><a href=""><i class="fas fa-user"></i> 1.220</a></li>
-                                <li><a href=""><i class="fas fa-comment-dots"></i> 1.015</a></li>
-                                <li><a href="">125k Unrolled</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <!-- /item -->
-
-                <div class="course-item-pic-text">
-                    <div class="course-pic relative-position mb25">
-                        <img src={{asset("assets/img/course/c-2.jpg")}} alt="">
-                        <div class="course-price text-center gradient-bg">
-                            <span>$99.00</span>
-                        </div>
-                        <div class="course-details-btn">
-                            <a href="#">COURSE DETAIL <i class="fas fa-arrow-right"></i></a>
-                        </div>
-                    </div>
-                    <div class="course-item-text">
-                        <div class="course-meta">
-                            <span class="course-category bold-font"><a href="#">Web Design</a></span>
-                            <span class="course-author bold-font"><a href="#">John Luis Fernandes</a></span>
-                            <div class="course-rate ul-li">
-                                <ul>
-                                    <li><i class="fas fa-star"></i></li>
-                                    <li><i class="fas fa-star"></i></li>
-                                    <li><i class="fas fa-star"></i></li>
-                                    <li><i class="fas fa-star"></i></li>
-                                    <li><i class="fas fa-star"></i></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="course-title mt10 headline pb45 relative-position">
-                            <h3><a href="#">Fully Responsive Web Design & Development.</a> <span
-                                        class="trend-badge text-uppercase bold-font"><i class="fas fa-bolt"></i> TRENDING</span>
-                            </h3>
-                        </div>
-                        <div class="course-viewer ul-li">
-                            <ul>
-                                <li><a href=""><i class="fas fa-user"></i> 1.220</a></li>
-                                <li><a href=""><i class="fas fa-comment-dots"></i> 1.015</a></li>
-                                <li><a href="">125k Unrolled</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <!-- /item -->
-
-                <div class="course-item-pic-text">
-                    <div class="course-pic relative-position mb25">
-                        <img src={{asset("assets/img/course/c-3.jpg")}} alt="">
-                        <div class="course-price text-center gradient-bg">
-                            <span>$99.00</span>
-                        </div>
-                        <div class="course-details-btn">
-                            <a href="#">COURSE DETAIL <i class="fas fa-arrow-right"></i></a>
-                        </div>
-                    </div>
-                    <div class="course-item-text">
-                        <div class="course-meta">
-                            <span class="course-category bold-font"><a href="#">Web Design</a></span>
-                            <span class="course-author bold-font"><a href="#">John Luis Fernandes</a></span>
-                            <div class="course-rate ul-li">
-                                <ul>
-                                    <li><i class="fas fa-star"></i></li>
-                                    <li><i class="fas fa-star"></i></li>
-                                    <li><i class="fas fa-star"></i></li>
-                                    <li><i class="fas fa-star"></i></li>
-                                    <li><i class="fas fa-star"></i></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="course-title mt10 headline pb45 relative-position">
-                            <h3><a href="#">Fully Responsive Web Design & Development.</a> <span
-                                        class="trend-badge text-uppercase bold-font"><i class="fas fa-bolt"></i> TRENDING</span>
-                            </h3>
-                        </div>
-                        <div class="course-viewer ul-li">
-                            <ul>
-                                <li><a href=""><i class="fas fa-user"></i> 1.220</a></li>
-                                <li><a href=""><i class="fas fa-comment-dots"></i> 1.015</a></li>
-                                <li><a href="">125k Unrolled</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <!-- /item -->
-
-                <div class="course-item-pic-text">
-                    <div class="course-pic relative-position mb25">
-                        <img src={{asset("assets/img/course/c-1.jpg")}} alt="">
-                        <div class="course-price text-center gradient-bg">
-                            <span>$99.00</span>
-                        </div>
-                        <div class="course-details-btn">
-                            <a href="#">COURSE DETAIL <i class="fas fa-arrow-right"></i></a>
-                        </div>
-                    </div>
-                    <div class="course-item-text">
-                        <div class="course-meta">
-                            <span class="course-category bold-font"><a href="#">Web Design</a></span>
-                            <span class="course-author bold-font"><a href="#">John Luis Fernandes</a></span>
-                            <div class="course-rate ul-li">
-                                <ul>
-                                    <li><i class="fas fa-star"></i></li>
-                                    <li><i class="fas fa-star"></i></li>
-                                    <li><i class="fas fa-star"></i></li>
-                                    <li><i class="fas fa-star"></i></li>
-                                    <li><i class="fas fa-star"></i></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="course-title mt10 headline pb45 relative-position">
-                            <h3><a href="#">Fully Responsive Web Design & Development.</a> <span
-                                        class="trend-badge text-uppercase bold-font"><i class="fas fa-bolt"></i> TRENDING</span>
-                            </h3>
-                        </div>
-                        <div class="course-viewer ul-li">
-                            <ul>
-                                <li><a href=""><i class="fas fa-user"></i> 1.220</a></li>
-                                <li><a href=""><i class="fas fa-comment-dots"></i> 1.015</a></li>
-                                <li><a href="">125k Unrolled</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <!-- /item -->
-            </div>
-        </div>
-    </section>
-    <!-- End popular course
-        ============================================= -->
-
-
-    <!-- Start of about us section
-        ============================================= -->
-    <section id="about-us" class="about-us-section">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-5">
-                    <div class="about-resigter-form backgroud-style relative-position">
-                        <div class="register-content">
-                            <div class="register-fomr-title text-center">
-                                <h3 class="bold-font"><span>Get a</span> Free Registration.</h3>
-                                <p>More Than 122K Online Available Courses</p>
-                            </div>
-                            <div class="register-form-area">
-                                <form class="contact_form" action="#" method="POST" enctype="multipart/form-data">
-                                    <div class="contact-info">
-                                        <input class="name" name="name" type="text" placeholder="Your Name.">
-                                    </div>
-                                    <div class="contact-info">
-                                        <input class="nbm" name="nbm" type="number" placeholder="Your Number">
-                                    </div>
-                                    <div class="contact-info">
-                                        <input class="email" name="email" type="email" placeholder="Email Address.">
-                                    </div>
-                                    <select>
-                                        <option value="9" selected="">Select Course.</option>
-                                        <option value="10">Web Design</option>
-                                        <option value="11">Web Development</option>
-                                        <option value="12">Php Core</option>
-                                    </select>
-                                    <div class="contact-info">
-                                        <input type="text" id="datepicker" placeholder="Date.">
-                                    </div>
-                                    <textarea placeholder="Message."></textarea>
-                                    <div class="nws-button text-uppercase text-center white text-capitalize">
-                                        <button type="submit" value="Submit">SUBMIT REQUEST</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="bg-mockup">
-                        <img src={{asset("assets/img/about/phone.png")}} alt="">
-                    </div>
-                </div>
-                <!-- /form -->
-
-                <div class="col-md-7">
-                    <div class="about-us-text">
-                        <div class="section-title relative-position mb20 headline text-left ">
-                            <span class="subtitle ml42 text-uppercase">SORT ABOUT US</span>
-                            <h2>We are <span>Genius Course</span>
-                                work since 1980.</h2>
-                            <p>We take our mission of increasing global access to quality education seriously. We
-                                connect learners to the best universities and institutions from around the world.</p>
-                        </div>
-                        <div class="about-content-text">
-                            <p class="">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh
-                                euismod tincidunt ut laoreet dolore magna aliquam volutpat. Ut wisi enim ad minim
-                                veniam. magna aliquam volutpat. Ut wisi enim ad minim veniam.</p>
-                            <div class="about-list mb65 ul-li-block ">
-                                <ul>
-                                    <li>Professional And Experienced Since 1980</li>
-                                    <li>We Connect Learners To The Best Universities From Around The World</li>
-                                    <li>Our Mission Increasing Global Access To Quality Aducation</li>
-                                    <li>100K Online Available Courses</li>
-                                </ul>
-                            </div>
-                            <div class="about-btn ">
-                                <div class="genius-btn gradient-bg text-center text-uppercase ul-li-block bold-font">
-                                    <a href="#">About Us <i class="fas fa-caret-right"></i></a>
+                <div id="course-slide-item" class="course-slide">
+                    @foreach($popular_courses as $item)
+                        <div class="course-item-pic-text ">
+                            <div class="course-pic relative-position mb25">
+                                @if($item->course_image != "")
+                                    <img src="{{asset('storage/uploads/'.$item->course_image)}}"
+                                         alt="">
+                                @else
+                                    <img src="http://placehold.it/370x320" alt="">
+                                @endif
+                                <div class="course-price text-center gradient-bg">
+                                    <span>${{$item->price}}</span>
                                 </div>
-                                <div class="genius-btn gradient-bg text-center text-uppercase ul-li-block bold-font">
-                                    <a href="#">contact us <i class="fas fa-caret-right"></i></a>
+                                <div class="course-details-btn">
+                                    <a href="{{ route('courses.show', [$item->slug]) }}">COURSE DETAIL <i
+                                                class="fas fa-arrow-right"></i></a>
+                                </div>
+                            </div>
+                            <div class="course-item-text">
+                                <div class="course-meta">
+                                    <span class="course-category bold-font"><a
+                                                href="#">{{$item->category->name}}</a></span>
+                                    <span class="course-author bold-font">
+                                @foreach($item->teachers as $teacher)
+                                            <a href="#">{{$teacher->first_name}}</a></span>
+                                    @endforeach
+                                    <div class="course-rate ul-li">
+                                        <ul>
+                                            <li><i class="fas fa-star"></i></li>
+                                            <li><i class="fas fa-star"></i></li>
+                                            <li><i class="fas fa-star"></i></li>
+                                            <li><i class="fas fa-star"></i></li>
+                                            <li><i class="fas fa-star"></i></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="course-title mt10 headline pb45 relative-position">
+                                    <h3><a href="{{ route('courses.show', [$item->slug]) }}">{{$item->title}}</a>
+                                        @if($item->trending == 1)
+                                            <span
+                                                    class="trend-badge text-uppercase bold-font"><i
+                                                        class="fas fa-bolt"></i> TRENDING</span>
+                                        @endif
+                                    </h3>
+                                </div>
+                                <div class="course-viewer ul-li">
+                                    <ul>
+                                        <li><a href=""><i class="fas fa-user"></i> {{ $item->students()->count() }}</a>
+                                        </li>
+                                        <li><a href=""><i class="fas fa-comment-dots"></i> 1.015</a></li>
+                                        {{--<li><a href="">125k Unrolled</a></li>--}}
+                                    </ul>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                        <!-- /item -->
+                    @endforeach
                 </div>
             </div>
-        </div>
-    </section>
-    <!-- End of about us section
-        ============================================= -->
+        </section>
+        <!-- End popular course
+            ============================================= -->
+    @endif
 
 
     <!-- Start of why choose us section
@@ -732,6 +462,7 @@
         ============================================= -->
 
 
+    @if(count($sponsors) > 0 )
     <!-- Start of sponsor section
         ============================================= -->
     <section id="sponsor" class="sponsor-section">
@@ -739,37 +470,22 @@
             <div class="section-title-2 mb65 headline text-left ">
                 <h2>Genius <span>Sponsors.</span></h2>
             </div>
-            <div class="sponsor-item sponsor-1 ">
-                <div class="sponsor-pic text-center">
-                    <img src={{asset("assets/img/sponsor/s-1.jpg")}} alt="">
-                </div>
-                <div class="sponsor-pic text-center">
-                    <img src={{asset("assets/img/sponsor/s-2.jpg")}} alt="">
-                </div>
-                <div class="sponsor-pic text-center">
-                    <img src={{asset("assets/img/sponsor/s-3.jpg")}} alt="">
-                </div>
-                <div class="sponsor-pic text-center">
-                    <img src={{asset("assets/img/sponsor/s-4.jpg")}} alt="">
-                </div>
-                <div class="sponsor-pic text-center">
-                    <img src={{asset("assets/img/sponsor/s-5.jpg")}} alt="">
-                </div>
-                <div class="sponsor-pic text-center">
-                    <img src={{asset("assets/img/sponsor/s-6.jpg")}} alt="">
-                </div>
-                <div class="sponsor-pic text-center">
-                    <img src={{asset("assets/img/sponsor/s-6.jpg")}} alt="">
-                </div>
-                <div class="sponsor-pic text-center">
-                    <img src={{asset("assets/img/sponsor/s-6.jpg")}} alt="">
-                </div>
-                <div class="sponsor-pic text-center">
-                    <img src={{asset("assets/img/sponsor/s-6.jpg")}} alt="">
-                </div>
+
+            <div class="sponsor-item sponsor-1 text-center">
+                @foreach($sponsors as $sponsor)
+                    <div class="sponsor-pic text-center">
+                        <a href="{{ ($sponsor->link != "") ? $sponsor->link : '#' }}">
+                            <img src={{asset("storage/uploads/".$sponsor->logo)}} alt="{{$sponsor->name}}">
+                        </a>
+
+                    </div>
+                @endforeach
+
             </div>
         </div>
     </section>
+    @endif
+
     <!-- End of sponsor section
         ============================================= -->
 
@@ -780,289 +496,65 @@
         <div class="container">
             <div class="section-title mb45 headline text-center ">
                 <span class="subtitle text-uppercase">SEARCH OUR COURSES</span>
-                <h2>Browse Our<span> Best Course.</span></h2>
+                <h2>Browse Our<span> Featured Course.</span></h2>
             </div>
             <div class="best-course-area mb45">
                 <div class="row">
-                    <div class="col-md-3">
-                        <div class="best-course-pic-text relative-position ">
-                            <div class="best-course-pic relative-position">
-                                <img src={{asset("assets/img/course/bc-1.jpg")}} alt="">
-                                <div class="trend-badge-2 text-center text-uppercase">
-                                    <i class="fas fa-bolt"></i>
-                                    <span>Trending</span>
+                    @if(count($featured_courses) > 0)
+                        @foreach($featured_courses as $item)
+                            <div class="col-md-3">
+                                <div class="best-course-pic-text relative-position ">
+                                    <div class="best-course-pic relative-position">
+                                        @if($item->course_image != "")
+                                            <img src="{{asset('storage/uploads/'.$item->course_image)}}"
+                                                 alt="">
+                                        @else
+                                            <img src="http://placehold.it/270x220" alt="">
+                                        @endif
+                                        @if($item->trending == 1)
+                                            <div class="trend-badge-2 text-center text-uppercase">
+                                                <i class="fas fa-bolt"></i>
+                                                <span>Trending</span>
+                                            </div>
+                                        @endif
+                                        <div class="course-price text-center gradient-bg">
+                                            <span>${{$item->price}}</span>
+                                        </div>
+                                        <div class="course-rate ul-li">
+                                            <ul>
+                                                <li><i class="fas fa-star"></i></li>
+                                                <li><i class="fas fa-star"></i></li>
+                                                <li><i class="fas fa-star"></i></li>
+                                                <li><i class="fas fa-star"></i></li>
+                                                <li><i class="fas fa-star"></i></li>
+                                            </ul>
+                                        </div>
+                                        <div class="course-details-btn">
+                                            <a href="{{ route('courses.show', [$item->slug]) }}">COURSE DETAIL <i
+                                                        class="fas fa-arrow-right"></i></a>
+                                        </div>
+                                        <div class="blakish-overlay"></div>
+                                    </div>
+                                    <div class="best-course-text">
+                                        <div class="course-title mb20 headline relative-position">
+                                            <h3>
+                                                <a href="{{ route('courses.show', [$item->slug]) }}">{{$item->title}}</a>
+                                            </h3>
+                                        </div>
+                                        <div class="course-meta">
+                                            <span class="course-category"><a
+                                                        href="#">{{$item->category->name}}</a></span>
+                                            <span class="course-author"><a href="#">{{ $item->students()->count() }}
+                                                    Students</a></span>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="course-price text-center gradient-bg">
-                                    <span>$99.00</span>
-                                </div>
-                                <div class="course-rate ul-li">
-                                    <ul>
-                                        <li><i class="fas fa-star"></i></li>
-                                        <li><i class="fas fa-star"></i></li>
-                                        <li><i class="fas fa-star"></i></li>
-                                        <li><i class="fas fa-star"></i></li>
-                                        <li><i class="fas fa-star"></i></li>
-                                    </ul>
-                                </div>
-                                <div class="course-details-btn">
-                                    <a href="#">COURSE DETAIL <i class="fas fa-arrow-right"></i></a>
-                                </div>
-                                <div class="blakish-overlay"></div>
                             </div>
-                            <div class="best-course-text">
-                                <div class="course-title mb20 headline relative-position">
-                                    <h3><a href="#">Fully Responsive Web Design &amp; Development.</a></h3>
-                                </div>
-                                <div class="course-meta">
-                                    <span class="course-category"><a href="#">Web Design</a></span>
-                                    <span class="course-author"><a href="#">250 Students</a></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- /course -->
+                        @endforeach
+                    @else
+                        <h4 class="text-center">No Featured Courses yet</h4>
+                    @endif
 
-                    <div class="col-md-3">
-                        <div class="best-course-pic-text relative-position ">
-                            <div class="best-course-pic relative-position">
-                                <img src={{asset("assets/img/course/bc-2.jpg")}} alt="">
-                                <div class="course-price text-center gradient-bg">
-                                    <span>$99.00</span>
-                                </div>
-                                <div class="course-rate ul-li">
-                                    <ul>
-                                        <li><i class="fas fa-star"></i></li>
-                                        <li><i class="fas fa-star"></i></li>
-                                        <li><i class="fas fa-star"></i></li>
-                                        <li><i class="fas fa-star"></i></li>
-                                        <li><i class="fas fa-star"></i></li>
-                                    </ul>
-                                </div>
-                                <div class="course-details-btn">
-                                    <a href="#">COURSE DETAIL <i class="fas fa-arrow-right"></i></a>
-                                </div>
-                                <div class="blakish-overlay"></div>
-                            </div>
-                            <div class="best-course-text">
-                                <div class="course-title mb20 headline relative-position">
-                                    <h3><a href="#">Fully Responsive Web Design &amp; Development.</a></h3>
-                                </div>
-                                <div class="course-meta">
-                                    <span class="course-category"><a href="#">Web Design</a></span>
-                                    <span class="course-author"><a href="#">250 Students</a></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- /course -->
-
-                    <div class="col-md-3">
-                        <div class="best-course-pic-text relative-position ">
-                            <div class="best-course-pic relative-position">
-                                <img src={{asset("assets/img/course/bc-3.jpg")}} alt="">
-                                <div class="course-price text-center gradient-bg">
-                                    <span>$99.00</span>
-                                </div>
-                                <div class="course-rate ul-li">
-                                    <ul>
-                                        <li><i class="fas fa-star"></i></li>
-                                        <li><i class="fas fa-star"></i></li>
-                                        <li><i class="fas fa-star"></i></li>
-                                        <li><i class="fas fa-star"></i></li>
-                                        <li><i class="fas fa-star"></i></li>
-                                    </ul>
-                                </div>
-                                <div class="course-details-btn">
-                                    <a href="#">COURSE DETAIL <i class="fas fa-arrow-right"></i></a>
-                                </div>
-                                <div class="blakish-overlay"></div>
-                            </div>
-                            <div class="best-course-text">
-                                <div class="course-title mb20 headline relative-position">
-                                    <h3><a href="#">Fully Responsive Web Design &amp; Development.</a></h3>
-                                </div>
-                                <div class="course-meta">
-                                    <span class="course-category"><a href="#">Web Design</a></span>
-                                    <span class="course-author"><a href="#">250 Students</a></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- /course -->
-
-                    <div class="col-md-3">
-                        <div class="best-course-pic-text relative-position ">
-                            <div class="best-course-pic relative-position">
-                                <img src={{asset("assets/img/course/bc-4.jpg")}} alt="">
-                                <div class="course-price text-center gradient-bg">
-                                    <span>$99.00</span>
-                                </div>
-                                <div class="course-rate ul-li">
-                                    <ul>
-                                        <li><i class="fas fa-star"></i></li>
-                                        <li><i class="fas fa-star"></i></li>
-                                        <li><i class="fas fa-star"></i></li>
-                                        <li><i class="fas fa-star"></i></li>
-                                        <li><i class="fas fa-star"></i></li>
-                                    </ul>
-                                </div>
-                                <div class="course-details-btn">
-                                    <a href="#">COURSE DETAIL <i class="fas fa-arrow-right"></i></a>
-                                </div>
-                                <div class="blakish-overlay"></div>
-                            </div>
-                            <div class="best-course-text">
-                                <div class="course-title mb20 headline relative-position">
-                                    <h3><a href="#">Fully Responsive Web Design &amp; Development.</a></h3>
-                                </div>
-                                <div class="course-meta">
-                                    <span class="course-category"><a href="#">Web Design</a></span>
-                                    <span class="course-author"><a href="#">250 Students</a></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- /course -->
-
-                    <div class="col-md-3">
-                        <div class="best-course-pic-text relative-position ">
-                            <div class="best-course-pic relative-position">
-                                <img src={{asset("assets/img/course/bc-5.jpg")}} alt="">
-                                <div class="course-price text-center gradient-bg">
-                                    <span>$99.00</span>
-                                </div>
-                                <div class="course-rate ul-li">
-                                    <ul>
-                                        <li><i class="fas fa-star"></i></li>
-                                        <li><i class="fas fa-star"></i></li>
-                                        <li><i class="fas fa-star"></i></li>
-                                        <li><i class="fas fa-star"></i></li>
-                                        <li><i class="fas fa-star"></i></li>
-                                    </ul>
-                                </div>
-                                <div class="course-details-btn">
-                                    <a href="#">COURSE DETAIL <i class="fas fa-arrow-right"></i></a>
-                                </div>
-                                <div class="blakish-overlay"></div>
-                            </div>
-                            <div class="best-course-text">
-                                <div class="course-title mb20 headline relative-position">
-                                    <h3><a href="#">Fully Responsive Web Design &amp; Development.</a></h3>
-                                </div>
-                                <div class="course-meta">
-                                    <span class="course-category"><a href="#">Web Design</a></span>
-                                    <span class="course-author"><a href="#">250 Students</a></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- /course -->
-
-                    <div class="col-md-3">
-                        <div class="best-course-pic-text relative-position ">
-                            <div class="best-course-pic relative-position">
-                                <img src={{asset("assets/img/course/bc-6.jpg")}} alt="">
-                                <div class="trend-badge-2 text-center text-uppercase">
-                                    <i class="fas fa-bolt"></i>
-                                    <span>Trending</span>
-                                </div>
-                                <div class="course-price text-center gradient-bg">
-                                    <span>$99.00</span>
-                                </div>
-                                <div class="course-rate ul-li">
-                                    <ul>
-                                        <li><i class="fas fa-star"></i></li>
-                                        <li><i class="fas fa-star"></i></li>
-                                        <li><i class="fas fa-star"></i></li>
-                                        <li><i class="fas fa-star"></i></li>
-                                        <li><i class="fas fa-star"></i></li>
-                                    </ul>
-                                </div>
-                                <div class="course-details-btn">
-                                    <a href="#">COURSE DETAIL <i class="fas fa-arrow-right"></i></a>
-                                </div>
-                                <div class="blakish-overlay"></div>
-                            </div>
-                            <div class="best-course-text">
-                                <div class="course-title mb20 headline relative-position">
-                                    <h3><a href="#">Fully Responsive Web Design &amp; Development.</a></h3>
-                                </div>
-                                <div class="course-meta">
-                                    <span class="course-category"><a href="#">Web Design</a></span>
-                                    <span class="course-author"><a href="#">250 Students</a></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- /course -->
-
-                    <div class="col-md-3">
-                        <div class="best-course-pic-text relative-position ">
-                            <div class="best-course-pic relative-position">
-                                <img src={{asset("assets/img/course/bc-7.jpg")}} alt="">
-                                <div class="course-price text-center gradient-bg">
-                                    <span>$99.00</span>
-                                </div>
-                                <div class="course-rate ul-li">
-                                    <ul>
-                                        <li><i class="fas fa-star"></i></li>
-                                        <li><i class="fas fa-star"></i></li>
-                                        <li><i class="fas fa-star"></i></li>
-                                        <li><i class="fas fa-star"></i></li>
-                                        <li><i class="fas fa-star"></i></li>
-                                    </ul>
-                                </div>
-                                <div class="course-details-btn">
-                                    <a href="#">COURSE DETAIL <i class="fas fa-arrow-right"></i></a>
-                                </div>
-                                <div class="blakish-overlay"></div>
-                            </div>
-                            <div class="best-course-text">
-                                <div class="course-title mb20 headline relative-position">
-                                    <h3><a href="#">Fully Responsive Web Design &amp; Development.</a></h3>
-                                </div>
-                                <div class="course-meta">
-                                    <span class="course-category"><a href="#">Web Design</a></span>
-                                    <span class="course-author"><a href="#">250 Students</a></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- /course -->
-
-                    <div class="col-md-3">
-                        <div class="best-course-pic-text relative-position ">
-                            <div class="best-course-pic relative-position">
-                                <img src={{asset("assets/img/course/bc-8.jpg")}} alt="">
-                                <div class="course-price text-center gradient-bg">
-                                    <span>$99.00</span>
-                                </div>
-                                <div class="course-rate ul-li">
-                                    <ul>
-                                        <li><i class="fas fa-star"></i></li>
-                                        <li><i class="fas fa-star"></i></li>
-                                        <li><i class="fas fa-star"></i></li>
-                                        <li><i class="fas fa-star"></i></li>
-                                        <li><i class="fas fa-star"></i></li>
-                                    </ul>
-                                </div>
-                                <div class="course-details-btn">
-                                    <a href="#">COURSE DETAIL <i class="fas fa-arrow-right"></i></a>
-                                </div>
-                                <div class="blakish-overlay"></div>
-                            </div>
-                            <div class="best-course-text">
-                                <div class="course-title mb20 headline relative-position">
-                                    <h3><a href="#">Fully Responsive Web Design &amp; Development.</a></h3>
-                                </div>
-                                <div class="course-meta">
-                                    <span class="course-category"><a href="#">Web Design</a></span>
-                                    <span class="course-author"><a href="#">250 Students</a></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- /course -->
                 </div>
             </div>
 
@@ -1088,11 +580,11 @@
                             <div class="teacher-img-content ">
                                 <div class="teacher-cntent">
                                     <div class="teacher-social-name ul-li-block">
-                                        <ul>
-                                            <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-                                            <li><a href="#"><i class="fab fa-twitter"></i></a></li>
-                                            <li><a href="#"><i class="fab fa-google-plus-g"></i></a></li>
-                                        </ul>
+                                        {{--<ul>--}}
+                                        {{--<li><a href="#"><i class="fab fa-facebook-f"></i></a></li>--}}
+                                        {{--<li><a href="#"><i class="fab fa-twitter"></i></a></li>--}}
+                                        {{--<li><a href="#"><i class="fab fa-google-plus-g"></i></a></li>--}}
+                                        {{--</ul>--}}
                                         <div class="teacher-name">
 												<span>Daniel
 												Alvares</span>
@@ -1101,9 +593,9 @@
                                     <div class="teacher-img-category">
                                         <div class="teacher-img">
                                             <img src={{asset("assets/img/teacher/t-1.jpg")}} alt="">
-                                            <div class="course-price text-uppercase text-center gradient-bg">
-                                                <span>Featured</span>
-                                            </div>
+                                            {{--<div class="course-price text-uppercase text-center gradient-bg">--}}
+                                            {{--<span>Featured</span>--}}
+                                            {{--</div>--}}
                                         </div>
                                         <div class="teacher-category float-right">
                                             <span class="st-name">Mobile Apps </span>
@@ -1296,156 +788,6 @@
         </div>
     </section>
     <!-- End of course teacher
-        ============================================= -->
-
-
-
-    <!-- Start of best product section
-        ============================================= -->
-    <section id="best-product" class="best-product-section">
-        <div class="container">
-            <div class="section-title-2 mb65 headline text-left ">
-                <h2>Genius <span>Best Products.</span></h2>
-            </div>
-            <div id="best-product-slide-item" class="best-product-slide">
-                <div class="product-img-text ">
-                    <div class="product-img text-center mb20">
-                        <img src={{asset("assets/img/product/bp-1.png")}} alt="">
-                    </div>
-                    <div class="product-text-content relative-position">
-                        <div class="best-title-price float-left">
-                            <div class="course-title headline">
-                                <h3><a href="#">Mobile Apps Books.</a></h3>
-                            </div>
-                            <div class="price-start">
-                                Start from
-                                <span>$55.25</span>
-                            </div>
-                        </div>
-                        <div class="add-cart text-center">
-                            <i class="fas fa-cart-plus"></i>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="product-img-text ">
-                    <div class="product-img text-center mb20">
-                        <img src={{asset("assets/img/product/bp-2.png")}} alt="">
-                    </div>
-                    <div class="product-text-content relative-position">
-                        <div class="best-title-price float-left">
-                            <div class="course-title headline">
-                                <h3><a href="#">Mobile Apps Books.</a></h3>
-                            </div>
-                            <div class="price-start">
-                                Start from
-                                <span>$55.25</span>
-                            </div>
-                        </div>
-                        <div class="add-cart text-center">
-                            <i class="fas fa-cart-plus"></i>
-                        </div>
-                    </div>
-                </div>
-                <div class="product-img-text ">
-                    <div class="product-img text-center mb20">
-                        <img src={{asset("assets/img/product/bp-3.png")}} alt="">
-                    </div>
-                    <div class="product-text-content relative-position">
-                        <div class="best-title-price float-left">
-                            <div class="course-title headline">
-                                <h3><a href="#">Mobile Apps Books.</a></h3>
-                            </div>
-                            <div class="price-start">
-                                Start from
-                                <span>$55.25</span>
-                            </div>
-                        </div>
-                        <div class="add-cart text-center">
-                            <i class="fas fa-cart-plus"></i>
-                        </div>
-                    </div>
-                </div>
-                <div class="product-img-text ">
-                    <div class="product-img text-center mb20">
-                        <img src={{asset("assets/img/product/bp-4.png")}} alt="">
-                    </div>
-                    <div class="product-text-content relative-position">
-                        <div class="best-title-price float-left">
-                            <div class="course-title headline">
-                                <h3><a href="#">Mobile Apps Books.</a></h3>
-                            </div>
-                            <div class="price-start">
-                                Start from
-                                <span>$55.25</span>
-                            </div>
-                        </div>
-                        <div class="add-cart text-center">
-                            <i class="fas fa-cart-plus"></i>
-                        </div>
-                    </div>
-                </div>
-                <div class="product-img-text ">
-                    <div class="product-img text-center mb20">
-                        <img src={{asset("assets/img/product/bp-1.png")}} alt="">
-                    </div>
-                    <div class="product-text-content relative-position">
-                        <div class="best-title-price float-left">
-                            <div class="course-title headline">
-                                <h3><a href="#">Mobile Apps Books.</a></h3>
-                            </div>
-                            <div class="price-start">
-                                Start from
-                                <span>$55.25</span>
-                            </div>
-                        </div>
-                        <div class="add-cart text-center">
-                            <i class="fas fa-cart-plus"></i>
-                        </div>
-                    </div>
-                </div>
-                <div class="product-img-text">
-                    <div class="product-img text-center mb20">
-                        <img src={{asset("assets/img/product/bp-2.png")}} alt="">
-                    </div>
-                    <div class="product-text-content relative-position">
-                        <div class="best-title-price float-left">
-                            <div class="course-title headline">
-                                <h3><a href="#">Mobile Apps Books.</a></h3>
-                            </div>
-                            <div class="price-start">
-                                Start from
-                                <span>$55.25</span>
-                            </div>
-                        </div>
-                        <div class="add-cart text-center">
-                            <i class="fas fa-cart-plus"></i>
-                        </div>
-                    </div>
-                </div>
-                <div class="product-img-text">
-                    <div class="product-img text-center mb20">
-                        <img src={{asset("assets/img/product/bp-3.png")}} alt="">
-                    </div>
-                    <div class="product-text-content relative-position">
-                        <div class="best-title-price float-left">
-                            <div class="course-title headline">
-                                <h3><a href="#">Mobile Apps Books.</a></h3>
-                            </div>
-                            <div class="price-start">
-                                Start from
-                                <span>$55.25</span>
-                            </div>
-                        </div>
-                        <div class="add-cart text-center">
-                            <i class="fas fa-cart-plus"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- End  of best product section
         ============================================= -->
 
 

@@ -185,7 +185,7 @@ class CategoriesController extends Controller
 
         $category = Category::findOrFail($id);
 
-        return view('backend.categories.edit', compact('category', 'courses', 'lessons'));
+        return view('backend.categories.index', compact('category', 'courses', 'lessons'));
     }
 
     /**
@@ -200,6 +200,7 @@ class CategoriesController extends Controller
         if (! Gate::allows('category_edit')) {
             return abort(401);
         }
+        $request = $this->saveFiles($request);
         $category = Category::findOrFail($id);
         $category->update($request->all());
 

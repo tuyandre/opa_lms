@@ -2,6 +2,13 @@
 @php $no_footer = true; @endphp
 @section('content')
 
+    <!-- Start of slider section
+     ============================================= -->
+    @include('frontend.layouts.partials.slider')
+
+    <!-- End of slider section
+            ============================================= -->
+
 <!-- Start of sponsor section
     ============================================= -->
 <div id="sponsor" class="sponsor-section sponsor-2">

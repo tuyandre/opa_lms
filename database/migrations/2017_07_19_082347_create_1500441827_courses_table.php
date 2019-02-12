@@ -22,6 +22,9 @@ class Create1500441827CoursesTable extends Migration
                 $table->decimal('price', 15, 2)->nullable();
                 $table->string('course_image')->nullable();
                 $table->date('start_date')->nullable();
+                $table->integer('eatured')->default(0)->nullable();
+                $table->integer('trending')->default(0)->nullable();
+                $table->integer('popular')->default(0)->nullable();
                 $table->tinyInteger('published')->nullable()->default(0);
                 $table->timestamps();
                 $table->softDeletes();

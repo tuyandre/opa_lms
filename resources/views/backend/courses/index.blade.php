@@ -53,7 +53,7 @@
                         <th>@lang('labels.backend.courses.fields.category')</th>
                         <th>@lang('labels.backend.courses.fields.price')</th>
                         <th>@lang('labels.backend.courses.fields.course_image')</th>
-                            <th>@lang('labels.backend.courses.fields.published')</th>
+                            <th>@lang('labels.backend.courses.fields.status')</th>
                             <th>@lang('labels.backend.lessons.title')</th>
                         @if( request('show_deleted') == 1 )
                             <th>&nbsp; @lang('strings.backend.general.actions')</th>
@@ -129,7 +129,7 @@
                     {data: "category", name: 'category'},
                     {data: "price", name: "price"},
                     {data: "course_image", name: "course_image"},
-                    {data: "published", name: "published"},
+                    {data: "status", name: "status"},
                     {data: "lessons", name: "lessons"},
                     {data: "actions", name: "actions"}
                 ],

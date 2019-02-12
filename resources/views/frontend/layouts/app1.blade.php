@@ -200,12 +200,7 @@
             ============================================= -->
 
 
-        <!-- Start of slider section
-            ============================================= -->
-    @include('frontend.layouts.partials.slider')
 
-    <!-- End of slider section
-            ============================================= -->
 
         @yield('content')
 

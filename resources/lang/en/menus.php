@@ -94,6 +94,9 @@ return [
             'hero-slider'    => [
                 'title' => 'Hero Slider',
             ],
+            'sponsors'    => [
+                'title' => 'Sponsors',
+            ],
             /*===========================*/
         ],
     ],

@@ -128,13 +128,18 @@ class CoursesController extends Controller
             ->editColumn('course_image', function ($q) {
                 return ($q->course_image != null) ? '<img height="50px" src="' . asset('storage/uploads/' . $q->course_image) . '">' : 'N/A';
             })
-            ->editColumn('published', function ($q) {
-                return ($q->published == 1) ? "Yes" : "No";
+            ->editColumn('status', function ($q) {
+                $text = "";
+                $text = ($q->published == 1) ? "<p class='text-white mb-1 font-weight-bold text-center bg-dark p-1 mr-1' >".trans('labels.backend.courses.fields.published')."</p>" : "";
+                $text .= ($q->featured == 1) ? "<p class='text-white mb-1 font-weight-bold text-center bg-warning p-1 mr-1' >".trans('labels.backend.courses.fields.featured')."</p>" : "";
+                $text .= ($q->trending == 1) ? "<p class='text-white mb-1 font-weight-bold text-center bg-success p-1 mr-1' >".trans('labels.backend.courses.fields.trending')."</p>" : "";
+                $text .= ($q->popular == 1) ? "<p class='text-white mb-1 font-weight-bold text-center bg-primary p-1 mr-1' >".trans('labels.backend.courses.fields.popular')."</p>" : "";
+                return $text;
             })
             ->addColumn('category', function ($q) {
                 return $q->category->name;
             })
-            ->rawColumns(['teachers', 'lessons', 'course_image', 'actions'])
+            ->rawColumns(['teachers', 'lessons', 'course_image', 'actions','status'])
             ->make();
     }
 

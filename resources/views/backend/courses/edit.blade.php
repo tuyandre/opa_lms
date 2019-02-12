@@ -87,10 +87,27 @@
             </div>
             <div class="row">
                 <div class="col-12 form-group">
-                    <div class="checkbox">
+                    <div class="checkbox d-inline mr-4">
                         {!! Form::hidden('published', 0) !!}
                         {!! Form::checkbox('published', 1, old('published'), []) !!}
                         {!! Form::label('published', trans('labels.backend.courses.fields.published'), ['class' => 'checkbox control-label font-weight-bold']) !!}
+                    </div>
+                    <div class="checkbox d-inline mr-4">
+                        {!! Form::hidden('featured', 0) !!}
+                        {!! Form::checkbox('featured', 1, old('featured'), []) !!}
+                        {!! Form::label('featured',  trans('labels.backend.courses.fields.featured'), ['class' => 'checkbox control-label font-weight-bold']) !!}
+                    </div>
+
+                    <div class="checkbox d-inline mr-4">
+                        {!! Form::hidden('trending', 0) !!}
+                        {!! Form::checkbox('trending', 1, old('trending'), []) !!}
+                        {!! Form::label('trending',  trans('labels.backend.courses.fields.trending'), ['class' => 'checkbox control-label font-weight-bold']) !!}
+                    </div>
+
+                    <div class="checkbox d-inline mr-4">
+                        {!! Form::hidden('popular', 0) !!}
+                        {!! Form::checkbox('popular', 1, old('popular'), []) !!}
+                        {!! Form::label('popular',  trans('labels.backend.courses.fields.popular'), ['class' => 'checkbox control-label font-weight-bold']) !!}
                     </div>
 
                 </div>

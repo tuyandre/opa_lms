@@ -2,6 +2,15 @@
 
 @section('content')
 
+
+    <!-- Start of slider section
+    ============================================= -->
+    @include('frontend.layouts.partials.slider')
+
+    <!-- End of slider section
+            ============================================= -->
+
+
 <!-- Start of Search Courses
     ============================================= -->
 <section id="search-course" class="search-course-section search-course-third">

@@ -111,3 +111,12 @@ Route::resource('sliders', 'Admin\SliderController');
 Route::get('sliders/status/{id}', 'Admin\SliderController@status')->name('sliders.status','id');
 Route::post('sliders/save-sequence', ['uses' => 'Admin\SliderController@saveSequence', 'as' => 'sliders.saveSequence']);
 
+//===== Categories Routes =====//
+Route::resource('sponsors', 'Admin\SponsorController');
+Route::get('get-sponsors-data', ['uses' => 'Admin\SponsorController@getData', 'as' => 'sponsors.get_data']);
+Route::post('sponsors_mass_destroy', ['uses' => 'Admin\SponsorController@massDestroy', 'as' => 'sponsors.mass_destroy']);
+Route::get('sponsors/status/{id}', 'Admin\SponsorController@status')->name('sponsors.status','id');
+
+
+
+

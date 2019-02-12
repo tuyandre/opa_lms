@@ -3,7 +3,7 @@ namespace App\Http\Requests\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateCoursesRequest extends FormRequest
+class StoreSponsorsRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,10 +23,7 @@ class UpdateCoursesRequest extends FormRequest
     public function rules()
     {
         return [
-            
-            'teachers.*' => 'exists:users,id',
-            'title' => 'required',
-            'start_date' => 'nullable|date_format:'.config('app.date_format'),
+            'name' => 'required',
         ];
     }
 }

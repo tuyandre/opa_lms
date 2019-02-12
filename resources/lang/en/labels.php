@@ -172,6 +172,10 @@ return [
                   'view' => 'View Lessons'
                 ],
                 'course' => 'Course',
+                'status' => 'Status',
+                'featured' => 'Featured',
+                'popular' => 'Popular',
+                'trending' => 'Trending',
                 'title' => 'Title',
                 'slug' => 'Slug',
                 'description' => 'Description',
@@ -334,6 +338,18 @@ return [
         ],
         'social_settings' => [
             'management' => 'Social Settings',
+        ],
+        'sponsors' => [
+            'title' => 'Sponsors',
+            'create' => 'Create Sponsors',
+            'edit' => 'Edit Sponsors',
+            'view' => 'View Sponsors',
+            'fields' => [
+                'name' => 'Name',
+                'logo' => 'Logo',
+                'link' => 'Link',
+                'status' => 'Status',
+            ]
         ],
         /*======================================================*/
     ],

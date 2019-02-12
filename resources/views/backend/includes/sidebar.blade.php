@@ -123,6 +123,13 @@
 
 
             @if ($logged_in_user->isAdmin())
+                <li class="nav-item ">
+                    <a class="nav-link {{ $request->segment(2) == 'sponsors' ? 'active' : '' }}"
+                       href="{{ route('admin.sponsors.index') }}">
+                        <i class="nav-icon icon-pie-chart"></i>
+                        <span class="title">@lang('menus.backend.sidebar.sponsors.title')</span>
+                    </a>
+                </li>
                 <li class="nav-title">
                     @lang('menus.backend.sidebar.system')
                 </li>

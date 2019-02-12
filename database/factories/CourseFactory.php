@@ -20,6 +20,9 @@ $factory->define(App\Models\Course::class, function (Faker\Generator $faker) {
         'slug' => str_slug($name),
         'description' => $faker->text(),
         'price' => $faker->randomFloat(2, 0, 199),
+        'featured' => array_random([0,1]),
+        'trending' => array_random([0,1]),
+        'popular' => array_random([0,1]),
         'published' => 1,
     ];
 });
