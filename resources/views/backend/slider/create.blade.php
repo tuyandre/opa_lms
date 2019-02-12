@@ -165,7 +165,7 @@
                 } else {
                     $('.widget-container').addClass('d-none');
                 }
-            })
+            });
 
             $(document).on('click','#add-button',function (e) {
                 e.preventDefault()

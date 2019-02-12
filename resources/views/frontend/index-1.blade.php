@@ -31,7 +31,7 @@
                                 <i class="text-gradiant flaticon-graduation-hat"></i>
                             </div>
                             <div class="counter-number">
-                                <span class="counter-count bold-font">5 </span><span>M+</span>
+                                <span class=" bold-font">{{$total_students}}</span>
                                 <p>Students Enrolled</p>
                             </div>
                         </div>
@@ -44,7 +44,7 @@
                                 <i class="text-gradiant flaticon-book"></i>
                             </div>
                             <div class="counter-number">
-                                <span class="counter-count bold-font">122</span><span>.500+</span>
+                                <span class=" bold-font">{{$total_courses}}</span>
                                 <p>Online Available Courses</p>
                             </div>
                         </div>
@@ -58,8 +58,8 @@
                                 <i class="text-gradiant flaticon-group"></i>
                             </div>
                             <div class="counter-number">
-                                <span class="counter-count bold-font">7</span><span>.500+</span>
-                                <p>Teachers Registered</p>
+                                <span class=" bold-font">{{$total_teachers}}</span>
+                                <p>Teachers</p>
                             </div>
                         </div>
                     </div>

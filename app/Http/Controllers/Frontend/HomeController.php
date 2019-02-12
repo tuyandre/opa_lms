@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Auth\User;
 use App\Models\Course;
 use App\Models\Sponsor;
 
@@ -24,6 +25,16 @@ class HomeController extends Controller
 
         $sponsors = Sponsor::where('status','=',1)->get();
 
-        return view('frontend.index-'.config('theme_layout'),compact('popular_courses','featured_courses','sponsors'));
+        if((int)config('counter') == 1){
+            $total_students =  config('total_students');
+            $total_courses =  config('total_courses');
+            $total_teachers =  config('total_teachers');
+        }else{
+            $total_students = User::role('student')->get()->count();
+            $total_courses =  Course::where('published','=',1)->get()->count();
+            $total_teachers =   User::role('teacher')->get()->count();
+        }
+
+        return view('frontend.index-'.config('theme_layout'),compact('popular_courses','featured_courses','sponsors','total_students','total_courses','total_teachers'));
     }
 }

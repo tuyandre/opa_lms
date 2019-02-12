@@ -21,6 +21,9 @@
             background: #101010;
             border-radius: 100%;
         }
+        .form-control-label{
+            line-height: 35px;
+        }
 
         .color-default i {
             background-clip: text;
@@ -46,12 +49,12 @@
             <div class="row mt-4 mb-4">
                 <div class="col">
                     <div class="form-group row">
-                        {{ html()->label(__('validation.attributes.backend.settings.general_settings.app_name'))->class('col-md-2 form-control-label')->for('app_name') }}
+                        {{ html()->label(__('labels.backend.general_settings.app_name'))->class('col-md-2 form-control-label')->for('app_name') }}
 
                         <div class="col-md-10">
                             {{ html()->text('app__name')
                                 ->class('form-control')
-                                ->placeholder(__('validation.attributes.backend.settings.general_settings.app_name'))
+                                ->placeholder(__('labels.backend.general_settings.app_name'))
                                 ->attribute('maxlength', 191)
                                 ->required()
                                 ->value(config('app.name'))
@@ -60,8 +63,9 @@
 
                         </div><!--col-->
                     </div><!--form-group-->
+                    
                     <div class="form-group row">
-                        {{ html()->label(__('validation.attributes.backend.settings.general_settings.theme_layout'))->class('col-md-2 form-control-label')->for('theme_layout') }}
+                        {{ html()->label(__('labels.backend.general_settings.theme_layout'))->class('col-md-2 form-control-label')->for('theme_layout') }}
 
                         <div class="col-md-10">
                             <select class="form-control" id="theme_layout" name="theme_layout">
@@ -70,12 +74,13 @@
                                 <option value="3">Layout 3</option>
                                 <option value="4">Layout 4</option>
                             </select>
-                            <span class="help-text font-italic">This will change frontend theme layout</span>
+                            <span class="help-text font-italic">{{__('labels.backend.general_settings.layout_note')}}</span>
 
                         </div><!--col-->
                     </div><!--form-group-->
+                    
                     <div class="form-group row">
-                        {{ html()->label(__('validation.attributes.backend.settings.general_settings.font_color'))->class('col-md-2 form-control-label')->for('font_color') }}
+                        {{ html()->label(__('labels.backend.general_settings.font_color'))->class('col-md-2 form-control-label')->for('font_color') }}
 
                         <div class="col-md-10">
                             <ul class="d-inline-block list-inline w-100 mb-0 color-list list-style-none">
@@ -134,8 +139,9 @@
                             <span class="help-text font-italic">This will change frontend theme font colors</span>
                         </div><!--col-->
                     </div><!--form-group-->
+                    
                     <div class="form-group row">
-                        {{ html()->label(__('validation.attributes.backend.settings.general_settings.layout_type'))->class('col-md-2 form-control-label')->for('layout_type') }}
+                        {{ html()->label(__('labels.backend.general_settings.layout_type'))->class('col-md-2 form-control-label')->for('layout_type') }}
 
                         <div class="col-md-10">
                             <select class="form-control" id="layout_type" name="layout_type">
@@ -143,6 +149,27 @@
                                 <option value="box-layout">Box</option>
                             </select>
                             <span class="help-text font-italic">This will change frontend theme layout type</span>
+
+                        </div><!--col-->
+                    </div><!--form-group-->
+
+                    <div class="form-group row">
+                        {{ html()->label(__('labels.backend.general_settings.counter'))->class('col-md-2 form-control-label')->for('counter') }}
+
+                        <div class="col-md-10">
+                            <select class="form-control" id="counter" name="layout_type">
+                                <option selected value="1">Static</option>
+                                <option value="2">Database / Real</option>
+                            </select>
+                            <span class="help-text font-italic">{!!  __('labels.backend.general_settings.counter_note') !!}</span>
+                            <div class="counter-container">
+
+                                <input class="form-control my-2" type="text" id="total_students" name="total_students" placeholder="{{__('labels.backend.general_settings.total_students')}}">
+
+                                <input type="text" id="total_courses" class="form-control mb-2" name="total_courses" placeholder="{{__('labels.backend.general_settings.total_courses')}}">
+
+                                <input type="text" class="form-control mb-2" id="total_teachers" name="total_teachers" placeholder="{{__('labels.backend.general_settings.total_teachers')}}">
+                            </div>
 
                         </div><!--col-->
                     </div><!--form-group-->
@@ -176,6 +203,8 @@
             $('#theme_layout').find('option[value="{{config('theme_layout')}}"]').attr('selected', 'selected');
             @endif
 
+
+
             @if(config('font_color') != "")
             $('.color-list').find('li a').removeClass('active');
             $('.color-list').find('li a[data-color="{{config('font_color')}}"]').addClass('active');
@@ -205,6 +234,21 @@
                     $('#captcha-credentials').find('input').attr('required', false);
                 }
             })
+
+            $(document).on('change','#counter',function () {
+              if($(this).val() == 1) {
+                  $('.counter-container').empty().removeClass('d-none');
+                  var html = "<input class='form-control my-2' type='text' id='total_students' name='total_students' placeholder='"+"{{__('labels.backend.general_settings.total_students')}}"+"'><input type='text' id='total_courses' class='form-control mb-2' name='total_courses' placeholder='"+"{{__('labels.backend.general_settings.total_courses')}}"+"'><input type='text' class='form-control mb-2' id='total_teachers' name='total_teachers' placeholder='"+"{{__('labels.backend.general_settings.total_teachers')}}"+"'>";
+
+                  $('.counter-container').append(html);
+              }else{
+                  $('.counter-container').addClass('d-none');
+              }
+            });
+
+            @if(config('counter') != "")
+                $('.counter-container').removeClass('d-none');
+            @endif
         });
     </script>
 @endpush

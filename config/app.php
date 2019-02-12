@@ -301,6 +301,17 @@ return [
    | You can choose from any two "wide" and "box"
    |--------------------------------------------------------------------------
    */
-    'layout_type' => 'wide'
+    'layout_type' => 'wide',
+
+    /*
+   |--------------------------------------------------------------------------
+   | Counter
+   | You can use "static" or "Database" option from backend
+   |--------------------------------------------------------------------------
+   */
+    'counter' => 1,
+    'total_students' => '1M+',
+    'total_courses' => '1k+',
+    'total_teachers' => '200+',
 
 ];

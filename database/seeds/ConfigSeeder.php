@@ -14,7 +14,11 @@ class ConfigSeeder extends Seeder
         $data = [
             'theme_layout' => 1,
             'font_color' => 'default',
-            'layout_type' => 'wide'
+            'layout_type' => 'wide',
+            'counter' => '1',
+            'total_students' => '1M+',
+            'total_courses' => '1K+',
+            'total_teachers' => '200+'
         ];
 
         foreach ($data as $key => $value) {
