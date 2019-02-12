@@ -3,12 +3,7 @@
 
 @section('content')
 
-    <!-- Start of slider section
-    ============================================= -->
-    @include('frontend.layouts.sliders.slider1')
 
-    <!-- End of slider section
-        ============================================= -->
 
     <section id="search-course" class="search-course-section">
         <div class="container">

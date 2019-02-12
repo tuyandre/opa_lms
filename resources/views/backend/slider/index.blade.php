@@ -26,7 +26,7 @@
 @endpush
 
 @section('content')
-
+<!--======TODO :: Fix OrderBy========-->
     <div class="card">
         <div class="card-header">
             <h3 class="page-title float-left">@lang('labels.backend.hero_slider.title')</h3>
@@ -57,37 +57,37 @@
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach($slides as $key=>$slide)
+                            @foreach($slides_list as $key=>$item)
                                 @php $key++ @endphp
                                 <tr>
                                     <td>
                                         {{ $key }}
                                     </td>
                                     <td>
-                                        {{$slide->name}}
+                                        {{$item->name}}
                                     </td>
                                     <td>
-                                        <img src="{{asset('storage/uploads/'.$slide->bg_image)}}" height="50px">
+                                        <img src="{{asset('storage/uploads/'.$item->bg_image)}}" height="50px">
                                     </td>
                                     <td>
-                                        {{ $slide->sequence }}
+                                        {{ $item->sequence }}
                                     </td>
                                     <td>
-                                        @if($slide->status == 1)
+                                        @if($item->status == 1)
                                             @lang('labels.backend.hero_slider.on')
                                         @else
                                             @lang('labels.backend.hero_slider.off')
                                         @endif
                                     </td>
                                     <td>
-                                        @if($slide->status == 1)
-                                            <a href="{{route('admin.sliders.status',['id'=>$slide->id])}}"
+                                        @if($item->status == 1)
+                                            <a href="{{route('admin.sliders.status',['id'=>$item->id])}}"
                                                class="btn mb-1 btn-danger">
                                                 <i class="fa fa-power-off"></i>
                                             </a>
 
                                         @else
-                                            <a href={{route('admin.sliders.status',['id'=>$slide->id])}}""
+                                            <a href={{route('admin.sliders.status',['id'=>$item->id])}}""
                                                class="btn mb-1 btn-success">
                                                 <i class="fa fa-power-off"></i>
                                             </a>
@@ -95,7 +95,7 @@
                                         @endif
 
 
-                                        <a href="{{route('admin.sliders.edit',['id'=>$slide->id]) }}"
+                                        <a href="{{route('admin.sliders.edit',['id'=>$item->id]) }}"
                                            class="btn btn-xs btn-info mb-1"><i class="icon-pencil"></i></a>
 
                                         <a data-method="delete" data-trans-button-cancel="Cancel"
@@ -106,7 +106,7 @@
                                                data-toggle="tooltip"
                                                data-placement="top" title=""
                                                data-original-title="Delete"></i>
-                                            <form action="{{route('admin.sliders.destroy',['id'=>$slide->id])}}"
+                                            <form action="{{route('admin.sliders.destroy',['id'=>$item->id])}}"
                                                   method="POST" name="delete_item" style="display:none">
                                                 @csrf
                                                 {{method_field('DELETE')}}
@@ -129,12 +129,12 @@
             <h3>@lang('labels.backend.hero_slider.manage_sequence')</h3>
         </div>
         <div class="card-body">
-            @if(count($slides) > 0)
+            @if(count($slides_list) > 0)
                 <div class="row justify-content-center">
                     <div class="col-6  ">
                         <h4 class="">@lang('labels.backend.hero_slider.sequence_note')</h4>
                         <ul class="sorter d-inline-block">
-                            @foreach($slides as $item)
+                            @foreach($slides_list as $item)
                                 <li>
                             <span data-id="{{$item->id}}" data-sequence="{{$item->sequence}}">
 

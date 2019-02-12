@@ -70,7 +70,7 @@ class AppServiceProvider extends ServiceProvider
             }
         }
 
-        $slides = Slider::where('status', 1)->get();
+        $slides = Slider::where('status', 1)->orderBy('sequence','asc')->get();
         view()->composer('*', function($view) use($slides) {
             $view->with('slides',$slides);
         });
