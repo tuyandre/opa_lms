@@ -103,8 +103,8 @@ class BlogController extends Controller
             ->addColumn('created', function ($q) {
                 return $q->created_at->diffforhumans();
             })
-            ->addColumn('comments', function ($q) {
-                return $q->comments->count();
+            ->addColumn('category', function ($q) {
+                return $q->category->name;
             })
             ->rawColumns(['image', 'actions'])
             ->make();

@@ -28,7 +28,7 @@
                         @endcan
                         <th>@lang('labels.general.sr_no')</th>
                         <th>@lang('labels.backend.blogs.fields.title')</th>
-                        <th>@lang('labels.backend.blogs.fields.comments')</th>
+                        <th>@lang('labels.backend.blogs.fields.category')</th>
                         <th>@lang('labels.backend.blogs.fields.created')</th>
                         @if( request('show_deleted') == 1 )
                             <th>@lang('strings.backend.general.actions') &nbsp;</th>
@@ -88,7 +88,7 @@
                         data: "DT_RowIndex", name: 'DT_RowIndex'
                     },
                     {data: "title", name: 'title'},
-                    {data: "comments", name: "comments"},
+                    {data: "category", name: 'category'},
                     {data: "created", name: "created"},
                     {data: "actions", name: "actions"}
                 ],

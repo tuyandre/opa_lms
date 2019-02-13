@@ -146,6 +146,13 @@
                         <span class="title">@lang('menus.backend.sidebar.testimonials.title')</span>
                     </a>
                 </li>
+                <li class="nav-item ">
+                    <a class="nav-link {{ $request->segment(2) == 'faqs' ? 'active' : '' }}"
+                       href="{{ route('admin.faqs.index') }}">
+                        <i class="nav-icon icon-question"></i>
+                        <span class="title">@lang('menus.backend.sidebar.faqs.title')</span>
+                    </a>
+                </li>
 
                 <li class="nav-title">
                     @lang('menus.backend.sidebar.system')

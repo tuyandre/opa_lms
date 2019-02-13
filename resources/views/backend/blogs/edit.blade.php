@@ -62,9 +62,7 @@
                     {!! Form::text('slug', old('slug'), ['class' => 'form-control', 'placeholder' => trans('labels.backend.blogs.slug_placeholder')]) !!}
                 </div>
                 @if ($blog->image)
-
                     <div class="col-12 col-lg-5 form-group">
-
                         {!! Form::label('featured_image', trans('labels.backend.blogs.fields.featured_image').' '.trans('labels.backend.blogs.max_file_size'), ['class' => 'control-label']) !!}
                         {!! Form::file('featured_image', ['class' => 'form-control', 'accept' => 'image/jpeg,image/gif,image/png']) !!}
                         {!! Form::hidden('featured_image_max_size', 8) !!}

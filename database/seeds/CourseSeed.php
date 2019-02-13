@@ -18,7 +18,10 @@ class CourseSeed extends Seeder
     {
 
         //Adding Categories
-        factory(\App\Models\Category::class, 10)->create();
+        factory(\App\Models\Category::class, 10)->create()->each(function ($cat){
+            $cat->blogs()->saveMany(factory(\App\Models\Blog::class,4)->create());
+
+        });
 
         //Creating Course
         factory(Course::class, 50)->create()->each(function ($course) {

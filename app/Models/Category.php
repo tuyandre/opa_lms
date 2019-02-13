@@ -15,4 +15,14 @@ class Category extends Model
     public function courses(){
         return $this->hasMany(Course::class);
     }
+
+    public function blogs(){
+        return $this->hasMany(Blog::class);
+    }
+
+    public function faqs(){
+        return $this->hasMany(Faq::class);
+    }
+
+
 }

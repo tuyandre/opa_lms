@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers\Backend\Admin;
 
+use App\Models\Faq;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\StoreTestimonialsRequest;
-use App\Http\Requests\Admin\UpdateTestimonialsRequest;
-use App\Models\Testimonial;
+use App\Http\Requests\Admin\StoreFaqsRequest;
+use App\Http\Requests\Admin\UpdateFaqsRequest;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 
-class TestimonialController extends Controller
+class FaqController extends Controller
 {
 
     /**
@@ -19,7 +20,7 @@ class TestimonialController extends Controller
      */
     public function index()
     {
-        return view('backend.testimonials.index');
+        return view('backend.faqs.index');
     }
 
 
@@ -33,10 +34,10 @@ class TestimonialController extends Controller
         $has_view = false;
         $has_delete = false;
         $has_edit = false;
-        $testimonials = Testimonial::orderBy('created_at', 'desc')->get();
+        $faqs = Faq::orderBy('created_at', 'desc')->get();
 
 
-        return DataTables::of($testimonials)
+        return DataTables::of($faqs)
             ->addIndexColumn()
             ->addColumn('actions', function ($q) use ($request) {
                 $view = "";
@@ -45,18 +46,18 @@ class TestimonialController extends Controller
 
                 $status = "";
                 if ($q->status == 1) {
-                    $status = "<a href='" . route('admin.testimonials.status', ['id' => $q->id]) . "' class='btn mb-1 mr-1 btn-danger'> <i class='fa fa-power-off'></i></a>";
+                    $status = "<a href='" . route('admin.faqs.status', ['id' => $q->id]) . "' class='btn mb-1 mr-1 btn-danger'> <i class='fa fa-power-off'></i></a>";
                 } else {
-                    $status = "<a href='" . route('admin.testimonials.status', ['id' => $q->id]) . "' class='btn mb-1 mr-1 btn-success'> <i class='fa fa-power-off'></i></a>";
+                    $status = "<a href='" . route('admin.faqs.status', ['id' => $q->id]) . "' class='btn mb-1 mr-1 btn-success'> <i class='fa fa-power-off'></i></a>";
                 }
                 $view .= $status;
                 $edit = view('backend.datatable.action-edit')
-                    ->with(['route' => route('admin.testimonials.edit', ['testimonials_option' => $q->id])])
+                    ->with(['route' => route('admin.faqs.edit', ['faqs_option' => $q->id])])
                     ->render();
                 $view .= $edit;
 
                 $delete = view('backend.datatable.action-delete')
-                    ->with(['route' => route('admin.testimonials.destroy', ['testimonials_option' => $q->id])])
+                    ->with(['route' => route('admin.faqs.destroy', ['faqs_option' => $q->id])])
                     ->render();
                 $view .= $delete;
                 return $view;
@@ -64,6 +65,9 @@ class TestimonialController extends Controller
             })
             ->editColumn('status', function ($q) {
                 return ($q->status == 1) ? "Enabled" : "Disabled";
+            })
+            ->addColumn('category',function ($q){
+                return $q->category->name;
             })
             ->rawColumns( ['actions'])
             ->make();
@@ -76,20 +80,25 @@ class TestimonialController extends Controller
      */
     public function create()
     {
-        return view('backend.testimonials.create');
+        $category = Category::pluck('name','id')->prepend('Please select', '');
+        return view('backend.faqs.create',compact('category'));
     }
 
     /**
      * Store a newly created Testimonial in storage.
      *
-     * @param  \App\Http\Requests\StoreTestimonialsRequest $request
+     * @param  \App\Http\Requests\StoreFaqsRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreTestimonialsRequest $request)
+    public function store(StoreFaqsRequest $request)
     {
-        Testimonial::create($request->all());
-        
-        return redirect()->route('admin.testimonials.index')->withFlashSuccess(trans('alerts.backend.general.created'));
+        $faq = new Faq();
+        $faq->category_id = $request->category;
+        $faq->question = $request->question;
+        $faq->answer = $request->answer;
+        $faq->save();
+
+        return redirect()->route('admin.faqs.index')->withFlashSuccess(trans('alerts.backend.general.created'));
     }
 
 
@@ -101,25 +110,27 @@ class TestimonialController extends Controller
      */
     public function edit($id)
     {
-       
-        $testimonial = Testimonial::findOrFail($id);
-
-        return view('backend.testimonials.edit', compact('testimonial', 'tests'));
+        $category = Category::pluck('name','id')->prepend('Please select', '');
+        $faq = Faq::findOrFail($id);
+        return view('backend.faqs.edit', compact('faq','category'));
     }
 
     /**
      * Update Testimonial in storage.
      *
-     * @param  \App\Http\Requests\UpdateTestimonialsRequest $request
+     * @param  \App\Http\Requests\UpdateFaqsRequest $request
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateTestimonialsRequest $request, $id)
+    public function update(UpdateFaqsRequest $request, $id)
     {
-        $testimonial = Testimonial::findOrFail($id);
-        $testimonial->update($request->all());
+        $faq = Faq::findOrFail($id);
+        $faq->category_id = $request->category;
+        $faq->question = $request->question;
+        $faq->answer = $request->answer;
+        $faq->save();
 
-        return redirect()->route('admin.testimonials.index')->withFlashSuccess(trans('alerts.backend.general.updated'));
+        return redirect()->route('admin.faqs.index')->withFlashSuccess(trans('alerts.backend.general.updated'));
     }
 
 
@@ -133,10 +144,10 @@ class TestimonialController extends Controller
     public function destroy($id)
     {
 
-        $testimonial = Testimonial::findOrFail($id);
-        $testimonial->delete();
+        $faq = Faq::findOrFail($id);
+        $faq->delete();
 
-        return redirect()->route('admin.testimonials.index')->withFlashSuccess(trans('alerts.backend.general.deleted'));
+        return redirect()->route('admin.faqs.index')->withFlashSuccess(trans('alerts.backend.general.deleted'));
     }
 
     /**
@@ -148,7 +159,7 @@ class TestimonialController extends Controller
     {
 
         if ($request->input('ids')) {
-            $entries = Testimonial::whereIn('id', $request->input('ids'))->get();
+            $entries = Faq::whereIn('id', $request->input('ids'))->get();
 
             foreach ($entries as $entry) {
                 $entry->delete();
@@ -158,16 +169,15 @@ class TestimonialController extends Controller
 
     public function status($id)
     {
-        $testimonial = Testimonial::findOrFail($id);
-        if ($testimonial->status == 1) {
-            $testimonial->status = 0;
+        $faq = Faq::findOrFail($id);
+        if ($faq->status == 1) {
+            $faq->status = 0;
         } else {
-            $testimonial->status = 1;
+            $faq->status = 1;
         }
-        $testimonial->save();
+        $faq->save();
 
         return back()->withFlashSuccess(trans('alerts.backend.general.updated'));
     }
-
 
 }

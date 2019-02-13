@@ -2558,6 +2558,9 @@ button.alt-menu-btn.float-left {
   float: left;
   margin-right: 20px;
   overflow: hidden;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
 }
 
 .latest-news-thumbnile .hover-search {

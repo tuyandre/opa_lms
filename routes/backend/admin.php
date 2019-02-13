@@ -125,6 +125,7 @@ Route::get('get-testimonials-data', ['uses' => 'Admin\TestimonialController@getD
 Route::post('testimonials_mass_destroy', ['uses' => 'Admin\TestimonialController@massDestroy', 'as' => 'testimonials.mass_destroy']);
 Route::get('testimonials/status/{id}', 'Admin\TestimonialController@status')->name('testimonials.status','id');
 
+
 //======= Blog Routes =====//
 Route::group(['prefix' => 'blog'], function () {
     Route::get('/create','Admin\BlogController@create');
@@ -142,4 +143,9 @@ Route::post('blogs_mass_destroy', ['uses' => 'Admin\BlogController@massDestroy',
 
 
 
+//===== FAQs Routes =====//
+Route::resource('faqs', 'Admin\FaqController');
+Route::get('get-faqs-data', ['uses' => 'Admin\FaqController@getData', 'as' => 'faqs.get_data']);
+Route::post('faqs_mass_destroy', ['uses' => 'Admin\FaqController@massDestroy', 'as' => 'faqs.mass_destroy']);
+Route::get('faqs/status/{id}', 'Admin\FaqController@status')->name('faqs.status');
 

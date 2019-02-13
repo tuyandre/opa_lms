@@ -418,6 +418,19 @@ return [
                 'created_at' => 'Created On',
             ]
         ],
+
+        'faqs' => [
+            'title' => 'FAQs',
+            'create' => 'Create FAQ',
+            'edit' => 'Edit FAQ',
+            'view' => 'View FAQs',
+            'fields' => [
+                'category' => 'Category',
+                'question' => 'Question',
+                'answer' => 'Answer',
+                'status' => 'Status',
+            ]
+        ],
         /*======================================================*/
     ],
 

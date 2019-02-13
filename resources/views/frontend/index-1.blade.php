@@ -284,54 +284,63 @@
                 <div class="col-md-4">
                     <div class="latest-area-content  ">
                         <div class="section-title-2 mb65 headline text-left">
-                            <h2>Latest <span>News.</span></h2>
+                            <h2>Latest <span>News Blog.</span></h2>
                         </div>
                         <div class="latest-news-posts">
-                            <div class="latest-news-area">
-                                <div class="latest-news-thumbnile relative-position">
-                                    <img src={{asset("assets/img/blog/lb-1.jpg")}} alt="">
-                                    <div class="hover-search">
-                                        <i class="fas fa-search"></i>
+                            @if(count($news) > 0)
+                                @foreach($news as  $item)
+                                    <div class="latest-news-area">
+                                        @if($item->image != null)
+                                        <div class="latest-news-thumbnile relative-position" style="background-image: url('{{asset("storage/uploads/".$item->image)}}');">
+                                            <div class="hover-search">
+                                                {{--<i class="fas fa-search"></i>--}}
+                                            </div>
+                                            <div class="blakish-overlay"></div>
+                                        </div>
+                                        @endif
+                                        <div class="date-meta">
+                                            <i class="fas fa-calendar-alt"></i> {{$item->created_at->format('d M Y')}}
+                                        </div>
+                                        <h3 class="latest-title bold-font"><a href="#">{{$item->title}}</a></h3>
+                                        <h3 class="latest-title text-primary"><a href="#">{{$item->category->name}}</a></h3>
+                                        <div class="course-viewer ul-li">
+                                            <ul>
+                                                {{--<li><a href=""><i class="fas fa-user"></i> 1.220</a></li>--}}
+                                                @if($item->comments->count() > 1)
+                                                <li><a href=""><i class="fas fa-comment-dots"></i>{{ $item->comments->count() }}</a></li>
+                                                @endif
+                                            </ul>
+                                        </div>
                                     </div>
-                                    <div class="blakish-overlay"></div>
-                                </div>
-                                <div class="date-meta">
-                                    <i class="fas fa-calendar-alt"></i> 26 April 2018
-                                </div>
-                                <h3 class="latest-title bold-font"><a href="#">Affiliate Marketing A Beginner’s
-                                        Guide.</a></h3>
-                                <div class="course-viewer ul-li">
-                                    <ul>
-                                        <li><a href=""><i class="fas fa-user"></i> 1.220</a></li>
-                                        <li><a href=""><i class="fas fa-comment-dots"></i> 1.015</a></li>
-                                    </ul>
-                                </div>
-                            </div>
+
+                                    @endforeach
+                            @endif
+
                             <!-- /post -->
 
-                            <div class="latest-news-posts">
-                                <div class="latest-news-area">
-                                    <div class="latest-news-thumbnile relative-position">
-                                        <img src={{asset("assets/img/blog/lb-2.jpg")}} alt="">
-                                        <div class="hover-search">
-                                            <i class="fas fa-search"></i>
-                                        </div>
-                                        <div class="blakish-overlay"></div>
-                                    </div>
-                                    <div class="date-meta">
-                                        <i class="fas fa-calendar-alt"></i> 26 April 2018
-                                    </div>
-                                    <h3 class="latest-title bold-font"><a href="#">No.1 The Best Online Course 2018.</a>
-                                    </h3>
-                                    <div class="course-viewer ul-li">
-                                        <ul>
-                                            <li><a href=""><i class="fas fa-user"></i> 1.220</a></li>
-                                            <li><a href=""><i class="fas fa-comment-dots"></i> 1.015</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <!-- /post -->
-                            </div>
+                            {{--<div class="latest-news-posts">--}}
+                                {{--<div class="latest-news-area">--}}
+                                    {{--<div class="latest-news-thumbnile relative-position">--}}
+                                        {{--<img src={{asset("assets/img/blog/lb-2.jpg")}} alt="">--}}
+                                        {{--<div class="hover-search">--}}
+                                            {{--<i class="fas fa-search"></i>--}}
+                                        {{--</div>--}}
+                                        {{--<div class="blakish-overlay"></div>--}}
+                                    {{--</div>--}}
+                                    {{--<div class="date-meta">--}}
+                                        {{--<i class="fas fa-calendar-alt"></i> 26 April 2018--}}
+                                    {{--</div>--}}
+                                    {{--<h3 class="latest-title bold-font"><a href="#">No.1 The Best Online Course 2018.</a>--}}
+                                    {{--</h3>--}}
+                                    {{--<div class="course-viewer ul-li">--}}
+                                        {{--<ul>--}}
+                                            {{--<li><a href=""><i class="fas fa-user"></i> 1.220</a></li>--}}
+                                            {{--<li><a href=""><i class="fas fa-comment-dots"></i> 1.015</a></li>--}}
+                                        {{--</ul>--}}
+                                    {{--</div>--}}
+                                {{--</div>--}}
+                                {{--<!-- /post -->--}}
+                            {{--</div>--}}
 
                             <div class="view-all-btn bold-font">
                                 <a href="#">View All News <i class="fas fa-chevron-circle-right"></i></a>
@@ -339,96 +348,91 @@
                         </div>
                     </div>
                 </div>
-                <!-- /latest-news -->
+
+
                 <div class="col-md-4">
-                    <div class="latest-area-content ">
+                    <div class="latest-area-content  ">
                         <div class="section-title-2 mb65 headline text-left">
-                            <h2>Upcoming <span>Events.</span></h2>
+                            <h2>Trending <span>Courses.</span></h2>
                         </div>
-                        <div class="latest-events">
-                            <div class="latest-event-item">
-                                <div class="events-date  relative-position text-center">
-                                    <div class="gradient-bdr"></div>
-                                    <span class="event-date bold-font">22</span>
-                                    April 2018
-                                </div>
-                                <div class="event-text">
-                                    <h3 class="latest-title bold-font"><a href="#">Fully Responsive Web Design &
-                                            Development.</a></h3>
-                                    <div class="course-meta">
-                                        <span class="course-category"><a href="#">Web Design</a></span>
-                                        <span class="course-author"><a href="#">Koke</a></span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <div class="latest-news-posts">
+                            @if(count($trending_courses) > 0)
+                                @foreach($trending_courses as  $item)
+                                    <div class="latest-news-area">
+                                        @if($item->image != null)
+                                            <div class="latest-news-thumbnile relative-position" style="background-image: url('{{asset("storage/uploads/".$item->image)}}');">
+                                                <div class="hover-search">
+                                                    {{--<i class="fas fa-search"></i>--}}
+                                                </div>
+                                                <div class="blakish-overlay"></div>
+                                            </div>
+                                        @endif
+                                        <div class="date-meta">
+                                            <i class="fas fa-calendar-alt"></i> {{$item->created_at->format('d M Y')}}
+                                        </div>
+                                        <h3 class="latest-title bold-font"><a href="#">{{$item->title}}</a></h3>
+                                        <h3 class="latest-title text-primary"><a href="#">{{$item->category->name}}</a></h3>
+                                        <div class="course-viewer ul-li">
+                                            <ul>
+                                                <li><a href=""><i class="fas fa-user"></i> {{$item->students->count()}}</a></li>
 
-                        <div class="latest-events">
-                            <div class="latest-event-item">
-                                <div class="events-date  relative-position text-center">
-                                    <div class="gradient-bdr"></div>
-                                    <span class="event-date bold-font">07</span>
-                                    August 2018
-                                </div>
-                                <div class="event-text">
-                                    <h3 class="latest-title bold-font"><a href="#">Introduction to Mobile Application
-                                            Development.</a></h3>
-                                    <div class="course-meta">
-                                        <span class="course-category"><a href="#">Web Design</a></span>
-                                        <span class="course-author"><a href="#">Koke</a></span>
+                                            </ul>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
 
-                        <div class="latest-events">
-                            <div class="latest-event-item">
-                                <div class="events-date  relative-position text-center">
-                                    <div class="gradient-bdr"></div>
-                                    <span class="event-date bold-font">30</span>
-                                    Sept 2018
-                                </div>
-                                <div class="event-text">
-                                    <h3 class="latest-title bold-font"><a href="#">IOS Apps Programming &
-                                            Development.</a></h3>
-                                    <div class="course-meta">
-                                        <span class="course-category"><a href="#">Web Design</a></span>
-                                        <span class="course-author"><a href="#">Koke</a></span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                                @endforeach
+                            @endif
 
-                        <div class="view-all-btn bold-font">
-                            <a href="#">Check Calendar <i class="fas fa-calendar-alt"></i></a>
+                        <!-- /post -->
+
+                            <div class="view-all-btn bold-font">
+                                <a href="#">View All Trending Courses <i class="fas fa-chevron-circle-right"></i></a>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <!-- /events -->
 
                 <div class="col-md-4">
-                    <div class="latest-area-content ">
+                    <div class="latest-area-content  ">
                         <div class="section-title-2 mb65 headline text-left">
-                            <h2>Latest <span>Video.</span></h2>
+                            <h2>Popular <span>Courses.</span></h2>
                         </div>
-                        <div class="latest-video-poster relative-position mb20">
-                            <img src={{asset("assets/img/banner/v-1.jpg")}} alt="">
-                            <div class="video-play-btn text-center gradient-bg">
-                                <a class="popup-with-zoom-anim" href="https://www.youtube.com/watch?v=-g4TnixUdSc"><i
-                                            class="fas fa-play"></i></a>
+                        <div class="latest-news-posts">
+                            @if(count($popular_courses) > 0)
+                                @foreach($popular_courses->take(2) as  $item)
+                                    <div class="latest-news-area">
+                                        @if($item->image != null)
+                                            <div class="latest-news-thumbnile relative-position" style="background-image: url('{{asset("storage/uploads/".$item->image)}}');">
+                                                <div class="hover-search">
+                                                    {{--<i class="fas fa-search"></i>--}}
+                                                </div>
+                                                <div class="blakish-overlay"></div>
+                                            </div>
+                                        @endif
+                                        <div class="date-meta">
+                                            <i class="fas fa-calendar-alt"></i> {{$item->created_at->format('d M Y')}}
+                                        </div>
+                                        <h3 class="latest-title bold-font"><a href="#">{{$item->title}}</a></h3>
+                                        <h3 class="latest-title text-primary"><a href="#">{{$item->category->name}}</a></h3>
+                                        <div class="course-viewer ul-li">
+                                            <ul>
+                                                <li><a href=""><i class="fas fa-user"></i> {{$item->students->count()}}</a></li>
+
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                            @endforeach
+                        @endif
+
+                        <!-- /post -->
+
+                            <div class="view-all-btn bold-font">
+                                <a href="#">View All Popular Courses <i class="fas fa-chevron-circle-right"></i></a>
                             </div>
-                        </div>
-                        <div class="vidoe-text">
-                            <h3 class="latest-title bold-font"><a href="#">Learning IOS Apps in Amsterdam.</a></h3>
-                            <p class="mb25">Lorem ipsum dolor sit amet, consectetuer delacosta adipiscing elit, sed diam
-                                nonummy.</p>
-                        </div>
-                        <div class="view-all-btn bold-font">
-                            <a href="#">View All Videos <i class="fas fa-chevron-circle-right"></i></a>
                         </div>
                     </div>
                 </div>
-                <!-- /. -->
             </div>
         </div>
     </section>
@@ -550,208 +554,39 @@
 
                 <div class="teacher-list">
                     <div class="row justify-content-center">
-                        <div class="col-md-3">
-                            <div class="teacher-img-content ">
-                                <div class="teacher-cntent">
-                                    <div class="teacher-social-name ul-li-block">
-                                        {{--<ul>--}}
-                                        {{--<li><a href="#"><i class="fab fa-facebook-f"></i></a></li>--}}
-                                        {{--<li><a href="#"><i class="fab fa-twitter"></i></a></li>--}}
-                                        {{--<li><a href="#"><i class="fab fa-google-plus-g"></i></a></li>--}}
-                                        {{--</ul>--}}
-                                        <div class="teacher-name">
-												<span>Daniel
-												Alvares</span>
+                        <!-- /teacher -->
+                        @if(count($teachers)> 0)
+                            @foreach($teachers as $item)
+                            <div class="col-md-3">
+                                <div class="teacher-img-content ">
+                                    <div class="teacher-cntent">
+                                        <div class="teacher-social-name ul-li-block">
+                                            <ul>
+                                                <li><a href="#"><i class="fa fa-envelope"></i></a></li>
+                                                <li><a href="{{route('admin.messages')}}"><i class="fa fa-comments"></i></a></li>
+                                            </ul>
+                                            <div class="teacher-name">
+                                                <span>Juliana Hernandes</span>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="teacher-img-category">
-                                        <div class="teacher-img">
-                                            <img src={{asset("assets/img/teacher/t-1.jpg")}} alt="">
-                                            {{--<div class="course-price text-uppercase text-center gradient-bg">--}}
-                                            {{--<span>Featured</span>--}}
+                                        <div class="teacher-img-category">
+                                            <div class="teacher-img">
+                                                <img src="{{$item->picture}}" style="height: 100%" alt="">
+                                                {{--<div class="course-price text-uppercase text-center gradient-bg">--}}
+                                                    {{--<span>Featured</span>--}}
+                                                {{--</div>--}}
+                                            </div>
+                                            {{--<div class="teacher-category float-right">--}}
+                                                {{--<span class="st-name">{{$item->name}} </span>--}}
                                             {{--</div>--}}
                                         </div>
-                                        <div class="teacher-category float-right">
-                                            <span class="st-name">Mobile Apps </span>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <!-- /teacher -->
-                        <div class="col-md-3">
-                            <div class="teacher-img-content ">
-                                <div class="teacher-cntent">
-                                    <div class="teacher-social-name ul-li-block">
-                                        <ul>
-                                            <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-                                            <li><a href="#"><i class="fab fa-twitter"></i></a></li>
-                                            <li><a href="#"><i class="fab fa-google-plus-g"></i></a></li>
-                                        </ul>
-                                        <div class="teacher-name">
-                                            <span>Juliana Hernandes</span>
-                                        </div>
-                                    </div>
-                                    <div class="teacher-img-category">
-                                        <div class="teacher-img">
-                                            <img src={{asset("assets/img/teacher/t-2.jpg")}} alt="">
-                                            <div class="course-price text-uppercase text-center gradient-bg">
-                                                <span>Featured</span>
-                                            </div>
-                                        </div>
-                                        <div class="teacher-category float-right">
-                                            <span class="st-name">Mobile Apps </span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- /teacher -->
-                        <div class="col-md-3">
-                            <div class="teacher-img-content ">
-                                <div class="teacher-cntent">
-                                    <div class="teacher-social-name ul-li-block">
-                                        <ul>
-                                            <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-                                            <li><a href="#"><i class="fab fa-twitter"></i></a></li>
-                                            <li><a href="#"><i class="fab fa-google-plus-g"></i></a></li>
-                                        </ul>
-                                        <div class="teacher-name">
-												<span>Berliana
-												Luis</span>
-                                        </div>
-                                    </div>
-                                    <div class="teacher-img-category">
-                                        <div class="teacher-img">
-                                            <img src={{asset("assets/img/teacher/t-3.jpg")}} alt="">
-                                            <div class="course-price text-uppercase text-center gradient-bg">
-                                                <span>Featured</span>
-                                            </div>
-                                        </div>
-                                        <div class="teacher-category float-right">
-                                            <span class="st-name">IOS Apps </span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- /teacher -->
-                        <div class="col-md-3">
-                            <div class="teacher-img-content ">
-                                <div class="teacher-cntent">
-                                    <div class="teacher-social-name ul-li-block">
-                                        <ul>
-                                            <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-                                            <li><a href="#"><i class="fab fa-twitter"></i></a></li>
-                                            <li><a href="#"><i class="fab fa-google-plus-g"></i></a></li>
-                                        </ul>
-                                        <div class="teacher-name">
-												<span>Johansen
-												Doe</span>
-                                        </div>
-                                    </div>
-                                    <div class="teacher-img-category">
-                                        <div class="teacher-img">
-                                            <img src={{asset("assets/img/teacher/t-4.jpg")}} alt="">
-                                            <div class="course-price text-uppercase text-center gradient-bg">
-                                                <span>Featured</span>
-                                            </div>
-                                        </div>
-                                        <div class="teacher-category float-right">
-                                            <span class="st-name">Graphic </span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- /teacher -->
-                        <div class="col-md-3">
-                            <div class="teacher-img-content ">
-                                <div class="teacher-cntent">
-                                    <div class="teacher-social-name ul-li-block">
-                                        <ul>
-                                            <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-                                            <li><a href="#"><i class="fab fa-twitter"></i></a></li>
-                                            <li><a href="#"><i class="fab fa-google-plus-g"></i></a></li>
-                                        </ul>
-                                        <div class="teacher-name">
-												<span>Lisha
-												Chambelt</span>
-                                        </div>
-                                    </div>
-                                    <div class="teacher-img-category">
-                                        <div class="teacher-img">
-                                            <img src={{asset("assets/img/teacher/t-6.jpg")}} alt="">
-                                            <div class="course-price text-uppercase text-center gradient-bg">
-                                                <span>Featured</span>
-                                            </div>
-                                        </div>
-                                        <div class="teacher-category float-right">
-                                            <span class="st-name">Mobile Apps </span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- /teacher -->
-                        <div class="col-md-3">
-                            <div class="teacher-img-content ">
-                                <div class="teacher-cntent">
-                                    <div class="teacher-social-name ul-li-block">
-                                        <ul>
-                                            <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-                                            <li><a href="#"><i class="fab fa-twitter"></i></a></li>
-                                            <li><a href="#"><i class="fab fa-google-plus-g"></i></a></li>
-                                        </ul>
-                                        <div class="teacher-name">
-												<span>Checilia
-												Yeoung</span>
-                                        </div>
-                                    </div>
-                                    <div class="teacher-img-category">
-                                        <div class="teacher-img">
-                                            <img src={{asset("assets/img/teacher/t-5.jpg")}} alt="">
-                                            <div class="course-price text-uppercase text-center gradient-bg">
-                                                <span>Featured</span>
-                                            </div>
-                                        </div>
-                                        <div class="teacher-category float-right">
-                                            <span class="st-name">Mobile Apps </span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- /teacher -->
-                        <div class="col-md-3">
-                            <div class="teacher-img-content ">
-                                <div class="teacher-cntent">
-                                    <div class="teacher-social-name ul-li-block">
-                                        <ul>
-                                            <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-                                            <li><a href="#"><i class="fab fa-twitter"></i></a></li>
-                                            <li><a href="#"><i class="fab fa-google-plus-g"></i></a></li>
-                                        </ul>
-                                        <div class="teacher-name">
-												<span>Sean
-												Fernandes</span>
-                                        </div>
-                                    </div>
-                                    <div class="teacher-img-category">
-                                        <div class="teacher-img">
-                                            <img src={{asset("assets/img/teacher/t-7.jpg")}} alt="">
-                                            <div class="course-price text-uppercase text-center gradient-bg">
-                                                <span>Featured</span>
-                                            </div>
-                                        </div>
-                                        <div class="teacher-category float-right">
-                                            <span class="st-name">Mobile Apps </span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- /teacher -->
+                            @endforeach
+
+                        @endif
+
                     </div>
 
                     <div class="genius-btn gradient-bg text-center text-uppercase ul-li-block bold-font ">
