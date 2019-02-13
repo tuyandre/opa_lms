@@ -8,7 +8,7 @@ class Tag extends Model
 {
     public function blogs()
     {
-        return $this->morphedByMany('App\Blog', 'taggable');
+        return $this->morphedByMany(Blog::class, 'taggable');
     }
 
 }

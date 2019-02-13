@@ -1,209 +1,188 @@
 @extends('backend.layouts.app')
-
-@push('css')
-    <link href="{{asset('plugins/components/switchery/dist/switchery.min.css')}}" rel="stylesheet"/>
-    <link href="{{asset('plugins/components/summernote/summernote.css')}}" rel="stylesheet">
-    <link href="{{asset('plugins/components/bootstrap-tagsinput/dist/bootstrap-tagsinput.css')}}" rel="stylesheet">
+@push('after-styles')
+    <link rel="stylesheet" type="text/css" href="{{asset('plugins/bootstrap-tagsinput/bootstrap-tagsinput.css')}}">
     <style>
-        select.form-control {
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            background-position: right 50%;
-            background-repeat: no-repeat;
-            background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAMCAYAAABSgIzaAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBNYWNpbnRvc2giIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6NDZFNDEwNjlGNzFEMTFFMkJEQ0VDRTM1N0RCMzMyMkIiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6NDZFNDEwNkFGNzFEMTFFMkJEQ0VDRTM1N0RCMzMyMkIiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo0NkU0MTA2N0Y3MUQxMUUyQkRDRUNFMzU3REIzMzIyQiIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo0NkU0MTA2OEY3MUQxMUUyQkRDRUNFMzU3REIzMzIyQiIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PuGsgwQAAAA5SURBVHjaYvz//z8DOYCJgUxAf42MQIzTk0D/M+KzkRGPoQSdykiKJrBGpOhgJFYTWNEIiEeAAAMAzNENEOH+do8AAAAASUVORK5CYII=);
-            padding-right: 1.5em
+        .select2-container--default .select2-selection--single {
+            height: 35px;
         }
-        .note-toolbar-wrapper{
-            height: 50px!important;
-            text-align: center;
+
+        .select2-container--default .select2-selection--single .select2-selection__rendered {
+            line-height: 35px;
         }
-        .note-toolbar-wrapper .note-toolbar{
-            background-color: #bfc5cf !important;
+
+        .select2-container--default .select2-selection--single .select2-selection__arrow {
+            height: 35px;
         }
-        .note-btn-group .btn-default{
-            background: #ffffff;
-            border: 2px solid #ffffff;
-        }
-        .note-editor.note-frame{
-            margin-bottom: 0px;
-        }
-        .help-block strong{
-            color: inherit;
-        }
-        .checkbox label::before {
-            background-color: #fff;
-            border-radius: 4px;
-            border: 0;
-            content: none;
+        .bootstrap-tagsinput{
+            width: 100%!important;
             display: inline-block;
-            height: 23px;
-            left: 0;
-            margin-left: -20px;
-            position: relative;
-            width: auto;
-            outline: 0!important;
         }
-        .checkbox input[type=checkbox] {
-            cursor: pointer;
-            opacity: 1;
-            z-index: 1;
-            outline: 0!important;
+        .bootstrap-tagsinput .tag{
+            line-height: 1;
+            margin-right: 2px;
+            background-color: #2f353a ;
+            color: white;
+            padding: 3px;
+            border-radius: 3px;
         }
+
     </style>
+
 @endpush
 
 @section('content')
-    <div class="container-fluid">
-        <!-- .row -->
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="white-box">
-                    @can('edit-blog')
-                        <h3 class="box-title pull-left">Edit Blog</h3>
+    {!! Form::model($blog, ['method' => 'PUT', 'route' => ['admin.blogs.update', $blog->id], 'files' => true,]) !!}
 
-                        @can('view-blog')
-                            <a class="btn btn-success pull-right" href="{{url('blog')}}"><i class="icon-eye"></i> &nbsp; View Blogs </a>
-                        @endcan
-                        <div class="clearfix"></div>
-                        <hr>
-                        <div class="row">
-                            <div class="col-md-10 col-md-offset-1">
-                                <div class="row">
-                                    <form class="form-horizontal" enctype="multipart/form-data" method="post" action="{{url('blog/edit/'.$blog->id)}}">
-                                        {{csrf_field()}}
-                                        <div class="form-group">
-                                            <div class="col-sm-8 {{ $errors->first('title', 'has-error') }}">
-                                                <input type="text"
-                                                       class="form-control"
-                                                       name="title" value="{{ $blog->title }}"
-                                                       placeholder="Enter Blog Title"
-                                                       autofocus>
-                                                @if ($errors->has('title'))
-                                                    <span class="help-block">
-                                        <strong>{{ $errors->first('title') }}</strong>
-                                    </span>
-                                                @endif </div>
-                                            <div class="col-sm-4 {{ $errors->first('blog_category_id', 'has-error') }}" >
-
-                                                <select class="form-control" name="blog_category_id">
-                                                    <option value="">--Select Category--</option>
-                                                    @foreach($blogcategory as $item)
-                                                        <option @if($item->id == $blog->blog_category_id) selected @endif value="{{$item->id}}">{{$item->title}}</option>
-                                                    @endforeach
-                                                </select>
-                                                @if ($errors->has('blog_category_id'))
-                                                    <span class="help-block">
-                                        <strong>{{ $errors->first('blog_category_id') }}</strong>
-                                    </span>
-                                                @endif </div>
-                                        </div>
-                                        <div class='box-body pad form-group {{ $errors->first('content', 'has-error') }}'>
-                                            <div class="col-md-12">
-                                                <textarea class="textarea form-control" name="content">{!! $blog->content !!}</textarea>
-                                                <span class="help-block">
-                                                <strong>
-                                                    {{ $errors->first('content', ':message') }}
-                                                </strong>
-                                            </span>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="col-md-10">
-                                                <input type="text" class="form-control" value="{{ $tags }}" data-role="tagsinput" placeholder="Add tags here" name="tags">
-                                            </div>
-                                            <div class="col-md-2 text-right">
-                                                <button type="submit" class="btn btn-info waves-effect waves-light ">
-                                                    Publish
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    @else
-                        <h1 align="center">You are not authorised to view this page</h1>
-                    @endcan
-
-                </div>
+    <div class="card">
+        <div class="card-header">
+            <h3 class="page-title float-left mb-0">@lang('labels.backend.blogs.edit')</h3>
+            <div class="float-right">
+                <a href="{{ route('admin.blogs.index') }}"
+                   class="btn btn-success">@lang('labels.backend.blogs.view')</a>
             </div>
         </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-12 col-lg-6 form-group">
+                    {!! Form::label('title', trans('labels.backend.blogs.fields.title'), ['class' => 'control-label']) !!}
+                    {!! Form::text('title', old('title'), ['class' => 'form-control', 'placeholder' => trans('labels.backend.blogs.fields.title'), ]) !!}
+                </div>
+
+                <div class="col-12 col-lg-6 form-group">
+                    {!! Form::label('category', trans('labels.backend.blogs.fields.category'), ['class' => 'control-label']) !!}
+                    {!! Form::select('category', $category,  $blog->category_id, ['class' => 'form-control select2']) !!}
+                </div>
+
+            </div>
 
 
-        @include('layouts.partials.right-sidebar')
-    </div>
-@endsection
+            <div class="row">
+                <div class="col-12 col-lg-6 form-group">
+                    {!! Form::label('slug', trans('labels.backend.blogs.fields.slug'), ['class' => 'control-label']) !!}
+                    {!! Form::text('slug', old('slug'), ['class' => 'form-control', 'placeholder' => trans('labels.backend.blogs.slug_placeholder')]) !!}
+                </div>
+                @if ($blog->image)
 
-@push('js')
-    <script src="{{asset('plugins/components/switchery/dist/switchery.min.js')}}"></script>
-    <script src="{{asset('plugins/components/toast-master/js/jquery.toast.js')}}"></script>
-    {{--<script src="{{asset('js/toastr.js')}}"></script>--}}
-    <script src="{{asset('plugins/components/summernote/summernote.js')}}"></script>
-    <script src="{{asset('plugins/components/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js')}}"></script>
-    <script>
+                    <div class="col-12 col-lg-5 form-group">
 
-        @if(\Session::has('success'))
-        $.toast({
-            heading: 'Success!',
-            position: 'top-center',
-            text: '{{session()->get('success')}}',
-            loaderBg: '#ff6849',
-            icon: 'success',
-            hideAfter: 3000,
-            stack: 6
-        });
-        @elseif(\Session::has('error'))
-        $.toast({
-            heading: 'Error!',
-            position: 'top-center',
-            text: '{{session()->get('error')}}',
-            loaderBg: '#ff6849',
-            icon: 'error',
-            hideAfter: 3000,
-            stack: 6
-        });
+                        {!! Form::label('featured_image', trans('labels.backend.blogs.fields.featured_image').' '.trans('labels.backend.blogs.max_file_size'), ['class' => 'control-label']) !!}
+                        {!! Form::file('featured_image', ['class' => 'form-control', 'accept' => 'image/jpeg,image/gif,image/png']) !!}
+                        {!! Form::hidden('featured_image_max_size', 8) !!}
+                        {!! Form::hidden('featured_image_max_width', 4000) !!}
+                        {!! Form::hidden('featured_image_max_height', 4000) !!}
+                    </div>
+                    <div class="col-lg-1 col-12 form-group">
+                        <a href="{{ asset('storage/uploads/'.$blog->image) }}" target="_blank"><img
+                                    src="{{ asset('storage/uploads/'.$blog->image) }}" height="65px"
+                                    width="65px"></a>
+                    </div>
+                @else
+                    <div class="col-12 col-lg-6 form-group">
+
+                        {!! Form::label('featured_image', trans('labels.backend.blogs.fields.featured_image').' '.trans('labels.backend.blogs.max_file_size'), ['class' => 'control-label']) !!}
+                        {!! Form::file('featured_image', ['class' => 'form-control']) !!}
+                        {!! Form::hidden('featured_image_max_size', 8) !!}
+                        {!! Form::hidden('featured_image_max_width', 4000) !!}
+                        {!! Form::hidden('featured_image_max_height', 4000) !!}
+                    </div>
                 @endif
 
-        var elems = Array.prototype.slice.call(document.querySelectorAll('.js-switch'));
-        $('.js-switch').each(function () {
-            new Switchery($(this)[0], $(this).data());
-        });
-    </script>
+            </div>
+
+
+            <div class="row">
+                <div class="col-12 form-group">
+                    {!! Form::label('content', trans('labels.backend.blogs.fields.content'), ['class' => 'control-label']) !!}
+                    {!! Form::textarea('content', old('content'), ['class' => 'form-control editor', 'placeholder' => '']) !!}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12 form-group">
+                    {!! Form::text('tags', $tags, ['class' => 'form-control','data-role' => 'tagsinput', 'placeholder' => trans('labels.backend.blogs.fields.tags_placeholder'),'id'=>'tags']) !!}
+
+                </div>
+
+                <div class="col-md-12 text-center form-group">
+                    <button type="submit" class="btn btn-info waves-effect waves-light ">
+                        {{trans('labels.general.buttons.update')}}
+                    </button>
+                    <a href=""class="btn btn-danger waves-effect waves-light ">
+                        {{trans('strings.backend.general.app_back_to_list')}}
+                    </a>
+                </div>
+
+            </div>
+            
+        </div>
+    </div>
+    {!! Form::close() !!}
+
+@endsection
+
+
+@push('after-scripts')
+    <script src="{{asset('plugins/bootstrap-tagsinput/bootstrap-tagsinput.js')}}"></script>
+
+    <script src="//cdn.ckeditor.com/4.5.4/full/ckeditor.js"></script>
     <script>
-        $(document).ready(function () {
-            $('.form-group input[type=file]').attr("accept", "image/*");
-            $('.textarea').summernote({
-                placeholder: 'write content here...',
-                fontNames: ['Lato', 'Arial', 'Courier New'],
-                height:300
-
-            });
-            $('body').on('click', '.btn-codeview', function (e) {
-
-                if ($('.note-editor').hasClass("fullscreen")) {
-                    var windowHeight = $(window).height();
-                    $('.note-editable').css('min-height', windowHeight);
-                } else {
-                    $('.note-editable').css('min-height', '300px');
-                }
-            });
-            $('body').on('click', '.btn-fullscreen', function (e) {
-                setTimeout(function () {
-                    if ($('.note-editor').hasClass("fullscreen")) {
-                        var windowHeight = $(window).height();
-                        $('.note-editable').css('min-height', windowHeight);
-                    } else {
-                        $('.note-editable').css('min-height', '300px');
+        $('.editor').each(function () {
+            CKEDITOR.replace($(this).attr('id'), {
+                filebrowserImageBrowseUrl: '/laravel-filemanager?type=Images',
+                filebrowserImageUploadUrl: '/laravel-filemanager/upload?type=Images&_token={{csrf_token()}}',
+                filebrowserBrowseUrl: '/laravel-filemanager?type=Files',
+                filebrowserUploadUrl: '/laravel-filemanager/upload?type=Files&_token={{csrf_token()}}',
+                toolbarGroups: [{
+                    "name": "basicstyles",
+                    "groups": ["basicstyles"]
+                },
+                    {
+                        "name": "links",
+                        "groups": ["links"]
+                    },
+                    {
+                        "name": "paragraph",
+                        "groups": ["list", "blocks"]
+                    },
+                    {
+                        "name": "document",
+                        "groups": ["mode"]
+                    },
+                    {
+                        "name": "insert",
+                        "groups": ["insert"]
+                    },
+                    {
+                        "name": "styles",
+                        "groups": ["styles"]
+                    },
+                    {
+                        "name": "about",
+                        "groups": ["about"]
                     }
-                }, 500);
-
-            });
-
-            $('.note-link-url').on('keyup', function () {
-                if ($('.note-link-text').val() != '') {
-                    $('.note-link-btn').attr('disabled', false).removeClass('disabled');
-                }
+                ],
+                // Remove the redundant buttons from toolbar groups defined above.
+                removeButtons: 'Underline,Strike,Subscript,Superscript,Anchor,Styles,Specialchar'
             });
         });
+
+        $(document).ready(function () {
+            $(document).on('click', '.delete', function (e) {
+                e.preventDefault();
+                var parent = $(this).parent('.form-group');
+                var confirmation = confirm('{{trans('strings.backend.general.are_you_sure')}}')
+                if (confirmation) {
+                    var media_id = $(this).data('media-id');
+                    $.post('{{route('admin.media.destroy')}}', {media_id: media_id, _token: '{{csrf_token()}}'},
+                        function (data, status) {
+                            if (data.success) {
+                                parent.remove();
+                            }else{
+                                alert('Something Went Wrong')
+                            }
+                        });
+                }
+            })
+        })
     </script>
 @endpush

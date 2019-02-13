@@ -399,15 +399,23 @@ return [
             'create' => 'Create Blog',
             'edit' => 'Edit Blog',
             'view' => 'View Blogs',
+            'max_file_size' => '(max file size 10MB)',
+
             'fields' => [
                 'title' => 'Title',
                 'slug' => 'Slug',
-                'image' => 'Image',
+                'content' => 'Content',
                 'status' => 'Status',
                 'views' => 'Views',
                 'category' => 'Category',
                 'created' => 'Created',
                 'comments' => 'Comments',
+                'tags' => 'Tags',
+                'tags_placeholder' => 'Add tags here',
+                'publish' => 'Publish',
+                'clear' => 'Clear',
+                'featured_image' => 'Featured image',
+                'created_at' => 'Created On',
             ]
         ],
         /*======================================================*/

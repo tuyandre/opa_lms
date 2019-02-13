@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Backend\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Traits\FileUploadTrait;
+use App\Http\Requests\Admin\StoreBlogsRequest;
+use App\Http\Requests\Admin\UpdateBlogsRequest;
 use App\Models\Blog;
 use App\Models\BlogComment;
 use App\Models\Category;
@@ -119,8 +121,8 @@ class BlogController extends Controller
         if (!Gate::allows('blog_create')) {
             return abort(401);
         }
-        $blogcategory = Category::select('title', 'id')->get();
-        return view('blog.create', compact('blogcategory'));
+        $category = Category::pluck('name','id')->prepend('Please select', '');
+        return view('backend.blogs.create', compact('category'));
 
     }
 
@@ -129,22 +131,20 @@ class BlogController extends Controller
      *
      * @return Response
      */
-    public function store(Request $request)
+    public function store(StoreBlogsRequest $request)
     {
         if (!Gate::allows('blog_create')) {
             return abort(401);
         }
 
-        $this->validate($request, [
-            'title' => 'required|min:3',
-            'content' => 'required|min:3',
-            'blog_category_id' => 'required',
-        ],
-            [
-                'blog_category_id.required' => 'Please select category'
-            ]);
-        $blog = new Blog($request->except('files', 'image', 'tags'));
-        $blog->slug = str_slug($request->title);
+        $blog = new Blog();
+        $blog->title = $request->title;
+        if($request->slug == ""){
+            $blog->slug = str_slug($request->title);
+        }else{
+            $blog->slug = $request->slug;
+        }
+        $blog->category_id = $request->category;
         $message = $request->get('content');
         $dom = new \DOMDocument();
         $dom->loadHtml($message, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
@@ -177,20 +177,9 @@ class BlogController extends Controller
         } // <!-
         $blog->content = $dom->saveHTML();
 
-        $picture = "";
-
-//        if ($request->hasFile('image')) {
-//            $file = $request->file('image');
-//            $extension = $file->extension() ?: 'png';
-//            $picture = str_random(10) . '.' . $extension;
-//            $destinationPath = storage_path("/app/public/uploads/blog/");
-//            $file->move($destinationPath, $picture);
-//            $blog->image = $picture;
-//
-//        }
-        $this->saveFiles($request);
+        $request = $this->saveFiles($request);
         $blog->user_id = auth()->user()->id;
-        $blog->image = $request->image;
+        $blog->image = $request->featured_image;
         $blog->save();
 
         //Adding tags
@@ -227,13 +216,12 @@ class BlogController extends Controller
      * @param  Blog $blog
      * @return view
      */
-    public function show(Request $request)
+    public function show($id)
     {
         if (!Gate::allows('blog_view')) {
             return abort(401);
         }
-
-        $blog = Blog::find($request->id);
+        $blog = Blog::findOrFail($id);
         $comments = $blog->comments;
         $tags = $blog->tags()->pluck('name')->implode(', ');
         return view('backend.blogs.show', compact('blog', 'comments', 'tags'));
@@ -246,19 +234,19 @@ class BlogController extends Controller
      * @param  Blog $blog
      * @return view
      */
-    public function edit(Request $request)
+    public function edit($id)
     {
         if (!Gate::allows('blog_edit')) {
             return abort(401);
         }
-        $blog = Blog::where('id', '=', $request->id)->first();
-        $blogcategory = Category::select('name', 'id')->get();
+        $blog = Blog::where('id', '=', $id)->first();
+        $category = Category::pluck('name','id')->prepend('Please select', '');
         if (count($blog->tags) > 0) {
             $tags = $blog->tags()->pluck('name')->implode(', ');
         } else {
             $tags = '';
         }
-        return view('backend.blogs.edit', compact('blog', 'blogcategory', 'tags'));
+        return view('backend.blogs.edit', compact('blog', 'category', 'tags'));
 
     }
 
@@ -268,24 +256,19 @@ class BlogController extends Controller
      * @param  Blog $blog
      * @return Response
      */
-    public function update(Request $request)
+    public function update(UpdateBlogsRequest $request,$id)
     {
         if (!Gate::allows('blog_edit')) {
             return abort(401);
         }
-
-        $this->validate($request, [
-            'title' => 'required|min:3',
-            'content' => 'required|min:3',
-            'blog_category_id' => 'required',
-        ],
-            [
-                'blog_category_id.required' => 'Please select category'
-            ]);
-
-        $blog = Blog::findOrfail($request->id);
-        $blog->slug = str_slug($request->title);
-        $blog->save();
+        $blog = Blog::findOrFail($id);
+        $blog->title = $request->title;
+        if($request->slug == ""){
+            $blog->slug = str_slug($request->title);
+        }else{
+            $blog->slug = $request->slug;
+        }
+        $blog->category_id = $request->category;
 
         $message = $request->get('content');
         libxml_use_internal_errors(true);
@@ -308,24 +291,22 @@ class BlogController extends Controller
                 $image = Image::make($src)
                     ->encode($mimetype, 100)// encode file to the specified mimetype
                     ->save($filepath);
-                $new_src = asset("storage/uploads/blog/$filename.$mimetype");
+                $new_src = asset("storage/uploads/$filename.$mimetype");
             } // <!--endif
             else {
                 $new_src = $src;
             }
             $img->removeAttribute('src');
             $img->setAttribute('src', $new_src);
-        } // <!-
+        } // <!
+        //-
         $blog->content = $dom->saveHTML();
-        if ($request->hasFile('image')) {
-            $file = $request->file('image');
-            $extension = $file->extension() ?: 'png';
-            $picture = str_random(10) . '.' . $extension;
-            $destinationPath = storage_path('app/public/uploads/blog');
-            $file->move($destinationPath, $picture);
-            $blog->image = $picture;
-            $blog->save();
+
+        if($request->featured_image != ""){
+            $request = $this->saveFiles($request);
+            $blog->image = $request->featured_image;
         }
+        $blog->save();
 
         if ($request->tags != null) {
             $tag_ids = [];
@@ -347,12 +328,8 @@ class BlogController extends Controller
         }
 
 
-        if ($blog->update($request->except('content', 'image', 'files', '_method', 'tags'))) {
-            return redirect()->route('admin.blogs.index')->withFlashSuccess(__('alerts.backend.general.updated'));
+        return redirect()->route('admin.blogs.index')->withFlashSuccess(__('alerts.backend.general.updated'));
 
-        } else {
-            return redirect()->route('admin.lessons.index')->withFlashDanger(__('alerts.backend.general.error'));
-        }
 
     }
 
@@ -362,12 +339,12 @@ class BlogController extends Controller
      * @param  Blog $blog
      * @return Response
      */
-    public function destroy(Request $request)
+    public function destroy($id)
     {
         if (!Gate::allows('blog_delete')) {
             return abort(401);
         }
-        $blog = Blog::findOrfail($request->id);
+        $blog = Blog::findOrfail($id);
         $blog->delete();
         return redirect()->route('admin.blogs.index')->withFlashSuccess(__('alerts.backend.general.deleted'));
 

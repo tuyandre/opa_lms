@@ -1,7 +1,6 @@
 @extends('backend.layouts.app')
 
 @push('after-styles')
-    <link href="{{asset('plugins/components/switchery/dist/switchery.min.css')}}" rel="stylesheet"/>
     <link rel="stylesheet" type="text/css" href="{{asset('plugins/bootstrap-tagsinput/bootstrap-tagsinput.css')}}">
     <style>
         .select2-container--default .select2-selection--single {
@@ -33,111 +32,73 @@
 
 @section('content')
     {!! Form::open(['method' => 'POST', 'route' => ['admin.blogs.store'], 'files' => true,]) !!}
-    {!! Form::hidden('model_id',0,['id'=>'lesson_id']) !!}
 
     <div class="card">
         <div class="card-header">
-            <h3 class="page-title float-left mb-0">@lang('labels.backend.lessons.create')</h3>
+            <h3 class="page-title float-left mb-0">@lang('labels.backend.blogs.create')</h3>
             <div class="float-right">
-                <a href="{{ route('admin.lessons.index') }}"
-                   class="btn btn-success">@lang('labels.backend.lessons.view')</a>
+                <a href="{{ route('admin.blogs.index') }}"
+                   class="btn btn-success">@lang('labels.backend.blogs.view')</a>
             </div>
         </div>
 
         <div class="card-body">
             <div class="row">
+                <div class="col-12 col-lg-6 form-group">
+                    {!! Form::label('title', trans('labels.backend.blogs.fields.title'), ['class' => 'control-label']) !!}
+                    {!! Form::text('title', old('title'), ['class' => 'form-control', 'placeholder' => trans('labels.backend.blogs.fields.title'), ]) !!}
+                </div>
+
+                <div class="col-12 col-lg-6 form-group">
+                    {!! Form::label('category', trans('labels.backend.blogs.fields.category'), ['class' => 'control-label']) !!}
+                    {!! Form::select('category', $category,  (request('category')) ? request('category') : old('category'), ['class' => 'form-control select2']) !!}
+                </div>
+
             </div>
-        </div>
-    </div>
 
+            <div class="row">
+                <div class="col-12 col-lg-6 form-group">
+                    {!! Form::label('slug',trans('labels.backend.blogs.fields.slug'), ['class' => 'control-label']) !!}
+                    {!! Form::text('slug', old('slug'), ['class' => 'form-control', 'placeholder' => trans('labels.backend.lessons.slug_placeholder')]) !!}
 
+                </div>
+                <div class="col-12 col-lg-6 form-group">
+                    {!! Form::label('featured_image', trans('labels.backend.blogs.fields.featured_image').' '.trans('labels.backend.blogs.max_file_size'), ['class' => 'control-label']) !!}
+                    {!! Form::file('featured_image', ['class' => 'form-control' , 'accept' => 'image/jpeg,image/gif,image/png']) !!}
+                    {!! Form::hidden('featured_image_max_size', 8) !!}
+                    {!! Form::hidden('featured_image_max_width', 4000) !!}
+                    {!! Form::hidden('featured_image_max_height', 4000) !!}
 
-
-    <div class="container-fluid">
-        <!-- .row -->
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="white-box">
-                    @can('add-blog')
-                        <h3 class="box-title pull-left">Create Blog</h3>
-                        @can('view-blog')
-
-                            <a class="btn btn-success pull-right" href="{{url('blog')}}">
-                                <i class="icon-eye"></i> &nbsp; View Blogs
-                            </a>
-                        @endcan
-                        <div class="clearfix"></div>
-                        <hr>
-                        <div class="row">
-                            <div class="col-md-10 col-md-offset-1">
-                                @can('add-blog')
-                                    <div class="row">
-                                        <form class="form-horizontal" enctype="multipart/form-data" method="post"
-                                              action="{{url('blog/create')}}">
-                                            {{csrf_field()}}
-                                            <div class="form-group">
-                                                <div class="col-sm-8 {{ $errors->first('title', 'has-error') }}">
-                                                    <input type="text"
-                                                           class="form-control"
-                                                           name="title" value="{{ old('title') }}"
-                                                           placeholder="Enter Blog Title"
-                                                           autofocus>
-                                                    @if ($errors->has('title'))
-                                                        <span class="help-block">
-                                        <strong>{{ $errors->first('title') }}</strong>
-                                    </span>
-                                                    @endif </div>
-                                                <div class="col-sm-4 {{ $errors->first('blog_category_id', 'has-error') }}">
-                                                    <select class="form-control" name="blog_category_id">
-                                                        <option value="">--Select Category--</option>
-                                                        @foreach($blogcategory as $item)
-                                                            <option value="{{$item->id}}">{{$item->title}}</option>
-                                                        @endforeach
-                                                    </select>
-                                                    @if ($errors->has('blog_category_id'))
-                                                        <span class="help-block">
-                                        <strong>{{ $errors->first('blog_category_id') }}</strong>
-                                    </span>
-                                                    @endif </div>
-                                            </div>
-                                            <div class='box-body pad form-group {{ $errors->first('content', 'has-error') }}'>
-                                                <div class="col-md-12">
-                                                <textarea class="textarea form-control"
-                                                          name="content">{{old('content')}}</textarea>
-                                                    <span class="help-block">
-                                                <strong>
-                                                    {{ $errors->first('content', ':message') }}
-                                                </strong>
-                                            </span>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="col-md-9">
-                                                    <input type="text" class="form-control" data-role="tagsinput"
-                                                           placeholder="Add tags here" value="{{old('tags')}}" name="tags">
-                                                </div>
-                                                <div class="col-md-3 text-right">
-                                                    <button type="submit" class="btn btn-info waves-effect waves-light ">
-                                                        Publish
-                                                    </button>
-                                                    <button type="reset" class="btn btn-danger waves-effect waves-light ">
-                                                        Clear
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
-                                @endcan
-                            </div>
-                        </div>
-                    @else
-                        <h1 align="center">You are not authorised to View this page</h1>
-                    @endcan
                 </div>
             </div>
-        </div>
 
+            <div class="row">
+                <div class="col-12 form-group">
+                    {!! Form::label('content', trans('labels.backend.blogs.fields.content'), ['class' => 'control-label']) !!}
+                    {!! Form::textarea('content', old('content'), ['class' => 'form-control editor', 'placeholder' => '']) !!}
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 form-group">
+                    {!! Form::text('tags', $tags, ['class' => 'form-control','data-role' => 'tagsinput', 'placeholder' => trans('labels.backend.blogs.fields.tags_placeholder'),'id'=>'tags']) !!}
+
+                </div>
+
+                <div class="col-md-12 text-center form-group">
+                    <button type="submit" class="btn btn-info waves-effect waves-light ">
+                       {{trans('labels.backend.blogs.fields.publish')}}
+                    </button>
+                    <button type="reset" class="btn btn-danger waves-effect waves-light ">
+                       {{trans('labels.backend.blogs.fields.clear')}}
+                    </button>
+                </div>
+
+            </div>
+
+        </div>
     </div>
+
 @endsection
 
 @push('after-scripts')
@@ -189,7 +150,7 @@
         $(document).on('change','input[type="file"]',function () {
             var $this = $(this);
             $(this.files).each(function (key,value) {
-                if(value.size > 10240){
+                if((value.size/1024) > 10240){
                     alert('"'+value.name+'"'+'exceeds limit of maximum file upload size' )
                     $this.val("");
                 }

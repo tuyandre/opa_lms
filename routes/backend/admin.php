@@ -138,8 +138,7 @@ Route::group(['prefix' => 'blog'], function () {
 });
 Route::resource('blogs', 'Admin\BlogController');
 Route::get('get-blogs-data', ['uses' => 'Admin\BlogController@getData', 'as' => 'blogs.get_data']);
-
-Route::post('blogs_mass_destroy', ['uses' => 'Admin\TestimonialController@massDestroy', 'as' => 'blogs.mass_destroy']);
+Route::post('blogs_mass_destroy', ['uses' => 'Admin\BlogController@massDestroy', 'as' => 'blogs.mass_destroy']);
 
 
 
