@@ -28,6 +28,8 @@ class DatabaseSeeder extends Seeder
         $this->call(ConfigSeeder::class);
         $this->call(SliderSeeder::class);
         $this->call(TestimonialSeeder::class);
+        $this->call(SponsorSeeder::class);
+        $this->call(FaqSeeder::class);
 
         Model::reguard();
     }

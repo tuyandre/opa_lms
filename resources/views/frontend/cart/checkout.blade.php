@@ -95,7 +95,7 @@
                                                 </td>
                                                 <td>
                                                     <div class="course-type-list">
-                                                        <span>Graphic Design &amp; 3D</span>
+                                                        <span>{{$course->category->name}}</span>
                                                     </div>
                                                 </td>
                                                 <td>{{$course->start_date}}</td>

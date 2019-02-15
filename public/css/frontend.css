@@ -281,7 +281,8 @@ h6 {
 
 .text-gradiant {
   background: -webkit-gradient(left top, right top, color-stop(0%, #01a6fd), color-stop(100%, #17d0cf));
-  background: -ms-linear-gradient(left, #01a6fd 0%, #17d0cf 100%);
+  background: -webkit-gradient(linear, right top, left top, from(#01a6fd), to(#17d0cf));
+  background: linear-gradient(to left, #01a6fd 0%, #17d0cf 100%);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -4204,7 +4205,7 @@ ul.product-tab li.active:after {
 
 .faq-page-section .panel-group .panel-title .btn-link:before,
 .faq-page-section .panel-group .panel-title .btn-link:after {
-  right: 0;
+  right: -5px;
 }
 
 .faq-page-section .panel-group .panel-title .btn-link:after {
@@ -4213,6 +4214,7 @@ ul.product-tab li.active:after {
 
 .faq-page-section .panel-group .panel-title .btn-link {
   font-size: 20px;
+  width: 98%;
 }
 
 .faq-page-section .panel-group .panel-body:before {
@@ -4239,10 +4241,6 @@ ul.product-tab li.active:after {
 
 .faq-page-section .faq-secound-home-version ul.product-tab li.active {
   color: #fff;
-}
-
-.faq-page-section .panel-group .panel {
-  max-width: 385px;
 }
 
 .faq-page-section .faq-secound-home-version .ques-ans h3 {
@@ -4940,6 +4938,12 @@ ul.product-tab li.active:after {
   color: #fff;
 }
 
+.side-bar-widget .tag-clouds li.active {
+  background-color: #17d0cf;
+  border-color: #17d0cf;
+  color: #fff;
+}
+
 .side-bar-widget .best-course-text {
   position: absolute;
   top: 50%;
@@ -5049,8 +5053,8 @@ ul.product-tab li.active:after {
 }
 
 .blog-details-content .author-comment .author-img {
-  height: 70px;
-  width: 70px;
+  height: 50px;
+  width: 50px;
   float: left;
   border-radius: 100%;
   overflow: hidden;
@@ -5117,8 +5121,8 @@ ul.product-tab li.active:after {
 }
 
 .blog-comment-area .comment-avater {
-  height: 70px;
-  width: 70px;
+  height: 50px;
+  width: 50px;
   float: left;
   margin-right: 20px;
 }

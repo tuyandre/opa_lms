@@ -291,56 +291,45 @@
                                 @foreach($news as  $item)
                                     <div class="latest-news-area">
                                         @if($item->image != null)
-                                        <div class="latest-news-thumbnile relative-position" style="background-image: url('{{asset("storage/uploads/".$item->image)}}');">
-                                            <div class="hover-search">
-                                                {{--<i class="fas fa-search"></i>--}}
+                                            <div class="latest-news-thumbnile relative-position"
+                                                 style="background-image: url('{{asset("storage/uploads/".$item->image)}}');">
+                                                <div class="hover-search">
+                                                    {{--<i class="fas fa-search"></i>--}}
+                                                </div>
+                                                <div class="blakish-overlay"></div>
                                             </div>
-                                            <div class="blakish-overlay"></div>
-                                        </div>
+                                        @else
+                                            <div class="latest-news-thumbnile relative-position"
+                                                 style="background-image: url('http://placehold.it/120x120');">
+                                                <div class="hover-search">
+                                                    {{--<i class="fas fa-search"></i>--}}
+                                                </div>
+                                                <div class="blakish-overlay"></div>
+                                            </div>
                                         @endif
                                         <div class="date-meta">
                                             <i class="fas fa-calendar-alt"></i> {{$item->created_at->format('d M Y')}}
                                         </div>
-                                        <h3 class="latest-title bold-font"><a href="#">{{$item->title}}</a></h3>
-                                        <h3 class="latest-title text-primary"><a href="#">{{$item->category->name}}</a></h3>
+                                        <h3 class="latest-title bold-font"><a href="{{route('blogs.index',['slug' => $item->slug.'-'.$item->id])}}">{{$item->title}}</a></h3>
+                                        <h3 class="latest-title text-primary"><a href="{{route('blogs.category',['category' => $item->category->slug])}}">{{$item->category->name}}</a>
+                                        </h3>
                                         <div class="course-viewer ul-li">
                                             <ul>
                                                 {{--<li><a href=""><i class="fas fa-user"></i> 1.220</a></li>--}}
                                                 @if($item->comments->count() > 1)
-                                                <li><a href=""><i class="fas fa-comment-dots"></i>{{ $item->comments->count() }}</a></li>
+                                                    <li><a href=""><i
+                                                                    class="fas fa-comment-dots"></i>{{ $item->comments->count() }}
+                                                        </a></li>
                                                 @endif
                                             </ul>
                                         </div>
                                     </div>
 
-                                    @endforeach
+                                @endforeach
                             @endif
 
-                            <!-- /post -->
+                        <!-- /post -->
 
-                            {{--<div class="latest-news-posts">--}}
-                                {{--<div class="latest-news-area">--}}
-                                    {{--<div class="latest-news-thumbnile relative-position">--}}
-                                        {{--<img src={{asset("assets/img/blog/lb-2.jpg")}} alt="">--}}
-                                        {{--<div class="hover-search">--}}
-                                            {{--<i class="fas fa-search"></i>--}}
-                                        {{--</div>--}}
-                                        {{--<div class="blakish-overlay"></div>--}}
-                                    {{--</div>--}}
-                                    {{--<div class="date-meta">--}}
-                                        {{--<i class="fas fa-calendar-alt"></i> 26 April 2018--}}
-                                    {{--</div>--}}
-                                    {{--<h3 class="latest-title bold-font"><a href="#">No.1 The Best Online Course 2018.</a>--}}
-                                    {{--</h3>--}}
-                                    {{--<div class="course-viewer ul-li">--}}
-                                        {{--<ul>--}}
-                                            {{--<li><a href=""><i class="fas fa-user"></i> 1.220</a></li>--}}
-                                            {{--<li><a href=""><i class="fas fa-comment-dots"></i> 1.015</a></li>--}}
-                                        {{--</ul>--}}
-                                    {{--</div>--}}
-                                {{--</div>--}}
-                                {{--<!-- /post -->--}}
-                            {{--</div>--}}
 
                             <div class="view-all-btn bold-font">
                                 <a href="#">View All News <i class="fas fa-chevron-circle-right"></i></a>
@@ -360,7 +349,16 @@
                                 @foreach($trending_courses as  $item)
                                     <div class="latest-news-area">
                                         @if($item->image != null)
-                                            <div class="latest-news-thumbnile relative-position" style="background-image: url('{{asset("storage/uploads/".$item->image)}}');">
+                                            <div class="latest-news-thumbnile relative-position"
+                                                 style="background-image: url('{{asset("storage/uploads/".$item->image)}}');">
+                                                <div class="hover-search">
+                                                    {{--<i class="fas fa-search"></i>--}}
+                                                </div>
+                                                <div class="blakish-overlay"></div>
+                                            </div>
+                                        @else
+                                            <div class="latest-news-thumbnile relative-position"
+                                                 style="background-image: url('http://placehold.it/120x120');">
                                                 <div class="hover-search">
                                                     {{--<i class="fas fa-search"></i>--}}
                                                 </div>
@@ -370,23 +368,25 @@
                                         <div class="date-meta">
                                             <i class="fas fa-calendar-alt"></i> {{$item->created_at->format('d M Y')}}
                                         </div>
-                                        <h3 class="latest-title bold-font"><a href="#">{{$item->title}}</a></h3>
-                                        <h3 class="latest-title text-primary"><a href="#">{{$item->category->name}}</a></h3>
+                                            <h3 class="latest-title bold-font"><a href="{{route('courses.show',['slug'=>$item->slug])}}">{{$item->title}}</a></h3>
+                                            <h3 class="latest-title text-primary"><a href="{{route('courses.category',['category'=>$item->category->slug])}}">{{$item->category->name}}</a>
+                                            </h3>
                                         <div class="course-viewer ul-li">
                                             <ul>
-                                                <li><a href=""><i class="fas fa-user"></i> {{$item->students->count()}}</a></li>
+                                                <li><a href=""><i class="fas fa-user"></i> {{$item->students->count()}}
+                                                    </a></li>
 
                                             </ul>
                                         </div>
                                     </div>
 
-                                @endforeach
-                            @endif
+                            @endforeach
+                        @endif
 
                         <!-- /post -->
 
                             <div class="view-all-btn bold-font">
-                                <a href="#">View All Trending Courses <i class="fas fa-chevron-circle-right"></i></a>
+                                <a href="{{route('courses.all',['type'=>'trending'])}}">View All Trending Courses <i class="fas fa-chevron-circle-right"></i></a>
                             </div>
                         </div>
                     </div>
@@ -402,7 +402,16 @@
                                 @foreach($popular_courses->take(2) as  $item)
                                     <div class="latest-news-area">
                                         @if($item->image != null)
-                                            <div class="latest-news-thumbnile relative-position" style="background-image: url('{{asset("storage/uploads/".$item->image)}}');">
+                                            <div class="latest-news-thumbnile relative-position"
+                                                 style="background-image: url('{{asset("storage/uploads/".$item->image)}}');">
+                                                <div class="hover-search">
+                                                    {{--<i class="fas fa-search"></i>--}}
+                                                </div>
+                                                <div class="blakish-overlay"></div>
+                                            </div>
+                                        @else
+                                            <div class="latest-news-thumbnile relative-position"
+                                                 style="background-image: url('http://placehold.it/120x120');">
                                                 <div class="hover-search">
                                                     {{--<i class="fas fa-search"></i>--}}
                                                 </div>
@@ -412,23 +421,23 @@
                                         <div class="date-meta">
                                             <i class="fas fa-calendar-alt"></i> {{$item->created_at->format('d M Y')}}
                                         </div>
-                                        <h3 class="latest-title bold-font"><a href="#">{{$item->title}}</a></h3>
-                                        <h3 class="latest-title text-primary"><a href="#">{{$item->category->name}}</a></h3>
+                                            <h3 class="latest-title bold-font"><a href="{{route('courses.show',['slug'=>$item->slug])}}">{{$item->title}}</a></h3>
+                                            <h3 class="latest-title text-primary"><a href="{{route('courses.category',['category'=>$item->category->slug])}}">{{$item->category->name}}</a>
+                                            </h3>
                                         <div class="course-viewer ul-li">
                                             <ul>
-                                                <li><a href=""><i class="fas fa-user"></i> {{$item->students->count()}}</a></li>
+                                                <li><a href=""><i class="fas fa-user"></i> {{$item->students->count()}}
+                                                    </a></li>
 
                                             </ul>
                                         </div>
                                     </div>
-
                             @endforeach
                         @endif
 
                         <!-- /post -->
-
                             <div class="view-all-btn bold-font">
-                                <a href="#">View All Popular Courses <i class="fas fa-chevron-circle-right"></i></a>
+                                <a href="{{route('courses.all',['type'=>'popular'])}}">View All Popular Courses <i class="fas fa-chevron-circle-right"></i></a>
                             </div>
                         </div>
                     </div>
@@ -522,8 +531,11 @@
                                         <div class="course-meta">
                                             <span class="course-category"><a
                                                         href="#">{{$item->category->name}}</a></span>
-                                            <span class="course-author"><a href="#">{{ $item->students()->count() }}
-                                                    Students</a></span>
+                                            <span class="course-author">
+                                                <a href="#">
+                                                    {{ $item->students()->count() }}
+                                                    Students</a>
+                                            </span>
                                         </div>
                                     </div>
                                 </div>
@@ -557,32 +569,33 @@
                         <!-- /teacher -->
                         @if(count($teachers)> 0)
                             @foreach($teachers as $item)
-                            <div class="col-md-3">
-                                <div class="teacher-img-content ">
-                                    <div class="teacher-cntent">
-                                        <div class="teacher-social-name ul-li-block">
-                                            <ul>
-                                                <li><a href="#"><i class="fa fa-envelope"></i></a></li>
-                                                <li><a href="{{route('admin.messages')}}"><i class="fa fa-comments"></i></a></li>
-                                            </ul>
-                                            <div class="teacher-name">
-                                                <span>Juliana Hernandes</span>
+                                <div class="col-md-3">
+                                    <div class="teacher-img-content ">
+                                        <div class="teacher-cntent">
+                                            <div class="teacher-social-name ul-li-block">
+                                                <ul>
+                                                    <li><a href="#"><i class="fa fa-envelope"></i></a></li>
+                                                    <li><a href="{{route('admin.messages')}}"><i
+                                                                    class="fa fa-comments"></i></a></li>
+                                                </ul>
+                                                <div class="teacher-name">
+                                                    <span>{{$item->full_name}}</span>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="teacher-img-category">
-                                            <div class="teacher-img">
-                                                <img src="{{$item->picture}}" style="height: 100%" alt="">
-                                                {{--<div class="course-price text-uppercase text-center gradient-bg">--}}
+                                            <div class="teacher-img-category">
+                                                <div class="teacher-img">
+                                                    <img src="{{$item->picture}}" style="height: 100%" alt="">
+                                                    {{--<div class="course-price text-uppercase text-center gradient-bg">--}}
                                                     {{--<span>Featured</span>--}}
+                                                    {{--</div>--}}
+                                                </div>
+                                                {{--<div class="teacher-category float-right">--}}
+                                                {{--<span class="st-name">{{$item->name}} </span>--}}
                                                 {{--</div>--}}
                                             </div>
-                                            {{--<div class="teacher-category float-right">--}}
-                                                {{--<span class="st-name">{{$item->name}} </span>--}}
-                                            {{--</div>--}}
                                         </div>
                                     </div>
                                 </div>
-                            </div>
                             @endforeach
 
                         @endif
@@ -608,213 +621,48 @@
                 <span class="subtitle text-uppercase">GENIUS COURSE FAQ</span>
                 <h2>Frequently<span> Ask & Questions</span></h2>
             </div>
-            <div class="faq-tab">
-                <div class="faq-tab-ques ul-li">
-                    <div class="tab-button text-center mb65 ">
-                        <ul class="product-tab">
-                            <li class="active" rel="tab1">GENERAL</li>
-                            <li rel="tab2"> COURSES</li>
-                            <li rel="tab3"> TEACHERS</li>
-                            <li rel="tab4"> EVENTS</li>
-                            <li rel="tab5"> OTHERS</li>
-                        </ul>
-                    </div>
-                    <!-- /tab-head -->
+            @if(count($faqs)> 0)
 
-                    <!-- tab content -->
-                    <div class="tab-container">
-
-                        <!-- 1st tab -->
-                        <div id="tab1" class="tab-content-1 pt35">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="ques-ans mb45 headline ">
-                                        <h3> What is Genius Courses?</h3>
-                                        <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy
-                                            nibh euismod tincidunt ut laoreet dolore magna aliquam volutpat. Ut wisi
-                                            enim ad minim veniam.</p>
-                                    </div>
-
-                                    <div class="ques-ans mb45 headline ">
-                                        <h3> What Lorem Ipsum Dolor Sit Amet Consectuerer?</h3>
-                                        <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy
-                                            nibh euismod tincidunt ut laoreet dolore magna aliquam volutpat. Ut wisi
-                                            enim ad minim veniam.</p>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-6">
-                                    <div class="ques-ans mb45 headline ">
-                                        <h3> How to Register or Make An Account in Genius?</h3>
-                                        <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy
-                                            nibh euismod tincidunt ut laoreet dolore magna aliquam volutpat. Ut wisi
-                                            enim ad minim veniam.</p>
-                                    </div>
-
-                                    <div class="ques-ans mb45 headline ">
-                                        <h3> Adipiscing Diamet Nonnumy Nibh Euismod?</h3>
-                                        <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy
-                                            nibh euismod tincidunt ut laoreet dolore magna aliquam volutpat. Ut wisi
-                                            enim ad minim veniam.</p>
-                                    </div>
-                                </div>
-                            </div>
+                <div class="faq-tab">
+                    <div class="faq-tab-ques ul-li">
+                        <div class="tab-button text-center mb65 ">
+                            <ul class="product-tab">
+                                @foreach($faqs as $key=>$faq)
+                                    <li rel="tab{{$faq->id}}">{{$faq->name}}</li>
+                                @endforeach
+                            </ul>
                         </div>
-                        <!-- #tab1 -->
+                        <!-- /tab-head -->
 
-                        <div id="tab2" class="tab-content-1 pt35">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="ques-ans mb45 headline ">
-                                        <h3> What is Genius Courses?</h3>
-                                        <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy
-                                            nibh euismod tincidunt ut laoreet dolore magna aliquam volutpat. Ut wisi
-                                            enim ad minim veniam.</p>
-                                    </div>
+                        <!-- tab content -->
+                        <div class="tab-container">
+                        @foreach($faqs as $key=>$faq)
 
-                                    <div class="ques-ans mb45 headline ">
-                                        <h3> What Lorem Ipsum Dolor Sit Amet Consectuerer?</h3>
-                                        <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy
-                                            nibh euismod tincidunt ut laoreet dolore magna aliquam volutpat. Ut wisi
-                                            enim ad minim veniam.</p>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-6">
-                                    <div class="ques-ans mb45 headline ">
-                                        <h3> How to Register or Make An Account in Genius?</h3>
-                                        <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy
-                                            nibh euismod tincidunt ut laoreet dolore magna aliquam volutpat. Ut wisi
-                                            enim ad minim veniam.</p>
-                                    </div>
-
-                                    <div class="ques-ans mb45 headline ">
-                                        <h3> Adipiscing Diamet Nonnumy Nibh Euismod?</h3>
-                                        <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy
-                                            nibh euismod tincidunt ut laoreet dolore magna aliquam volutpat. Ut wisi
-                                            enim ad minim veniam.</p>
+                            <!-- 1st tab -->
+                                <div id="tab{{$faq->id}}" class="tab-content-1 pt35">
+                                    <div class="row">
+                                        @foreach($faq->faqs->take(4) as $item)
+                                        <div class="col-md-6">
+                                            <div class="ques-ans mb45 headline">
+                                                <h3> {{$item->question}}</h3>
+                                                <p>{{$item->answer}}</p>
+                                            </div>
+                                        </div>
+                                        @endforeach
                                     </div>
                                 </div>
-                            </div>
+                                <!-- #tab1 -->
+                         @endforeach
+
                         </div>
-                        <!-- #tab2 -->
-
-                        <div id="tab3" class="tab-content-1 pt35">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="ques-ans mb45 headline">
-                                        <h3> What is Genius Courses?</h3>
-                                        <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy
-                                            nibh euismod tincidunt ut laoreet dolore magna aliquam volutpat. Ut wisi
-                                            enim ad minim veniam.</p>
-                                    </div>
-
-                                    <div class="ques-ans mb45 headline">
-                                        <h3> What Lorem Ipsum Dolor Sit Amet Consectuerer?</h3>
-                                        <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy
-                                            nibh euismod tincidunt ut laoreet dolore magna aliquam volutpat. Ut wisi
-                                            enim ad minim veniam.</p>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-6">
-                                    <div class="ques-ans mb45 headline">
-                                        <h3> How to Register or Make An Account in Genius?</h3>
-                                        <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy
-                                            nibh euismod tincidunt ut laoreet dolore magna aliquam volutpat. Ut wisi
-                                            enim ad minim veniam.</p>
-                                    </div>
-
-                                    <div class="ques-ans mb45 headline">
-                                        <h3> Adipiscing Diamet Nonnumy Nibh Euismod?</h3>
-                                        <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy
-                                            nibh euismod tincidunt ut laoreet dolore magna aliquam volutpat. Ut wisi
-                                            enim ad minim veniam.</p>
-                                    </div>
-                                </div>
-                            </div>
+                        <div class="view-all-btn bold-font ">
+                            <a href="{{route('frontend.faqs')}}">More FAQs <i class="fas fa-chevron-circle-right"></i></a>
                         </div>
-                        <!-- #tab3 -->
-
-                        <div id="tab4" class="tab-content-1 pt35">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="ques-ans mb45 headline">
-                                        <h3> What is Genius Courses?</h3>
-                                        <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy
-                                            nibh euismod tincidunt ut laoreet dolore magna aliquam volutpat. Ut wisi
-                                            enim ad minim veniam.</p>
-                                    </div>
-
-                                    <div class="ques-ans mb45 headline">
-                                        <h3> What Lorem Ipsum Dolor Sit Amet Consectuerer?</h3>
-                                        <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy
-                                            nibh euismod tincidunt ut laoreet dolore magna aliquam volutpat. Ut wisi
-                                            enim ad minim veniam.</p>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-6">
-                                    <div class="ques-ans mb45 headline">
-                                        <h3> How to Register or Make An Account in Genius?</h3>
-                                        <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy
-                                            nibh euismod tincidunt ut laoreet dolore magna aliquam volutpat. Ut wisi
-                                            enim ad minim veniam.</p>
-                                    </div>
-
-                                    <div class="ques-ans mb45 headline">
-                                        <h3> Adipiscing Diamet Nonnumy Nibh Euismod?</h3>
-                                        <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy
-                                            nibh euismod tincidunt ut laoreet dolore magna aliquam volutpat. Ut wisi
-                                            enim ad minim veniam.</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- #tab3 -->
-
-                        <div id="tab5" class="tab-content-1 pt35">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="ques-ans mb45 headline">
-                                        <h3> What is Genius Courses?</h3>
-                                        <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy
-                                            nibh euismod tincidunt ut laoreet dolore magna aliquam volutpat. Ut wisi
-                                            enim ad minim veniam.</p>
-                                    </div>
-
-                                    <div class="ques-ans mb45 headline">
-                                        <h3> What Lorem Ipsum Dolor Sit Amet Consectuerer?</h3>
-                                        <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy
-                                            nibh euismod tincidunt ut laoreet dolore magna aliquam volutpat. Ut wisi
-                                            enim ad minim veniam.</p>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-6">
-                                    <div class="ques-ans mb45 headline">
-                                        <h3> How to Register or Make An Account in Genius?</h3>
-                                        <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy
-                                            nibh euismod tincidunt ut laoreet dolore magna aliquam volutpat. Ut wisi
-                                            enim ad minim veniam.</p>
-                                    </div>
-
-                                    <div class="ques-ans mb45 headline">
-                                        <h3> Adipiscing Diamet Nonnumy Nibh Euismod?</h3>
-                                        <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy
-                                            nibh euismod tincidunt ut laoreet dolore magna aliquam volutpat. Ut wisi
-                                            enim ad minim veniam.</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- #tab3 -->
-                    </div>
-                    <div class="view-all-btn bold-font ">
-                        <a href="#">Make a Question <i class="fas fa-chevron-circle-right"></i></a>
                     </div>
                 </div>
-            </div>
+            @else
+                <h4>No FAQs yet</h4>
+            @endif
         </div>
     </section>
     <!-- End FAQ section
@@ -829,105 +677,27 @@
                 <span class="subtitle text-uppercase">COURSES CATEGORIES</span>
                 <h2>Browse Courses<span> By Category.</span></h2>
             </div>
+            @if($course_categories)
             <div class="category-item">
                 <div class="row">
+                    @foreach($course_categories as $category)
                     <div class="col-md-3">
+                        <a href="{{route('courses.category',['category'=>$category->slug])}}">
                         <div class="category-icon-title text-center ">
                             <div class="category-icon">
-                                <i class="text-gradiant flaticon-technology"></i>
+                                <i class="text-gradiant {{$category->icon}}"></i>
                             </div>
                             <div class="category-title">
-                                <h4>Responsive Website</h4>
+                                <h4>{{$category->name}}</h4>
                             </div>
                         </div>
+                        </a>
                     </div>
-                    <!-- /category -->
-
-                    <div class="col-md-3">
-                        <div class="category-icon-title text-center ">
-                            <div class="category-icon">
-                                <i class="text-gradiant flaticon-app-store"></i>
-                            </div>
-                            <div class="category-title">
-                                <h4>IOS Applications</h4>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- /category -->
-
-                    <div class="col-md-3">
-                        <div class="category-icon-title text-center ">
-                            <div class="category-icon">
-                                <i class="text-gradiant flaticon-artist-tools"></i>
-                            </div>
-                            <div class="category-title">
-                                <h4>Graphic Design</h4>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- /category -->
-
-                    <div class="col-md-3">
-                        <div class="category-icon-title text-center ">
-                            <div class="category-icon">
-                                <i class="text-gradiant flaticon-business"></i>
-                            </div>
-                            <div class="category-title">
-                                <h4>Marketing</h4>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- /category -->
-
-                    <div class="col-md-3">
-                        <div class="category-icon-title text-center ">
-                            <div class="category-icon">
-                                <i class="text-gradiant flaticon-dna"></i>
-                            </div>
-                            <div class="category-title">
-                                <h4>Science</h4>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- /category -->
-
-                    <div class="col-md-3">
-                        <div class="category-icon-title text-center ">
-                            <div class="category-icon">
-                                <i class="text-gradiant flaticon-cogwheel"></i>
-                            </div>
-                            <div class="category-title">
-                                <h4>Enginering</h4>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- /category -->
-
-                    <div class="col-md-3">
-                        <div class="category-icon-title text-center ">
-                            <div class="category-icon">
-                                <i class="text-gradiant flaticon-technology-1"></i>
-                            </div>
-                            <div class="category-title">
-                                <h4>Photography</h4>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- /category -->
-
-                    <div class="col-md-3">
-                        <div class="category-icon-title text-center ">
-                            <div class="category-icon">
-                                <i class="text-gradiant flaticon-technology-2"></i>
-                            </div>
-                            <div class="category-title">
-                                <h4>Mobile Application</h4>
-                            </div>
-                        </div>
-                    </div>
+                   @endforeach
                     <!-- /category -->
                 </div>
             </div>
+            @endif
         </div>
     </section>
     <!-- End Course category
@@ -1008,7 +778,10 @@
     <!-- End of contact area
         ============================================= -->
 
-
-
-
 @endsection
+
+@push('after-scripts')
+    <script>
+        $('ul.product-tab').find('li:first').addClass('active');
+    </script>
+@endpush

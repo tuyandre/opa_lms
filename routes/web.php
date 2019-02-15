@@ -35,13 +35,22 @@ Route::group(['namespace' => 'Backend', 'prefix' => 'user', 'as' => 'admin.', 'm
     include_route_files(__DIR__.'/backend/');
 });
 
+Route::get('category/{category}/blogs','BlogController@getByCategory')->name('blogs.category');
+Route::get('tag/{tag}/blogs','BlogController@getByTag')->name('blogs.tag');
+Route::get('blog/{slug?}', 'BlogController@getIndex')->name('blogs.index');
+Route::post('blog/{id}/comment', 'BlogController@storeComment')->name('blogs.comment');
+Route::get('blog/comment/delete/{id}', 'BlogController@deleteComment')->name('blogs.comment.delete');
+
 
 Route::get('courses',['uses' => 'CoursesController@all', 'as' => 'courses.all']);
 Route::get('course/{slug}', ['uses' => 'CoursesController@show', 'as' => 'courses.show']);
 //Route::post('course/payment', ['uses' => 'CoursesController@payment', 'as' => 'courses.payment']);
 Route::post('course/{course_id}/rating', ['uses' => 'CoursesController@rating', 'as' => 'courses.rating']);
+Route::get('category/{category}/courses', ['uses' => 'CoursesController@getByCategory', 'as' => 'courses.category']);
+Route::post('courses/{id}/review', ['uses' => 'CoursesController@addReview', 'as' => 'courses.review']);
 Route::get('lesson/{course_id}/{slug}', ['uses' => 'LessonsController@show', 'as' => 'lessons.show']);
 Route::post('lesson/{slug}/test', ['uses' => 'LessonsController@test', 'as' => 'lessons.test']);
+
 
 Route::group(['middleware'=>'auth'],function () {
     Route::post('cart/checkout', ['uses' => 'CartController@checkout', 'as' => 'cart.checkout']);

@@ -225,13 +225,14 @@ ul.product-tab li.active:after {
 	}
 	.panel-group .panel-title .btn-link:before,
 	.panel-group .panel-title .btn-link:after {
-		right: 0;
+		right: -5px;
 	}
 	.panel-group .panel-title .btn-link:after {
 		color: #ccc;
 	}
 	.panel-group .panel-title .btn-link {
 		font-size: 20px;
+		width: 98%;
 	}
 	.panel-group .panel-body:before {
 		top: -50px;
@@ -254,7 +255,7 @@ ul.product-tab li.active:after {
 		}
 	}
 	.panel-group .panel {
-		max-width: 385px;
+		//max-width: 385px;
 	}
 }
 .faq-page-section .faq-secound-home-version .ques-ans h3 {

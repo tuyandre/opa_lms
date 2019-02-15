@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Auth\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -18,5 +19,10 @@ class BlogComment extends Model
     public function blog()
     {
         return $this->belongsTo(Blog::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

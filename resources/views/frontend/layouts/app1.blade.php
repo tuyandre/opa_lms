@@ -19,7 +19,6 @@
         <!-- Otherwise apply the normal LTR layouts -->
 
         <link rel="stylesheet" href="{{asset('assets/css/owl.carousel.css')}}">
-        <link rel="stylesheet" href="{{asset('assets/css/fontawesome-all.css')}}">
         <link rel="stylesheet" href="{{asset('assets/css/flaticon.css')}}">
         <link rel="stylesheet" type="text/css" href="{{asset('assets/css/meanmenu.css')}}">
         <link rel="stylesheet" href="{{asset('assets/css/bootstrap.min.css')}}">
@@ -29,6 +28,8 @@
         <link rel="stylesheet" href="{{asset('assets/css/animate.min.css')}}">
         {{--<link rel="stylesheet" href="{{asset('assets/css/style.css')}}">--}}
         <link rel="stylesheet" href="{{ mix('css/frontend.css') }}">
+        <link rel="stylesheet" href="{{asset('assets/css/fontawesome-all.css')}}">
+
         <link rel="stylesheet" href="{{asset('assets/css/responsive.css')}}">
 
         <link rel="stylesheet" href="{{asset('assets/css/colors/switch.css')}}">
@@ -120,9 +121,10 @@
                                 <div class="nav-menu ul-li">
                                     <ul>
                                         <li><a href="{{url('/')}}">Home</a></li>
-                                        <li><a href="{{url('about-us')}}">About Us</a></li>
-                                        <li><a href="{{url('shop')}}">shop</a></li>
-                                        <li><a href="{{url('contact')}}">Contact Us</a></li>
+                                        {{--<li><a href="{{url('about-us')}}">About Us</a></li>--}}
+                                        <li><a href="{{route('courses.all')}}">Courses</a></li>
+                                        <li><a href="{{route('blogs.index')}}">Blog</a></li>
+                                        {{--<li><a href="{{url('contact')}}">Contact Us</a></li>--}}
                                         <li><a href="{{asset('forums')}}">Forums</a></li>
                                         @if(auth()->check())
                                             <li class="menu-item-has-children ul-li-block">

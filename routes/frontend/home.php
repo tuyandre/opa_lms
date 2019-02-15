@@ -45,10 +45,6 @@ Route::get('/teacher-details', function (){
     return view('frontend.teacher-details');
 })->name('teacher-details');
 
-Route::get('/blog', function (){
-    return view('frontend.blog');
-})->name('blog');
-
 Route::get('/blog-single', function (){
     return view('frontend.blog-single');
 })->name('blog-single');
@@ -61,9 +57,7 @@ Route::get('/course-details', function (){
     return view('frontend.course-details');
 })->name('course-details');
 
-Route::get('/faq', function (){
-    return view('frontend.faq');
-})->name('faq');
+Route::get('/faqs', 'HomeController@getFaqs')->name('faqs');
 
 Route::get('/checkout', function (){
     return view('frontend.checkout');

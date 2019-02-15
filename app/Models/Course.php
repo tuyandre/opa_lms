@@ -117,4 +117,10 @@ class Course extends Model
         return $this->hasMany(CourseTimeline::class);
     }
 
+    public function reviews()
+    {
+        return $this->morphMany('App\Models\Review', 'reviewable');
+    }
+
+
 }

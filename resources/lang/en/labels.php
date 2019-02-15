@@ -137,12 +137,21 @@ return [
         ],
         'categories' => [
             'title' => 'Categories',
-            'create' => 'Create Categories',
-            'edit' => 'Edit Categories',
+            'create' => 'Create Category',
+            'edit' => 'Edit Category',
             'view' => 'View Categories',
             'fields' => [
                 'name' => 'Name',
                 'image' => 'Image',
+                'select_icon' => 'Select Icon',
+                'icon' => 'Icon',
+                'icon_type' => [
+                    'title' => 'Icon type',
+                    'select_any' => 'Select Any',
+                    'image' => 'Upload image',
+                    'icon' => 'Select Icon'
+                ],
+                'or' => 'Or',
                 'slug' => 'Slug',
                 'courses' => 'Courses',
                 'status' => 'Status',

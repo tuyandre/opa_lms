@@ -17,7 +17,7 @@ class CreateCategoriesTable extends Migration
             $table->increments('id')->unsigned();
             $table->string('name');
             $table->string('slug')->nullable();
-            $table->text('image')->nullable();
+            $table->text('icon')->nullable();
             $table->integer('status')->default(1)->comment('0 - disabled, 1 - enabled');
             $table->timestamps();
             $table->softDeletes();

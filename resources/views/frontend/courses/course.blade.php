@@ -15,7 +15,7 @@
         <div class="container">
             <div class="page-breadcrumb-content text-center">
                 <div class="page-breadcrumb-title">
-                    <h2 class="breadcrumb-head black bold">Genius <span>Course Details.</span></h2>
+                    <h2 class="breadcrumb-head black bold">{{$course->title}} <span>Course Details.</span></h2>
                 </div>
                 <div class="page-breadcrumb-item ul-li">
                     <ul class="breadcrumb text-uppercase black">
@@ -54,7 +54,9 @@
                         <div class="course-single-text">
                             <div class="course-title mt10 headline relative-position">
                                 <h3><a href="{{ route('courses.show', [$course->slug]) }}"><b>{{$course->title}}</b></a>
-                                    {{--<span class="trend-badge text-uppercase bold-font"><i class="fas fa-bolt"></i> TRENDING</span>--}}
+                                    @if($course->trending == 1)
+                                    <span class="trend-badge text-uppercase bold-font"><i class="fas fa-bolt"></i> TRENDING</span>
+                                    @endif
                                 </h3>
                             </div>
                             <div class="course-details-content">
@@ -95,10 +97,10 @@
                                                 {{--<div class="course-by">--}}
                                                 {{--BY: <b>TONI KROSS</b>--}}
                                                 {{--</div>--}}
-                                                <div class="leanth-course">
-                                                    <span>60 Minuttes</span>
-                                                    <span>Adobe photoshop</span>
-                                                </div>
+                                                {{--<div class="leanth-course">--}}
+                                                    {{--<span>60 Minuttes</span>--}}
+                                                    {{--<span>Adobe photoshop</span>--}}
+                                                {{--</div>--}}
                                             </div>
                                         </div>
                                         <div id="collapse{{$key}}" class="collapse" aria-labelledby="headingOne"
@@ -175,67 +177,38 @@
 
                     <div class="couse-comment">
                         <div class="blog-comment-area ul-li about-teacher-2">
+                            @if(count($course->reviews) > 0)
+
                             <ul class="comment-list">
-                                <li>
-                                    <div class=" comment-avater">
-                                        <img src="{{asset('assets/img/blog/ath-2.jpg')}}" alt="">
-                                    </div>
+                                @foreach($course->reviews as $item)
+                                    <li class="d-block">
+                                        <div class="comment-avater">
+                                            <img src="{{$item->user->picture}}" alt="">
+                                        </div>
 
-                                    <div class="author-name-rate">
-                                        <div class="author-name float-left">
-                                            BY: <span>FRANK LAMPARD</span>
-                                        </div>
-                                        <div class="comment-ratting float-right ul-li">
-                                            <ul>
-                                                <li><i class="fas fa-star"></i></li>
-                                                <li><i class="fas fa-star"></i></li>
-                                                <li><i class="fas fa-star"></i></li>
-                                                <li><i class="fas fa-star"></i></li>
-                                                <li><i class="fas fa-star"></i></li>
-                                            </ul>
-                                        </div>
-                                        <div class="time-comment float-right">3 Days ago</div>
-                                    </div>
-                                    <div class="author-designation-comment">
-                                        <h3>Great Course!! Recommended for Everyone</h3>
-                                        <p>
-                                            Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy
-                                            nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut
-                                            wisi enim ad minim veniam, quis nostrud exerci tation.
-                                        </p>
-                                    </div>
-                                </li>
+                                        <div class="author-name-rate">
+                                            <div class="author-name float-left">
+                                                BY: <span>{{$item->user->full_name}}</span>
+                                            </div>
+                                            <div class="comment-ratting float-right ul-li">
+                                                <ul>
+                                                    @for($i=0; $i<=(int)$item->rating; $i++)
+                                                        <li><i class="fas fa-star"></i></li>
+                                                    @endfor
 
-                                <li>
-                                    <div class=" comment-avater">
-                                        <img src="{{asset('assets/img/blog/ath.jpg')}}" alt="">
-                                    </div>
-
-                                    <div class="author-name-rate">
-                                        <div class="author-name float-left">
-                                            BY: <span>FRANK LAMPARD</span>
+                                                </ul>
+                                            </div>
+                                            <div class="time-comment float-right">{{$item->created_at->diffforhumans()}}</div>
                                         </div>
-                                        <div class="comment-ratting float-right ul-li">
-                                            <ul>
-                                                <li><i class="fas fa-star"></i></li>
-                                                <li><i class="fas fa-star"></i></li>
-                                                <li><i class="fas fa-star"></i></li>
-                                                <li><i class="fas fa-star"></i></li>
-                                                <li><i class="fas fa-star"></i></li>
-                                            </ul>
+                                        <div class="author-designation-comment">
+                                            <p>{{$item->content}}</p>
                                         </div>
-                                        <div class="time-comment float-right">3 Days ago</div>
-                                    </div>
-                                    <div class="author-designation-comment">
-                                        <h3>Great Course!! Recommended for Everyone</h3>
-                                        <p>
-                                            Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy
-                                            nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut
-                                            wisi enim ad minim veniam, quis nostrud exerci tation.
-                                        </p>
-                                    </div>
-                                </li>
+                                    </li>
+                                @endforeach
                             </ul>
+                            @else
+                                <h4>No reviews yet.</h4>
+                            @endif
                             @if ($purchased_course)
                                 <div class="reply-comment-box">
                                     <div class="review-option">
@@ -244,7 +217,7 @@
                                         </div>
                                         <div class="review-stars-item float-right mt15">
                                             <span>Your Rating: </span>
-                                            <form class="rating">
+                                            <div class="rating">
                                                 <label>
                                                     <input type="radio" name="stars" value="1"/>
                                                     <span class="icon"><i class="fas fa-star"></i></span>
@@ -275,26 +248,20 @@
                                                     <span class="icon"><i class="fas fa-star"></i></span>
                                                     <span class="icon"><i class="fas fa-star"></i></span>
                                                 </label>
-                                            </form>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="teacher-faq-form">
-                                        <form method="POST" action="/no-form" data-lead="Residential">
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <label for="name">Your Name</label>
-                                                    <input type="text" name="name" id="name" required="required">
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <label for="phone">Email Address</label>
-                                                    <input type="tel" name="phone" id="phone" required="required">
-                                                </div>
-                                            </div>
-                                            <label for="comments">Message</label>
-                                            <textarea name="comments" id="comments" rows="2" cols="20"
-                                                      required="required"></textarea>
+                                        <form method="POST" action="{{route('courses.review',['course'=>$course->id])}}" data-lead="Residential">
+                                            @csrf
+                                            <input type="hidden" name="rating" id="rating">
+                                            <div class="form-group"></div>
+                                            <label for="review">Message</label>
+                                            <textarea name="review" class="mb-0" id="review" rows="2" cols="20"
+                                                      ></textarea>
+                                            <span class="help-block text-danger">{{ $errors->first('review', ':message') }}</span>
                                             <div class="nws-button text-center  gradient-bg text-uppercase">
-                                                <button type="submit" value="Submit">Send Message now</button>
+                                                <button type="submit" value="Submit">Add Review Now</button>
                                             </div>
                                         </form>
                                     </div>
@@ -309,23 +276,27 @@
                         <div class="course-side-bar-widget">
                             <h3>Price <span>${{$course->price}}</span></h3>
                             @if (!$purchased_course)
-                                <form action="{{ route('cart.checkout') }}" method="POST">
-                                    @csrf
-                                    <input type="hidden" name="course_id" value="{{ $course->id }}"/>
-                                    <input type="hidden" name="amount" value="{{ $course->price}}"/>
-                                        <button class="genius-btn btn-block text-white  gradient-bg text-center text-uppercase  bold-font" href="#">Buy Now <i class="fas fa-caret-right"></i></button>
-                                </form>
 
-                                @if(Cart::session(auth()->user()->id)->get( $course->id) != null)
+
+                                @if(auth()->check() && (Cart::session(auth()->user()->id)->get( $course->id)))
                                     <button class="btn genius-btn btn-block text-center my-2 text-uppercase  btn-success text-white bold-font" type="submit">Added to Cart</button>
+                                @elseif(!auth()->check())
+                                    <a id="openLoginModal" class="genius-btn btn-block text-white  gradient-bg text-center text-uppercase  bold-font" data-target="#myModal" href="#">Buy Now <i class="fas fa-caret-right"></i></a>
+
+                                    <a id="openLoginModal" class="genius-btn btn-block my-2 bg-dark text-center text-white text-uppercase " data-target="#myModal" href="#">Add to Cart <i class="fa fa-shopping-bag"></i></a>
                                 @else
+                                    <form action="{{ route('cart.checkout') }}" method="POST">
+                                        @csrf
+                                        <input type="hidden" name="course_id" value="{{ $course->id }}"/>
+                                        <input type="hidden" name="amount" value="{{ $course->price}}"/>
+                                        <button class="genius-btn btn-block text-white  gradient-bg text-center text-uppercase  bold-font" href="#">Buy Now <i class="fas fa-caret-right"></i></button>
+                                    </form>
                                     <form action="{{ route('cart.addToCart') }}" method="POST">
                                         @csrf
                                         <input type="hidden" name="course_id" value="{{ $course->id }}"/>
                                         <input type="hidden" name="amount" value="{{ $course->price}}"/>
-                                            <button type="submit" class="genius-btn btn-block my-2 bg-dark text-center text-white text-uppercase ">Add to Cart <i class="fa fa-shopping-bag"></i></button>
+                                        <button type="submit" class="genius-btn btn-block my-2 bg-dark text-center text-white text-uppercase ">Add to Cart <i class="fa fa-shopping-bag"></i></button>
                                     </form>
-
                                 @endif
                             @else
                                 <p>You've Purchased It.</p>
@@ -352,55 +323,45 @@
                         <div class="couse-feature ul-li-block">
                             <ul>
                                 <li>Lessons <span> {{$course->lessons->count()}} Lessons</span></li>
-                                <li>Language <span>English, France</span></li>
-                                <li>Video <span>8 Hours</span></li>
-                                <li>Duration <span>30 Days</span></li>
-                                <li>Includes <span>Breakfast</span></li>
+                                <li>Language <span>English</span></li>
+                                <li>Category <span>{{$course->category->name}}</span></li>
+                                <li>Author <span>{{$course->teachers()->pluck('first_name')->implode(',')}}</span></li>
                             </ul>
                         </div>
 
-                        <div class="side-bar-widget">
-                            <h2 class="widget-title text-capitalize"><span>Related </span>News.</h2>
-                            <div class="latest-news-posts">
-                                <div class="latest-news-area">
-                                    <div class="latest-news-thumbnile relative-position">
-                                        <img src="{{asset('assets/img/blog/lb-1.jpg')}}" alt="">
-                                        <div class="hover-search">
-                                            <i class="fas fa-search"></i>
-                                        </div>
-                                        <div class="blakish-overlay"></div>
-                                    </div>
-                                    <div class="date-meta">
-                                        <i class="fas fa-calendar-alt"></i> 26 April 2018
-                                    </div>
-                                    <h3 class="latest-title bold-font"><a href="#">Affiliate Marketing A Beginner’s
-                                            Guide.</a></h3>
-                                </div>
-                                <!-- /post -->
-
+                        @if($recent_news->count() > 0)
+                            <div class="side-bar-widget">
+                                <h2 class="widget-title text-capitalize"><span>Recent  </span>News</h2>
                                 <div class="latest-news-posts">
-                                    <div class="latest-news-area">
-                                        <div class="latest-news-thumbnile relative-position">
-                                            <img src="{{asset('assets/img/blog/lb-2.jpg')}}" alt="">
-                                            <div class="hover-search">
-                                                <i class="fas fa-search"></i>
-                                            </div>
-                                            <div class="blakish-overlay"></div>
-                                        </div>
-                                        <div class="date-meta">
-                                            <i class="fas fa-calendar-alt"></i> 26 April 2018
-                                        </div>
-                                        <h3 class="latest-title bold-font"><a href="#">No.1 The Best Online Course
-                                                2018.</a></h3>
-                                    </div>
-                                    <!-- /post -->
-                                </div>
+                                    @foreach($recent_news as $item)
+                                        <div class="latest-news-area">
 
-                                <div class="view-all-btn bold-font">
-                                    <a href="#">View All News <i class="fas fa-chevron-circle-right"></i></a>
+                                            <div class="latest-news-thumbnile relative-position">
+                                                @if($item->image != "")
+                                                    <img src="{{asset('storage/uploads/'.$item->image)}}"
+                                                         alt="">
+                                                @else
+                                                    <img src="http://placehold.it/80x80" alt="">
+                                                @endif
+
+                                                <div class="blakish-overlay"></div>
+                                            </div>
+                                            <div class="date-meta">
+                                                <i class="fas fa-calendar-alt"></i> {{$item->created_at->format('d M Y')}}
+                                            </div>
+                                            <h3 class="latest-title bold-font"><a href="{{route('blogs.index',['slug'=>$item->slug.'-'.$item->id])}}">{{$item->title}}</a></h3>
+                                        </div>
+                                        <!-- /post -->
+                                    @endforeach
+
+
+                                    <div class="view-all-btn bold-font">
+                                        <a href="{{route('blogs.index')}}">View All News <i class="fas fa-chevron-circle-right"></i></a>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+
+                        @endif
 
                         <div class="side-bar-widget">
                             <h2 class="widget-title text-capitalize"><span>Featured</span> Course.</h2>
@@ -434,3 +395,11 @@
         ============================================= -->
 
 @endsection
+
+@push('after-scripts')
+    <script>
+        $(document).on('change','input[name="stars"]',function () {
+            $('#rating').val($(this).val());
+        })
+    </script>
+@endpush

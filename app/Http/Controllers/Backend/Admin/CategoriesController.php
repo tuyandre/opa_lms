@@ -15,6 +15,7 @@ class CategoriesController extends Controller
 {
 
     use FileUploadTrait;
+
     /**
      * Display a listing of Category.
      *
@@ -22,13 +23,13 @@ class CategoriesController extends Controller
      */
     public function index()
     {
-        if (! Gate::allows('category_access')) {
+        if (!Gate::allows('category_access')) {
             return abort(401);
         }
 
 
         if (request('show_deleted') == 1) {
-            if (! Gate::allows('category_delete')) {
+            if (!Gate::allows('category_delete')) {
                 return abort(401);
             }
             $categories = Category::onlyTrashed()->get();
@@ -53,12 +54,12 @@ class CategoriesController extends Controller
 
 
         if (request('show_deleted') == 1) {
-            if (! Gate::allows('category_delete')) {
+            if (!Gate::allows('category_delete')) {
                 return abort(401);
             }
-            $categories = Category::onlyTrashed()->orderBy('created_at','desc')->get();
+            $categories = Category::onlyTrashed()->orderBy('created_at', 'desc')->get();
         } else {
-            $categories = Category::orderBy('created_at','desc')->get();
+            $categories = Category::orderBy('created_at', 'desc')->get();
         }
 
         if (auth()->user()->can('category_view')) {
@@ -98,27 +99,26 @@ class CategoriesController extends Controller
                     $view .= $delete;
                 }
 
-                $view .= '<a class="btn btn-warning mb-1" href="'.route('admin.courses.index',['cat_id' => $q->id]).'">'.trans('labels.backend.courses.title').'</a>';
+                $view .= '<a class="btn btn-warning mb-1" href="' . route('admin.courses.index', ['cat_id' => $q->id]) . '">' . trans('labels.backend.courses.title') . '</a>';
 
 
                 return $view;
 
             })
-            ->editColumn('image',function ($q){
-                if($q->image != null){
-                    return  '<img src="'.asset('storage/uploads/'.$q->image).'" height="50px">';
+            ->editColumn('icon', function ($q) {
+                if ($q->icon != "") {
+                    return '<i style="font-size:40px;" class="'.$q->icon.'"></i>';
+                }else{
+                    return 'N/A';
                 }
-                return 'N/A';
             })
-
-            ->editColumn('courses',function ($q){
+            ->editColumn('courses', function ($q) {
                 return $q->courses->count();
             })
-
             ->editColumn('status', function ($q) {
                 return ($q->status == 1) ? "Enabled" : "Disabled";
             })
-            ->rawColumns(['actions','image'])
+            ->rawColumns(['actions', 'icon'])
             ->make();
     }
 
@@ -129,7 +129,7 @@ class CategoriesController extends Controller
      */
     public function create()
     {
-        if (! Gate::allows('category_create')) {
+        if (!Gate::allows('category_create')) {
             return abort(401);
         }
         $courses = \App\Models\Course::ofTeacher()->get();
@@ -143,25 +143,26 @@ class CategoriesController extends Controller
     /**
      * Store a newly created Category in storage.
      *
-     * @param  \App\Http\Requests\StoreCategorysRequest  $request
+     * @param  \App\Http\Requests\StoreCategorysRequest $request
      * @return \Illuminate\Http\Response
      */
     public function store(StoreCategoriesRequest $request)
     {
-        $this->validate($request,[
+        $this->validate($request, [
             'name' => 'required',
         ]);
 
-        if (! Gate::allows('category_create')) {
+        if (!Gate::allows('category_create')) {
             return abort(401);
         }
-        $request = $this->saveFiles($request);
-
-        Category::create($request->all());
-        if(($request->slug == "") || $request->slug == null){
-            $course->slug = str_slug($request->title);
-            $course->save();
+        $category = Category::where('slug','=',str_slug($request->name))->first();
+        if($category == null){
+            $category = new  Category();
         }
+        $category->name = $request->name;
+        $category->slug = str_slug($request->name);
+        $category->icon = $request->icon;
+        $category->save();
 
         return redirect()->route('admin.categories.index')->withFlashSuccess(trans('alerts.backend.general.created'));
     }
@@ -170,12 +171,12 @@ class CategoriesController extends Controller
     /**
      * Show the form for editing Category.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
-        if (! Gate::allows('category_edit')) {
+        if (!Gate::allows('category_edit')) {
             return abort(401);
         }
         $courses = \App\Models\Course::ofTeacher()->get();
@@ -185,24 +186,27 @@ class CategoriesController extends Controller
 
         $category = Category::findOrFail($id);
 
-        return view('backend.categories.index', compact('category', 'courses', 'lessons'));
+        return view('backend.categories.edit', compact('category', 'courses', 'lessons'));
     }
 
     /**
      * Update Category in storage.
      *
-     * @param  \App\Http\Requests\UpdateCategorysRequest  $request
-     * @param  int  $id
+     * @param  \App\Http\Requests\UpdateCategorysRequest $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(UpdateCategoriesRequest $request, $id)
     {
-        if (! Gate::allows('category_edit')) {
+        if (!Gate::allows('category_edit')) {
             return abort(401);
         }
-        $request = $this->saveFiles($request);
+
         $category = Category::findOrFail($id);
-        $category->update($request->all());
+        $category->name = $request->name;
+        $category->slug = str_slug($request->name);
+        $category->icon = $request->icon;
+        $category->save();
 
         return redirect()->route('admin.categories.index')->withFlashSuccess(trans('alerts.backend.general.updated'));
     }
@@ -211,12 +215,12 @@ class CategoriesController extends Controller
     /**
      * Display Category.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-        if (! Gate::allows('category_view')) {
+        if (!Gate::allows('category_view')) {
             return abort(401);
         }
         $category = Category::findOrFail($id);
@@ -228,12 +232,12 @@ class CategoriesController extends Controller
     /**
      * Remove Category from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        if (! Gate::allows('category_delete')) {
+        if (!Gate::allows('category_delete')) {
             return abort(401);
         }
         $category = Category::findOrFail($id);
@@ -249,7 +253,7 @@ class CategoriesController extends Controller
      */
     public function massDestroy(Request $request)
     {
-        if (! Gate::allows('category_delete')) {
+        if (!Gate::allows('category_delete')) {
             return abort(401);
         }
         if ($request->input('ids')) {
@@ -265,12 +269,12 @@ class CategoriesController extends Controller
     /**
      * Restore Category from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function restore($id)
     {
-        if (! Gate::allows('category_delete')) {
+        if (!Gate::allows('category_delete')) {
             return abort(401);
         }
         $category = Category::onlyTrashed()->findOrFail($id);
@@ -282,12 +286,12 @@ class CategoriesController extends Controller
     /**
      * Permanently delete Category from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function perma_del($id)
     {
-        if (! Gate::allows('category_delete')) {
+        if (!Gate::allows('category_delete')) {
             return abort(401);
         }
         $category = Category::onlyTrashed()->findOrFail($id);
