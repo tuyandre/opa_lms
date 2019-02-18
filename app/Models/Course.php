@@ -123,4 +123,5 @@ class Course extends Model
     }
 
 
+
 }

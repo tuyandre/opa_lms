@@ -19,16 +19,16 @@ class CoursesController extends Controller
 
     public function all()
     {
-        if(request('type') == 'popular'){
-            $courses = Course::where('published', 1)->where('popular','=',1)->orderBy('id', 'desc')->paginate(9);
+        if (request('type') == 'popular') {
+            $courses = Course::where('published', 1)->where('popular', '=', 1)->orderBy('id', 'desc')->paginate(9);
 
-        }else if(request('type') == 'trending'){
-            $courses = Course::where('published', 1)->where('trending','=',1)->orderBy('id', 'desc')->paginate(9);
+        } else if (request('type') == 'trending') {
+            $courses = Course::where('published', 1)->where('trending', '=', 1)->orderBy('id', 'desc')->paginate(9);
 
-        }else if(request('type') == 'featured'){
-            $courses = Course::where('published', 1)->where('featured','=',1)->orderBy('id', 'desc')->paginate(9);
+        } else if (request('type') == 'featured') {
+            $courses = Course::where('published', 1)->where('featured', '=', 1)->orderBy('id', 'desc')->paginate(9);
 
-        }else{
+        } else {
             $courses = Course::where('published', 1)->orderBy('id', 'desc')->paginate(9);
         }
         $purchased_courses = NULL;
@@ -40,18 +40,29 @@ class CoursesController extends Controller
                 ->orderBy('id', 'desc')
                 ->get();
         }
-        $recent_news = Blog::orderBy('created_at','desc')->take(2)->get();
-        return view('frontend.courses.index', compact('courses', 'purchased_courses','recent_news'));
+        $recent_news = Blog::orderBy('created_at', 'desc')->take(2)->get();
+        return view('frontend.courses.index', compact('courses', 'purchased_courses', 'recent_news'));
     }
 
     public function show($course_slug)
     {
-        $recent_news = Blog::orderBy('created_at','desc')->take(2)->get();
+        $recent_news = Blog::orderBy('created_at', 'desc')->take(2)->get();
         $course = Course::where('slug', $course_slug)->with('publishedLessons')->firstOrFail();
         $purchased_course = \Auth::check() && $course->students()->where('user_id', \Auth::id())->count() > 0;
+        $course_rating = 0;
+        $total_ratings = 0;
+        $is_reviewed = false;
+        if(auth()->check() && $course->reviews()->where('user_id','=',auth()->user()->id)->first()){
+            $is_reviewed = true;
+        }
+        if ($course->reviews->count() > 0) {
+            $course_rating = $course->reviews->avg('rating');
+            $total_ratings = $course->reviews()->where('rating', '!=', "")->get()->count();
+        }
 
-        return view('frontend.courses.course', compact('course', 'purchased_course','recent_news'));
+        return view('frontend.courses.course', compact('course', 'purchased_course', 'recent_news', 'course_rating', 'total_ratings','is_reviewed'));
     }
+
     public function payment(Request $request)
     {
         $course = Course::findOrFail($request->get('course_id'));
@@ -90,31 +101,78 @@ class CoursesController extends Controller
         return redirect()->back()->with('success', 'Thank you for rating.');
     }
 
-    public function getByCategory(Request $request){
-        $category = Category::has('courses')->where('slug','=',$request->category)->first();
-        if($category != ""){
-            $recent_news = Blog::orderBy('created_at','desc')->take(2)->get();
+    public function getByCategory(Request $request)
+    {
+        $category = Category::has('courses')->where('slug', '=', $request->category)->first();
+        if ($category != "") {
+            $recent_news = Blog::orderBy('created_at', 'desc')->take(2)->get();
 
-            $courses =  $category->courses()->where('published','=',1)->paginate(9);
-           return view('frontend.courses.index',compact('courses','category','recent_news'));
+            $courses = $category->courses()->where('published', '=', 1)->paginate(9);
+            return view('frontend.courses.index', compact('courses', 'category', 'recent_news'));
         }
         return abort(404);
     }
 
-    public function addReview(Request $request){
-        $this->validate($request,[
-         'review' => 'required'
+    public function addReview(Request $request)
+    {
+        $this->validate($request, [
+            'review' => 'required'
         ]);
-       $blog = Blog::findORFail($request->id);
-       $review = new Review();
-       $review->user_id = auth()->user()->id;
-       $review->reviewable_id = $blog->id;
-       $review->reviewable_type = Course::class;
-       $review->rating = $request->rating;
-       $review->content = $request->review;
-       $review->save();
+        $blog = Blog::findORFail($request->id);
+        $review = new Review();
+        $review->user_id = auth()->user()->id;
+        $review->reviewable_id = $blog->id;
+        $review->reviewable_type = Course::class;
+        $review->rating = $request->rating;
+        $review->content = $request->review;
+        $review->save();
 
-       return back();
+        return back();
+    }
+
+    public function editReview(Request $request)
+    {
+        $review = Review::where('id', '=', $request->id)->where('user_id', '=', auth()->user()->id)->first();
+        if ($review) {
+            $course = $review->reviewable;
+            $recent_news = Blog::orderBy('created_at', 'desc')->take(2)->get();
+            $purchased_course = \Auth::check() && $course->students()->where('user_id', \Auth::id())->count() > 0;
+            $course_rating = 0;
+            $total_ratings = 0;
+            if ($course->reviews->count() > 0) {
+                $course_rating = $course->reviews->avg('rating');
+                $total_ratings = $course->reviews()->where('rating', '!=', "")->get()->count();
+            }
+            return view('frontend.courses.course', compact('course', 'purchased_course', 'recent_news', 'course_rating', 'total_ratings', 'review'));
+        }
+        return abort(404);
+
+    }
+
+
+    public function updateReview(Request $request)
+    {
+        $review = Review::where('id', '=', $request->id)->where('user_id', '=', auth()->user()->id)->first();
+        if ($review) {
+            $review->rating = $request->rating;
+            $review->content = $request->review;
+            $review->save();
+
+            return redirect()->route('courses.show', ['slug' => $review->reviewable->slug]);
+        }
+        return abort(404);
+
+    }
+
+    public function deleteReview(Request $request)
+    {
+        $review = Review::where('id', '=', $request->id)->where('user_id', '=', auth()->user()->id)->first();
+        if ($review) {
+            $slug = $review->reviewable->slug;
+            $review->delete();
+            return redirect()->route('courses.show', ['slug' => $slug]);
+        }
+        return abort(404);
     }
 
 }

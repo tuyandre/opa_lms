@@ -9,10 +9,7 @@ class Review extends Model
 {
     protected  $guarded = [];
 
-    public function course()
-    {
-        return $this->morphedByMany(Course::class, 'reviewable');
-    }
+
 
     public function reviewable()
     {

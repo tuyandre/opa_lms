@@ -127,45 +127,25 @@
                                         <div class="col-md-4">
                                             <div class="avrg-rating ul-li">
                                                 <b>Average Rating</b>
-                                                <span class="avrg-rate">5.0</span>
+                                                <span class="avrg-rate">{{$course_rating}}</span>
                                                 <ul>
+                                                    @for($r=1; $r<=$course_rating; $r++)
                                                     <li><i class="fas fa-star"></i></li>
-                                                    <li><i class="fas fa-star"></i></li>
-                                                    <li><i class="fas fa-star"></i></li>
-                                                    <li><i class="fas fa-star"></i></li>
-                                                    <li><i class="fas fa-star"></i></li>
+                                                    @endfor
                                                 </ul>
-                                                <b>1.225 Ratings</b>
+                                                <b>{{$total_ratings}} Ratings</b>
                                             </div>
                                         </div>
                                         <div class="col-md-8">
                                             <div class="avrg-rating ul-li">
                                                 <span>Details</span>
+                                                @for($r=5; $r>=1; $r--)
                                                 <div class="rating-overview">
-                                                    <span class="start-item">5 Starts</span>
+                                                    <span class="start-item">{{$r}} Starts</span>
                                                     <span class="start-bar"></span>
-                                                    <span class="start-count">1.225</span>
+                                                    <span class="start-count">{{$course->reviews()->where('rating','=',$r)->get()->count()}}</span>
                                                 </div>
-                                                <div class="rating-overview">
-                                                    <span class="start-item">4 Starts</span>
-                                                    <span class="start-bar"></span>
-                                                    <span class="start-count">0</span>
-                                                </div>
-                                                <div class="rating-overview">
-                                                    <span class="start-item">3 Starts</span>
-                                                    <span class="start-bar"></span>
-                                                    <span class="start-count">0</span>
-                                                </div>
-                                                <div class="rating-overview">
-                                                    <span class="start-item">2 Starts</span>
-                                                    <span class="start-bar"></span>
-                                                    <span class="start-count">0</span>
-                                                </div>
-                                                <div class="rating-overview">
-                                                    <span class="start-item">1 Starts</span>
-                                                    <span class="start-bar"></span>
-                                                    <span class="start-count">0</span>
-                                                </div>
+                                                @endfor
                                             </div>
                                         </div>
                                     </div>
@@ -192,11 +172,18 @@
                                             </div>
                                             <div class="comment-ratting float-right ul-li">
                                                 <ul>
-                                                    @for($i=0; $i<=(int)$item->rating; $i++)
+                                                    @for($i=1; $i<=(int)$item->rating; $i++)
                                                         <li><i class="fas fa-star"></i></li>
                                                     @endfor
 
                                                 </ul>
+                                                @if(auth()->check() && ($item->user_id == auth()->user()->id))
+                                                    <div>
+                                                        <a href="{{route('courses.review.edit',['id'=>$item->id])}}" class="mr-2">Edit</a>
+                                                        <a href="{{route('courses.review.delete',['id'=>$item->id])}}" class="text-danger">Delete</a>
+                                                    </div>
+
+                                                @endif
                                             </div>
                                             <div class="time-comment float-right">{{$item->created_at->diffforhumans()}}</div>
                                         </div>
@@ -209,64 +196,73 @@
                             @else
                                 <h4>No reviews yet.</h4>
                             @endif
-                            @if ($purchased_course)
-                                <div class="reply-comment-box">
-                                    <div class="review-option">
-                                        <div class="section-title-2  headline text-left float-left">
-                                            <h2>Add <span>Reviews.</span></h2>
-                                        </div>
-                                        <div class="review-stars-item float-right mt15">
-                                            <span>Your Rating: </span>
-                                            <div class="rating">
-                                                <label>
-                                                    <input type="radio" name="stars" value="1"/>
-                                                    <span class="icon"><i class="fas fa-star"></i></span>
-                                                </label>
-                                                <label>
-                                                    <input type="radio" name="stars" value="2"/>
-                                                    <span class="icon"><i class="fas fa-star"></i></span>
-                                                    <span class="icon"><i class="fas fa-star"></i></span>
-                                                </label>
-                                                <label>
-                                                    <input type="radio" name="stars" value="3"/>
-                                                    <span class="icon"><i class="fas fa-star"></i></span>
-                                                    <span class="icon"><i class="fas fa-star"></i></span>
-                                                    <span class="icon"><i class="fas fa-star"></i></span>
-                                                </label>
-                                                <label>
-                                                    <input type="radio" name="stars" value="4"/>
-                                                    <span class="icon"><i class="fas fa-star"></i></span>
-                                                    <span class="icon"><i class="fas fa-star"></i></span>
-                                                    <span class="icon"><i class="fas fa-star"></i></span>
-                                                    <span class="icon"><i class="fas fa-star"></i></span>
-                                                </label>
-                                                <label>
-                                                    <input type="radio" name="stars" value="5"/>
-                                                    <span class="icon"><i class="fas fa-star"></i></span>
-                                                    <span class="icon"><i class="fas fa-star"></i></span>
-                                                    <span class="icon"><i class="fas fa-star"></i></span>
-                                                    <span class="icon"><i class="fas fa-star"></i></span>
-                                                    <span class="icon"><i class="fas fa-star"></i></span>
-                                                </label>
+
+                                @if ($purchased_course)
+                                    @if(isset($review) || ($is_reviewed == false))
+                                    <div class="reply-comment-box">
+                                            <div class="review-option">
+                                                <div class="section-title-2  headline text-left float-left">
+                                                    <h2>Add <span>Reviews.</span></h2>
+                                                </div>
+                                                <div class="review-stars-item float-right mt15">
+                                                    <span>Your Rating: </span>
+                                                    <div class="rating">
+                                                        <label>
+                                                            <input type="radio" name="stars" value="1"/>
+                                                            <span class="icon"><i class="fas fa-star"></i></span>
+                                                        </label>
+                                                        <label>
+                                                            <input type="radio" name="stars" value="2"/>
+                                                            <span class="icon"><i class="fas fa-star"></i></span>
+                                                            <span class="icon"><i class="fas fa-star"></i></span>
+                                                        </label>
+                                                        <label>
+                                                            <input type="radio" name="stars" value="3"/>
+                                                            <span class="icon"><i class="fas fa-star"></i></span>
+                                                            <span class="icon"><i class="fas fa-star"></i></span>
+                                                            <span class="icon"><i class="fas fa-star"></i></span>
+                                                        </label>
+                                                        <label>
+                                                            <input type="radio" name="stars" value="4"/>
+                                                            <span class="icon"><i class="fas fa-star"></i></span>
+                                                            <span class="icon"><i class="fas fa-star"></i></span>
+                                                            <span class="icon"><i class="fas fa-star"></i></span>
+                                                            <span class="icon"><i class="fas fa-star"></i></span>
+                                                        </label>
+                                                        <label>
+                                                            <input type="radio" name="stars" value="5"/>
+                                                            <span class="icon"><i class="fas fa-star"></i></span>
+                                                            <span class="icon"><i class="fas fa-star"></i></span>
+                                                            <span class="icon"><i class="fas fa-star"></i></span>
+                                                            <span class="icon"><i class="fas fa-star"></i></span>
+                                                            <span class="icon"><i class="fas fa-star"></i></span>
+                                                        </label>
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                    <div class="teacher-faq-form">
-                                        <form method="POST" action="{{route('courses.review',['course'=>$course->id])}}" data-lead="Residential">
-                                            @csrf
-                                            <input type="hidden" name="rating" id="rating">
-                                            <div class="form-group"></div>
-                                            <label for="review">Message</label>
-                                            <textarea name="review" class="mb-0" id="review" rows="2" cols="20"
-                                                      ></textarea>
-                                            <span class="help-block text-danger">{{ $errors->first('review', ':message') }}</span>
-                                            <div class="nws-button text-center  gradient-bg text-uppercase">
-                                                <button type="submit" value="Submit">Add Review Now</button>
+                                            <div class="teacher-faq-form">
+                                                @if(isset($review))
+                                                    <form method="POST" action="{{route('courses.review.update',['id'=>$review->id])}}" data-lead="Residential">
+                                                @else
+                                                  <form method="POST" action="{{route('courses.review',['course'=>$course->id])}}" data-lead="Residential">
+                                               @endif
+
+                                                    @csrf
+                                                    <input type="hidden" name="rating" id="rating">
+                                                    <label for="review">Message</label>
+
+                                                    <textarea name="review"  class="mb-2" id="review" rows="2" cols="20"
+                                                    >@if(isset($review)){{$review->content}} @endif</textarea>
+                                                    <span class="help-block text-danger">{{ $errors->first('review', ':message') }}</span>
+                                                    <div class="nws-button text-center  gradient-bg text-uppercase">
+                                                        <button type="submit" value="Submit">Add Review Now</button>
+                                                    </div>
+                                                </form>
                                             </div>
-                                        </form>
                                     </div>
-                                </div>
-                            @endif
+                                    @endif
+                                @endif
+
                         </div>
                     </div>
                 </div>
@@ -309,11 +305,9 @@
                         <div class="enrolled-student">
                             <div class="comment-ratting float-left ul-li">
                                 <ul>
-                                    <li><i class="fas fa-star"></i></li>
-                                    <li><i class="fas fa-star"></i></li>
-                                    <li><i class="fas fa-star"></i></li>
-                                    <li><i class="fas fa-star"></i></li>
-                                    <li><i class="fas fa-star"></i></li>
+                                    @for($i=1; $i<=(int)$course->rating; $i++)
+                                        <li><i class="fas fa-star"></i></li>
+                                    @endfor
                                 </ul>
                             </div>
                             <div class="student-number bold-font">
@@ -401,5 +395,10 @@
         $(document).on('change','input[name="stars"]',function () {
             $('#rating').val($(this).val());
         })
+        @if(isset($review))
+            var rating = "{{$review->rating}}";
+           $('input[value="'+rating+'"]').prop("checked", true);
+        $('#rating').val(rating);
+        @endif
     </script>
 @endpush
