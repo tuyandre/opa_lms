@@ -32,7 +32,7 @@
 
                     <div class="gradient-bg"></div>
                     <div class="popup-logo">
-                        <img src="{{asset('assets/img/logo/p-logo.jpg')}}" alt="">
+                        <img src="{{asset("storage/logos/".config('logo_popup'))}}" alt="">
                     </div>
                     <div class="popup-text text-center">
                         <h2>Login Your Account.</h2>

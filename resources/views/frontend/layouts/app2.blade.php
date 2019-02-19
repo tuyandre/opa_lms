@@ -66,7 +66,7 @@
                         <div class="navbar-default">
                             <div class="navbar-header float-left">
                                 <a class="navbar-brand text-uppercase" href="{{url('/')}}"><img
-                                            src={{asset("assets/img/logo/logo.png")}} alt="logo"></a>
+                                            src={{asset("storage/logos/".config('logo_w_image'))}} alt="logo"></a>
                             </div><!-- /.navbar-header -->
 
                             <div class="select-lang">
@@ -139,7 +139,7 @@
 
                             <div class="mobile-menu">
                                 <div class="logo"><a href="index-1"><img
-                                                src={{asset("assets/img/logo/logo.png")}} alt="Logo"></a></div>
+                                                src={{asset("storage/logos/".config('logo_w_image'))}} alt="Logo"></a></div>
                                 <nav>
                                     <ul>
                                         <li><a href="index-1">Home</a>

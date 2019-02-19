@@ -149,3 +149,11 @@ Route::get('get-faqs-data', ['uses' => 'Admin\FaqController@getData', 'as' => 'f
 Route::post('faqs_mass_destroy', ['uses' => 'Admin\FaqController@massDestroy', 'as' => 'faqs.mass_destroy']);
 Route::get('faqs/status/{id}', 'Admin\FaqController@status')->name('faqs.status');
 
+
+//==== Reasons Routes ====//
+Route::resource('reasons', 'Admin\ReasonController');
+Route::get('get-reasons-data', ['uses' => 'Admin\ReasonController@getData', 'as' => 'reasons.get_data']);
+Route::post('reasons_mass_destroy', ['uses' => 'Admin\ReasonController@massDestroy', 'as' => 'reasons.mass_destroy']);
+Route::get('reasons/status/{id}', 'Admin\ReasonController@status')->name('reasons.status');
+
+

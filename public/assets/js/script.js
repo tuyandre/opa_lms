@@ -34,7 +34,7 @@ Author:         HTMLMATE Team
                 this.sponsorSlide();
                 this.bestproductSlide();
                 this.faqTAB();
-                this.contactMAP();
+                // this.contactMAP();
                 this.rateReview();
                 this.categorySlide();
                 this.testi_2Slide();

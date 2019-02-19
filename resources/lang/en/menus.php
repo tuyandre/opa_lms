@@ -106,6 +106,9 @@ return [
             'faqs'    => [
                 'title' => 'FAQs',
             ],
+            'reasons'    => [
+                'title' => 'Reasons',
+            ],
             /*===========================*/
         ],
     ],

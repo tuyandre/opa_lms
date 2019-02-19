@@ -334,6 +334,41 @@ return [
             'total_students' => 'Enter Total Students. Ex: 1K, 1Million, 1000 etc.',
             'total_teachers' => 'Enter Total Teachers. Ex: 1K, 1000 etc.',
             'total_courses' => 'Enter Total Courses. Ex: 1K, 1000 etc.',
+
+            'contact'=>[
+                'title' => 'Contact',
+                'primary_address' => 'Primary Address',
+                'secondary_address' => 'Secondary Address',
+                'primary_email' => 'Primary Email',
+                'secondary_email' => 'Secondary Email',
+                'primary_phone' => 'Primary Phone',
+                'secondary_phone' => 'Secondary Phone',
+                'short_text' => 'Short Text',
+                'location_on_map' => 'Location on Map',
+                'map_note' => '<h3>How to embed Location for Map?</h3>
+                                <p>Do following simple steps and you are good to go:</p>
+                                <ol class="map-guide">
+                                    <li>Go to <a class="text-bold" target="_blank" href="//maps.google.com">Google Map</a> </li>
+                                    <li>Search the place you want to add by Entering address / location in input box located on upper-left corner</li>
+                                    <li>Once you get the place you want. It shows details in left sidebar. Click on <i class="fa fa-share-alt text-primary"></i> button</li>
+                                    <li>A popup will appear which will have two tabs <b>Send a link</b> and <b>Embed a Map</b></li>
+                                    <li>Click on <b>Embed a map</b> It will show you chosen Place on Map</li>
+                                    <li>Now click on the dropdown from the left. By default <b>Medium</b> is selected. Click on it and Select <b>Large</b></li>
+                                    <li>Now Click on <b class="text-primary">COPY HTML</b> link from it and <b>Paste</b> that code here in <b>Location on Map</b>.</li>
+                                </ol>',
+                'show' => 'Show',
+
+            ],
+            'general'=>[
+                'title' => 'General'
+            ],
+            'layout'=>[
+                'title' => 'Layout'
+            ],
+            'logos'=>[
+                'title' => 'Logos'
+            ]
+
         ],
         'hero_slider' => [
             'title' => 'Hero Slider',
@@ -437,6 +472,31 @@ return [
                 'category' => 'Category',
                 'question' => 'Question',
                 'answer' => 'Answer',
+                'status' => 'Status',
+            ]
+        ],
+        'logo' => [
+            'title' => 'Change Logo',
+            'logo_b' => 'Logo 1',
+            'logo_b_note' =>'Note : Upload logo with <b>black text and transparent background in .png format</b> and <b>294x50</b> pixels',
+            'logo_w' => 'Logo 2',
+            'logo_w_note' =>'Note : Upload logo with <b>white text and transparent background in .png format</b> and <b>294x50</b> pixels',
+            'logo_white' => 'Logo 3',
+            'logo_white_note' =>'Note : Upload logo with <b>only in white text and transparent background in .png format</b> and <b>294x50</b> pixels',
+            'logo_popup' => 'Logo for Popups',
+            'logo_popup_note' => 'Note : Add square logo minimum resolution <b>72x72</b> pixels',
+            'favicon' => 'Add Favicon',
+            'favicon_note' =>'Note : Upload logo with resolution <b>32x32</b> pixels and extension <b>.png</b> or <b>.gif</b> or <b>.ico</b>',
+        ],
+        'reasons' => [
+            'title' => 'Reasons',
+            'create' => 'Create Reason',
+            'edit' => 'Edit Reason',
+            'view' => 'View Reasons',
+            'fields' => [
+                'title' => 'Title',
+                'icon' => 'Icon',
+                'content' => 'Content',
                 'status' => 'Status',
             ]
         ],

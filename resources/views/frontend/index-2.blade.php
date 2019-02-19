@@ -1860,7 +1860,7 @@
                 <a class="scrollup" href="#"><img src={{asset("assets/img/banner/bt.png")}} alt=""></a>
             </div>
             <div class="footer_2_logo text-center">
-                <img src={{asset("assets/img/logo/logo.png")}} alt="">
+                <img src={{asset("storage/logos/".config('logo_w_image'))}} alt="">
             </div>
 
             <div class="footer_2_subs text-center">

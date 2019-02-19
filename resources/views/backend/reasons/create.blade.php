@@ -7,10 +7,10 @@
 
     <div class="card">
         <div class="card-header">
-            <h3 class="page-title float-left">@lang('labels.backend.categories.create')</h3>
+            <h3 class="page-title float-left">@lang('labels.backend.reasons.create')</h3>
             <div class="float-right">
-                <a href="{{ route('admin.categories.index') }}"
-                   class="btn btn-success">@lang('labels.backend.categories.view')</a>
+                <a href="{{ route('admin.reasons.index') }}"
+                   class="btn btn-success">@lang('labels.backend.reasons.view')</a>
 
             </div>
         </div>
@@ -19,20 +19,25 @@
             <div class="row">
                 <div class="col-12">
 
-                    {!! Form::open(['method' => 'POST', 'route' => ['admin.categories.store'], 'files' => true,]) !!}
+                    {!! Form::open(['method' => 'POST', 'route' => ['admin.reasons.store'], 'files' => true,]) !!}
 
                     <div class="row justify-content-center">
-                        <div class="col-12 col-lg-4 form-group">
-                            {!! Form::label('title', trans('labels.backend.categories.fields.name').' *', ['class' => 'control-label']) !!}
-                            {!! Form::text('name', old('name'), ['class' => 'form-control', 'placeholder' => trans('labels.backend.categories.fields.name'), 'required' => false]) !!}
+                        <div class="col-12 col-lg-8 form-group">
+                            {!! Form::label('title', trans('labels.backend.reasons.fields.title').' *', ['class' => 'control-label']) !!}
+                            {!! Form::text('title', old('title'), ['class' => 'form-control', 'placeholder' => trans('labels.backend.reasons.fields.title'), 'required' => false]) !!}
 
                         </div>
 
 
-                        <div class="col-12 col-lg-2  form-group">
+                        <div class="col-12 col-lg-4  form-group">
 
-                                {!! Form::label('icon',  trans('labels.backend.categories.fields.select_icon'), ['class' => 'control-label  d-block']) !!}
-                                <button class="btn  btn-block btn-default border" id="icon" name="icon"></button>
+                                {!! Form::label('icon',  trans('labels.backend.reasons.fields.icon'), ['class' => 'control-label  d-block']) !!}
+                                <button class="btn  btn-block btn-default border" id="icon" name="icon" title="icon"></button>
+
+                        </div>
+                        <div class="col-12 form-group">
+                            {!! Form::label('content', trans('labels.backend.reasons.fields.content').' *', ['class' => 'control-label']) !!}
+                            {!! Form::textarea('content', old('content'), ['class' => 'form-control', 'placeholder' => trans('labels.backend.reasons.fields.content'), 'required' => false]) !!}
 
                         </div>
 
@@ -44,8 +49,8 @@
 
                     {!! Form::close() !!}
 
-
                 </div>
+
 
             </div>
         </div>

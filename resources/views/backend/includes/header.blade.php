@@ -3,8 +3,8 @@
         <span class="navbar-toggler-icon"></span>
     </button>
     <a class="navbar-brand" href="#">
-        <img class="navbar-brand-full" src="{{ asset('assets/img/logo/p-logo.jpg') }}"  height="25" alt="CoreUI Logo"><p class="mb-0">GC</p>
-        <img class="navbar-brand-minimized" src="{{ asset('assets/img/logo/p-logo.jpg') }}" height="30" alt="CoreUI Logo">
+        <img class="navbar-brand-full" src="{{asset('storage/logos/'.config('logo_popup'))}}"  height="25" alt="Square Logo">
+        <img class="navbar-brand-minimized" src="{{asset('storage/logos/'.config('logo_popup'))}}" height="30" alt="Square Logo">
     </a>
     <button class="navbar-toggler sidebar-toggler d-md-down-none" type="button" data-toggle="sidebar-lg-show">
         <span class="navbar-toggler-icon"></span>

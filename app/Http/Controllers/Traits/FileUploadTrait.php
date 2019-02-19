@@ -99,4 +99,22 @@ trait FileUploadTrait
 
         return $finalRequest;
     }
+
+    public function saveLogos(Request $request){
+        if (!file_exists(public_path('storage/logos'))) {
+            mkdir(public_path('storage/logos'), 0777);
+        }
+        $finalRequest = $request;
+
+        foreach ($request->all() as $key => $value) {
+            if ($request->hasFile($key)) {
+                    $filename = time() . '-' . $request->file($key)->getClientOriginalName();
+                    $request->file($key)->move(public_path('storage/logos'), $filename);
+                    $finalRequest = new Request(array_merge($finalRequest->all(), [$key => $filename]));
+
+            }
+        }
+
+        return $finalRequest;
+    }
 }

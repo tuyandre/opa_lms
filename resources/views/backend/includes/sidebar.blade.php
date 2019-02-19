@@ -53,6 +53,7 @@
                 </li>
             @endcan
 
+
             <li class="nav-item nav-dropdown {{ active_class(Active::checkUriPattern('admin/*'), 'open') }}">
                 <a class="nav-link nav-dropdown-toggle {{ active_class(Active::checkUriPattern('admin/*')) }}"
                    href="#">
@@ -62,6 +63,7 @@
                 </a>
 
                 <ul class="nav-dropdown-items">
+
                     @can('course_access')
                         <li class="nav-item ">
                             <a class="nav-link {{ $request->segment(2) == 'courses' ? 'active' : '' }}"
@@ -98,6 +100,8 @@
                             </a>
                         </li>
                     @endcan
+
+
                 </ul>
             </li>
 
@@ -119,17 +123,18 @@
                             class="title">@lang('menus.backend.sidebar.messages.title')</span>
                 </a>
             </li>
-            <li class="nav-item ">
-                <a class="nav-link {{ $request->segment(1) == 'account' ? 'active' : '' }}"
-                   href="{{ route('admin.account') }}">
-                    <i class="nav-icon icon-key"></i>
-                    <span class="title">@lang('menus.backend.sidebar.account.title')</span>
-                </a>
-            </li>
-            <!--==================================================================-->
 
 
 
+            @can('reason_access')
+                <li class="nav-item">
+                    <a class="nav-link {{ $request->segment(2) == 'reasons' ? 'active' : '' }}"
+                       href="{{ route('admin.reasons.index') }}">
+                        <i class="nav-icon icon-loop"></i>
+                        <span class="title">@lang('menus.backend.sidebar.reasons.title')</span>
+                    </a>
+                </li>
+            @endcan
 
             @if ($logged_in_user->isAdmin())
                 <li class="nav-item ">
@@ -153,8 +158,17 @@
                         <span class="title">@lang('menus.backend.sidebar.faqs.title')</span>
                     </a>
                 </li>
+                <li class="nav-item ">
+                    <a class="nav-link {{ $request->segment(1) == 'account' ? 'active' : '' }}"
+                       href="{{ route('admin.account') }}">
+                        <i class="nav-icon icon-key"></i>
+                        <span class="title">@lang('menus.backend.sidebar.account.title')</span>
+                    </a>
+                </li>
+            @endif
+            @if ($logged_in_user->isAdmin())
 
-                <li class="nav-title">
+            <li class="nav-title">
                     @lang('menus.backend.sidebar.system')
                 </li>
 
@@ -187,6 +201,9 @@
                         </li>
                     </ul>
                 </li>
+
+
+            <!--==================================================================-->
                 <li class="divider"></li>
 
                 <li class="nav-item nav-dropdown {{ active_class(Active::checkUriPattern('admin/*'), 'open') }}">

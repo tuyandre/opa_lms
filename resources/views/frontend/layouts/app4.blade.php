@@ -64,7 +64,7 @@
                 <div class="navbar-default">
                     <div class="navbar-header float-left">
                         <a class="navbar-brand text-uppercase" href="{{url('/')}}"><img
-                                    src="{{asset('assets/img/logo/logo-2.png')}}" alt="logo"></a>
+                                    src="{{asset("storage/logos/".config('logo_white_image'))}}" alt="logo"></a>
                     </div><!-- /.navbar-header -->
                     <div class="header-info ul-li">
                         <ul>

@@ -1,5 +1,12 @@
 @extends('frontend.layouts.app'.config('theme_layout'))
 
+@push('after-styles')
+    <style>
+        /*.address-details.ul-li-block{*/
+            /*line-height: 60px;*/
+        /*}*/
+    </style>
+@endpush
 
 @section('content')
 
@@ -151,100 +158,26 @@
             <div class="container">
                 <div class="section-title mb20 headline text-center ">
                     <span class="subtitle text-uppercase">GENIUS ADVANTAGES</span>
-                    <h2>Reason <span>Why Choose Genius.</span></h2>
+                    <h2>Reason <span>Why Choose {{env('APP_NAME')}}.</span></h2>
                 </div>
+                @if($reasons->count() > 0)
                 <div id="service-slide-item" class="service-slide">
-                    <div class="service-text-icon ">
-                        <div class="service-icon float-left">
-                            <i class="text-gradiant flaticon-maths-class-materials-cross-of-a-pencil-and-a-ruler"></i>
+                    @foreach($reasons as $item)
+                        <div class="service-text-icon ">
+
+                            <div class="service-icon float-left">
+                                <i class="text-gradiant {{$item->icon}}"></i>
+                            </div>
+                            <div class="service-text">
+                                <h3 class="bold-font">{{$item->title}}</h3>
+                                <p>{{$item->content}}.</p>
+                            </div>
                         </div>
-                        <div class="service-text">
-                            <h3 class="bold-font">The Power Of Education.</h3>
-                            <p>Lorem ipsum dolor sit amet consectuerer adipiscing elit set diam nonnumynibh euismod
-                                tincidun laoreet.</p>
-                        </div>
-                    </div>
-                    <div class="service-text-icon ">
-                        <div class="service-icon float-left">
-                            <i class="text-gradiant flaticon-clipboard-with-pencil"></i>
-                        </div>
-                        <div class="service-text">
-                            <h3 class="bold-font">Best Online Education.</h3>
-                            <p>Lorem ipsum dolor sit amet consectuerer adipiscing elit set diam nonnumynibh euismod
-                                tincidun laoreet.</p>
-                        </div>
-                    </div>
-                    <div class="service-text-icon ">
-                        <div class="service-icon float-left">
-                            <i class="text-gradiant flaticon-list"></i>
-                        </div>
-                        <div class="service-text">
-                            <h3 class="bold-font">Education For All Student.</h3>
-                            <p>Lorem ipsum dolor sit amet consectuerer adipiscing elit set diam nonnumynibh euismod
-                                tincidun laoreet.</p>
-                        </div>
-                    </div>
-                    <div class="service-text-icon ">
-                        <div class="service-icon float-left">
-                            <i class="text-gradiant flaticon-maths-class-materials-cross-of-a-pencil-and-a-ruler"></i>
-                        </div>
-                        <div class="service-text">
-                            <h3 class="bold-font">The Power Of Education.</h3>
-                            <p>Lorem ipsum dolor sit amet consectuerer adipiscing elit set diam nonnumynibh euismod
-                                tincidun laoreet.</p>
-                        </div>
-                    </div>
-                    <div class="service-text-icon">
-                        <div class="service-icon float-left">
-                            <i class="text-gradiant flaticon-clipboard-with-pencil"></i>
-                        </div>
-                        <div class="service-text">
-                            <h3 class="bold-font">Best Online Education.</h3>
-                            <p>Lorem ipsum dolor sit amet consectuerer adipiscing elit set diam nonnumynibh euismod
-                                tincidun laoreet.</p>
-                        </div>
-                    </div>
-                    <div class="service-text-icon">
-                        <div class="service-icon float-left">
-                            <i class="text-gradiant flaticon-list"></i>
-                        </div>
-                        <div class="service-text">
-                            <h3 class="bold-font">Education For All Student.</h3>
-                            <p>Lorem ipsum dolor sit amet consectuerer adipiscing elit set diam nonnumynibh euismod
-                                tincidun laoreet.</p>
-                        </div>
-                    </div>
-                    <div class="service-text-icon">
-                        <div class="service-icon float-left">
-                            <i class="text-gradiant flaticon-maths-class-materials-cross-of-a-pencil-and-a-ruler"></i>
-                        </div>
-                        <div class="service-text">
-                            <h3 class="bold-font">The Power Of Education.</h3>
-                            <p>Lorem ipsum dolor sit amet consectuerer adipiscing elit set diam nonnumynibh euismod
-                                tincidun laoreet.</p>
-                        </div>
-                    </div>
-                    <div class="service-text-icon">
-                        <div class="service-icon float-left">
-                            <i class="text-gradiant flaticon-clipboard-with-pencil"></i>
-                        </div>
-                        <div class="service-text">
-                            <h3 class="bold-font">Best Online Education.</h3>
-                            <p>Lorem ipsum dolor sit amet consectuerer adipiscing elit set diam nonnumynibh euismod
-                                tincidun laoreet.</p>
-                        </div>
-                    </div>
-                    <div class="service-text-icon">
-                        <div class="service-icon float-left">
-                            <i class="text-gradiant flaticon-list"></i>
-                        </div>
-                        <div class="service-text">
-                            <h3 class="bold-font">Education For All Student.</h3>
-                            <p>Lorem ipsum dolor sit amet consectuerer adipiscing elit set diam nonnumynibh euismod
-                                tincidun laoreet.</p>
-                        </div>
-                    </div>
+
+                    @endforeach
+
                 </div>
+                @endif
                 <!-- /service-slide -->
                 <div class="testimonial-slide">
                     <div class="section-title-2 mb65 headline text-left ">
@@ -706,14 +639,17 @@
         <div class="container">
             <div class="contact-area-content">
                 <div class="row">
+                    @if(config('contact_data') != "")
+                        @php
+                            $contact_data = contact_data(config('contact_data'));
+                        @endphp
                     <div class="col-md-6">
                         <div class="contact-left-content ">
                             <div class="section-title  mb45 headline text-left">
                                 <span class="subtitle ml42  text-uppercase">CONTACT US</span>
                                 <h2><span>Get in Touch</span></h2>
                                 <p>
-                                    Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh
-                                    euismod tincidunt ut laoreet ipsum dolor sit amet, consectetuer adipiscing elit.
+                                    {{ $contact_data["short_text"]["value"] }}
                                 </p>
                             </div>
 
@@ -724,8 +660,13 @@
                                     </div>
                                     <div class="address-details ul-li-block">
                                         <ul>
-                                            <li><span>Primary: </span>Last Vegas, 120 Graphic Street, US</li>
-                                            <li><span>Second: </span>Califorinia, 88 Design Street, US</li>
+                                            @if($contact_data["primary_address"]["status"] == 1)
+                                            <li><span>Primary: </span>{{$contact_data["primary_address"]["value"]}}</li>
+                                            @endif
+
+                                            @if($contact_data["secondary_address"]["status"] == 1)
+                                             <li><span>Second: </span>{{$contact_data["secondary_address"]["value"]}}</li>
+                                            @endif
                                         </ul>
                                     </div>
                                 </div>
@@ -736,8 +677,13 @@
                                     </div>
                                     <div class="address-details ul-li-block">
                                         <ul>
-                                            <li><span>Primary: </span>(100) 3434 55666</li>
-                                            <li><span>Second: </span>(20) 3434 9999</li>
+                                            @if($contact_data["primary_phone"]["status"] == 1)
+                                                <li><span>Primary: </span>{{$contact_data["primary_phone"]["value"]}}</li>
+                                            @endif
+
+                                            @if($contact_data["secondary_phone"]["status"] == 1)
+                                                <li><span>Second: </span>{{$contact_data["secondary_phone"]["value"]}}</li>
+                                            @endif
                                         </ul>
                                     </div>
                                 </div>
@@ -748,8 +694,13 @@
                                     </div>
                                     <div class="address-details ul-li-block">
                                         <ul>
-                                            <li><span>Primary: </span>info@geniuscourse.com</li>
-                                            <li><span>Second: </span>mail@genius.info</li>
+                                            @if($contact_data["primary_email"]["status"] == 1)
+                                                <li><span>Primary: </span>{{$contact_data["primary_email"]["value"]}}</li>
+                                            @endif
+
+                                            @if($contact_data["secondary_email"]["status"] == 1)
+                                                <li><span>Second: </span>{{$contact_data["secondary_email"]["value"]}}</li>
+                                            @endif
                                         </ul>
                                     </div>
                                 </div>
@@ -759,14 +710,16 @@
                             <a href="#">Contact Us <i class="fas fa-caret-right"></i></a>
                         </div>
                     </div>
-
+                    @if($contact_data["location_on_map"]["status"] == 1)
                     <div class="col-md-6">
                         <div id="contact-map" class="contact-map-section">
-                            <div id="google-map">
-                                <div id="googleMaps" class="google-map-container"></div>
-                            </div><!-- /#google-map-->
+                           {!! $contact_data["location_on_map"]["value"] !!}
                         </div>
                     </div>
+                    @endif
+                    @else
+                        <h4>Please enter data from backend.</h4>
+                    @endif
                 </div>
             </div>
         </div>

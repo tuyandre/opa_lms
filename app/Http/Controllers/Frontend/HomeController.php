@@ -8,6 +8,7 @@ use App\Models\Blog;
 use App\Models\Category;
 use App\Models\Course;
 use App\Models\Faq;
+use App\Models\Reason;
 use App\Models\Sponsor;
 use App\Models\Testimonial;
 
@@ -42,6 +43,8 @@ class HomeController extends Controller
 
         $testimonials = Testimonial::where('status','=',1)->orderBy('created_at','desc')->get();
 
+        $reasons = Reason::where('status','=',1)->orderBy('created_at','desc')->get();
+
         if((int)config('counter') == 1){
             $total_students =  config('total_students');
             $total_courses =  config('total_courses');
@@ -52,7 +55,7 @@ class HomeController extends Controller
             $total_teachers =   User::role('teacher')->get()->count();
         }
 
-        return view('frontend.index-'.config('theme_layout'),compact(   'popular_courses','featured_courses','sponsors','total_students','total_courses','total_teachers','testimonials','news', 'trending_courses','teachers','faqs','course_categories'));
+        return view('frontend.index-'.config('theme_layout'),compact(   'popular_courses','featured_courses','sponsors','total_students','total_courses','total_teachers','testimonials','news', 'trending_courses','teachers','faqs','course_categories','reasons'));
     }
 
     public function getFaqs(){

@@ -30,6 +30,7 @@ class DatabaseSeeder extends Seeder
         $this->call(TestimonialSeeder::class);
         $this->call(SponsorSeeder::class);
         $this->call(FaqSeeder::class);
+        $this->call(ReasonSeeder::class);
 
         Model::reguard();
     }

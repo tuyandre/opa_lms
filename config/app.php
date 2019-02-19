@@ -314,4 +314,23 @@ return [
     'total_courses' => '1k+',
     'total_teachers' => '200+',
 
+    /*
+    |--------------------------------------------------------------------------
+    | Logos
+    | For entire frontend.
+    |--------------------------------------------------------------------------
+    */
+    'logo_b_image' => 'logo-b-image.png',
+    'logo_w_image' => 'logo-w-image.png',
+    'logo_white_image' => 'logo-white.png',
+    'popup_logo' => 'popup-logo.jpg',
+    'favicon_image' => 'popup-logo.jpg',
+
+     /*
+    |--------------------------------------------------------------------------
+    | Contact Data
+    |--------------------------------------------------------------------------
+    */
+     'contact_data' => '{[]}',
+
 ];

@@ -3,17 +3,19 @@
 namespace App\Http\Controllers\Backend\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Traits\FileUploadTrait;
 use App\Models\Config;
 use Illuminate\Http\Request;
 
 class ConfigController extends Controller
 {
+    use FileUploadTrait;
     public function getGeneralSettings(){
         return view('backend.settings.general');
     }
 
     public function saveGeneralSettings(Request $request){
-        $requests = request()->all();
+        $requests = $this->saveLogos($request);
         if($request->get('access_registration') == null){
             $requests['access_registration'] = 0;
         }
@@ -29,7 +31,7 @@ class ConfigController extends Controller
         if($request->get('access_users_requires_approval') == null){
             $requests['access_users_requires_approval'] = 0;
         }
-        foreach ($requests as $key => $value){
+        foreach ($requests->all() as $key => $value){
             if($key != '_token'){
                 $key = str_replace('__','.',$key);
                 $config = Config::firstOrCreate(['key' => $key]);

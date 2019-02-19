@@ -8,7 +8,7 @@
                     <div class="col-md-3">
                         <div class="footer-widget "  >
                             <div class="footer-logo mb35">
-                                <img src="{{asset('assets/img/logo/f-logo.png')}}" alt="">
+                                <img src="{{asset("storage/logos/".config('logo_b_image'))}}" alt="logo">
                             </div>
                             <div class="footer-about-text">
                                 <p>We take our mission of increasing global access to quality education seriously. We connect learners to the best universities and institutions from around the world.</p>

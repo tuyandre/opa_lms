@@ -9,6 +9,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <title>Home Page 1 :: School, Coaching, Institute Course booking HTML Template</title>
+        @if(config('favicon_image') != "")
+        <link rel="shortcut icon" type="image/x-icon" href="{{asset('storage/logos/'.config('favicon_image'))}}" />
+        @endif
 
     @yield('meta')
 
@@ -67,8 +70,10 @@
                     <div class="container">
                         <div class="navbar-default">
                             <div class="navbar-header float-left">
-                                <a class="navbar-brand text-uppercase" href="{{url('/')}}"><img
-                                            src={{asset("assets/img/logo/logo.png")}} alt="logo"></a>
+                                <a class="navbar-brand text-uppercase" href="{{url('/')}}">
+                                    {{--<img src="{{asset("storage/logos/".config('logo_w_image'))}}" alt="logo">--}}
+                                    <img src="{{asset("storage/logos/".config('logo_w_image'))}}" alt="logo">
+                                </a>
                             </div><!-- /.navbar-header -->
 
                             <div class="select-lang">
@@ -150,7 +155,7 @@
                             <div class="mobile-menu">
                                 <div class="logo">
                                     <a href="index-1">
-                                        <img src={{asset("assets/img/logo/logo.png")}} alt="Logo">
+                                        <img src={{asset("storage/logos/".config('logo_w_image'))}} alt="Logo">
                                     </a>
                                 </div>
                                 <nav>

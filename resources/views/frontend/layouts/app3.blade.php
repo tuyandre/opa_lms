@@ -97,7 +97,7 @@
                 <div class="container">
                     <div class="navbar-default">
                         <div class="navbar-header float-left">
-                            <a class="navbar-brand text-uppercase" href="{{url('/')}}"><img src="{{asset('assets/img/logo/f-logo.png')}}" alt="logo"></a>
+                            <a class="navbar-brand text-uppercase" href="{{url('/')}}"><img src="{{asset("storage/logos/".config('logo_b_image'))}}" alt="logo"></a>
                         </div><!-- /.navbar-header -->
                         <div class="cart-search float-right ul-li">
                             <ul>
