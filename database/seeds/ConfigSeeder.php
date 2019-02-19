@@ -61,11 +61,14 @@ class ConfigSeeder extends Seeder
                     'status' => 1,
                 ),
         );
+
         $contact_data = json_encode($contact_data);
+        $sections_layout1 = json_encode(config('sections.layout_1'));
         $data = [
             'theme_layout' => 1,
             'font_color' => 'default',
             'layout_type' => 'wide',
+            'layout_1' => $sections_layout1,
             'counter' => '1',
             'total_students' => '1M+',
             'total_courses' => '1K+',

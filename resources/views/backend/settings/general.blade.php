@@ -46,6 +46,8 @@
 @endpush
 @section('content')
     {{ html()->form('POST', route('admin.general-settings'))->id('general-settings-form')->class('form-horizontal')->acceptsFiles()->open() }}
+
+
     <div class="card">
         <div class="card-body">
             <div class="row">
@@ -165,17 +167,32 @@
                             </div><!--form-group-->
 
                             <div class="form-group row">
-                                {{ html()->label(__('labels.backend.general_settings.layout_type'))->class('col-md-2 form-control-label')->for('layout_type') }}
+                                {{ html()->label(__('labels.backend.general_settings.counter'))->class('col-md-2 form-control-label')->for('counter') }}
 
                                 <div class="col-md-10">
-                                    <select class="form-control" id="layout_type" name="layout_type">
-                                        <option selected value="wide-layout">Wide</option>
-                                        <option value="box-layout">Box</option>
+                                    <select class="form-control" id="counter" name="counter">
+                                        <option selected value="1">Static</option>
+                                        <option value="2">Database / Real</option>
                                     </select>
-                                    <span class="help-text font-italic">This will change frontend theme layout type</span>
+                                    <span class="help-text font-italic">{!!  __('labels.backend.general_settings.counter_note') !!}</span>
+                                    <div class="counter-container" id="counter-container">
+
+                                        <input class="form-control my-2" type="text" id="total_students" required
+                                               name="total_students"
+                                               placeholder="{{__('labels.backend.general_settings.total_students')}}">
+
+                                        <input type="text" required id="total_courses" class="form-control mb-2"
+                                               name="total_courses"
+                                               placeholder="{{__('labels.backend.general_settings.total_courses')}}">
+
+                                        <input type="text" required class="form-control mb-2" id="total_teachers"
+                                               name="total_teachers"
+                                               placeholder="{{__('labels.backend.general_settings.total_teachers')}}">
+                                    </div>
 
                                 </div><!--col-->
                             </div><!--form-group-->
+
                         </div>
                     </div>
                 </div>
@@ -261,6 +278,20 @@
                 <div id="layout" class="tab-pane container fade">
                     <div class="row mt-4 mb-4">
                         <div class="col">
+                            <input type="hidden" id="section_data" name="layout_{{config('theme_layout')}}">
+                            <div class="form-group row">
+                                {{ html()->label(__('labels.backend.general_settings.layout_type'))->class('col-md-2 form-control-label')->for('layout_type') }}
+
+                                <div class="col-md-10">
+                                    <select class="form-control" id="layout_type" name="layout_type">
+                                        <option selected value="wide-layout">Wide</option>
+                                        <option value="box-layout">Box</option>
+                                    </select>
+                                    <span class="help-text font-italic">This will change frontend theme layout type</span>
+
+                                </div><!--col-->
+                            </div><!--form-group-->
+
                             <div class="form-group row">
                                 {{ html()->label(__('labels.backend.general_settings.theme_layout'))->class('col-md-2 form-control-label')->for('theme_layout') }}
 
@@ -272,35 +303,26 @@
                                         <option value="4">Layout 4</option>
                                     </select>
                                     <span class="help-text font-italic">{{__('labels.backend.general_settings.layout_note')}}</span>
+                                    <p id="sections_note" class="d-none font-weight-bold">Once you click on update, you will see list of sections to on/off.</p>
 
                                 </div><!--col-->
                             </div><!--form-group-->
-                            <div class="form-group row">
-                                {{ html()->label(__('labels.backend.general_settings.counter'))->class('col-md-2 form-control-label')->for('counter') }}
+                            <div class="form-group row" id="sections">
+                                <div class="col-md-10 offset-2">
+                                    <div class="row">
+                                        @foreach($sections as $key=>$item)
+                                            <p style="line-height: 35px" class="col-md-4 col-12">
+                                                {{ html()->label(html()->checkbox('')->id($key)
+                                                   ->checked(($item->status == 1) ? true : false)->class('switch-input')->value(($item->status == 1) ? 1 : 0)
 
-                                <div class="col-md-10">
-                                    <select class="form-control" id="counter" name="counter">
-                                        <option selected value="1">Static</option>
-                                        <option value="2">Database / Real</option>
-                                    </select>
-                                    <span class="help-text font-italic">{!!  __('labels.backend.general_settings.counter_note') !!}</span>
-                                    <div class="counter-container" id="counter-container">
-
-                                        <input class="form-control my-2" type="text" id="total_students" required
-                                               name="total_students"
-                                               placeholder="{{__('labels.backend.general_settings.total_students')}}">
-
-                                        <input type="text" required id="total_courses" class="form-control mb-2"
-                                               name="total_courses"
-                                               placeholder="{{__('labels.backend.general_settings.total_courses')}}">
-
-                                        <input type="text" required class="form-control mb-2" id="total_teachers"
-                                               name="total_teachers"
-                                               placeholder="{{__('labels.backend.general_settings.total_teachers')}}">
+                                             . '<span class="switch-label"></span><span class="switch-handle"></span>')
+                                         ->class('switch switch-sm switch-3d switch-primary')
+                                     }} <span class="ml-2 title">{{$item->title}}</span>
+                                            </p>
+                                        @endforeach
                                     </div>
-
-                                </div><!--col-->
-                            </div><!--form-group-->
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -635,6 +657,8 @@
 
 
             $(document).on('submit', '#general-settings-form', function (e) {
+//                e.preventDefault()
+                //=====Saving Contact Details=====//
                 var dataJson = {};
                 var inputs = $('#contact').find('input[type="text"],textarea,input[type="email"]');
                 var data = [];
@@ -648,10 +672,38 @@
                     }
                     status = ($(value).parents('.form-group').find('input[type="checkbox"]:checked').val()) ? 1 : 0;
                     data.push({name: name, value: val, status: status});
-                })
+                });
                 dataJson = JSON.stringify(data);
                 $('#contact_data').val(dataJson);
+
+               //======Saving Layout sections details=====//
+                var sections = $('#sections').find('input[type="checkbox"]');
+                var title, name;
+                var sections_data = {};
+                $(sections).each(function() {
+                    if($(this).is(':checked')){
+                        status = 1
+                    }else{
+                        status = 0
+                    }
+                    name = $(this).attr('id');
+                    title = $(this).parent('label').siblings('.title').html();
+                    sections_data[name] = {title : title, status: status}
+                });
+                $('#section_data').val(JSON.stringify(sections_data));
+
             });
+
+            $(document).on('change', '#theme_layout', function () {
+                var theme_layout = "{{config('theme_layout')}}";
+                if ($(this).val() != theme_layout) {
+                    $('#sections').addClass('d-none');
+                    $('#sections_note').removeClass('d-none')
+                } else {
+                    $('#sections').removeClass('d-none');
+                    $('#sections_note').addClass('d-none')
+                }
+            })
         });
 
     </script>

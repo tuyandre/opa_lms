@@ -329,6 +329,7 @@ return [
             'font_color' => 'Font Color',
             'layout_type' => 'Layout Type',
             'layout_note' => 'This will change frontend theme layout',
+            'sections_note' => 'Once you click on update, you will see list of sections to on/off.',
             'counter' => 'Counter',
             'counter_note' => '<b>Static</b> =  Manually add data for counter. Please enter exact text you want to display on frontend counter section,<br> <b>Database/Real</b> = It will take real data from database for all the fields (Students enrolled, Total Courses, Total Teachers)',
             'total_students' => 'Enter Total Students. Ex: 1K, 1Million, 1000 etc.',

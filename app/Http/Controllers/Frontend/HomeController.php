@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Auth\User;
 use App\Models\Blog;
 use App\Models\Category;
+use App\Models\Config;
 use App\Models\Course;
 use App\Models\Faq;
 use App\Models\Reason;
@@ -22,6 +23,10 @@ class HomeController extends Controller
      */
     public function index()
     {
+        $type = config('theme_layout');
+        $sections = Config::where('key','=','layout_'.$type)->first();
+        $sections =  json_decode($sections->value);
+
         $popular_courses = Course::where('published','=',1)
             ->where('popular','=',1)->take(6)->get();
 
@@ -55,7 +60,7 @@ class HomeController extends Controller
             $total_teachers =   User::role('teacher')->get()->count();
         }
 
-        return view('frontend.index-'.config('theme_layout'),compact(   'popular_courses','featured_courses','sponsors','total_students','total_courses','total_teachers','testimonials','news', 'trending_courses','teachers','faqs','course_categories','reasons'));
+        return view('frontend.index-'.config('theme_layout'),compact(   'popular_courses','featured_courses','sponsors','total_students','total_courses','total_teachers','testimonials','news', 'trending_courses','teachers','faqs','course_categories','reasons','sections'));
     }
 
     public function getFaqs(){
