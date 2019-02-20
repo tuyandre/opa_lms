@@ -54,7 +54,7 @@
             @endcan
 
 
-            <li class="nav-item nav-dropdown {{ active_class(Active::checkUriPattern('admin/*'), 'open') }}">
+            <li class="nav-item nav-dropdown {{ active_class(Active::checkUriPattern(['user/courses*','user/lessons*','user/tests*','user/questions*']), 'open') }}">
                 <a class="nav-link nav-dropdown-toggle {{ active_class(Active::checkUriPattern('admin/*')) }}"
                    href="#">
                     <i class="nav-icon icon-puzzle"></i> @lang('menus.backend.sidebar.courses.management')

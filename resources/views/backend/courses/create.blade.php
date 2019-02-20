@@ -77,7 +77,7 @@
             <div class="row">
 
                 <div class="col-12 form-group">
-                    <div class="checkbox d-inline">
+                    <div class="checkbox d-inline mr-3">
                         {!! Form::hidden('published', 0) !!}
                         {!! Form::checkbox('published', 1, false, []) !!}
                         {!! Form::label('published',  trans('labels.backend.courses.fields.published'), ['class' => 'checkbox control-label font-weight-bold']) !!}
@@ -89,13 +89,13 @@
                         {!! Form::label('featured',  trans('labels.backend.courses.fields.featured'), ['class' => 'checkbox control-label font-weight-bold']) !!}
                     </div>
 
-                    <div class="checkbox">
+                    <div class="checkbox d-inline mr-3">
                         {!! Form::hidden('trending', 0) !!}
                         {!! Form::checkbox('trending', 1, false, []) !!}
                         {!! Form::label('trending',  trans('labels.backend.courses.fields.trending'), ['class' => 'checkbox control-label font-weight-bold']) !!}
                     </div>
 
-                    <div class="checkbox">
+                    <div class="checkbox d-inline mr-3">
                         {!! Form::hidden('popular', 0) !!}
                         {!! Form::checkbox('popular', 1, false, []) !!}
                         {!! Form::label('popular',  trans('labels.backend.courses.fields.popular'), ['class' => 'checkbox control-label font-weight-bold']) !!}

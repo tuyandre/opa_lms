@@ -134,7 +134,7 @@
 
             <div class="form-group row justify-content-center">
                 <div class="col-4">
-                    {{ form_cancel(route('admin.slider.index'), __('buttons.general.cancel')) }}
+                    {{ form_cancel(route('admin.sliders.index'), __('buttons.general.cancel')) }}
 
                     <button class="btn btn-success pull-right" type="button" id="btn-submit">{{__('buttons.general.crud.create')}}</button>
                 </div>
@@ -167,7 +167,7 @@
                 }
             });
 
-            $(document).on('click','#add-button',function (e) {
+            $(document).on('click',',add-button',function (e) {
                 e.preventDefault()
 
                 if($('.button-wrapper').length <= 3){

@@ -1,11 +1,17 @@
 @extends('backend.layouts.app')
 
 @push('after-styles')
+    <link rel="stylesheet" href="{{asset('plugins/bootstrap-iconpicker/css/bootstrap-iconpicker.min.css')}}"/>
+
     <link rel="stylesheet" href="{{asset('assets/css/colors/switch.css')}}">
     <style>
         .color-list li {
             float: left;
             width: 8%;
+        }
+
+        .options {
+            line-height: 35px;
         }
 
         .color-list li a {
@@ -69,6 +75,11 @@
                         <li class="nav-item">
                             <a data-toggle="tab" class="nav-link" href="#contact">
                                 {{ __('labels.backend.general_settings.contact.title') }}
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a data-toggle="tab" class="nav-link" href="#footer">
+                                {{ __('labels.backend.general_settings.footer.title') }}
                             </a>
                         </li>
                     </ul>
@@ -303,7 +314,8 @@
                                         <option value="4">Layout 4</option>
                                     </select>
                                     <span class="help-text font-italic">{{__('labels.backend.general_settings.layout_note')}}</span>
-                                    <p id="sections_note" class="d-none font-weight-bold">Once you click on update, you will see list of sections to on/off.</p>
+                                    <p id="sections_note" class="d-none font-weight-bold">Once you click on update, you
+                                        will see list of sections to on/off.</p>
 
                                 </div><!--col-->
                             </div><!--form-group-->
@@ -523,12 +535,218 @@
                     </div>
                 </div><!--card-body-->
 
+                <div id="footer" class="tab-pane container fade">
+                    <div class="row mt-4 mb-4">
+                        <div class="col">
+                            <input type="hidden" id="footer_data" name="footer_data">
+                            <div class="form-group row">
+                                {{ html()->label(__('labels.backend.general_settings.footer.short_description'))->class('col-md-2 form-control-label')->for('short_description') }}
+
+                                <div class="col-md-8">
+                                    {{ html()->textarea('')
+                                        ->id('short_description')
+                                        ->class('form-control')
+                                        ->placeholder(__('labels.backend.general_settings.footer.short_description'))
+
+                                        ->value(config('footer.short_description'))
+                                        }}
+                                </div>
+                                <div class="col-md-2">
+                                    <p style="line-height: 35px">
+                                        <span class="mr-2">{{__('labels.backend.general_settings.contact.show')}}</span> {{ html()->label(html()->checkbox('')
+                                        ->checked()->class('switch-input status')->value(1)->checked()
+                                  . '<span class="switch-label"></span><span class="switch-handle"></span>')
+                              ->class('switch switch-sm switch-3d switch-primary')
+                          }} </p>
+                                </div>
+                            </div>
+                            @for($i=1; $i<=3; $i++)
+                                <div class="form-group row">
+                                    {{ html()->label(__('labels.backend.general_settings.footer.section_'.$i))->class('col-md-2 form-control-label')->for('section_1') }}
+                                    <div class="col-md-8 options">
+                                        <div class="row">
+                                            <div class="col-4">
+                                                {{ html()->label(html()->radio('section'.$i)
+                                          ->checked()->class('switch-input')->value(1)->checked()
+                                    . '<span class="switch-label"></span><span class="switch-handle"></span>')
+                                ->class('switch switch-sm switch-3d switch-success')}}
+                                                <span class="ml-2 title">{{__('labels.backend.general_settings.footer.popular_categories')}}</span>
+                                            </div>
+
+                                            <div class="col-4">
+                                                {{ html()->label(html()->radio('section'.$i)
+                                          ->class('switch-input')->value(2)
+                                     . '<span class="switch-label"></span><span class="switch-handle"></span>')
+                                 ->class('switch switch-sm switch-3d switch-success')}}
+                                                <span class="ml-2 title">{{__('labels.backend.general_settings.footer.featured_courses')}}</span>
+                                            </div>
+
+                                            <div class="col-4">
+                                                {{ html()->label(html()->radio('section'.$i)
+                                        ->class('switch-input')->value(3)
+                                   . '<span class="switch-label"></span><span class="switch-handle"></span>')
+                               ->class('switch switch-sm switch-3d switch-success')}}
+                                                <span class="ml-2 title">{{__('labels.backend.general_settings.footer.trending_courses')}}</span>
+
+                                            </div>
+
+                                            <div class="col-4">
+                                                {{ html()->label(html()->radio('section'.$i)
+                                          ->class('switch-input')->value(4)
+                                    . '<span class="switch-label"></span><span class="switch-handle"></span>')
+                                ->class('switch switch-sm switch-3d switch-success')}}
+                                                <span class="ml-2 title">{{__('labels.backend.general_settings.footer.popular_courses')}}</span>
+                                            </div>
+
+                                            <div class="col-4">
+                                                {{ html()->label(html()->radio('section'.$i)
+                                          ->class('switch-input custom_links')->value(5)
+                                    . '<span class="switch-label"></span><span class="switch-handle"></span>')
+                                ->class('switch switch-sm switch-3d switch-success')}}
+                                                <span class="ml-2 title">{{__('labels.backend.general_settings.footer.custom_links')}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <p style="line-height: 35px">
+                                            <span class="mr-2">{{__('labels.backend.general_settings.contact.show')}}</span> {{ html()->label(html()->checkbox('')
+                                        ->checked()->class('switch-input status')->value(1)->checked()
+                                  . '<span class="switch-label"></span><span class="switch-handle"></span>')
+                              ->class('switch switch-sm switch-3d switch-primary')
+                          }} </p>
+                                    </div>
+                                    <div class="col-10 offset-2 button-container">
+                                    </div>
+                                </div>
+                            @endfor
+
+                            <div class="form-group row">
+                                {{ html()->label(__('labels.backend.general_settings.footer.social_links'))->class('col-md-2 form-control-label')->for('social_links') }}
+
+                                <div class="col-md-4">
+                                    {{ html()->text('')
+                                        ->id('social_link_url')
+                                        ->class('form-control')
+                                        ->placeholder(__('labels.backend.general_settings.footer.link_url'))
+                                        }}
+                                    <span class="error text-danger"></span>
+                                </div>
+                                <div class="col-md-2">
+                                    <button class="btn  btn-block btn-default border" id="icon" name="icon"></button>
+                                </div>
+                                <div class="col-md-2">
+                                    <button type="button"
+                                            class="btn btn-block btn-light add-social-link border">{{ trans('strings.backend.general.app_add')}}
+                                        <i class="fa fa-plus"></i></button>
+                                </div>
+                                <div class="col-md-2">
+                                    <p style="line-height: 35px">
+                                        <span class="mr-2">{{__('labels.backend.general_settings.contact.show')}}</span> {{ html()->label(html()->checkbox('')
+                                        ->checked()->class('switch-input status')->value(1)->checked()
+                                  . '<span class="switch-label"></span><span class="switch-handle"></span>')
+                              ->class('switch switch-sm switch-3d switch-primary')
+                          }} </p>
+                                </div>
+                                <div class="col-md-10 offset-2">
+                                    <p class="font-italic">{!!  __('labels.backend.general_settings.footer.social_links_note') !!}</p>
+                                </div>
+                                <div class="col-md-8 offset-2 social-links-container">
+
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                {{ html()->label(__('labels.backend.general_settings.footer.newsletter_form'))->class('col-md-2 form-control-label')->for('newsletter_form') }}
+
+                                <div class="col-md-2">
+                                    <p style="line-height: 35px">
+                                        <span class="mr-2">{{__('labels.backend.general_settings.contact.show')}}</span> {{ html()->label(html()->checkbox('')
+                                        ->checked()->class('switch-input status')->value(1)->checked()
+                                  . '<span class="switch-label"></span><span class="switch-handle"></span>')
+                              ->class('switch switch-sm switch-3d switch-primary')
+                          }} </p>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                {{ html()->label(__('labels.backend.general_settings.footer.bottom_footer'))->class('col-md-2 form-control-label')->for('newsletter_form') }}
+
+                                <div class="col-md-10">
+                                    <p style="line-height: 35px">
+                                        <span class="mr-2">{{__('labels.backend.general_settings.contact.show')}}</span> {{ html()->label(html()->checkbox('')
+                                        ->checked()->class('switch-input status')->value(1)->checked()
+                                  . '<span class="switch-label"></span><span class="switch-handle"></span>')
+                              ->class('switch switch-sm switch-3d switch-primary')
+
+                          }}
+                                        <span class="ml-3 font-italic">{{__('labels.backend.general_settings.footer.bottom_footer_note')}}</span>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                {{ html()->label(__('labels.backend.general_settings.footer.copyright_text'))->class('col-md-2 form-control-label')->for('copyright_text') }}
+
+                                <div class="col-md-8">
+                                    {{ html()->text('')
+                                        ->id('copyright_text')
+                                        ->class('form-control')
+                                        ->placeholder(__('labels.backend.general_settings.footer.copyright_text'))
+                                        }}
+
+                                </div>
+                                <div class="col-md-2">
+                                    <p style="line-height: 35px">
+                                        <span class="mr-2">{{__('labels.backend.general_settings.contact.show')}}</span> {{ html()->label(html()->checkbox('')
+                                        ->checked()->class('switch-input status')->value(1)->checked()
+                                  . '<span class="switch-label"></span><span class="switch-handle"></span>')
+                              ->class('switch switch-sm switch-3d switch-primary')
+                          }} </p>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                {{ html()->label(__('labels.backend.general_settings.footer.footer_links'))->class('col-md-2 form-control-label')->for('footer_links') }}
+
+                                <div class="col-md-4">
+                                    {{ html()->text('')
+                                        ->id('footer_link_url')
+                                        ->class('form-control')
+                                        ->placeholder(__('labels.backend.general_settings.footer.link_url'))
+                                        }}
+                                    <span class="error text-danger"></span>
+
+                                </div>
+                                <div class="col-md-2">
+                                    {{ html()->text('')
+                                        ->id('footer_link_label')
+                                        ->class('form-control')
+                                        ->placeholder(__('labels.backend.general_settings.footer.link_label'))
+                                        }}
+                                </div>
+                                <div class="col-md-2">
+                                    <button type="button"
+                                            class="btn btn-block btn-light add-footer-link border">{{ trans('strings.backend.general.app_add')}}
+                                        <i class="fa fa-plus"></i></button>
+                                </div>
+                                <div class="col-md-2">
+                                    <p style="line-height: 35px">
+                                        <span class="mr-2">{{__('labels.backend.general_settings.contact.show')}}</span> {{ html()->label(html()->checkbox('')
+                                        ->checked()->class('switch-input status')->value(1)->checked()
+                                  . '<span class="switch-label"></span><span class="switch-handle"></span>')
+                              ->class('switch switch-sm switch-3d switch-primary')
+                          }} </p>
+                                </div>
+                                <div class="col-md-8 offset-2 footer-links-container">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="card-footer clearfix">
                     <div class="row">
                         <div class="col">
                             {{ form_cancel(route('admin.general-settings'), __('buttons.general.cancel')) }}
                         </div><!--col-->
-
                         <div class="col text-right">
                             {{ form_submit(__('buttons.general.crud.update'))->id('submit') }}
                         </div><!--col-->
@@ -543,28 +761,49 @@
 
 
 @push('after-scripts')
-
+    <script src="{{asset('plugins/bootstrap-iconpicker/js/bootstrap-iconpicker.bundle.min.js')}}"></script>
     <script>
         $(document).ready(function () {
 
+            //========= Initialisation for Iconpicker ===========//
+            $('#icon').iconpicker({
+                cols: 10,
+                icon: 'fab fa-facebook-f',
+                iconset: 'fontawesome5',
+                labelHeader: '{0} of {1} pages',
+                labelFooter: '{0} - {1} of {2} icons',
+                placement: 'bottom', // Only in button tag
+                rows: 5,
+                search: true,
+                searchText: 'Search',
+                selectedClass: 'btn-success',
+                unselectedClass: ''
+            });
+
+
+            //========== Preset theme layout ==============//
             @if(config('theme_layout') != "")
             $('#theme_layout').find('option').removeAttr('selected')
             $('#theme_layout').find('option[value="{{config('theme_layout')}}"]').attr('selected', 'selected');
             @endif
 
 
-
+            //============ Preset font color ===============//
             @if(config('font_color') != "")
             $('.color-list').find('li a').removeClass('active');
             $('.color-list').find('li a[data-color="{{config('font_color')}}"]').addClass('active');
             $('#font_color').val("{{config('font_color')}}");
             @endif
 
+
+            //========= Preset Layout type =================//
             @if(config('layout_type') != "")
             $('#layout_type').find('option').removeAttr('selected')
             $('#layout_type').find('option[value="{{config('layout_type')}}"]').attr('selected', 'selected');
             @endif
 
+
+            //=========== Preset Counter data =============//
             @if(config('counter') != "")
             @if((int)config('counter') == 1)
             $('.counter-container').removeClass('d-none')
@@ -575,14 +814,19 @@
             $('#counter-container').empty();
             @endif
 
+            @if(config('counter') != "")
+            $('.counter-container').removeClass('d-none');
+            @endif
+
             $('#counter').find('option').removeAttr('selected')
             $('#counter').find('option[value="{{config('counter')}}"]').attr('selected', 'selected');
-                    @endif
+            @endif
 
+
+            //=========Preset contact data ==========//
                     @if(config('contact_data'))
             var contact_data = "{{config('contact_data')}}";
             contact_data = JSON.parse(contact_data.replace(/&quot;/g, '"'));
-
 
             $(contact_data).each(function (key, element) {
                 if (element.name == 'location_on_map') {
@@ -601,12 +845,15 @@
             @endif
 
 
+            //============= Font Color selection =================//
             $(document).on('click', '.color-list li', function () {
                 $(this).siblings('li').find('a').removeClass('active')
                 $(this).find('a').addClass('active');
                 $('#font_color').val($(this).find('a').data('color'));
             });
 
+
+            //============== Captcha status =============//
             $(document).on('click', '#captcha_status', function (e) {
 //              e.preventDefault();
                 if ($('#captcha-credentials').hasClass('d-none')) {
@@ -619,6 +866,8 @@
                 }
             });
 
+
+            //===== Counter value on change ==========//
             $(document).on('change', '#counter', function () {
                 if ($(this).val() == 1) {
                     $('.counter-container').empty().removeClass('d-none');
@@ -630,35 +879,35 @@
                 }
             });
 
-            @if(config('counter') != "")
-            $('.counter-container').removeClass('d-none');
-                    @endif
 
+            //========== Preview image function on upload =============//
             var previewImage = function (input, block) {
-                    var fileTypes = ['jpg', 'jpeg', 'png', 'gif'];
-                    var extension = input.files[0].name.split('.').pop().toLowerCase();
-                    var isSuccess = fileTypes.indexOf(extension) > -1;
+                var fileTypes = ['jpg', 'jpeg', 'png', 'gif'];
+                var extension = input.files[0].name.split('.').pop().toLowerCase();
+                var isSuccess = fileTypes.indexOf(extension) > -1;
 
-                    if (isSuccess) {
-                        var reader = new FileReader();
+                if (isSuccess) {
+                    var reader = new FileReader();
 
-                        reader.onload = function (e) {
-                            $(block).find('img').attr('src', e.target.result);
-                        };
-                        reader.readAsDataURL(input.files[0]);
-                    } else {
-                        alert('Please input valid file!');
-                    }
+                    reader.onload = function (e) {
+                        $(block).find('img').attr('src', e.target.result);
+                    };
+                    reader.readAsDataURL(input.files[0]);
+                } else {
+                    alert('Please input valid file!');
+                }
 
-                };
+            };
             $(document).on('change', 'input[type="file"]', function () {
                 previewImage(this, $(this).data('preview'));
             });
 
 
+            //======= Saving settings for All tabs =================//
             $(document).on('submit', '#general-settings-form', function (e) {
-//                e.preventDefault()
-                //=====Saving Contact Details=====//
+                e.preventDefault();
+
+                //============Saving Contact Details=====//
                 var dataJson = {};
                 var inputs = $('#contact').find('input[type="text"],textarea,input[type="email"]');
                 var data = [];
@@ -676,24 +925,62 @@
                 dataJson = JSON.stringify(data);
                 $('#contact_data').val(dataJson);
 
-               //======Saving Layout sections details=====//
+
+                //======Saving Layout sections details=====//
                 var sections = $('#sections').find('input[type="checkbox"]');
                 var title, name;
                 var sections_data = {};
-                $(sections).each(function() {
-                    if($(this).is(':checked')){
+                $(sections).each(function () {
+                    if ($(this).is(':checked')) {
                         status = 1
-                    }else{
+                    } else {
                         status = 0
                     }
                     name = $(this).attr('id');
                     title = $(this).parent('label').siblings('.title').html();
-                    sections_data[name] = {title : title, status: status}
+                    sections_data[name] = {title: title, status: status}
                 });
                 $('#section_data').val(JSON.stringify(sections_data));
 
+
+                //====== Saving Footer section details =========//
+                var footer = $('#footer');
+                var footer_data = {};
+                var option,type,option_title,option_status,i,b,links;
+
+                var short_description = footer.find('#short_description').val();
+                var description_status = (footer.find('#short_description').parents('.form-group').find('.status').is(':checked')) ? 1 : 0;
+
+                footer_data['short_description'] = {id: short_description, status: description_status};
+
+                for( i =0; i <= $('.options').length; i++){
+                    if($('.options')[i]){
+                        option = $('.options')[i];
+                        type = $(option).find('input[type="radio"]:checked').val();
+                        option_title = $(option).find('input[type="radio"]:checked').attr('name')
+                        option_status = $(option).parents('.form-group').find('.status').is(':checked') ? 1 : 0;
+                        if(type != 5){
+                            footer_data[option_title] = {type: type, status: option_status};
+                        }else{
+                            links =  $(option).parents('.form-group').find('.button-wrapper');
+                           $(links).each(function () {
+                               //TODO:: Get link inputs and save to json//
+                               console.log($(this))
+                           })
+//                            footer_data['custom'] = {
+//                                type:type,
+//
+//                            }
+                        }
+                    }
+                }
+
+                console.log(footer_data)
+
             });
 
+
+            //==========Hiding sections on Theme layout option changed ==========//
             $(document).on('change', '#theme_layout', function () {
                 var theme_layout = "{{config('theme_layout')}}";
                 if ($(this).val() != theme_layout) {
@@ -703,7 +990,104 @@
                     $('#sections').removeClass('d-none');
                     $('#sections_note').addClass('d-none')
                 }
+            });
+
+
+            //====Checking checkbox inputs to show text input for Custom links in section====//
+            $(document).on('click', '.options input', function () {
+                var button_container = $(this).parents('.form-group').find('.button-container');
+
+                if ($(this).is(':checked') && $(this).val() == 5) {
+                    button_container.removeClass('d-none')
+                    if ($(button_container).find('.button-wrapper').length == 0) {
+                        var name = "{{__('labels.backend.general_settings.footer.link')}}";
+                        var link_label = "{{__('labels.backend.general_settings.footer.link_label')}}";
+                        var link_url = "{{__('labels.backend.general_settings.footer.link_url')}}";
+                        var html = "<div class='button-wrapper'> <h6 class='mt-3'> " + name + " </h6>" +
+                            "<div class='row'>" +
+                            "<div class='col-lg-5'>" +
+                            "<input type='text' required name='button_link' class='form-control' placeholder='" + link_url + "'>" +
+                            "</div>" +
+                            "<div class='col-lg-5'>" +
+                            "<input type='text' required name='button_label' class='form-control' placeholder='" + link_label + "'>" +
+                            "</div>" +
+                            "<div class='col-lg-2'><buttton class='remove btn-danger btn mr-2'><i class='fa fa-times'></i></buttton><buttton class='add btn btn-success  '><i class='fa fa-plus'></i></buttton></div>";
+
+                        $(button_container).append(html);
+                    }
+                } else {
+                    button_container.addClass('d-none');
+                }
+
             })
+
+
+            //==========Remove Custom links to Sections============//
+            $(document).on('click', '.remove', function () {
+                if (confirm('Are you sure want to remove link?')) {
+                    $(this).parents('.button-wrapper').remove();
+                    $('#buttons').val($('.button-wrapper').length)
+                }
+            });
+
+
+            //=========Add Custom links to Sections==============//
+            $(document).on('click', '.add', function () {
+                var button_container = $(this).parents('.form-group').find('.button-container');
+                if ($(button_container).find('.button-wrapper').length <= 5) {
+                    var name = "{{__('labels.backend.general_settings.footer.link')}}";
+                    var link_label = "{{__('labels.backend.general_settings.footer.link_label')}}";
+                    var link_url = "{{__('labels.backend.general_settings.footer.link_url')}}";
+                    var html = "<div class='button-wrapper'> <h6 class='mt-3'> " + name + " </h6>" +
+                        "<div class='row'>" +
+                        "<div class='col-lg-5'>" +
+                        "<input type='text' required name='button_link' class='form-control' placeholder='" + link_url + "'>" +
+                        "</div>" +
+                        "<div class='col-lg-5'>" +
+                        "<input type='text' required name='button_label' class='form-control' placeholder='" + link_label + "'>" +
+                        "</div>" +
+                        "<div class='col-lg-2'><buttton class='remove btn-danger btn mr-2'><i class='fa fa-times'></i></buttton><buttton class='add btn btn-success  '><i class='fa fa-plus'></i></buttton></div>";
+
+                    $(button_container).append(html);
+                } else {
+                    alert('Maximum limit of button exceeded!')
+                }
+            });
+
+
+            //=========Adding social links====================//
+            $(document).on('click', '.add-social-link', function () {
+                if ($('#social_link_url').val() == "") {
+                    $('#social_link_url').siblings('span').empty().html('Please input value')
+                } else {
+                    var icon = $('input[name="icon"]').val();
+                    var url = $('#social_link_url').val();
+                    $('#social_link_url').siblings('span').empty();
+                    var html = "<div class='alert border alert-light alert-dismissible fade show'> " +
+                        "<button type='button' class='close' data-dismiss='alert'>&times;</button> " +
+                        "<strong><i class='" + icon + " mr-2'></i></strong> " + url + "</div>";
+                    $('.social-links-container').append(html)
+                    $('#social_link_url').val('');
+                }
+            });
+
+
+            //======== Add footer links ===========//
+            $(document).on('click', '.add-footer-link', function () {
+                if ($('#footer_link_url').val() == "" || $('#footer_link_label').val() == "") {
+                    $('#footer_link_url').siblings('span').empty().html('Please input valid value')
+                } else {
+                    var label = $('#footer_link_label').val();
+                    var url = $('#footer_link_url').val();
+                    $('#footer_link_url').siblings('span').empty();
+                    var html = "<div class='alert border alert-light alert-dismissible fade show'> " +
+                        "<button type='button' class='close' data-dismiss='alert'>&times;</button> " +
+                        "<strong>" + label + "</strong> <a target='_blank' href='" + url + "'>" + url + "</a></div>";
+                    $('.footer-links-container').append(html)
+                    $('#footer_link_url').val('');
+                    $('#footer_link_label').val('');
+                }
+            });
         });
 
     </script>

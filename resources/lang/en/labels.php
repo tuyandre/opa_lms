@@ -368,7 +368,31 @@ return [
             ],
             'logos'=>[
                 'title' => 'Logos'
-            ]
+            ],
+            'footer'=>[
+                'title' => 'Footer',
+                'short_description' => 'Short Description',
+                'section_1' => 'Section 1',
+                'section_2' => 'Section 2',
+                'section_3' => 'Section 3',
+                'popular_courses' => 'Popular courses',
+                'featured_courses' => 'Featured courses',
+                'trending_courses' => 'Trending courses',
+                'popular_categories' => 'Popular categories',
+                'recent_news' => 'Recent News',
+                'custom_links' => 'Custom Links',
+                'social_links' => 'Social Links',
+                'social_links_note' => 'Add social link URL and select Icon for that media from iconpicker. Click on <b>ADD +</b> button. And your social link will be created. You can also delete them by clicking on <b><i class="fa fa-times"></i></b> button',
+                'newsletter_form' => 'Newsletter Form',
+                'bottom_footer' => 'Bottom Footer',
+                'bottom_footer_note' => 'Note : it includes Copyright text and Footer links',
+                'copyright_text' => 'Copyright Text',
+                'footer_links' => 'Footer Links',
+                'link' => 'Link',
+                'link_label' => 'Label',
+                'link_url' => 'URL',
+            ],
+
 
         ],
         'hero_slider' => [
