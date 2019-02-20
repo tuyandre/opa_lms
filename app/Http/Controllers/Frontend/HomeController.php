@@ -33,7 +33,7 @@ class HomeController extends Controller
         $featured_courses = Course::where('published','=',1)
             ->where('featured','=',1)->take(8)->get();
 
-        $course_categories = Category::with('courses')->where('icon','!=',"")->take(8)->get();
+        $course_categories = Category::with('courses')->where('icon','!=',"")->take(12)->get();
 
         $trending_courses = Course::where('published','=',1)
             ->where('trending','=',1)->take(2)->get();

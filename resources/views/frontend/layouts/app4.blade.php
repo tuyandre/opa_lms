@@ -173,7 +173,7 @@
                                     <li><a href="#faq">faq</a></li>
                                     <li><a href="#latest-area">BLOG</a></li>
                                     <li><a href="#contact-form">Contact Us</a></li>
-                                    <li><a href="{{url('forums')}}">Contact Us</a></li>
+                                    <li><a href="{{url('forums')}}">Forums</a></li>
 
                                     @if(auth()->check())
                                         <li class="menu-item-has-children ul-li-block">

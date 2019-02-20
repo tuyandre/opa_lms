@@ -64,11 +64,17 @@ class ConfigSeeder extends Seeder
 
         $contact_data = json_encode($contact_data);
         $sections_layout1 = json_encode(config('sections.layout_1'));
+        $sections_layout2 = json_encode(config('sections.layout_2'));
+        $sections_layout3 = json_encode(config('sections.layout_3'));
+        $sections_layout4 = json_encode(config('sections.layout_4'));
         $data = [
             'theme_layout' => 1,
             'font_color' => 'default',
             'layout_type' => 'wide',
             'layout_1' => $sections_layout1,
+            'layout_2' => $sections_layout2,
+            'layout_3' => $sections_layout3,
+            'layout_4' => $sections_layout4,
             'counter' => '1',
             'total_students' => '1M+',
             'total_courses' => '1K+',
