@@ -1,5 +1,8 @@
 <!-- Start of footer area
     ============================================= -->
+@php
+
+@endphp
 <footer>
     <section id="footer-area" class="footer-area-section">
         <div class="container">

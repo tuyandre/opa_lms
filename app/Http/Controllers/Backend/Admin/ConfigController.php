@@ -15,8 +15,10 @@ class ConfigController extends Controller
     {
         $type = config('theme_layout');
         $sections = Config::where('key','=','layout_'.$type)->first();
+        $footer_data = Config::where('key','=','footer_data')->first();
+        $footer_data = json_decode($footer_data->value);
         $sections = json_decode($sections->value);
-        return view('backend.settings.general',compact('sections'));
+        return view('backend.settings.general',compact('sections','footer_data'));
     }
 
     public function saveGeneralSettings(Request $request)

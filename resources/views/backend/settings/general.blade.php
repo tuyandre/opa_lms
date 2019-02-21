@@ -541,14 +541,11 @@
                             <input type="hidden" id="footer_data" name="footer_data">
                             <div class="form-group row">
                                 {{ html()->label(__('labels.backend.general_settings.footer.short_description'))->class('col-md-2 form-control-label')->for('short_description') }}
-
                                 <div class="col-md-8">
-                                    {{ html()->textarea('')
+                                    {{ html()->textarea()
                                         ->id('short_description')
                                         ->class('form-control')
                                         ->placeholder(__('labels.backend.general_settings.footer.short_description'))
-
-                                        ->value(config('footer.short_description'))
                                         }}
                                 </div>
                                 <div class="col-md-2">
@@ -562,12 +559,12 @@
                             </div>
                             @for($i=1; $i<=3; $i++)
                                 <div class="form-group row">
-                                    {{ html()->label(__('labels.backend.general_settings.footer.section_'.$i))->class('col-md-2 form-control-label')->for('section_1') }}
+                                    {{ html()->label(__('labels.backend.general_settings.footer.section_'.$i))->class('col-md-2 form-control-label')->for('section'.$i) }}
                                     <div class="col-md-8 options">
                                         <div class="row">
                                             <div class="col-4">
                                                 {{ html()->label(html()->radio('section'.$i)
-                                          ->checked()->class('switch-input')->value(1)->checked()
+                                          ->checked()->class('switch-input section'.$i)->value(1)->checked()
                                     . '<span class="switch-label"></span><span class="switch-handle"></span>')
                                 ->class('switch switch-sm switch-3d switch-success')}}
                                                 <span class="ml-2 title">{{__('labels.backend.general_settings.footer.popular_categories')}}</span>
@@ -575,7 +572,7 @@
 
                                             <div class="col-4">
                                                 {{ html()->label(html()->radio('section'.$i)
-                                          ->class('switch-input')->value(2)
+                                          ->class('switch-input section'.$i)->value(2)
                                      . '<span class="switch-label"></span><span class="switch-handle"></span>')
                                  ->class('switch switch-sm switch-3d switch-success')}}
                                                 <span class="ml-2 title">{{__('labels.backend.general_settings.footer.featured_courses')}}</span>
@@ -583,7 +580,7 @@
 
                                             <div class="col-4">
                                                 {{ html()->label(html()->radio('section'.$i)
-                                        ->class('switch-input')->value(3)
+                                        ->class('switch-input section'.$i)->value(3)
                                    . '<span class="switch-label"></span><span class="switch-handle"></span>')
                                ->class('switch switch-sm switch-3d switch-success')}}
                                                 <span class="ml-2 title">{{__('labels.backend.general_settings.footer.trending_courses')}}</span>
@@ -592,7 +589,7 @@
 
                                             <div class="col-4">
                                                 {{ html()->label(html()->radio('section'.$i)
-                                          ->class('switch-input')->value(4)
+                                          ->class('switch-input section'.$i)->value(4)
                                     . '<span class="switch-label"></span><span class="switch-handle"></span>')
                                 ->class('switch switch-sm switch-3d switch-success')}}
                                                 <span class="ml-2 title">{{__('labels.backend.general_settings.footer.popular_courses')}}</span>
@@ -600,7 +597,7 @@
 
                                             <div class="col-4">
                                                 {{ html()->label(html()->radio('section'.$i)
-                                          ->class('switch-input custom_links')->value(5)
+                                          ->class('switch-input custom_links section'.$i)->value(5)
                                     . '<span class="switch-label"></span><span class="switch-handle"></span>')
                                 ->class('switch switch-sm switch-3d switch-success')}}
                                                 <span class="ml-2 title">{{__('labels.backend.general_settings.footer.custom_links')}}</span>
@@ -661,7 +658,7 @@
                                 <div class="col-md-2">
                                     <p style="line-height: 35px">
                                         <span class="mr-2">{{__('labels.backend.general_settings.contact.show')}}</span> {{ html()->label(html()->checkbox('')
-                                        ->checked()->class('switch-input status')->value(1)->checked()
+                                        ->checked()->class('switch-input newsletter-form status')->value(1)->checked()
                                   . '<span class="switch-label"></span><span class="switch-handle"></span>')
                               ->class('switch switch-sm switch-3d switch-primary')
                           }} </p>
@@ -673,7 +670,7 @@
                                 <div class="col-md-10">
                                     <p style="line-height: 35px">
                                         <span class="mr-2">{{__('labels.backend.general_settings.contact.show')}}</span> {{ html()->label(html()->checkbox('')
-                                        ->checked()->class('switch-input status')->value(1)->checked()
+                                        ->checked()->class('switch-input bottom-footer status')->value(1)->checked()
                                   . '<span class="switch-label"></span><span class="switch-handle"></span>')
                               ->class('switch switch-sm switch-3d switch-primary')
 
@@ -696,7 +693,7 @@
                                 <div class="col-md-2">
                                     <p style="line-height: 35px">
                                         <span class="mr-2">{{__('labels.backend.general_settings.contact.show')}}</span> {{ html()->label(html()->checkbox('')
-                                        ->checked()->class('switch-input status')->value(1)->checked()
+                                        ->checked()->class('switch-input status')->value(1)
                                   . '<span class="switch-label"></span><span class="switch-handle"></span>')
                               ->class('switch switch-sm switch-3d switch-primary')
                           }} </p>
@@ -729,7 +726,7 @@
                                 <div class="col-md-2">
                                     <p style="line-height: 35px">
                                         <span class="mr-2">{{__('labels.backend.general_settings.contact.show')}}</span> {{ html()->label(html()->checkbox('')
-                                        ->checked()->class('switch-input status')->value(1)->checked()
+                                        ->checked()->class('switch-input status')->value(1)
                                   . '<span class="switch-label"></span><span class="switch-handle"></span>')
                               ->class('switch switch-sm switch-3d switch-primary')
                           }} </p>
@@ -824,7 +821,7 @@
 
 
             //=========Preset contact data ==========//
-                    @if(config('contact_data'))
+            @if(config('contact_data'))
             var contact_data = "{{config('contact_data')}}";
             contact_data = JSON.parse(contact_data.replace(/&quot;/g, '"'));
 
@@ -843,6 +840,85 @@
                 }
             })
             @endif
+
+
+            //========== Preset Footer Data ===========//
+            @if(config('footer_data'))
+            var footer_data = "{{config('footer_data')}}";
+            footer_data = JSON.parse(footer_data.replace(/&quot;/g, '"'));
+            var footer = $('#footer');
+            var status;
+
+            //== Preset Short description
+            footer.find('#short_description').val(footer_data.short_description.text);
+            status = (footer_data.short_description.status === 1);
+            footer.find('#short_description').parents('.form-group').find('.status').attr('checked',status);
+
+            //== Preset Section inputs data
+            footer.find('.section1[value="'+footer_data.section1.type+'"]').attr('checked',true);
+            status = (footer_data.section1.status === 1);
+            footer.find('.section1[value="'+footer_data.section1.type+'"]').parents('.form-group').find('.status').attr('checked',status);
+            if(footer_data.section1.type == 5){
+               presetCustomLinks( footer.find('.section1[value="'+footer_data.section1.type+'"]'),footer_data.section1.links)
+            }
+
+            footer.find('.section2[value="'+footer_data.section2.type+'"]').attr('checked',true);
+            status = (footer_data.section2.status === 1);
+            footer.find('.section2[value="'+footer_data.section2.type+'"]').parents('.form-group').find('.status').attr('checked',status);
+            if(footer_data.section2.type == 5){
+                presetCustomLinks( footer.find('.section2[value="'+footer_data.section2.type+'"]'),footer_data.section2.links)
+            }
+
+            footer.find('.section3[value="'+footer_data.section3.type+'"]').attr('checked',true);
+            status = (footer_data.section3.status === 1);
+            footer.find('.section3[value="'+footer_data.section3.type+'"]').parents('.form-group').find('.status').attr('checked',status);
+            if(footer_data.section3.type == 5){
+                presetCustomLinks( footer.find('.section3[value="'+footer_data.section3.type+'"]'),footer_data.section3.links)
+            }
+
+
+            @endif
+
+            //== Preset Social links data
+            $(footer_data.social_links.links).each(function (key,link_data) {
+                var html = "<div class='alert border alert-light alert-dismissible social-link-wrapper fade show'> " +
+                "<button type='button' class='close' data-dismiss='alert'>&times;</button> " +
+                "<strong><i class='" + link_data.icon + " mr-2'></i></strong><span data-icon='" + link_data.icon + "' class='mb-0 social-link-data'> " + link_data.link + "</span></div>";
+            $('.social-links-container').append(html);
+            });
+            status = (footer_data.social_links.status === 1);
+            footer.find('.social-links-container').parents('.form-group').find('.status').attr('checked',status);
+
+            //== Preset newsletter form checkbox
+            status = (footer_data.newsletter_form.status === 1);
+            $('.newsletter-form').attr('checked',status);
+
+            //=== Preset Bottom Footer status
+            status = (footer_data.bottom_footer.status === 1);
+            $('.bottom-footer').attr('checked',status);
+
+
+            //== Preset Copyright text
+            status = (footer_data.copyright_text.status === 1);
+            footer.find('#copyright_text').val(footer_data.copyright_text.text)
+            footer.find('#copyright_text').parents('.form-group').find('.status').attr('checked',status);
+
+            //== Bottom footer links
+            status = (footer_data.bottom_footer_links.status === 1);
+            footer.find('#footer_link_label').parents('.form-group').find('.status').attr('checked',status);
+            $(footer_data.bottom_footer_links.links).each(function (key,link_data) {
+                var html = "<div class='alert border alert-light footer-link-wrapper alert-dismissible fade show'> " +
+                    "<button type='button' class='close' data-dismiss='alert'>&times;</button> " +
+                    "<strong class='footer-link-label'>" + link_data.label + "</strong> <a target='_blank' href='" + link_data.link + "'>" + link_data.link + "</a></div>";
+                $('.footer-links-container').append(html)
+            });
+
+
+
+
+
+
+
 
 
             //============= Font Color selection =================//
@@ -905,7 +981,7 @@
 
             //======= Saving settings for All tabs =================//
             $(document).on('submit', '#general-settings-form', function (e) {
-                e.preventDefault();
+//                e.preventDefault();
 
                 //============Saving Contact Details=====//
                 var dataJson = {};
@@ -946,37 +1022,94 @@
                 //====== Saving Footer section details =========//
                 var footer = $('#footer');
                 var footer_data = {};
-                var option,type,option_title,option_status,i,b,links;
+                var option, type, option_title, option_status, i, b, links, label, link;
 
                 var short_description = footer.find('#short_description').val();
                 var description_status = (footer.find('#short_description').parents('.form-group').find('.status').is(':checked')) ? 1 : 0;
 
-                footer_data['short_description'] = {id: short_description, status: description_status};
+                footer_data['short_description'] = {text: short_description, status: description_status};
 
-                for( i =0; i <= $('.options').length; i++){
-                    if($('.options')[i]){
+                //== Saving data for Footer links ==//
+                for (i = 0; i <= $('.options').length; i++) {
+                    if ($('.options')[i]) {
                         option = $('.options')[i];
                         type = $(option).find('input[type="radio"]:checked').val();
                         option_title = $(option).find('input[type="radio"]:checked').attr('name')
                         option_status = $(option).parents('.form-group').find('.status').is(':checked') ? 1 : 0;
-                        if(type != 5){
+                        if (type != 5) {
                             footer_data[option_title] = {type: type, status: option_status};
-                        }else{
-                            links =  $(option).parents('.form-group').find('.button-wrapper');
-                           $(links).each(function () {
-                               //TODO:: Get link inputs and save to json//
-                               console.log($(this))
-                           })
-//                            footer_data['custom'] = {
-//                                type:type,
-//
-//                            }
+                        } else {
+                            var link_list = [];
+                            links = $(option).parents('.form-group').find('.button-wrapper');
+                            $(links).each(function () {
+                                label = $(this).find('.button_label').val()
+                                link = $(this).find('.button_link').val()
+                                link_list.push({label: label, link: link})
+                            })
+                            footer_data[option_title] = {
+                                type: type,
+                                links: link_list,
+                                status: option_status
+                            }
                         }
                     }
                 }
 
-                console.log(footer_data)
 
+                //=== Saving Social links for footer ===//
+                var social_links = $('.social-links-container').find('.social-link-wrapper');
+                var icon, link, link_list = [];
+                $(social_links).each(function () {
+                    icon = $(this).find('.social-link-data').data('icon');
+                    link = $(this).find('.social-link-data').text().trim();
+                    link_list.push({icon: icon, link: link})
+
+                });
+                status = (footer.find('.social-links-container').parents('.form-group').find('.status').is(':checked')) ? 1 : 0;
+                footer_data['social_links'] = {status:status,links:link_list};
+
+                //==== Newsletter form status ====//
+                if($('.newsletter-form').is(':checked')){
+                    footer_data['newsletter_form'] = {status : 1}
+                }else{
+                    footer_data['newsletter_form'] = {status : 0}
+                }
+
+                //=== Bottom Footer status ====//
+                if($('.bottom-footer').is(':checked')){
+                    footer_data['bottom_footer'] = {status : 1}
+                }else{
+                    footer_data['bottom_footer'] = {status : 0}
+                }
+
+                //=== Copyright Text ===//
+                var copy_text = $('#copyright_text').val();
+                var status_checkbox = $('#copyright_text').parents('.form-group').find('.status');
+                if($(status_checkbox).is(':checked')){
+                   status = 1;
+                }else{
+                    status = 0;
+                }
+                footer_data['copyright_text'] = {text:copy_text,status:status}
+
+                //=== Bottom Footer links ===//
+                var footer_links = $('.footer-links-container').find('.footer-link-wrapper');
+                var label, link, link_list = [];
+                $(footer_links).each(function () {
+                    label = $(this).find('.footer-link-label').text().trim();
+                    link = $(this).find('.footer-link-label').siblings('a').attr('href');
+                    console.log(label+' and '+link)
+                    link_list.push({label: label, link: link})
+                });
+                var status_checkbox = $('.footer-links-container').parents('.form-group').find('.status');
+                if($(status_checkbox).is(':checked')){
+                    status = 1;
+                }else{
+                    status = 0;
+                }
+
+                footer_data['bottom_footer_links'] = {status:status,links:link_list};
+                $('#footer_data').val(JSON.stringify(footer_data))
             });
 
 
@@ -1006,10 +1139,10 @@
                         var html = "<div class='button-wrapper'> <h6 class='mt-3'> " + name + " </h6>" +
                             "<div class='row'>" +
                             "<div class='col-lg-5'>" +
-                            "<input type='text' required name='button_link' class='form-control' placeholder='" + link_url + "'>" +
+                            "<input type='text' required name=''  class='form-control button_link' placeholder='" + link_url + "'>" +
                             "</div>" +
                             "<div class='col-lg-5'>" +
-                            "<input type='text' required name='button_label' class='form-control' placeholder='" + link_label + "'>" +
+                            "<input type='text' required name='' class='form-control button_label' placeholder='" + link_label + "'>" +
                             "</div>" +
                             "<div class='col-lg-2'><buttton class='remove btn-danger btn mr-2'><i class='fa fa-times'></i></buttton><buttton class='add btn btn-success  '><i class='fa fa-plus'></i></buttton></div>";
 
@@ -1024,10 +1157,15 @@
 
             //==========Remove Custom links to Sections============//
             $(document).on('click', '.remove', function () {
-                if (confirm('Are you sure want to remove link?')) {
-                    $(this).parents('.button-wrapper').remove();
-                    $('#buttons').val($('.button-wrapper').length)
+                if($(this).parents('.form-group').find('.button-wrapper').length > 1){
+                    if (confirm('Are you sure want to remove link?')) {
+                        $(this).parents('.button-wrapper').remove();
+                        $('#buttons').val($('.button-wrapper').length)
+                    }
+                }else{
+                    alert('Minimum one link is required for this selection')
                 }
+
             });
 
 
@@ -1041,13 +1179,12 @@
                     var html = "<div class='button-wrapper'> <h6 class='mt-3'> " + name + " </h6>" +
                         "<div class='row'>" +
                         "<div class='col-lg-5'>" +
-                        "<input type='text' required name='button_link' class='form-control' placeholder='" + link_url + "'>" +
+                        "<input type='text' required name='' class='form-control button_link' placeholder='" + link_url + "'>" +
                         "</div>" +
                         "<div class='col-lg-5'>" +
-                        "<input type='text' required name='button_label' class='form-control' placeholder='" + link_label + "'>" +
+                        "<input type='text' required name='' class='form-control button_label' placeholder='" + link_label + "'>" +
                         "</div>" +
                         "<div class='col-lg-2'><buttton class='remove btn-danger btn mr-2'><i class='fa fa-times'></i></buttton><buttton class='add btn btn-success  '><i class='fa fa-plus'></i></buttton></div>";
-
                     $(button_container).append(html);
                 } else {
                     alert('Maximum limit of button exceeded!')
@@ -1063,10 +1200,10 @@
                     var icon = $('input[name="icon"]').val();
                     var url = $('#social_link_url').val();
                     $('#social_link_url').siblings('span').empty();
-                    var html = "<div class='alert border alert-light alert-dismissible fade show'> " +
+                    var html = "<div class='alert border alert-light alert-dismissible social-link-wrapper fade show'> " +
                         "<button type='button' class='close' data-dismiss='alert'>&times;</button> " +
-                        "<strong><i class='" + icon + " mr-2'></i></strong> " + url + "</div>";
-                    $('.social-links-container').append(html)
+                        "<strong><i class='" + icon + " mr-2'></i></strong><span data-icon='" + icon + "' class='mb-0 social-link-data'> " + url + "</span></div>";
+                    $('.social-links-container').append(html);
                     $('#social_link_url').val('');
                 }
             });
@@ -1080,15 +1217,34 @@
                     var label = $('#footer_link_label').val();
                     var url = $('#footer_link_url').val();
                     $('#footer_link_url').siblings('span').empty();
-                    var html = "<div class='alert border alert-light alert-dismissible fade show'> " +
+                    var html = "<div class='alert border alert-light footer-link-wrapper alert-dismissible fade show'> " +
                         "<button type='button' class='close' data-dismiss='alert'>&times;</button> " +
-                        "<strong>" + label + "</strong> <a target='_blank' href='" + url + "'>" + url + "</a></div>";
+                        "<strong class='footer-link-label'>" + label + "</strong> <a target='_blank' href='" + url + "'>" + url + "</a></div>";
                     $('.footer-links-container').append(html)
                     $('#footer_link_url').val('');
                     $('#footer_link_label').val('');
                 }
             });
         });
+
+        function presetCustomLinks(element,data){
+            var name = "{{__('labels.backend.general_settings.footer.link')}}";
+
+            var button_container = $(element).parents('.form-group').find('.button-container');
+            $(data).each(function (key,link_data) {
+                var html = "<div class='button-wrapper'> <h6 class='mt-3'> " + name + " </h6>" +
+                    "<div class='row'>" +
+                    "<div class='col-lg-5'>" +
+                    "<input type='text' required name=''  class='form-control button_link' value='" + link_data.link + "'>" +
+                    "</div>" +
+                    "<div class='col-lg-5'>" +
+                    "<input type='text' required name='' class='form-control button_label' value='" + link_data.label + "'>" +
+                    "</div>" +
+                    "<div class='col-lg-2'><buttton class='remove btn-danger btn mr-2'><i class='fa fa-times'></i></buttton><buttton class='add btn btn-success  '><i class='fa fa-plus'></i></buttton></div>";
+
+                $(button_container).append(html);
+            });
+        }
 
     </script>
 @endpush
