@@ -180,3 +180,94 @@ if (!function_exists('contact_data')) {
         return $newElements;
     }
 }
+
+if (!function_exists('section_filter')) {
+
+    /**
+     * @param $str
+     * Filter according to type selected.
+     * 1 = Popular Categories
+     * 2 = Featured Course
+     * 3 = Trending Courses
+     * 4 = Popular Courses
+     * 5 = Custom Links
+     * @return array
+     */
+    function section_filter($section)
+    {
+        $type = $section->type;
+        $section_data = "";
+        $section_title = "";
+        $content = [];
+
+        if ($type == 1) {
+            $section_content = \App\Models\Category::has('courses', '>', 7)
+                ->where('status', '=', 1)->get()->take(6);
+            $section_title = 'Popular Categories';
+            foreach ($section_content as $item){
+               $single_item = [
+                   'label' => $item->name,
+                   'link' => route('courses.category',['category'=>$item->slug])
+               ];
+                $content[] = $single_item;
+            }
+        } else if ($type == 2) {
+            $section_content = \App\Models\Course::where('featured', '=', 1)
+                ->where('published', '=', 1)
+                ->orderBy('created_at', 'desc')
+                ->take(6)
+                ->get();
+            $section_title = 'Featured Courses';
+            foreach ($section_content as $item){
+                $single_item = [
+                    'label' => $item->title,
+                    'link' =>  route('courses.show', [$item->slug])
+                ];
+                $content[] = $single_item;
+            }
+
+        } else if ($type == 3) {
+            $section_content = \App\Models\Course::where('trending', '=', 1)
+                ->where('published', '=', 1)
+                ->orderBy('created_at', 'desc')
+                ->take(6)
+                ->get();
+            $section_title = 'Trending Courses';
+            foreach ($section_content as $item){
+                $single_item = [
+                    'label' => $item->title,
+                    'link' =>  route('courses.show', [$item->slug])
+                ];
+                $content[] = $single_item;
+            }
+
+        } else if ($type == 4) {
+            $section_content = \App\Models\Course::where('popular', '=', 1)
+                ->where('published', '=', 1)
+                ->orderBy('created_at', 'desc')
+                ->take(6)
+                ->get();
+            $section_title = 'Popular Courses';
+            foreach ($section_content as $item){
+                $single_item = [
+                    'label' => $item->title,
+                    'link' =>  route('courses.show', [$item->slug])
+                ];
+                $content[] = $single_item;
+            }
+
+        } else if ($type == 5) {
+            $section_title = 'Useful Links';
+            $section_content = $section->links;
+            foreach ($section_content as $item){
+                $single_item = [
+                    'label' => $item->label,
+                    'link' =>  $item->link
+                ];
+                $content[] = $single_item;
+            }
+        }
+
+        return ['section_content' => $content, 'section_title' => $section_title];
+    }
+}
