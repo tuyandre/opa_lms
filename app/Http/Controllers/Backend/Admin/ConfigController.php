@@ -89,4 +89,14 @@ class ConfigController extends Controller
 
         return back()->withFlashSuccess(__('alerts.backend.general.updated'));
     }
+
+    public function getContact(){
+        $contact_data = config('contact_data');
+        return view('backend.settings.contact',compact('contact_data'));
+    }
+
+    public function getFooter(){
+        $footer_data = config('footer_data');
+        return view('backend.settings.footer',compact('footer_data'));
+    }
 }

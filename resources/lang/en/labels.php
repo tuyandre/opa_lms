@@ -464,7 +464,7 @@ return [
             ]
         ],
         'blogs' => [
-            'title' => 'Blogs',
+            'title' => 'Blog',
             'create' => 'Create Blog',
             'edit' => 'Edit Blog',
             'view' => 'View Blogs',
@@ -500,6 +500,7 @@ return [
                 'status' => 'Status',
             ]
         ],
+
         'logo' => [
             'title' => 'Change Logo',
             'logo_b' => 'Logo 1',

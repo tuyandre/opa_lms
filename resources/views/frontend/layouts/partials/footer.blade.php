@@ -91,7 +91,7 @@
                     @if($footer_data->copyright_text->status == 1)
                     <div class="col-md-6">
                         <div class="copy-right-text">
-                            <p>{{$footer_data->copyright_text->text}}</p>
+                            <p>{!!  $footer_data->copyright_text->text !!}</p>
                         </div>
                     </div>
                     @endif

@@ -101,13 +101,25 @@ return [
                 'title' => 'Testimonials',
             ],
             'blogs'    => [
-                'title' => 'Blogs',
+                'title' => 'Blog',
             ],
             'faqs'    => [
                 'title' => 'FAQs',
             ],
             'reasons'    => [
                 'title' => 'Reasons',
+            ],
+            'site-management'    => [
+                'title' => 'Site Management',
+            ],
+            'contact'    => [
+                'title' => 'Contact',
+            ],
+            'footer'    => [
+                'title' => 'Footer',
+            ],
+            'debug-site'    => [
+                'title' => 'Debug Site',
             ],
             /*===========================*/
         ],

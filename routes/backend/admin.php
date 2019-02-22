@@ -105,6 +105,9 @@ Route::post('settings/general', ['uses' =>'Admin\ConfigController@saveGeneralSet
 Route::get('settings/social', ['uses' =>'Admin\ConfigController@getSocialSettings'])->name('social-settings');
 Route::post('settings/social', ['uses' =>'Admin\ConfigController@saveSocialSettings'])->name('social-settings');
 
+Route::get('contact', ['uses' =>'Admin\ConfigController@getContact'])->name('contact-settings');
+Route::get('footer', ['uses' =>'Admin\ConfigController@getFooter'])->name('footer-settings');
+
 
 //===== Slider Routes =====/
 Route::resource('sliders', 'Admin\SliderController');
@@ -155,5 +158,4 @@ Route::resource('reasons', 'Admin\ReasonController');
 Route::get('get-reasons-data', ['uses' => 'Admin\ReasonController@getData', 'as' => 'reasons.get_data']);
 Route::post('reasons_mass_destroy', ['uses' => 'Admin\ReasonController@massDestroy', 'as' => 'reasons.mass_destroy']);
 Route::get('reasons/status/{id}', 'Admin\ReasonController@status')->name('reasons.status');
-
 
