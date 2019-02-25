@@ -8,7 +8,9 @@
         }
     </style>
 @endpush
-
+@php
+    $footer_data = json_decode(config('footer_data'));
+@endphp
 @section('content')
 
     <!-- Start of slider section
@@ -413,6 +415,7 @@
                 </div>
             </div>
         </div>
+
         <div class="footer_2 backgroud-style">
             <div class="container">
                 <div class="back-top text-center mb45">
@@ -423,7 +426,11 @@
                 </div>
 
                 <div class="footer_2_subs text-center">
-                    <p>We take our mission of increasing global access to quality education seriously. </p>
+                    @if($footer_data->short_description->status == 1)
+                    <p>{!! $footer_data->short_description->text !!} </p>
+                    @endif
+
+                    @if($footer_data->newsletter_form->status == 1)
                     <div class="subs-form relative-position">
                         <form action="#" method="post">
                             <input class="course" name="course" type="email" placeholder="Email Address.">
@@ -432,36 +439,45 @@
                             </div>
                         </form>
                     </div>
+                    @endif
                 </div>
+                @if($footer_data->bottom_footer->status == 1)
                 <div class="copy-right-menu">
                     <div class="row">
+                        @if($footer_data->copyright_text->status == 1)
                         <div class="col-md-5">
                             <div class="copy-right-text">
-                                <p>© 2018 - Designed & Developed by <a href="https://jthemes.com"
-                                                                       title="Best Premium WordPress, HTML Template Store">
-                                        Jthemes Studio</a>. All rights reserved</p>
+                                <p>{!!  $footer_data->copyright_text->text !!}</p>
                             </div>
                         </div>
+                        @endif
+
+                            @if(($footer_data->social_links->status == 1) && (count($footer_data->social_links->links) > 0))
                         <div class="col-md-3">
                             <div class="footer-social  text-center ul-li">
                                 <ul>
-                                    <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-                                    <li><a href="#"><i class="fab fa-twitter"></i></a></li>
-                                    <li><a href="#"><i class="fab fa-google-plus-g"></i></a></li>
+                                    @foreach($footer_data->social_links->links as $item)
+                                        <li><a href="{{$item->link}}"><i class="{{$item->icon}}"></i></a></li>
+                                    @endforeach
                                 </ul>
                             </div>
                         </div>
+                         @endif
+
+                            @if(($footer_data->bottom_footer_links->status == 1) && (count($footer_data->bottom_footer_links->links) > 0))
                         <div class="col-md-4">
                             <div class="copy-right-menu-item float-right ul-li">
                                 <ul>
-                                    <li><a href="#">License</a></li>
-                                    <li><a href="#">Privacy & Policy</a></li>
-                                    <li><a href="#">Term Of Service</a></li>
+                                    @foreach($footer_data->bottom_footer_links->links as $item)
+                                        <li><a href="{{$item->link}}">{{$item->label}}</a></li>
+                                    @endforeach
                                 </ul>
                             </div>
                         </div>
+                         @endif
                     </div>
                 </div>
+                @endif
             </div>
         </div>
     </section>

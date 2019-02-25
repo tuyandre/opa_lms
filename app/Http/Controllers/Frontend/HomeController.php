@@ -11,7 +11,10 @@ use App\Models\Course;
 use App\Models\Faq;
 use App\Models\Reason;
 use App\Models\Sponsor;
+use App\Models\System\Session;
 use App\Models\Testimonial;
+use Illuminate\Http\Request;
+use Newsletter;
 
 /**
  * Class HomeController.
@@ -66,5 +69,30 @@ class HomeController extends Controller
     public function getFaqs(){
         $faq_categories = Category::with('faqs')->get();
         return view('frontend.faq',compact('faq_categories'));
+    }
+
+    public function subscribe(Request $request){
+        if(config('mail_provider') != "" && config('mail_provider') == "mailchimp"){
+            try{
+                if ( ! Newsletter::isSubscribed($request->email) ) {
+                    if (config('mailchimp_double_opt_in')) {
+                        Newsletter::subscribePending($request->email);
+                        session()->flash('alert', "We've sent you an email, Check your mailbox for further procedure.");
+                    } else {
+                        Newsletter::subscribe($request->email);
+                        session()->flash('alert', "You've subscribed successfully");
+                    }
+                    return back();
+                }else {
+                    session()->flash('alert', "Email already exist in subscription list");
+                    return back();
+
+                }
+            }catch (Exception $e){
+                dd($e->getMessage());
+            }
+
+        }
+
     }
 }

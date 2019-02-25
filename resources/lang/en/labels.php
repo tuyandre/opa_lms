@@ -14,104 +14,104 @@ return [
     */
 
     'general' => [
-        'all'     => 'All',
-        'yes'     => 'Yes',
-        'no'      => 'No',
-        'trash'      => 'Trash',
+        'all' => 'All',
+        'yes' => 'Yes',
+        'no' => 'No',
+        'trash' => 'Trash',
         'copyright' => 'Copyright',
         'delete_selected' => 'Delete Selected',
-        'custom'  => 'Custom',
+        'custom' => 'Custom',
         'actions' => 'Actions',
-        'active'  => 'Active',
+        'active' => 'Active',
         'buttons' => [
-            'save'   => 'Save',
+            'save' => 'Save',
             'update' => 'Update',
         ],
-        'hide'              => 'Hide',
-        'inactive'          => 'Inactive',
-        'none'              => 'None',
-        'show'              => 'Show',
+        'hide' => 'Hide',
+        'inactive' => 'Inactive',
+        'none' => 'None',
+        'show' => 'Show',
         'toggle_navigation' => 'Toggle Navigation',
-        'create_new'        => 'Create New',
+        'create_new' => 'Create New',
         'toolbar_btn_groups' => 'Toolbar with button groups',
-        'more'              => 'More',
-        'sr_no'              => 'Sr No.',
+        'more' => 'More',
+        'sr_no' => 'Sr No.',
     ],
 
     'backend' => [
         'access' => [
             'roles' => [
-                'create'     => 'Create Role',
-                'edit'       => 'Edit Role',
+                'create' => 'Create Role',
+                'edit' => 'Edit Role',
                 'management' => 'Role Management',
 
                 'table' => [
                     'number_of_users' => 'Number of Users',
-                    'permissions'     => 'Permissions',
-                    'role'            => 'Role',
-                    'sort'            => 'Sort',
-                    'total'           => 'role total|roles total',
+                    'permissions' => 'Permissions',
+                    'role' => 'Role',
+                    'sort' => 'Sort',
+                    'total' => 'role total|roles total',
                 ],
             ],
 
             'users' => [
-                'active'              => 'Active Users',
-                'all_permissions'     => 'All Permissions',
-                'change_password'     => 'Change Password',
+                'active' => 'Active Users',
+                'all_permissions' => 'All Permissions',
+                'change_password' => 'Change Password',
                 'change_password_for' => 'Change Password for :user',
-                'create'              => 'Create User',
-                'deactivated'         => 'Deactivated Users',
-                'deleted'             => 'Deleted Users',
-                'edit'                => 'Edit User',
-                'management'          => 'User Management',
-                'no_permissions'      => 'No Permissions',
-                'no_roles'            => 'No Roles to set.',
-                'permissions'         => 'Permissions',
-                'user_actions'        => 'User Actions',
+                'create' => 'Create User',
+                'deactivated' => 'Deactivated Users',
+                'deleted' => 'Deleted Users',
+                'edit' => 'Edit User',
+                'management' => 'User Management',
+                'no_permissions' => 'No Permissions',
+                'no_roles' => 'No Roles to set.',
+                'permissions' => 'Permissions',
+                'user_actions' => 'User Actions',
 
                 'table' => [
-                    'confirmed'      => 'Confirmed',
-                    'created'        => 'Created',
-                    'email'          => 'E-mail',
-                    'id'             => 'ID',
-                    'last_updated'   => 'Last Updated',
-                    'name'           => 'Name',
-                    'first_name'     => 'First Name',
-                    'last_name'      => 'Last Name',
+                    'confirmed' => 'Confirmed',
+                    'created' => 'Created',
+                    'email' => 'E-mail',
+                    'id' => 'ID',
+                    'last_updated' => 'Last Updated',
+                    'name' => 'Name',
+                    'first_name' => 'First Name',
+                    'last_name' => 'Last Name',
                     'no_deactivated' => 'No Deactivated Users',
-                    'no_deleted'     => 'No Deleted Users',
+                    'no_deleted' => 'No Deleted Users',
                     'other_permissions' => 'Other Permissions',
-                    'permissions'    => 'Permissions',
-                    'abilities'      => 'Abilities',
-                    'roles'          => 'Roles',
-                    'social'         => 'Social',
+                    'permissions' => 'Permissions',
+                    'abilities' => 'Abilities',
+                    'roles' => 'Roles',
+                    'social' => 'Social',
 
-                    'status'         => 'Status',/*=== Custom String ===*/
+                    'status' => 'Status',/*=== Custom String ===*/
 
-                    'total'          => 'user total|users total',
+                    'total' => 'user total|users total',
                 ],
 
                 'tabs' => [
                     'titles' => [
                         'overview' => 'Overview',
-                        'history'  => 'History',
+                        'history' => 'History',
                     ],
 
                     'content' => [
                         'overview' => [
-                            'avatar'       => 'Avatar',
-                            'confirmed'    => 'Confirmed',
-                            'created_at'   => 'Created At',
-                            'deleted_at'   => 'Deleted At',
-                            'email'        => 'E-mail',
+                            'avatar' => 'Avatar',
+                            'confirmed' => 'Confirmed',
+                            'created_at' => 'Created At',
+                            'deleted_at' => 'Deleted At',
+                            'email' => 'E-mail',
                             'last_login_at' => 'Last Login At',
                             'last_login_ip' => 'Last Login IP',
                             'last_updated' => 'Last Updated',
-                            'name'         => 'Name',
-                            'first_name'   => 'First Name',
-                            'last_name'    => 'Last Name',
-                            'status'       => 'Status',
-                            'timezone'     => 'Timezone',
+                            'name' => 'Name',
+                            'first_name' => 'First Name',
+                            'last_name' => 'Last Name',
+                            'status' => 'Status',
+                            'timezone' => 'Timezone',
                         ],
                     ],
                 ],
@@ -157,7 +157,7 @@ return [
                 'status' => 'Status',
             ]
         ],
-        'courses' =>[
+        'courses' => [
             'title' => 'Courses',
             'create' => 'Create Course',
             'edit' => 'Edit Course',
@@ -177,8 +177,8 @@ return [
             'fields' => [
                 'teachers' => 'Teachers',
                 'lessons' => [
-                  'add' => 'Add Lessons',
-                  'view' => 'View Lessons'
+                    'add' => 'Add Lessons',
+                    'view' => 'View Lessons'
                 ],
                 'course' => 'Course',
                 'status' => 'Status',
@@ -336,7 +336,7 @@ return [
             'total_teachers' => 'Enter Total Teachers. Ex: 1K, 1000 etc.',
             'total_courses' => 'Enter Total Courses. Ex: 1K, 1000 etc.',
 
-            'contact'=>[
+            'contact' => [
                 'title' => 'Contact',
                 'primary_address' => 'Primary Address',
                 'secondary_address' => 'Secondary Address',
@@ -360,16 +360,35 @@ return [
                 'show' => 'Show',
 
             ],
-            'general'=>[
+            'newsletter' => [
+                'title' => 'Newsletter Configuration',
+                'mail_provider' => 'Mail Service Provider',
+                'mail_provider_note' => '<b>Note </b>: You can select any Mail service provider to recieve all the emails which are being used to <b>subscribe newsletter</b>.<br> Select and setup according to steps given. <b>It is compulsory</b>, if you want to use <b>newsletter subscription</b> form.',
+                'api_key' => 'API Key',
+                'api_key_note' => 'Generate <b>API key</b> from your <a target="_blank" href="https://mailchimp.com/"><b> Mailchimp account</b></a> and paste that in above text box.',
+                'api_key_note_sendgrid' => 'Generate <b>API key</b> from your <a target="_blank" href="https://sendgrid.com/"><b> SendGrid account</b></a> and paste that in above text box.',
+                'api_key_question' => 'How to generate API key?',
+                'mailchimp' => 'Mailchimp',
+                'sendgrid' => 'SendGrid',
+                'list_id' => 'List ID',
+                'get_lists' => 'Get Lists',
+                'select_list' => 'Select List',
+                'list_id_question' => 'How to find List ID from Mailchimp?',
+                'list_id_question_sendgrid' => 'Create new Email list for SendGrid Here.',
+                'list_id_note' => 'Find and paste <b>List ID</b> in above box',
+                'double_opt_in' => 'Double Opt-in',
+                'double_opt_in_note' => '<b>On</b> = User will be asked in mail to opt in for subscription. <b>Off</b> = User will be directly subscribed for newsletter ',
+            ],
+            'general' => [
                 'title' => 'General'
             ],
-            'layout'=>[
+            'layout' => [
                 'title' => 'Layout'
             ],
-            'logos'=>[
+            'logos' => [
                 'title' => 'Logos'
             ],
-            'footer'=>[
+            'footer' => [
                 'title' => 'Footer',
                 'short_description' => 'Short Description',
                 'section_1' => 'Section 1',
@@ -392,8 +411,6 @@ return [
                 'link_label' => 'Label',
                 'link_url' => 'URL',
             ],
-
-
         ],
         'hero_slider' => [
             'title' => 'Hero Slider',
@@ -504,15 +521,15 @@ return [
         'logo' => [
             'title' => 'Change Logo',
             'logo_b' => 'Logo 1',
-            'logo_b_note' =>'Note : Upload logo with <b>black text and transparent background in .png format</b> and <b>294x50</b> pixels',
+            'logo_b_note' => 'Note : Upload logo with <b>black text and transparent background in .png format</b> and <b>294x50</b> pixels',
             'logo_w' => 'Logo 2',
-            'logo_w_note' =>'Note : Upload logo with <b>white text and transparent background in .png format</b> and <b>294x50</b> pixels',
+            'logo_w_note' => 'Note : Upload logo with <b>white text and transparent background in .png format</b> and <b>294x50</b> pixels',
             'logo_white' => 'Logo 3',
-            'logo_white_note' =>'Note : Upload logo with <b>only in white text and transparent background in .png format</b> and <b>294x50</b> pixels',
+            'logo_white_note' => 'Note : Upload logo with <b>only in white text and transparent background in .png format</b> and <b>294x50</b> pixels',
             'logo_popup' => 'Logo for Popups',
             'logo_popup_note' => 'Note : Add square logo minimum resolution <b>72x72</b> pixels',
             'favicon' => 'Add Favicon',
-            'favicon_note' =>'Note : Upload logo with resolution <b>32x32</b> pixels and extension <b>.png</b> or <b>.gif</b> or <b>.ico</b>',
+            'favicon_note' => 'Note : Upload logo with resolution <b>32x32</b> pixels and extension <b>.png</b> or <b>.gif</b> or <b>.ico</b>',
         ],
         'reasons' => [
             'title' => 'Reasons',
@@ -532,12 +549,12 @@ return [
     'frontend' => [
 
         'auth' => [
-            'login_box_title'    => 'Login',
-            'login_button'       => 'Login',
-            'login_with'         => 'Login with :social_media',
+            'login_box_title' => 'Login',
+            'login_button' => 'Login',
+            'login_with' => 'Login with :social_media',
             'register_box_title' => 'Register',
-            'register_button'    => 'Register',
-            'remember_me'        => 'Remember Me',
+            'register_button' => 'Register',
+            'remember_me' => 'Remember Me',
         ],
 
         'contact' => [
@@ -547,10 +564,10 @@ return [
 
         'passwords' => [
             'expired_password_box_title' => 'Your password has expired.',
-            'forgot_password'                 => 'Forgot Your Password?',
-            'reset_password_box_title'        => 'Reset Password',
-            'reset_password_button'           => 'Reset Password',
-            'update_password_button'           => 'Update Password',
+            'forgot_password' => 'Forgot Your Password?',
+            'reset_password_box_title' => 'Reset Password',
+            'reset_password_button' => 'Reset Password',
+            'update_password_button' => 'Update Password',
             'send_password_reset_link_button' => 'Send Password Reset Link',
         ],
 
@@ -560,14 +577,14 @@ return [
             ],
 
             'profile' => [
-                'avatar'             => 'Avatar',
-                'created_at'         => 'Created At',
-                'edit_information'   => 'Edit Information',
-                'email'              => 'E-mail',
-                'last_updated'       => 'Last Updated',
-                'name'               => 'Name',
-                'first_name'         => 'First Name',
-                'last_name'          => 'Last Name',
+                'avatar' => 'Avatar',
+                'created_at' => 'Created At',
+                'edit_information' => 'Edit Information',
+                'email' => 'E-mail',
+                'last_updated' => 'Last Updated',
+                'name' => 'Name',
+                'first_name' => 'First Name',
+                'last_name' => 'Last Name',
                 'update_information' => 'Update Information',
             ],
         ],

@@ -76,7 +76,7 @@
                 <div class="col-md-2">
                     <p style="line-height: 35px">
                         <span class="mr-2">{{__('labels.backend.general_settings.contact.show')}}</span> {{ html()->label(html()->checkbox('')
-                                        ->checked()->class('switch-input status')->value(1)
+                                        ->checked()->class('switch-input status')->value(1)->checked()
                                   . '<span class="switch-label"></span><span class="switch-handle"></span>')
                               ->class('switch switch-sm switch-3d switch-primary')
                           }} </p>
@@ -132,7 +132,7 @@
                     <div class="col-md-2">
                         <p style="line-height: 35px">
                             <span class="mr-2">{{__('labels.backend.general_settings.contact.show')}}</span> {{ html()->label(html()->checkbox('')
-                                        ->checked()->class('switch-input status')->value(1)
+                                        ->checked()->class('switch-input status')->value(1)->checked()
                                   . '<span class="switch-label"></span><span class="switch-handle"></span>')
                               ->class('switch switch-sm switch-3d switch-primary')
                           }} </p>
@@ -164,7 +164,7 @@
                 <div class="col-md-2">
                     <p style="line-height: 35px">
                         <span class="mr-2">{{__('labels.backend.general_settings.contact.show')}}</span> {{ html()->label(html()->checkbox('')
-                                        ->checked()->class('switch-input status')->value(1)
+                                        ->checked()->class('switch-input status')->value(1)->checked()
                                   . '<span class="switch-label"></span><span class="switch-handle"></span>')
                               ->class('switch switch-sm switch-3d switch-primary')
                           }} </p>
@@ -183,7 +183,7 @@
                 <div class="col-md-2">
                     <p style="line-height: 35px">
                         <span class="mr-2">{{__('labels.backend.general_settings.contact.show')}}</span> {{ html()->label(html()->checkbox('')
-                                        ->checked()->class('switch-input newsletter-form status')->value(1)
+                                        ->checked()->class('switch-input newsletter-form status')->value(1)->checked()
                                   . '<span class="switch-label"></span><span class="switch-handle"></span>')
                               ->class('switch switch-sm switch-3d switch-primary')
                           }} </p>
@@ -196,7 +196,7 @@
                 <div class="col-md-10">
                     <p style="line-height: 35px">
                         <span class="mr-2">{{__('labels.backend.general_settings.contact.show')}}</span> {{ html()->label(html()->checkbox('')
-                                        ->checked()->class('switch-input bottom-footer status')->value(1)
+                                        ->checked()->class('switch-input bottom-footer status')->value(1)->checked()
                                   . '<span class="switch-label"></span><span class="switch-handle"></span>')
                               ->class('switch switch-sm switch-3d switch-primary')
 
@@ -298,7 +298,7 @@
             });
 
             //========== Preset Footer Data ===========//
-                    @if(config('footer_data'))
+            @if(config('footer_data'))
             var footer_data = "{{config('footer_data')}}";
 
             footer_data = JSON.parse(footer_data.replace(/&quot;/g, '"'));
@@ -343,27 +343,28 @@
                     $('.social-links-container').append(html);
                 });
                 status = (footer_data.social_links.status == 1);
+                console.log((footer_data.social_links.status === 1))
                 footer.find('.social-links-container').parents('.form-group').find('.status').attr('checked', status);
             }
 
 
             //== Preset newsletter form checkbox
             if (footer_data.newsletter_form) {
-                status = (footer_data.newsletter_form.status == 1);
+                status = (footer_data.newsletter_form.status === 1);
                 $('.newsletter-form').attr('checked', status);
             }
 
 
             //=== Preset Bottom Footer status
             if (footer_data.bottom_footer) {
-                status = (footer_data.bottom_footer.status == 1);
+                status = (footer_data.bottom_footer.status === 1);
                 $('.bottom-footer').attr('checked', status);
 
             }
 
             //== Preset Copyright text
             if (footer_data.copyright_text) {
-                status = (footer_data.copyright_text.status == 1);
+                status = (footer_data.copyright_text.status === 1);
                 footer.find('#copyright_text').val(footer_data.copyright_text.text)
                 footer.find('#copyright_text').parents('.form-group').find('.status').attr('checked', status);
             }
@@ -371,7 +372,7 @@
 
             //== Bottom footer links
             if (footer_data.bottom_footer_links) {
-                status = (footer_data.bottom_footer_links.status == 1);
+                status = (footer_data.bottom_footer_links.status === 1);
                 footer.find('#footer_link_label').parents('.form-group').find('.status').attr('checked', status);
                 $(footer_data.bottom_footer_links.links).each(function (key, link_data) {
                     var html = "<div class='alert border alert-light footer-link-wrapper alert-dismissible fade show'> " +

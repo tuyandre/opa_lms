@@ -72,8 +72,9 @@
                                 <h2 class="widget-title">Subscribe Newsletter</h2>
 
                                 <div class="subs-form relative-position">
-                                    <form action="#" method="post">
-                                        <input class="course" name="course" type="email" placeholder="Email Address.">
+                                    <form action="{{route("subscribe")}}" method="post">
+                                        @csrf
+                                        <input class="email" required name="email" type="email" placeholder="Email Address.">
                                         <div class="nws-button text-center  gradient-bg text-uppercase">
                                             <button type="submit" value="Submit">Subscribe now</button>
                                         </div>

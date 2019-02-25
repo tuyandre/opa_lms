@@ -121,6 +121,9 @@ return [
             'debug-site'    => [
                 'title' => 'Debug Site',
             ],
+            'newsletter-configuration'    => [
+                'title' => 'Newsletter Configuration',
+            ],
             /*===========================*/
         ],
     ],

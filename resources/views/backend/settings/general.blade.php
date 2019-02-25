@@ -72,16 +72,6 @@
                                 {{ __('labels.backend.general_settings.layout.title') }}
                             </a>
                         </li>
-                        {{--<li class="nav-item">--}}
-                            {{--<a data-toggle="tab" class="nav-link" href="#contact">--}}
-                                {{--{{ __('labels.backend.general_settings.contact.title') }}--}}
-                            {{--</a>--}}
-                        {{--</li>--}}
-                        <li class="nav-item">
-                            <a data-toggle="tab" class="nav-link" href="#footer">
-                                {{ __('labels.backend.general_settings.footer.title') }}
-                            </a>
-                        </li>
                     </ul>
                     <h4 class="card-title mb-0">
                         {{--{{ __('labels.backend.general_settings.management') }}--}}

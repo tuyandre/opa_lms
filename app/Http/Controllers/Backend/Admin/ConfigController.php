@@ -27,6 +27,9 @@ class ConfigController extends Controller
         if ($request->get('access_registration') == null) {
             $requests['access_registration'] = 0;
         }
+        if(!$request->get('mailchimp_double_opt_in')){
+            $requests['mailchimp_double_opt_in'] = 0;
+        }
         if ($request->get('access_users_change_email') == null) {
             $requests['access_users_change_email'] = 0;
         }
@@ -39,6 +42,7 @@ class ConfigController extends Controller
         if ($request->get('access_users_requires_approval') == null) {
             $requests['access_users_requires_approval'] = 0;
         }
+
         foreach ($requests->all() as $key => $value) {
             if ($key != '_token') {
                 $key = str_replace('__', '.', $key);
@@ -78,7 +82,7 @@ class ConfigController extends Controller
             $requests['services_bitbucket_active'] = 0;
         }
 
-        foreach ($requests as $key => $value) {
+        foreach ($requests->except as $key => $value) {
             if ($key != '_token') {
                 $key = str_replace('__', '.', $key);
                 $config = Config::firstOrCreate(['key' => $key]);
@@ -99,4 +103,31 @@ class ConfigController extends Controller
         $footer_data = config('footer_data');
         return view('backend.settings.footer',compact('footer_data'));
     }
+
+    public function getNewsletterConfig(){
+        $newsletter_config = config('newsletter_config');
+        return view('backend.settings.newsletter',compact('newsletter_config'));
+    }
+
+    public function getSendGridLists(Request $request){
+        $apiKey = $request->apiKey;
+        $sg = new \SendGrid($apiKey);
+        try{
+            $response = $sg->client->contactdb()->lists()->get();
+            return $response->body();
+        }catch (Exception $e){
+            \Log::info($e->getMessage());
+            return ['status' => 'error' ,'message' => $e->getMessage()];
+        };
+
+
+
+//        $request_body = json_decode('{
+//        "name": "Laravel LMS"
+//    }');
+//        $response = $sg->client->contactdb()->lists()->post($request_body);
+//
+//        return $response->body();
+    }
+
 }

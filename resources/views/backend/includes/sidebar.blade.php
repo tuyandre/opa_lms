@@ -120,6 +120,12 @@
                     @endcan
                     @if ($logged_in_user->isAdmin())
                         <li class="nav-item ">
+                            <a class="nav-link {{ active_class(Active::checkUriPattern('admin/sliders*')) }}"
+                               href="{{ route('admin.sliders.index') }}">
+                                <span class="title">@lang('menus.backend.sidebar.hero-slider.title')</span>
+                            </a>
+                        </li>
+                        <li class="nav-item ">
                             <a class="nav-link {{ $request->segment(2) == 'sponsors' ? 'active' : '' }}"
                                href="{{ route('admin.sponsors.index') }}">
                                 <span class="title">@lang('menus.backend.sidebar.sponsors.title')</span>
@@ -141,6 +147,12 @@
                             <a class="nav-link {{ $request->segment(2) == 'contact' ? 'active' : '' }}"
                                href="{{ route('admin.contact-settings') }}">
                                 <span class="title">@lang('menus.backend.sidebar.contact.title')</span>
+                            </a>
+                        </li>
+                        <li class="nav-item ">
+                            <a class="nav-link {{ $request->segment(2) == 'newsletter' ? 'active' : '' }}"
+                               href="{{ route('admin.newsletter-settings') }}">
+                                <span class="title">@lang('menus.backend.sidebar.newsletter-configuration.title')</span>
                             </a>
                         </li>
                         <li class="nav-item ">
@@ -240,12 +252,6 @@
                             <a class="nav-link {{ active_class(Active::checkUriPattern('admin/log-viewer/logs*')) }}"
                                href="{{ route('admin.social-settings') }}">
                                 @lang('menus.backend.sidebar.settings.social-login')
-                            </a>
-                        </li>
-                        <li class="nav-item ">
-                            <a class="nav-link {{ active_class(Active::checkUriPattern('admin/sliders*')) }}"
-                               href="{{ route('admin.sliders.index') }}">
-                                <span class="title">@lang('menus.backend.sidebar.hero-slider.title')</span>
                             </a>
                         </li>
                     </ul>

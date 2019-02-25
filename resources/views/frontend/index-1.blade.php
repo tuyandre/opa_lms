@@ -5,6 +5,19 @@
         /*.address-details.ul-li-block{*/
         /*line-height: 60px;*/
         /*}*/
+        .teacher-img-content .teacher-social-name{
+            max-width: 67px;
+        }
+        .my-alert{
+            position: absolute;
+            z-index: 10;
+            left: 0;
+            right: 0;
+            top: 25%;
+            width: 50%;
+            margin: auto;
+            display: inline-block;
+        }
     </style>
 @endpush
 
@@ -12,6 +25,12 @@
 
     <!-- Start of slider section
             ============================================= -->
+    @if(session()->has('alert'))
+    <div class="alert alert-light alert-dismissible fade my-alert show">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <strong>{{session('alert')}}</strong>
+    </div>
+    @endif
     @include('frontend.layouts.partials.slider')
 
     @if($sections->search_section->status == 1)

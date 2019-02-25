@@ -107,6 +107,8 @@ Route::post('settings/social', ['uses' =>'Admin\ConfigController@saveSocialSetti
 
 Route::get('contact', ['uses' =>'Admin\ConfigController@getContact'])->name('contact-settings');
 Route::get('footer', ['uses' =>'Admin\ConfigController@getFooter'])->name('footer-settings');
+Route::get('newsletter', ['uses' =>'Admin\ConfigController@getNewsletterConfig'])->name('newsletter-settings');
+Route::post('newsletter/sendgrid-lists', ['uses' =>'Admin\ConfigController@getSendGridLists'])->name('newsletter.getSendGridLists');
 
 
 //===== Slider Routes =====/
