@@ -72,6 +72,11 @@
                                 {{ __('labels.backend.general_settings.layout.title') }}
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a data-toggle="tab" class="nav-link" href="#email">
+                                {{ __('labels.backend.general_settings.email.title') }}
+                            </a>
+                        </li>
                     </ul>
                     <h4 class="card-title mb-0">
                         {{--{{ __('labels.backend.general_settings.management') }}--}}
@@ -325,6 +330,121 @@
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!---SMTP Tab--->
+                <div id="email" class="tab-pane container fade">
+                    <div class="row mt-4 mb-4">
+                        <div class="col">
+                            <div class="form-group row">
+                                {{ html()->label(__('labels.backend.general_settings.email.mail_from_name'))->class('col-md-2 form-control-label')->for('mail_from_name') }}
+
+                                <div class="col-md-10">
+                                    {{ html()->text('mail__from__name')
+                                        ->class('form-control')
+                                        ->placeholder(__('labels.backend.general_settings.email.mail_from_name'))
+                                        ->attribute('maxlength', 191)
+
+                                        ->value(config('mail.from.name'))
+                                        ->autofocus()
+                                        }}
+                                    <span class="help-text font-italic">{{__('labels.backend.general_settings.email.mail_from_name_note')}}</span>
+
+                                </div><!--col-->
+                            </div><!--form-group-->
+                            <div class="form-group row">
+                                {{ html()->label(__('labels.backend.general_settings.email.mail_driver'))->class('col-md-2 form-control-label')->for('mail_driver') }}
+
+                                <div class="col-md-10">
+                                    {{ html()->text('mail__driver')
+                                        ->class('form-control')
+                                        ->placeholder(__('labels.backend.general_settings.email.mail_driver'))
+                                        ->attribute('maxlength', 191)
+
+                                        ->value(config('mail.driver'))
+                                        }}
+                                    <span class="help-text font-italic">{!!   __('labels.backend.general_settings.email.mail_driver_note') !!}</span>
+
+                                </div><!--col-->
+                            </div><!--form-group-->
+                            <div class="form-group row">
+                                {{ html()->label(__('labels.backend.general_settings.email.mail_host'))->class('col-md-2 form-control-label')->for('mail_host') }}
+
+                                <div class="col-md-10">
+                                    {{ html()->text('mail__host')
+                                        ->class('form-control')
+                                        ->placeholder(__('labels.backend.general_settings.email.mail_driver'))
+                                        ->attribute('maxlength', 191)
+                                        ->placeholder('Ex. smtp.gmail.com')
+                                        ->value(config('mail.host'))
+                                        }}
+                                </div><!--col-->
+                            </div><!--form-group-->
+
+                            <div class="form-group row">
+                                {{ html()->label(__('labels.backend.general_settings.email.mail_port'))->class('col-md-2 form-control-label')->for('mail_port') }}
+
+                                <div class="col-md-10">
+                                    {{ html()->text('mail__port')
+                                        ->class('form-control')
+                                        ->placeholder(__('labels.backend.general_settings.email.mail_port'))
+                                        ->attribute('maxlength', 191)
+                                        ->placeholder('Ex. 465')
+                                        ->value(config('mail.port'))
+                                        }}
+                                </div><!--col-->
+                            </div><!--form-group-->
+
+                            <div class="form-group row">
+                                {{ html()->label(__('labels.backend.general_settings.email.mail_username'))->class('col-md-2 form-control-label')->for('mail_username') }}
+
+                                <div class="col-md-10">
+                                    {{ html()->text('mail__username')
+                                        ->class('form-control')
+                                        ->placeholder(__('labels.backend.general_settings.email.mail_username'))
+                                        ->attribute('maxlength', 191)
+                                        ->placeholder('Ex. myemail@email.com')
+                                        ->value(config('mail.username'))
+                                        }}
+                                    <span class="help-text font-italic">{!!   __('labels.backend.general_settings.email.mail_username_note') !!}</span>
+
+                                </div><!--col-->
+                            </div><!--form-group-->
+                            <div class="form-group row">
+                                {{ html()->label(__('labels.backend.general_settings.email.mail_password'))->class('col-md-2 form-control-label')->for('mail_password') }}
+
+                                <div class="col-md-10">
+                                    {{ html()->password('mail__password')
+                                        ->class('form-control')
+                                        ->placeholder(__('labels.backend.general_settings.email.mail_password'))
+                                        ->attribute('maxlength', 191)
+                                        ->placeholder(__('labels.backend.general_settings.email.mail_password'))
+                                        ->value(config('mail.password'))
+                                        }}
+                                    <span class="help-text font-italic">{!!   __('labels.backend.general_settings.email.mail_password_note') !!}</span>
+
+                                </div><!--col-->
+                            </div><!--form-group-->
+                            <div class="form-group row">
+                                {{ html()->label(__('labels.backend.general_settings.email.mail_encryption'))->class('col-md-2 form-control-label')->for('mail_encryption') }}
+
+                                <div class="col-md-10">
+                                    {{ html()->select('mail__encryption',['tls' => 'tls','ssl' => 'ssl'], config('mail.encryption'))
+                                        ->class('form-control')
+                                        }}
+                                    <span class="help-text font-italic">{!!   __('labels.backend.general_settings.email.mail_encryption_note') !!}</span>
+
+                                </div><!--col-->
+
+                            </div><!--form-group-->
+                            <hr>
+                            <p class="help-text mb-0">{!!   __('labels.backend.general_settings.email.note') !!}</p>
+
+
+
+
                         </div>
                     </div>
                 </div>

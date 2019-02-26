@@ -388,6 +388,26 @@ return [
             'layout' => [
                 'title' => 'Layout'
             ],
+            'email' => [
+                'title' => 'Mail Configuration',
+                'mail_driver' => 'Mail Driver',
+                'mail_driver_note' => 'You can select any driver you want for your Mail setup. <b>Ex. SMTP, Mailgun, Mandrill, SparkPost, Amazon SES etc.</b><br> Add <b>single driver only</b>.',
+                'mail_from_name' => 'Mail From Name',
+                'mail_from_name_note' => 'This will be display name for your sent email.',
+                'mail_host' => 'Mail HOST',
+                'mail_port' => 'Mail PORT',
+                'mail_username' => 'Mail Username',
+                'mail_username_note' => 'Add your email id you want to configure for sending emails',
+                'mail_password_note' => 'Add your email password you want to configure for sending emails',
+                'mail_password' => 'Mail Password',
+                'mail_encryption' => 'Mail Encryption',
+                'mail_encryption_note' => 'Use <b>tls</b> if your site uses <b>HTTP</b> protocol and <b>ssl</b> if you site uses <b>HTTPS</b> protocol',
+                'note' => '<b>Important Note</b> : IF you are using <b>GMAIL</b> for Mail configuration, make sure you have completed following process before updating:
+ <ul>
+<li>Go to <a target="_blank" href="https://myaccount.google.com/security">My Account</a> from your Google Account you want to configure and Login</li>
+<li>Scroll down to <b>Less secure app access</b> and set it <b>ON</b></li>
+</ul>'
+            ],
             'logos' => [
                 'title' => 'Logos'
             ],
