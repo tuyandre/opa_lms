@@ -373,6 +373,8 @@ return [
                 'list_id' => 'List ID',
                 'get_lists' => 'Get Lists',
                 'select_list' => 'Select List',
+                'sendgrid_lists' => 'SendGrid Email Lists',
+                'create_new' => 'Create and Select New',
                 'list_id_question' => 'How to find List ID from Mailchimp?',
                 'list_id_question_sendgrid' => 'Create new Email list for SendGrid Here.',
                 'list_id_note' => 'Find and paste <b>List ID</b> in above box',

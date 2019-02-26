@@ -151,7 +151,40 @@
                                href="https://app.sendgrid.com/settings/api_keys">{!!   __('labels.backend.general_settings.newsletter.api_key_question')!!}</a> </span>
                     </div>
                     <div class="col-md-2">
-                        <button type="button" id="getLists" class="btn btn-primary">{{__('labels.backend.general_settings.newsletter.get_lists')}}</button>
+                        <button type="button" id="getLists"
+                                class="btn btn-primary">{{__('labels.backend.general_settings.newsletter.get_lists')}}</button>
+                    </div>
+                </div>
+                <div class="form-group sendgrid-list-wrapper d-none row">
+                    {{ html()->label(__('labels.backend.general_settings.newsletter.sendgrid_lists'))->class('col-md-2 form-control-label')->for('') }}
+
+                    <div class="col-md-5">
+                        {{ html()->label(html()->radio('list_selection')->checked()
+                                             ->class('switch-input status sendgrid-radio')->value(1)
+                                       . '<span class="switch-label"></span><span class="switch-handle"></span>')
+                                   ->class('switch switch-sm mb-2 switch-3d  switch-primary')
+
+                               }} <span
+                                class="ml-2">{{__('labels.backend.general_settings.newsletter.select_list')}}</span>
+
+                        {{ html()->select('sendgrid_list',['' => 'Select List'])
+                            ->id('sendgrid_list')
+                            ->class('form-control sendgrid-element')
+                            }}
+                    </div>
+                    <div class="col-md-5">
+                        {{ html()->label(html()->radio('list_selection')
+                                             ->class('switch-input status sendgrid-radio')->value(2)
+                                       . '<span class="switch-label"></span><span class="switch-handle"></span>')
+                                   ->class('switch switch-sm mb-2 switch-3d  switch-primary')
+                               }} <span
+                                class="ml-2">{{__('labels.backend.general_settings.newsletter.create_new')}}</span>
+
+                        {{ html()->text('list_name')
+                             ->id('list_name')
+                             ->class('form-control sendgrid-element d-none')
+                             ->placeholder('Ex. LMS List ')
+                             }}
                     </div>
                 </div>
             </div>
@@ -180,6 +213,15 @@
             $('input[type="radio"][value="' + provider + '"]').attr('checked', true);
             @endif
 
+            @if(config('mail_provider') == "sendgrid")
+            $('.mailchimp').addClass('d-none')
+            $('.sendgrid').removeClass('d-none')
+            if ($('#sendgrid_api_key').val() != "") {
+                getSendGridList();
+            }
+
+            @endif
+
 
             @if(config('mailchimp_double_opt_in') != "")
             var opt_in = ("{{config('mailchimp_double_opt_in') }}" == 1)
@@ -191,31 +233,66 @@
                     if ($(this).val() == 'mailchimp') {
                         $('.mailchimp').removeClass('d-none')
                         $('.sendgrid').addClass('d-none')
-                    }else{
+                    } else {
                         $('.mailchimp').addClass('d-none')
                         $('.sendgrid').removeClass('d-none')
                     }
                 }
             })
 
-            $(document).on('click','#getLists',function () {
-                if($('#sendgrid_api_key').val() == ""){
+            $(document).on('click', '#getLists', function () {
+                if ($('#sendgrid_api_key').val() == "") {
                     $('.sendgrid-error').text('Please input API key');
-                }else{
-                    var apiKey = $('#sendgrid_api_key').val();
-                    $('.sendgrid-error').empty();
-                    $.ajax({
-                        url: '{{route('admin.newsletter.getSendGridLists')}}',
-                        type: 'POST',
-                        dataType: 'JSON',
-                        data: {'apiKey' :apiKey,_token:'{{csrf_token()}}' },
-                        success:function (response) {
-                            console.log(response)
-                        }
-                    })
+                } else {
+                    getSendGridList();
+                }
+            })
+
+            $(document).on('click', '.sendgrid-radio', function () {
+                $('.sendgrid-element').addClass('d-none')
+                if ($(this).is(':checked')) {
+                    if($(this).val() == 2){
+                        $(this).parents('.switch').siblings('.sendgrid-element').removeClass('d-none').attr('required',true);
+                    }else{
+                        $(this).parents('.switch').siblings('.sendgrid-element').removeClass('d-none')
+                    }
+
                 }
             })
         });
+
+        function getSendGridList() {
+            var apiKey = $('#sendgrid_api_key').val();
+            $('.sendgrid-error').empty();
+            $.ajax({
+                url: '{{route('admin.newsletter.getSendGridLists')}}',
+                type: 'POST',
+                dataType: 'JSON',
+                data: {'apiKey': apiKey, _token: '{{csrf_token()}}'},
+                success: function (response) {
+                    if(response.status == 'success'){
+                        $('#sendgrid_list').empty();
+                        $(JSON.parse(response.body).lists).each(function (key, object) {
+                            $('#sendgrid_list').append($("<option/>", {
+                                value: object.id,
+                                text: object.name
+                            }));
+                        });
+                        @if(config('sendgrid_list') != "")
+                                var value = "{{config('sendgrid_list')}}";
+
+                        $('#sendgrid_list').find('option[value="'+value+'"]').attr('selected',true)
+                        @endif
+                        $('.sendgrid-list-wrapper').removeClass('d-none')
+                    }else{
+                        $('.sendgrid-list-wrapper').addClass('d-none');
+                        $('.sendgrid-error').text(response.message);
+                    }
+
+                }
+            })
+
+        }
 
 
     </script>
