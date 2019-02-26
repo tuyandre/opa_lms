@@ -623,6 +623,10 @@
                 }
             });
 
+            @if(request()->has('tab'))
+                var tab = "{{request('tab')}}"
+                $('.nav-tabs a[href="#'+tab+'"]').tab('show')
+            @endif
 
         });
 
