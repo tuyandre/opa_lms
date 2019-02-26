@@ -278,9 +278,8 @@
                                 <div class="blakish-overlay"></div>
                                 <div class="teacher-social-list ul-li">
                                     <ul>
-                                        <li><a href="#"><i class="fa fa-envelope"></i></a></li>
-                                        <li><a href="{{route('admin.messages')}}"><i
-                                                        class="fa fa-comments"></i></a></li>
+                                        <li><a href="{{'mailto:'.$item->email}}"><i class="fa fa-envelope"></i></a></li>
+                                        <li><a href="{{route('admin.messages',['teacher_id'=>$item->id])}}"><i class="fa fa-comments"></i></a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -295,7 +294,7 @@
             </div>
 
             <div class="genius-btn gradient-bg text-center text-uppercase ul-li-block bold-font">
-                <a href="#">All teacher <i class="fas fa-caret-right"></i></a>
+                <a href="{{route('teachers.index')}}">All teacher <i class="fas fa-caret-right"></i></a>
             </div>
         </div>
     </section>

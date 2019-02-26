@@ -6,7 +6,7 @@
                 <button type="submit"><i class="fas fa-search"></i></button>
             </form>
         </div>
-
+        @if($categories != "")
         <div class="side-bar-widget">
             <h2 class="widget-title text-capitalize">blog <span>Categories.</span></h2>
             <div class="post-categori ul-li-block">
@@ -22,6 +22,7 @@
                 </ul>
             </div>
         </div>
+        @endif
 
         {{--<div class="side-bar-widget">--}}
             {{--<h2 class="widget-title text-capitalize"><span>Related </span>News.</h2>--}}

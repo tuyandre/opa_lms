@@ -150,4 +150,16 @@ class HomeController extends Controller
         }
 
     }
+
+    public function getTeachers(){
+        $recent_news = Blog::orderBy('created_at', 'desc')->take(2)->get();
+        $teachers = User::role('teacher')->paginate(12);
+        return view('frontend.teachers.index',compact('teachers','recent_news'));
+    }
+
+    public function showTeacher(Request $request){
+        $recent_news = Blog::orderBy('created_at', 'desc')->take(2)->get();
+        $teacher = User::role('teacher')->where('id','=',$request->id)->first();
+        return view('frontend.teachers.show',compact('teacher','recent_news'));
+    }
 }

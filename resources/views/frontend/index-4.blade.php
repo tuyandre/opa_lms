@@ -146,9 +146,8 @@
                                         <div class="teacher-cntent">
                                             <div class="teacher-social-name ul-li-block">
                                                 <ul>
-                                                    <li><a href="#"><i class="fa fa-envelope"></i></a></li>
-                                                    <li><a href="{{route('admin.messages')}}"><i
-                                                                    class="fa fa-comments"></i></a></li>
+                                                    <li><a href="{{'mailto:'.$item->email}}"><i class="fa fa-envelope"></i></a></li>
+                                                    <li><a href="{{route('admin.messages',['teacher_id'=>$item->id])}}"><i class="fa fa-comments"></i></a></li>
                                                 </ul>
                                                 <div class="teacher-name">
                                                     <span>{{$item->full_name}}</span>

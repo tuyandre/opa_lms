@@ -13,7 +13,9 @@ class MessagesController extends Controller
 {
     public function index(Request $request){
         $thread="";
-        $teachers = User::whereHas('roles', function ($q) { $q->where('role_id', 2); } )->get()->pluck('name', 'id');
+
+
+        $teachers = User::role('teacher')->get()->pluck('name', 'id');
 
         auth()->user()->load('threads.messages.sender');
 

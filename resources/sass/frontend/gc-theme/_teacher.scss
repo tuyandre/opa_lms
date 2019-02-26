@@ -271,6 +271,7 @@
 }
 .teacher-pic-content {
 	margin-bottom: 30px;
+
 	.teacher-hover-item {
 		display: inline-block;
 		position: absolute;
@@ -322,6 +323,8 @@
 		border-radius: 5px;
 		overflow: hidden;
 		margin-bottom: 0;
+		height: 270px;
+		width: 270px;
 		&:after {
 			@extend .gradient-bg;
 			content: '';
@@ -333,6 +336,10 @@
 			opacity: 0;
 			transition: .3s all ease-in-out;
 			z-index: 0;
+		}
+		img{
+			height: 100%;
+			width: 100%;
 		}
 	}
 	.teacher-name-designation {

@@ -143,7 +143,7 @@
                                         Recipients:</p>
                                 </div>
                                 <div class="col-lg-9 col-12 text-dark">
-                                    {!! Form::select('recipients[]', $teachers, old('recipients'), ['class' => 'form-control select2', 'multiple' => 'multiple']) !!}
+                                    {!! Form::select('recipients[]', $teachers, (request('teacher_id') ? request('teacher_id') : old('recipients'), ['class' => 'form-control select2', 'multiple' => 'multiple']) !!}
                                 </div>
                             </div>
                         </div>

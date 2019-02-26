@@ -221,7 +221,7 @@
                 <div class="container">
                     <div class="section-title mb20 headline text-center ">
                         <span class="subtitle text-uppercase">OUR PROFESSIONAL</span>
-                        <h2>Genius Courses <span>Teachers.</span></h2>
+                        <h2>{{env('APP_NAME')}} <span>Teachers.</span></h2>
                     </div>
 
                     <div class="teacher-list">
@@ -234,9 +234,8 @@
                                             <div class="teacher-cntent">
                                                 <div class="teacher-social-name ul-li-block">
                                                     <ul>
-                                                        <li><a href="#"><i class="fa fa-envelope"></i></a></li>
-                                                        <li><a href="{{route('admin.messages')}}"><i
-                                                                        class="fa fa-comments"></i></a></li>
+                                                        <li><a href="{{'mailto:'.$item->email}}"><i class="fa fa-envelope"></i></a></li>
+                                                        <li><a href="{{route('admin.messages',['teacher_id'=>$item->id])}}"><i class="fa fa-comments"></i></a></li>
                                                     </ul>
                                                     <div class="teacher-name">
                                                         <span>{{$item->full_name}}</span>
@@ -261,7 +260,7 @@
                         </div>
 
                         <div class="genius-btn gradient-bg text-center text-uppercase ul-li-block bold-font ">
-                            <a href="#">All teacher <i class="fas fa-caret-right"></i></a>
+                            <a href="{{route('teachers.index')}}">All teachers <i class="fas fa-caret-right"></i></a>
                         </div>
                     </div>
                 </div>

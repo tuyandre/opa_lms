@@ -41,6 +41,10 @@ Route::get('blog/{slug?}', 'BlogController@getIndex')->name('blogs.index');
 Route::post('blog/{id}/comment', 'BlogController@storeComment')->name('blogs.comment');
 Route::get('blog/comment/delete/{id}', 'BlogController@deleteComment')->name('blogs.comment.delete');
 
+Route::get('teachers','Frontend\HomeController@getTeachers')->name('teachers.index');
+Route::get('teachers/{id}/show','Frontend\HomeController@showTeacher')->name('teachers.show');
+
+
 
 Route::post('newsletter/subscribe','Frontend\HomeController@subscribe')->name('subscribe');
 
