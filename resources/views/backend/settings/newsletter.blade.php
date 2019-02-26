@@ -166,6 +166,8 @@
 
                                }} <span
                                 class="ml-2">{{__('labels.backend.general_settings.newsletter.select_list')}}</span>
+                        <span
+                                class="float-right"><a class="font-italic font-weight-bold" target="_blank" href="https://sendgrid.com/marketing_campaigns/ui/contacts">{{__('labels.backend.general_settings.newsletter.manage_lists')}}</a></span>
 
                         {{ html()->select('sendgrid_list',['' => 'Select List'])
                             ->id('sendgrid_list')
@@ -236,6 +238,7 @@
                     } else {
                         $('.mailchimp').addClass('d-none')
                         $('.sendgrid').removeClass('d-none')
+                        getSendGridList()
                     }
                 }
             })

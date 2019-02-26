@@ -372,6 +372,7 @@ return [
                 'sendgrid' => 'SendGrid',
                 'list_id' => 'List ID',
                 'get_lists' => 'Get Lists',
+                'manage_lists' => 'Manage SendGrid Lists',
                 'select_list' => 'Select List',
                 'sendgrid_lists' => 'SendGrid Email Lists',
                 'create_new' => 'Create and Select New',
