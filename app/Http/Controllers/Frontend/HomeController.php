@@ -74,6 +74,10 @@ class HomeController extends Controller
 
     public function subscribe(Request $request)
     {
+        $this->validate($request,[
+           'email' => 'required'
+        ]);
+
         if (config('mail_provider') != "" && config('mail_provider') == "mailchimp") {
             try {
                 if (!Newsletter::isSubscribed($request->email)) {

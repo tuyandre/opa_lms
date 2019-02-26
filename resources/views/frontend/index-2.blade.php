@@ -432,11 +432,15 @@
 
                     @if($footer_data->newsletter_form->status == 1)
                     <div class="subs-form relative-position">
-                        <form action="#" method="post">
-                            <input class="course" name="course" type="email" placeholder="Email Address.">
+                        <form action="{{route("subscribe")}}" method="post">
+                            @csrf
+                            <input class="email" name="email" required type="email" placeholder="Email Address.">
                             <div class="nws-button text-center  gradient-bg text-uppercase">
                                 <button type="submit" value="Submit">Subscribe now</button>
                             </div>
+                            @if($errors->has('email'))
+                                <p class="text-danger text-left">{{$errors->first('email')}}</p>
+                            @endif
                         </form>
                     </div>
                     @endif

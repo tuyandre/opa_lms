@@ -78,7 +78,11 @@
                                         <div class="nws-button text-center  gradient-bg text-uppercase">
                                             <button type="submit" value="Submit">Subscribe now</button>
                                         </div>
+                                        @if($errors->has('email'))
+                                            <p class="text-danger text-left">{{$errors->first('email')}}</p>
+                                        @endif
                                     </form>
+
                                 </div>
                             </div>
                         </div>
