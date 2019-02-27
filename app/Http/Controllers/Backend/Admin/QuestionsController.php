@@ -24,6 +24,8 @@ class QuestionsController extends Controller
      */
     public function index()
     {
+
+
         if (! Gate::allows('question_access')) {
             return abort(401);
         }

@@ -2,6 +2,7 @@
 namespace App\Models;
 
 use App\Models\Auth\User;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -24,7 +25,22 @@ class Course extends Model
     use SoftDeletes;
 
     protected $fillable = ['category_id','title', 'slug', 'description', 'price', 'course_image', 'start_date', 'published','featured','trending','popular'];
-    
+
+
+    protected static function boot()
+    {
+        parent::boot();
+        if(auth()->check()) {
+            if (auth()->user()->hasRole('teacher')) {
+                static::addGlobalScope('filter', function (Builder $builder) {
+                    $builder->whereHas('teachers', function ($q) {
+                        $q->where('course_user.user_id', '=', auth()->user()->id);
+                    });
+                });
+            }
+        }
+
+    }
 
     /**
      * Set attribute to money format

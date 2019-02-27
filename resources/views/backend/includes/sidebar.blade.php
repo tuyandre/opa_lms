@@ -95,78 +95,103 @@
 
                 </ul>
             </li>
-            <li class="nav-item nav-dropdown {{ active_class(Active::checkUriPattern(['user/contact*','user/sponsors*','user/testimonials*','user/faqs*','user/footer*','user/blogs']), 'open') }}">
-                <a class="nav-link nav-dropdown-toggle {{ active_class(Active::checkUriPattern('admin/*')) }}"
-                   href="#">
-                    <i class="nav-icon icon-note"></i> @lang('menus.backend.sidebar.site-management.title')
-                </a>
+            @if ($logged_in_user->isAdmin())
+                <li class="nav-item nav-dropdown {{ active_class(Active::checkUriPattern(['user/contact*','user/sponsors*','user/testimonials*','user/faqs*','user/footer*','user/blogs']), 'open') }}">
+                    <a class="nav-link nav-dropdown-toggle {{ active_class(Active::checkUriPattern('admin/*')) }}"
+                       href="#">
+                        <i class="nav-icon icon-note"></i> @lang('menus.backend.sidebar.site-management.title')
+                    </a>
 
-                <ul class="nav-dropdown-items">
-                    @can('blog_access')
-                        <li class="nav-item ">
-                            <a class="nav-link {{ $request->segment(2) == 'blogs' ? 'active' : '' }}"
-                               href="{{ route('admin.blogs.index') }}">
-                                <span class="title">@lang('menus.backend.sidebar.blogs.title')</span>
-                            </a>
-                        </li>
-                    @endcan
-                    @can('reason_access')
-                        <li class="nav-item">
-                            <a class="nav-link {{ $request->segment(2) == 'reasons' ? 'active' : '' }}"
-                               href="{{ route('admin.reasons.index') }}">
-                                <span class="title">@lang('menus.backend.sidebar.reasons.title')</span>
-                            </a>
-                        </li>
-                    @endcan
-                    @if ($logged_in_user->isAdmin())
-                        <li class="nav-item ">
-                            <a class="nav-link {{ active_class(Active::checkUriPattern('admin/sliders*')) }}"
-                               href="{{ route('admin.sliders.index') }}">
-                                <span class="title">@lang('menus.backend.sidebar.hero-slider.title')</span>
-                            </a>
-                        </li>
-                        <li class="nav-item ">
-                            <a class="nav-link {{ $request->segment(2) == 'sponsors' ? 'active' : '' }}"
-                               href="{{ route('admin.sponsors.index') }}">
-                                <span class="title">@lang('menus.backend.sidebar.sponsors.title')</span>
-                            </a>
-                        </li>
-                        <li class="nav-item ">
-                            <a class="nav-link {{ $request->segment(2) == 'testimonials' ? 'active' : '' }}"
-                               href="{{ route('admin.testimonials.index') }}">
-                                <span class="title">@lang('menus.backend.sidebar.testimonials.title')</span>
-                            </a>
-                        </li>
-                        <li class="nav-item ">
-                            <a class="nav-link {{ $request->segment(2) == 'faqs' ? 'active' : '' }}"
-                               href="{{ route('admin.faqs.index') }}">
-                                <span class="title">@lang('menus.backend.sidebar.faqs.title')</span>
-                            </a>
-                        </li>
-                        <li class="nav-item ">
-                            <a class="nav-link {{ $request->segment(2) == 'contact' ? 'active' : '' }}"
-                               href="{{ route('admin.contact-settings') }}">
-                                <span class="title">@lang('menus.backend.sidebar.contact.title')</span>
-                            </a>
-                        </li>
-                        <li class="nav-item ">
-                            <a class="nav-link {{ $request->segment(2) == 'newsletter' ? 'active' : '' }}"
-                               href="{{ route('admin.newsletter-settings') }}">
-                                <span class="title">@lang('menus.backend.sidebar.newsletter-configuration.title')</span>
-                            </a>
-                        </li>
-                        <li class="nav-item ">
-                            <a class="nav-link {{ $request->segment(2) == 'footer' ? 'active' : '' }}"
-                               href="{{ route('admin.footer-settings') }}">
-                                <span class="title">@lang('menus.backend.sidebar.footer.title')</span>
-                            </a>
-                        </li>
-                    @endif
+                    <ul class="nav-dropdown-items">
+                        @can('blog_access')
+                            <li class="nav-item ">
+                                <a class="nav-link {{ $request->segment(2) == 'blogs' ? 'active' : '' }}"
+                                   href="{{ route('admin.blogs.index') }}">
+                                    <span class="title">@lang('menus.backend.sidebar.blogs.title')</span>
+                                </a>
+                            </li>
+                        @endcan
+                        @can('reason_access')
+                            <li class="nav-item">
+                                <a class="nav-link {{ $request->segment(2) == 'reasons' ? 'active' : '' }}"
+                                   href="{{ route('admin.reasons.index') }}">
+                                    <span class="title">@lang('menus.backend.sidebar.reasons.title')</span>
+                                </a>
+                            </li>
+                        @endcan
+                        @if ($logged_in_user->isAdmin())
+                            <li class="nav-item ">
+                                <a class="nav-link {{ active_class(Active::checkUriPattern('admin/sliders*')) }}"
+                                   href="{{ route('admin.sliders.index') }}">
+                                    <span class="title">@lang('menus.backend.sidebar.hero-slider.title')</span>
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link {{ $request->segment(2) == 'sponsors' ? 'active' : '' }}"
+                                   href="{{ route('admin.sponsors.index') }}">
+                                    <span class="title">@lang('menus.backend.sidebar.sponsors.title')</span>
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link {{ $request->segment(2) == 'testimonials' ? 'active' : '' }}"
+                                   href="{{ route('admin.testimonials.index') }}">
+                                    <span class="title">@lang('menus.backend.sidebar.testimonials.title')</span>
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link {{ $request->segment(2) == 'faqs' ? 'active' : '' }}"
+                                   href="{{ route('admin.faqs.index') }}">
+                                    <span class="title">@lang('menus.backend.sidebar.faqs.title')</span>
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link {{ $request->segment(2) == 'contact' ? 'active' : '' }}"
+                                   href="{{ route('admin.contact-settings') }}">
+                                    <span class="title">@lang('menus.backend.sidebar.contact.title')</span>
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link {{ $request->segment(2) == 'newsletter' ? 'active' : '' }}"
+                                   href="{{ route('admin.newsletter-settings') }}">
+                                    <span class="title">@lang('menus.backend.sidebar.newsletter-configuration.title')</span>
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link {{ $request->segment(2) == 'footer' ? 'active' : '' }}"
+                                   href="{{ route('admin.footer-settings') }}">
+                                    <span class="title">@lang('menus.backend.sidebar.footer.title')</span>
+                                </a>
+                            </li>
+                        @endif
 
-                </ul>
+                    </ul>
 
 
-            </li>
+                </li>
+            @else
+                @can('blog_access')
+                    <li class="nav-item ">
+                        <a class="nav-link {{ $request->segment(2) == 'blogs' ? 'active' : '' }}"
+                           href="{{ route('admin.blogs.index') }}">
+                            <i class="nav-icon icon-note"></i>
+                            <span class="title">@lang('menus.backend.sidebar.blogs.title')</span>
+                        </a>
+                    </li>
+                @endcan
+                @can('reason_access')
+                    <li class="nav-item">
+                        <a class="nav-link {{ $request->segment(2) == 'reasons' ? 'active' : '' }}"
+                           href="{{ route('admin.reasons.index') }}">
+                            <i class="nav-icon icon-layers"></i>
+                            <span class="title">@lang('menus.backend.sidebar.reasons.title')</span>
+                        </a>
+                    </li>
+                @endcan
+            @endif
+
+
+
+
 
 
             {{--@can('questions_option_access')--}}

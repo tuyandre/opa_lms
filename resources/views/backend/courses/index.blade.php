@@ -144,11 +144,11 @@
                     $(row).attr('data-entry-id', data.id);
                 },
             });
-            @can('course_delete')
-            @if(request('show_deleted') != 1)
-            $('.actions').html('<a href="' + '{{ route('admin.courses.mass_destroy') }}' + '" class="btn btn-xs btn-danger js-delete-selected" style="margin-top:0.755em;margin-left: 20px;">Delete selected</a>');
-            @endif
-            @endcan
+            {{--@can('course_delete')--}}
+            {{--@if(request('show_deleted') != 1)--}}
+            {{--$('.actions').html('<a href="' + '{{ route('admin.courses.mass_destroy') }}' + '" class="btn btn-xs btn-danger js-delete-selected" style="margin-top:0.755em;margin-left: 20px;">Delete selected</a>');--}}
+            {{--@endif--}}
+            {{--@endcan--}}
         });
 
     </script>

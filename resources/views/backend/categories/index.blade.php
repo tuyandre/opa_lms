@@ -106,6 +106,7 @@
                 ],
                 ajax: route,
                 columns: [
+                        @can('category_delete')
                         @if(request('show_deleted') != 1)
                     {
                         "data": function (data) {
@@ -113,6 +114,7 @@
                         }, "orderable": false, "searchable": false, "name": "id"
                     },
                         @endif
+                      @endcan
                     {
                         data: "DT_RowIndex", name: 'DT_RowIndex'
                     },

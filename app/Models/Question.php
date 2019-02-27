@@ -1,6 +1,7 @@
 <?php
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -17,7 +18,22 @@ class Question extends Model
     use SoftDeletes;
 
     protected $fillable = ['question', 'question_image', 'score'];
-    
+
+    protected static function boot()
+    {
+        parent::boot();
+        if(auth()->check()) {
+            if (auth()->user()->hasRole('teacher')) {
+                static::addGlobalScope('filter', function (Builder $builder) {
+                    $courses = auth()->user()->courses->pluck('id');
+                    $builder->whereHas('tests', function ($q) use  ($courses) {
+                        $q->whereIn('tests.course_id', $courses);
+                    });
+                });
+            }
+        }
+
+    }
 
     /**
      * Set attribute to money format

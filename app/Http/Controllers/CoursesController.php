@@ -20,20 +20,20 @@ class CoursesController extends Controller
     public function all()
     {
         if (request('type') == 'popular') {
-            $courses = Course::where('published', 1)->where('popular', '=', 1)->orderBy('id', 'desc')->paginate(9);
+            $courses = Course::withoutGlobalScope('filter')->where('published', 1)->where('popular', '=', 1)->orderBy('id', 'desc')->paginate(9);
 
         } else if (request('type') == 'trending') {
-            $courses = Course::where('published', 1)->where('trending', '=', 1)->orderBy('id', 'desc')->paginate(9);
+            $courses = Course::withoutGlobalScope('filter')->where('published', 1)->where('trending', '=', 1)->orderBy('id', 'desc')->paginate(9);
 
         } else if (request('type') == 'featured') {
-            $courses = Course::where('published', 1)->where('featured', '=', 1)->orderBy('id', 'desc')->paginate(9);
+            $courses = Course::withoutGlobalScope('filter')->where('published', 1)->where('featured', '=', 1)->orderBy('id', 'desc')->paginate(9);
 
         } else {
-            $courses = Course::where('published', 1)->orderBy('id', 'desc')->paginate(9);
+            $courses = Course::withoutGlobalScope('filter')->where('published', 1)->orderBy('id', 'desc')->paginate(9);
         }
         $purchased_courses = NULL;
         if (\Auth::check()) {
-            $purchased_courses = Course::whereHas('students', function ($query) {
+            $purchased_courses = Course::withoutGlobalScope('filter')->whereHas('students', function ($query) {
                 $query->where('id', \Auth::id());
             })
                 ->with('lessons')
@@ -47,7 +47,7 @@ class CoursesController extends Controller
     public function show($course_slug)
     {
         $recent_news = Blog::orderBy('created_at', 'desc')->take(2)->get();
-        $course = Course::where('slug', $course_slug)->with('publishedLessons')->firstOrFail();
+        $course = Course::withoutGlobalScope('filter')->where('slug', $course_slug)->with('publishedLessons')->firstOrFail();
         $purchased_course = \Auth::check() && $course->students()->where('user_id', \Auth::id())->count() > 0;
         $course_rating = 0;
         $total_ratings = 0;
@@ -65,7 +65,7 @@ class CoursesController extends Controller
 
     public function payment(Request $request)
     {
-        $course = Course::findOrFail($request->get('course_id'));
+        $course = Course::withoutGlobalScope('filter')->findOrFail($request->get('course_id'));
         $this->createStripeCharge($request);
 
         $course->students()->attach(\Auth::id());

@@ -75,6 +75,7 @@ class CoursesController extends Controller
         }
 
 
+
         if (auth()->user()->can('course_view')) {
             $has_view = true;
         }
