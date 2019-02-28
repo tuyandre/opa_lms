@@ -8,12 +8,15 @@ use App\Models\Blog;
 use App\Models\Category;
 use App\Models\Config;
 use App\Models\Course;
+use App\Models\CourseTimeline;
 use App\Models\Faq;
+use App\Models\Lesson;
 use App\Models\Reason;
 use App\Models\Sponsor;
 use App\Models\System\Session;
 use App\Models\Testimonial;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Response;
 use Newsletter;
 
 /**
@@ -74,8 +77,8 @@ class HomeController extends Controller
 
     public function subscribe(Request $request)
     {
-        $this->validate($request,[
-           'email' => 'required'
+        $this->validate($request, [
+            'email' => 'required'
         ]);
 
         if (config('mail_provider') != "" && config('mail_provider') == "mailchimp") {
@@ -151,15 +154,37 @@ class HomeController extends Controller
 
     }
 
-    public function getTeachers(){
+    public function getTeachers()
+    {
         $recent_news = Blog::orderBy('created_at', 'desc')->take(2)->get();
         $teachers = User::role('teacher')->paginate(12);
-        return view('frontend.teachers.index',compact('teachers','recent_news'));
+        return view('frontend.teachers.index', compact('teachers', 'recent_news'));
     }
 
-    public function showTeacher(Request $request){
+    public function showTeacher(Request $request)
+    {
         $recent_news = Blog::orderBy('created_at', 'desc')->take(2)->get();
-        $teacher = User::role('teacher')->where('id','=',$request->id)->first();
-        return view('frontend.teachers.show',compact('teacher','recent_news'));
+        $teacher = User::role('teacher')->where('id', '=', $request->id)->first();
+        return view('frontend.teachers.show', compact('teacher', 'recent_news'));
+    }
+
+    public function getDownload(Request $request)
+    {
+        if(auth()->check()){
+            $lesson =Lesson::findOrfail($request->lesson);
+            $course_id = $lesson->course_id;
+            $course = Course::findOrfail($course_id);
+            $purchased_course = \Auth::check() && $course->students()->where('user_id', \Auth::id())->count() > 0;
+            if($purchased_course){
+                $file = public_path() . "/storage/uploads/".$request->filename;
+
+                return Response::download($file);
+            }
+            return abort(404);
+
+        }
+        return abort(404);
+
     }
 }
+

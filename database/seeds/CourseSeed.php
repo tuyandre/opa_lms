@@ -28,7 +28,7 @@ class CourseSeed extends Seeder
 
             $course->teachers()->sync([2]);
             $course->lessons()->saveMany(factory(Lesson::class, 10)->create());
-            foreach($course->lessons as $key=>$lesson){
+            foreach($course->lessons()->where('published','=',1)->get() as $key=>$lesson){
                 $key++;
                 $timeline = new \App\Models\CourseTimeline();
                 $timeline->course_id = $course->id;

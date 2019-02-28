@@ -28,7 +28,7 @@
                         <div class="course-item-text">
                             <div class="course-meta">
                                     <span class="course-category bold-font"><a
-                                                href="#">{{$item->category->name}}</a></span>
+                                                href="{{route('courses.category',['category'=>$item->category->slug])}}">{{$item->category->name}}</a></span>
                                 <span class="course-author bold-font">
                                 @foreach($item->teachers as $teacher)
                                         <a href="#">{{$teacher->first_name}}</a></span>

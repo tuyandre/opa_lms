@@ -88,7 +88,8 @@
             @if(count($courseTimeline) > 0)
                 <div class="row justify-content-center">
                     <div class="col-6  ">
-                        <h4>@lang('labels.backend.courses.course_timeline')</h4>
+                        <h4 class="">@lang('labels.backend.courses.course_timeline')</h4>
+                        <p class="mb-0">@lang('labels.backend.courses.listing_note')</p>
                         <p class="">@lang('labels.backend.courses.timeline_description')</p>
                         <ul class="sorter d-inline-block">
                             @foreach($courseTimeline as $item)
@@ -119,8 +120,6 @@
 
                 </div>
             @endif
-
-
         </div>
     </div>
 @stop

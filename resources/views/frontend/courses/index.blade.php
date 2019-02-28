@@ -119,11 +119,9 @@
                                                         </div>
                                                         <div class="course-rate ul-li">
                                                             <ul>
-                                                                <li><i class="fas fa-star"></i></li>
-                                                                <li><i class="fas fa-star"></i></li>
-                                                                <li><i class="fas fa-star"></i></li>
-                                                                <li><i class="fas fa-star"></i></li>
-                                                                <li><i class="fas fa-star"></i></li>
+                                                                @for($i=1; $i<=(int)$course->rating; $i++)
+                                                                    <li><i class="fas fa-star"></i></li>
+                                                                @endfor
                                                             </ul>
                                                         </div>
                                                         <div class="course-details-btn">

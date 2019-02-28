@@ -98,7 +98,7 @@ class Course extends Model
 
     public function publishedLessons()
     {
-        return $this->hasMany(Lesson::class)->orderBy('position')->where('published', 1);
+        return $this->hasMany(Lesson::class)->where('published', 1);
     }
 
     public function scopeOfTeacher($query)
@@ -130,8 +130,11 @@ class Course extends Model
 
     public function courseTimeline()
     {
+//        return $this->hasMany(CourseTimeline::class);
         return $this->hasMany(CourseTimeline::class);
     }
+
+
 
     public function reviews()
     {

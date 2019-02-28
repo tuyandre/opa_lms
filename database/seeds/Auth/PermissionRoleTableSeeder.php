@@ -116,7 +116,7 @@ class PermissionRoleTableSeeder extends Seeder
 
         $teacher_permissions = [1, 21, 22, 23, 24,25, 26, 27, 28, 29, 31, 32, 33, 34, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 47, 48, 49, 51];
 
-        $student_permission = [1, 21, 24, 26, 29, 31, 34, 36, 37, 38, 39, 40, 41, 44];
+        $student_permission = [1, 21, 24, 26, 29, 31, 34, 36, 37, 38, 39, 40, 41, 44,47];
 
 
         $admin->syncPermissions(Permission::all());

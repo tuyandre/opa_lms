@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Course;
 
 /**
  * Class DashboardController.
@@ -14,6 +15,15 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        return view('backend.dashboard');
+        $purchased_courses = NULL;
+        if (\Auth::check()) {
+            $purchased_courses = Course::whereHas('students', function($query) {
+                $query->where('id', \Auth::id());
+            })
+                ->with('lessons')
+                ->orderBy('id', 'desc')
+                ->get();
+        }
+        return view('backend.dashboard',compact('purchased_courses'));
     }
 }

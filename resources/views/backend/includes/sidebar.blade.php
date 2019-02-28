@@ -43,7 +43,7 @@
                     </a>
                 </li>
             @endcan
-
+            @if($logged_in_user->hasRole('teacher') || $logged_in_user->isAdmin())
 
             <li class="nav-item nav-dropdown {{ active_class(Active::checkUriPattern(['user/courses*','user/lessons*','user/tests*','user/questions*']), 'open') }}">
                 <a class="nav-link nav-dropdown-toggle {{ active_class(Active::checkUriPattern('admin/*')) }}"
@@ -95,6 +95,9 @@
 
                 </ul>
             </li>
+            @endif
+
+
             @if ($logged_in_user->isAdmin())
                 <li class="nav-item nav-dropdown {{ active_class(Active::checkUriPattern(['user/contact*','user/sponsors*','user/testimonials*','user/faqs*','user/footer*','user/blogs']), 'open') }}">
                     <a class="nav-link nav-dropdown-toggle {{ active_class(Active::checkUriPattern('admin/*')) }}"

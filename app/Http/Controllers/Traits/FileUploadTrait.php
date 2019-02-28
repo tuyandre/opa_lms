@@ -16,7 +16,7 @@ trait FileUploadTrait
     {
         if (!file_exists(public_path('storage/uploads'))) {
             mkdir(public_path('storage/uploads'), 0777);
-            mkdir(public_path('storage/upload/thumb'), 0777);
+            mkdir(public_path('storage/uploads/thumb'), 0777);
         }
 
         $finalRequest = $request;
@@ -31,7 +31,10 @@ trait FileUploadTrait
                     if (!file_exists(public_path('storage/uploads/thumb'))) {
                         mkdir(public_path('storage/uploads/thumb'), 0777, true);
                     }
+//                    dd($image);
+
                     Image::make($file)->resize(50, 50)->save(public_path('storage/uploads/thumb') . '/' . $filename);
+
                     $width = $image->width();
                     $height = $image->height();
                     if ($width > $request->{$key . '_max_width'} && $height > $request->{$key . '_max_height'}) {

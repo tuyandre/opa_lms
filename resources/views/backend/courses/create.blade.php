@@ -133,6 +133,18 @@
             });
         });
 
+        var uploadField = $('input[type="file"]');
+
+            $(document).on('change','input[type="file"]',function () {
+                var $this = $(this);
+                $(this.files).each(function (key,value) {
+                    if(value.size > 5000000){
+                        alert('"'+value.name+'"'+'exceeds limit of maximum file upload size' )
+                        $this.val("");
+                    }
+                })
+            })
+
     </script>
 
 @endpush

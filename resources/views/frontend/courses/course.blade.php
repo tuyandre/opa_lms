@@ -55,7 +55,7 @@
                             <div class="course-title mt10 headline relative-position">
                                 <h3><a href="{{ route('courses.show', [$course->slug]) }}"><b>{{$course->title}}</b></a>
                                     @if($course->trending == 1)
-                                    <span class="trend-badge text-uppercase bold-font"><i class="fas fa-bolt"></i> TRENDING</span>
+                                        <span class="trend-badge text-uppercase bold-font"><i class="fas fa-bolt"></i> TRENDING</span>
                                     @endif
                                 </h3>
                             </div>
@@ -65,17 +65,20 @@
                                 </p>
                             </div>
 
+                            @if(count($lessons)  > 0)
+
                             <div class="course-details-category ul-li">
-                                <span class="float-none">Course <b>Lessons:</b></span>
+                                <span class="float-none">Course <b>Timeline:</b></span>
                                 <ul>
-                                    @foreach($course->lessons as $key=>$lesson)
+                                    @foreach($lessons as $key=> $lesson)
                                         @php $key++; @endphp
                                         <li><a data-toggle="collapse" data-target="#collapse{{$key}}"
                                                aria-expanded="true"
-                                               aria-controls="collapse{{$key}}">{{$lesson->title}}</a></li>
+                                               aria-controls="collapse{{$key}}">{{$lesson->model->title}}</a></li>
                                     @endforeach
                                 </ul>
                             </div>
+                            @endif
                         </div>
                     </div>
                     <!-- /course-details -->
@@ -84,7 +87,8 @@
 
                         <div class="affiliate-market-accordion">
                             <div id="accordion" class="panel-group">
-                                @foreach($course->lessons as $key=> $lesson)
+                                @if(count($lessons)  > 0)
+                                @foreach($lessons as $key=> $lesson)
                                     @php $key++ @endphp
                                     <div class="panel">
                                         <div class="panel-title" id="headingOne">
@@ -92,25 +96,37 @@
                                                 <button class="btn btn-link collapsed" data-toggle="collapse"
                                                         data-target="#collapse{{$key}}" aria-expanded="false"
                                                         aria-controls="collapse{{$key}}">
-                                                    <span>{{ sprintf("%02d", $key)}}</span> {{$lesson->title}}
+                                                    <span>{{ sprintf("%02d", $key)}}</span> {{$lesson->model->title}}
                                                 </button>
                                                 {{--<div class="course-by">--}}
                                                 {{--BY: <b>TONI KROSS</b>--}}
                                                 {{--</div>--}}
                                                 {{--<div class="leanth-course">--}}
-                                                    {{--<span>60 Minuttes</span>--}}
-                                                    {{--<span>Adobe photoshop</span>--}}
+                                                {{--<span>60 Minuttes</span>--}}
+                                                {{--<span>Adobe photoshop</span>--}}
                                                 {{--</div>--}}
+                                                @if($lesson->model_type == 'App\Models\Test')
+                                                <div class="leanth-course">
+                                                <span>Test</span>
+                                                </div>
+                                                 @endif
                                             </div>
                                         </div>
                                         <div id="collapse{{$key}}" class="collapse" aria-labelledby="headingOne"
                                              data-parent="#accordion">
                                             <div class="panel-body">
-                                                {{$lesson->short_text}}
+                                                @if($lesson->model_type == 'App\Models\Test')
+                                                    {{ mb_substr($lesson->model->description,0,20).'...'}}
+                                                @else
+                                                    {{$lesson->model->short_text}}
+
+                                                @endif
+
                                             </div>
                                         </div>
                                     </div>
                                 @endforeach
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -130,7 +146,7 @@
                                                 <span class="avrg-rate">{{$course_rating}}</span>
                                                 <ul>
                                                     @for($r=1; $r<=$course_rating; $r++)
-                                                    <li><i class="fas fa-star"></i></li>
+                                                        <li><i class="fas fa-star"></i></li>
                                                     @endfor
                                                 </ul>
                                                 <b>{{$total_ratings}} Ratings</b>
@@ -140,11 +156,11 @@
                                             <div class="avrg-rating ul-li">
                                                 <span>Details</span>
                                                 @for($r=5; $r>=1; $r--)
-                                                <div class="rating-overview">
-                                                    <span class="start-item">{{$r}} Starts</span>
-                                                    <span class="start-bar"></span>
-                                                    <span class="start-count">{{$course->reviews()->where('rating','=',$r)->get()->count()}}</span>
-                                                </div>
+                                                    <div class="rating-overview">
+                                                        <span class="start-item">{{$r}} Starts</span>
+                                                        <span class="start-bar"></span>
+                                                        <span class="start-count">{{$course->reviews()->where('rating','=',$r)->get()->count()}}</span>
+                                                    </div>
                                                 @endfor
                                             </div>
                                         </div>
@@ -158,111 +174,114 @@
                     <div class="couse-comment">
                         <div class="blog-comment-area ul-li about-teacher-2">
                             @if(count($course->reviews) > 0)
-
-                            <ul class="comment-list">
-                                @foreach($course->reviews as $item)
-                                    <li class="d-block">
-                                        <div class="comment-avater">
-                                            <img src="{{$item->user->picture}}" alt="">
-                                        </div>
-
-                                        <div class="author-name-rate">
-                                            <div class="author-name float-left">
-                                                BY: <span>{{$item->user->full_name}}</span>
+                                <ul class="comment-list">
+                                    @foreach($course->reviews as $item)
+                                        <li class="d-block">
+                                            <div class="comment-avater">
+                                                <img src="{{$item->user->picture}}" alt="">
                                             </div>
-                                            <div class="comment-ratting float-right ul-li">
-                                                <ul>
-                                                    @for($i=1; $i<=(int)$item->rating; $i++)
-                                                        <li><i class="fas fa-star"></i></li>
-                                                    @endfor
 
-                                                </ul>
-                                                @if(auth()->check() && ($item->user_id == auth()->user()->id))
-                                                    <div>
-                                                        <a href="{{route('courses.review.edit',['id'=>$item->id])}}" class="mr-2">Edit</a>
-                                                        <a href="{{route('courses.review.delete',['id'=>$item->id])}}" class="text-danger">Delete</a>
-                                                    </div>
+                                            <div class="author-name-rate">
+                                                <div class="author-name float-left">
+                                                    BY: <span>{{$item->user->full_name}}</span>
+                                                </div>
+                                                <div class="comment-ratting float-right ul-li">
+                                                    <ul>
+                                                        @for($i=1; $i<=(int)$item->rating; $i++)
+                                                            <li><i class="fas fa-star"></i></li>
+                                                        @endfor
+                                                    </ul>
+                                                    @if(auth()->check() && ($item->user_id == auth()->user()->id))
+                                                        <div>
+                                                            <a href="{{route('courses.review.edit',['id'=>$item->id])}}"
+                                                               class="mr-2">Edit</a>
+                                                            <a href="{{route('courses.review.delete',['id'=>$item->id])}}"
+                                                               class="text-danger">Delete</a>
+                                                        </div>
 
-                                                @endif
+                                                    @endif
+                                                </div>
+                                                <div class="time-comment float-right">{{$item->created_at->diffforhumans()}}</div>
                                             </div>
-                                            <div class="time-comment float-right">{{$item->created_at->diffforhumans()}}</div>
-                                        </div>
-                                        <div class="author-designation-comment">
-                                            <p>{{$item->content}}</p>
-                                        </div>
-                                    </li>
-                                @endforeach
-                            </ul>
+                                            <div class="author-designation-comment">
+                                                <p>{{$item->content}}</p>
+                                            </div>
+                                        </li>
+                                    @endforeach
+                                </ul>
                             @else
                                 <h4>No reviews yet.</h4>
                             @endif
 
-                                @if ($purchased_course)
-                                    @if(isset($review) || ($is_reviewed == false))
+                            @if ($purchased_course)
+                                @if(isset($review) || ($is_reviewed == false))
                                     <div class="reply-comment-box">
-                                            <div class="review-option">
-                                                <div class="section-title-2  headline text-left float-left">
-                                                    <h2>Add <span>Reviews.</span></h2>
-                                                </div>
-                                                <div class="review-stars-item float-right mt15">
-                                                    <span>Your Rating: </span>
-                                                    <div class="rating">
-                                                        <label>
-                                                            <input type="radio" name="stars" value="1"/>
-                                                            <span class="icon"><i class="fas fa-star"></i></span>
-                                                        </label>
-                                                        <label>
-                                                            <input type="radio" name="stars" value="2"/>
-                                                            <span class="icon"><i class="fas fa-star"></i></span>
-                                                            <span class="icon"><i class="fas fa-star"></i></span>
-                                                        </label>
-                                                        <label>
-                                                            <input type="radio" name="stars" value="3"/>
-                                                            <span class="icon"><i class="fas fa-star"></i></span>
-                                                            <span class="icon"><i class="fas fa-star"></i></span>
-                                                            <span class="icon"><i class="fas fa-star"></i></span>
-                                                        </label>
-                                                        <label>
-                                                            <input type="radio" name="stars" value="4"/>
-                                                            <span class="icon"><i class="fas fa-star"></i></span>
-                                                            <span class="icon"><i class="fas fa-star"></i></span>
-                                                            <span class="icon"><i class="fas fa-star"></i></span>
-                                                            <span class="icon"><i class="fas fa-star"></i></span>
-                                                        </label>
-                                                        <label>
-                                                            <input type="radio" name="stars" value="5"/>
-                                                            <span class="icon"><i class="fas fa-star"></i></span>
-                                                            <span class="icon"><i class="fas fa-star"></i></span>
-                                                            <span class="icon"><i class="fas fa-star"></i></span>
-                                                            <span class="icon"><i class="fas fa-star"></i></span>
-                                                            <span class="icon"><i class="fas fa-star"></i></span>
-                                                        </label>
-                                                    </div>
+                                        <div class="review-option">
+                                            <div class="section-title-2  headline text-left float-left">
+                                                <h2>Add <span>Reviews.</span></h2>
+                                            </div>
+                                            <div class="review-stars-item float-right mt15">
+                                                <span>Your Rating: </span>
+                                                <div class="rating">
+                                                    <label>
+                                                        <input type="radio" name="stars" value="1"/>
+                                                        <span class="icon"><i class="fas fa-star"></i></span>
+                                                    </label>
+                                                    <label>
+                                                        <input type="radio" name="stars" value="2"/>
+                                                        <span class="icon"><i class="fas fa-star"></i></span>
+                                                        <span class="icon"><i class="fas fa-star"></i></span>
+                                                    </label>
+                                                    <label>
+                                                        <input type="radio" name="stars" value="3"/>
+                                                        <span class="icon"><i class="fas fa-star"></i></span>
+                                                        <span class="icon"><i class="fas fa-star"></i></span>
+                                                        <span class="icon"><i class="fas fa-star"></i></span>
+                                                    </label>
+                                                    <label>
+                                                        <input type="radio" name="stars" value="4"/>
+                                                        <span class="icon"><i class="fas fa-star"></i></span>
+                                                        <span class="icon"><i class="fas fa-star"></i></span>
+                                                        <span class="icon"><i class="fas fa-star"></i></span>
+                                                        <span class="icon"><i class="fas fa-star"></i></span>
+                                                    </label>
+                                                    <label>
+                                                        <input type="radio" name="stars" value="5"/>
+                                                        <span class="icon"><i class="fas fa-star"></i></span>
+                                                        <span class="icon"><i class="fas fa-star"></i></span>
+                                                        <span class="icon"><i class="fas fa-star"></i></span>
+                                                        <span class="icon"><i class="fas fa-star"></i></span>
+                                                        <span class="icon"><i class="fas fa-star"></i></span>
+                                                    </label>
                                                 </div>
                                             </div>
-                                            <div class="teacher-faq-form">
-                                                @if(isset($review))
-                                                    <form method="POST" action="{{route('courses.review.update',['id'=>$review->id])}}" data-lead="Residential">
-                                                @else
-                                                  <form method="POST" action="{{route('courses.review',['course'=>$course->id])}}" data-lead="Residential">
-                                               @endif
-
-                                                    @csrf
-                                                    <input type="hidden" name="rating" id="rating">
-                                                    <label for="review">Message</label>
-
-                                                    <textarea name="review"  class="mb-2" id="review" rows="2" cols="20"
-                                                    >@if(isset($review)){{$review->content}} @endif</textarea>
-                                                    <span class="help-block text-danger">{{ $errors->first('review', ':message') }}</span>
-                                                    <div class="nws-button text-center  gradient-bg text-uppercase">
-                                                        <button type="submit" value="Submit">Add Review Now</button>
-                                                    </div>
-                                                </form>
-                                            </div>
+                                        </div>
+                                        <div class="teacher-faq-form">
+                                            @php
+                                                if(isset($review)){
+                                                    $route = route('courses.review.update',['id'=>$review->id]);
+                                                }else{
+                                                    $route = route('courses.review',['course'=>$course->id]);
+                                                }
+                                            @endphp
+                                            <form method="POST"
+                                                  action="{{$route}}"
+                                                  data-lead="Residential">
+                                                @csrf
+                                                <input type="hidden" name="rating" id="rating">
+                                                <label for="review">Message</label>
+                                                <textarea name="review" class="mb-2" id="review" rows="2"
+                                                          cols="20">@if(isset($review)){{$review->content}} @endif</textarea>
+                                                <span class="help-block text-danger">{{ $errors->first('review', ':message') }}</span>
+                                                <div class="nws-button text-center  gradient-bg text-uppercase">
+                                                    <button type="submit" value="Submit">Add Review Now
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </div>
                                     </div>
-                                    @endif
                                 @endif
-
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -275,28 +294,39 @@
 
 
                                 @if(auth()->check() && (Cart::session(auth()->user()->id)->get( $course->id)))
-                                    <button class="btn genius-btn btn-block text-center my-2 text-uppercase  btn-success text-white bold-font" type="submit">Added to Cart</button>
+                                    <button class="btn genius-btn btn-block text-center my-2 text-uppercase  btn-success text-white bold-font"
+                                            type="submit">Added to Cart
+                                    </button>
                                 @elseif(!auth()->check())
-                                    <a id="openLoginModal" class="genius-btn btn-block text-white  gradient-bg text-center text-uppercase  bold-font" data-target="#myModal" href="#">Buy Now <i class="fas fa-caret-right"></i></a>
+                                    <a id="openLoginModal"
+                                       class="genius-btn btn-block text-white  gradient-bg text-center text-uppercase  bold-font"
+                                       data-target="#myModal" href="#">Buy Now <i class="fas fa-caret-right"></i></a>
 
-                                    <a id="openLoginModal" class="genius-btn btn-block my-2 bg-dark text-center text-white text-uppercase " data-target="#myModal" href="#">Add to Cart <i class="fa fa-shopping-bag"></i></a>
+                                    <a id="openLoginModal"
+                                       class="genius-btn btn-block my-2 bg-dark text-center text-white text-uppercase "
+                                       data-target="#myModal" href="#">Add to Cart <i
+                                                class="fa fa-shopping-bag"></i></a>
                                 @else
                                     <form action="{{ route('cart.checkout') }}" method="POST">
                                         @csrf
                                         <input type="hidden" name="course_id" value="{{ $course->id }}"/>
                                         <input type="hidden" name="amount" value="{{ $course->price}}"/>
-                                        <button class="genius-btn btn-block text-white  gradient-bg text-center text-uppercase  bold-font" href="#">Buy Now <i class="fas fa-caret-right"></i></button>
+                                        <button class="genius-btn btn-block text-white  gradient-bg text-center text-uppercase  bold-font"
+                                                href="#">Buy Now <i class="fas fa-caret-right"></i></button>
                                     </form>
                                     <form action="{{ route('cart.addToCart') }}" method="POST">
                                         @csrf
                                         <input type="hidden" name="course_id" value="{{ $course->id }}"/>
                                         <input type="hidden" name="amount" value="{{ $course->price}}"/>
-                                        <button type="submit" class="genius-btn btn-block my-2 bg-dark text-center text-white text-uppercase ">Add to Cart <i class="fa fa-shopping-bag"></i></button>
+                                        <button type="submit"
+                                                class="genius-btn btn-block my-2 bg-dark text-center text-white text-uppercase ">
+                                            Add to Cart <i class="fa fa-shopping-bag"></i></button>
                                     </form>
                                 @endif
                             @else
-                                <p>You've Purchased It.</p>
-
+                                <a href="{{route('lessons.show',['id' => $course->id,'slug'=>$course->courseTimeline()->orderBy('sequence','asc')->first()->model->slug])}}"
+                                   class="genius-btn btn-block text-white  gradient-bg text-center text-uppercase  bold-font">
+                                    Go to Course <i class="fa fa-arrow-right"></i></a>
                             @endif
                             {{--<div class="like-course">--}}
                             {{--<a href="#"><i class="fas fa-heart"></i></a>--}}
@@ -316,11 +346,24 @@
                         </div>
                         <div class="couse-feature ul-li-block">
                             <ul>
-                                <li>Lessons <span> {{$course->lessons->count()}} Lessons</span></li>
+                                <li>Chapters <span> {{$course->courseTimeline->count()}} </span></li>
                                 <li>Language <span>English</span></li>
-                                <li>Category <span>{{$course->category->name}}</span></li>
-                                <li>Author <span>{{$course->teachers()->pluck('first_name')->implode(',')}}</span></li>
+                                <li>Category <span><a
+                                                href="{{route('courses.category',['category'=>$course->category->slug])}}"
+                                                target="_blank">{{$course->category->name}}</a> </span></li>
+                                <li>Author <span>
+
+                                        @foreach($course->teachers as $key=>$teacher)
+                                            @php $key++ @endphp
+                                            <a href="{{route('teachers.show',['id'=>$teacher->id])}}" target="_blank">
+                                                {{$teacher->full_name}}@if($key < count($course->teachers )), @endif
+                                            </a>
+                                        @endforeach
+
+                                       </span>
+                                </li>
                             </ul>
+
                         </div>
 
                         @if($recent_news->count() > 0)
@@ -343,14 +386,17 @@
                                             <div class="date-meta">
                                                 <i class="fas fa-calendar-alt"></i> {{$item->created_at->format('d M Y')}}
                                             </div>
-                                            <h3 class="latest-title bold-font"><a href="{{route('blogs.index',['slug'=>$item->slug.'-'.$item->id])}}">{{$item->title}}</a></h3>
+                                            <h3 class="latest-title bold-font"><a
+                                                        href="{{route('blogs.index',['slug'=>$item->slug.'-'.$item->id])}}">{{$item->title}}</a>
+                                            </h3>
                                         </div>
                                         <!-- /post -->
                                     @endforeach
 
 
                                     <div class="view-all-btn bold-font">
-                                        <a href="{{route('blogs.index')}}">View All News <i class="fas fa-chevron-circle-right"></i></a>
+                                        <a href="{{route('blogs.index')}}">View All News <i
+                                                    class="fas fa-chevron-circle-right"></i></a>
                                     </div>
                                 </div>
                             </div>
@@ -392,12 +438,12 @@
 
 @push('after-scripts')
     <script>
-        $(document).on('change','input[name="stars"]',function () {
+        $(document).on('change', 'input[name="stars"]', function () {
             $('#rating').val($(this).val());
         })
-        @if(isset($review))
-            var rating = "{{$review->rating}}";
-           $('input[value="'+rating+'"]').prop("checked", true);
+                @if(isset($review))
+        var rating = "{{$review->rating}}";
+        $('input[value="' + rating + '"]').prop("checked", true);
         $('#rating').val(rating);
         @endif
     </script>

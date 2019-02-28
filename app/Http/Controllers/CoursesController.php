@@ -59,8 +59,9 @@ class CoursesController extends Controller
             $course_rating = $course->reviews->avg('rating');
             $total_ratings = $course->reviews()->where('rating', '!=', "")->get()->count();
         }
+        $lessons = $course->courseTimeline()->orderBy('sequence','asc')->get();
 
-        return view('frontend.courses.course', compact('course', 'purchased_course', 'recent_news', 'course_rating', 'total_ratings','is_reviewed'));
+        return view('frontend.courses.course', compact('course', 'purchased_course', 'recent_news', 'course_rating', 'total_ratings','is_reviewed','lessons'));
     }
 
     public function payment(Request $request)
@@ -103,7 +104,7 @@ class CoursesController extends Controller
 
     public function getByCategory(Request $request)
     {
-        $category = Category::has('courses')->where('slug', '=', $request->category)->first();
+        $category = Category::where('slug', '=', $request->category)->first();
         if ($category != "") {
             $recent_news = Blog::orderBy('created_at', 'desc')->take(2)->get();
 
@@ -174,5 +175,4 @@ class CoursesController extends Controller
         }
         return abort(404);
     }
-
 }

@@ -172,7 +172,8 @@ return [
             'course_timeline' => 'Course timeline',
             'timeline_description' => 'Drag and change sequence of Lessons/Tests for course',
             'test' => 'Test',
-            'lesson' => 'lesson',
+            'lesson' => 'Lesson',
+            'listing_note' => 'Only Published Lessons and Tests will be Displayed and Sorted.',
 
             'fields' => [
                 'teachers' => 'Teachers',
@@ -203,7 +204,7 @@ return [
             'slug_placeholder' => 'Input slug or it will be generated automatically',
             'short_description_placeholder' => 'Input short description of lesson',
             'select_course' => 'Select Course',
-            'max_file_size' => '(max file size 10MB)',
+            'max_file_size' => '(max file size 5MB)',
             'fields' => [
                 'course' => 'Course',
                 'title' => 'Title',

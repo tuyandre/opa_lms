@@ -62,6 +62,7 @@ class ConfigSeeder extends Seeder
                 ),
         );
 
+        $footer_data = '{"short_description":{"text":"We take our mission of increasing global access to quality education seriously. We connect learners to the best universities and institutions from around the world.","status":1},"section1":{"type":"2","status":1},"section2":{"type":"3","status":1},"section3":{"type":"4","status":1},"social_links":{"status":1,"links":[{"icon":"fab fa-facebook-f","link":"#"},{"icon":"fab fa-instagram","link":"#"},{"icon":"fab fa-twitter","link":"#"}]},"newsletter_form":{"status":1},"bottom_footer":{"status":1},"copyright_text":{"text":"All right reserved  © 2018","status":0},"bottom_footer_links":{"status":0,"links":[{"label":"About Us","link":"#"},{"label":"Privacy Policy","link":"#"}]}}';
         $contact_data = json_encode($contact_data);
         $sections_layout1 = json_encode(config('sections.layout_1'));
         $sections_layout2 = json_encode(config('sections.layout_2'));
@@ -85,6 +86,7 @@ class ConfigSeeder extends Seeder
             'logo_popup' => 'popup-logo.jpg',
             'favicon_image' => 'popup-logo.jpg',
             'contact_data' => $contact_data,
+            'footer_data' => $footer_data,
         ];
 
         foreach ($data as $key => $value) {

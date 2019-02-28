@@ -64,7 +64,7 @@
                 </div>
                 <div class="col-12 col-lg-4 form-group">
 
-                    {!! Form::label('course_image', trans('labels.backend.courses.fields.course_image'), ['class' => 'control-label']) !!}
+                    {!! Form::label('course_image', trans('labels.backend.courses.fields.course_image'), ['class' => 'control-label','accept' => 'image/jpeg,image/gif,image/png']) !!}
                     {!! Form::file('course_image', ['class' => 'form-control']) !!}
                     {!! Form::hidden('course_image_max_size', 8) !!}
                     {!! Form::hidden('course_image_max_width', 4000) !!}
@@ -141,6 +141,15 @@
                 placeholder: "{{trans('labels.backend.courses.select_teachers')}}",
             });
         });
+        $(document).on('change','input[type="file"]',function () {
+            var $this = $(this);
+            $(this.files).each(function (key,value) {
+                if(value.size > 5000000){
+                    alert('"'+value.name+'"'+'exceeds limit of maximum file upload size' )
+                    $this.val("");
+                }
+            })
+        })
 
     </script>
 

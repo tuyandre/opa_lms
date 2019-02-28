@@ -27,6 +27,7 @@ return [
         'dashboard' => [
             'title'   => 'Dashboard',
             'welcome' => 'Welcome',
+            'my_courses' => 'My Courses',
         ],
 
         'general' => [

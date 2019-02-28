@@ -13,7 +13,8 @@ class LessonsController extends Controller
 
     public function show($course_id, $lesson_slug)
     {
-        $lesson = Lesson::where('slug', $lesson_slug)->where('course_id', $course_id)->firstOrFail();
+        $completed_lessons= "";
+        $lesson = Lesson::where('slug', $lesson_slug)->where('course_id', $course_id)->where('published','=',1)->firstOrFail();
 
         if (\Auth::check())
         {
@@ -29,14 +30,13 @@ class LessonsController extends Controller
                 ->first();
         }
 
-        $previous_lesson = Lesson::where('course_id', $lesson->course_id)
-            ->where('position', '<', $lesson->position)
-            ->orderBy('position', 'desc')
+        $previous_lesson = $lesson->course->courseTimeline()->where('sequence', '<', $lesson->courseTimeline->sequence)
+            ->orderBy('sequence', 'desc')
             ->first();
-        $next_lesson = Lesson::where('course_id', $lesson->course_id)
-            ->where('position', '>', $lesson->position)
-            ->orderBy('position', 'asc')
+        $next_lesson = $lesson->course->courseTimeline()->where('sequence', '>', $lesson->courseTimeline->sequence)
+            ->orderBy('sequence', 'asc')
             ->first();
+        $lessons = $lesson->course->courseTimeline()->orderby('sequence','asc')->get();
 
         $purchased_course = $lesson->course->students()->where('user_id', \Auth::id())->count() > 0;
         $test_exists = FALSE;
@@ -44,8 +44,11 @@ class LessonsController extends Controller
             $test_exists = TRUE;
         }
 
+        $completed_lessons = \Auth::user()->lessons()->where('course_id', $lesson->course->id)->get()->pluck('id')->toArray();
+
+
         return view('frontend.courses.lesson', compact('lesson', 'previous_lesson', 'next_lesson', 'test_result',
-            'purchased_course', 'test_exists'));
+            'purchased_course', 'test_exists','lessons','completed_lessons'));
     }
 
     public function test($lesson_slug, Request $request)

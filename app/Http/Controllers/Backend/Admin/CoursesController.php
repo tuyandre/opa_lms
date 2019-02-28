@@ -26,6 +26,7 @@ class CoursesController extends Controller
      */
     public function index()
     {
+
         if (!Gate::allows('course_access')) {
             return abort(401);
         }
@@ -73,7 +74,6 @@ class CoursesController extends Controller
             $courses = Course::ofTeacher()->orderBy('created_at', 'desc')->get();
 
         }
-
 
 
         if (auth()->user()->can('course_view')) {
@@ -224,7 +224,6 @@ class CoursesController extends Controller
         if (!Gate::allows('course_edit')) {
             return abort(401);
         }
-
         $request = $this->saveFiles($request);
         $course = Course::findOrFail($id);
 

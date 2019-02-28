@@ -62,6 +62,7 @@ Route::get('courses/review/{id}/delete', ['uses' => 'CoursesController@deleteRev
 Route::get('lesson/{course_id}/{slug}', ['uses' => 'LessonsController@show', 'as' => 'lessons.show']);
 Route::post('lesson/{slug}/test', ['uses' => 'LessonsController@test', 'as' => 'lessons.test']);
 
+Route::get('download',['uses' => 'Frontend\HomeController@getDownload','as'=>'download']);
 
 Route::group(['middleware'=>'auth'],function () {
     Route::post('cart/checkout', ['uses' => 'CartController@checkout', 'as' => 'cart.checkout']);

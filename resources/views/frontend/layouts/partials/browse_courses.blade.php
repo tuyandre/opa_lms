@@ -47,7 +47,7 @@
                                     </div>
                                     <div class="course-meta">
                                             <span class="course-category"><a
-                                                        href="#">{{$item->category->name}}</a></span>
+                                                        href="{{route('courses.category',['category'=>$item->category->slug])}}">{{$item->category->name}}</a></span>
                                         <span class="course-author">
                                                 <a href="#">
                                                     {{ $item->students()->count() }}

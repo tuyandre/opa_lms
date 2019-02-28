@@ -66,9 +66,20 @@ class Lesson extends Model
         return $this->morphMany(Media::class,'model');
     }
 
+    public function downloadableMedia(){
+        return $this->morphMany(Media::class,'model')->where('type','!=','YT');
+
+    }
+
+
+    public function mediaVideo()
+    {
+        return $this->morphMany(Media::class,'model')->where('type','=','YT');
+    }
+
     public function courseTimeline()
     {
-        return $this->morphMany(CourseTimeline::class,'model');
+        return $this->morphOne(CourseTimeline::class,'model');
     }
     
 }

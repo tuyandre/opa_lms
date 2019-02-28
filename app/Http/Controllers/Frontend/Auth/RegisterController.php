@@ -102,7 +102,7 @@ class RegisterController extends Controller
         $userForRole = User::find($user->id);
         $userForRole->confirmed = 1;
         $userForRole->save();
-        $userForRole->assignRole('user');
+        $userForRole->assignRole('student');
         return $user;
     }
 

@@ -3,6 +3,7 @@
 @php
     $footer_data = json_decode(config('footer_data'));
 @endphp
+@if($footer_data != "")
 <footer>
     <section id="footer-area" class="footer-area-section">
         <div class="container">
@@ -117,5 +118,6 @@
         </div>
     </section>
 </footer>
+@endif
 <!-- End of footer area
 ============================================= -->

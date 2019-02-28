@@ -186,10 +186,10 @@
 
         var uploadField = $('input[type="file"]');
 
-       $(document).on('change','input[type="file"]',function () {
+       $(document).on('change','input[name="lesson_image"]',function () {
           var $this = $(this);
            $(this.files).each(function (key,value) {
-               if(value.size > 10240){
+               if(value.size > 5000000){
                    alert('"'+value.name+'"'+'exceeds limit of maximum file upload size' )
                    $this.val("");
                }
