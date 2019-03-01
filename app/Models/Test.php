@@ -18,7 +18,7 @@ class Test extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['title', 'description', 'published', 'course_id', 'lesson_id'];
+    protected $fillable = ['title', 'description','slug', 'published', 'course_id', 'lesson_id'];
     
 
     /**
@@ -53,5 +53,14 @@ class Test extends Model
     {
         return $this->belongsToMany(Question::class, 'question_test')->withTrashed();
     }
-    
+
+    public function chapterStudents()
+    {
+        return $this->morphMany(ChapterStudent::class,'model');
+    }
+
+    public function courseTimeline()
+    {
+        return $this->morphOne(CourseTimeline::class,'model');
+    }
 }

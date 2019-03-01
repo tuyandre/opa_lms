@@ -6,7 +6,7 @@
     <style>
         .trend-badge-2{
             top: -10px;
-            left: -50px;
+            left: -52px;
             color: #fff;
             font-size: 12px;
             font-weight: 700;

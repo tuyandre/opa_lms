@@ -160,6 +160,8 @@ class TestsController extends Controller
             return abort(401);
         }
         $test = Test::create($request->all());
+        $test->slug = str_slug($request->title);
+        $test->save();
 
         return redirect()->route('admin.tests.index')->withFlashSuccess(trans('alerts.backend.general.created'));
     }
@@ -200,6 +202,9 @@ class TestsController extends Controller
         }
         $test = Test::findOrFail($id);
         $test->update($request->all());
+        $test->slug = str_slug($request->title);
+        $test->save();
+
 
         return redirect()->route('admin.tests.index')->withFlashSuccess(trans('alerts.backend.general.updated'));
     }

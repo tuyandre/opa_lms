@@ -2,6 +2,9 @@
 
 @push('after-styles')
     <style>
+        .leanth-course.go {
+            right: 0;
+        }
 
     </style>
 @endpush
@@ -67,17 +70,17 @@
 
                             @if(count($lessons)  > 0)
 
-                            <div class="course-details-category ul-li">
-                                <span class="float-none">Course <b>Timeline:</b></span>
-                                <ul>
-                                    @foreach($lessons as $key=> $lesson)
-                                        @php $key++; @endphp
-                                        <li><a data-toggle="collapse" data-target="#collapse{{$key}}"
-                                               aria-expanded="true"
-                                               aria-controls="collapse{{$key}}">{{$lesson->model->title}}</a></li>
-                                    @endforeach
-                                </ul>
-                            </div>
+                                <div class="course-details-category ul-li">
+                                    <span class="float-none">Course <b>Timeline:</b></span>
+                                    {{--<ul>--}}
+                                        {{--@foreach($lessons as $key=> $lesson)--}}
+                                            {{--@php $key++; @endphp--}}
+                                            {{--<li><a data-toggle="collapse" data-target="#collapse{{$key}}"--}}
+                                                   {{--aria-expanded="true"--}}
+                                                   {{--aria-controls="collapse{{$key}}">{{$lesson->model->title}}</a></li>--}}
+                                        {{--@endforeach--}}
+                                    {{--</ul>--}}
+                                </div>
                             @endif
                         </div>
                     </div>
@@ -88,44 +91,61 @@
                         <div class="affiliate-market-accordion">
                             <div id="accordion" class="panel-group">
                                 @if(count($lessons)  > 0)
-                                @foreach($lessons as $key=> $lesson)
-                                    @php $key++ @endphp
-                                    <div class="panel">
-                                        <div class="panel-title" id="headingOne">
-                                            <div class="ac-head">
-                                                <button class="btn btn-link collapsed" data-toggle="collapse"
-                                                        data-target="#collapse{{$key}}" aria-expanded="false"
-                                                        aria-controls="collapse{{$key}}">
-                                                    <span>{{ sprintf("%02d", $key)}}</span> {{$lesson->model->title}}
-                                                </button>
-                                                {{--<div class="course-by">--}}
-                                                {{--BY: <b>TONI KROSS</b>--}}
-                                                {{--</div>--}}
-                                                {{--<div class="leanth-course">--}}
-                                                {{--<span>60 Minuttes</span>--}}
-                                                {{--<span>Adobe photoshop</span>--}}
-                                                {{--</div>--}}
-                                                @if($lesson->model_type == 'App\Models\Test')
-                                                <div class="leanth-course">
-                                                <span>Test</span>
+                                    @foreach($lessons as $key=> $lesson)
+                                        @php $key++ @endphp
+                                        <div class="panel">
+                                            <div class="panel-title" id="headingOne">
+                                                <div class="ac-head">
+                                                    <button class="btn btn-link collapsed" data-toggle="collapse"
+                                                            data-target="#collapse{{$key}}" aria-expanded="false"
+                                                            aria-controls="collapse{{$key}}">
+                                                        <span>{{ sprintf("%02d", $key)}}</span> {{$lesson->model->title}}
+                                                    </button>
+                                                    {{--<div class="course-by">--}}
+                                                    {{--BY: <b>TONI KROSS</b>--}}
+                                                    {{--</div>--}}
+                                                    {{--<div class="leanth-course">--}}
+                                                    {{--<span>60 Minuttes</span>--}}
+                                                    {{--<span>Adobe photoshop</span>--}}
+                                                    {{--</div>--}}
+                                                    @if($lesson->model_type == 'App\Models\Test')
+                                                        <div class="leanth-course">
+                                                            <span>Test</span>
+                                                        </div>
+                                                    @endif
+
+                                                    @if(in_array($lesson->model->id,$completed_lessons))
+                                                        <div class="leanth-course ">
+                                                            <span class="gradient-bg text-white font-weight-bold completed">Completed</span>
+                                                        </div>
+                                                    @endif
                                                 </div>
-                                                 @endif
+                                            </div>
+                                            <div id="collapse{{$key}}" class="collapse" aria-labelledby="headingOne"
+                                                 data-parent="#accordion">
+                                                <div class="panel-body">
+                                                    @if($lesson->model_type == 'App\Models\Test')
+                                                        {{ mb_substr($lesson->model->description,0,20).'...'}}
+                                                    @else
+                                                        {{$lesson->model->short_text}}
+
+                                                    @endif
+
+                                                    @if(in_array($lesson->model->id,$completed_lessons))
+
+                                                        <div>
+                                                            <a class="btn btn-warning mt-3"
+                                                               href="{{route('lessons.show',['id' => $lesson->course->id,'slug'=>$lesson->model->slug])}}">
+                                                                <span class=" text-white font-weight-bold ">Go >></span>
+                                                            </a>
+                                                        </div>
+
+                                                    @endif
+
+                                                </div>
                                             </div>
                                         </div>
-                                        <div id="collapse{{$key}}" class="collapse" aria-labelledby="headingOne"
-                                             data-parent="#accordion">
-                                            <div class="panel-body">
-                                                @if($lesson->model_type == 'App\Models\Test')
-                                                    {{ mb_substr($lesson->model->description,0,20).'...'}}
-                                                @else
-                                                    {{$lesson->model->short_text}}
-
-                                                @endif
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                @endforeach
+                                    @endforeach
                                 @endif
                             </div>
                         </div>
@@ -324,9 +344,17 @@
                                     </form>
                                 @endif
                             @else
-                                <a href="{{route('lessons.show',['id' => $course->id,'slug'=>$course->courseTimeline()->orderBy('sequence','asc')->first()->model->slug])}}"
+
+                                @if($continue_course)
+                                <a href="{{route('lessons.show',['id' => $course->id,'slug'=>$continue_course->model->slug])}}"
                                    class="genius-btn btn-block text-white  gradient-bg text-center text-uppercase  bold-font">
-                                    Go to Course <i class="fa fa-arrow-right"></i></a>
+
+                                    Continue Course
+
+                                    <i class="fa fa-arrow-right"></i></a>
+
+                                @endif
+
                             @endif
                             {{--<div class="like-course">--}}
                             {{--<a href="#"><i class="fas fa-heart"></i></a>--}}

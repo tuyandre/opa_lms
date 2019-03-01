@@ -59,9 +59,18 @@ class CoursesController extends Controller
             $course_rating = $course->reviews->avg('rating');
             $total_ratings = $course->reviews()->where('rating', '!=', "")->get()->count();
         }
-        $lessons = $course->courseTimeline()->orderBy('sequence','asc')->get();
+        $lessons = $course->courseTimeline()->orderby('sequence','asc')->get();
 
-        return view('frontend.courses.course', compact('course', 'purchased_course', 'recent_news', 'course_rating', 'total_ratings','is_reviewed','lessons'));
+
+        $completed_lessons = \Auth::user()->chapters()->where('course_id', $course->id)->get()->pluck('model_id')->toArray();
+        $continue_course  = $course->courseTimeline()->orderby('sequence','asc')->whereNotIn('model_id',$completed_lessons)->first();
+        if($continue_course == ""){
+            $continue_course = $course->courseTimeline()->orderby('sequence','asc')->first();
+        }
+
+
+
+        return view('frontend.courses.course', compact('course', 'purchased_course', 'recent_news', 'course_rating', 'completed_lessons','total_ratings','is_reviewed','lessons','continue_course'));
     }
 
     public function payment(Request $request)

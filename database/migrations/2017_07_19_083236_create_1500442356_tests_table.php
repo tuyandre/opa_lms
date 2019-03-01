@@ -22,7 +22,7 @@ class Create1500442356TestsTable extends Migration
                 $table->string('title')->nullable();
                 $table->text('description')->nullable();
                 $table->tinyInteger('published')->nullable()->default(0);
-                
+                $table->string('slug')->nullable();
                 $table->timestamps();
                 $table->softDeletes();
 

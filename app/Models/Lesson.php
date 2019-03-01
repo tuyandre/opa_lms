@@ -66,6 +66,11 @@ class Lesson extends Model
         return $this->morphMany(Media::class,'model');
     }
 
+    public function chapterStudents()
+    {
+        return $this->morphMany(ChapterStudent::class,'model');
+    }
+
     public function downloadableMedia(){
         return $this->morphMany(Media::class,'model')->where('type','!=','YT');
 

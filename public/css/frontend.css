@@ -257,8 +257,7 @@ h6 {
 .gradient-bg,
 .modal-body .nws-button button,
 .teacher-pic-content .teacher-img-content:after,
-.course-details-category li:hover,
-.course-details-category li.active {
+.course-details-category li:hover {
   background: #17d0cf;
   background: -webkit-gradient(left top, right top, color-stop(0%, #4eb3bf), color-stop(51%, #17d0cf), color-stop(100%, #4eb3bf));
   background: -webkit-gradient(linear, left top, right top, from(#01a6fd), color-stop(51%, #17d0cf), to(#01a6fd));
@@ -894,9 +893,7 @@ h6 {
 .modal-header .teacher-pic-content .teacher-img-content:after,
 .teacher-pic-content .modal-header .teacher-img-content:after,
 .modal-header .course-details-category li:hover,
-.course-details-category .modal-header li:hover,
-.modal-header .course-details-category li.active,
-.course-details-category .modal-header li.active {
+.course-details-category .modal-header li:hover {
   position: absolute;
   top: 0;
   border-radius: 4px;
@@ -5329,7 +5326,7 @@ ul.product-tab li.active:after {
 }
 
 .course-details-category li.active {
-  color: #fff;
+  background: #e6e6e6;
 }
 
 .course-details-item {
@@ -5408,6 +5405,10 @@ ul.product-tab li.active:after {
   border-radius: 4px;
   text-transform: uppercase;
   color: #ccc !important;
+}
+
+.affiliate-market-accordion .leanth-course span.completed {
+  color: white !important;
 }
 
 .affiliate-market-accordion .panel-group .btn-link.collapsed:after {
@@ -5717,6 +5718,7 @@ ul.product-tab li.active:after {
 .radio .cr {
   position: relative;
   display: inline-block;
+  text-align: center;
   border: 1px solid #f0f0f0;
   border-radius: .25em;
   width: 1.3em;
@@ -5732,11 +5734,13 @@ ul.product-tab li.active:after {
 
 .checkbox .cr .cr-icon,
 .radio .cr .cr-icon {
+  right: 0;
+  display: inline-block;
   position: absolute;
   font-size: .8em;
   line-height: 0;
-  top: 50%;
-  left: 20%;
+  top: calc(50% + 1px);
+  left: 0;
 }
 
 .radio .cr .cr-icon {

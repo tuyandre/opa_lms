@@ -2,6 +2,7 @@
 
 namespace App\Models\Auth;
 
+use App\Models\ChapterStudent;
 use App\Models\Course;
 use App\Models\Invoice;
 use App\Models\Lesson;
@@ -87,6 +88,11 @@ class User extends Authenticatable implements MessageableInterface
     public function lessons()
     {
         return $this->belongsToMany(Lesson::class, 'lesson_student');
+    }
+
+    public function chapters()
+    {
+        return $this->hasMany(ChapterStudent::class,'user_id');
     }
 
     public function courses()

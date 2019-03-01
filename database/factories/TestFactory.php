@@ -13,8 +13,12 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 $factory->define(App\Models\Test::class, function (Faker\Generator $faker) {
+    $title = $faker->text(30);
+    $slug = str_slug($title);
     return [
-        'title' => $faker->text(50),
+        'title' => $title,
+        'description' => $faker->paragraph(10),
+        'slug' => $slug,
         'published' => 1,
     ];
 });

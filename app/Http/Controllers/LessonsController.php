@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Auth\Auth;
 use App\Models\Lesson;
 use App\Models\Question;
 use App\Models\QuestionsOption;
+use App\Models\Test;
 use App\Models\TestsResult;
 use Illuminate\Http\Request;
 
@@ -14,21 +16,33 @@ class LessonsController extends Controller
     public function show($course_id, $lesson_slug)
     {
         $completed_lessons= "";
-        $lesson = Lesson::where('slug', $lesson_slug)->where('course_id', $course_id)->where('published','=',1)->firstOrFail();
+        $lesson = Lesson::where('slug', $lesson_slug)->where('course_id', $course_id)->where('published','=',1)->first();
+        if($lesson == ""){
+           $lesson = Test::where('slug', $lesson_slug)->where('course_id', $course_id)->where('published','=',1)->firstOrFail();
+           $lesson->full_text = $lesson->description;
 
-        if (\Auth::check())
-        {
-            if ($lesson->students()->where('id', \Auth::id())->count() == 0) {
-                $lesson->students()->attach(\Auth::id());
+            $test_result = NULL;
+            if ($lesson) {
+                $test_result = TestsResult::where('test_id', $lesson->id)
+                    ->where('user_id', \Auth::id())
+                    ->first();
             }
         }
 
-        $test_result = NULL;
-        if ($lesson->test) {
-            $test_result = TestsResult::where('test_id', $lesson->test->id)
-                ->where('user_id', \Auth::id())
-                ->first();
+        if (\Auth::check())
+        {
+            if ($lesson->chapterStudents()->where('user_id', \Auth::id())->count() == 0) {
+                $lesson->chapterStudents()->create([
+                    'model_type'=>get_class($lesson),
+                    'model_id'=>$lesson->id,
+                    'user_id'=>auth()->user()->id,
+                    'course_id' => $lesson->course->id
+                ]);
+            }
         }
+
+
+
 
         $previous_lesson = $lesson->course->courseTimeline()->where('sequence', '<', $lesson->courseTimeline->sequence)
             ->orderBy('sequence', 'desc')
@@ -40,11 +54,11 @@ class LessonsController extends Controller
 
         $purchased_course = $lesson->course->students()->where('user_id', \Auth::id())->count() > 0;
         $test_exists = FALSE;
-        if ($lesson->test && $lesson->test->questions->count() > 0) {
+        if ($lesson->questions && $lesson->questions->count() > 0) {
             $test_exists = TRUE;
         }
 
-        $completed_lessons = \Auth::user()->lessons()->where('course_id', $lesson->course->id)->get()->pluck('id')->toArray();
+        $completed_lessons = \Auth::user()->chapters()->where('course_id', $lesson->course->id)->get()->pluck('model_id')->toArray();
 
 
         return view('frontend.courses.lesson', compact('lesson', 'previous_lesson', 'next_lesson', 'test_result',
@@ -53,7 +67,7 @@ class LessonsController extends Controller
 
     public function test($lesson_slug, Request $request)
     {
-        $lesson = Lesson::where('slug', $lesson_slug)->firstOrFail();
+        $test = Test::where('slug', $lesson_slug)->firstOrFail();
         $answers = [];
         $test_score = 0;
         foreach ($request->get('questions') as $question_id => $answer_id) {
@@ -76,13 +90,21 @@ class LessonsController extends Controller
              */
         }
         $test_result = TestsResult::create([
-            'test_id' => $lesson->test->id,
+            'test_id' => $test->id,
             'user_id' => \Auth::id(),
             'test_result' => $test_score
         ]);
         $test_result->answers()->createMany($answers);
 
-        return redirect()->route('lessons.show', [$lesson->course_id, $lesson_slug])->with('message', 'Test score: ' . $test_score);
+        return back()->with('message', 'Test score: ' . $test_score);
+    }
+
+    public function retest(Request $request){
+       $test = TestsResult::where('id','=',$request->result_id)
+            ->where('user_id','=',auth()->user()->id)
+            ->first();
+       $test->delete();
+       return back();
     }
 
 }

@@ -119,8 +119,7 @@
 			@extend .gradient-bg;
 		}
 		&.active{
-			color: $white;
-			@extend .gradient-bg;
+			background: #e6e6e6;
 		}
 	}
 }
@@ -200,6 +199,9 @@
 			border-radius: 4px;
 			text-transform: uppercase;
 			color: #ccc !important;
+			&.completed{
+				color: white!important;
+			}
 		}
 	}
 	.panel-group .btn-link.collapsed:after {
