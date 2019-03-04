@@ -158,7 +158,7 @@ class LessonsController extends Controller
         if ($request->videos != "") {
             $videos = explode(',', $request->videos);
             foreach ($videos as $video) {
-                $video_id = array_last(explode('/', trim($video)));
+                $video_id = array_last(explode('=', trim($video)));
                 $media = Media::where('url', $video)
                     ->where('type', '=', 'YT')
                     ->where('model_type', '=', 'App\Models\Lesson')
@@ -260,7 +260,7 @@ class LessonsController extends Controller
 
             $videos = explode(',', $request->videos);
             foreach ($videos as $video) {
-                $video_id = array_last(explode('/', trim($video)));
+                $video_id = array_last(explode('=', trim($video)));
                 $media = Media::where('url', $video)
                     ->where('type', '=', 'YT')
                     ->where('model_type', '=', 'App\Models\Lesson')

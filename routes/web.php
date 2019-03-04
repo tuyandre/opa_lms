@@ -62,6 +62,8 @@ Route::get('courses/review/{id}/delete', ['uses' => 'CoursesController@deleteRev
 Route::get('lesson/{course_id}/{slug}/', ['uses' => 'LessonsController@show', 'as' => 'lessons.show']);
 Route::post('lesson/{slug}/test', ['uses' => 'LessonsController@test', 'as' => 'lessons.test']);
 Route::post('lesson/{slug}/retest', ['uses' => 'LessonsController@retest', 'as' => 'lessons.retest']);
+Route::post('video/progress','LessonsController@videoProgress')->name('update.videos.progress');
+
 
 Route::get('download',['uses' => 'Frontend\HomeController@getDownload','as'=>'download']);
 

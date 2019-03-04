@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Helpers\Auth\Auth;
 use App\Models\Lesson;
+use App\Models\Media;
 use App\Models\Question;
 use App\Models\QuestionsOption;
 use App\Models\Test;
 use App\Models\TestsResult;
+use App\Models\VideoProgress;
 use Illuminate\Http\Request;
 
 class LessonsController extends Controller
@@ -105,6 +107,24 @@ class LessonsController extends Controller
             ->first();
        $test->delete();
        return back();
+    }
+
+    public function videoProgress(Request $request){
+        $user = auth()->user();
+        $video = Media::findOrFail($request->video);
+        $video_progress = VideoProgress::where('user_id', '=', $user->id)
+            ->where('media_id', '=', $video->id)->first() ?: new VideoProgress();
+
+        $video_progress->media_id = $video->id;
+        $video_progress->user_id = $user->id;
+        $video_progress->duration = $video_progress->duration ?: round($request->duration, 2);
+        $video_progress->progress = round($request->progress, 2);
+        if ($video_progress->duration - $video_progress->progress < 10) {
+            $video_progress->progress = $video_progress->duration;
+            $video_progress->complete = 1;
+        }
+        $video_progress->save();
+        return $video_progress->progress;
     }
 
 }

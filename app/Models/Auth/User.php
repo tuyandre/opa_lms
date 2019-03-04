@@ -6,7 +6,9 @@ use App\Models\ChapterStudent;
 use App\Models\Course;
 use App\Models\Invoice;
 use App\Models\Lesson;
+use App\Models\Media;
 use App\Models\Traits\Uuid;
+use App\Models\VideoProgress;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
 use App\Models\Auth\Traits\Scope\UserScope;
@@ -100,10 +102,32 @@ class User extends Authenticatable implements MessageableInterface
         return $this->belongsToMany(Course::class, 'course_user');
     }
 
-
-
     public function invoices(){
         return $this->hasMany(Invoice::class);
+    }
+
+
+    //Calc Watch Time
+    public function getWatchTime(){
+        $watch_time = VideoProgress::where('user_id','=',$this->id)->sum('progress');
+        return $watch_time;
+
+    }
+
+    //Check Participation Percentage
+    public function getParticipationPercentage(){
+        $videos = Media::featured()->where('status','!=',0)->get();
+        $count = $videos->count();
+        $total_percentage = 0;
+        if($count > 0) {
+            foreach ($videos as $video) {
+                $total_percentage = $total_percentage + $video->getProgressPercentage($this->id);
+            }
+            $percentage = $total_percentage /$count;
+        }else{
+            $percentage = 0;
+        }
+        return round($percentage,2);
     }
 
 }

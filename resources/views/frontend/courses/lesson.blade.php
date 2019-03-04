@@ -1,8 +1,10 @@
 @extends('frontend.layouts.app'.config('theme_layout'))
 
 @push('after-styles')
+    <link rel="stylesheet" href="{{asset('plugins/YouTube-iFrame-API-Wrapper/css/main.css')}}">
+
     <style>
-        .test-form{
+        .test-form {
             color: #333333;
         }
 
@@ -73,7 +75,9 @@
                                 <form action="{{route('lessons.retest',[$test_result->test->slug])}}" method="post">
                                     @csrf
                                     <input type="hidden" name="result_id" value="{{$test_result->id}}">
-                                    <button type="submit" class="btn gradient-bg font-weight-bold text-white" href="">Give test again</button>
+                                    <button type="submit" class="btn gradient-bg font-weight-bold text-white" href="">
+                                        Give test again
+                                    </button>
                                 </form>
                             @else
                                 <div class="test-form">
@@ -126,11 +130,33 @@
                                         $url = array_last(explode('=',$video->url));
                                     @endphp
                                     <div class="course-details-content">
+                                        <div class="video-container mb-5" data-id="{{$video->id}}" id="{{$url}}">
+                                            <div class="embed-responsive embed-responsive-16by9">
+                                                <div class="embed-responsive-item">
 
-                                        <iframe width="870" height="543" src="https://www.youtube.com/embed/{{$url}}"
-                                                frameborder="0"
-                                                allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                                                allowfullscreen></iframe>
+                                                    <div class="mask"></div>
+                                                    {{--<img src="{{asset('vendor/YouTube-iFrame-API-Wrapper')}}/img/preload.gif" class="preload">--}}
+
+                                                    <div class="play">
+                                                        <i class="play-icon glyphicon glyphicon-play-circle"></i>
+                                                    </div>
+
+                                                    <div class="mute">
+                                                        <i class="mute-icon notMuted glyphicon glyphicon-volume-up"></i>
+                                                        <i class="mute-icon isMuted glyphicon glyphicon-volume-off"></i>
+                                                    </div>
+
+                                                    <img class="thumb"
+                                                         src="//img.youtube.com/vi/{{$url}}/maxresdefault.jpg">
+                                                    <div class="iframe" id="video-{{$url}}"></div>
+
+                                                </div>
+                                            </div>
+
+                                            <div class="progress">
+                                                <div class="progress-bar" role="progressbar"></div>
+                                            </div>
+                                        </div>
                                     </div>
                                 @endforeach
                             </div>
@@ -239,7 +265,102 @@
 @endsection
 
 @push('after-scripts')
-    <script>
+    <script src="//www.youtube.com/iframe_api"></script>
+    <script src="{{asset('plugins/YouTube-iFrame-API-Wrapper/Player.js')}}"></script>
 
+    <script>
+                @if($lesson->mediaVideo && $lesson->mediavideo->count() > 0)
+        var videos = [];
+        @foreach($lesson->mediaVideo as $key=>$video)
+
+        @php  $key++    @endphp
+        videos.push({
+            id: "{{$video->name}}",
+            video_id: "{{$video->id}}",
+            time: parseFloat({{$video->getProgress(auth()->user()->id)->progress?:0}}),
+            duration: 0,
+        });
+        var update = false;
+
+                @endforeach
+        var players = [];
+
+
+        function onYouTubeIframeAPIReady() {
+            var videoinfo = videos;
+            var v = 0;
+            $('.video-container').each(function (key, value) {
+                players[key] = new Player();
+                var video_container = $(this);
+                players[key].init({
+                    id: videoinfo[key].id,
+                    start: videoinfo[key].time,
+                    onLoaded: function (player) {
+                        video_container.find('.play').show()
+                        duration = players[key].video.duration();
+                        video_container.attr('data-duration', duration)
+                    },
+                    onPlay: function (player) {
+                        video_container.find('.play').hide()
+
+                    },
+                    onPlaying: function (player) {
+                        videoinfo[key].time = player.time();
+                        video_container.attr('data-time', videoinfo[key].time)
+                        update = true;
+                        setInterval(function () {
+                            var id = video_container.data('id');
+                            var duration = video_container.data('duration');
+                            var time = videoinfo[key].time;
+                            saveProgress(id, duration, time);
+                        }, 5000)
+                    },
+                    onPause: function (player) {
+                        video_container.find('.play').show();
+                        update = false;
+
+                    },
+                    onEnd: function (player) {
+                        var state = saveProgress(videoinfo[key].video_id, videoinfo[key].duration, videoinfo[key].time);
+
+                    },
+                    onSeekStart: function (player) {
+                    },
+                    onSeeking: function (player) {
+                    },
+                    onSeekEnd: function (player) {
+                    }
+                })
+            })
+
+        }
+
+        //Save every Interval
+//        window.setInterval(function () {
+//            $('.video-container').each(function () {
+//                var id = $(this).data('id');
+//                var duration = $(this).data('duration');
+//                var time = $(this).data('time');
+//                console.log($(this).data('time'))
+//                saveProgress(id, duration, time);
+//            });
+//        }, 5000);
+
+
+        function saveProgress(id, duration, time) {
+            $.ajax({
+                url: "{{route('update.videos.progress')}}",
+                method: "POST",
+                data: {"_token": "{{ csrf_token() }}", 'video': id, 'duration': duration, 'progress': time},
+                success: function (result) {
+//                    console.log(result)
+                }
+            });
+        }
+
+        $('#notice').on('hidden.bs.modal', function () {
+            location.reload();
+        });
     </script>
+    @endif
 @endpush

@@ -40,6 +40,7 @@ class CoursesController extends Controller
                 ->orderBy('id', 'desc')
                 ->get();
         }
+
         $recent_news = Blog::orderBy('created_at', 'desc')->take(2)->get();
         return view('frontend.courses.index', compact('courses', 'purchased_courses', 'recent_news'));
     }
@@ -116,9 +117,11 @@ class CoursesController extends Controller
         $category = Category::where('slug', '=', $request->category)->first();
         if ($category != "") {
             $recent_news = Blog::orderBy('created_at', 'desc')->take(2)->get();
+            $featured_courses = Course::where('published', '=', 1)
+                ->where('featured', '=', 1)->take(8)->get();
 
             $courses = $category->courses()->where('published', '=', 1)->paginate(9);
-            return view('frontend.courses.index', compact('courses', 'category', 'recent_news'));
+            return view('frontend.courses.index', compact('courses', 'category', 'recent_news','featured_courses'));
         }
         return abort(404);
     }
