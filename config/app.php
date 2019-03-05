@@ -199,6 +199,8 @@ return [
         Jenssegers\Agent\AgentServiceProvider::class,
         Darryldecode\Cart\CartServiceProvider::class,
         ConsoleTVs\Invoices\InvoicesServiceProvider::class,
+        Harimayco\Menu\MenuServiceProvider::class,
+
 
 
 
@@ -276,7 +278,9 @@ return [
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
         'Messenger' => Gerardojbaez\Messenger\Facades\Messenger::class,
         'Agent' => Jenssegers\Agent\Facades\Agent::class,
-        'Cart' => Darryldecode\Cart\Facades\CartFacade::class
+        'Cart' => Darryldecode\Cart\Facades\CartFacade::class,
+        'Menu' => Harimayco\Menu\Facades\Menu::class,
+
 
     ],
 

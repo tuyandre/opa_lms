@@ -315,6 +315,9 @@ return [
         'messages' => [
             'title' => 'Messages'
         ],
+        'menu-manager' => [
+            'title' => 'Menu Manager'
+        ],
         'general_settings' => [
             'mail_configuration_note' => 'Have you configured <a target="_blank" href="'.route('admin.general-settings',['tab' => 'email']) .'">Mail Settings</a>? It is compulsory to setup to send/receive emails',
             'management' => 'General Settings',

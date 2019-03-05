@@ -127,6 +127,9 @@ return [
             'invoices'    => [
                 'title' => 'Invoices',
             ],
+            'menu-manager' => [
+                'title' => 'Menu Manager',
+            ],
             /*===========================*/
         ],
     ],

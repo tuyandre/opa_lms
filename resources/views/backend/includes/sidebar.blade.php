@@ -45,56 +45,56 @@
             @endcan
             @if($logged_in_user->hasRole('teacher') || $logged_in_user->isAdmin())
 
-            <li class="nav-item nav-dropdown {{ active_class(Active::checkUriPattern(['user/courses*','user/lessons*','user/tests*','user/questions*']), 'open') }}">
-                <a class="nav-link nav-dropdown-toggle {{ active_class(Active::checkUriPattern('admin/*')) }}"
-                   href="#">
-                    <i class="nav-icon icon-puzzle"></i> @lang('menus.backend.sidebar.courses.management')
+                <li class="nav-item nav-dropdown {{ active_class(Active::checkUriPattern(['user/courses*','user/lessons*','user/tests*','user/questions*']), 'open') }}">
+                    <a class="nav-link nav-dropdown-toggle {{ active_class(Active::checkUriPattern('admin/*')) }}"
+                       href="#">
+                        <i class="nav-icon icon-puzzle"></i> @lang('menus.backend.sidebar.courses.management')
 
 
-                </a>
+                    </a>
 
-                <ul class="nav-dropdown-items">
+                    <ul class="nav-dropdown-items">
 
-                    @can('course_access')
-                        <li class="nav-item ">
-                            <a class="nav-link {{ $request->segment(2) == 'courses' ? 'active' : '' }}"
-                               href="{{ route('admin.courses.index') }}">
-                                <span class="title">@lang('menus.backend.sidebar.courses.title')</span>
-                            </a>
-                        </li>
-                    @endcan
+                        @can('course_access')
+                            <li class="nav-item ">
+                                <a class="nav-link {{ $request->segment(2) == 'courses' ? 'active' : '' }}"
+                                   href="{{ route('admin.courses.index') }}">
+                                    <span class="title">@lang('menus.backend.sidebar.courses.title')</span>
+                                </a>
+                            </li>
+                        @endcan
 
-                    @can('lesson_access')
-                        <li class="nav-item ">
-                            <a class="nav-link {{ $request->segment(2) == 'lessons' ? 'active' : '' }}"
-                               href="{{ route('admin.lessons.index') }}">
-                                <span class="title">@lang('menus.backend.sidebar.lessons.title')</span>
-                            </a>
-                        </li>
-                    @endcan
+                        @can('lesson_access')
+                            <li class="nav-item ">
+                                <a class="nav-link {{ $request->segment(2) == 'lessons' ? 'active' : '' }}"
+                                   href="{{ route('admin.lessons.index') }}">
+                                    <span class="title">@lang('menus.backend.sidebar.lessons.title')</span>
+                                </a>
+                            </li>
+                        @endcan
 
-                    @can('test_access')
-                        <li class="nav-item ">
-                            <a class="nav-link {{ $request->segment(2) == 'tests' ? 'active' : '' }}"
-                               href="{{ route('admin.tests.index') }}">
-                                <span class="title">@lang('menus.backend.sidebar.tests.title')</span>
-                            </a>
-                        </li>
-                    @endcan
-
-
-                    @can('question_access')
-                        <li class="nav-item">
-                            <a class="nav-link {{ $request->segment(2) == 'questions' ? 'active' : '' }}"
-                               href="{{ route('admin.questions.index') }}">
-                                <span class="title">@lang('menus.backend.sidebar.questions.title')</span>
-                            </a>
-                        </li>
-                    @endcan
+                        @can('test_access')
+                            <li class="nav-item ">
+                                <a class="nav-link {{ $request->segment(2) == 'tests' ? 'active' : '' }}"
+                                   href="{{ route('admin.tests.index') }}">
+                                    <span class="title">@lang('menus.backend.sidebar.tests.title')</span>
+                                </a>
+                            </li>
+                        @endcan
 
 
-                </ul>
-            </li>
+                        @can('question_access')
+                            <li class="nav-item">
+                                <a class="nav-link {{ $request->segment(2) == 'questions' ? 'active' : '' }}"
+                                   href="{{ route('admin.questions.index') }}">
+                                    <span class="title">@lang('menus.backend.sidebar.questions.title')</span>
+                                </a>
+                            </li>
+                        @endcan
+
+
+                    </ul>
+                </li>
             @endif
 
 
@@ -123,6 +123,12 @@
                             </li>
                         @endcan
                         @if ($logged_in_user->isAdmin())
+                            <li class="nav-item">
+                                <a class="nav-link {{ active_class(Active::checkUriPattern('admin/menu-manager')) }}"
+                                   href="{{ route('admin.menu-manager') }}"> {{ __('menus.backend.sidebar.menu-manager.title') }}</a>
+                            </li>
+
+
                             <li class="nav-item ">
                                 <a class="nav-link {{ active_class(Active::checkUriPattern('admin/sliders*')) }}"
                                    href="{{ route('admin.sliders.index') }}">

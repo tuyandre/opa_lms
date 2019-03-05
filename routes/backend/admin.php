@@ -169,4 +169,5 @@ Route::post('reasons_mass_destroy', ['uses' => 'Admin\ReasonController@massDestr
 Route::get('reasons/status/{id}', 'Admin\ReasonController@status')->name('reasons.status');
 
 
+Route::get('menu-manager','MenuController@index')->name('menu-manager');
 
