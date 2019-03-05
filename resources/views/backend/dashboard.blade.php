@@ -55,7 +55,7 @@
                                                 </ul>
                                             </div>
                                         </div>
-                                        <div class="best-course-text d-inline-block w-100 px-2 pb-4">
+                                        <div class="best-course-text d-inline-block w-100 px-2 pb-3">
                                             <div class="course-title mb20 headline relative-position">
                                                 <h3>
                                                     <a href="{{ route('courses.show', [$item->slug]) }}">{{$item->title}}</a>
@@ -67,7 +67,7 @@
                                                 <a href="{{route('courses.category',['category'=>$item->category->slug])}}"
                                                    class="text-success">{{$item->category->name}}</a>
                                             </span>
-                                                    <span class="course-author float-right">
+                                             <span class="course-author float-right">
                                                  {{ $item->students()->count() }}
                                                         Students
                                             </span>
