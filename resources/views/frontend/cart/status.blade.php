@@ -36,7 +36,7 @@
                 @if(session()->has('success'))
                     <h2>  {{session('success')}}</h2>
                     <h3>Congratulations. Enjoy your course</h3>
-                    <h4><a href="{{route('courses.all')}}">See more courses</a></h4>
+                    <h4><a href="{{route('admin.dashboard')}}">See more courses</a></h4>
                 @endif
                 @if(session()->has('failure'))
                     <button type="button" class="close" data-dismiss="alert">&times;</button>

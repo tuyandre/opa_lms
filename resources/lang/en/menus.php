@@ -124,6 +124,9 @@ return [
             'newsletter-configuration'    => [
                 'title' => 'Newsletter Configuration',
             ],
+            'invoices'    => [
+                'title' => 'Invoices',
+            ],
             /*===========================*/
         ],
     ],

@@ -40,9 +40,11 @@ class CoursesController extends Controller
                 ->orderBy('id', 'desc')
                 ->get();
         }
+        $featured_courses = Course::where('published', '=', 1)
+            ->where('featured', '=', 1)->take(8)->get();
 
         $recent_news = Blog::orderBy('created_at', 'desc')->take(2)->get();
-        return view('frontend.courses.index', compact('courses', 'purchased_courses', 'recent_news'));
+        return view('frontend.courses.index', compact('courses', 'purchased_courses', 'recent_news','featured_courses'));
     }
 
     public function show($course_slug)
@@ -74,35 +76,6 @@ class CoursesController extends Controller
         return view('frontend.courses.course', compact('course', 'purchased_course', 'recent_news', 'course_rating', 'completed_lessons','total_ratings','is_reviewed','lessons','continue_course'));
     }
 
-    public function payment(Request $request)
-    {
-        $course = Course::withoutGlobalScope('filter')->findOrFail($request->get('course_id'));
-        $this->createStripeCharge($request);
-
-        $course->students()->attach(\Auth::id());
-
-        return redirect()->back()->with('success', 'Payment completed successfully.');
-    }
-
-    private function createStripeCharge($request)
-    {
-        Stripe::setApiKey(env('STRIPE_API_KEY'));
-
-        try {
-            $customer = Customer::create([
-                'email' => $request->get('stripeEmail'),
-                'source' => $request->get('stripeToken')
-            ]);
-
-            $charge = Charge::create([
-                'customer' => $customer->id,
-                'amount' => $request->get('amount'),
-                'currency' => "usd"
-            ]);
-        } catch (\Stripe\Error\Base $e) {
-            return redirect()->back()->withError($e->getMessage())->send();
-        }
-    }
 
     public function rating($course_id, Request $request)
     {

@@ -214,7 +214,15 @@
                             class="title">@lang('menus.backend.sidebar.messages.title')</span>
                 </a>
             </li>
-
+            @if (!$logged_in_user->isAdmin())
+                <li class="nav-item ">
+                    <a class="nav-link {{ $request->segment(1) == 'invoices' ? 'active' : '' }}"
+                       href="{{ route('admin.invoices.index') }}">
+                        <i class="nav-icon icon-notebook"></i> <span
+                                class="title">@lang('menus.backend.sidebar.invoices.title')</span>
+                    </a>
+                </li>
+            @endif
 
             <li class="nav-item ">
                 <a class="nav-link {{ $request->segment(1) == 'account' ? 'active' : '' }}"

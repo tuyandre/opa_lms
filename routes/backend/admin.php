@@ -99,6 +99,13 @@ Route::post('orders/complete', ['uses' => 'Admin\OrderController@complete', 'as'
 Route::delete('orders_perma_del/{id}', ['uses' => 'Admin\OrderController@perma_del', 'as' => 'orders.perma_del']);
 
 
+
+//=== Invoice Routes =====//
+Route::get('invoice/download', ['uses' => 'Admin\InvoiceController@getInvoice', 'as' => 'invoice.download']);
+Route::get('invoices', ['uses' => 'Admin\InvoiceController@getIndex', 'as' => 'invoices.index']);
+
+
+
 //===== Settings Routes =====//
 Route::get('settings/general', ['uses' => 'Admin\ConfigController@getGeneralSettings', 'as' => 'general-settings']);
 Route::post('settings/general', ['uses' =>'Admin\ConfigController@saveGeneralSettings'])->name('general-settings');
@@ -160,4 +167,6 @@ Route::resource('reasons', 'Admin\ReasonController');
 Route::get('get-reasons-data', ['uses' => 'Admin\ReasonController@getData', 'as' => 'reasons.get_data']);
 Route::post('reasons_mass_destroy', ['uses' => 'Admin\ReasonController@massDestroy', 'as' => 'reasons.mass_destroy']);
 Route::get('reasons/status/{id}', 'Admin\ReasonController@status')->name('reasons.status');
+
+
 

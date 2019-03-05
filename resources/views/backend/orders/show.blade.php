@@ -5,7 +5,17 @@
     <div class="card">
 
         <div class="card-header">
-            <h3 class="page-title mb-0">@lang('labels.backend.orders.title')</h3>
+            <h3 class="page-title mb-0 float-left">@lang('labels.backend.orders.title')</h3>
+            @if($order->invoice != "")
+                <div class="float-right">
+                    <a class="btn btn-success" target="_blank" href="{{asset('invoices/'.$order->invoice->url)}}">
+                        @lang('labels.backend.orders.view_invoice')
+                    </a>
+                    <a class="btn btn-primary" href="{{route('admin.invoice.download',['order'=>$order->id])}}">
+                        @lang('labels.backend.orders.download_invoice')
+                    </a>
+                </div>
+            @endif
         </div>
         <div class="card-body">
             <div class="row">

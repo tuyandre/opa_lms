@@ -105,6 +105,10 @@ class CartController extends Controller
             foreach ($order->items as $item){
                 $item->course->students()->attach(\Auth::id());
             }
+
+            //Generating Invoice
+            generateInvoice($order);
+
             Cart::session(auth()->user()->id)->clear();
             return redirect()->route('status');
 
@@ -233,6 +237,10 @@ class CartController extends Controller
             foreach ($order->items as $item){
                 $item->course->students()->attach(\Auth::id());
             }
+
+            //Generating Invoice
+            generateInvoice($order);
+
             return Redirect::route('status');
         }else{
             \Session::flash('failure', 'Payment failed');

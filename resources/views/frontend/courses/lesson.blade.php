@@ -335,17 +335,6 @@
 
         }
 
-        //Save every Interval
-//        window.setInterval(function () {
-//            $('.video-container').each(function () {
-//                var id = $(this).data('id');
-//                var duration = $(this).data('duration');
-//                var time = $(this).data('time');
-//                console.log($(this).data('time'))
-//                saveProgress(id, duration, time);
-//            });
-//        }, 5000);
-
 
         function saveProgress(id, duration, time) {
             $.ajax({
@@ -353,7 +342,9 @@
                 method: "POST",
                 data: {"_token": "{{ csrf_token() }}", 'video': id, 'duration': duration, 'progress': time},
                 success: function (result) {
-//                    console.log(result)
+                    if (duration === time) {
+                        location.reload();
+                    }
                 }
             });
         }

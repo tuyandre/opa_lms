@@ -16,7 +16,7 @@ Route::get('lang/{lang}', [LanguageController::class, 'swap']);
  * Namespaces indicate folder structure
  */
 Route::group(['namespace' => 'Frontend', 'as' => 'frontend.'], function () {
-    include_route_files(__DIR__.'/frontend/');
+    include_route_files(__DIR__ . '/frontend/');
 });
 
 /*
@@ -32,23 +32,22 @@ Route::group(['namespace' => 'Backend', 'prefix' => 'user', 'as' => 'admin.', 'm
      * Note: Administrator has all permissions so you do not have to specify the administrator role everywhere.
      * These routes can not be hit if the password is expired
      */
-    include_route_files(__DIR__.'/backend/');
+    include_route_files(__DIR__ . '/backend/');
 });
 
-Route::get('category/{category}/blogs','BlogController@getByCategory')->name('blogs.category');
-Route::get('tag/{tag}/blogs','BlogController@getByTag')->name('blogs.tag');
+Route::get('category/{category}/blogs', 'BlogController@getByCategory')->name('blogs.category');
+Route::get('tag/{tag}/blogs', 'BlogController@getByTag')->name('blogs.tag');
 Route::get('blog/{slug?}', 'BlogController@getIndex')->name('blogs.index');
 Route::post('blog/{id}/comment', 'BlogController@storeComment')->name('blogs.comment');
 Route::get('blog/comment/delete/{id}', 'BlogController@deleteComment')->name('blogs.comment.delete');
 
-Route::get('teachers','Frontend\HomeController@getTeachers')->name('teachers.index');
-Route::get('teachers/{id}/show','Frontend\HomeController@showTeacher')->name('teachers.show');
+Route::get('teachers', 'Frontend\HomeController@getTeachers')->name('teachers.index');
+Route::get('teachers/{id}/show', 'Frontend\HomeController@showTeacher')->name('teachers.show');
 
 
+Route::post('newsletter/subscribe', 'Frontend\HomeController@subscribe')->name('subscribe');
 
-Route::post('newsletter/subscribe','Frontend\HomeController@subscribe')->name('subscribe');
-
-Route::get('courses',['uses' => 'CoursesController@all', 'as' => 'courses.all']);
+Route::get('courses', ['uses' => 'CoursesController@all', 'as' => 'courses.all']);
 Route::get('course/{slug}', ['uses' => 'CoursesController@show', 'as' => 'courses.show']);
 //Route::post('course/payment', ['uses' => 'CoursesController@payment', 'as' => 'courses.payment']);
 Route::post('course/{course_id}/rating', ['uses' => 'CoursesController@rating', 'as' => 'courses.rating']);
@@ -62,12 +61,12 @@ Route::get('courses/review/{id}/delete', ['uses' => 'CoursesController@deleteRev
 Route::get('lesson/{course_id}/{slug}/', ['uses' => 'LessonsController@show', 'as' => 'lessons.show']);
 Route::post('lesson/{slug}/test', ['uses' => 'LessonsController@test', 'as' => 'lessons.test']);
 Route::post('lesson/{slug}/retest', ['uses' => 'LessonsController@retest', 'as' => 'lessons.retest']);
-Route::post('video/progress','LessonsController@videoProgress')->name('update.videos.progress');
+Route::post('video/progress', 'LessonsController@videoProgress')->name('update.videos.progress');
 
 
-Route::get('download',['uses' => 'Frontend\HomeController@getDownload','as'=>'download']);
+Route::get('download', ['uses' => 'Frontend\HomeController@getDownload', 'as' => 'download']);
 
-Route::group(['middleware'=>'auth'],function () {
+Route::group(['middleware' => 'auth'], function () {
     Route::post('cart/checkout', ['uses' => 'CartController@checkout', 'as' => 'cart.checkout']);
     Route::post('cart/add', ['uses' => 'CartController@addToCart', 'as' => 'cart.addToCart']);
     Route::get('cart', ['uses' => 'CartController@index', 'as' => 'cart.index']);
@@ -77,8 +76,8 @@ Route::group(['middleware'=>'auth'],function () {
     Route::post('cart/paypal-payment', ['uses' => 'CartController@paypalPayment', 'as' => 'cart.paypal.payment']);
     Route::get('cart/paypal-payment/status', ['uses' => 'CartController@getPaymentStatus'])->name('cart.paypal.status');
 
-    Route::get('status',function (){
-       return view('frontend.cart.status');
+    Route::get('status', function () {
+        return view('frontend.cart.status');
     })->name('status');
     Route::post('cart/offline-payment', ['uses' => 'CartController@offlinePayment', 'as' => 'cart.offline.payment']);
 });

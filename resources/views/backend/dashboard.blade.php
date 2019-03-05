@@ -4,7 +4,7 @@
 
 @push('after-styles')
     <style>
-        .trend-badge-2{
+        .trend-badge-2 {
             top: -10px;
             left: -52px;
             color: #fff;
@@ -34,7 +34,8 @@
                                     <div class="best-course-pic-text position-relative border">
                                         <div class="best-course-pic position-relative overflow-hidden">
                                             @if($item->course_image != "")
-                                                <img width="100%" src="{{asset('storage/uploads/'.$item->course_image)}}"
+                                                <img width="100%"
+                                                     src="{{asset('storage/uploads/'.$item->course_image)}}"
                                                      alt="">
                                             @else
                                                 <img src="http://placehold.it/255x220" alt="">
@@ -60,14 +61,20 @@
                                                     <a href="{{ route('courses.show', [$item->slug]) }}">{{$item->title}}</a>
                                                 </h3>
                                             </div>
-                                            <div class="course-meta">
-                                            <span class="course-category float-left">
-                                                <a href="{{route('courses.category',['category'=>$item->category->slug])}}" class="text-success">{{$item->category->name}}</a>
+                                            <div class="course-meta d-inline-block w-100 ">
+                                                <div class="d-inline-block w-100">
+                                                     <span class="course-category float-left">
+                                                <a href="{{route('courses.category',['category'=>$item->category->slug])}}"
+                                                   class="text-success">{{$item->category->name}}</a>
                                             </span>
-                                                <span class="course-author float-right">
+                                                    <span class="course-author float-right">
                                                  {{ $item->students()->count() }}
-                                                    Students
+                                                        Students
                                             </span>
+                                                </div>
+
+                                                <p class="mb-0 text-center text-danger"><b> {{ $item->progress()  }}
+                                                        % completed</b></p>
                                             </div>
                                         </div>
                                     </div>

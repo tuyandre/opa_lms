@@ -272,10 +272,13 @@ return [
             ]
 
         ],
+
         'orders' => [
             'title' => 'Orders',
             'complete' => 'Complete Manually',
             'offline_requests' => 'Offline Requests',
+            'view_invoice' => 'View Invoice',
+            'download_invoice' => 'Download Invoice',
             'fields' => [
                 'reference_no' => 'Reference No.',
                 'ordered_by' => 'Ordered By',
@@ -297,6 +300,16 @@ return [
                 ]
             ]
 
+        ],
+
+        'invoices' =>[
+          'title' => 'Invoices',
+            'fields' => [
+                'order_date' => 'Order Date',
+                'view' => 'View',
+                'amount' => 'Amount',
+                'download' => 'Download',
+            ]
         ],
 
         'messages' => [

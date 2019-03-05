@@ -141,6 +141,11 @@ class Course extends Model
         return $this->morphMany('App\Models\Review', 'reviewable');
     }
 
+    public function progress(){
+      $completed_lessons =  \Auth::user()->chapters()->where('course_id', $this->id)->get()->pluck('model_id')->toArray();
+       return  intval(count($completed_lessons) /  $this->courseTimeline->count() * 100);
+    }
+
 
 
 }

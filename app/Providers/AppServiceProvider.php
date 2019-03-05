@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Helpers\Frontend\Auth\Socialite;
 use App\Models\Config;
+use App\Models\Course;
 use App\Models\Slider;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Schema;
@@ -76,6 +77,8 @@ class AppServiceProvider extends ServiceProvider
                 $view->with('slides', $slides);
             });
         }
+
+
     }
 
     /**

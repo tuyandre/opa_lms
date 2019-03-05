@@ -204,11 +204,11 @@ if (!function_exists('section_filter')) {
             $section_content = \App\Models\Category::has('courses', '>', 7)
                 ->where('status', '=', 1)->get()->take(6);
             $section_title = 'Popular Categories';
-            foreach ($section_content as $item){
-               $single_item = [
-                   'label' => $item->name,
-                   'link' => route('courses.category',['category'=>$item->slug])
-               ];
+            foreach ($section_content as $item) {
+                $single_item = [
+                    'label' => $item->name,
+                    'link' => route('courses.category', ['category' => $item->slug])
+                ];
                 $content[] = $single_item;
             }
         } else if ($type == 2) {
@@ -218,10 +218,10 @@ if (!function_exists('section_filter')) {
                 ->take(6)
                 ->get();
             $section_title = 'Featured Courses';
-            foreach ($section_content as $item){
+            foreach ($section_content as $item) {
                 $single_item = [
                     'label' => $item->title,
-                    'link' =>  route('courses.show', [$item->slug])
+                    'link' => route('courses.show', [$item->slug])
                 ];
                 $content[] = $single_item;
             }
@@ -233,10 +233,10 @@ if (!function_exists('section_filter')) {
                 ->take(6)
                 ->get();
             $section_title = 'Trending Courses';
-            foreach ($section_content as $item){
+            foreach ($section_content as $item) {
                 $single_item = [
                     'label' => $item->title,
-                    'link' =>  route('courses.show', [$item->slug])
+                    'link' => route('courses.show', [$item->slug])
                 ];
                 $content[] = $single_item;
             }
@@ -248,10 +248,10 @@ if (!function_exists('section_filter')) {
                 ->take(6)
                 ->get();
             $section_title = 'Popular Courses';
-            foreach ($section_content as $item){
+            foreach ($section_content as $item) {
                 $single_item = [
                     'label' => $item->title,
-                    'link' =>  route('courses.show', [$item->slug])
+                    'link' => route('courses.show', [$item->slug])
                 ];
                 $content[] = $single_item;
             }
@@ -259,15 +259,51 @@ if (!function_exists('section_filter')) {
         } else if ($type == 5) {
             $section_title = 'Useful Links';
             $section_content = $section->links;
-            foreach ($section_content as $item){
+            foreach ($section_content as $item) {
                 $single_item = [
                     'label' => $item->label,
-                    'link' =>  $item->link
+                    'link' => $item->link
                 ];
                 $content[] = $single_item;
             }
         }
 
         return ['section_content' => $content, 'section_title' => $section_title];
+    }
+}
+
+
+if (!function_exists('generateInvoice')) {
+
+
+    function generateInvoice($order)
+    {
+        $invoice = ConsoleTVs\Invoices\Classes\Invoice::make();
+        foreach ($order->items as $item) {
+            $title = $item->course->title;
+            $price = $item->course->price;
+            $qty = 1;
+            $id = 'prod-'.$item->course->id;
+            $invoice->addItem($title, $price, $qty, $id);
+        }
+        $user = \App\Models\Auth\User::find($order->user_id);
+
+        $invoice->number($order->id)
+            ->customer([
+                'name' => $user->full_name,
+                'id' => $user->id,
+                'email' => $user->email
+            ])
+            ->save('public/invoices/invoice-'.$order->id.'.pdf');
+//                ->download('invoice-'.$order->id.'.pdf');
+
+        $invoiceEntry = \App\Models\Invoice::where('order_id','=',$order->id)->first();
+        if($invoiceEntry == ""){
+            $invoiceEntry = new \App\Models\Invoice();
+            $invoiceEntry->user_id = $order->user_id;
+            $invoiceEntry->order_id = $order->id;
+            $invoiceEntry->url = 'invoice-'.$order->id.'.pdf';
+            $invoiceEntry->save();
+        }
     }
 }

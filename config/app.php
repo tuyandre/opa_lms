@@ -198,6 +198,8 @@ return [
         Gerardojbaez\Messenger\MessengerServiceProvider::class,
         Jenssegers\Agent\AgentServiceProvider::class,
         Darryldecode\Cart\CartServiceProvider::class,
+        ConsoleTVs\Invoices\InvoicesServiceProvider::class,
+
 
 
         /*

@@ -10,6 +10,7 @@
         "arcanedev/log-viewer": "^4.5",
         "arcanedev/no-captcha": "^5.0",
         "beyondcode/laravel-self-diagnosis": "^1.0",
+        "consoletvs/invoices": "^1.1",
         "creativeorange/gravatar": "~1.0",
         "darryldecode/cart": "~4.0",
         "davejamesmiller/laravel-breadcrumbs": "^5.0",

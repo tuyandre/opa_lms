@@ -17,6 +17,7 @@ class CreateInvoicesTable extends Migration
             $table->increments('id');
             $table->integer('order_id');
             $table->integer('user_id');
+            $table->text('url')->nullable();
             $table->timestamps();
         });
     }

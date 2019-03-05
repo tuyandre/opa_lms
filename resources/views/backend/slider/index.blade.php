@@ -26,7 +26,6 @@
 @endpush
 
 @section('content')
-<!--======TODO :: Fix OrderBy========-->
     <div class="card">
         <div class="card-header">
             <h3 class="page-title float-left">@lang('labels.backend.hero_slider.title')</h3>

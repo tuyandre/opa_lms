@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Gate;
 use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Facades\Response;
+
 
 class OrderController extends Controller
 {
@@ -31,9 +33,9 @@ class OrderController extends Controller
     {
         if (request('offline_requests') == 1) {
 
-            $orders = Order::where('payment_type','=',3)->orderBy('updated_at','desc')->get();
+            $orders = Order::where('payment_type', '=', 3)->orderBy('updated_at', 'desc')->get();
         } else {
-            $orders = Order::orderBy('updated_at','desc')->get();
+            $orders = Order::orderBy('updated_at', 'desc')->get();
         }
 
         return DataTables::of($orders)
@@ -44,7 +46,7 @@ class OrderController extends Controller
                 $view = view('backend.datatable.action-view')
                     ->with(['route' => route('admin.orders.show', ['order' => $q->id])])->render();
 
-                if($q->status == 0){
+                if ($q->status == 0) {
                     $complete_order = view('backend.datatable.action-complete-order')
                         ->with(['route' => route('admin.orders.complete', ['order' => $q->id])])
                         ->render();
@@ -62,33 +64,32 @@ class OrderController extends Controller
             })
             ->addColumn('items', function ($q) {
                 $items = "";
-                foreach ($q->items as $key=>$item){
+                foreach ($q->items as $key => $item) {
                     $key++;
-                    $items .= "<a class='text-decoration-none' target='_blank' href='".route('admin.courses.show',$item->course_id)."'> ". $key.'. '.$item->course->title ."</a><br>";
+                    $items .= "<a class='text-decoration-none' target='_blank' href='" . route('admin.courses.show', $item->course_id) . "'> " . $key . '. ' . $item->course->title . "</a><br>";
                 }
                 return $items;
             })
             ->addColumn('user_email', function ($q) {
-               return $q->user->email;
+                return $q->user->email;
             })
             ->addColumn('date', function ($q) {
-                return  $q->updated_at->diffforhumans();
+                return $q->updated_at->diffforhumans();
             })
             ->addColumn('payment', function ($q) {
-                if($q->status == 0){
-                   $payment_status = trans('labels.backend.orders.fields.payment_status.pending');
-                }elseif($q->status == 1){
+                if ($q->status == 0) {
+                    $payment_status = trans('labels.backend.orders.fields.payment_status.pending');
+                } elseif ($q->status == 1) {
                     $payment_status = trans('labels.backend.orders.fields.payment_status.completed');
-                }else{
+                } else {
                     $payment_status = trans('labels.backend.orders.fields.payment_status.failed');
                 }
                 return $payment_status;
             })
             ->addColumn('price', function ($q) {
-                return  '$'.floatval($q->price);
+                return '$' . floatval($q->price);
             })
-
-            ->rawColumns(['items','actions'])
+            ->rawColumns(['items', 'actions'])
             ->make();
     }
 
@@ -98,11 +99,16 @@ class OrderController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\Response
      */
-    public function complete(Request $request){
+    public function complete(Request $request)
+    {
         $order = Order::findOrfail($request->order);
         $order->status = 1;
         $order->save();
-        foreach ($order->items as $item){
+
+        //Generating Invoice
+        generateInvoice($order);
+
+        foreach ($order->items as $item) {
             $item->course->students()->attach($order->user_id);
         }
         return back()->withFlashSuccess(trans('alerts.backend.general.updated'));
@@ -111,7 +117,7 @@ class OrderController extends Controller
     /**
      * Show Order from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -123,7 +129,7 @@ class OrderController extends Controller
     /**
      * Remove Order from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
@@ -142,14 +148,14 @@ class OrderController extends Controller
      */
     public function massDestroy(Request $request)
     {
-        if (! Gate::allows('course_delete')) {
+        if (!Gate::allows('course_delete')) {
             return abort(401);
         }
         if ($request->input('ids')) {
             $entries = Order::whereIn('id', $request->input('ids'))->get();
             foreach ($entries as $entry) {
-                if($entry->status = 1){
-                    foreach ($entry->items as $item){
+                if ($entry->status = 1) {
+                    foreach ($entry->items as $item) {
                         $item->course->students()->detach($entry->user_id);
                     }
                     $entry->items()->delete();
@@ -158,5 +164,6 @@ class OrderController extends Controller
             }
         }
     }
+
 
 }
