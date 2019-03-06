@@ -1,5 +1,9 @@
 <?php
 $currentUrl = url()->current();
+if (config('nav_menu') != 0) {
+    $nav_menu = \Harimayco\Menu\Models\Menus::findOrFail(config('nav_menu'));
+}
+
 
 ?>
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
@@ -282,36 +286,19 @@ $currentUrl = url()->current();
                                                             <div class="menu-settings border-0 mt-0">
                                                                 <h5>{{ __('strings.backend.menu_manager.menu_settings') }}</h5>
                                                                 <div class="form-group row">
-                                                                    <label class="col-lg-2 col-12"><i>{{ __('strings.backend.menu_manager.auto_add_pages') }}</i></label>
-                                                                    <div class="checkbox col-lg-10 col-12">
-                                                                        <label><input type="checkbox"
-                                                                                      name="auto_add" value="">
-                                                                            {{ __('strings.backend.menu_manager.auto_add_pages_desc') }}
-                                                                        </label>
-                                                                    </div>
+
                                                                     <label class="col-lg-2 col-12"><i>{{ __('strings.backend.menu_manager.display') }}</i></label>
                                                                     <div class="checkbox col-lg-10 col-12">
                                                                         <label><input type="checkbox"
-                                                                                      name="top_menu" value="">
+                                                                                      name="nav_menu" value="">
                                                                             {{ __('strings.backend.menu_manager.top_menu') }}
                                                                         </label>
-                                                                        @if(isset($top_menu) && $top_menu->id != request('menu'))
+                                                                        @if(isset($nav_menu) && $nav_menu->id != request('menu'))
                                                                             <small>
-                                                                                (Currently set to : {{$top_menu->name}})
+                                                                                (Currently set to : {{$nav_menu->name}})
                                                                             </small>
                                                                         @endif
-                                                                        <br>
-                                                                        <label><input type="checkbox"
-                                                                                      name="footer_menu"
-                                                                                      value="">
-                                                                            {{ __('strings.backend.menu_manager.footer_menu') }}
-                                                                        </label>
-                                                                        @if(isset($footer_menu) && $footer_menu->id != request('menu'))
-                                                                            <small>
-                                                                                ({{ __('strings.backend.menu_manager.currently') }}
-                                                                                : {{$footer_menu->name}})
-                                                                            </small>
-                                                                        @endif
+
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -320,7 +307,6 @@ $currentUrl = url()->current();
                                                 </div>
                                                 <div id="nav-menu-footer">
                                                     <div class="major-publishing-actions">
-
                                                         @if(request()->has('action'))
                                                             <div class="publishing-action">
                                                                 <a onclick="createnewmenu()" name="save_menu"
@@ -353,18 +339,14 @@ $currentUrl = url()->current();
                                         </form>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
-
                         <div class="clear"></div>
                     </div>
-
                     <div class="clear"></div>
                 </div>
                 <div class="clear"></div>
             </div>
-
             <div class="clear"></div>
         </div>
     </div>
@@ -378,29 +360,13 @@ $currentUrl = url()->current();
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
-        var i, menu;
+
 
         //Updating Menu settings via controller
-        @if(isset($menu))
-            menu = '{{ $menu->meta}}';
-
-        menu = menu.replace(/\[/gi, "");
-        menu = menu.replace(/\]/gi, "");
-
-        menu = menu.replace(/&quot;/gi, "\"");
-        menu = menu.split(',');
-        $(menu).each(function (key, value) {
-            if (value) {
-                var val = JSON.parse(value)
-                for (var data in val) {
-                    if (val[data] == 'true' && data == 'auto_add') {
-                        $('.menu-settings').find('input[name="' + data + '"]').attr('checked', true)
-                    }
-                }
-            }
-        });
-
-        @endif
+        @if(config('nav_menu') != 0 && (request('menu') == config('nav_menu')))
+        $('.menu-settings').find('input[name="nav_menu"]').attr('checked', true)
+                @endif
+        var i, menu;
 
 
         //Updating Menu settings via config

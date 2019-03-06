@@ -16,6 +16,7 @@
 			font-weight: 500;
 			position: relative;
 			border-radius: 4px;
+
 			&:after {
 				position: absolute;
 				content:'';
@@ -39,10 +40,19 @@
 				opacity: 0;
 				visibility: hidden;
 			}
+			&.submenu:after{
+				opacity: 0;
+				visibility: hidden;
+			}
 			&:hover:after {
 				opacity: 1;
 				visibility: visible;
 			}
+			&.submenu{
+				color: $black;
+
+			}
+
 		}
 	}
 }
@@ -483,6 +493,10 @@
 			opacity: 1;
 			visibility: visible;
 		}
+		a.submenu:after{
+			opacity: 0;
+			visibility: hidden;
+		}
 	}
 }
 .menu-item-has-children li {
@@ -525,6 +539,26 @@
 		}
 		border-bottom: 1px solid #e8e8e8;
 		padding: 10px 0px;
+      &:before{
+        content:'\00BB';
+      }
+      ul{
+        &.depth-1{
+          margin-left: 10px;
+        }
+        &.depth-2{
+          margin-left: 20px;
+        }
+        &.depth-3{
+          margin-left: 30px;
+        }
+        &.depth-4{
+          margin-left: 40px;
+        }
+        &.depth-5{
+          margin-left: 50px;
+        }
+      }
 	}
 	&:before {
 		position: absolute;

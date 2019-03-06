@@ -502,9 +502,18 @@ h6 {
   visibility: hidden;
 }
 
+.nav-menu li a.submenu:after {
+  opacity: 0;
+  visibility: hidden;
+}
+
 .nav-menu li a:hover:after {
   opacity: 1;
   visibility: visible;
+}
+
+.nav-menu li a.submenu {
+  color: #333333;
 }
 
 .log-in {
@@ -1026,6 +1035,11 @@ h6 {
   visibility: visible;
 }
 
+.menu-item-has-children:hover a.submenu:after {
+  opacity: 0;
+  visibility: hidden;
+}
+
 .menu-item-has-children li {
   margin-bottom: 5px;
   -webkit-transition: .3s all ease-in-out;
@@ -1078,6 +1092,30 @@ h6 {
 
 .sub-menu li:last-child {
   border-bottom: none;
+}
+
+.sub-menu li:before {
+  content: '\BB';
+}
+
+.sub-menu li ul.depth-1 {
+  margin-left: 10px;
+}
+
+.sub-menu li ul.depth-2 {
+  margin-left: 20px;
+}
+
+.sub-menu li ul.depth-3 {
+  margin-left: 30px;
+}
+
+.sub-menu li ul.depth-4 {
+  margin-left: 40px;
+}
+
+.sub-menu li ul.depth-5 {
+  margin-left: 50px;
 }
 
 .sub-menu:before {

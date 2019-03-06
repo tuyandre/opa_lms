@@ -7,6 +7,7 @@ use App\Models\Config;
 use App\Models\Course;
 use App\Models\Slider;
 use Carbon\Carbon;
+use Harimayco\Menu\Models\MenuItems;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\View\View;
@@ -78,7 +79,32 @@ class AppServiceProvider extends ServiceProvider
             });
         }
 
+        view()->composer('frontend.layouts.*', function ($view) {
 
+            $custom_menus = MenuItems::where('menu','=',config('nav_menu'))
+                ->orderBy('sort')
+                ->get();
+            $custom_menus = $this->menuList($custom_menus);
+
+            $max_depth = MenuItems::max('depth');
+            $view->with(compact('custom_menus','max_depth'));
+        });
+
+
+
+
+    }
+
+    function menuList($array)
+    {
+        $temp_array = array();
+        foreach ($array as $item) {
+            if ($item->getsons($item->id)->except($item->id)) {
+                $item->subs = $this->menuList($item->getsons($item->id)->except($item->id)); // here is the recursion
+                $temp_array[] = $item;
+            }
+        }
+        return $temp_array;
     }
 
     /**

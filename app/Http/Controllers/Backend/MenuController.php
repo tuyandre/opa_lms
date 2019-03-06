@@ -208,35 +208,23 @@ class MenuController extends Controller
     public function generatemenucontrol(Request $request)
     {
 
-
         $menu = Menus::find(request()->input("idmenu"));
-
         $menu_bag_data = MenuItems::where('menu','=',$menu)->get();
-
-
         $menu->name = request()->input("menuname");
-
-        if(request('meta')){
-            foreach($menu_bag_data as $config_menu){
-                foreach (request('meta') as $meta){
-                    if($config_menu->location == key($meta)){
-                        if(($config_menu->id == $menu->id) && ($meta[key($meta)] == 'false')){
-                            $config_menu->id = 0;
-                        }elseif( $meta[key($meta)] == 'true'){
-                            $config_menu->id = $menu->id;
-                        }
-                    }
-                    if(key($meta) == 'auto_add'){
-                        $menu->meta = json_encode($meta);
-                    }
-                }
-            }
-        }
         $menu->save();
+        $value = 0;
+        if(request('meta')[0]['nav_menu'] == 'true'){
+          $value =  $menu->id;
+        }else{
+            $value=  0;
+        }
+        $config = \App\Models\Config::where('key','=','nav_menu')->first();
+        $config->value =$value;
+        $config->save();
+
 //        dd(json_decode($menu_bag->value));
         if (is_array(request()->input("arraydata"))) {
             foreach (request()->input("arraydata") as $value) {
-
                 $menuitem = MenuItems::find($value["id"]);
                 $menuitem->parent = $value["parent"];
                 $menuitem->sort = $value["sort"];
