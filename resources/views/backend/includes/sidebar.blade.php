@@ -238,6 +238,13 @@
                 </a>
             </li>
             @if ($logged_in_user->isAdmin())
+                <li class="nav-item ">
+                    <a class="nav-link {{ $request->segment(1) == 'contacts' ? 'active' : '' }}"
+                       href="{{ route('admin.contacts.index') }}">
+                        <i class="nav-icon icon-envelope-letter"></i>
+                        <span class="title">@lang('menus.backend.sidebar.contacts.title')</span>
+                    </a>
+                </li>
 
                 <li class="nav-title">
                     @lang('menus.backend.sidebar.system')

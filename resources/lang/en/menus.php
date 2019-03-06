@@ -130,6 +130,9 @@ return [
             'menu-manager' => [
                 'title' => 'Menu Manager',
             ],
+            'contacts' => [
+                'title' => 'Contacts',
+            ],
             /*===========================*/
         ],
     ],

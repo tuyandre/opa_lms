@@ -587,6 +587,16 @@ return [
                 'status' => 'Status',
             ]
         ],
+        'contacts' => [
+            'title' => 'Contacts',
+            'fields' => [
+                'name' => 'Name',
+                'email' => 'Email',
+                'phone' => 'Phone',
+                'message' => 'Message',
+                'time' => 'Time',
+            ]
+        ],
         /*======================================================*/
     ],
 
