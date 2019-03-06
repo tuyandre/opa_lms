@@ -6,12 +6,28 @@
         #search-course {
             padding-bottom: 125px;
         }
+        .my-alert{
+            position: absolute;
+            z-index: 10;
+            left: 0;
+            right: 0;
+            top: 25%;
+            width: 50%;
+            margin: auto;
+            display: inline-block;
+        }
     </style>
 @endpush
 @php
     $footer_data = json_decode(config('footer_data'));
 @endphp
 @section('content')
+    @if(session()->has('alert'))
+        <div class="alert alert-light alert-dismissible fade my-alert show">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <strong>{{session('alert')}}</strong>
+        </div>
+    @endif
 
     <!-- Start of slider section
      ============================================= -->
@@ -392,18 +408,20 @@
                     </div>
 
                     <div class="col-md-6">
-                        <div class="contact_secound_form">
+                        <div class="contact_secound_form text-white">
                             <div class="section-title-2 mb65 headline text-left">
                                 <h2>Send Us a message</h2>
                             </div>
-                            <form class="contact_form" action="#" method="POST" enctype="multipart/form-data">
+                            <form class="contact_form" action="{{route('frontend.contact.send')}}" method="POST" enctype="multipart/form-data">
+                                @csrf
                                 <div class="contact-info">
-                                    <input class="name" name="name" type="text" placeholder="Your Name.">
+                                    <input class="name @if($errors->has('name')) border-bottom border-danger @endif" name="name" type="text" placeholder="Your Name">
                                 </div>
                                 <div class="contact-info">
-                                    <input class="email" name="email" type="email" placeholder="Your Email">
+                                    <input class="email  @if($errors->has('email')) border-bottom border-danger @endif" name="email" type="email" placeholder="Your Email">
                                 </div>
-                                <textarea placeholder="Message."></textarea>
+                                <textarea name="message" class="@if($errors->has('message')) border-bottom border-danger @endif" placeholder="Message"></textarea>
+
                                 <div class="nws-button text-center  gradient-bg text-capitalize">
                                     <button type="submit" value="Submit">SEND MESSAGE NOW <i
                                                 class="fas fa-caret-right"></i></button>
@@ -433,12 +451,12 @@
                     <div class="subs-form relative-position">
                         <form action="{{route("subscribe")}}" method="post">
                             @csrf
-                            <input class="email" name="email" required type="email" placeholder="Email Address.">
+                            <input class="email" name="subs_email" required type="email" placeholder="Email Address.">
                             <div class="nws-button text-center  gradient-bg text-uppercase">
                                 <button type="submit" value="Submit">Subscribe now</button>
                             </div>
-                            @if($errors->has('email'))
-                                <p class="text-danger text-left">{{$errors->first('email')}}</p>
+                            @if($errors->has('subs_email'))
+                                <p class="text-danger text-left">{{$errors->first('subs_email')}}</p>
                             @endif
                         </form>
                     </div>

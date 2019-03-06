@@ -190,6 +190,7 @@
                         ->value(config('contact.primary_email'))
                         }}
 
+
                 </div>
                 <div class="col-md-2">
                     <p style="line-height: 35px">

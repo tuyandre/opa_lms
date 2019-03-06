@@ -355,6 +355,22 @@
                                 </div><!--col-->
                             </div><!--form-group-->
                             <div class="form-group row">
+                                {{ html()->label(__('labels.backend.general_settings.email.mail_from_address'))->class('col-md-2 form-control-label')->for('mail_from_address') }}
+
+                                <div class="col-md-10">
+                                    {{ html()->text('mail__from__address')
+                                        ->class('form-control')
+                                        ->placeholder(__('labels.backend.general_settings.email.mail_from_address'))
+                                        ->attribute('maxlength', 191)
+
+                                        ->value(config('mail.from.address'))
+                                        ->autofocus()
+                                        }}
+                                    <span class="help-text font-italic">{{__('labels.backend.general_settings.email.mail_from_address_note')}}</span>
+
+                                </div><!--col-->
+                            </div><!--form-group-->
+                            <div class="form-group row">
                                 {{ html()->label(__('labels.backend.general_settings.email.mail_driver'))->class('col-md-2 form-control-label')->for('mail_driver') }}
 
                                 <div class="col-md-10">

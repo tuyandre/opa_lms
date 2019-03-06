@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Contact;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\Frontend\Contact\SendContact;
 use App\Http\Requests\Frontend\Contact\SendContactRequest;
+use Illuminate\Support\Facades\Session;
 
 /**
  * Class ContactController.
@@ -27,8 +29,22 @@ class ContactController extends Controller
      */
     public function send(SendContactRequest $request)
     {
+        $this->validate($request,[
+            'name' => 'required',
+            'email' => 'required|email',
+            'message' => 'required'
+        ]);
+
+        $contact = new Contact();
+        $contact->name = $request->name;
+        $contact->number = $request->phone;
+        $contact->email = $request->email;
+        $contact->message = $request->message;
+        $contact->save();
+
         Mail::send(new SendContact($request));
 
-        return redirect()->back()->withFlashSuccess(__('alerts.frontend.contact.sent'));
+        Session::flash('alert','Contact mail sent successfully!');
+        return redirect()->back();
     }
 }

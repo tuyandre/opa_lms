@@ -169,12 +169,12 @@
 	.social-contact {
 		.category-icon-title {
 			width: 165px;
-			float: left;
+			display: inline-block;
 			position: relative;
 			&:before {
 				content: '';
 				position: absolute;
-				height: 165px;
+				height: 130px;
 				width: 1px;
 				background-color: #eee;
 				top: 0;

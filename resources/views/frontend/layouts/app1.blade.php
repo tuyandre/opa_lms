@@ -8,7 +8,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta name="csrf-token" content="{{ csrf_token() }}">
-        <title>Home Page 1 :: School, Coaching, Institute Course booking HTML Template</title>
+        <title>{{env('APP_NAME')}}</title>
         @if(config('favicon_image') != "")
         <link rel="shortcut icon" type="image/x-icon" href="{{asset('storage/logos/'.config('favicon_image'))}}" />
         @endif

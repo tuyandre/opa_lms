@@ -8,7 +8,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Home Page 1 :: School, Coaching, Institute Course booking HTML Template</title>
+    <title>{{env('APP_NAME')}}</title>
 
     @yield('meta')
 
@@ -125,12 +125,28 @@
                         <nav class="navbar-menu float-right">
                             <div class="nav-menu ul-li">
                                 <ul>
-                                    <li><a href="{{url('/')}}">Home</a></li>
-                                    {{--<li><a href="{{url('about-us')}}">About Us</a></li>--}}
-                                    <li><a href="{{route('courses.all')}}">Courses</a></li>
-                                    <li><a href="{{route('blogs.index')}}">Blog</a></li>
-                                    {{--<li><a href="{{url('contact')}}">Contact Us</a></li>--}}
-                                    <li><a href="{{asset('forums')}}">Forums</a></li>
+                                    @if(count($custom_menus) > 0 )
+                                        @foreach($custom_menus as $menu)
+                                            @if($menu['id'] == $menu['parent'])
+                                                @if(count($menu->subs) > 0)
+                                                    <li class="menu-item-has-children ul-li-block">
+                                                        <a href="#!">{{$menu->label}}</a>
+                                                        <ul class="sub-menu">
+                                                            @foreach($menu->subs as $item)
+                                                                @include('frontend.layouts.partials.dropdown', $item)
+                                                            @endforeach
+                                                        </ul>
+                                                    </li>
+                                                @else
+                                                    <li class="nav-item">
+                                                        <a href="{{asset($menu->link)}}"
+                                                           class="nav-link {{ active_class(Active::checkRoute('frontend.user.dashboard')) }}"
+                                                           id="menu-{{$menu->id}}">{{ $menu->label }}</a>
+                                                    </li>
+                                                @endif
+                                            @endif
+                                        @endforeach
+                                    @endif
 
                                 @if(auth()->check())
                                         <li class="menu-item-has-children ul-li-block">
@@ -154,15 +170,31 @@
                         </nav>
 
                         <div class="mobile-menu">
-                            <div class="logo"><a href="index-1"><img src="{{asset('assets/img/logo/logo.png')}}" alt="Logo"></a></div>
+                            <div class="logo"><a href="{{url('/')}}"><img src="{{asset('assets/img/logo/logo.png')}}" alt="Logo"></a></div>
                             <nav>
                                 <ul>
-                                    <li><a href="{{url('/')}}">Home</a></li>
-                                    {{--<li><a href="{{url('about-us')}}">About Us</a></li>--}}
-                                    <li><a href="{{route('courses.all')}}">Courses</a></li>
-                                    <li><a href="{{route('blogs.index')}}">Blog</a></li>
-                                    {{--<li><a href="{{url('contact')}}">Contact Us</a></li>--}}
-                                    <li><a href="{{asset('forums')}}">Forums</a></li>
+                                    @if(count($custom_menus) > 0 )
+                                        @foreach($custom_menus as $menu)
+                                            @if($menu['id'] == $menu['parent'])
+                                                @if(count($menu->subs) > 0)
+                                                    <li class="">
+                                                        <a href="#!">{{$menu->label}}</a>
+                                                        <ul class="">
+                                                            @foreach($menu->subs as $item)
+                                                                @include('frontend.layouts.partials.dropdown', $item)
+                                                            @endforeach
+                                                        </ul>
+                                                    </li>
+                                                @else
+                                                    <li class="">
+                                                        <a href="{{asset($menu->link)}}"
+                                                           class="nav-link {{ active_class(Active::checkRoute('frontend.user.dashboard')) }}"
+                                                           id="menu-{{$menu->id}}">{{ $menu->label }}</a>
+                                                    </li>
+                                                @endif
+                                            @endif
+                                        @endforeach
+                                    @endif
 
                                 @if(auth()->check())
                                         <li class="">

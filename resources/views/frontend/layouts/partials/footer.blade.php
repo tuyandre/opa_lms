@@ -75,7 +75,7 @@
                                 <div class="subs-form relative-position">
                                     <form action="{{route("subscribe")}}" method="post">
                                         @csrf
-                                        <input class="email" required name="email" type="email" placeholder="Email Address.">
+                                        <input class="email" required name="subs_email" type="email" placeholder="Email Address.">
                                         <div class="nws-button text-center  gradient-bg text-uppercase">
                                             <button type="submit" value="Submit">Subscribe now</button>
                                         </div>

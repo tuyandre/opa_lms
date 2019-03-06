@@ -5,10 +5,26 @@
         #search-course-2 {
             padding-bottom: 125px;
         }
+        .my-alert{
+            position: absolute;
+            z-index: 10;
+            left: 0;
+            right: 0;
+            top: 25%;
+            width: 50%;
+            margin: auto;
+            display: inline-block;
+        }
     </style>
 @endpush
 @section('content')
 
+    @if(session()->has('alert'))
+        <div class="alert alert-light alert-dismissible fade my-alert show">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <strong>{{session('alert')}}</strong>
+        </div>
+    @endif
 
     <!-- Start of slider section
     ============================================= -->
@@ -91,7 +107,9 @@
     @if($sections->featured_courses->status == 1)
         <!-- Start of best course
         ============================================= -->
-        @include('frontend.layouts.partials.browse_courses')
+        <div id="best-product">
+            @include('frontend.layouts.partials.browse_courses')
+        </div>
         <!-- End of best course
             ============================================= -->
     @endif
@@ -293,25 +311,38 @@
             </div>
 
             <div class="contact_third_form">
-                <form class="contact_form" action="#" method="POST" enctype="multipart/form-data">
+                <form class="contact_form" action="{{route('frontend.contact.send')}}" method="POST" enctype="multipart/form-data">
+                    @csrf
                     <div class="row">
                         <div class="col-md-4">
                             <div class="contact-info">
-                                <input class="name" name="name" type="text" placeholder="Your Name.">
+                                <input class="name" name="name" type="text" placeholder="Your Name">
+                                @if($errors->has('name'))
+                                    <span class="help-block text-danger">{{$errors->first('name')}}</span>
+                                @endif
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="contact-info">
                                 <input class="email" name="email" type="email" placeholder="Your Email">
+                                @if($errors->has('email'))
+                                    <span class="help-block text-danger">{{$errors->first('email')}}</span>
+                                @endif
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="contact-info">
-                                <input class="number" name="number" type="number" placeholder="Phone Number">
+                                <input class="number" name="phone" type="number" placeholder="Phone Number">
+                                @if($errors->has('phone'))
+                                    <span class="help-block text-danger">{{$errors->first('phone')}}</span>
+                                @endif
                             </div>
                         </div>
                     </div>
-                    <textarea placeholder="Message."></textarea>
+                    <textarea name="message" placeholder="Message"></textarea>
+                    @if($errors->has('message'))
+                        <span class="help-block text-danger">{{$errors->first('message')}}</span>
+                    @endif
                     <div class="nws-button text-center  gradient-bg text-uppercase">
                         <button type="submit" value="Submit">SEND EMAIL <i class="fas fa-caret-right"></i></button>
                     </div>

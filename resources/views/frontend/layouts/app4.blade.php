@@ -8,7 +8,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta name="csrf-token" content="{{ csrf_token() }}">
-        <title>Home Page 1 :: School, Coaching, Institute Course booking HTML Template</title>
+        <title>{{env('APP_NAME')}}</title>
 
     @yield('meta')
 
@@ -61,51 +61,42 @@
     ============================================= -->
         <header class="header_3 gradient-bg">
             <div class="container">
-                <div class="navbar-default">
+                <div class="navbar-default d-inline-block w-100">
                     <div class="navbar-header float-left">
                         <a class="navbar-brand text-uppercase" href="{{url('/')}}"><img
                                     src="{{asset("storage/logos/".config('logo_white_image'))}}" alt="logo"></a>
                     </div><!-- /.navbar-header -->
-                    <div class="header-info ul-li">
+                    <div class="header-info ul-li float-right">
+                        @php
+                            $contact_data = contact_data(config('contact_data'));
+                        @endphp
                         <ul>
+                            @if($contact_data["primary_email"]["status"] == 1)
                             <li>
                                 <div class="mail-phone">
                                     <div class="info-icon">
                                         <i class="text-gradiant fas fa-envelope"></i>
                                     </div>
                                     <div class="info-content">
-                                        <span class="info-id">info@genius.com</span>
+                                        <span class="info-id">{{$contact_data["primary_email"]["value"]}}</span>
                                         <span class="info-text">Email Us For Free Registration</span>
                                     </div>
                                 </div>
                             </li>
+                            @endif
+                                @if($contact_data["primary_phone"]["status"] == 1)
                             <li>
                                 <div class="mail-phone">
                                     <div class="info-icon">
                                         <i class="text-gradiant fas fa-phone-square"></i>
                                     </div>
                                     <div class="info-content">
-                                        <span class="info-id">(100) 2443 900</span>
+                                        <span class="info-id">{{$contact_data["primary_phone"]["value"]}}</span>
                                         <span class="info-text">Call Us For Free Registration</span>
                                     </div>
                                 </div>
                             </li>
-                            <li>
-                                <a href="#">
-                                    <div class="info-social">
-                                        <i class="fab fa-facebook-f"></i>
-                                    </div>
-                                    <span class="info-text">Facebook</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <div class="info-social">
-                                        <i class="fab fa-twitter"></i>
-                                    </div>
-                                    <span class="info-text">Twitter</span>
-                                </a>
-                            </li>
+                                @endif
                         </ul>
                     </div>
 
@@ -165,15 +156,28 @@
                         <nav class="navbar-menu float-left">
                             <div class="nav-menu ul-li">
                                 <ul class="quick-menu">
-                                    <li><a href="#slide">Home</a></li>
-                                    <li><a href="#search-course">Course</a></li>
-                                    <li><a href="#about-us">About Us</a></li>
-                                    <li><a href="#genius-teacher-2">Teachers</a></li>
-                                    <li><a href="#best-product">Shop</a></li>
-                                    <li><a href="#faq">faq</a></li>
-                                    <li><a href="#latest-area">BLOG</a></li>
-                                    <li><a href="#contact-form">Contact Us</a></li>
-                                    <li><a href="{{url('forums')}}">Forums</a></li>
+                                    @if(count($custom_menus) > 0 )
+                                        @foreach($custom_menus as $menu)
+                                            @if($menu['id'] == $menu['parent'])
+                                                @if(count($menu->subs) > 0)
+                                                    <li class="menu-item-has-children ul-li-block">
+                                                        <a href="#!">{{$menu->label}}</a>
+                                                        <ul class="sub-menu">
+                                                            @foreach($menu->subs as $item)
+                                                                @include('frontend.layouts.partials.dropdown', $item)
+                                                            @endforeach
+                                                        </ul>
+                                                    </li>
+                                                @else
+                                                    <li class="nav-item">
+                                                        <a href="{{asset($menu->link)}}"
+                                                           class="nav-link {{ active_class(Active::checkRoute('frontend.user.dashboard')) }}"
+                                                           id="menu-{{$menu->id}}">{{ $menu->label }}</a>
+                                                    </li>
+                                                @endif
+                                            @endif
+                                        @endforeach
+                                    @endif
 
                                     @if(auth()->check())
                                         <li class="menu-item-has-children ul-li-block">
@@ -210,7 +214,7 @@
                         </button>
 
                         <div class="logo-area">
-                            <a href="index-1">
+                            <a href="{{url('/')}}">
                                 <img src="{{asset('assets/img/logo/logo.png')}}" alt="Logo_not_found">
                             </a>
                         </div>
@@ -254,115 +258,61 @@
                             <input type="search" placeholder="search">
                         </form>
                     </li>
-                    <li class="card">
-                        <a class="menu-link" href="index-1">Home</a>
-                    </li>
 
-                    <li class="card">
-                        <a class="menu-link" href="about">About Us</a>
-                    </li>
 
-                    <!-- services - start -->
-                    <li class="card active">
-                        <div class="card-header" id="heading1">
-                            <button class="menu-link" data-toggle="collapse" data-target="#collapse1"
-                                    aria-expanded="true" aria-controls="collapse1">
-                                Service
-                            </button>
-                        </div>
-                        <ul id="collapse1" class="submenu collapse show" aria-labelledby="heading1"
-                            data-parent="#accordion" style="">
-                            <li class="active"><a href="service">Service</a></li>
-                            <li><a href="service-details">Service Details</a></li>
-                        </ul>
-                    </li>
-                    <!-- services - end -->
+                    @if(count($custom_menus) > 0 )
+                        @foreach($custom_menus as $menu)
+                            @if($menu['id'] == $menu['parent'])
+                                @if(count($menu->subs) > 0)
+                                    <li class="card">
+                                        <div class="card-header" id="heading{{$menu->id}}">
+                                            <button class="menu-link" data-toggle="collapse" data-target="#collapse{{$menu->id}}"
+                                                    aria-expanded="true" aria-controls="collapse{{$menu->id}}">
+                                                {{$menu->label}}
+                                            </button>
+                                        </div>
+                                        <ul id="collapse{{$menu->id}}" class="submenu collapse " aria-labelledby="heading{{$menu->id}}"
+                                            data-parent="#accordion" style="">
+                                            @foreach($menu->subs as $item)
+                                                @include('frontend.layouts.partials.dropdown2', $item)
+                                            @endforeach
+                                        </ul>
+                                    </li>
+                                @else
+                                    <li class="card">
+                                        <a href="{{asset($menu->link)}}"
+                                           class="menu-link {{ active_class(Active::checkRoute('frontend.user.dashboard')) }}"
+                                           id="menu-{{$menu->id}}">{{ $menu->label }}</a>
+                                    </li>
+                                @endif
+                            @endif
+                        @endforeach
+                    @endif
+                    @if(auth()->check())
+                        <li class="card">
+                            <div class="card-header" id="headingUser">
+                                <button class="menu-link" data-toggle="collapse" data-target="#collapseUser"
+                                        aria-expanded="true" aria-controls="collapseUser">
+                                    <i class="fa fa-user"></i>
+                                </button>
+                            </div>
+                            <ul id="collapseUser" class="submenu collapse " aria-labelledby="headingUser"
+                                data-parent="#accordion" style="">
+                                @can('view backend')
+                                    <li class="card">
+                                        <a href="{{ route('admin.dashboard') }}">@lang('navs.frontend.dashboard')</a>
+                                    </li>
+                                @endcan
 
-                    <!-- team - start -->
-                    <li class="card">
-                        <div class="card-header" id="headingtwo">
-                            <button class="menu-link" data-toggle="collapse" data-target="#collapsetwo"
-                                    aria-expanded="true" aria-controls="collapsetwo">
-                                Team
-                            </button>
-                        </div>
-                        <ul id="collapsetwo" class="submenu collapse" aria-labelledby="headingtwo"
-                            data-parent="#accordion">
-                            <li><a href="team">Team</a></li>
-                            <li><a href="team-details">Team Details</a></li>
-                        </ul>
-                    </li>
-                    <!-- team - end -->
 
-                    <!-- shop - start -->
-                    <li class="card">
-                        <div class="card-header" id="headingthree">
-                            <button class="menu-link" data-toggle="collapse" data-target="#collapsethree"
-                                    aria-expanded="true" aria-controls="collapsethree">
-                                Shop
-                            </button>
-                        </div>
-                        <ul id="collapsethree" class="submenu collapse show" aria-labelledby="headingthree"
-                            data-parent="#accordion" style="">
-                            <li><a href="shop">Shop</a></li>
-                            <li><a href="checkout">Checkout</a></li>
-                            <li><a href="product-details">Product Details</a></li>
-                        </ul>
-                    </li>
-                    <!-- shop - end -->
+                                <li class="card">
+                                    <a href="{{ route('frontend.auth.logout') }}">@lang('navs.general.logout')</a>
+                                </li>
+                            </ul>
+                        </li>
+                    @endif
 
-                    <!-- newses - start -->
-                    <li class="card">
-                        <div class="card-header" id="headingfour">
-                            <button class="menu-link" data-toggle="collapse" data-target="#collapsefour"
-                                    aria-expanded="true" aria-controls="collapsefour">
-                                Newses
-                            </button>
-                        </div>
-                        <ul id="collapsefour" class="submenu collapse" aria-labelledby="headingfour"
-                            data-parent="#accordion">
-                            <li><a href="blog">Blog</a></li>
-                            <li><a href="blog-details">Blog Details</a></li>
-                        </ul>
-                    </li>
-                    <!-- newses - end -->
 
-                    <!-- contact - start -->
-                    <li class="card">
-                        <div class="card-header" id="headingfive">
-                            <button class="menu-link" data-toggle="collapse" data-target="#collapsefive"
-                                    aria-expanded="true" aria-controls="collapsefive">
-                                Contact
-                            </button>
-                        </div>
-                        <ul id="collapsefive" class="submenu collapse" aria-labelledby="headingfive"
-                            data-parent="#accordion">
-                            <li><a href="contact">Contact</a></li>
-                            <li><a href="contactv2">Contact V2</a></li>
-                        </ul>
-                    </li>
-                    <!-- contact - end -->
-
-                    <!-- pages - start -->
-                    <li class="card">
-                        <div class="card-header" id="headingsix">
-                            <button class="menu-link" data-toggle="collapse" data-target="#collapsesix"
-                                    aria-expanded="true" aria-controls="collapsesix">
-                                Pages
-                            </button>
-                        </div>
-                        <ul id="collapsesix" class="submenu collapse" aria-labelledby="headingsix"
-                            data-parent="#accordion">
-                            <li><a href="error">error</a></li>
-                            <li><a href="errorv2">error V2</a></li>
-                            <li><a href="work-process">work process</a></li>
-                            <li><a href="register">Register</a></li>
-                        </ul>
-                    </li>
-                    <li class="card">
-                        <a class="menu-link" href="{{url('forums')}}">Forums</a>
-                    </li>
-                    <!-- pages - end -->
 
                 </ul>
             </div>

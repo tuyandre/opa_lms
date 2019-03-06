@@ -83,12 +83,12 @@ class HomeController extends Controller
 
         if (config('mail_provider') != "" && config('mail_provider') == "mailchimp") {
             try {
-                if (!Newsletter::isSubscribed($request->email)) {
+                if (!Newsletter::isSubscribed($request->subs_email)) {
                     if (config('mailchimp_double_opt_in')) {
-                        Newsletter::subscribePending($request->email);
+                        Newsletter::subscribePending($request->subs_email);
                         session()->flash('alert', "We've sent you an email, Check your mailbox for further procedure.");
                     } else {
-                        Newsletter::subscribe($request->email);
+                        Newsletter::subscribe($request->subs_email);
                         session()->flash('alert', "You've subscribed successfully");
                     }
                     return back();
@@ -115,13 +115,13 @@ class HomeController extends Controller
                     foreach ($users->recipients as $user) {
                         array_push($emails, $user->email);
                     }
-                    if (in_array($request->email, $emails)) {
+                    if (in_array($request->subs_email, $emails)) {
                         session()->flash('alert', "Email already exist in subscription list");
                         return back();
                     } else {
                         $request_body = json_decode(
                             '[{
-                             "email": "' . $request->email . '",
+                             "email": "' . $request->subs_email . '",
                              "first_name": "",
                              "last_name": ""
                               }]'

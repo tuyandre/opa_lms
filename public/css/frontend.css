@@ -4743,14 +4743,14 @@ ul.product-tab li.active:after {
 
 .contact-page-section .social-contact .category-icon-title {
   width: 165px;
-  float: left;
+  display: inline-block;
   position: relative;
 }
 
 .contact-page-section .social-contact .category-icon-title:before {
   content: '';
   position: absolute;
-  height: 165px;
+  height: 130px;
   width: 1px;
   background-color: #eee;
   top: 0;
@@ -6111,5 +6111,9 @@ ul.product-tab li.active:after {
   cursor: not-allowed;
   pointer-events: none;
   opacity: 0.6;
+}
+
+.header-info li:last-child:after {
+  display: none;
 }
 
