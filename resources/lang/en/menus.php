@@ -133,6 +133,9 @@ return [
             'contacts' => [
                 'title' => 'Contacts',
             ],
+            'pages' => [
+                'title' => 'Pages Manager',
+            ],
             /*===========================*/
         ],
     ],

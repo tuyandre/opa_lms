@@ -98,7 +98,7 @@
             @endif
 
 
-            @if ($logged_in_user->isAdmin())
+            @if ($logged_in_user->isAdmin() || $logged_in_user->hasAnyPermission(['blog_access','page_access','reason_access']))
                 <li class="nav-item nav-dropdown {{ active_class(Active::checkUriPattern(['user/contact*','user/sponsors*','user/testimonials*','user/faqs*','user/footer*','user/blogs']), 'open') }}">
                     <a class="nav-link nav-dropdown-toggle {{ active_class(Active::checkUriPattern('admin/*')) }}"
                        href="#">
@@ -106,6 +106,14 @@
                     </a>
 
                     <ul class="nav-dropdown-items">
+                        @can('page_access')
+                            <li class="nav-item ">
+                                <a class="nav-link {{ $request->segment(2) == 'pages' ? 'active' : '' }}"
+                                   href="{{ route('admin.pages.index') }}">
+                                    <span class="title">@lang('menus.backend.sidebar.pages.title')</span>
+                                </a>
+                            </li>
+                        @endcan
                         @can('blog_access')
                             <li class="nav-item ">
                                 <a class="nav-link {{ $request->segment(2) == 'blogs' ? 'active' : '' }}"

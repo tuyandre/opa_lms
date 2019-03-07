@@ -548,6 +548,29 @@ return [
                 'created_at' => 'Created On',
             ]
         ],
+        'pages' => [
+            'title' => 'Pages',
+            'create' => 'Create Page',
+            'edit' => 'Edit Page',
+            'view' => 'View Pages',
+            'max_file_size' => '(max file size 10MB)',
+
+            'fields' => [
+                'title' => 'Title',
+                'slug' => 'Slug',
+                'content' => 'Content',
+                'status' => 'Status',
+                'created' => 'Created',
+                'published' => 'Published',
+                'drafted' => 'Drafted',
+                'clear' => 'Clear',
+                'featured_image' => 'Featured image',
+                'meta_title' => 'Meta Title',
+                'meta_description' => 'Meta Description',
+                'meta_keywords' => 'Meta Keywords',
+                'created_at' => 'Created On',
+            ]
+        ],
 
         'faqs' => [
             'title' => 'FAQs',

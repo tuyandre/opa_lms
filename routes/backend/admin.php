@@ -154,6 +154,13 @@ Route::get('get-blogs-data', ['uses' => 'Admin\BlogController@getData', 'as' => 
 Route::post('blogs_mass_destroy', ['uses' => 'Admin\BlogController@massDestroy', 'as' => 'blogs.mass_destroy']);
 
 
+//======= Pages Routes =====//
+Route::resource('pages', 'Admin\PageController');
+Route::get('get-pages-data', ['uses' => 'Admin\PageController@getData', 'as' => 'pages.get_data']);
+Route::post('pages_mass_destroy', ['uses' => 'Admin\PageController@massDestroy', 'as' => 'pages.mass_destroy']);
+Route::post('pages_restore/{id}', ['uses' => 'Admin\PageController@restore', 'as' => 'pages.restore']);
+Route::delete('pages_perma_del/{id}', ['uses' => 'Admin\PageController@perma_del', 'as' => 'pages.perma_del']);
+
 
 //===== FAQs Routes =====//
 Route::resource('faqs', 'Admin\FaqController');
