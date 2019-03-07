@@ -1,7 +1,7 @@
 @extends('frontend.layouts.app'.config('theme_layout'))
 @php $no_footer = true; @endphp
 
-@section('title', app_name() . ' | Home'))
+@section('title', app_name() . ' | Home')
 @section('meta_description', '')
 @section('meta_keywords','')
 
