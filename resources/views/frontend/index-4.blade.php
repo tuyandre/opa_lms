@@ -1,5 +1,9 @@
 @extends('frontend.layouts.app'.config('theme_layout'))
 
+@section('title', app_name() . ' | Home'))
+@section('meta_description', '')
+@section('meta_keywords','')
+
 @push("after-styles")
     <style>
         #search-course-2 {

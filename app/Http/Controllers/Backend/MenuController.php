@@ -6,6 +6,7 @@ use App\Config;
 use App\Item;
 use App\ItemMeta;
 use App\Models\Category;
+use App\Models\Page;
 use App\Term;
 use Harimayco\Menu\Models\MenuItems;
 use Illuminate\Http\Request;
@@ -23,12 +24,12 @@ class MenuController extends Controller
             $menu = Menus::find($request->menu);
             $menu_data = json_decode($menu->value);
         }
-        $categories = Category::where('status','=',1)
-            ->get();
 
         $menu_list = Menus::get();
 
-        return view('backend.menu-manager.index', compact('menu', 'menu_data', 'menu_list', 'categories', 'posts', 'pages'));
+        $pages = Page::where('published', '=', 1)->get();
+
+        return view('backend.menu-manager.index', compact('menu', 'menu_data', 'menu_list', 'pages'));
     }
 
     public function create(Request $request)
@@ -38,7 +39,7 @@ class MenuController extends Controller
         ]);
 
         //Fetching Menu JSON
-        $menu_list = Config::where('key', '=', 'menu_list')->first();
+        $menu_list = \App\Models\Config::where('key', '=', 'menu_list')->first();
         $add_data = "";
         $menu_name = str_replace(array('\'', '"'), '', $request->menu_name);
         $menus = json_decode($menu_list->value);
@@ -119,24 +120,15 @@ class MenuController extends Controller
     {
         foreach ($request->data as $item) {
             $type = "";
-            if ($item['type'] == 'category') {
-                $type =  __('strings.backend.menu_manager.category') ;
-                $object = Term::find((int)$item['item_id']);
 
-            } else {
-                if($item['type'] == 'page'){
-                    $type = __('strings.backend.menu_manager.page');
-                }else{
-                    $type = __('strings.backend.menu_manager.post');
-                }
-                $object = Item::find((int)$item['item_id']);
+            if ($item['type'] == 'page') {
+                $type = __('strings.backend.menu_manager.page');
             }
-
+            $object = Page::find((int)$item['item_id']);
             $menuitem = new MenuItems();
             $menuitem->label = $item['labelmenu'];
             $menuitem->link = $item['link'] . '/' . $object->slug;
             $menuitem->menu = $item['idmenu'];
-            $menuitem->item_id = $object->id;
             $menuitem->sort = MenuItems::getNextSortRoot($item['idmenu']);
             $menuitem->save();
         }
@@ -209,17 +201,17 @@ class MenuController extends Controller
     {
 
         $menu = Menus::find(request()->input("idmenu"));
-        $menu_bag_data = MenuItems::where('menu','=',$menu)->get();
+        $menu_bag_data = MenuItems::where('menu', '=', $menu)->get();
         $menu->name = request()->input("menuname");
         $menu->save();
         $value = 0;
-        if(request('meta')[0]['nav_menu'] == 'true'){
-          $value =  $menu->id;
-        }else{
-            $value=  0;
+        if (request('meta')[0]['nav_menu'] == 'true') {
+            $value = $menu->id;
+        } else {
+            $value = 0;
         }
-        $config = \App\Models\Config::where('key','=','nav_menu')->first();
-        $config->value =$value;
+        $config = \App\Models\Config::where('key', '=', 'nav_menu')->first();
+        $config->value = $value;
         $config->save();
 
 //        dd(json_decode($menu_bag->value));
@@ -236,13 +228,14 @@ class MenuController extends Controller
 
     }
 
-    public function updateLocation(Request $request){
-        $menu_list = \App\Models\Config::where('key','=','menu_list')->first();
+    public function updateLocation(Request $request)
+    {
+        $menu_list = \App\Models\Config::where('key', '=', 'menu_list')->first();
         $menu_bag = json_decode($menu_list->value);
-        foreach ($menu_bag as $menu){
-            if($menu->location == 'top_menu'){
+        foreach ($menu_bag as $menu) {
+            if ($menu->location == 'top_menu') {
                 $menu->id = ($request->location_top_menu == "") ? 0 : $request->location_top_menu;
-            }else if($menu->location  == 'footer_menu'){
+            } else if ($menu->location == 'footer_menu') {
                 $menu->id = ($request->location_top_menu == "") ? 0 : $request->location_footer_menu;
             }
         }

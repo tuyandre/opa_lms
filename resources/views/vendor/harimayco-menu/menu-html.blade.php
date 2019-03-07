@@ -71,16 +71,17 @@ if (config('nav_menu') != 0) {
                                                                         </label>
                                                                     </p>
 
-                                                                    <p class="button-controls">
 
-                                                                        <a href="#" onclick="addcustommenu()"
-                                                                           class="button-secondary submit-add-to-menu right">Add
-                                                                            menu item</a>
-                                                                        <span class="spinner" id="spincustomu"></span>
-                                                                    </p>
 
                                                                 </div>
                                                             </div>
+
+                                                        </div>
+                                                        <div class="d-inline-block w-100 action-wrapper border-top col-12 pt-2 pb-1">
+                                                            <a href="#" onclick="addcustommenu()"
+                                                               class="btn btn-light add-to-menu border float-right submit-add-to-menu right">{{ __('strings.backend.menu_manager.add_to_menu') }}</a>
+                                                            <span class="spinner" id="spincustomu"></span>
+
                                                         </div>
                                                     </li>
 
@@ -88,8 +89,59 @@ if (config('nav_menu') != 0) {
                                             </div>
                                         </form>
 
+                                        @if(isset($pages))
+
+                                            <div class="accordion-container mt-4">
+                                                <ul class="outer-border">
+                                                    <li class="control-section accordion-section open">
+                                                        <h3 class="accordion-section-title hndle"
+                                                            data-toggle="collapse"
+                                                            data-target="#pages"
+                                                            aria-expanded="true" aria-controls="pages"
+                                                            id="headingThree" tabindex="0"> {{ __('strings.backend.menu_manager.pages') }}<span
+                                                                    class="screen-reader-text">{{ __('strings.backend.menu_manager.screen_reader_text') }}</span>
+                                                        </h3>
+
+                                                        <div id="pages" class="collapse show" aria-labelledby="pages"
+                                                             data-parent="#accordion">
+                                                            <div class="card-body px-3 pt-3  pb-0">
+                                                                <div class="form-group">
+                                                                    <input type="text"
+                                                                           placeholder="Search Pages"
+                                                                           class="form-control searchInput mb-3">
+                                                                    <div class="checkbox-wrapper page">
+                                                                        @if($pages->count() > 0)
+                                                                            @foreach($pages as $item)
+                                                                                <div class="checkbox"
+                                                                                     data-value="{{$item->title}}">
+                                                                                    {{ html()->label(html()->checkbox('category[]')->value($item->id).' &nbsp;'.$item->title)}}
+                                                                                </div>
+                                                                            @endforeach
+                                                                        @endif
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="d-inline-block w-100 action-wrapper border-top col-12 pt-2 pb-1">
+                                                                <div class="checkbox float-left">
+                                                                    {{ html()->label(html()->checkbox()->class('select_all').' &nbsp; '. __('strings.backend.menu_manager.select_all') )->class('my-2')}}
+                                                                </div>
+                                                                <button class="btn btn-light add-to-menu border float-right">
+                                                                    {{ __('strings.backend.menu_manager.add_to_menu') }}
+                                                                </button>
+                                                            </div>
+                                                        </div>
+
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        @endif
+
+
                                     </div>
                                 @endif
+
+
+
                                 <div class="col-lg-9 col-12" id="menu-management-liquid">
                                     <div id="menu-management">
                                         <form id="update-nav-menu" action="" method="post"
@@ -483,7 +535,7 @@ if (config('nav_menu') != 0) {
                     url: '{{route('hcustomitem')}}',
                     type: 'POST',
                     success: function (response) {
-                        window.location = "";
+//                        window.location = "";
                     },
                     complete: function () {
                         $("#spincustomu").hide();

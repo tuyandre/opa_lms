@@ -11,6 +11,7 @@ use App\Models\Course;
 use App\Models\CourseTimeline;
 use App\Models\Faq;
 use App\Models\Lesson;
+use App\Models\Page;
 use App\Models\Reason;
 use App\Models\Sponsor;
 use App\Models\System\Session;
@@ -29,6 +30,14 @@ class HomeController extends Controller
      */
     public function index()
     {
+        if(request('page')){
+           $page = Page::where('slug','=',request('page'))
+              ->where('published','=',1)->first();
+           if($page != ""){
+               return view('frontend.pages.index',compact('page'));
+           }
+           abort(404);
+        }
         $type = config('theme_layout');
         $sections = Config::where('key', '=', 'layout_' . $type)->first();
         $sections = json_decode($sections->value);

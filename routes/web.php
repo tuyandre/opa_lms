@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\LanguageController;
+use App\Http\Controllers\Frontend\HomeController;
 
 /*
  * Global Routes
@@ -96,3 +97,6 @@ Route::group(['namespace' => 'Backend', 'prefix' => 'admin','middleware' => conf
     Route::post('change-location','MenuController@updateLocation')->name('update-location');
 });
 
+Route::group(['namespace' => 'Frontend', 'as' => 'frontend.'], function () {
+    Route::get('/{page?}', [HomeController::class, 'index'])->name('index');
+});

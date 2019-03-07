@@ -10,7 +10,6 @@ use App\Http\Controllers\Frontend\User\DashboardController;
  * Frontend Controllers
  * All route names are prefixed with 'frontend.'.
  */
-Route::get('/', [HomeController::class, 'index'])->name('index');
 
 /*=============== Theme blades routes starts ===================*/
 Route::get('/index-2', function (){

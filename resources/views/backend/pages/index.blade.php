@@ -68,7 +68,6 @@
         $(document).ready(function () {
             var route = '{{route('admin.pages.get_data')}}';
 
-
             @if(request('show_deleted') == 1)
                 route = '{{route('admin.pages.get_data',['show_deleted' => 1])}}';
             @endif

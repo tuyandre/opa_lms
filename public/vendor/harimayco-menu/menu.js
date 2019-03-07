@@ -125,7 +125,6 @@ function actualizarmenu() {
         }
 
     });
-    console.log(generatemenucontrolr)
 	$.ajax({
 		dataType : "json",
 		data : {

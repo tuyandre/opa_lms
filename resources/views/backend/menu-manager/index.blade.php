@@ -104,7 +104,7 @@
         </div>
         <div class="card-body">
             @if(isset($menu))
-                {!! Menu::render()->with(['menu' => $menu,'menu_list' => $menu_list]) !!}
+                {!! Menu::render()->with(['menu' => $menu,'menu_list' => $menu_list,'pages' =>$pages]) !!}
             @else
                 {!! Menu::render()->with(['menu_list' => $menu_list]) !!}
             @endif
