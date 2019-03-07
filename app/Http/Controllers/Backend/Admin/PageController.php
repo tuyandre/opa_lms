@@ -184,6 +184,7 @@ class PageController extends Controller
         $page->meta_keywords = $request->meta_keywords;
         $page->meta_description = $request->meta_description;
         $page->published = $request->published;
+        $page->sidebar = $request->sidebar;
         $page->save();
 
 
@@ -288,6 +289,7 @@ class PageController extends Controller
         $page->meta_keywords = $request->meta_keywords;
         $page->meta_description = $request->meta_description;
         $page->published = $request->published;
+        $page->sidebar = $request->sidebar;
         $page->save();
 
         return redirect()->route('admin.pages.index')->withFlashSuccess(__('alerts.backend.general.updated'));

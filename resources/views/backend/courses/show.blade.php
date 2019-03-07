@@ -81,6 +81,18 @@
                             <th>@lang('labels.backend.courses.fields.published')</th>
                             <td>{{ Form::checkbox("published", 1, $course->published == 1 ? true : false, ["disabled"]) }}</td>
                         </tr>
+                        <tr>
+                            <th>@lang('labels.backend.courses.fields.meta_title')</th>
+                            <td>{{ $course->meta_title }}</td>
+                        </tr>
+                        <tr>
+                            <th>@lang('labels.backend.courses.fields.meta_description')</th>
+                            <td>{{ $course->meta_description }}</td>
+                        </tr>
+                        <tr>
+                            <th>@lang('labels.backend.courses.fields.meta_keywords')</th>
+                            <td>{{ $course->meta_keywords }}</td>
+                        </tr>
                     </table>
                 </div>
             </div><!-- Nav tabs -->

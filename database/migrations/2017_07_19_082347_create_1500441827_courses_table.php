@@ -25,6 +25,9 @@ class Create1500441827CoursesTable extends Migration
                 $table->integer('featured')->default(0)->nullable();
                 $table->integer('trending')->default(0)->nullable();
                 $table->integer('popular')->default(0)->nullable();
+                $table->text('meta_title')->nullable();
+                $table->longText('meta_description')->nullable();
+                $table->longText('meta_keywords')->nullable();
                 $table->tinyInteger('published')->nullable()->default(0);
                 $table->timestamps();
                 $table->softDeletes();

@@ -21,20 +21,22 @@
                         {!! Form::select('teachers[]', $teachers, old('teachers'), ['class' => 'form-control select2 js-example-placeholder-multiple', 'multiple' => 'multiple']) !!}
                     </div>
                     <div class="col-2 d-flex form-group flex-column">
-                        OR <a target="_blank" class="btn btn-primary mt-auto" href="{{route('admin.teachers.create')}}">{{trans('labels.backend.courses.add_teachers')}}</a>
+                        OR <a target="_blank" class="btn btn-primary mt-auto"
+                              href="{{route('admin.teachers.create')}}">{{trans('labels.backend.courses.add_teachers')}}</a>
                     </div>
                 </div>
             @endif
 
-                <div class="row">
-                    <div class="col-10 form-group">
-                        {!! Form::label('category_id',trans('labels.backend.courses.fields.category'), ['class' => 'control-label']) !!}
-                        {!! Form::select('category_id', $categories, old('category_id'), ['class' => 'form-control select2 js-example-placeholder-single', 'multiple' => false]) !!}
-                    </div>
-                    <div class="col-2 d-flex form-group flex-column">
-                        OR <a target="_blank" class="btn btn-primary mt-auto" href="{{route('admin.categories.index').'?create'}}">{{trans('labels.backend.courses.add_categories')}}</a>
-                    </div>
+            <div class="row">
+                <div class="col-10 form-group">
+                    {!! Form::label('category_id',trans('labels.backend.courses.fields.category'), ['class' => 'control-label']) !!}
+                    {!! Form::select('category_id', $categories, old('category_id'), ['class' => 'form-control select2 js-example-placeholder-single', 'multiple' => false]) !!}
                 </div>
+                <div class="col-2 d-flex form-group flex-column">
+                    OR <a target="_blank" class="btn btn-primary mt-auto"
+                          href="{{route('admin.categories.index').'?create'}}">{{trans('labels.backend.courses.add_categories')}}</a>
+                </div>
+            </div>
 
             <div class="row">
                 <div class="col-12 col-lg-6 form-group">
@@ -75,7 +77,6 @@
                 </div>
             </div>
             <div class="row">
-
                 <div class="col-12 form-group">
                     <div class="checkbox d-inline mr-3">
                         {!! Form::hidden('published', 0) !!}
@@ -102,11 +103,30 @@
                     </div>
 
                 </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col-12 form-group">
+                    {!! Form::label('meta_title',trans('labels.backend.courses.fields.meta_title'), ['class' => 'control-label']) !!}
+                    {!! Form::text('meta_title', old('meta_title'), ['class' => 'form-control', 'placeholder' => trans('labels.backend.courses.fields.meta_title')]) !!}
+
+                </div>
+                <div class="col-12 form-group">
+                    {!! Form::label('meta_description',trans('labels.backend.courses.fields.meta_description'), ['class' => 'control-label']) !!}
+                    {!! Form::textarea('meta_description', old('meta_description'), ['class' => 'form-control', 'placeholder' => trans('labels.backend.courses.fields.meta_description')]) !!}
+                </div>
+                <div class="col-12 form-group">
+                    {!! Form::label('meta_keywords',trans('labels.backend.courses.fields.meta_keywords'), ['class' => 'control-label']) !!}
+                    {!! Form::textarea('meta_keywords', old('meta_keywords'), ['class' => 'form-control', 'placeholder' => trans('labels.backend.courses.fields.meta_keywords')]) !!}
+                </div>
+            </div>
+
+            <div class="row">
                 <div class="col-12  text-center form-group">
 
                     {!! Form::submit(trans('strings.backend.general.app_save'), ['class' => 'btn btn-lg btn-danger']) !!}
                 </div>
-
             </div>
         </div>
     </div>
@@ -135,15 +155,15 @@
 
         var uploadField = $('input[type="file"]');
 
-            $(document).on('change','input[type="file"]',function () {
-                var $this = $(this);
-                $(this.files).each(function (key,value) {
-                    if(value.size > 5000000){
-                        alert('"'+value.name+'"'+'exceeds limit of maximum file upload size' )
-                        $this.val("");
-                    }
-                })
+        $(document).on('change', 'input[type="file"]', function () {
+            var $this = $(this);
+            $(this.files).each(function (key, value) {
+                if (value.size > 5000000) {
+                    alert('"' + value.name + '"' + 'exceeds limit of maximum file upload size')
+                    $this.val("");
+                }
             })
+        })
 
     </script>
 

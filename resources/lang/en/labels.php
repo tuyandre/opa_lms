@@ -182,6 +182,7 @@ return [
                     'view' => 'View Lessons'
                 ],
                 'course' => 'Course',
+                'sidebar' => 'Add Sidebar',
                 'status' => 'Status',
                 'featured' => 'Featured',
                 'popular' => 'Popular',
@@ -193,7 +194,10 @@ return [
                 'price' => 'Price',
                 'course_image' => 'Course Image',
                 'start_date' => 'Start Date',
-                'published' => 'Published'
+                'published' => 'Published',
+                'meta_title' => 'Meta Title',
+                'meta_description' => 'Meta Description',
+                'meta_keywords' => 'Meta Keywords',
             ]
         ],
         'lessons' => [

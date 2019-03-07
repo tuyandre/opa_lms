@@ -111,13 +111,29 @@
                     </div>
 
                 </div>
-                <div class="col-12  text-center form-group">
-                    {!! Form::submit(trans('strings.backend.general.app_update'), ['class' => 'btn btn-danger']) !!}
-
-                </div>
-
             </div>
 
+            <div class="row">
+                <div class="col-12 form-group">
+                    {!! Form::label('meta_title',trans('labels.backend.courses.fields.meta_title'), ['class' => 'control-label']) !!}
+                    {!! Form::text('meta_title', old('meta_title'), ['class' => 'form-control', 'placeholder' => trans('labels.backend.courses.fields.meta_title')]) !!}
+
+                </div>
+                <div class="col-12 form-group">
+                    {!! Form::label('meta_description',trans('labels.backend.courses.fields.meta_description'), ['class' => 'control-label']) !!}
+                    {!! Form::textarea('meta_description', old('meta_description'), ['class' => 'form-control', 'placeholder' => trans('labels.backend.courses.fields.meta_description')]) !!}
+                </div>
+                <div class="col-12 form-group">
+                    {!! Form::label('meta_keywords',trans('labels.backend.courses.fields.meta_keywords'), ['class' => 'control-label']) !!}
+                    {!! Form::textarea('meta_keywords', old('meta_keywords'), ['class' => 'form-control', 'placeholder' => trans('labels.backend.courses.fields.meta_keywords')]) !!}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12  text-center form-group">
+                    {!! Form::submit(trans('strings.backend.general.app_update'), ['class' => 'btn btn-danger']) !!}
+                </div>
+            </div>
         </div>
     </div>
 
@@ -141,11 +157,11 @@
                 placeholder: "{{trans('labels.backend.courses.select_teachers')}}",
             });
         });
-        $(document).on('change','input[type="file"]',function () {
+        $(document).on('change', 'input[type="file"]', function () {
             var $this = $(this);
-            $(this.files).each(function (key,value) {
-                if(value.size > 5000000){
-                    alert('"'+value.name+'"'+'exceeds limit of maximum file upload size' )
+            $(this.files).each(function (key, value) {
+                if (value.size > 5000000) {
+                    alert('"' + value.name + '"' + 'exceeds limit of maximum file upload size')
                     $this.val("");
                 }
             })

@@ -1,6 +1,6 @@
 @extends('frontend.layouts.app'.config('theme_layout'))
 
-@section('title', app_name() . ' | Contact'))
+@section('title', app_name() . ' | Contact')
 @section('meta_description', '')
 @section('meta_keywords','')
 

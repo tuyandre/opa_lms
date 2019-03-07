@@ -94,6 +94,11 @@
                         {!! Form::checkbox('published', 1, false, []) !!}
                         {!! Form::label('published',  trans('labels.backend.courses.fields.published'), ['class' => 'checkbox control-label font-weight-bold']) !!}
                     </div>
+                    <div class="checkbox d-inline mr-3">
+                        {!! Form::hidden('sidebar', 0) !!}
+                        {!! Form::checkbox('sidebar', 1, false, []) !!}
+                        {!! Form::label('sidebar',  trans('labels.backend.courses.fields.sidebar'), ['class' => 'checkbox control-label font-weight-bold']) !!}
+                    </div>
                 </div>
             </div>
             <div class="row">
