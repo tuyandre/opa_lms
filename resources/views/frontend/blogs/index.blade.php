@@ -179,8 +179,7 @@
                             </div>
                         </div>
                     </div>
-
-                    @include('frontend.blogs.partials.sidebar')
+                   @include('frontend.blogs.partials.sidebar')
                 </div>
             </div>
         </div>

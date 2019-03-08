@@ -1,4 +1,9 @@
 @extends('frontend.layouts.app'.config('theme_layout'))
+
+@section('title', ($blog->meta_title) ? $blog->meta_title : app_name() )
+@section('meta_description', $blog->meta_description)
+@section('meta_keywords', $blog->meta_keywords)
+
 @section('content')
 
     <!-- Start of breadcrumb section
@@ -84,8 +89,9 @@
                                 <div class="next-post-item float-right">
                                     <a href="{{route('blogs.index',['slug'=>$next->slug.'-'.$next->id ])}}">Next Post<i
                                                 class="fas fa-arrow-circle-right"></i></a>
-                                    @endif
                                 </div>
+                                @endif
+
                         </div>
                     </div>
 

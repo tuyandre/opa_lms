@@ -24,48 +24,7 @@
         </div>
         @endif
 
-        {{--<div class="side-bar-widget">--}}
-            {{--<h2 class="widget-title text-capitalize"><span>Related </span>News.</h2>--}}
-            {{--<div class="latest-news-posts">--}}
-                {{--<div class="latest-news-area">--}}
-                    {{--<div class="latest-news-thumbnile relative-position">--}}
-                        {{--<img src="{{asset('assets/img/blog/lb-1.jpg')}}" alt="">--}}
-                        {{--<div class="hover-search">--}}
-                            {{--<i class="fas fa-search"></i>--}}
-                        {{--</div>--}}
-                        {{--<div class="blakish-overlay"></div>--}}
-                    {{--</div>--}}
-                    {{--<div class="date-meta">--}}
-                        {{--<i class="fas fa-calendar-alt"></i> 26 April 2018--}}
-                    {{--</div>--}}
-                    {{--<h3 class="latest-title bold-font"><a href="#">Affiliate Marketing A Beginner’s--}}
-                            {{--Guide.</a></h3>--}}
-                {{--</div>--}}
-                {{--<!-- /post -->--}}
 
-                {{--<div class="latest-news-posts">--}}
-                    {{--<div class="latest-news-area">--}}
-                        {{--<div class="latest-news-thumbnile relative-position">--}}
-                            {{--<img src="{{asset('assets/img/blog/lb-2.jpg')}}" alt="">--}}
-                            {{--<div class="hover-search">--}}
-                                {{--<i class="fas fa-search"></i>--}}
-                            {{--</div>--}}
-                            {{--<div class="blakish-overlay"></div>--}}
-                        {{--</div>--}}
-                        {{--<div class="date-meta">--}}
-                            {{--<i class="fas fa-calendar-alt"></i> 26 April 2018--}}
-                        {{--</div>--}}
-                        {{--<h3 class="latest-title bold-font"><a href="#">No.1 The Best Online Course--}}
-                                {{--2018.</a></h3>--}}
-                    {{--</div>--}}
-                    {{--<!-- /post -->--}}
-                {{--</div>--}}
-
-                {{--<div class="view-all-btn bold-font">--}}
-                    {{--<a href="#">View All News <i class="fas fa-chevron-circle-right"></i></a>--}}
-                {{--</div>--}}
-            {{--</div>--}}
-        {{--</div>--}}
 
         @if(count($popular_tags) > 0)
             <div class="side-bar-widget">
