@@ -62,11 +62,13 @@
                             <div class="share-text float-left">
                                 Share this news
                             </div>
+
                             <div class="share-social ul-li float-right">
                                 <ul>
-                                    <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-                                    <li><a href="#"><i class="fab fa-twitter"></i></a></li>
-                                    <li><a href="#"><i class="fab fa-google-plus-g"></i></a></li>
+                                    <li><a target="_blank" href="http://www.facebook.com/sharer/sharer.php?u={{url()->current()}}"><i class="fab fa-facebook-f"></i></a></li>
+                                    <li><a target="_blank" href="http://twitter.com/share?url={{url()->current()}}&text={{$blog->title}}"><i class="fab fa-twitter"></i></a></li>
+                                    <li><a target="_blank" href="http://www.linkedin.com/shareArticle?url={{url()->current()}}&title={{$blog->title}}&summary={{substr(strip_tags($blog->content),0,40)}}..."><i class="fab fa-linkedin"></i></a></li>
+                                    <li><a target="_blank" href="https://api.whatsapp.com/send?phone=&text={{url()->current()}}"><i class="fab fa-whatsapp"></i></a></li>
                                 </ul>
                             </div>
                         </div>
