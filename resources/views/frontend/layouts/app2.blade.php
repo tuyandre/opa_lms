@@ -55,6 +55,8 @@
         @yield('css')
     </head>
     <body class="{{config('layout_type')}}">
+    @include('frontend.layouts.modals.loginModal')
+
     <div id="app">
     {{--<div id="preloader"></div>--}}
 
@@ -100,13 +102,7 @@
                                     </li>
                                 </ul>
                             </div>
-                            <div class="log-in float-right">
-                                @if(!auth()->check())
-                                    <a id="openLoginModal" data-target="#myModal" href="#">log in</a>
-                                    <!-- The Modal -->
-                                    @include('frontend.layouts.modals.loginModal')
-                                @endif
-                            </div>
+
                             <!-- Collect the nav links, forms, and other content for toggling -->
                             <nav class="navbar-menu float-right">
                                 <div class="nav-menu ul-li">
@@ -150,6 +146,14 @@
                                                     </li>
                                                 </ul>
                                             </li>
+                                        @else
+                                            <li class="log-in mt-0">
+                                                @if(!auth()->check())
+                                                    <a id="openLoginModal" data-target="#myModal" href="#">log in</a>
+                                                    <!-- The Modal -->
+                                                    @include('frontend.layouts.modals.loginModal')
+                                                @endif
+                                            </li>
                                         @endif
                                     </ul>
                                 </div>
@@ -157,7 +161,8 @@
 
                             <div class="mobile-menu">
                                 <div class="logo"><a href="{{url('/')}}"><img
-                                                src={{asset("storage/logos/".config('logo_w_image'))}} alt="Logo"></a></div>
+                                                src={{asset("storage/logos/".config('logo_w_image'))}} alt="Logo"></a>
+                                </div>
                                 <nav>
                                     <ul>
                                         @if(count($custom_menus) > 0 )
@@ -185,11 +190,9 @@
 
                                         @if(auth()->check())
                                             <li class="">
-                                                <a href="#!"><i class="fa fa-user"></i></a>
+                                                <a href="#!">{{ $logged_in_user->name }}</a>
                                                 <ul class="">
-                                                    <li>
-                                                        <a href="{{ route('admin.dashboard') }}">{{ $logged_in_user->name}}</a>
-                                                    </li>
+
                                                     @can('view backend')
                                                         <li>
                                                             <a href="{{ route('admin.dashboard') }}">@lang('navs.frontend.dashboard')</a>
@@ -201,6 +204,11 @@
                                                         <a href="{{ route('frontend.auth.logout') }}">@lang('navs.general.logout')</a>
                                                     </li>
                                                 </ul>
+                                            </li>
+                                        @else
+                                            <li class="">
+                                                    <a id="openLoginModal" data-target="#myModal" href="#">log in</a>
+                                                    <!-- The Modal -->
                                             </li>
                                         @endif
                                     </ul>

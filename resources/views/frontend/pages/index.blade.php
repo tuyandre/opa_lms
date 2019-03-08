@@ -13,7 +13,7 @@
 @endpush
 
 @section('content')
-
+<!--== TODO:: Setup sidebar for Pages with sidebar enabled  ==-->
 
     <!-- Start of breadcrumb section
         ============================================= -->

@@ -55,6 +55,8 @@
         @yield('css')
     </head>
     <body class="{{config('layout_type')}}">
+    @include('frontend.layouts.modals.loginModal')
+
     <div id="app">
     {{--<div id="preloader"></div>--}}
 
@@ -142,14 +144,7 @@
                                         </select>
                                     </div>
                                 </li>
-                                @if(!auth()->check())
-                                    <li>
-                                        <div class="login">
-                                            <a data-toggle="modal" data-target="#myModal" href="#">LogIn</a>
-                                        </div>
-                                        @include('frontend.layouts.modals.loginModal')
-                                    </li>
-                                @endif
+
 
                             </ul>
                         </div>
@@ -196,6 +191,13 @@
                                                 </li>
                                             </ul>
                                         </li>
+                                        @else
+                                            <li>
+                                                <div class="login">
+                                                    <a data-toggle="modal" data-target="#myModal" href="#">LogIn</a>
+                                                </div>
+                                                @include('frontend.layouts.modals.loginModal')
+                                            </li>
                                     @endif
                                 </ul>
                             </div>
@@ -225,9 +227,8 @@
                                 @if(!auth()->check())
                                     <li>
                                         <div class="login">
-                                            <a data-toggle="modal" data-target="#myModal" href="#">LogIn</a>
+                                            <a data-toggle="modal" data-target="#myModal" href="#"><i class="fa fa-user"></i></a>
                                         </div>
-                                        @include('frontend.layouts.modals.loginModal')
                                     </li>
                                 @else
                                     <li class="menu-item-has-children ul-li-block">
@@ -289,29 +290,7 @@
                             @endif
                         @endforeach
                     @endif
-                    @if(auth()->check())
-                        <li class="card">
-                            <div class="card-header" id="headingUser">
-                                <button class="menu-link" data-toggle="collapse" data-target="#collapseUser"
-                                        aria-expanded="true" aria-controls="collapseUser">
-                                    <i class="fa fa-user"></i>
-                                </button>
-                            </div>
-                            <ul id="collapseUser" class="submenu collapse " aria-labelledby="headingUser"
-                                data-parent="#accordion" style="">
-                                @can('view backend')
-                                    <li class="card">
-                                        <a href="{{ route('admin.dashboard') }}">@lang('navs.frontend.dashboard')</a>
-                                    </li>
-                                @endcan
 
-
-                                <li class="card">
-                                    <a href="{{ route('frontend.auth.logout') }}">@lang('navs.general.logout')</a>
-                                </li>
-                            </ul>
-                        </li>
-                    @endif
 
 
 
