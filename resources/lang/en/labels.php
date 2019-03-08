@@ -548,6 +548,9 @@ return [
                 'tags_placeholder' => 'Add tags here',
                 'publish' => 'Publish',
                 'clear' => 'Clear',
+                'meta_title' => 'Meta Title',
+                'meta_description' => 'Meta Description',
+                'meta_keywords' => 'Meta Keywords',
                 'featured_image' => 'Featured image',
                 'created_at' => 'Created On',
             ]

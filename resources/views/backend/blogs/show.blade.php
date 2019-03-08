@@ -48,6 +48,18 @@
                             <td>{{ $blog->tags->pluck('name')->implode(',') }}</td>
                         </tr>
                         <tr>
+                            <th>@lang('labels.backend.blogs.fields.meta_title')</th>
+                            <td>{{ $blog->meta_title }}</td>
+                        </tr>
+                        <tr>
+                            <th>@lang('labels.backend.blogs.fields.meta_description')</th>
+                            <td>{{ $blog->meta_description }}</td>
+                        </tr>
+                        <tr>
+                            <th>@lang('labels.backend.blogs.fields.meta_keywords')</th>
+                            <td>{{ $blog->meta_keywords }}</td>
+                        </tr>
+                        <tr>
                             <th>@lang('labels.backend.blogs.fields.created_at')</th>
                             <td>{{ $blog->created_at->format('d M Y, h:i A') }}</td>
                         </tr>

@@ -180,6 +180,9 @@ class BlogController extends Controller
         $request = $this->saveFiles($request);
         $blog->user_id = auth()->user()->id;
         $blog->image = $request->featured_image;
+        $blog->meta_title = $request->meta_title;
+        $blog->meta_description = $request->meta_description;
+        $blog->meta_keywords = $request->meta_keywords;
         $blog->save();
 
         //Adding tags

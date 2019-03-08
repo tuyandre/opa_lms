@@ -24,6 +24,9 @@ class CreateBlogModule extends Migration {
             $table->text('content');
             $table->string('image')->nullable();
             $table->integer('views')->default(0);
+            $table->text('meta_title')->nullable();
+            $table->longText('meta_description')->nullable();
+            $table->longText('meta_keywords')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

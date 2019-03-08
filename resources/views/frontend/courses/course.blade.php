@@ -1,5 +1,10 @@
 @extends('frontend.layouts.app'.config('theme_layout'))
 
+
+@section('title', ($course->meta_title) ? $course->meta_title : app_name() )
+@section('meta_description', $course->meta_description)
+@section('meta_keywords', $course->meta_keywords)
+
 @push('after-styles')
     <style>
         .leanth-course.go {
@@ -72,14 +77,7 @@
 
                                 <div class="course-details-category ul-li">
                                     <span class="float-none">Course <b>Timeline:</b></span>
-                                    {{--<ul>--}}
-                                        {{--@foreach($lessons as $key=> $lesson)--}}
-                                            {{--@php $key++; @endphp--}}
-                                            {{--<li><a data-toggle="collapse" data-target="#collapse{{$key}}"--}}
-                                                   {{--aria-expanded="true"--}}
-                                                   {{--aria-controls="collapse{{$key}}">{{$lesson->model->title}}</a></li>--}}
-                                        {{--@endforeach--}}
-                                    {{--</ul>--}}
+
                                 </div>
                             @endif
                         </div>
