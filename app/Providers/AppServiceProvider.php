@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Helpers\Frontend\Auth\Socialite;
+use App\Models\Blog;
 use App\Models\Config;
 use App\Models\Course;
 use App\Models\Slider;
@@ -89,6 +90,27 @@ class AppServiceProvider extends ServiceProvider
             $max_depth = MenuItems::max('depth');
             $view->with(compact('custom_menus','max_depth'));
         });
+
+        view()->composer('frontend.layouts.partials.right-sidebar', function ($view) {
+
+            $featured_courses = Course::where('published', '=', 1)
+                ->where('featured', '=', 1)->first();
+
+            $recent_news = Blog::orderBy('created_at', 'desc')->take(2)->get();
+
+            $view->with(compact('recent_news'));
+        });
+
+        view()->composer('frontend.*', function ($view) {
+
+            $global_featured_course = Course::where('published', '=', 1)
+                ->where('featured', '=', 1)->where('trending', '=', 1)->first();
+
+
+            $view->with(compact('global_featured_course'));
+        });
+
+
 
 
 

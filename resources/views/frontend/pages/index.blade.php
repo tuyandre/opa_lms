@@ -6,14 +6,14 @@
 
 @push('after-styles')
     <style>
-        .content img{
+        .content img {
             margin: 10px;
         }
     </style>
 @endpush
 
 @section('content')
-<!--== TODO:: Setup sidebar for Pages with sidebar enabled  ==-->
+    <!--== TODO:: Setup sidebar for Pages with sidebar enabled  ==-->
 
     <!-- Start of breadcrumb section
         ============================================= -->
@@ -33,15 +33,34 @@
     <section id="about-page" class="about-page-section">
         <div class="container">
             <div class="row">
-                <div class="col-md-12 text-center">
-                    @if($page->image != "")
-                        <img class="mx-auto" src="{{asset('storage/uploads/'.$page->image)}}" alt="">
+                <div class="@if($page->sidebar == 1) col-md-9 @else col-md-12 @endif ">
+                    <div class="about-us-content-item">
+                        @if($page->image != "")
 
+                        <div class="about-gallery w-100 text-center">
+                            <div class="about-gallery-img d-inline-block float-none">
+                                <img src="{{asset('storage/uploads/'.$page->image)}}" alt="">
+                            </div>
+                        </div>
                     @endif
+
+                    <!-- /gallery -->
+
+                        <div class="about-text-item">
+                            <div class="section-title-2  headline text-left">
+                                <h2>{{$page->title}}</h2>
+                            </div>
+                           {!! $page->content !!}
+                        </div>
+                        <!-- /about-text -->
+                    </div>
                 </div>
-                <div class="col-md-12 mt-4 content">
-                    {!! $page->content !!}
-                </div>
+                @if($page->sidebar == 1)
+                    @include('frontend.layouts.partials.right-sidebar')
+
+                @endif
+
+
             </div>
         </div>
     </section>

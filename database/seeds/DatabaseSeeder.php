@@ -32,6 +32,7 @@ class DatabaseSeeder extends Seeder
         $this->call(FaqSeeder::class);
         $this->call(ReasonSeeder::class);
         $this->call(MenuSeeder::class);
+        $this->call(PageSeeder::class);
 
         Model::reguard();
     }

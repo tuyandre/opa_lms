@@ -24,9 +24,9 @@ Route::get('/index-4', function (){
     return view('frontend.index-4');
 })->name('index-4');
 
-Route::get('/about-us', function (){
-    return view('frontend.about-us');
-})->name('about-us');
+//Route::get('/about-us', function (){
+//    return view('frontend.about-us');
+//})->name('about-us');
 
 Route::get('/shop', function (){
     return view('frontend.shop');
