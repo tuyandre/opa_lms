@@ -28,6 +28,12 @@
 		}
 	}
 	.best-course-pic {
+		width: 270px;
+		background-position: center;
+		background-size: cover;
+		background-repeat: no-repeat;
+		height: 220px;
+		background-color: #555555;
 		overflow: hidden;
 		border-radius: 4px;
 	}
@@ -81,6 +87,7 @@
 	padding: 30px 35px 5px;
 	transform: rotate(-45deg);
 	background-color: #ff5a00;
+	z-index: 10;
 	span {
 		display: block;
 	}

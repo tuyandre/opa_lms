@@ -108,16 +108,8 @@
                                         <div class="col-md-6">
                                             <div class="blog-post-img-content">
                                                 <div class="blog-img-date relative-position">
-                                                    <div class="blog-thumnile">
-                                                        @if($item->image != "")
-                                                            <img src="{{asset('storage/uploads/'.$item->image)}}"
-                                                                 alt="">
+                                                    <div class="blog-thumnile" style="background-image: url({{asset('storage/uploads/'.$item->image)}})"></div>
 
-                                                        @else
-                                                            <img src="http://placehold.it/420x250" alt="">
-
-                                                        @endif
-                                                    </div>
                                                     <div class="course-price text-center gradient-bg">
                                                         <span>{{$item->created_at->format('d M Y')}}</span>
                                                     </div>

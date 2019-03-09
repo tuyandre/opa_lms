@@ -48,6 +48,14 @@
 	.blog-img-date {
 		border-radius: 4px;
 		margin-bottom: 30px;
+		.blog-thumnile{
+			height: 250px;
+			background-size: cover;
+			background-repeat: no-repeat;
+			width: 420px;
+			background-position: center;
+			background-color: $gray;
+		}
 	}
 }
 .blog-title-content {

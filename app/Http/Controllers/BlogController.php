@@ -26,7 +26,8 @@ class BlogController extends Controller
     public function getIndex(Request $request)
     {
         $popular_tags = Tag::has('blogs', '>', 4)->get();
-        $categories = Category::has('blogs')->where('status', '=', 1)->take(10)->get();
+        $categories = Category::has('blogs')->where('status', '=', 1)
+            ->take(10)->get();
 
         if ($request->slug != "") {
             $blog_id = array_last(explode('-', $request->slug));
@@ -45,7 +46,7 @@ class BlogController extends Controller
         }
 
 
-        $blogs = Blog::paginate(6);
+        $blogs = Blog::OrderBy('created_at','desc')->paginate(6);
         return view('frontend.blogs.index',
             compact('category', 'blogs', 'categories', 'popular_tags'));
     }

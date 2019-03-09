@@ -10,13 +10,8 @@
                     @foreach($featured_courses as $item)
                         <div class="col-md-3">
                             <div class="best-course-pic-text relative-position ">
-                                <div class="best-course-pic relative-position">
-                                    @if($item->course_image != "")
-                                        <img src="{{asset('storage/uploads/'.$item->course_image)}}"
-                                             alt="">
-                                    @else
-                                        <img src="http://placehold.it/270x220" alt="">
-                                    @endif
+                                <div class="best-course-pic relative-position" style="background-image: url({{asset('storage/uploads/'.$item->course_image)}})">
+
                                     @if($item->trending == 1)
                                         <div class="trend-badge-2 text-center text-uppercase">
                                             <i class="fas fa-bolt"></i>

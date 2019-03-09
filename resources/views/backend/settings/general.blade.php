@@ -9,6 +9,16 @@
             float: left;
             width: 8%;
         }
+        @media screen  and (max-width: 768px){
+            .color-list li{
+                width: 20%;
+                padding-bottom: 20px;
+            }
+            .color-list li:first-child{
+                padding-bottom:0px;
+            }
+        }
+
 
         .options {
             line-height: 35px;
@@ -47,6 +57,10 @@
         .preview {
             background-color: #dcd8d8;
             background-image: url(https://www.transparenttextures.com/patterns/carbon-fibre-v2.png);
+        }
+        #logos img{
+            height: auto;
+            width: 100%;
         }
     </style>
 @endpush
@@ -120,7 +134,7 @@
                                             <a data-color="default" class="color-default"
                                                href="#!"><i
                                                         class="fas fa-circle"></i></a>
-                                            <p style="font-size: 10px">(Default)</p>
+                                            <p class="mb-0" style="font-size: 10px">(Default)</p>
                                         </li>
                                         <li>
                                             <a data-color="color-2" class="color-2"
@@ -214,7 +228,7 @@
                                     {!! Form::file('logo_b_image', ['class' => 'form-control d-inline-block', 'placeholder' => '','id' => 'logo_b_image', 'accept' => 'image/jpeg,image/gif,image/png', 'data-preview'=>'#logo_b_image_preview']) !!}
                                     <p class="help-text mb-0 font-italic">{!!  __('labels.backend.logo.logo_b_note')!!}</p>
                                 </div>
-                                <div class="col-md-8 offset-2">
+                                <div class="col-md-8 offset-md-2">
                                     <div id="logo_b_image_preview" class="d-inline-block p-3 preview">
                                         <img height="50px" src="{{asset('storage/logos/'.config('logo_b_image'))}}">
                                     </div>
@@ -228,7 +242,7 @@
                                     {!! Form::file('logo_w_image', ['class' => 'form-control d-inline-block', 'placeholder' => '', 'data-preview'=>'#logo_w_image_preview', 'id' => 'logo_w_image', 'accept' => 'image/jpeg,image/gif,image/png']) !!}
                                     <p class="help-text mb-0 font-italic">{!!  __('labels.backend.logo.logo_w_note')!!}</p>
                                 </div>
-                                <div class="col-md-8 offset-2">
+                                <div class="col-md-8 offset-md-2">
                                     <div id="logo_w_image_preview" class="d-inline-block p-3 preview">
                                         <img height="50px" src="{{asset('storage/logos/'.config('logo_w_image'))}}">
                                     </div>
@@ -242,7 +256,7 @@
                                     {!! Form::file('logo_white_image', ['class' => 'form-control d-inline-block', 'placeholder' => '', 'data-preview'=>'#logo_white_image_preview', 'id' => 'logo_w_image', 'accept' => 'image/jpeg,image/gif,image/png']) !!}
                                     <p class="help-text mb-0 font-italic">{!!  __('labels.backend.logo.logo_white_note')!!}</p>
                                 </div>
-                                <div class="col-md-8 offset-2">
+                                <div class="col-md-8 offset-md-2">
                                     <div id="logo_white_image_preview" class="d-inline-block p-3 preview">
                                         <img height="50px" src="{{asset('storage/logos/'.config('logo_white_image'))}}">
                                     </div>
@@ -256,7 +270,7 @@
                                     {!! Form::file('logo_popup', ['class' => 'form-control d-inline-block', 'placeholder' => '', 'data-preview'=>'#logo_popup_preview', 'id' => 'logo_w_image', 'accept' => 'image/jpeg,image/gif,image/png']) !!}
                                     <p class="help-text mb-0 font-italic">{!!  __('labels.backend.logo.logo_popup_note')!!}</p>
                                 </div>
-                                <div class="col-md-8 offset-2">
+                                <div class="col-md-8 offset-md-2">
                                     <div id="logo_popup_preview" class="d-inline-block p-3 preview">
                                         <img height="50px" src="{{asset('storage/logos/'.config('logo_popup'))}}">
                                     </div>
@@ -270,7 +284,7 @@
                                     {!! Form::file('favicon_image', ['class' => 'form-control d-inline-block', 'placeholder' => '', 'data-preview'=>'#favicon_image_preview', 'accept' => 'image/jpeg,image/gif,image/png']) !!}
                                     <p class="help-text mb-0 font-italic">{!!  __('labels.backend.logo.favicon_note')!!}</p>
                                 </div>
-                                <div class="col-md-8 offset-2">
+                                <div class="col-md-8 offset-md-2">
                                     <div id="favicon_image_preview" class="d-inline-block p-3 preview">
                                         <img height="50px" src="{{asset('storage/logos/'.config('favicon_image'))}}">
                                     </div>
@@ -315,7 +329,7 @@
                                 </div><!--col-->
                             </div><!--form-group-->
                             <div class="form-group row" id="sections">
-                                <div class="col-md-10 offset-2">
+                                <div class="col-md-10 offset-md-2">
                                     <div class="row">
                                         @foreach($sections as $key=>$item)
                                             <p style="line-height: 35px" class="col-md-4 col-12">

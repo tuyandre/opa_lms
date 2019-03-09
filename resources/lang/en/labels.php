@@ -317,7 +317,12 @@ return [
         ],
 
         'messages' => [
-            'title' => 'Messages'
+            'title' => 'Messages',
+            'compose' => 'Compose',
+            'search_user' => 'Search User',
+            'start_conversation' => 'Start a conversation',
+            'select_recipients' => 'Select Recipients',
+            'type_a_message' => 'Type a message',
         ],
         'menu-manager' => [
             'title' => 'Menu Manager'

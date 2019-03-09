@@ -344,12 +344,12 @@
                             @else
 
                                 @if($continue_course)
-                                <a href="{{route('lessons.show',['id' => $course->id,'slug'=>$continue_course->model->slug])}}"
-                                   class="genius-btn btn-block text-white  gradient-bg text-center text-uppercase  bold-font">
+                                    <a href="{{route('lessons.show',['id' => $course->id,'slug'=>$continue_course->model->slug])}}"
+                                       class="genius-btn btn-block text-white  gradient-bg text-center text-uppercase  bold-font">
 
-                                    Continue Course
+                                        Continue Course
 
-                                    <i class="fa fa-arrow-right"></i></a>
+                                        <i class="fa fa-arrow-right"></i></a>
 
                                 @endif
 
@@ -398,17 +398,14 @@
                                 <div class="latest-news-posts">
                                     @foreach($recent_news as $item)
                                         <div class="latest-news-area">
-
-                                            <div class="latest-news-thumbnile relative-position">
-                                                @if($item->image != "")
-                                                    <img src="{{asset('storage/uploads/'.$item->image)}}"
-                                                         alt="">
-                                                @else
-                                                    <img src="http://placehold.it/80x80" alt="">
-                                                @endif
-
+                                            @if($item->image != "")
+                                            <div class="latest-news-thumbnile relative-position"
+                                                 style="background-image: url({{asset('storage/uploads/'.$item->image)}})">
                                                 <div class="blakish-overlay"></div>
                                             </div>
+                                            @endif
+
+
                                             <div class="date-meta">
                                                 <i class="fas fa-calendar-alt"></i> {{$item->created_at->format('d M Y')}}
                                             </div>
@@ -429,29 +426,33 @@
 
                         @endif
 
-                        <div class="side-bar-widget">
-                            <h2 class="widget-title text-capitalize"><span>Featured</span> Course.</h2>
-                            <div class="featured-course">
-                                <div class="best-course-pic-text pt-0 relative-position">
-                                    <div class="best-course-pic relative-position">
-                                        <img src="{{asset('assets/img/blog/fb-1.jpg')}}" alt="">
-                                        <div class="trend-badge-2 text-center text-uppercase">
-                                            <i class="fas fa-bolt"></i>
-                                            <span>Trending</span>
+                        @if($global_featured_course != "")
+                            <div class="side-bar-widget">
+                                <h2 class="widget-title text-capitalize"><span>Featured</span> Course.</h2>
+                                <div class="featured-course">
+                                    <div class="best-course-pic-text relative-position pt-0">
+                                        <div class="best-course-pic relative-position " style="background-image: url({{asset('storage/uploads/'.$global_featured_course->course_image)}})">
+
+                                            @if($global_featured_course->trending == 1)
+                                                <div class="trend-badge-2 text-center text-uppercase">
+                                                    <i class="fas fa-bolt"></i>
+                                                    <span>Trending</span>
+                                                </div>
+                                            @endif
                                         </div>
-                                    </div>
-                                    <div class="best-course-text">
-                                        <div class="course-title mb20 headline relative-position">
-                                            <h3><a href="#">Fully Responsive Web Design &amp; Development.</a></h3>
-                                        </div>
-                                        <div class="course-meta">
-                                            <span class="course-category"><a href="#">Web Design</a></span>
-                                            <span class="course-author"><a href="#">250 Students</a></span>
+                                        <div class="best-course-text" style="left: 0;right: 0;">
+                                            <div class="course-title mb20 headline relative-position">
+                                                <h3><a href="{{ route('courses.show', [$global_featured_course->slug]) }}">{{$global_featured_course->title}}</a></h3>
+                                            </div>
+                                            <div class="course-meta">
+                                                <span class="course-category"><a href="{{route('courses.category',['category'=>$global_featured_course->category->slug])}}">{{$global_featured_course->category->name}}</a></span>
+                                                <span class="course-author">{{ $global_featured_course->students()->count() }}</span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        @endif
                     </div>
                 </div>
             </div>

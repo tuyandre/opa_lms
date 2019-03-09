@@ -31,7 +31,7 @@
                         <div class="headind_srch">
                             <div class="recent_heading btn-sm btn btn-dark">
                                 <a class="text-decoration-none compose" href="#">
-                                    <h5 class="text-white mb-0"><i class="icon-plus"></i>&nbsp;&nbsp; Compose</h5>
+                                    <h5 class="text-white mb-0"><i class="icon-plus"></i>&nbsp;&nbsp; @lang('labels.backend.messages.compose')</h5>
                                 </a>
 
                             </div>
@@ -55,9 +55,7 @@
                                             <div data-thread="{{$item->id}}"
                                                  class="chat_list @if(($thread != "") && ($thread->id == $item->id))  active_chat @endif ">
                                                 <div class="chat_people">
-                                                    <div class="chat_img">
-                                                        <img src="https://ptetutorials.com/images/user-profile.png"
-                                                             alt=""></div>
+
                                                     <div class="chat_ib">
                                                         <h5>{{ $item->title }} <span
                                                                     class="chat_date">{{ $item->lastMessage->created_at->diffForHumans() }}</span>
@@ -139,23 +137,22 @@
                         <div class="headind_srch bg-dark">
                             <div class="chat_people header row">
                                 <div class="col-12 col-lg-3">
-                                    <p class="font-weight-bold text-white mb-0" style="line-height: 35px">Select
-                                        Recipients:</p>
+                                    <p class="font-weight-bold text-white mb-0" style="line-height: 35px">@lang('labels.backend.messages.select_recipients'):</p>
                                 </div>
                                 <div class="col-lg-9 col-12 text-dark">
-                                    {!! Form::select('recipients[]', $teachers, (request('teacher_id') ? request('teacher_id') : old('recipients'), ['class' => 'form-control select2', 'multiple' => 'multiple']) !!}
+                                    {!! Form::select('recipients[]', $teachers, (request('teacher_id') ? request('teacher_id') : old('recipients')), ['class' => 'form-control select2', 'multiple' => 'multiple']) !!}
                                 </div>
                             </div>
                         </div>
                         <div class="mesgs">
                             <div class="msg_history">
-                                <p class="text-center">Start the conversation</p>
+                                <p class="text-center">{{trans('labels.backend.messages.start_conversation')}}</p>
                             </div>
                             <div class="type_msg">
                                 <div class="input_msg_write">
                                     {{--<input type="text" class="write_msg" placeholder="Type a message"/>--}}
                                     <textarea type="text" name="message" class="write_msg"
-                                              placeholder="Type a message"></textarea>
+                                              placeholder="{{trans('labels.backend.messages.type_a_message')}}"></textarea>
                                     <button class="msg_send_btn" type="submit">
                                         <i class="icon-paper-plane" style="line-height: 2" aria-hidden="true"></i>
                                     </button>

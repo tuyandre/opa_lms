@@ -1,6 +1,17 @@
 .latest-area-section {
 	padding: 125px 0px 55px 0px;
 }
+.side-bar-widget{
+	.latest-news-thumbnail-wrapper{
+		height: 80px;
+		width: 80px;
+		.latest-news-thumbnile{
+			height: 100%;
+			width: 100%;
+		}
+	}
+}
+
 .latest-news-thumbnile {
 	height: 120px;
 	width: 120px;

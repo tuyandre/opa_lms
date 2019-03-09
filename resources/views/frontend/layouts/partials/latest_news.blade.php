@@ -18,15 +18,8 @@
                                             </div>
                                             <div class="blakish-overlay"></div>
                                         </div>
-                                    @else
-                                        <div class="latest-news-thumbnile relative-position"
-                                             style="background-image: url('http://placehold.it/120x120');">
-                                            <div class="hover-search">
-                                                {{--<i class="fas fa-search"></i>--}}
-                                            </div>
-                                            <div class="blakish-overlay"></div>
-                                        </div>
                                     @endif
+
                                     <div class="date-meta">
                                         <i class="fas fa-calendar-alt"></i> {{$item->created_at->format('d M Y')}}
                                     </div>
@@ -79,14 +72,6 @@
                                             </div>
                                             <div class="blakish-overlay"></div>
                                         </div>
-                                    @else
-                                        <div class="latest-news-thumbnile relative-position"
-                                             style="background-image: url('http://placehold.it/120x120');">
-                                            <div class="hover-search">
-                                                {{--<i class="fas fa-search"></i>--}}
-                                            </div>
-                                            <div class="blakish-overlay"></div>
-                                        </div>
                                     @endif
                                     <div class="date-meta">
                                         <i class="fas fa-calendar-alt"></i> {{$item->created_at->format('d M Y')}}
@@ -132,14 +117,6 @@
                                     @if($item->image != null)
                                         <div class="latest-news-thumbnile relative-position"
                                              style="background-image: url('{{asset("storage/uploads/".$item->image)}}');">
-                                            <div class="hover-search">
-                                                {{--<i class="fas fa-search"></i>--}}
-                                            </div>
-                                            <div class="blakish-overlay"></div>
-                                        </div>
-                                    @else
-                                        <div class="latest-news-thumbnile relative-position"
-                                             style="background-image: url('http://placehold.it/120x120');">
                                             <div class="hover-search">
                                                 {{--<i class="fas fa-search"></i>--}}
                                             </div>

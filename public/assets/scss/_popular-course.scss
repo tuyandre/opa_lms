@@ -100,6 +100,19 @@
 	}
 }
 .course-item-pic-text {
+	.course-pic {
+		overflow: hidden;
+		border-radius: 4px;
+		height: 320px;
+		background-repeat: no-repeat;
+		background-position: center;
+		background-size: cover;
+		width: 370px;
+		background-color: $gray;
+		img {
+			transition: .3s all ease-in-out;
+		}
+	}
 	&:hover .course-details-btn {
 		right: 20px;
 		opacity: 1;

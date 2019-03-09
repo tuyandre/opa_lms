@@ -67,11 +67,11 @@
                     <div class="short-filter-tab">
                         <div class="shorting-filter w-50 d-inline float-left mr-3">
                             <span><b>Sort</b> By</span>
-                            <select class="form-control d-inline w-50">
-                                <option value="9" selected="">Popularity</option>
-                                <option value="10">Most Read</option>
-                                <option value="11">Most View</option>
-                                <option value="12">Most Shared</option>
+                            <select id="sortBy" class="form-control d-inline w-50">
+                                <option value="">None</option>
+                                <option value="popular">Popular</option>
+                                <option value="trending">Trending</option>
+                                <option value="featured">Featured</option>
                             </select>
                         </div>
                         {{--<div class="shorting-filter  float-left">--}}
@@ -101,13 +101,13 @@
 
                                             <div class="col-md-4">
                                                 <div class="best-course-pic-text relative-position">
-                                                    <div class="best-course-pic relative-position">
-                                                        @if($course->course_image != "")
-                                                            <img src="{{asset('storage/uploads/'.$course->course_image)}}"
-                                                                 alt="">
-                                                        @else
-                                                            <img src="http://placehold.it/270x200" alt="">
-                                                        @endif
+                                                    <div class="best-course-pic relative-position" @if($course->course_image != "")style="background-image: url('{{asset('storage/uploads/'.$course->course_image)}}')" @endif>
+                                                        {{--@if($course->course_image != "")--}}
+                                                            {{--<img src="{{asset('storage/uploads/'.$course->course_image)}}"--}}
+                                                                 {{--alt="">--}}
+                                                        {{--@else--}}
+                                                            {{--<img src="http://placehold.it/270x200" alt="">--}}
+                                                        {{--@endif--}}
                                                         @if($course->trending == 1)
                                                         <div class="trend-badge-2 text-center text-uppercase">
                                                         <i class="fas fa-bolt"></i>
@@ -160,7 +160,6 @@
                                             <th>COURSE NAME</th>
                                             <th>COURSE TYPE</th>
                                             <th>STARTS</th>
-                                            <th>LENGTH</th>
                                         </tr>
                                         @foreach($courses as $course)
 
@@ -182,13 +181,12 @@
                                                             <div class="course-meta">
                                                                 <span class="course-category bold-font"><a
                                                                             href="{{ route('courses.show', [$course->slug]) }}">${{$course->price}}</a></span>
+
                                                                 <div class="course-rate ul-li">
                                                                     <ul>
-                                                                        <li><i class="fas fa-star"></i></li>
-                                                                        <li><i class="fas fa-star"></i></li>
-                                                                        <li><i class="fas fa-star"></i></li>
-                                                                        <li><i class="fas fa-star"></i></li>
-                                                                        <li><i class="fas fa-star"></i></li>
+                                                                        @for($i=1; $i<=(int)$course->rating; $i++)
+                                                                            <li><i class="fas fa-star"></i></li>
+                                                                        @endfor
                                                                     </ul>
                                                                 </div>
                                                             </div>
@@ -197,11 +195,10 @@
                                                 </td>
                                                 <td>
                                                     <div class="course-type-list">
-                                                        <span>Graphic Design & 3D</span>
+                                                        <span><a href="{{route('courses.category',['category'=>$course->category->slug])}}">{{$course->category->name}}</a></span>
                                                     </div>
                                                 </td>
-                                                <td>6-06-2018</td>
-                                                <td>3 Months</td>
+                                                <td>{{\Carbon\Carbon::parse($course->start_date)->format('d M Y')}}</td>
                                             </tr>
                                         @endforeach
 
@@ -262,16 +259,12 @@
                                     @foreach($recent_news as $item)
                                         <div class="latest-news-area">
 
-                                            <div class="latest-news-thumbnile relative-position">
-                                                @if($item->image != "")
-                                                    <img src="{{asset('storage/uploads/'.$item->image)}}"
-                                                         alt="">
-                                                @else
-                                                    <img src="http://placehold.it/80x80" alt="">
-                                                @endif
-
-                                                <div class="blakish-overlay"></div>
-                                            </div>
+                                            @if($item->image != "")
+                                                <div class="latest-news-thumbnile relative-position"
+                                                     style="background-image: url({{asset('storage/uploads/'.$item->image)}})">
+                                                    <div class="blakish-overlay"></div>
+                                                </div>
+                                            @endif
                                             <div class="date-meta">
                                                 <i class="fas fa-calendar-alt"></i> {{$item->created_at->format('d M Y')}}
                                             </div>
@@ -295,13 +288,8 @@
                                 <h2 class="widget-title text-capitalize"><span>Featured</span> Course.</h2>
                                 <div class="featured-course">
                                     <div class="best-course-pic-text relative-position pt-0">
-                                        <div class="best-course-pic relative-position ">
-                                            @if($global_featured_course->course_image != "")
-                                                <img src="{{asset('storage/uploads/'.$global_featured_course->course_image)}}"
-                                                     alt="">
-                                            @else
-                                                <img src="http://placehold.it/270x220" alt="">
-                                            @endif
+                                        <div class="best-course-pic relative-position " style="background-image: url({{asset('storage/uploads/'.$global_featured_course->course_image)}})">
+
                                             @if($global_featured_course->trending == 1)
                                                 <div class="trend-badge-2 text-center text-uppercase">
                                                     <i class="fas fa-bolt"></i>
@@ -338,3 +326,22 @@
 
 
 @endsection
+
+@push('after-scripts')
+    <script>
+        $(document).ready(function () {
+            $(document).on('change','#sortBy',function () {
+               if($(this).val() != ""){
+                   location.href = '{{url()->current()}}?type='+$(this).val();
+               }else{
+                   location.href = '{{route('courses.all')}}';
+               }
+            })
+
+            @if(request('type') != "")
+                $('#sortBy').find('option[value="'+"{{request('type')}}"+'"]').attr('selected',true);
+            @endif
+        });
+
+    </script>
+@endpush

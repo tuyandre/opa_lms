@@ -46,14 +46,9 @@
                 <h2 class="widget-title text-capitalize"><span>Featured</span> Course.</h2>
                 <div class="featured-course">
                     <div class="best-course-pic-text relative-position pt-0">
-                        <div class="best-course-pic relative-position ">
-                            @if($global_featured_course->course_image != "")
-                                <img src="{{asset('storage/uploads/'.$global_featured_course->course_image)}}"
-                                     alt="">
-                            @else
-                                <img src="http://placehold.it/270x220" alt="">
-                            @endif
-                            @if($global_featured_course->trending == 1)
+                        <div class="best-course-pic relative-position " style="background-image: url({{asset('storage/uploads/'.$global_featured_course->course_image)}})">
+
+                        @if($global_featured_course->trending == 1)
                                 <div class="trend-badge-2 text-center text-uppercase">
                                     <i class="fas fa-bolt"></i>
                                     <span>Trending</span>
