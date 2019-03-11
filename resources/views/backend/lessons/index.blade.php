@@ -94,7 +94,7 @@
                 serverSide: true,
                 iDisplayLength: 10,
                 retrieve: true,
-                dom: 'lBfrtip<"actions">',
+                dom: 'lfBrtip<"actions">',
                 buttons: [
                     {
                         extend: 'csv',

@@ -18,7 +18,7 @@ $(document).ready(function () {
     })
     window.dtDefaultOptions = {
         retrieve: true,
-        dom: 'lBfrtip<"actions">',
+        dom: 'lfBrtip<"actions">',
         columnDefs: [],
         "iDisplayLength": 10,
         "aaSorting": [],

@@ -22,9 +22,7 @@
   }
 }
 
-div.dt-buttons {
-  margin-left: 25%;
-}
+
 
 .select2-container {
   width: 100% !important;
@@ -375,5 +373,27 @@ $switch-icon-xs-font-size: 7px;
   //outline alternative style
   .switch-#{$color}-outline-alt {
     @include switch-outline-alt-variant($value);
+  }
+}
+
+//*== Custom CSS for wrapper===*//
+.dataTables_wrapper {
+  .dataTables_filter {
+    float: left;
+    text-align: left;
+    margin-left: 25%;
+  }
+}
+div.dt-buttons {
+  float: right;
+}
+@media screen and(max-width:768px){
+  .dataTables_wrapper {
+    .dataTables_filter {
+      margin: auto;
+      text-align: center;
+      display: inline-block;
+      width: 100%;
+    }
   }
 }
