@@ -15,12 +15,6 @@
                 <div class="page-breadcrumb-title">
                     <h2 class="breadcrumb-head black bold">{{$blog->title}}</h2>
                 </div>
-                <div class="page-breadcrumb-item ul-li">
-                    <ul class="breadcrumb text-uppercase black">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active">blog Single</li>
-                    </ul>
-                </div>
             </div>
         </div>
     </section>

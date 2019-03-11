@@ -108,30 +108,14 @@
                             <ul class="search_cart">
                                 <li>
                                     <div class="cart_search">
-                                        <a href="#">
-                                            <i class="fas fa-shopping-bag"></i>
+                                        <a href="{{route('cart.index')}}"><i class="fas fa-shopping-bag"></i>
+                                            @if(auth()->check() && Cart::session(auth()->user()->id)->getTotalQuantity() != 0)
+                                                <span class="badge badge-danger position-absolute">{{Cart::session(auth()->user()->id)->getTotalQuantity()}}</span>
+                                            @endif
                                         </a>
                                     </div>
                                 </li>
-                                <li>
-                                    <div class="cart_search">
-                                        <button type="button" class="toggle-overlay search-btn">
-                                            <i class="fas fa-search"></i>
-                                        </button>
-                                    </div>
-                                    <div class="search-body">
-                                        <div class="search-form">
-                                            <form action="#">
-                                                <input class="search-input" type="search" placeholder="Search Here">
-                                                <div class="outer-close toggle-overlay">
-                                                    <button type="button" class="search-close">
-                                                        <i class="fas fa-times"></i>
-                                                    </button>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </li>
+
                             </ul>
                             <ul class="lang-login">
                                 <li>
@@ -246,7 +230,13 @@
                                         </ul>
                                     </li>
                                 @endif
-                                <li><a href="#"><i class="fas fa-shopping-bag"></i></a></li>
+                                <li>
+                                    <a href="{{route('cart.index')}}"><i class="fas fa-shopping-bag"></i>
+                                        @if(auth()->check() && Cart::session(auth()->user()->id)->getTotalQuantity() != 0)
+                                            <span class="badge badge-danger position-absolute">{{Cart::session(auth()->user()->id)->getTotalQuantity()}}</span>
+                                        @endif
+                                    </a>
+                                </li>
                             </ul>
 
                         </div>
@@ -255,11 +245,7 @@
                 </div>
 
                 <ul class="menu-list accordion" style="left: -100%;">
-                    <li class="alt-search">
-                        <form action="#">
-                            <input type="search" placeholder="search">
-                        </form>
-                    </li>
+
 
 
                     @if(count($custom_menus) > 0 )

@@ -42,13 +42,8 @@
         <div class="container">
             <div class="page-breadcrumb-content text-center">
                 <div class="page-breadcrumb-title">
-                    <h2 class="breadcrumb-head black bold">@if(isset($category)){{$category->name}} @elseif(isset($tag)) {{$tag->name}} @endif  <span>Blog</span></h2>
-                </div>
-                <div class="page-breadcrumb-item ul-li">
-                    <ul class="breadcrumb text-uppercase black">
-                        <li class="breadcrumb-item"><a href="{{asset('/')}}">Home</a></li>
-                        <li class="breadcrumb-item active">Blog</li>
-                    </ul>
+                    <h2 class="breadcrumb-head black bold">"{{$q}}" <span>Blog</span></h2>
+
                 </div>
             </div>
         </div>
@@ -65,6 +60,7 @@
                     <div class="col-md-9">
                         <div class="blog-post-content">
                             <div class="short-filter-tab">
+
                                 <div class="tab-button blog-button ul-li text-center float-left">
                                     <ul class="product-tab">
                                         <li class="active" rel="tab1"><i class="fas fa-th"></i></li>
@@ -112,39 +108,41 @@
                                         <div id="tab2" class="tab-content-1 pt35">
                                             <div class="blog-list-view">
                                                 @foreach($blogs as $item)
-                                                <div class="list-blog-item">
-                                                    <div class="row">
-                                                        <div class="col-md-6">
-                                                            <div class="blog-post-img-content">
-                                                                <div class="blog-img-date relative-position">
-                                                                    <div class="blog-thumnile" style="background-image: url({{asset('storage/uploads/'.$item->image)}})">
+                                                    <div class="list-blog-item">
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+                                                                <div class="blog-post-img-content">
+                                                                    <div class="blog-img-date relative-position">
+                                                                        <div class="blog-thumnile" style="background-image: url({{asset('storage/uploads/'.$item->image)}})">
 
-                                                                    </div>
-                                                                    <div class="course-price text-center gradient-bg">
-                                                                        <span>{{$item->created_at->format('d M Y')}}</span>
+                                                                        </div>
+                                                                        <div class="course-price text-center gradient-bg">
+                                                                            <span>{{$item->created_at->format('d M Y')}}</span>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <div class="blog-title-content headline">
-                                                                <h3><a href="{{route('blogs.index',['slug'=> $item->slug.'-'.$item->id])}}">{{$item->title}}</a>
-                                                                </h3>
-                                                                <div class="blog-content">
-                                                                    {!!  mb_substr($item->content,0,100).'...'  !!}
-                                                                </div>
+                                                            <div class="col-md-6">
+                                                                <div class="blog-title-content headline">
+                                                                    <h3><a href="{{route('blogs.index',['slug'=> $item->slug.'-'.$item->id])}}">{{$item->title}}</a>
+                                                                    </h3>
+                                                                    <div class="blog-content">
+                                                                        {!!  mb_substr($item->content,0,100).'...'  !!}
+                                                                    </div>
 
-                                                                <div class="view-all-btn bold-font">
-                                                                    <a href="{{route('blogs.index',['slug'=> $item->slug.'-'.$item->id])}}">Read More <i
-                                                                                class="fas fa-chevron-circle-right"></i></a>
+                                                                    <div class="view-all-btn bold-font">
+                                                                        <a href="{{route('blogs.index',['slug'=> $item->slug.'-'.$item->id])}}">Read More <i
+                                                                                    class="fas fa-chevron-circle-right"></i></a>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
                                                 @endforeach
                                             </div>
                                         </div><!-- 2nd tab -->
+                                    @else
+                                        <h4>No matches for your search</h4>
 
                                     @endif
 
@@ -158,7 +156,7 @@
                             </div>
                         </div>
                     </div>
-                   @include('frontend.blogs.partials.sidebar')
+                    @include('frontend.blogs.partials.sidebar')
                 </div>
             </div>
         </div>

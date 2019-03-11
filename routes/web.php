@@ -64,6 +64,10 @@ Route::post('lesson/{slug}/test', ['uses' => 'LessonsController@test', 'as' => '
 Route::post('lesson/{slug}/retest', ['uses' => 'LessonsController@retest', 'as' => 'lessons.retest']);
 Route::post('video/progress', 'LessonsController@videoProgress')->name('update.videos.progress');
 
+Route::get('/search', [HomeController::class, 'searchCourse'])->name('search');
+Route::get('/search-blog', [HomeController::class, 'searchBlog'])->name('blogs.search');
+
+
 
 Route::get('download', ['uses' => 'Frontend\HomeController@getDownload', 'as' => 'download']);
 

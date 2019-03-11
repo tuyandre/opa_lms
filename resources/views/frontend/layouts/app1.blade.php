@@ -95,24 +95,6 @@
                                                 <span class="badge badge-danger position-absolute">{{Cart::session(auth()->user()->id)->getTotalQuantity()}}</span>
                                             @endif
                                         </a>
-
-                                    </li>
-                                    <li>
-                                        <button type="button" class="toggle-overlay search-btn">
-                                            <i class="fas fa-search"></i>
-                                        </button>
-                                        <div class="search-body">
-                                            <div class="search-form">
-                                                <form action="#">
-                                                    <input class="search-input" type="search" placeholder="Search Here">
-                                                    <div class="outer-close toggle-overlay">
-                                                        <button type="button" class="search-close">
-                                                            <i class="fas fa-times"></i>
-                                                        </button>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
                                     </li>
                                 </ul>
                             </div>

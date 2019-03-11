@@ -15,6 +15,7 @@ use App\Models\Page;
 use App\Models\Reason;
 use App\Models\Sponsor;
 use App\Models\System\Session;
+use App\Models\Tag;
 use App\Models\Testimonial;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
@@ -30,13 +31,13 @@ class HomeController extends Controller
      */
     public function index()
     {
-        if(request('page')){
-           $page = Page::where('slug','=',request('page'))
-              ->where('published','=',1)->first();
-           if($page != ""){
-               return view('frontend.pages.index',compact('page'));
-           }
-           abort(404);
+        if (request('page')) {
+            $page = Page::where('slug', '=', request('page'))
+                ->where('published', '=', 1)->first();
+            if ($page != "") {
+                return view('frontend.pages.index', compact('page'));
+            }
+            abort(404);
         }
         $type = config('theme_layout');
         $sections = Config::where('key', '=', 'layout_' . $type)->first();
@@ -179,13 +180,13 @@ class HomeController extends Controller
 
     public function getDownload(Request $request)
     {
-        if(auth()->check()){
-            $lesson =Lesson::findOrfail($request->lesson);
+        if (auth()->check()) {
+            $lesson = Lesson::findOrfail($request->lesson);
             $course_id = $lesson->course_id;
             $course = Course::findOrfail($course_id);
             $purchased_course = \Auth::check() && $course->students()->where('user_id', \Auth::id())->count() > 0;
-            if($purchased_course){
-                $file = public_path() . "/storage/uploads/".$request->filename;
+            if ($purchased_course) {
+                $file = public_path() . "/storage/uploads/" . $request->filename;
 
                 return Response::download($file);
             }
@@ -194,6 +195,28 @@ class HomeController extends Controller
         }
         return abort(404);
 
+    }
+
+
+    public function search(Request $request)
+    {
+        $courses = Course::where('title', 'LIKE', '%' . $request->q . '%')
+            ->orWhere('description', 'LIKE', '%' . $request->q . '%')
+            ->where('published', '=', 1)
+            ->paginate(12);
+        $q = $request->q;
+        return view('frontend.search-result.courses', compact('courses', 'q'));
+    }
+
+    public function searchBlog(Request $request){
+        $blogs = Blog::where('title', 'LIKE', '%' . $request->q . '%')
+            ->paginate(12);
+        $categories = Category::has('blogs')->where('status', '=', 1)->paginate(10);
+        $popular_tags = Tag::has('blogs', '>', 4)->get();
+
+
+        $q = $request->q;
+        return view('frontend.search-result.blogs', compact('blogs', 'q','categories','popular_tags'));
     }
 }
 

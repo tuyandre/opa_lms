@@ -2,11 +2,12 @@
 
 @push('css')
     <style>
-        .details-wrapper{
+        .details-wrapper {
             display: inline-block;
             width: 100%;
         }
-        .details-wrapper a{
+
+        .details-wrapper a {
             margin-bottom: 5px;
             display: inline-block;
         }
@@ -48,6 +49,7 @@
                     @else
                         <h1 align="center">No Blogs Available</h1>
                     @endif
+                </div>
             </div>
         </div>
     </div>

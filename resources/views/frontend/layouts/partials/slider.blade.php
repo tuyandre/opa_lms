@@ -54,8 +54,8 @@
                         <div class="layer-1-3">
                             @if($content->widget->type == 1)
                                 <div class="search-course mb30 relative-position">
-                                    <form action="#" method="post">
-                                        <input class="course" name="course" type="text"
+                                    <form action="{{route('search')}}" method="get">
+                                        <input class="course" name="q" type="text"
                                                placeholder="Type what do you want to learn today?">
                                         <div class="nws-button text-center  gradient-bg text-capitalize">
                                             <button type="submit" value="Submit">Search Course</button>

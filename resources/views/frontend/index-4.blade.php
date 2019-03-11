@@ -160,7 +160,7 @@
                 @if(count($teachers)> 0)
                     <div class="teacher-third-slide">
                         @foreach($teachers as $key=>$item)
-                            @if($key%2 == 0)
+                            @if($key%2 == 0 && (count($teachers) > 5))
                                 <div class="teacher-double">
                                     @endif
                                     <div class="teacher-img-content relative-position">
@@ -215,57 +215,13 @@
                 <h2><span>Search</span> {{env('APP_NAME')}} Courses.</h2>
             </div>
             <div class="search-course mb30 relative-position">
-                <form action="#" method="post">
-                    <input class="course" name="course" type="text" placeholder="Type what do you want to learn today?">
+                <form action="{{route('search')}}" method="get">
+                    <input class="course" name="q" type="text" placeholder="Type what do you want to learn today?">
                     <div class="nws-button text-center  gradient-bg text-capitalize">
                         <button type="submit" value="Submit">Search Course</button>
                     </div>
                 </form>
             </div>
-
-            {{--<div class="search-app">--}}
-                {{--<div class="row">--}}
-                    {{--<div class="col-md-6">--}}
-                        {{--<div class="app-mock-up">--}}
-                            {{--<img src="{{asset('assets/img/about/ab-2.png')}}" alt="">--}}
-                        {{--</div>--}}
-                    {{--</div>--}}
-
-                    {{--<div class="col-md-6">--}}
-                        {{--<div class="about-us-text search-app-content">--}}
-                            {{--<div class="section-title relative-position mb20 headline text-left">--}}
-                                {{--<h2><span>Download</span> Genius Application on <span>PlayStore.</span></h2>--}}
-                            {{--</div>--}}
-
-                            {{--<div class="app-details-content">--}}
-                                {{--<p>Introduction Genius Mobile Application on Play Store lorem ipsum dolor sit amet--}}
-                                    {{--consectuerer adipiscing.</p>--}}
-
-                                {{--<div class="about-list mb30 ul-li-block">--}}
-                                    {{--<ul>--}}
-                                        {{--<li>Professional And Experienced Since 1980</li>--}}
-                                        {{--<li>Our Mission Increasing Global Access To Quality Aducation</li>--}}
-                                        {{--<li>100K Online Available Courses</li>--}}
-                                    {{--</ul>--}}
-                                {{--</div>--}}
-                                {{--<div class="about-btn">--}}
-                                    {{--<div class="genius-btn gradient-bg text-center text-uppercase ul-li-block bold-font">--}}
-                                        {{--<a href="#">GET THE APP NOW <i class="fas fa-caret-right"></i></a>--}}
-                                    {{--</div>--}}
-
-                                    {{--<div class="app-stor ul-li">--}}
-                                        {{--<ul>--}}
-                                            {{--<li><a href="#"><i class="fab fa-android"></i></a></li>--}}
-                                            {{--<li><a href="#"><i class="fab fa-apple"></i></a></li>--}}
-                                            {{--<li><a href="#"><i class="fab fa-windows"></i></a></li>--}}
-                                        {{--</ul>--}}
-                                    {{--</div>--}}
-                                {{--</div>--}}
-                            {{--</div>--}}
-                        {{--</div>--}}
-                    {{--</div>--}}
-                {{--</div>--}}
-            {{--</div>--}}
         </div>
     </section>
     <!-- End of Search Courses

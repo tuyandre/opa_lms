@@ -220,33 +220,13 @@
                         <div class="side-bar-widget  first-widget">
                             <h2 class="widget-title text-capitalize"><span>Find </span>Your Course.</h2>
                             <div class="listing-filter-form pb30">
-                                <form action="#" method="get">
-                                    <div class="filter-select mb20">
-                                        <label>COURSE TYPE</label>
-                                        <select>
-                                            <option value="9" selected="">All Categories</option>
-                                            <option value="10">Default Listing</option>
-                                            <option value="11">Category Listing</option>
-                                            <option value="12">Orderly Listing</option>
-                                        </select>
-                                    </div>
+                                <form action="{{route('search')}}" method="get">
 
-                                    <div class="filter-select mb20">
-                                        <label>STUDY LAVEL</label>
-                                        <select>
-                                            <option value="9" selected="">All Locations</option>
-                                            <option value="10">Default Listing</option>
-                                            <option value="11">Category Listing</option>
-                                            <option value="12">Orderly Listing</option>
-                                        </select>
-                                    </div>
                                     <div class="filter-search mb20">
                                         <label>FULL TEXT</label>
-                                        <input type="text" class="" placeholder="Looking for?">
+                                        <input type="text" class="" name="q" placeholder="Looking for?">
                                     </div>
-                                    <div class="genius-btn gradient-bg text-center text-uppercase ul-li-block bold-font">
-                                        <a href="#">FIND COURSES <i class="fas fa-caret-right"></i></a>
-                                    </div>
+                                        <button class="genius-btn gradient-bg text-center text-uppercase btn-block text-white font-weight-bold" type="submit">FIND COURSES <i class="fas fa-caret-right"></i></button>
                                 </form>
 
                             </div>

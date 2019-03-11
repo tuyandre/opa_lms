@@ -45,11 +45,11 @@
             <div class="container">
                 <div class="section-title mb20 headline text-center ">
                     <span class="subtitle text-uppercase">LEARN NEW SKILLS</span>
-                    <h2><span>Search</span> Genius Courses.</h2>
+                    <h2><span>Search</span> {{env('APP_NAME')}} Courses.</h2>
                 </div>
                 <div class="search-course mb30 relative-position ">
-                    <form action="#" method="post">
-                        <input class="course" name="course" type="text"
+                    <form action="{{route('search')}}" method="get">
+                        <input class="course" name="q" type="text"
                                placeholder="Type what do you want to learn today?">
                         <div class="nws-button text-center  gradient-bg text-capitalize">
                             <button type="submit" value="Submit">Search Course</button>

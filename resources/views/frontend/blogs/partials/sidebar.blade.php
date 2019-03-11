@@ -1,8 +1,8 @@
 <div class="col-md-3">
     <div class="side-bar">
         <div class="side-bar-search">
-            <form action="#" method="get">
-                <input type="text" class="" placeholder="Search">
+            <form action="{{route('blogs.search')}}" method="get">
+                <input type="text" class="" name="q" placeholder="Search Blog">
                 <button type="submit"><i class="fas fa-search"></i></button>
             </form>
         </div>
