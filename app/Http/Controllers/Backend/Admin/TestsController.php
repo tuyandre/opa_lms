@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backend\Admin;
 
 use App\Models\Course;
+use App\Models\CourseTimeline;
 use App\Models\Test;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
@@ -50,18 +51,17 @@ class TestsController extends Controller
         $tests = "";
 
 
+        if ($request->course_id != "") {
+            $tests = Test::where('course_id','=',$request->course_id)->orderBy('created_at', 'desc')->get();
+        }
+
         if (request('show_deleted') == 1) {
-            if (! Gate::allows('test_delete')) {
+            if (!Gate::allows('test_delete')) {
                 return abort(401);
             }
             $tests = Test::onlyTrashed()->get();
-
-        }  elseif(request('course_id') != "") {
-            $tests = Test::where('course_id','=',$request->course_id)->orderBy('created_at', 'desc')->get();
-
-        }else {
-            $tests = Test::orderBy('created_at', 'desc')->get();
         }
+
 
         if (auth()->user()->can('test_view')) {
             $has_view = true;
@@ -159,9 +159,34 @@ class TestsController extends Controller
         if (! Gate::allows('test_create')) {
             return abort(401);
         }
+
+
+
         $test = Test::create($request->all());
         $test->slug = str_slug($request->title);
         $test->save();
+
+        $sequence = 1;
+        if (count($test->course->courseTimeline) > 0) {
+            $sequence = $test->course->courseTimeline->max('sequence');
+            $sequence = $sequence + 1;
+        }
+
+        if ($test->published == 1) {
+            $timeline = CourseTimeline::where('model_type', '=', Test::class)
+                ->where('model_id', '=', $test->id)
+                ->where('course_id', $request->course_id)->first();
+            if ($timeline == null) {
+                $timeline = new CourseTimeline();
+            }
+            $timeline->course_id = $request->course_id;
+            $timeline->model_id = $test->id;
+            $timeline->model_type = Test::class;
+            $timeline->sequence = $sequence;
+            $timeline->save();
+        }
+
+
 
         return redirect()->route('admin.tests.index')->withFlashSuccess(trans('alerts.backend.general.created'));
     }
@@ -204,6 +229,27 @@ class TestsController extends Controller
         $test->update($request->all());
         $test->slug = str_slug($request->title);
         $test->save();
+
+
+        $sequence = 1;
+        if (count($test->course->courseTimeline) > 0) {
+            $sequence = $test->course->courseTimeline->max('sequence');
+            $sequence = $sequence + 1;
+        }
+
+        if ($test->published == 1) {
+            $timeline = CourseTimeline::where('model_type', '=', Test::class)
+                ->where('model_id', '=', $test->id)
+                ->where('course_id', $request->course_id)->first();
+            if ($timeline == null) {
+                $timeline = new CourseTimeline();
+            }
+            $timeline->course_id = $request->course_id;
+            $timeline->model_id = $test->id;
+            $timeline->model_type = Test::class;
+            $timeline->sequence = $sequence;
+            $timeline->save();
+        }
 
 
         return redirect()->route('admin.tests.index')->withFlashSuccess(trans('alerts.backend.general.updated'));

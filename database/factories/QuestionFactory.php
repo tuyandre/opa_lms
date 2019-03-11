@@ -15,6 +15,7 @@
 $factory->define(App\Models\Question::class, function (Faker\Generator $faker) {
     return [
         'question' => $faker->text(50) . '?',
+        'user_id' => 2,
         'score' => 1,
     ];
 });

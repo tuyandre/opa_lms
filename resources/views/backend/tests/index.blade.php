@@ -25,12 +25,12 @@
             <div class="d-block">
                 <ul class="list-inline">
                     <li class="list-inline-item">
-                        <a href="{{ route('admin.tests.index') }}"
+                        <a href="{{ route('admin.tests.index',['course_id'=>request('course_id')]) }}"
                            style="{{ request('show_deleted') == 1 ? '' : 'font-weight: 700' }}">{{trans('labels.general.all')}}</a>
                     </li>
                     |
                     <li class="list-inline-item">
-                        <a href="{{ route('admin.tests.index') }}?show_deleted=1"
+                        <a href="{{trashUrl(request()) }}"
                            style="{{ request('show_deleted') == 1 ? 'font-weight: 700' : '' }}">{{trans('labels.general.trash')}}</a>
                     </li>
                 </ul>
@@ -77,12 +77,15 @@
         $(document).ready(function () {
             var route = '{{route('admin.tests.get_data')}}';
 
-            @if(request('show_deleted') == 1)
-                route = '{{route('admin.tests.get_data',['show_deleted' => 1])}}';
-            @endif
-            @if ( request('course_id') != "" )
-                route = '{{route('admin.tests.get_data',['course_id' => request('course_id')])}}';
-            @endif
+
+            @php
+                $show_deleted = (request('show_deleted') == 1) ? 1 : 0;
+                $course_id = (request('course_id') != "") ? request('course_id') : 0;
+            $route = route('admin.tests.get_data',['show_deleted' => $show_deleted,'course_id' => $course_id]);
+            @endphp
+
+            route = '{{$route}}';
+            route = route.replace(/&amp;/g, '&');
 
             @if(request('show_deleted') == 1 ||  request('course_id') != "")
 

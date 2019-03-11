@@ -18,7 +18,8 @@ class Create1500442169QuestionsTable extends Migration
                 $table->text('question');
                 $table->string('question_image')->nullable();
                 $table->integer('score')->nullable();
-                
+                $table->integer('user_id')->unsigned()->nullable();
+                $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
                 $table->timestamps();
                 $table->softDeletes();
 

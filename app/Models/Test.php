@@ -1,6 +1,7 @@
 <?php
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -19,7 +20,25 @@ class Test extends Model
     use SoftDeletes;
 
     protected $fillable = ['title', 'description','slug', 'published', 'course_id', 'lesson_id'];
-    
+
+
+    protected static function boot()
+    {
+        parent::boot();
+        if(auth()->check()) {
+            if (auth()->user()->hasRole('teacher')) {
+                static::addGlobalScope('filter', function (Builder $builder) {
+                    $builder->whereHas('course', function ($q) {
+                        $q->whereHas('teachers', function ($t) {
+                            $t->where('course_user.user_id', '=', auth()->user()->id);
+                        });
+                    });
+                });
+            }
+        }
+
+    }
+
 
     /**
      * Set to null if empty

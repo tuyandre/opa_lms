@@ -29,7 +29,7 @@ class LessonsController extends Controller
         if (!Gate::allows('lesson_access')) {
             return abort(401);
         }
-        $courses = $courses = Course::ofTeacher()->pluck('title','id')->prepend('Please select', '');
+        $courses = $courses = Course::ofTeacher()->pluck('title', 'id')->prepend('Please select', '');
 
         return view('backend.lessons.index', compact('courses'));
     }
@@ -41,25 +41,25 @@ class LessonsController extends Controller
      */
     public function getData(Request $request)
     {
+
         $has_view = false;
         $has_delete = false;
         $has_edit = false;
         $lessons = "";
-
         $lessons = Lesson::whereIn('course_id', Course::ofTeacher()->pluck('id'));
+
+
+        if ($request->course_id != "") {
+            $lessons = $lessons->where('course_id', (int)$request->course_id)->orderBy('created_at', 'desc')->get();
+        }
 
         if ($request->show_deleted == 1) {
             if (!Gate::allows('lesson_delete')) {
                 return abort(401);
             }
             $lessons = Lesson::query()->with('course')->orderBy('created_at', 'desc')->onlyTrashed()->get();
+        }
 
-        } elseif ($request->course_id != "") {
-            $lessons = $lessons->where('course_id', $request->course_id)->orderBy('created_at', 'desc');
-        }
-        else {
-            $lessons = Lesson::query()->with('course')->orderBy('created_at', 'desc')->get();
-        }
 
         if (auth()->user()->can('lesson_view')) {
             $has_view = true;
@@ -99,8 +99,8 @@ class LessonsController extends Controller
                 }
 
                 if (auth()->user()->can('test_view')) {
-                    if($q->test != ""){
-                        $view .= '<a href="'.route('admin.tests.index',['lesson_id' => $q->id]).'" class="btn btn-success btn-block mb-1">'.trans('labels.backend.tests.title') .'</a>';
+                    if ($q->test != "") {
+                        $view .= '<a href="' . route('admin.tests.index', ['lesson_id' => $q->id]) . '" class="btn btn-success btn-block mb-1">' . trans('labels.backend.tests.title') . '</a>';
                     }
                 }
 
@@ -190,16 +190,16 @@ class LessonsController extends Controller
         }
 
         $sequence = 1;
-        if(count($lesson->course->courseTimeline) > 0) {
-            $sequence =   $lesson->course->courseTimeline->max('sequence');
-            $sequence = $sequence+1;
+        if (count($lesson->course->courseTimeline) > 0) {
+            $sequence = $lesson->course->courseTimeline->max('sequence');
+            $sequence = $sequence + 1;
         }
 
-        if($lesson->published == 1){
-            $timeline = CourseTimeline::where('model_type','=', Lesson::class)
-                ->where('model_id','=',$lesson->id)
-                ->where('course_id',$request->course_id)->first();
-            if($timeline == null){
+        if ($lesson->published == 1) {
+            $timeline = CourseTimeline::where('model_type', '=', Lesson::class)
+                ->where('model_id', '=', $lesson->id)
+                ->where('course_id', $request->course_id)->first();
+            if ($timeline == null) {
                 $timeline = new CourseTimeline();
             }
             $timeline->course_id = $request->course_id;
@@ -225,12 +225,12 @@ class LessonsController extends Controller
         if (!Gate::allows('lesson_edit')) {
             return abort(401);
         }
-        $videos='';
+        $videos = '';
         $courses = \App\Models\Course::ofTeacher()->get()->pluck('title', 'id')->prepend('Please select', '');
 
         $lesson = Lesson::with('media')->findOrFail($id);
-        if($lesson->media){
-            $videos = $lesson->media()->where('media.type','=','YT')->pluck('url')->implode(',');
+        if ($lesson->media) {
+            $videos = $lesson->media()->where('media.type', '=', 'YT')->pluck('url')->implode(',');
         }
 
         return view('backend.lessons.edit', compact('lesson', 'courses', 'videos'));
@@ -287,16 +287,16 @@ class LessonsController extends Controller
         $request = $this->saveAllFiles($request, 'downloadable_files', Lesson::class, $lesson);
 
         $sequence = 1;
-        if(count($lesson->course->courseTimeline) > 0) {
-            $sequence =   $lesson->course->courseTimeline->max('sequence');
-            $sequence = $sequence+1;
+        if (count($lesson->course->courseTimeline) > 0) {
+            $sequence = $lesson->course->courseTimeline->max('sequence');
+            $sequence = $sequence + 1;
         }
 
-        if($lesson->published == 1){
-            $timeline = CourseTimeline::where('model_type','=', Lesson::class)
-                ->where('model_id','=',$lesson->id)
-                ->where('course_id',$request->course_id)->first();
-            if($timeline == null){
+        if ($lesson->published == 1) {
+            $timeline = CourseTimeline::where('model_type', '=', Lesson::class)
+                ->where('model_id', '=', $lesson->id)
+                ->where('course_id', $request->course_id)->first();
+            if ($timeline == null) {
                 $timeline = new CourseTimeline();
             }
             $timeline->course_id = $request->course_id;
@@ -305,7 +305,6 @@ class LessonsController extends Controller
             $timeline->sequence = $sequence;
             $timeline->save();
         }
-
 
 
         return redirect()->route('admin.lessons.index', ['course_id' => $request->course_id])->withFlashSuccess(__('alerts.backend.general.updated'));
@@ -401,8 +400,8 @@ class LessonsController extends Controller
         }
         $lesson = Lesson::onlyTrashed()->findOrFail($id);
         $lesson->forceDelete();
-        $timelineStep = CourseTimeline::where('model_id','=',$id)
-            ->where('course_id','=',$lesson->course->id)->first();
+        $timelineStep = CourseTimeline::where('model_id', '=', $id)
+            ->where('course_id', '=', $lesson->course->id)->first();
         $timelineStep->delete();
 
 

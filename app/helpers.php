@@ -307,3 +307,26 @@ if (!function_exists('generateInvoice')) {
         }
     }
 }
+
+if (!function_exists('trashUrl')) {
+
+    /**
+     * @param $str
+     *
+     * @return array
+     */
+    function trashUrl($request)
+    {
+        $currentQueries = $request->query();
+
+//Declare new queries you want to append to string:
+        $newQueries = ['show_deleted' => 1];
+
+//Merge together current and new query strings:
+        $allQueries = array_merge($currentQueries, $newQueries);
+
+//Generate the URL with all the queries:
+        return $request->fullUrlWithQuery($allQueries);
+
+    }
+}

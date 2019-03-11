@@ -8,6 +8,17 @@
             color: #333333;
         }
 
+        .course-details-category ul li {
+            width: 100%;
+        }
+        .sidebar.is_stuck{
+            top: 15%!important;
+        }
+        .course-timeline-list{
+            max-height: 300px;
+            overflow: scroll;
+        }
+
     </style>
 @endpush
 
@@ -39,8 +50,8 @@
     <!-- Start of course details section
         ============================================= -->
     <section id="course-details" class="course-details-section">
-        <div class="container">
-            <div class="row">
+        <div class="container ">
+            <div class="row main-content">
                 <div class="col-md-9">
                     @if(session()->has('success'))
                         <div class="alert alert-dismissable alert-success fade show">
@@ -196,8 +207,8 @@
 
                 </div>
 
-                <div class="col-md-3">
-                    <div class="side-bar">
+                <div class="col-md-3 ">
+                    <div id="sidebar" class="sidebar">
                         <div class="course-details-category ul-li">
                             @if ($previous_lesson)
                                 <p><a class="btn btn-block gradient-bg font-weight-bold text-white"
@@ -213,7 +224,7 @@
 
 
                             <span class="float-none">Course <b>Timeline:</b></span>
-                            <ul>
+                            <ul class="course-timeline-list">
                                 @foreach($lesson->course->courseTimeline()->orderBy('sequence')->get() as $key=>$item)
                                     @php $key++; @endphp
                                     <li class="@if($lesson->id == $item->model->id) active @endif ">
@@ -266,10 +277,10 @@
 
 @push('after-scripts')
     <script src="//www.youtube.com/iframe_api"></script>
-    <script src="{{asset('plugins/YouTube-iFrame-API-Wrapper/Player.js')}}"></script>
+    <script src="{{asset('plugins/sticky-kit/sticky-kit.js')}}"></script>
 
     <script>
-                @if($lesson->mediaVideo && $lesson->mediavideo->count() > 0)
+        @if($lesson->mediaVideo && $lesson->mediavideo->count() > 0)
         var videos = [];
         @foreach($lesson->mediaVideo as $key=>$video)
 
@@ -352,6 +363,11 @@
         $('#notice').on('hidden.bs.modal', function () {
             location.reload();
         });
-    </script>
+
+
     @endif
+    $("#sidebar").stick_in_parent();
+
+    </script>
+
 @endpush

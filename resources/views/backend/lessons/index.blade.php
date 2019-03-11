@@ -28,8 +28,9 @@
                            style="{{ request('show_deleted') == 1 ? '' : 'font-weight: 700' }}">{{trans('labels.general.all')}}</a>
                     </li>
                     |
-                    <li class="list-inline-item"><a href="{{ route('admin.lessons.index') }}?show_deleted=1"
-                                                    style="{{ request('show_deleted') == 1 ? 'font-weight: 700' : '' }}">{{trans('labels.general.trash')}}</a>
+                    <li class="list-inline-item">
+                        <a href="{{trashUrl(request()) }}"
+                           style="{{ request('show_deleted') == 1 ? 'font-weight: 700' : '' }}">{{trans('labels.general.trash')}}</a>
                     </li>
                 </ul>
             </div>
@@ -75,12 +76,16 @@
         $(document).ready(function () {
             var route = '{{route('admin.lessons.get_data')}}';
 
-            @if(request('show_deleted') == 1)
-                route = '{{route('admin.lessons.get_data',['show_deleted' => 1])}}';
-            @endif
-            @if(request('course_id') != "")
-                route = '{{route('admin.lessons.get_data',['course_id' => request('course_id')])}}';
-            @endif
+
+            @php
+                $show_deleted = (request('show_deleted') == 1) ? 1 : 0;
+                $course_id = (request('course_id') != "") ? request('course_id') : 0;
+            $route = route('admin.lessons.get_data',['show_deleted' => $show_deleted,'course_id' => $course_id]);
+            @endphp
+
+            route = '{{$route}}';
+            route = route.replace(/&amp;/g, '&');
+
 
             @if(request('course_id') != "" || request('show_deleted') != "")
 

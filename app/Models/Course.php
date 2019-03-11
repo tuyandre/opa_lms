@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 use App\Models\Auth\User;
@@ -19,18 +20,18 @@ use Illuminate\Support\Facades\Auth;
  * @property string $course_image
  * @property string $start_date
  * @property tinyInteger $published
-*/
+ */
 class Course extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['category_id','title', 'slug', 'description', 'price', 'course_image', 'start_date', 'published','featured','trending','popular','meta_title','meta_description','meta_keywords'];
+    protected $fillable = ['category_id', 'title', 'slug', 'description', 'price', 'course_image', 'start_date', 'published', 'featured', 'trending', 'popular', 'meta_title', 'meta_description', 'meta_keywords'];
 
 
     protected static function boot()
     {
         parent::boot();
-        if(auth()->check()) {
+        if (auth()->check()) {
             if (auth()->user()->hasRole('teacher')) {
                 static::addGlobalScope('filter', function (Builder $builder) {
                     $builder->whereHas('teachers', function ($q) {
@@ -80,7 +81,7 @@ class Course extends Model
             return '';
         }
     }
-    
+
     public function teachers()
     {
         return $this->belongsToMany(User::class, 'course_user')->withPivot('user_id');
@@ -104,7 +105,7 @@ class Course extends Model
     public function scopeOfTeacher($query)
     {
         if (!Auth::user()->isAdmin()) {
-            return $query->whereHas('teachers', function($q) {
+            return $query->whereHas('teachers', function ($q) {
                 $q->where('user_id', Auth::user()->id);
             });
         }
@@ -116,15 +117,18 @@ class Course extends Model
         return number_format(\DB::table('course_student')->where('course_id', $this->attributes['id'])->average('rating'), 2);
     }
 
-    public function orderItem(){
+    public function orderItem()
+    {
         return $this->hasMany(OrderItem::class);
     }
 
-    public function category(){
+    public function category()
+    {
         return $this->belongsTo(Category::class);
     }
 
-    public function tests() {
+    public function tests()
+    {
         return $this->hasMany('App\Models\Test');
     }
 
@@ -135,17 +139,20 @@ class Course extends Model
     }
 
 
-
     public function reviews()
     {
         return $this->morphMany('App\Models\Review', 'reviewable');
     }
 
-    public function progress(){
-      $completed_lessons =  \Auth::user()->chapters()->where('course_id', $this->id)->get()->pluck('model_id')->toArray();
-       return  intval(count($completed_lessons) /  $this->courseTimeline->count() * 100);
+    public function progress()
+    {
+        $completed_lessons = \Auth::user()->chapters()->where('course_id', $this->id)->get()->pluck('model_id')->toArray();
+        if (count($completed_lessons) > 0) {
+            return intval(count($completed_lessons) / $this->courseTimeline->count() * 100);
+        } else {
+            return 0;
+        }
     }
-
 
 
 }
