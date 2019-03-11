@@ -74,15 +74,7 @@
                                 <option value="featured">Featured</option>
                             </select>
                         </div>
-                        {{--<div class="shorting-filter  float-left">--}}
-                            {{--<span><b>View</b> By</span>--}}
-                            {{--<select>--}}
-                                {{--<option value="9" selected="">9 Course</option>--}}
-                                {{--<option value="10">7 Course</option>--}}
-                                {{--<option value="11">2 Course</option>--}}
-                                {{--<option value="12">0 Course</option>--}}
-                            {{--</select>--}}
-                        {{--</div>--}}
+
                         <div class="tab-button blog-button ul-li text-center float-right">
                             <ul class="product-tab">
                                 <li class="active" rel="tab1"><i class="fas fa-th"></i></li>
@@ -102,12 +94,7 @@
                                             <div class="col-md-4">
                                                 <div class="best-course-pic-text relative-position">
                                                     <div class="best-course-pic relative-position" @if($course->course_image != "")style="background-image: url('{{asset('storage/uploads/'.$course->course_image)}}')" @endif>
-                                                        {{--@if($course->course_image != "")--}}
-                                                            {{--<img src="{{asset('storage/uploads/'.$course->course_image)}}"--}}
-                                                                 {{--alt="">--}}
-                                                        {{--@else--}}
-                                                            {{--<img src="http://placehold.it/270x200" alt="">--}}
-                                                        {{--@endif--}}
+
                                                         @if($course->trending == 1)
                                                         <div class="trend-badge-2 text-center text-uppercase">
                                                         <i class="fas fa-bolt"></i>
@@ -166,13 +153,7 @@
                                             <tr>
                                                 <td>
                                                     <div class="course-list-img-text">
-                                                        <div class="course-list-img">
-                                                            @if($course->course_image != "")
-                                                                <img src="{{asset('storage/uploads/'.$course->course_image)}}"
-                                                                     alt="">
-                                                            @else
-                                                                <img src="http://placehold.it/270x200" alt="">
-                                                            @endif
+                                                        <div class="course-list-img" @if($course->course_image != "") style="background-image: url({{asset('storage/uploads/'.$course->course_image)}})" @endif >
                                                         </div>
                                                         <div class="course-list-text">
                                                             <h3>

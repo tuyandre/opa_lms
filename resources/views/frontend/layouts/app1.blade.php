@@ -99,6 +99,7 @@
                                 </ul>
                             </div>
 
+
                             <!-- Collect the nav links, forms, and other content for toggling -->
                             <nav class="navbar-menu float-right">
                                 <div class="nav-menu ul-li">
@@ -107,7 +108,7 @@
                                         @if(count($custom_menus) > 0 )
                                             @foreach($custom_menus as $menu)
                                                 @if($menu['id'] == $menu['parent'])
-                                                    @if(count($menu->subs) > 0)
+                                                    @if($menu->subs && (count($menu->subs) > 0))
                                                         <li class="menu-item-has-children ul-li-block">
                                                             <a href="#!">{{$menu->label}}</a>
                                                             <ul class="sub-menu">
@@ -116,13 +117,13 @@
                                                                 @endforeach
                                                             </ul>
                                                         </li>
-                                                    @else
-                                                        <li class="nav-item">
-                                                            <a href="{{asset($menu->link)}}"
-                                                               class="nav-link {{ active_class(Active::checkRoute('frontend.user.dashboard')) }}"
-                                                               id="menu-{{$menu->id}}">{{ $menu->label }}</a>
-                                                        </li>
                                                     @endif
+                                                @else
+                                                    <li class="nav-item">
+                                                        <a href="{{asset($menu->link)}}"
+                                                           class="nav-link {{ active_class(Active::checkRoute('frontend.user.dashboard')) }}"
+                                                           id="menu-{{$menu->id}}">{{ $menu->label }}</a>
+                                                    </li>
                                                 @endif
                                             @endforeach
                                         @endif

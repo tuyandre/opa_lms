@@ -93,7 +93,7 @@ class AppServiceProvider extends ServiceProvider
 
         view()->composer('frontend.layouts.partials.right-sidebar', function ($view) {
 
-            $featured_courses = Course::where('published', '=', 1)
+            $featured_courses = Course::withoutGlobalScope('filter')->where('published', '=', 1)
                 ->where('featured', '=', 1)->first();
 
             $recent_news = Blog::orderBy('created_at', 'desc')->take(2)->get();
@@ -103,7 +103,7 @@ class AppServiceProvider extends ServiceProvider
 
         view()->composer('frontend.*', function ($view) {
 
-            $global_featured_course = Course::where('published', '=', 1)
+            $global_featured_course = Course::withoutGlobalScope('filter')->where('published', '=', 1)
                 ->where('featured', '=', 1)->where('trending', '=', 1)->first();
 
 

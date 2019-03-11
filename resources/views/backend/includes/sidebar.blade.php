@@ -228,7 +228,7 @@
                             class="title">@lang('menus.backend.sidebar.messages.title')</span>
                 </a>
             </li>
-            @if (!$logged_in_user->isAdmin())
+            @if ($logged_in_user->hasRole('student'))
                 <li class="nav-item ">
                     <a class="nav-link {{ $request->segment(1) == 'invoices' ? 'active' : '' }}"
                        href="{{ route('admin.invoices.index') }}">

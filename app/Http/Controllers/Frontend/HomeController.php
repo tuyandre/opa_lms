@@ -43,15 +43,15 @@ class HomeController extends Controller
         $sections = Config::where('key', '=', 'layout_' . $type)->first();
         $sections = json_decode($sections->value);
 
-        $popular_courses = Course::where('published', '=', 1)
+        $popular_courses = Course::withoutGlobalScope('filter')->where('published', '=', 1)
             ->where('popular', '=', 1)->take(6)->get();
 
-        $featured_courses = Course::where('published', '=', 1)
+        $featured_courses = Course::withoutGlobalScope('filter')->where('published', '=', 1)
             ->where('featured', '=', 1)->take(8)->get();
 
         $course_categories = Category::with('courses')->where('icon', '!=', "")->take(12)->get();
 
-        $trending_courses = Course::where('published', '=', 1)
+        $trending_courses = Course::withoutGlobalScope('filter')->where('published', '=', 1)
             ->where('trending', '=', 1)->take(2)->get();
 
         $teachers = User::role('teacher')->with('courses')->where('active', '=', 1)->take(7)->get();
@@ -198,7 +198,7 @@ class HomeController extends Controller
     }
 
 
-    public function search(Request $request)
+    public function searchCourse(Request $request)
     {
         $courses = Course::where('title', 'LIKE', '%' . $request->q . '%')
             ->orWhere('description', 'LIKE', '%' . $request->q . '%')

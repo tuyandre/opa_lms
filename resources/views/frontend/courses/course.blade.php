@@ -99,13 +99,6 @@
                                                             aria-controls="collapse{{$key}}">
                                                         <span>{{ sprintf("%02d", $key)}}</span> {{$lesson->model->title}}
                                                     </button>
-                                                    {{--<div class="course-by">--}}
-                                                    {{--BY: <b>TONI KROSS</b>--}}
-                                                    {{--</div>--}}
-                                                    {{--<div class="leanth-course">--}}
-                                                    {{--<span>60 Minuttes</span>--}}
-                                                    {{--<span>Adobe photoshop</span>--}}
-                                                    {{--</div>--}}
                                                     @if($lesson->model_type == 'App\Models\Test')
                                                         <div class="leanth-course">
                                                             <span>Test</span>
@@ -130,7 +123,6 @@
                                                     @endif
 
                                                     @if(in_array($lesson->model->id,$completed_lessons))
-
                                                         <div>
                                                             <a class="btn btn-warning mt-3"
                                                                href="{{route('lessons.show',['id' => $lesson->course->id,'slug'=>$lesson->model->slug])}}">
@@ -308,10 +300,10 @@
                     <div class="side-bar">
                         <div class="course-side-bar-widget">
                             <h3>Price <span>${{$course->price}}</span></h3>
+
+
                             @if (!$purchased_course)
-
-
-                                @if(auth()->check() && (Cart::session(auth()->user()->id)->get( $course->id)))
+                                @if(auth()->check() && (auth()->user()->hasRole('student')) && (Cart::session(auth()->user()->id)->get( $course->id)))
                                     <button class="btn genius-btn btn-block text-center my-2 text-uppercase  btn-success text-white bold-font"
                                             type="submit">Added to Cart
                                     </button>
@@ -324,7 +316,7 @@
                                        class="genius-btn btn-block my-2 bg-dark text-center text-white text-uppercase "
                                        data-target="#myModal" href="#">Add to Cart <i
                                                 class="fa fa-shopping-bag"></i></a>
-                                @else
+                                @elseif(auth()->check() && (auth()->user()->hasRole('student')))
                                     <form action="{{ route('cart.checkout') }}" method="POST">
                                         @csrf
                                         <input type="hidden" name="course_id" value="{{ $course->id }}"/>
@@ -340,6 +332,8 @@
                                                 class="genius-btn btn-block my-2 bg-dark text-center text-white text-uppercase ">
                                             Add to Cart <i class="fa fa-shopping-bag"></i></button>
                                     </form>
+                                @else
+                                    <h6 class="alert alert-danger">Only Students Can Buy Course</h6>
                                 @endif
                             @else
 

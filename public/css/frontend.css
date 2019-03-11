@@ -5328,6 +5328,10 @@ ul.product-tab li.active:after {
   width: 70px;
   float: left;
   margin-right: 20px;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-color: #777777;
 }
 
 .course-page-section .course-list-text {

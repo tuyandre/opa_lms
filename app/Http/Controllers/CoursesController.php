@@ -40,7 +40,7 @@ class CoursesController extends Controller
                 ->orderBy('id', 'desc')
                 ->get();
         }
-        $featured_courses = Course::where('published', '=', 1)
+        $featured_courses = Course::withoutGlobalScope('filter')->where('published', '=', 1)
             ->where('featured', '=', 1)->take(8)->get();
 
         $recent_news = Blog::orderBy('created_at', 'desc')->take(2)->get();
@@ -54,6 +54,7 @@ class CoursesController extends Controller
         $purchased_course = \Auth::check() && $course->students()->where('user_id', \Auth::id())->count() > 0;
         $course_rating = 0;
         $total_ratings = 0;
+        $completed_lessons = "";
         $is_reviewed = false;
         if(auth()->check() && $course->reviews()->where('user_id','=',auth()->user()->id)->first()){
             $is_reviewed = true;
@@ -64,12 +65,16 @@ class CoursesController extends Controller
         }
         $lessons = $course->courseTimeline()->orderby('sequence','asc')->get();
 
+        if (\Auth::check()) {
 
-        $completed_lessons = \Auth::user()->chapters()->where('course_id', $course->id)->get()->pluck('model_id')->toArray();
-        $continue_course  = $course->courseTimeline()->orderby('sequence','asc')->whereNotIn('model_id',$completed_lessons)->first();
-        if($continue_course == ""){
-            $continue_course = $course->courseTimeline()->orderby('sequence','asc')->first();
+            $completed_lessons = \Auth::user()->chapters()->where('course_id', $course->id)->get()->pluck('model_id')->toArray();
+            $continue_course  = $course->courseTimeline()->orderby('sequence','asc')->whereNotIn('model_id',$completed_lessons)->first();
+            if($continue_course == ""){
+                $continue_course = $course->courseTimeline()->orderby('sequence','asc')->first();
+            }
+
         }
+
 
 
 

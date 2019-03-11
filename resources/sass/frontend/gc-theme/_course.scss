@@ -44,6 +44,10 @@
 		width: 70px;
 		float: left;
 		margin-right: 20px;
+		background-position: center;
+		background-size: cover;
+		background-repeat: no-repeat;
+		background-color: $gray;
 	}
 	.course-list-text {
 		width: 200px;
