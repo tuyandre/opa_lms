@@ -136,6 +136,9 @@ return [
             'pages' => [
                 'title' => 'Pages Manager',
             ],
+            'reviews' => [
+                'title' => 'Reviews',
+            ],
             /*===========================*/
         ],
     ],

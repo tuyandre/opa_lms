@@ -178,6 +178,11 @@ Route::get('reasons/status/{id}', 'Admin\ReasonController@status')->name('reason
 
 Route::get('menu-manager','MenuController@index')->name('menu-manager');
 
+
 //====== Contacts Routes =====//
 Route::resource('contacts', 'ContactController');
 Route::get('get-contacts-data', ['uses' => 'ContactController@getData', 'as' => 'contacts.get_data']);
+
+//====== Review Routes =====//
+Route::resource('reviews', 'ReviewController');
+Route::get('get-reviews-data', ['uses' => 'ReviewController@getData', 'as' => 'reviews.get_data']);

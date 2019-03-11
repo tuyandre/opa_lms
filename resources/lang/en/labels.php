@@ -438,6 +438,7 @@ return [
 <li>Scroll down to <b>Less secure app access</b> and set it <b>ON</b></li>
 </ul>'
             ],
+
             'logos' => [
                 'title' => 'Logos'
             ],
@@ -465,6 +466,8 @@ return [
                 'link_url' => 'URL',
             ],
         ],
+
+
         'hero_slider' => [
             'title' => 'Hero Slider',
             'on' => 'On',
@@ -582,6 +585,18 @@ return [
                 'meta_keywords' => 'Meta Keywords',
                 'created_at' => 'Created On',
             ]
+        ],
+
+        'reviews' => [
+            'title' => 'Reviews',
+
+            'fields'=>[
+                'course' => 'Course',
+                'user' => 'User',
+                'content' => 'Content',
+                'time' => 'Time',
+            ],
+
         ],
 
         'faqs' => [
