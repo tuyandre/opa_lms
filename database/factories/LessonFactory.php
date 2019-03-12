@@ -13,7 +13,7 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 $factory->define(App\Models\Lesson::class, function (Faker\Generator $faker) {
-    $name = $faker->text(50);
+    $name = $faker->sentence(8);
     return [
         'title' => $name,
         'slug' => str_slug($name),

@@ -11,10 +11,12 @@
         .course-details-category ul li {
             width: 100%;
         }
-        .sidebar.is_stuck{
-            top: 15%!important;
+
+        .sidebar.is_stuck {
+            top: 15% !important;
         }
-        .course-timeline-list{
+
+        .course-timeline-list {
             max-height: 300px;
             overflow: scroll;
         }
@@ -33,12 +35,6 @@
                 <div class="page-breadcrumb-title">
                     <h2 class="breadcrumb-head black bold">
                         <span>{{$lesson->course->title}}</span><br> {{$lesson->title}} </h2>
-                </div>
-                <div class="page-breadcrumb-item ul-li">
-                    <ul class="breadcrumb text-uppercase black">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active">Details</li>
-                    </ul>
                 </div>
             </div>
         </div>
@@ -72,7 +68,7 @@
                             <div class="course-single-text">
                                 <div class="course-title mt10 headline relative-position">
                                     <h3>
-                                        <a href="{{ route('courses.show', [$lesson->course->slug]) }}"><b>Test
+                                        <a href="{{ route('courses.show', [$lesson->course->slug]) }}"><b>@lang('labels.frontend.course.test')
                                                 : {{$lesson->title}}</b></a>
                                     </h3>
                                 </div>
@@ -82,12 +78,13 @@
                             </div>
                             <hr/>
                             @if (!is_null($test_result))
-                                <div class="alert alert-info">Your test score: {{ $test_result->test_result }}</div>
+                                <div class="alert alert-info">@lang('labels.frontend.course.your_test_score')
+                                    : {{ $test_result->test_result }}</div>
                                 <form action="{{route('lessons.retest',[$test_result->test->slug])}}" method="post">
                                     @csrf
                                     <input type="hidden" name="result_id" value="{{$test_result->id}}">
                                     <button type="submit" class="btn gradient-bg font-weight-bold text-white" href="">
-                                        Give test again
+                                        @lang('labels.frontend.course.give_test_again')
                                     </button>
                                 </form>
                             @else
@@ -111,7 +108,7 @@
                                             <br/>
                                         @endforeach
                                         <input class="btn  gradient-bg text-white font-weight-bold" type="submit"
-                                               value=" Submit results "/>
+                                               value=" @lang('labels.frontend.course.submit_results') "/>
                                     </form>
                                 </div>
                             @endif
@@ -132,7 +129,7 @@
                             <div class="course-single-text">
                                 <div class="course-title mt10 headline relative-position">
                                     <h2>
-                                        Chapter Videos
+                                        @lang('labels.frontend.course.chapter_videos')
                                     </h2>
                                 </div>
 
@@ -178,7 +175,7 @@
                             <div class="course-single-text mt-4 px-3 py-1 gradient-bg text-white">
                                 <div class="course-title mt10 headline relative-position">
                                     <h4 class="text-white">
-                                        Download Files
+                                        @lang('labels.frontend.course.download_files')
                                     </h4>
                                 </div>
 
@@ -188,11 +185,9 @@
                                             <a href="{{ route('download',['filename'=>$media->name,'lesson'=>$lesson->id]) }}"
                                                class="text-white font-weight-bold"><i
                                                         class="fa fa-download"></i> {{ $media->name }}
-                                                ({{ number_format((float)$media->size / 1024 , 2, '.', '')}} MB)</a>
-                                            {{--<a href="{{ asset('storage/uploads/'.$media->name) }}"--}}
-                                            {{--target="_blank" class="text-white font-weight-bold"><i--}}
-                                            {{--class="fa fa-download"></i> {{ $media->name }}--}}
-                                            {{--({{ $media->size }} KB)</a>--}}
+                                                ({{ number_format((float)$media->size / 1024 , 2, '.', '')}} @lang('labels.frontend.course.mb')
+                                                )</a>
+
                                         </p>
                                     </div>
                                 @endforeach
@@ -213,17 +208,17 @@
                             @if ($previous_lesson)
                                 <p><a class="btn btn-block gradient-bg font-weight-bold text-white"
                                       href="{{ route('lessons.show', [$previous_lesson->course_id, $previous_lesson->model->slug]) }}"><<
-                                        PREV</a></p>
+                                        @lang('labels.frontend.course.prev')</a></p>
                             @endif
 
                             @if ($next_lesson)
                                 <p><a class="btn btn-block gradient-bg font-weight-bold text-white"
-                                      href="{{ route('lessons.show', [$next_lesson->course_id, $next_lesson->model->slug]) }}">NEXT
+                                      href="{{ route('lessons.show', [$next_lesson->course_id, $next_lesson->model->slug]) }}">@lang('labels.frontend.course.next')
                                         >></a></p>
                             @endif
 
 
-                            <span class="float-none">Course <b>Timeline:</b></span>
+                            <span class="float-none">@lang('labels.frontend.course.course_timeline')</span>
                             <ul class="course-timeline-list">
                                 @foreach($lesson->course->courseTimeline()->orderBy('sequence')->get() as $key=>$item)
                                     @php $key++; @endphp
@@ -231,7 +226,7 @@
                                         <a @if(in_array($item->model->id,$completed_lessons))href="{{route('lessons.show',['id' => $lesson->course->id,'slug'=>$item->model->slug])}}"@endif>
                                             {{$item->model->title}}
                                             @if($item->model_type == 'App\Models\Test')
-                                                <p class="mb-0 text-primary"> - Test</p>
+                                                <p class="mb-0 text-primary"> - @lang('labels.frontend.course.test')</p>
                                             @endif
                                             @if(in_array($item->model->id,$completed_lessons)) <i
                                                     class="fa text-success float-right fa-check-square"></i> @endif</a>
@@ -241,12 +236,12 @@
                         </div>
                         <div class="couse-feature ul-li-block">
                             <ul>
-                                <li>Chapters <span> {{$lesson->course->courseTimeline->count()}} </span></li>
-                                <li>Language <span>English</span></li>
-                                <li>Category <span><a
+                                <li>@lang('labels.frontend.course.chapters')
+                                    <span> {{$lesson->course->courseTimeline->count()}} </span></li>
+                                <li>@lang('labels.frontend.course.category') <span><a
                                                 href="{{route('courses.category',['category'=>$lesson->course->category->slug])}}"
                                                 target="_blank">{{$lesson->course->category->name}}</a> </span></li>
-                                <li>Author <span>
+                                <li>@lang('labels.frontend.course.author') <span>
 
                                         @foreach($lesson->course->teachers as $key=>$teacher)
                                             @php $key++ @endphp
@@ -258,13 +253,11 @@
 
                                        </span>
                                 </li>
-                                <li>Progress <span> <b> {{ intval(count($completed_lessons) /  $lesson->course->courseTimeline->count() * 100)  }}
-                                            % completed</b></span></li>
+                                <li>@lang('labels.frontend.course.progress') <span> <b> {{ intval(count($completed_lessons) /  $lesson->course->courseTimeline->count() * 100)  }}
+                                            % @lang('labels.frontend.course.completed')</b></span></li>
                             </ul>
 
                         </div>
-
-
                     </div>
                 </div>
             </div>
@@ -280,7 +273,7 @@
     <script src="{{asset('plugins/sticky-kit/sticky-kit.js')}}"></script>
 
     <script>
-        @if($lesson->mediaVideo && $lesson->mediavideo->count() > 0)
+                @if($lesson->mediaVideo && $lesson->mediavideo->count() > 0)
         var videos = [];
         @foreach($lesson->mediaVideo as $key=>$video)
 
@@ -365,8 +358,8 @@
         });
 
 
-    @endif
-    $("#sidebar").stick_in_parent();
+        @endif
+        $("#sidebar").stick_in_parent();
 
     </script>
 

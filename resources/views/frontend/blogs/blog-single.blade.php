@@ -54,7 +54,7 @@
                         </div>
                         <div class="blog-share-tag">
                             <div class="share-text float-left">
-                                Share this news
+                                @lang('labels.frontend.blog.share_this_news')
                             </div>
 
                             <div class="share-social ul-li float-right">
@@ -93,7 +93,7 @@
 
                     <div class="blog-recent-post about-teacher-2">
                         <div class="section-title-2  headline text-left">
-                            <h2><span>Related</span> News</h2>
+                            <h2> @lang('labels.frontend.blog.related_news')</h2>
                         </div>
                         @if(count($related_news) > 0)
                             <div class="recent-post-item">
@@ -125,7 +125,7 @@
                     <div class="blog-comment-area ul-li about-teacher-2">
                         <div class="reply-comment-box">
                             <div class="section-title-2  headline text-left">
-                                <h2>Post <span>Comments.</span></h2>
+                                <h2> @lang('labels.frontend.blog.post_comments')</h2>
                             </div>
 
                             @if(auth()->check())
@@ -134,20 +134,20 @@
                                           data-lead="Residential">
                                         @csrf
                                         <div class="form-group">
-                                            <label for="comment">Write a Comment</label>
+                                            <label for="comment"> @lang('labels.frontend.blog.write_a_comment')</label>
                                             <textarea name="comment" required class="mb-0" id="comment" rows="2"
                                                       cols="20"></textarea>
                                             <span class="help-block text-danger">{{ $errors->first('comment', ':message') }}</span>
                                         </div>
 
                                         <div class="nws-button text-center  gradient-bg text-uppercase">
-                                            <button type="submit" value="Submit">Add Comment</button>
+                                            <button type="submit" value="Submit"> @lang('labels.frontend.blog.add_comment')</button>
                                         </div>
                                     </form>
                                 </div>
                             @else
                                 <a id="openLoginModal" class="btn nws-button gradient-bg text-white"
-                                   data-target="#myModal">Login to Post a comment</a>
+                                   data-target="#myModal"> @lang('labels.frontend.blog.login_to_post_a_comment')</a>
                             @endif
                         </div>
                         @if($blog->comments->count() > 0)
@@ -161,14 +161,14 @@
 
                                     <div class="author-name-rate">
                                         <div class="author-name float-left">
-                                            BY: <span>{{$item->name}}</span>
+                                            @lang('labels.frontend.blog.by'): <span>{{$item->name}}</span>
                                         </div>
 
                                         <div class="time-comment float-right">{{$item->created_at->diffforhumans()}}</div><br>
                                         @if($item->user_id == auth()->user()->id)
                                         <div class="time-comment float-right">
 
-                                            <a class="text-danger font-weight-bolf" href="{{route('blogs.comment.delete',['id'=>$item->id])}}">Delete</a>
+                                            <a class="text-danger font-weight-bolf" href="{{route('blogs.comment.delete',['id'=>$item->id])}}"> @lang('labels.general.delete')</a>
 
                                         </div>
                                         @endif
@@ -182,7 +182,7 @@
 
                         </ul>
                         @else
-                            <p class="my-5">No comments yet, Be the first to comment.</p>
+                            <p class="my-5">@lang('labels.frontend.blog.no_comments_yet')</p>
                         @endif
 
 

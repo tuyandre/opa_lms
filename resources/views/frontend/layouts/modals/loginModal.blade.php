@@ -35,9 +35,8 @@
                         <img src="{{asset("storage/logos/".config('logo_popup'))}}" alt="">
                     </div>
                     <div class="popup-text text-center">
-                        <h2>Login Your Account.</h2>
-                        <p><a href="#" class="font-weight-bold go-login px-0">Login</a> to our website, or <a href="#" class="font-weight-bold go-register px-0" id="">REGISTER</a>
-                        </p>
+                        <h2>@lang('labels.frontend.modal.my_account') </h2>
+                        <p>@lang('labels.frontend.modal.login_register')</p>
                     </div>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
 
@@ -51,8 +50,9 @@
                             <span class="error-response text-danger"></span>
                             <span class="success-response text-success"></span>
                             <form class="contact_form" id="loginForm" action="{{route('frontend.auth.login.post')}}" method="POST" enctype="multipart/form-data">
-                                <a href="#" class="go-register float-left text-info pl-0">New
-                                    User? Register Here</a>
+                                <a href="#" class="go-register float-left text-info pl-0">
+                                    @lang('labels.frontend.modal.new_user_note')
+                                </a>
                                 <div class="contact-info mb-2">
                                     {{ html()->email('email')
                                         ->class('form-control mb-0')
@@ -70,7 +70,7 @@
                                 </div>
 
                                 <div class="nws-button text-center white text-capitalize">
-                                    <button type="submit" value="Submit">Log in Now</button>
+                                    <button type="submit" value="Submit">@lang('labels.frontend.modal.login_now')</button>
                                 </div>
                             </form>
 
@@ -83,8 +83,7 @@
                             <form id="registerForm"  class="contact_form" action="{{  route('frontend.auth.register.post')}}"
                                   method="post">
                                 {!! csrf_field() !!}
-                                <a href="#" class="go-login float-right text-info pr-0">Already a
-                                    user? Login Here</a>
+                                <a href="#" class="go-login float-right text-info pr-0">@lang('labels.frontend.modal.already_user_note')</a>
                                 <div class="contact-info mb-2">
 
 
@@ -128,14 +127,12 @@
 
                                 <div class="contact-info mb-2 mx-auto w-50 py-4">
                                     <div class="nws-button text-center white text-capitalize">
-                                        <button type="submit" value="Submit">Register  Now</button>
+                                        <button type="submit" value="Submit">@lang('labels.frontend.modal.register_now')</button>
                                     </div>
                                 </div>
                             </form>
                         </div>
                     </div>
-
-
                 </div>
             </div>
         </div>
@@ -238,8 +235,8 @@
                             $('#registerForm')[0].reset();
                             $('#register').removeClass('active').addClass('fade')
                             $('#login').addClass('active').removeClass('fade')
-                            $('.success-response').html('Registration Successful. Please LogIn');
-                        }
+                            $('.success-response').html("@lang('labels.frontend.modal.registration_message')");
+                        }``
                     }
                 });
             });

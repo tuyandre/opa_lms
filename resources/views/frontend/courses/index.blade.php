@@ -1,4 +1,6 @@
 @extends('frontend.layouts.app'.config('theme_layout'))
+@section('title', trans('labels.frontend.course.courses').' | '. app_name() )
+
 @push('after-styles')
     <style>
         .couse-pagination li.active {
@@ -37,13 +39,7 @@
         <div class="container">
             <div class="page-breadcrumb-content text-center">
                 <div class="page-breadcrumb-title">
-                    <h2 class="breadcrumb-head black bold">@if(isset($category)) {{$category->name}} @endif <span>Courses</span></h2>
-                </div>
-                <div class="page-breadcrumb-item ul-li">
-                    <ul class="breadcrumb text-uppercase black">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active">Courses</li>
-                    </ul>
+                    <h2 class="breadcrumb-head black bold"><span>@if(isset($category)) {{$category->name}} @else @lang('labels.frontend.course.courses') @endif </span></h2>
                 </div>
             </div>
         </div>
@@ -66,12 +62,12 @@
                     @endif
                     <div class="short-filter-tab">
                         <div class="shorting-filter w-50 d-inline float-left mr-3">
-                            <span><b>Sort</b> By</span>
+                            <span>@lang('labels.frontend.course.sort_by')</span>
                             <select id="sortBy" class="form-control d-inline w-50">
-                                <option value="">None</option>
-                                <option value="popular">Popular</option>
-                                <option value="trending">Trending</option>
-                                <option value="featured">Featured</option>
+                                <option value="">@lang('labels.frontend.course.none')</option>
+                                <option value="popular">@lang('labels.frontend.course.popular')</option>
+                                <option value="trending">@lang('labels.frontend.course.trending')</option>
+                                <option value="featured">@lang('labels.frontend.course.featured')</option>
                             </select>
                         </div>
 
@@ -98,7 +94,7 @@
                                                         @if($course->trending == 1)
                                                         <div class="trend-badge-2 text-center text-uppercase">
                                                         <i class="fas fa-bolt"></i>
-                                                        <span>Trending</span>
+                                                        <span>@lang('labels.frontend.badges.trending')</span>
                                                         </div>
                                                         @endif
                                                         <div class="course-price text-center gradient-bg">
@@ -112,8 +108,7 @@
                                                             </ul>
                                                         </div>
                                                         <div class="course-details-btn">
-                                                            <a href="{{ route('courses.show', [$course->slug]) }}">COURSE
-                                                                DETAIL <i class="fas fa-arrow-right"></i></a>
+                                                            <a href="{{ route('courses.show', [$course->slug]) }}">@lang('labels.frontend.course.course_detail') <i class="fas fa-arrow-right"></i></a>
                                                         </div>
                                                         <div class="blakish-overlay"></div>
                                                     </div>
@@ -126,7 +121,7 @@
                                                         <div class="course-meta">
                                                             <span class="course-category"><a href="{{route('courses.category',['category'=>$course->category->slug])}}">{{$course->category->name}}</a></span>
                                                             <span class="course-author"><a href="#">{{ $course->students()->count() }}
-                                                                    Students</a></span>
+                                                                    @lang('labels.frontend.course.students')</a></span>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -144,9 +139,9 @@
                                 <div class="course-list-view">
                                     <table>
                                         <tr class="list-head">
-                                            <th>COURSE NAME</th>
-                                            <th>COURSE TYPE</th>
-                                            <th>STARTS</th>
+                                            <th>@lang('labels.frontend.course.course_name')</th>
+                                            <th>@lang('labels.frontend.course.course_type')</th>
+                                            <th>@lang('labels.frontend.course.starts')</th>
                                         </tr>
                                         @foreach($courses as $course)
 
@@ -204,10 +199,10 @@
                                 <form action="{{route('search')}}" method="get">
 
                                     <div class="filter-search mb20">
-                                        <label>FULL TEXT</label>
+                                        <label>@lang('labels.frontend.course.full_text')</label>
                                         <input type="text" class="" name="q" placeholder="Looking for?">
                                     </div>
-                                        <button class="genius-btn gradient-bg text-center text-uppercase btn-block text-white font-weight-bold" type="submit">FIND COURSES <i class="fas fa-caret-right"></i></button>
+                                        <button class="genius-btn gradient-bg text-center text-uppercase btn-block text-white font-weight-bold" type="submit">@lang('labels.frontend.course.find_courses') <i class="fas fa-caret-right"></i></button>
                                 </form>
 
                             </div>
@@ -215,7 +210,7 @@
 
                         @if($recent_news->count() > 0)
                             <div class="side-bar-widget">
-                                <h2 class="widget-title text-capitalize"><span>Recent  </span>News</h2>
+                                <h2 class="widget-title text-capitalize">@lang('labels.frontend.course.recent_news')</h2>
                                 <div class="latest-news-posts">
                                     @foreach($recent_news as $item)
                                         <div class="latest-news-area">
@@ -236,7 +231,7 @@
 
 
                                     <div class="view-all-btn bold-font">
-                                        <a href="{{route('blogs.index')}}">View All News <i class="fas fa-chevron-circle-right"></i></a>
+                                        <a href="{{route('blogs.index')}}">@lang('labels.frontend.course.view_all_news') <i class="fas fa-chevron-circle-right"></i></a>
                                     </div>
                                 </div>
                             </div>
@@ -246,7 +241,7 @@
 
                         @if($global_featured_course != "")
                             <div class="side-bar-widget">
-                                <h2 class="widget-title text-capitalize"><span>Featured</span> Course.</h2>
+                                <h2 class="widget-title text-capitalize">@lang('labels.frontend.course.featured_course')</h2>
                                 <div class="featured-course">
                                     <div class="best-course-pic-text relative-position pt-0">
                                         <div class="best-course-pic relative-position " style="background-image: url({{asset('storage/uploads/'.$global_featured_course->course_image)}})">
@@ -254,7 +249,7 @@
                                             @if($global_featured_course->trending == 1)
                                                 <div class="trend-badge-2 text-center text-uppercase">
                                                     <i class="fas fa-bolt"></i>
-                                                    <span>Trending</span>
+                                                    <span>@lang('labels.frontend.badges.trending')</span>
                                                 </div>
                                             @endif
                                         </div>
@@ -280,7 +275,7 @@
         ============================================= -->
 
     <!-- Start of best course
-   ============================================= -->
+   =============================================  -->
     @include('frontend.layouts.partials.browse_courses')
     <!-- End of best course
             ============================================= -->

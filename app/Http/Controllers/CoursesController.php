@@ -130,11 +130,22 @@ class CoursesController extends Controller
             $purchased_course = \Auth::check() && $course->students()->where('user_id', \Auth::id())->count() > 0;
             $course_rating = 0;
             $total_ratings = 0;
+            $lessons = $course->courseTimeline()->orderby('sequence','asc')->get();
+
             if ($course->reviews->count() > 0) {
                 $course_rating = $course->reviews->avg('rating');
                 $total_ratings = $course->reviews()->where('rating', '!=', "")->get()->count();
             }
-            return view('frontend.courses.course', compact('course', 'purchased_course', 'recent_news', 'course_rating', 'total_ratings', 'review'));
+            if (\Auth::check()) {
+
+                $completed_lessons = \Auth::user()->chapters()->where('course_id', $course->id)->get()->pluck('model_id')->toArray();
+                $continue_course  = $course->courseTimeline()->orderby('sequence','asc')->whereNotIn('model_id',$completed_lessons)->first();
+                if($continue_course == ""){
+                    $continue_course = $course->courseTimeline()->orderby('sequence','asc')->first();
+                }
+
+            }
+            return view('frontend.courses.course', compact('course', 'purchased_course', 'recent_news','completed_lessons','continue_course', 'course_rating', 'total_ratings','lessons', 'review'));
         }
         return abort(404);
 

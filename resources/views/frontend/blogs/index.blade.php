@@ -1,4 +1,6 @@
 @extends('frontend.layouts.app'.config('theme_layout'))
+@section('title', trans('labels.frontend.blog.title').' | '.app_name())
+
 @push('after-styles')
     <style>
         .couse-pagination li.active {
@@ -42,13 +44,7 @@
         <div class="container">
             <div class="page-breadcrumb-content text-center">
                 <div class="page-breadcrumb-title">
-                    <h2 class="breadcrumb-head black bold">@if(isset($category)){{$category->name}} @elseif(isset($tag)) {{$tag->name}} @endif  <span>Blog</span></h2>
-                </div>
-                <div class="page-breadcrumb-item ul-li">
-                    <ul class="breadcrumb text-uppercase black">
-                        <li class="breadcrumb-item"><a href="{{asset('/')}}">Home</a></li>
-                        <li class="breadcrumb-item active">Blog</li>
-                    </ul>
+                    <h2 class="breadcrumb-head black bold">@if(isset($category)){{$category->name}} @elseif(isset($tag)) {{$tag->name}} @endif  <span>@lang('labels.frontend.blog.title')</span></h2>
                 </div>
             </div>
         </div>
@@ -96,7 +92,7 @@
                                                                 </div>
 
                                                                 <div class="view-all-btn bold-font">
-                                                                    <a href="{{route('blogs.index',['slug'=> $item->slug.'-'.$item->id])}}">Read More <i
+                                                                    <a href="{{route('blogs.index',['slug'=> $item->slug.'-'.$item->id])}}">@lang('labels.general.read_more') <i
                                                                                 class="fas fa-chevron-circle-right"></i></a>
                                                                 </div>
                                                             </div>
@@ -135,7 +131,7 @@
                                                                 </div>
 
                                                                 <div class="view-all-btn bold-font">
-                                                                    <a href="{{route('blogs.index',['slug'=> $item->slug.'-'.$item->id])}}">Read More <i
+                                                                    <a href="{{route('blogs.index',['slug'=> $item->slug.'-'.$item->id])}}">@lang('labels.general.read_more')  <i
                                                                                 class="fas fa-chevron-circle-right"></i></a>
                                                                 </div>
                                                             </div>

@@ -13,7 +13,7 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 $factory->define(App\Models\Course::class, function (Faker\Generator $faker) {
-    $name = $faker->name;
+    $name = $faker->sentence(5);
     return [
         'title' => $name,
         'category_id' => rand(1,10),

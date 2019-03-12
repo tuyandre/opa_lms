@@ -41,7 +41,7 @@ class CartController extends Controller
 
     public function index(Request $request)
     {
-        $ids[] = Cart::session(auth()->user()->id)->getContent()->keys()->implode(',');
+        $ids= Cart::session(auth()->user()->id)->getContent()->keys();
         $courses = Course::find($ids);
         return view('frontend.cart.checkout', compact('courses'));
     }

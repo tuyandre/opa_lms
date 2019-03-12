@@ -1,8 +1,8 @@
 <section id="faq" class="faq-section {{isset($classes) ? $classes : '' }}">
     <div class="container">
         <div class="section-title mb45 headline text-center ">
-            <span class="subtitle text-uppercase">GENIUS COURSE FAQ</span>
-            <h2>Frequently<span> Ask & Questions</span></h2>
+            <span class="subtitle text-uppercase">{{env('APP_NAME')}} @lang('labels.frontend.layouts.partials.faq')</span>
+            <h2>@lang('labels.frontend.layouts.partials.faq_full')</h2>
         </div>
         @if(count($faqs)> 0)
 
@@ -43,7 +43,7 @@
                 </div>
             </div>
         @else
-            <h4>No FAQs yet</h4>
+            <h4>@lang('labels.general.no_data_available')</h4>
         @endif
     </div>
 </section>

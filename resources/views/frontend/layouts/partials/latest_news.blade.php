@@ -4,7 +4,7 @@
             <div class="col-md-4">
                 <div class="latest-area-content  ">
                     <div class="section-title-2 mb65 headline text-left">
-                        <h2>Latest <span>News Blog.</span></h2>
+                        <h2>@lang('labels.frontend.layouts.partials.latest_news_blog')</h2>
                     </div>
                     <div class="latest-news-posts">
                         @if(count($news) > 0)
@@ -46,9 +46,8 @@
 
                     <!-- /post -->
 
-
                         <div class="view-all-btn bold-font">
-                            <a href="#">View All News <i class="fas fa-chevron-circle-right"></i></a>
+                            <a href="{{route('blogs.index')}}">@lang('labels.frontend.layouts.partials.view_all_news') <i class="fas fa-chevron-circle-right"></i></a>
                         </div>
                     </div>
                 </div>
@@ -58,7 +57,7 @@
             <div class="col-md-4">
                 <div class="latest-area-content  ">
                     <div class="section-title-2 mb65 headline text-left">
-                        <h2>Trending <span>Courses.</span></h2>
+                        <h2>@lang('labels.frontend.layouts.partials.trending_courses')</h2>
                     </div>
                     <div class="latest-news-posts">
                         @if(count($trending_courses) > 0)
@@ -98,7 +97,7 @@
                     <!-- /post -->
 
                         <div class="view-all-btn bold-font">
-                            <a href="{{route('courses.all',['type'=>'trending'])}}">View All Trending Courses <i
+                            <a href="{{route('courses.all',['type'=>'trending'])}}">@lang('labels.frontend.layouts.partials.view_all_trending_courses')  <i
                                         class="fas fa-chevron-circle-right"></i></a>
                         </div>
                     </div>
@@ -108,7 +107,7 @@
             <div class="col-md-4">
                 <div class="latest-area-content  ">
                     <div class="section-title-2 mb65 headline text-left">
-                        <h2>Popular <span>Courses.</span></h2>
+                        <h2>@lang('labels.frontend.layouts.partials.popular_courses')</h2>
                     </div>
                     <div class="latest-news-posts">
                         @if(count($popular_courses) > 0)
@@ -146,7 +145,7 @@
 
                     <!-- /post -->
                         <div class="view-all-btn bold-font">
-                            <a href="{{route('courses.all',['type'=>'popular'])}}">View All Popular Courses <i
+                            <a href="{{route('courses.all',['type'=>'popular'])}}">@lang('labels.frontend.layouts.partials.view_all_popular_courses') <i
                                         class="fas fa-chevron-circle-right"></i></a>
                         </div>
                     </div>

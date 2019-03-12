@@ -56,7 +56,7 @@
                     @if(($footer_data->social_links->status == 1) && (count($footer_data->social_links->links) > 0))
                         <div class="col-md-4">
                             <div class="footer-social ul-li ">
-                                <h2 class="widget-title">Social Network</h2>
+                                <h2 class="widget-title">@lang('labels.frontend.layouts.partials.social_network')</h2>
                                 <ul>
                                     @foreach($footer_data->social_links->links as $item)
                                         <li><a href="{{$item->link}}"><i class="{{$item->icon}}"></i></a></li>
@@ -70,7 +70,7 @@
                     @if($footer_data->newsletter_form->status == 1)
                         <div class="col-md-8">
                             <div class="subscribe-form ml-0 ">
-                                <h2 class="widget-title">Subscribe Newsletter</h2>
+                                <h2 class="widget-title">>@lang('labels.frontend.layouts.partials.subscribe_newsletter')</h2>
 
                                 <div class="subs-form relative-position">
                                     <form action="{{route("subscribe")}}" method="post">

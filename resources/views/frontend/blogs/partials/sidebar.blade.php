@@ -8,7 +8,7 @@
         </div>
         @if($categories != "")
         <div class="side-bar-widget">
-            <h2 class="widget-title text-capitalize">blog <span>Categories.</span></h2>
+            <h2 class="widget-title text-capitalize">@lang('labels.frontend.blog.blog_categories')</h2>
             <div class="post-categori ul-li-block">
                 <ul>
                     @if(count($categories) > 0)
@@ -28,7 +28,7 @@
 
         @if(count($popular_tags) > 0)
             <div class="side-bar-widget">
-                <h2 class="widget-title text-capitalize">Popular <span>Tags.</span></h2>
+                <h2 class="widget-title text-capitalize">@lang('labels.frontend.blog.popular_tags')</h2>
                 <div class="tag-clouds ul-li">
                     <ul>
                         @foreach($popular_tags as $item)
@@ -43,7 +43,7 @@
 
         @if($global_featured_course != "")
             <div class="side-bar-widget">
-                <h2 class="widget-title text-capitalize"><span>Featured</span> Course.</h2>
+                <h2 class="widget-title text-capitalize">@lang('labels.frontend.blog.featured_course')</h2>
                 <div class="featured-course">
                     <div class="best-course-pic-text relative-position pt-0">
                         <div class="best-course-pic relative-position " style="background-image: url({{asset('storage/uploads/'.$global_featured_course->course_image)}})">
@@ -51,7 +51,7 @@
                         @if($global_featured_course->trending == 1)
                                 <div class="trend-badge-2 text-center text-uppercase">
                                     <i class="fas fa-bolt"></i>
-                                    <span>Trending</span>
+                                    <span>@lang('labels.frontend.badges.trending')</span>
                                 </div>
                             @endif
                         </div>

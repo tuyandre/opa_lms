@@ -1,8 +1,8 @@
 <section id="course-category" class="course-category-section">
     <div class="container">
         <div class="section-title mb45 headline text-center ">
-            <span class="subtitle text-uppercase">COURSES CATEGORIES</span>
-            <h2>Browse Courses<span> By Category.</span></h2>
+            <span class="subtitle text-uppercase">@lang('labels.frontend.layouts.partials.courses_categories')</span>
+            <h2>@lang('labels.frontend.layouts.partials.browse_course_by_category')</h2>
         </div>
         @if($course_categories)
             <div class="category-item">

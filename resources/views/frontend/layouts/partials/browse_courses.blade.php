@@ -1,8 +1,8 @@
 <section id="best-course" class="best-course-section {{isset($class) ? $class : ''}}">
     <div class="container">
         <div class="section-title mb45 headline text-center ">
-            <span class="subtitle text-uppercase">SEARCH OUR COURSES</span>
-            <h2>Browse Our<span> Featured Course.</span></h2>
+            <span class="subtitle text-uppercase">@lang('labels.frontend.layouts.partials.search_our_courses')</span>
+            <h2>@lang('labels.frontend.layouts.partials.featured_course')</h2>
         </div>
         <div class="best-course-area mb45">
             <div class="row">
@@ -15,7 +15,7 @@
                                     @if($item->trending == 1)
                                         <div class="trend-badge-2 text-center text-uppercase">
                                             <i class="fas fa-bolt"></i>
-                                            <span>Trending</span>
+                                            <span>@lang('labels.frontend.badges.trending')</span>
                                         </div>
                                     @endif
                                     <div class="course-price text-center gradient-bg">
@@ -29,8 +29,7 @@
                                         </ul>
                                     </div>
                                     <div class="course-details-btn">
-                                        <a href="{{ route('courses.show', [$item->slug]) }}">COURSE DETAIL <i
-                                                    class="fas fa-arrow-right"></i></a>
+                                        <a class="text-uppercase" href="{{ route('courses.show', [$item->slug]) }}">@lang('labels.frontend.layouts.partials.course_detail') <i class="fas fa-arrow-right"></i></a>
                                     </div>
                                     <div class="blakish-overlay"></div>
                                 </div>
@@ -46,7 +45,7 @@
                                         <span class="course-author">
                                                 <a href="#">
                                                     {{ $item->students()->count() }}
-                                                    Students</a>
+                                                    @lang('labels.frontend.layouts.partials.students')</a>
                                             </span>
                                     </div>
                                 </div>
@@ -54,7 +53,7 @@
                         </div>
                     @endforeach
                 @else
-                    <h4 class="text-center">No Featured Courses yet</h4>
+                    <h4 class="text-center">@lang('labels.general.no_data_available')</h4>
                 @endif
 
             </div>

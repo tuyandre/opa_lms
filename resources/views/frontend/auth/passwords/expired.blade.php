@@ -8,7 +8,7 @@
         <div class="container">
             <div class="page-breadcrumb-content text-center">
                 <div class="page-breadcrumb-title">
-                    <h2 class="breadcrumb-head black bold">Password Expired</h2>
+                    <h2 class="breadcrumb-head black bold">{{__('labels.frontend.passwords.expired_password_box_title')}}</h2>
                 </div>
             </div>
         </div>

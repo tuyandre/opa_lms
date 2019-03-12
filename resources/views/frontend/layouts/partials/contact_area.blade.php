@@ -1,4 +1,4 @@
-<section id="contact-area" class="contact-area-section backgroud-style">
+ <section id="contact-area" class="contact-area-section backgroud-style">
     <div class="container">
         <div class="contact-area-content">
             <div class="row">
@@ -9,8 +9,8 @@
                     <div class="col-md-6">
                         <div class="contact-left-content ">
                             <div class="section-title  mb45 headline text-left">
-                                <span class="subtitle ml42  text-uppercase">CONTACT US</span>
-                                <h2><span>Get in Touch</span></h2>
+                                <span class="subtitle ml42  text-uppercase">@lang('labels.frontend.layouts.partials.contact_us')</span>
+                                <h2><span>@lang('labels.frontend.layouts.partials.get_in_touch')</span></h2>
                                 <p>
                                     {{ $contact_data["short_text"]["value"] }}
                                 </p>
@@ -25,13 +25,13 @@
                                         <ul>
                                             @if($contact_data["primary_address"]["status"] == 1)
                                                 <li>
-                                                    <span>Primary: </span>{{$contact_data["primary_address"]["value"]}}
+                                                    <span>@lang('labels.frontend.layouts.partials.primary'): </span>{{$contact_data["primary_address"]["value"]}}
                                                 </li>
                                             @endif
 
                                             @if($contact_data["secondary_address"]["status"] == 1)
                                                 <li>
-                                                    <span>Second: </span>{{$contact_data["secondary_address"]["value"]}}
+                                                    <span>@lang('labels.frontend.layouts.partials.second'): </span>{{$contact_data["secondary_address"]["value"]}}
                                                 </li>
                                             @endif
                                         </ul>
@@ -46,13 +46,13 @@
                                         <ul>
                                             @if($contact_data["primary_phone"]["status"] == 1)
                                                 <li>
-                                                    <span>Primary: </span>{{$contact_data["primary_phone"]["value"]}}
+                                                    <span>@lang('labels.frontend.layouts.partials.primary'): </span>{{$contact_data["primary_phone"]["value"]}}
                                                 </li>
                                             @endif
 
                                             @if($contact_data["secondary_phone"]["status"] == 1)
                                                 <li>
-                                                    <span>Second: </span>{{$contact_data["secondary_phone"]["value"]}}
+                                                    <span>@lang('labels.frontend.layouts.partials.second'): </span>{{$contact_data["secondary_phone"]["value"]}}
                                                 </li>
                                             @endif
                                         </ul>
@@ -67,13 +67,13 @@
                                         <ul>
                                             @if($contact_data["primary_email"]["status"] == 1)
                                                 <li>
-                                                    <span>Primary: </span>{{$contact_data["primary_email"]["value"]}}
+                                                    <span>@lang('labels.frontend.layouts.partials.primary'): </span>{{$contact_data["primary_email"]["value"]}}
                                                 </li>
                                             @endif
 
                                             @if($contact_data["secondary_email"]["status"] == 1)
                                                 <li>
-                                                    <span>Second: </span>{{$contact_data["secondary_email"]["value"]}}
+                                                    <span>@lang('labels.frontend.layouts.partials.second'): </span>{{$contact_data["secondary_email"]["value"]}}
                                                 </li>
                                             @endif
                                         </ul>
@@ -82,7 +82,7 @@
                             </div>
                         </div>
                         <div class="genius-btn mt60 gradient-bg text-center text-uppercase ul-li-block bold-font ">
-                            <a href="#">Contact Us <i class="fas fa-caret-right"></i></a>
+                            <a href="#">@lang('labels.frontend.layouts.partials.contact_us') <i class="fas fa-caret-right"></i></a>
                         </div>
                     </div>
                     @if($contact_data["location_on_map"]["status"] == 1)
@@ -93,7 +93,7 @@
                         </div>
                     @endif
                 @else
-                    <h4>Please enter data from backend.</h4>
+                    <h4>@lang('labels.general.no_data_available')</h4>
                 @endif
             </div>
         </div>

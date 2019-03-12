@@ -1,3 +1,5 @@
+<!-- TODO:: Translate all text in every file to Labels file -->
+
 <!-- Start popular course
        ============================================= -->
 @if(count($popular_courses) > 0)
