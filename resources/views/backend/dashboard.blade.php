@@ -58,7 +58,7 @@
                                                 @if($item->trending == 1)
                                                     <div class="trend-badge-2 text-center text-uppercase">
                                                         <i class="fas fa-bolt"></i>
-                                                        <span>Trending</span>
+                                                        <span>@lang('labels.backend.dashboard.trending') </span>
                                                     </div>
                                                 @endif
 
@@ -84,7 +84,7 @@
                                             </span>
                                                         <span class="course-author float-right">
                                                  {{ $item->students()->count() }}
-                                                            Students
+                                                            >@lang('labels.backend.dashboard.students')
                                             </span>
                                                     </div>
 
@@ -92,7 +92,7 @@
                                                         <div class="progress-bar"
                                                              style="width:{{$item->progress() }}%">{{ $item->progress()  }}
                                                             %
-                                                            Completed
+                                                            >@lang('labels.backend.dashboard.completed')
                                                         </div>
                                                     </div>
                                                 </div>
@@ -102,21 +102,21 @@
                                 @endforeach
                             @else
                                 <div class="col-12 text-center">
-                                    <h4 class="text-center">You have not purchased any course yet.</h4>
-                                    <a class="btn btn-primary" href="{{route('courses.all')}}">Buy course now <i
+                                    <h4 class="text-center">@lang('labels.backend.dashboard.no_data')</h4>
+                                    <a class="btn btn-primary" href="{{route('courses.all')}}">@lang('labels.backend.dashboard.buy_course_now') <i
                                                 class="fa fa-arrow-right"></i></a>
                                 </div>
                             @endif
                         @elseif(auth()->user()->hasRole('teacher'))
                             <div class="col-12">
                                 <div class="row">
-                                    <div class="col-md-3 col-12">
+                                    <div class="col-md-3 col-12 border-right">
                                         <div class="row">
                                             <div class="col-12">
                                                 <div class="card text-white bg-primary text-center">
                                                     <div class="card-body">
                                                         <h2 class="">{{count(auth()->user()->courses)}}</h2>
-                                                        <h5>Your Courses</h5>
+                                                        <h5>@lang('labels.backend.dashboard.your_courses')</h5>
                                                     </div>
                                                 </div>
                                             </div>
@@ -124,19 +124,23 @@
                                                 <div class="card text-white bg-success text-center">
                                                     <div class="card-body">
                                                         <h2 class="">{{$students_count}}</h2>
-                                                        <h5>Students Enrolled To<br> Your Courses</h5>
+                                                        <h5>@lang('labels.backend.dashboard.students_enrolled')</h5>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-5 col-12">
-                                        <h4>Recent Reviews</h4>
+                                    <div class="col-md-5 col-12 border-right">
+                                        <div class="d-inline-block form-group w-100">
+                                            <h4 class="mb-0">@lang('labels.backend.dashboard.recent_reviews')   <a class="btn btn-primary float-right" href="{{route('admin.reviews.index')}}">@lang('labels.backend.dashboard.view_all')</a></h4>
+
+                                        </div>
                                         <table class="table table-responsive-sm table-striped">
                                             <thead>
                                             <tr>
-                                                <td>Course</td>
-                                                <td>Review</td>
+                                                <td>@lang('labels.backend.dashboard.course')</td>
+                                                <td>@lang('labels.backend.dashboard.review')</td>
+                                                <td>@lang('labels.backend.dashboard.time')</td>
                                             </tr>
                                             </thead>
                                             <tbody>
@@ -147,38 +151,46 @@
                                                             <a target="_blank" href="{{route('courses.show',[$item->reviewable->slug])}}">{{$item->reviewable->title}}</a>
                                                         </td>
                                                         <td>{{$item->content}}</td>
+                                                        <td>{{$item->created_at->diffforhumans()}}</td>
                                                     </tr>
                                                 @endforeach
                                             @else
                                                 <tr>
-                                                    <td colspan="2">No Reviews yet.</td>
+                                                    <td colspan="3">@lang('labels.backend.dashboard.no_data')</td>
                                                 </tr>
                                             @endif
                                             </tbody>
                                         </table>
                                     </div>
-                                    <div class="col-md-5 col-12">
-                                        <h4>Recent Reviews</h4>
+                                    <div class="col-md-4 col-12">
+                                        <div class="d-inline-block form-group w-100">
+                                            <h4 class="mb-0">@lang('labels.backend.dashboard.recent_messages') <a class="btn btn-primary float-right" href="{{route('admin.messages')}}">@lang('labels.backend.dashboard.view_all')</a></h4>
+
+                                        </div>
+
+
                                         <table class="table table-responsive-sm table-striped">
                                             <thead>
                                             <tr>
-                                                <td>Course</td>
-                                                <td>Review</td>
+                                                <td>@lang('labels.backend.dashboard.message_by')</td>
+                                                <td>@lang('labels.backend.dashboard.message')</td>
+                                                <td>@lang('labels.backend.dashboard.time')</td>
                                             </tr>
                                             </thead>
                                             <tbody>
-                                            @if(count($recent_reviews) > 0)
-                                                @foreach($recent_reviews as $item)
+                                            @if(count($threads) > 0)
+                                                @foreach($threads as $item)
                                                     <tr>
                                                         <td>
-                                                            <a target="_blank" href="{{route('courses.show',[$item->reviewable->slug])}}">{{$item->reviewable->title}}</a>
+                                                            <a target="_blank" href="{{asset('/user/messages/?thread='.$item->id)}}">{{$item->title}}</a>
                                                         </td>
-                                                        <td>{{$item->content}}</td>
+                                                        <td>{{$item->lastMessage->body}}</td>
+                                                        <td>{{$item->lastMessage->created_at->diffForHumans() }}</td>
                                                     </tr>
                                                 @endforeach
                                             @else
                                                 <tr>
-                                                    <td colspan="2">No Reviews yet.</td>
+                                                    <td colspan="3">@lang('labels.backend.dashboard.no_data')</td>
                                                 </tr>
                                             @endif
                                             </tbody>
@@ -189,9 +201,103 @@
                             </div>
 
                         @elseif(auth()->user()->hasRole('administrator'))
+                            <div class="col-md-4 col-12">
+                                <div class="card text-white bg-dark text-center py-3">
+                                    <div class="card-body">
+                                        <h1 class="">{{$courses_count}}</h1>
+                                        <h3>@lang('labels.backend.dashboard.courses')</h3>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 col-12">
+                                <div class="card text-white bg-light text-dark text-center py-3">
+                                    <div class="card-body">
+                                        <h1 class="">{{$students_count}}</h1>
+                                        <h3>@lang('labels.backend.dashboard.students')</h3>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-12">
+                                <div class="card text-white bg-primary text-center py-3">
+                                    <div class="card-body">
+                                        <h1 class="">{{$teachers_count}}</h1>
+                                        <h3>@lang('labels.backend.dashboard.teachers')</h3>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-12 border-right">
+                                <div class="d-inline-block form-group w-100">
+                                    <h4 class="mb-0">@lang('labels.backend.dashboard.recent_orders')   <a class="btn btn-primary float-right" href="{{route('admin.orders.index')}}">@lang('labels.backend.dashboard.view_all')</a></h4>
+
+                                </div>
+                                <table class="table table-responsive-sm table-striped">
+                                    <thead>
+                                    <tr>
+                                        <td>@lang('labels.backend.dashboard.ordered_by')</td>
+                                        <td>@lang('labels.backend.dashboard.amount')</td>
+                                        <td>@lang('labels.backend.dashboard.time')</td>
+                                        <td>@lang('labels.backend.dashboard.view')</td>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @if(count($recent_orders) > 0)
+                                        @foreach($recent_orders as $item)
+                                            <tr>
+                                                <td>
+                                                   {{$item->user->full_name}}
+                                                </td>
+                                                <td>{{$item->amount}}$</td>
+                                                <td>{{$item->created_at->diffforhumans()}}</td>
+                                                <td><a class="btn btn-sm btn-primary" href="{{route('admin.orders.show', $item->id)}}" target="_blank"><i class="fa fa-arrow-right"></i></a> </td>
+                                            </tr>
+                                        @endforeach
+                                    @else
+                                        <tr>
+                                            <td colspan="4">@lang('labels.backend.dashboard.no_data')</td>
+                                        </tr>
+                                    @endif
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-md-6 col-12">
+                                <div class="d-inline-block form-group w-100">
+                                    <h4 class="mb-0">@lang('labels.backend.dashboard.recent_contact_requests')   <a class="btn btn-primary float-right" href="{{route('admin.contact-requests.index')}}">@lang('labels.backend.dashboard.view_all')</a></h4>
+
+                                </div>
+                                <table class="table table-responsive-sm table-striped">
+                                    <thead>
+                                    <tr>
+                                        <td>@lang('labels.backend.dashboard.name')</td>
+                                        <td>@lang('labels.backend.dashboard.email')</td>
+                                        <td>@lang('labels.backend.dashboard.message')</td>
+                                        <td>@lang('labels.backend.dashboard.time')</td>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @if(count($recent_contacts) > 0)
+                                        @foreach($recent_contacts as $item)
+                                            <tr>
+                                                <td>
+                                                   {{$item->name}}
+                                                </td>
+                                                <td>{{$item->email}}</td>
+                                                <td>{{$item->message}}</td>
+                                                <td>{{$item->created_at->diffforhumans()}}</td>
+                                            </tr>
+                                        @endforeach
+                                    @else
+                                        <tr>
+                                            <td colspan="4">@lang('labels.backend.dashboard.data')</td>
+                                        </tr>
+                                    @endif
+                                    </tbody>
+                                </table>
+                            </div>
+
                         @else
                             <div class="col-12">
-                                <h1>Dashboard!</h1>
+                                <h1>@lang('labels.backend.dashboard.title')</h1>
                             </div>
                         @endif
                     </div>

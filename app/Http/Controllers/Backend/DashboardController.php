@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Auth\User;
+use App\Models\Contact;
 use App\Models\Course;
+use App\Models\Order;
 use App\Models\Review;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -21,6 +23,11 @@ class DashboardController extends Controller
         $purchased_courses = NULL;
         $students_count = NULL;
         $recent_reviews = NULL;
+        $threads = NULL;
+        $teachers_count = NULL;
+        $courses_count = NULL;
+        $recent_orders = NULL;
+        $recent_contacts = NULL;
         if (\Auth::check()) {
             $purchased_courses = Course::whereHas('students', function($query) {
                 $query->where('id', \Auth::id());
@@ -29,42 +36,46 @@ class DashboardController extends Controller
                 ->orderBy('id', 'desc')
                 ->get();
             if(auth()->user()->hasRole('teacher')){
+                //IF logged in user is teacher
+                $students_count = Course::whereHas('teachers', function ($query) {
+                    $query->where('user_id', '=', auth()->user()->id);
+                })
+                    ->withCount('students')
+                    ->get()
+                    ->sum('students_count');
 
-            }
-            $students_count = Course::whereHas('teachers', function ($query) {
-                $query->where('user_id', '=', auth()->user()->id);
-            })
-                ->withCount('students')
-                ->get()
-                ->sum('students_count');
-
-            $courses_id = auth()->user()->courses()->has('reviews')->pluck('id')->toArray();
-            $recent_reviews = Review::where('reviewable_type','=','App\Models\Course')
-                ->whereIn('reviewable_id',$courses_id)
-                ->orderBy('created_at', 'desc')
-                ->take(10)
-                ->get();
-
+                $courses_id = auth()->user()->courses()->has('reviews')->pluck('id')->toArray();
+                $recent_reviews = Review::where('reviewable_type','=','App\Models\Course')
+                    ->whereIn('reviewable_id',$courses_id)
+                    ->orderBy('created_at', 'desc')
+                    ->take(10)
+                    ->get();
 
 
-            $unreadThreads = [];
-            $threads = [];
-            foreach(auth()->user()->threads as $item){
-                if($item->unreadMessagesCount > 0){
-                    $unreadThreads[] = $item;
-                }else{
-                    $threads[] = $item;
+
+                $unreadThreads = [];
+                $threads = [];
+                if(auth()->user()->threads){
+                    foreach(auth()->user()->threads as $item){
+                        if($item->unreadMessagesCount > 0){
+                            $unreadThreads[] = $item;
+                        }else{
+                            $threads[] = $item;
+                        }
+                    }
+                    $threads = Collection::make(array_merge($unreadThreads,$threads))->take(10) ;
+
                 }
+
+            }elseif(auth()->user()->hasRole('administrator')){
+                $students_count = User::role('student')->count();
+                $teachers_count = User::role('teacher')->count();
+                $courses_count = \App\Models\Course::all()->count();
+                $recent_orders = Order::orderBy('created_at','desc')->take(10)->get();
+                $recent_contacts = Contact::orderBy('created_at','desc')->take(10)->get();
             }
-            $threads = Collection::make(array_merge($unreadThreads,$threads))->take(10) ;
-            dd($threads);
-            /* TODO:: Show latest 10 messages in teacher dashboard */
-
-
         }
 
-
-
-        return view('backend.dashboard',compact('purchased_courses','students_count','recent_reviews'));
+        return view('backend.dashboard',compact('purchased_courses','students_count','recent_reviews','threads','teachers_count','courses_count','recent_orders','recent_contacts'));
     }
 }

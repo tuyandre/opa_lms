@@ -99,7 +99,7 @@
 
 
             @if ($logged_in_user->isAdmin() || $logged_in_user->hasAnyPermission(['blog_access','page_access','reason_access']))
-                <li class="nav-item nav-dropdown {{ active_class(Active::checkUriPattern(['user/contact*','user/sponsors*','user/testimonials*','user/faqs*','user/footer*','user/blogs']), 'open') }}">
+                <li class="nav-item nav-dropdown {{ active_class(Active::checkUriPattern(['user/contact','user/sponsors*','user/testimonials*','user/faqs*','user/footer*','user/blogs']), 'open') }}">
                     <a class="nav-link nav-dropdown-toggle {{ active_class(Active::checkUriPattern('admin/*')) }}"
                        href="#">
                         <i class="nav-icon icon-note"></i> @lang('menus.backend.sidebar.site-management.title')
@@ -257,8 +257,8 @@
             </li>
             @if ($logged_in_user->isAdmin())
                 <li class="nav-item ">
-                    <a class="nav-link {{ $request->segment(1) == 'contacts' ? 'active' : '' }}"
-                       href="{{ route('admin.contacts.index') }}">
+                    <a class="nav-link {{ $request->segment(1) == 'contact-requests' ? 'active' : '' }}"
+                       href="{{ route('admin.contact-requests.index') }}">
                         <i class="nav-icon icon-envelope-letter"></i>
                         <span class="title">@lang('menus.backend.sidebar.contacts.title')</span>
                     </a>

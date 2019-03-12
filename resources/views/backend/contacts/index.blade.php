@@ -49,7 +49,7 @@
     <script>
 
         $(document).ready(function () {
-            var route = '{{route('admin.contacts.get_data')}}';
+            var route = '{{route('admin.contact_requests.get_data')}}';
 
             $('#myTable').DataTable({
                 processing: true,

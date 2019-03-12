@@ -131,7 +131,7 @@ return [
                 'title' => 'Menu Manager',
             ],
             'contacts' => [
-                'title' => 'Contacts',
+                'title' => 'Contact Requests',
             ],
             'pages' => [
                 'title' => 'Pages Manager',

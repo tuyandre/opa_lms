@@ -121,6 +121,36 @@ return [
 
         ],
         /*====================Custom strings====================*/
+        'dashboard' => [
+            'title' => 'Dashboard',
+            'students' => 'Students',
+            'trending' => 'Trending',
+            'teachers' => 'Teachers',
+            'completed' => 'Completed',
+            'no_data' => 'No data available',
+            'buy_course_now' => 'Buy course now',
+            'your_courses' => 'Your Courses',
+            'students_enrolled' => 'Students Enrolled To<br> Your Courses',
+            'recent_reviews' => 'Recent Reviews',
+            'recent_orders' => 'Recent Orders',
+            'recent_contacts' => 'Recent Contacts',
+            'view_all' => 'View All',
+            'course' => 'Course',
+            'review' => 'Review',
+            'time' => 'Time',
+            'recent_messages' => 'Recent Messages',
+            'message' => 'Message',
+            'message_by' => 'Message By',
+            'courses' => 'Courses',
+            'ordered_by' => 'Ordered By',
+            'view' => 'View',
+            'amount' => 'Amount',
+            'recent_contact_requests' => 'Recent Contact Requests',
+            'name' => 'Name',
+            'email' => 'Email',
+
+
+        ],
         'teachers' => [
             'title' => 'Teachers',
             'create' => 'Create Teacher',

@@ -180,8 +180,8 @@ Route::get('menu-manager','MenuController@index')->name('menu-manager');
 
 
 //====== Contacts Routes =====//
-Route::resource('contacts', 'ContactController');
-Route::get('get-contacts-data', ['uses' => 'ContactController@getData', 'as' => 'contacts.get_data']);
+Route::resource('contact-requests', 'ContactController');
+Route::get('get-contact-requests-data', ['uses' => 'ContactController@getData', 'as' => 'contact_requests.get_data']);
 
 //====== Review Routes =====//
 Route::resource('reviews', 'ReviewController');
