@@ -1,6 +1,6 @@
 @extends('frontend.layouts.app'.config('theme_layout'))
 
-@section('title', app_name() . ' | Home')
+@section('title', trans('labels.frontend.home.title').' | '.app_name())
 @section('meta_description', '')
 @section('meta_keywords','')
 
@@ -44,15 +44,15 @@
         <section id="search-course" class="search-course-section">
             <div class="container">
                 <div class="section-title mb20 headline text-center ">
-                    <span class="subtitle text-uppercase">LEARN NEW SKILLS</span>
-                    <h2><span>Search</span> {{env('APP_NAME')}} Courses.</h2>
+                    <span class="subtitle text-uppercase">@lang('labels.frontend.home.learn_new_skills')</span>
+                    <h2>@lang('labels.frontend.home.search_courses')</h2>
                 </div>
                 <div class="search-course mb30 relative-position ">
                     <form action="{{route('search')}}" method="get">
                         <input class="course" name="q" type="text"
-                               placeholder="Type what do you want to learn today?">
+                               placeholder="@lang('labels.frontend.home.search_course_placeholder')">
                         <div class="nws-button text-center  gradient-bg text-capitalize">
-                            <button type="submit" value="Submit">Search Course</button>
+                            <button type="submit" value="Submit">@lang('labels.frontend.home.search_course')</button>
                         </div>
                     </form>
                 </div>
@@ -65,7 +65,7 @@
                                 </div>
                                 <div class="counter-number">
                                     <span class=" bold-font">{{$total_students}}</span>
-                                    <p>Students Enrolled</p>
+                                    <p>@lang('labels.frontend.home.students_enrolled')</p>
                                 </div>
                             </div>
                         </div>
@@ -78,7 +78,7 @@
                                 </div>
                                 <div class="counter-number">
                                     <span class=" bold-font">{{$total_courses}}</span>
-                                    <p>Online Available Courses</p>
+                                    <p>@lang('labels.frontend.home.online_available_courses')</p>
                                 </div>
                             </div>
                         </div>
@@ -92,7 +92,7 @@
                                 </div>
                                 <div class="counter-number">
                                     <span class=" bold-font">{{$total_teachers}}</span>
-                                    <p>Teachers</p>
+                                    <p>@lang('labels.frontend.home.teachers')</p>
                                 </div>
                             </div>
                         </div>
@@ -119,8 +119,8 @@
                     @if($sections->reasons->status == 1)
 
                         <div class="section-title mb20 headline text-center ">
-                            <span class="subtitle text-uppercase">{{env('APP_NAME')}} ADVANTAGES</span>
-                            <h2>Reason <span>Why Choose {{env('APP_NAME')}}.</span></h2>
+                            <span class="subtitle text-uppercase">{{env('APP_NAME')}} @lang('labels.frontend.layouts.partials.advantages')</span>
+                            <h2>@lang('labels.frontend.layouts.partials.why_choose')</h2>
                         </div>
                         @if($reasons->count() > 0)
                             <div id="service-slide-item" class="service-slide">
@@ -145,7 +145,7 @@
                     @if($sections->testimonial->status == 1)
                         <div class="testimonial-slide">
                             <div class="section-title-2 mb65 headline text-left ">
-                                <h2>Students <span>Testimonial.</span></h2>
+                                <h2>@lang('labels.frontend.layouts.partials.students_testimonial')</h2>
                             </div>
                             @if($testimonials->count() > 0)
                                 <div id="testimonial-slide-item" class="testimonial-slide-area">
@@ -160,7 +160,7 @@
                                     @endforeach
                                 </div>
                             @else
-                                <h4>Not Available</h4>
+                                <h4>@lang('labels.general.no_data_available')</h4>
                             @endif
                         </div>
                     @endif
@@ -187,7 +187,7 @@
             <section id="sponsor" class="sponsor-section">
                 <div class="container">
                     <div class="section-title-2 mb65 headline text-left ">
-                        <h2>{{env('APP_NAME')}} <span>Sponsors.</span></h2>
+                        <h2>{{env('APP_NAME')}} <span>@lang('labels.frontend.layouts.partials.sponsors')</span></h2>
                     </div>
 
                     <div class="sponsor-item sponsor-1 text-center">
@@ -225,8 +225,8 @@
             <div class="jarallax">
                 <div class="container">
                     <div class="section-title mb20 headline text-center ">
-                        <span class="subtitle text-uppercase">OUR PROFESSIONAL</span>
-                        <h2>{{env('APP_NAME')}} <span>Teachers.</span></h2>
+                        <span class="subtitle text-uppercase">@lang('labels.frontend.home.our_professionals')</span>
+                        <h2>{{env('APP_NAME')}} <span>@lang('labels.frontend.home.teachers').</span></h2>
                     </div>
 
                     <div class="teacher-list">
@@ -265,7 +265,7 @@
                         </div>
 
                         <div class="genius-btn gradient-bg text-center text-uppercase ul-li-block bold-font ">
-                            <a href="{{route('teachers.index')}}">All teachers <i class="fas fa-caret-right"></i></a>
+                            <a href="{{route('teachers.index')}}">@lang('labels.frontend.home.all_teachers')<i class="fas fa-caret-right"></i></a>
                         </div>
                     </div>
                 </div>

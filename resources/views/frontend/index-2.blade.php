@@ -1,7 +1,7 @@
 @extends('frontend.layouts.app'.config('theme_layout'))
 @php $no_footer = true; @endphp
 
-@section('title', app_name() . ' | Home')
+@section('title', trans('labels.frontend.home.title').' | '.app_name())
 @section('meta_description', '')
 @section('meta_keywords','')
 
@@ -78,15 +78,15 @@
         <section id="search-course" class="search-course-section home-secound-course-search backgroud-style">
             <div class="container">
                 <div class="section-title mb20 headline text-center">
-                    <span class="subtitle text-uppercase">LEARN NEW SKILLS</span>
-                    <h2><span>Search</span> Genius Courses.</h2>
+                    <span class="subtitle text-uppercase">@lang('labels.frontend.home.learn_new_skills')</span>
+                    <h2>@lang('labels.frontend.home.search_courses')</h2>
                 </div>
                 <div class="search-course mb30 relative-position">
                     <form action="{{route('search')}}" method="get">
                         <input class="course" name="q" type="text"
-                               placeholder="Type what do you want to learn today?">
+                               placeholder="@lang('labels.frontend.home.search_course_placeholder')">
                         <div class="nws-button text-center  gradient-bg text-capitalize">
-                            <button type="submit" value="Submit">Search Course</button>
+                            <button type="submit" value="Submit">@lang('labels.frontend.home.search_course')</button>
                         </div>
                     </form>
                 </div>
@@ -99,7 +99,7 @@
                                 </div>
                                 <div class="counter-number">
                                     <span class=" bold-font">{{$total_students}}</span>
-                                    <p>Students Enrolled</p>
+                                    <p>@lang('labels.frontend.home.students_enrolled')</p>
                                 </div>
                             </div>
                         </div>
@@ -112,7 +112,7 @@
                                 </div>
                                 <div class="counter-number">
                                     <span class=" bold-font">{{$total_courses}}</span>
-                                    <p>Online Available Courses</p>
+                                    <p>@lang('labels.frontend.home.online_available_courses')</p>
                                 </div>
                             </div>
                         </div>
@@ -126,7 +126,7 @@
                                 </div>
                                 <div class="counter-number">
                                     <span class=" bold-font">{{$total_teachers}}</span>
-                                    <p>Teachers</p>
+                                    <p>@lang('labels.frontend.home.teachers')</p>
                                 </div>
                             </div>
                         </div>
@@ -173,8 +173,8 @@
         <section id="course-category" class="course-category-section home-secound-version">
             <div class="container">
                 <div class="section-title mb20 headline text-left">
-                    <span class="subtitle ml42  text-uppercase">{{env('APP_NAME')}} CATEGORIES</span>
-                    <h2>Browse <span>By Category.</span></h2>
+                    <span class="subtitle ml42 text-uppercase">@lang('labels.frontend.layouts.partials.courses_categories')</span>
+                    <h2>@lang('labels.frontend.layouts.partials.browse_course_by_category')</h2>
                 </div>
                 <div class="category-item category-slide-item">
                     @if($course_categories)
@@ -211,8 +211,8 @@
         <div class="container">
             <div class="testimonial-slide">
                 <div class="section-title mb35 headline text-center">
-                    <span class="subtitle text-uppercase">WHAT THEY SAY ABOUT US</span>
-                    <h2>Students <span>Testimonial.</span></h2>
+                    <span class="subtitle text-uppercase">@lang('labels.frontend.home.what_they_say_about_us')</span>
+                    <h2>@lang('labels.frontend.layouts.partials.students_testimonial')</h2>
                 </div>
                 @if($testimonials->count() > 0)
                 <div class="testimonial-secound-slide-area">
@@ -242,8 +242,8 @@
     <section id="teacher-2" class="secound-teacher-section">
         <div class="container">
             <div class="section-title mb35 headline text-left">
-                <span class="subtitle ml42  text-uppercase">{{env('APP_NAME')}} STAFFS</span>
-                <h2>{{env('APP_NAME')}} <span>Teachers.</span></h2>
+                <span class="subtitle ml42  text-uppercase">@lang('labels.frontend.home.our_professionals')</span>
+                <h2>{{env('APP_NAME')}} <span>@lang('labels.frontend.home.teachers').</span></h2>
             </div>
             <div class="teacher-secound-slide">
                 @if(count($teachers)> 0)
@@ -270,7 +270,7 @@
             </div>
 
             <div class="genius-btn gradient-bg text-center text-uppercase ul-li-block bold-font">
-                <a href="{{route('teachers.index')}}">All teacher <i class="fas fa-caret-right"></i></a>
+                <a href="{{route('teachers.index')}}">@lang('labels.frontend.home.all_teachers') <i class="fas fa-caret-right"></i></a>
             </div>
         </div>
     </section>
@@ -292,8 +292,8 @@
                             @endphp
                         <div class="contact-left-content">
                             <div class="section-title  mb45 headline text-left">
-                                <span class="subtitle ml42  text-uppercase">CONTACT US</span>
-                                <h2><span>Get in Touch</span></h2>
+                                <span class="subtitle ml42  text-uppercase">@lang('labels.frontend.layouts.partials.contact_us')</span>
+                                <h2><span>@lang('labels.frontend.layouts.partials.get_in_touch')</span></h2>
                                 <p>
                                     {{ $contact_data["short_text"]["value"] }}
                                 </p>
@@ -308,13 +308,13 @@
                                         <ul>
                                             @if($contact_data["primary_address"]["status"] == 1)
                                                 <li>
-                                                    <span>Primary: </span>{{$contact_data["primary_address"]["value"]}}
+                                                    <span>@lang('labels.frontend.layouts.partials.primary'): </span>{{$contact_data["primary_address"]["value"]}}
                                                 </li>
                                             @endif
 
                                             @if($contact_data["secondary_address"]["status"] == 1)
                                                 <li>
-                                                    <span>Second: </span>{{$contact_data["secondary_address"]["value"]}}
+                                                    <span>@lang('labels.frontend.layouts.partials.second'): </span>{{$contact_data["secondary_address"]["value"]}}
                                                 </li>
                                             @endif
                                         </ul>
@@ -329,13 +329,13 @@
                                         <ul>
                                             @if($contact_data["primary_phone"]["status"] == 1)
                                                 <li>
-                                                    <span>Primary: </span>{{$contact_data["primary_phone"]["value"]}}
+                                                    <span>@lang('labels.frontend.layouts.partials.primary'): </span>{{$contact_data["primary_phone"]["value"]}}
                                                 </li>
                                             @endif
 
                                             @if($contact_data["secondary_phone"]["status"] == 1)
                                                 <li>
-                                                    <span>Second: </span>{{$contact_data["secondary_phone"]["value"]}}
+                                                    <span>@lang('labels.frontend.layouts.partials.second'): </span>{{$contact_data["secondary_phone"]["value"]}}
                                                 </li>
                                             @endif
                                         </ul>
@@ -350,13 +350,13 @@
                                         <ul>
                                             @if($contact_data["primary_email"]["status"] == 1)
                                                 <li>
-                                                    <span>Primary: </span>{{$contact_data["primary_email"]["value"]}}
+                                                    <span>@lang('labels.frontend.layouts.partials.primary'): </span>{{$contact_data["primary_email"]["value"]}}
                                                 </li>
                                             @endif
 
                                             @if($contact_data["secondary_email"]["status"] == 1)
                                                 <li>
-                                                    <span>Second: </span>{{$contact_data["secondary_email"]["value"]}}
+                                                    <span>@lang('labels.frontend.layouts.partials.second'): </span>{{$contact_data["secondary_email"]["value"]}}
                                                 </li>
                                             @endif
                                         </ul>
@@ -370,20 +370,20 @@
                     <div class="col-md-6">
                         <div class="contact_secound_form text-white">
                             <div class="section-title-2 mb65 headline text-left">
-                                <h2>Send Us a message</h2>
+                                <h2>@lang('labels.frontend.contact.send_us_a_message')</h2>
                             </div>
                             <form class="contact_form" action="{{route('frontend.contact.send')}}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 <div class="contact-info">
-                                    <input class="name @if($errors->has('name')) border-bottom border-danger @endif" name="name" type="text" placeholder="Your Name">
+                                    <input class="name @if($errors->has('name')) border-bottom border-danger @endif" name="name" type="text" placeholder="@lang('labels.frontend.contact.your_name')">
                                 </div>
                                 <div class="contact-info">
-                                    <input class="email  @if($errors->has('email')) border-bottom border-danger @endif" name="email" type="email" placeholder="Your Email">
+                                    <input class="email  @if($errors->has('email')) border-bottom border-danger @endif" name="email" type="email" placeholder="@lang('labels.frontend.contact.your_email')">
                                 </div>
-                                <textarea name="message" class="@if($errors->has('message')) border-bottom border-danger @endif" placeholder="Message"></textarea>
+                                <textarea name="message" class="@if($errors->has('message')) border-bottom border-danger @endif" placeholder="@lang('labels.frontend.contact.message')"></textarea>
 
                                 <div class="nws-button text-center  gradient-bg text-capitalize">
-                                    <button type="submit" value="Submit">SEND MESSAGE NOW <i
+                                    <button type="submit" value="Submit">@lang('labels.frontend.contact.send_message_now') <i
                                                 class="fas fa-caret-right"></i></button>
                                 </div>
                             </form>
@@ -411,9 +411,9 @@
                     <div class="subs-form relative-position">
                         <form action="{{route("subscribe")}}" method="post">
                             @csrf
-                            <input class="email" name="subs_email" required type="email" placeholder="Email Address.">
+                            <input class="email" name="subs_email" required type="email" placeholder="@lang('labels.frontend.layouts.partials.email_address').">
                             <div class="nws-button text-center  gradient-bg text-uppercase">
-                                <button type="submit" value="Submit">Subscribe now</button>
+                                <button type="submit" value="Submit">@lang('labels.frontend.layouts.partials.subscribe_now')</button>
                             </div>
                             @if($errors->has('subs_email'))
                                 <p class="text-danger text-left">{{$errors->first('subs_email')}}</p>

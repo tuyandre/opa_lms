@@ -194,7 +194,7 @@
                     <div class="side-bar">
 
                         <div class="side-bar-widget  first-widget">
-                            <h2 class="widget-title text-capitalize"><span>Find </span>Your Course.</h2>
+                            <h2 class="widget-title text-capitalize">>@lang('labels.frontend.course.find_your_course')</h2>
                             <div class="listing-filter-form pb30">
                                 <form action="{{route('search')}}" method="get">
 

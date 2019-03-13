@@ -13,7 +13,6 @@
 @endpush
 
 @section('content')
-    <!--== TODO:: Setup sidebar for Pages with sidebar enabled  ==-->
 
     <!-- Start of breadcrumb section
         ============================================= -->
@@ -36,14 +35,12 @@
                 <div class="@if($page->sidebar == 1) col-md-9 @else col-md-12 @endif ">
                     <div class="about-us-content-item">
                         @if($page->image != "")
-
                         <div class="about-gallery w-100 text-center">
                             <div class="about-gallery-img d-inline-block float-none">
                                 <img src="{{asset('storage/uploads/'.$page->image)}}" alt="">
                             </div>
                         </div>
                     @endif
-
                     <!-- /gallery -->
 
                         <div class="about-text-item">
@@ -57,12 +54,8 @@
                 </div>
                 @if($page->sidebar == 1)
                     @include('frontend.layouts.partials.right-sidebar')
-
                 @endif
-
-
             </div>
         </div>
     </section>
-
 @endsection

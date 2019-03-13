@@ -2,7 +2,7 @@
     <div class="container">
         <div class="testimonial-slide">
             <div class="section-title-2 mb65 headline text-left">
-                <h2>Students <span>Testimonial.</span></h2>
+                <h2>@lang('labels.frontend.layouts.partials.students_testimonial')</h2>
             </div>
             @if($testimonials->count() > 0)
 

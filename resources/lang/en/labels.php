@@ -13,6 +13,11 @@ return [
     |
     */
 
+    'lang' => [
+      'en' => 'English',
+      'sp' => 'Spanish',
+      'fr' => 'French',
+    ],
     'general' => [
         'all' => 'All',
         'yes' => 'Yes',
@@ -425,7 +430,7 @@ return [
             'newsletter' => [
                 'title' => 'Newsletter Configuration',
                 'mail_provider' => 'Mail Service Provider',
-                'mail_provider_note' => '<b>Note </b>: You can select any Mail service provider to recieve all the emails which are being used to <b>subscribe newsletter</b>.<br> Select and setup according to steps given. <b>It is compulsory</b>, if you want to use <b>newsletter subscription</b> form.',
+                'mail_provider_note' => '<b>Note </b>: You can select any Mail service provider to receive all the emails which are being used to <b>subscribe newsletter</b>.<br> Select and setup according to steps given. <b>It is compulsory</b>, if you want to use <b>newsletter subscription</b> form.',
                 'api_key' => 'API Key',
                 'api_key_note' => 'Generate <b>API key</b> from your <a target="_blank" href="https://mailchimp.com/"><b> Mailchimp account</b></a> and paste that in above text box.',
                 'api_key_note_sendgrid' => 'Generate <b>API key</b> from your <a target="_blank" href="https://sendgrid.com/"><b> SendGrid account</b></a> and paste that in above text box.',
@@ -700,7 +705,16 @@ return [
 
         'contact' => [
             'box_title' => 'Contact Us',
+            'title' => 'Contact',
             'button' => 'Send Information',
+            'send_us_a_message' => 'Send Us A<span> Message.</span>',
+            'keep_in_touch' => 'Keep<span> In Touch.</span>',
+            'your_name' => 'Your Name',
+            'your_email' => 'Your Email',
+            'phone_number' => 'Phone Number',
+            'message' => 'Message',
+            'send_email' => 'Send Email',
+            'send_message_now' => 'Send Message Now'
         ],
 
         'passwords' => [
@@ -742,6 +756,7 @@ return [
             'add_comment' => 'Add Comment',
             'login_to_post_comment' => 'Login to Post a Comment',
             'by' => 'By',
+            'search_blog' => 'Search Blog',
             'no_comments_yet' => 'No comments yet, Be the first to comment.',
         ],
         'cart' => [
@@ -829,6 +844,7 @@ return [
             'submit_results' => 'Submit Results',
             'chapter_videos' => 'Chapter Videos',
             'download_files' => 'Download Files',
+            'find_your_course' => '<span>Find </span>Your Course.',
             'mb' => 'MB',
             'prev' => 'PREV',
             'next' => 'NEXT',
@@ -846,7 +862,7 @@ return [
         'layouts' =>[
             'partials' =>[
                 'search_our_courses' => 'SEARCH OUR COURSES',
-                'featured_course' => 'Browse Our<span> Featured Course.</span>',
+                'browse_featured_course' => 'Browse Our<span> Featured Course.</span>',
                 'course_detail' => 'Course detail',
                 'students' => 'Students',
                 'contact_us' => 'Contact Us',
@@ -859,14 +875,73 @@ return [
                 'faq_full' => 'Frequently<span> Asked Questions</span>',
                 'social_network' => 'Social Network',
                 'subscribe_newsletter' => 'Subscribe Newsletter',
+                'subscribe_now' => 'Subscribe Now',
+                'email_address' => 'Email Address',
                 'latest_news_blog' => 'Latest <span>News Blog.</span>',
                 'trending_courses' => 'Trending <span>Courses.</span>',
                 'popular_courses' => 'Popular <span>Courses.</span>',
                 'view_all_news' => 'View All News',
                 'view_all_trending_courses' => 'View All Trending Courses',
                 'view_all_popular_courses' => 'View All Popular Courses',
+                'learn_new_skills' => 'Learn new skills',
+                'recent_news' => '<span>Recent  </span>News.',
+                'featured_course' => '<span>Featured  </span>Course.',
+                'days' => 'Days',
+                'hours' => 'Hours',
+                'minutes' => 'Minutes',
+                'seconds' => 'Seconds',
+                'search_courses' => 'Search Courses',
+                'search_placeholder' => 'Type what do you want to learn today?',
+                'sponsors' => 'Sponsors.',
+                'advantages' => 'Advantages',
+                'students_testimonial' => 'Students <span>Testimonial.</span>',
+                'why_choose' => 'Reason <span>Why Choose '.env('APP_NAME'),
+                'email_registration' => 'Email Us For Free Registration',
+                'call_us_registration' => 'Call Us For Free Registration',
             ]
+        ],
+        'search_result'=>[
+            'blog' => 'Blog',
+            'search_blog' => 'Search Blog',
+            'sort_by' => '<b>Sort</b> By',
+            'popular' => 'Popular',
+            'none' => 'None',
+            'trending' => 'Trending',
+            'featured' => 'Featured',
+            'course_name' => 'Course Name',
+            'course_type' => 'Course Type',
+            'starts' => 'Starts',
+            'course_detail' => 'Course Detail',
+            'students' => 'Students',
+        ],
+        'teacher' => [
+            'title' => 'Teachers',
+            'courses_by_teacher' => 'Courses <span>By Teacher.</span>',
+            'course_detail' => 'Course Detail',
+            'students' => 'Students',
+            'send_now' => 'Send Now',
+        ],
+        'faq' => [
+            'title' => 'Frequently <span>Asked Questions</span>',
+            'find' => 'Find <span>Your Questions & Answers.</span>',
+            'make_question' => 'Make Question',
+            'contact_us' => 'Contact Us',
+        ],
+        'home' => [
+            'title' => 'Home',
+            'learn_new_skills' => 'Learn new skills',
+            'search_course' => 'Search Course',
+            'search_course_placeholder' => 'Type what do you want to learn today?',
+            'search_courses' => '<span>Search</span> '.env('APP_NAME').' Courses.',
+            'students_enrolled' => 'Students Enrolled',
+            'online_available_courses' => 'Online Available Courses',
+            'teachers' => 'Teachers',
+            'our_professionals' => 'Our Professionals',
+            'all_teachers' => 'All Teachers',
+            'what_they_say_about_us' => 'What they say about us',
+            'popular_teachers' => '<span>Popular</span> Teachers',
         ]
+
 
     ],
 ];

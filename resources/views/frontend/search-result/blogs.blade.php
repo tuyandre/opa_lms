@@ -42,7 +42,7 @@
         <div class="container">
             <div class="page-breadcrumb-content text-center">
                 <div class="page-breadcrumb-title">
-                    <h2 class="breadcrumb-head black bold">"{{$q}}" <span>Blog</span></h2>
+                    <h2 class="breadcrumb-head black bold">"{{$q}}" <span>@lang('labels.frontend.search_result.blog')</span></h2>
 
                 </div>
             </div>
@@ -142,7 +142,7 @@
                                             </div>
                                         </div><!-- 2nd tab -->
                                     @else
-                                        <h4>No matches for your search</h4>
+                                        <h4>@lang('labels.general.no_data_available')</h4>
 
                                     @endif
 

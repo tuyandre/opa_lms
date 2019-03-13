@@ -60,12 +60,12 @@
                     @endif
                     <div class="short-filter-tab">
                         <div class="shorting-filter w-50 d-inline float-left mr-3">
-                            <span><b>Sort</b> By</span>
+                            <span>@lang('labels.frontend.search_result.sort_by')</span>
                             <select id="sortBy" class="form-control d-inline w-50">
-                                <option value="">None</option>
-                                <option value="popular">Popular</option>
-                                <option value="trending">Trending</option>
-                                <option value="featured">Featured</option>
+                                <option value="">@lang('labels.frontend.search_result.none')</option>
+                                <option value="popular">@lang('labels.frontend.search_result.popular')</option>
+                                <option value="trending">@lang('labels.frontend.search_result.trending')</option>
+                                <option value="featured">@lang('labels.frontend.search_result.featured')</option>
                             </select>
                         </div>
 
@@ -93,7 +93,7 @@
                                                             @if($course->trending == 1)
                                                                 <div class="trend-badge-2 text-center text-uppercase">
                                                                     <i class="fas fa-bolt"></i>
-                                                                    <span>Trending</span>
+                                                                    <span>@lang('labels.frontend.badges.trending')</span>
                                                                 </div>
                                                             @endif
                                                             <div class="course-price text-center gradient-bg">
@@ -107,8 +107,7 @@
                                                                 </ul>
                                                             </div>
                                                             <div class="course-details-btn">
-                                                                <a href="{{ route('courses.show', [$course->slug]) }}">COURSE
-                                                                    DETAIL <i class="fas fa-arrow-right"></i></a>
+                                                                <a class="text-uppercase" href="{{ route('courses.show', [$course->slug]) }}">@lang('labels.frontend.search_result.course_detail') <i class="fas fa-arrow-right"></i></a>
                                                             </div>
                                                             <div class="blakish-overlay"></div>
                                                         </div>
@@ -121,7 +120,7 @@
                                                             <div class="course-meta">
                                                                 <span class="course-category"><a href="{{route('courses.category',['category'=>$course->category->slug])}}">{{$course->category->name}}</a></span>
                                                                 <span class="course-author"><a href="#">{{ $course->students()->count() }}
-                                                                        Students</a></span>
+                                                                        @lang('labels.frontend.search_result.students')</a></span>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -129,7 +128,7 @@
                                             @endforeach
                                         @else
                                             <div class="col-12">
-                                                <h4>No matches for your search</h4>
+                                                <h4>@lang('labels.general.no_data_available')</h4>
                                             </div>
                                     @endif
 
@@ -145,10 +144,10 @@
                                 <div class="course-list-view">
                                     @if(count($courses) > 0)
                                         <table>
-                                            <tr class="list-head">
-                                                <th>COURSE NAME</th>
-                                                <th>COURSE TYPE</th>
-                                                <th>STARTS</th>
+                                            <tr class="list-head text-uppercase">
+                                                <th>@lang('labels.frontend.search_result.course_name')</th>
+                                                <th>@lang('labels.frontend.search_result.course_type')</th>
+                                                <th>@lang('labels.frontend.search_result.starts')</th>
                                             </tr>
                                             @foreach($courses as $course)
 
@@ -188,7 +187,7 @@
                                         </table>
 
                                     @else
-                                        <h4>No matches for your search</h4>
+                                        <h4>@lang('labels.general.no_data_available')</h4>
                                     @endif
                                 </div>
                             </div><!-- /tab-2 -->

@@ -2,7 +2,7 @@
     <div class="container">
         <div class="section-title mb45 headline text-center ">
             <span class="subtitle text-uppercase">@lang('labels.frontend.layouts.partials.search_our_courses')</span>
-            <h2>@lang('labels.frontend.layouts.partials.featured_course')</h2>
+            <h2>@lang('labels.frontend.layouts.partials.browse_featured_course')</h2>
         </div>
         <div class="best-course-area mb45">
             <div class="row">

@@ -1,4 +1,3 @@
-<!-- TODO:: Translate all text in every file to Labels file -->
 
 <!-- Start popular course
        ============================================= -->
@@ -6,8 +5,8 @@
     <section id="popular-course" class="popular-course-section {{isset($class) ? $class : ''}}">
         <div class="container">
             <div class="section-title mb20 headline text-left ">
-                <span class="subtitle text-uppercase">LEARN NEW SKILLS</span>
-                <h2><span>Popular</span> Courses.</h2>
+                <span class="subtitle text-uppercase">@lang('labels.frontend.layouts.partials.learn_new_skills')</span>
+                <h2>@lang('labels.frontend.layouts.partials.popular_courses')</h2>
             </div>
             <div id="course-slide-item" class="course-slide">
                 @foreach($popular_courses as $item)
@@ -18,7 +17,7 @@
                                 <span>${{$item->price}}</span>
                             </div>
                             <div class="course-details-btn">
-                                <a href="{{ route('courses.show', [$item->slug]) }}">COURSE DETAIL <i
+                                <a class="text-uppercase" href="{{ route('courses.show', [$item->slug]) }}">@lang('labels.frontend.layouts.partials.course_detail') <i
                                             class="fas fa-arrow-right"></i></a>
                             </div>
                         </div>
@@ -43,7 +42,7 @@
                                     @if($item->trending == 1)
                                         <span
                                                 class="trend-badge text-uppercase bold-font"><i
-                                                    class="fas fa-bolt"></i> TRENDING</span>
+                                                    class="fas fa-bolt"></i> @lang('labels.frontend.badges.trending')</span>
                                     @endif
                                 </h3>
                             </div>
@@ -52,7 +51,7 @@
                                     <li><a href=""><i class="fas fa-user"></i> {{ $item->students()->count() }}
                                         </a>
                                     </li>
-                                    <li><a href=""><i class="fas fa-comment-dots"></i> 1.015</a></li>
+                                    <li><a href=""><i class="fas fa-comment-dots"></i> {{count($item->reviews) }}</a></li>
                                     {{--<li><a href="">125k Unrolled</a></li>--}}
                                 </ul>
                             </div>

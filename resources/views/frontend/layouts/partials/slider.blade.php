@@ -15,22 +15,22 @@
                                     <ul>
                                         <li class="days">
                                             <span class="number"></span>
-                                            <span class>Days</span>
+                                            <span class>@lang('labels.frontend.layouts.partials.days')</span>
                                         </li>
 
                                         <li class="hours">
                                             <span class="number"></span>
-                                            <span class>Hours</span>
+                                            <span class>@lang('labels.frontend.layouts.partials.hours')</span>
                                         </li>
 
                                         <li class="minutes">
                                             <span class="number"></span>
-                                            <span class>Minutes</span>
+                                            <span class>@lang('labels.frontend.layouts.partials.minutes')</span>
                                         </li>
 
                                         <li class="seconds">
                                             <span class="number"></span>
-                                            <span class>Seconds</span>
+                                            <span class>@lang('labels.frontend.layouts.partials.seconds')</span>
                                         </li>
                                     </ul>
                                 </div>
@@ -56,9 +56,9 @@
                                 <div class="search-course mb30 relative-position">
                                     <form action="{{route('search')}}" method="get">
                                         <input class="course" name="q" type="text"
-                                               placeholder="Type what do you want to learn today?">
+                                               placeholder="@lang('labels.frontend.layouts.partials.search_placeholder')">
                                         <div class="nws-button text-center  gradient-bg text-capitalize">
-                                            <button type="submit" value="Submit">Search Course</button>
+                                            <button type="submit" value="Submit">@lang('labels.frontend.layouts.partials.search_courses')</button>
                                         </div>
                                     </form>
                                 </div>

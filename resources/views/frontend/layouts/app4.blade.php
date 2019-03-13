@@ -75,31 +75,35 @@
                         @endphp
                         <ul>
                             @if($contact_data["primary_email"]["status"] == 1)
-                            <li>
-                                <div class="mail-phone">
-                                    <div class="info-icon">
-                                        <i class="text-gradiant fas fa-envelope"></i>
+                                <li>
+                                    <div class="mail-phone">
+                                        <div class="info-icon">
+                                            <i class="text-gradiant fas fa-envelope"></i>
+                                        </div>
+                                        <div class="info-content">
+                                            <span class="info-id">{{$contact_data["primary_email"]["value"]}}</span>
+                                            <span class="info-text">
+                                                @lang('labels.frontend.layouts.partials.email_registration')
+                                            </span>
+                                        </div>
                                     </div>
-                                    <div class="info-content">
-                                        <span class="info-id">{{$contact_data["primary_email"]["value"]}}</span>
-                                        <span class="info-text">Email Us For Free Registration</span>
-                                    </div>
-                                </div>
-                            </li>
+                                </li>
                             @endif
-                                @if($contact_data["primary_phone"]["status"] == 1)
-                            <li>
-                                <div class="mail-phone">
-                                    <div class="info-icon">
-                                        <i class="text-gradiant fas fa-phone-square"></i>
+                            @if($contact_data["primary_phone"]["status"] == 1)
+                                <li>
+                                    <div class="mail-phone">
+                                        <div class="info-icon">
+                                            <i class="text-gradiant fas fa-phone-square"></i>
+                                        </div>
+                                        <div class="info-content">
+                                            <span class="info-id">{{$contact_data["primary_phone"]["value"]}}</span>
+                                            <span class="info-text">
+                                                @lang('labels.frontend.layouts.partials.call_us_registration')
+                                            </span>
+                                        </div>
                                     </div>
-                                    <div class="info-content">
-                                        <span class="info-id">{{$contact_data["primary_phone"]["value"]}}</span>
-                                        <span class="info-text">Call Us For Free Registration</span>
-                                    </div>
-                                </div>
-                            </li>
-                                @endif
+                                </li>
+                            @endif
                         </ul>
                     </div>
 
@@ -120,11 +124,10 @@
                             <ul class="lang-login">
                                 <li>
                                     <div class="select-lang">
-                                        <select>
-                                            <option value="9" selected="">English</option>
-                                            <option value="10">Bangla</option>
-                                            <option value="11">Arabia</option>
-                                            <option value="12">Dutch</option>
+                                        <select class="text-uppercase">
+                                            <option value="en" selected="">@lang('labels.lang.en')</option>
+                                            <option value="sp">@lang('labels.lang.sp')</option>
+                                            <option value="fr">@lang('labels.lang.fr')</option>
                                         </select>
                                     </div>
                                 </li>
@@ -148,13 +151,13 @@
                                                             @endforeach
                                                         </ul>
                                                     </li>
-                                                @else
-                                                    <li class="nav-item">
-                                                        <a href="{{asset($menu->link)}}"
-                                                           class="nav-link {{ active_class(Active::checkRoute('frontend.user.dashboard')) }}"
-                                                           id="menu-{{$menu->id}}">{{ $menu->label }}</a>
-                                                    </li>
                                                 @endif
+                                            @else
+                                                <li class="nav-item">
+                                                    <a href="{{asset($menu->link)}}"
+                                                       class="nav-link {{ active_class(Active::checkRoute('frontend.user.dashboard')) }}"
+                                                       id="menu-{{$menu->id}}">{{ $menu->label }}</a>
+                                                </li>
                                             @endif
                                         @endforeach
                                     @endif
@@ -175,13 +178,14 @@
                                                 </li>
                                             </ul>
                                         </li>
-                                        @else
-                                            <li>
-                                                <div class="login">
-                                                    <a data-toggle="modal" data-target="#myModal" href="#">LogIn</a>
-                                                </div>
-                                                @include('frontend.layouts.modals.loginModal')
-                                            </li>
+                                    @else
+                                        <li>
+                                            <div class="login">
+                                                <a data-toggle="modal" data-target="#myModal"
+                                                   href="#">@lang('navs.general.login')</a>
+                                            </div>
+                                            @include('frontend.layouts.modals.loginModal')
+                                        </li>
                                     @endif
                                 </ul>
                             </div>
@@ -211,7 +215,8 @@
                                 @if(!auth()->check())
                                     <li>
                                         <div class="login">
-                                            <a data-toggle="modal" data-target="#myModal" href="#"><i class="fa fa-user"></i></a>
+                                            <a data-toggle="modal" data-target="#myModal" href="#"><i
+                                                        class="fa fa-user"></i></a>
                                         </div>
                                     </li>
                                 @else
@@ -247,45 +252,41 @@
                 <ul class="menu-list accordion" style="left: -100%;">
 
 
-
                     @if(count($custom_menus) > 0 )
                         @foreach($custom_menus as $menu)
                             @if($menu['id'] == $menu['parent'])
                                 @if(count($menu->subs) > 0)
                                     <li class="card">
                                         <div class="card-header" id="heading{{$menu->id}}">
-                                            <button class="menu-link" data-toggle="collapse" data-target="#collapse{{$menu->id}}"
+                                            <button class="menu-link" data-toggle="collapse"
+                                                    data-target="#collapse{{$menu->id}}"
                                                     aria-expanded="true" aria-controls="collapse{{$menu->id}}">
                                                 {{$menu->label}}
                                             </button>
                                         </div>
-                                        <ul id="collapse{{$menu->id}}" class="submenu collapse " aria-labelledby="heading{{$menu->id}}"
+                                        <ul id="collapse{{$menu->id}}" class="submenu collapse "
+                                            aria-labelledby="heading{{$menu->id}}"
                                             data-parent="#accordion" style="">
                                             @foreach($menu->subs as $item)
                                                 @include('frontend.layouts.partials.dropdown2', $item)
                                             @endforeach
                                         </ul>
                                     </li>
-                                @else
-                                    <li class="card">
-                                        <a href="{{asset($menu->link)}}"
-                                           class="menu-link {{ active_class(Active::checkRoute('frontend.user.dashboard')) }}"
-                                           id="menu-{{$menu->id}}">{{ $menu->label }}</a>
-                                    </li>
                                 @endif
+                            @else
+                                <li class="card">
+                                    <a href="{{asset($menu->link)}}"
+                                       class="menu-link {{ active_class(Active::checkRoute('frontend.user.dashboard')) }}"
+                                       id="menu-{{$menu->id}}">{{ $menu->label }}</a>
+                                </li>
                             @endif
                         @endforeach
                     @endif
-
-
-
-
                 </ul>
             </div>
         </div>
         <!-- Start of Header section
             ============================================= -->
-
 
 
         @yield('content')

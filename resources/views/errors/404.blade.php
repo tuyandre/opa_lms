@@ -127,13 +127,8 @@
         <div class="blakish-overlay"></div>
         <div class="container">
             <div class="page-breadcrumb-content text-center">
-                <div class="page-breadcrumb-title"><h2 class="breadcrumb-head black bold">404</h2></div>
-                <div class="page-breadcrumb-item ul-li">
-                    <ul class="breadcrumb text-uppercase black">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active">404</li>
-                    </ul>
-                </div>
+                <div class="page-breadcrumb-title"><h2 class="breadcrumb-head black bold"><span>@lang('http.404.title2')</span></h2></div>
+
             </div>
         </div>
     </section>    <!-- End of breadcrumb section
@@ -145,14 +140,14 @@
                 <div class="b-not_found w-100">
                     <div class="text-center">
                         <div class="b-page_header">
-                            <h1 class="page-title">Not Found</h1>
+                            <h1 class="page-title">@lang('http.404.title')</h1>
                         </div>
-                        <h2><b>THIS IS SOMEWHAT EMBARRASSING, ISN’T IT?</b></h2>
+                        <h2><b>@lang('http.404.description')</b></h2>
                         <p>
-                            It looks like nothing was found at this location.
+                            @lang('http.404.description2')
                         </p>
                         <div class="nws-button genius-btn text-center  d-inline-block gradient-bg text-uppercase">
-                            <a href="index">Back to Homepage</a>
+                            <a href="{{url('/')}}">@lang('http.404.back')</a>
                         </div>
                     </div>
                 </div>

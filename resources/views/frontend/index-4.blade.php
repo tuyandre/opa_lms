@@ -1,6 +1,6 @@
 @extends('frontend.layouts.app'.config('theme_layout'))
 
-@section('title', app_name() . ' | Home')
+@section('title', trans('labels.frontend.home.title').' | '.app_name())
 @section('meta_description', '')
 @section('meta_keywords','')
 
@@ -53,7 +53,7 @@
                                     </div>
                                     <div class="counter-number">
                                         <span class="bold-font">{{$total_students}}</span>
-                                        <p>Students Enrolled</p>
+                                        <p>@lang('labels.frontend.home.students_enrolled')</p>
                                     </div>
                                 </div>
                             </div>
@@ -66,7 +66,7 @@
                                     </div>
                                     <div class="counter-number">
                                         <span class="bold-font">{{$total_courses}}</span>
-                                        <p>Online Available Courses</p>
+                                        <p>@lang('labels.frontend.home.online_available_courses')</p>
                                     </div>
                                 </div>
                             </div>
@@ -79,7 +79,7 @@
                                     </div>
                                     <div class="counter-number">
                                         <span class="bold-font">{{$total_teachers}}</span>
-                                        <p>Teachers</p>
+                                        <p>@lang('labels.frontend.home.teachers')</p>
                                     </div>
                                 </div>
                             </div>
@@ -154,8 +154,8 @@
         <section id="genius-teacher-2" class="genius-teacher-section-2 one-page-teacher backgroud-style">
             <div class="container">
                 <div class="section-title mb20  headline text-center">
-                    <span class="subtitle text-uppercase">LEARN NEW SKILLS</span>
-                    <h2><span>Popular</span> Teachers.</h2>
+                    <span class="subtitle text-uppercase">@lang('labels.frontend.home.learn_new_skills')</span>
+                    <h2><@lang('labels.frontend.home.popular_teachers').</h2>
                 </div>
                 @if(count($teachers)> 0)
                     <div class="teacher-third-slide">
@@ -211,14 +211,14 @@
     <section id="search-course-2" class="search-course-section home-third-course-search backgroud-style">
         <div class="container">
             <div class="section-title mb20 headline text-center">
-                <span class="subtitle text-uppercase">LEARN NEW SKILLS</span>
-                <h2><span>Search</span> {{env('APP_NAME')}} Courses.</h2>
+                <span class="subtitle text-uppercase">@lang('labels.frontend.home.learn_new_skills')</span>
+                <h2>@lang('labels.frontend.home.search_courses')</h2>
             </div>
             <div class="search-course mb30 relative-position">
                 <form action="{{route('search')}}" method="get">
-                    <input class="course" name="q" type="text" placeholder="Type what do you want to learn today?">
+                    <input class="course" name="q" type="text" placeholder="@lang('labels.frontend.home.search_course_placeholder')">
                     <div class="nws-button text-center  gradient-bg text-capitalize">
-                        <button type="submit" value="Submit">Search Course</button>
+                        <button type="submit" value="Submit">@lang('labels.frontend.home.search_course')</button>
                     </div>
                 </form>
             </div>
@@ -266,8 +266,7 @@
     <section id="contact-form" class="contact-form-area_3">
         <div class="container">
             <div class="section-title mb45 headline text-center">
-                <span class="subtitle text-uppercase">Send us a message</span>
-                <h2>Send Us A<span> Message.</span></h2>
+                <h2>@lang('labels.frontend.contact.send_us_a_message')</h2>
             </div>
 
             <div class="contact_third_form">
@@ -276,7 +275,7 @@
                     <div class="row">
                         <div class="col-md-4">
                             <div class="contact-info">
-                                <input class="name" name="name" type="text" placeholder="Your Name">
+                                <input class="name" name="name" type="text" placeholder="@lang('labels.frontend.contact.your_name')">
                                 @if($errors->has('name'))
                                     <span class="help-block text-danger">{{$errors->first('name')}}</span>
                                 @endif
@@ -284,7 +283,7 @@
                         </div>
                         <div class="col-md-4">
                             <div class="contact-info">
-                                <input class="email" name="email" type="email" placeholder="Your Email">
+                                <input class="email" name="email" type="email" placeholder="@lang('labels.frontend.contact.your_email')">
                                 @if($errors->has('email'))
                                     <span class="help-block text-danger">{{$errors->first('email')}}</span>
                                 @endif
@@ -292,19 +291,19 @@
                         </div>
                         <div class="col-md-4">
                             <div class="contact-info">
-                                <input class="number" name="phone" type="number" placeholder="Phone Number">
+                                <input class="number" name="phone" type="number" placeholder="@lang('labels.frontend.contact.phone_number')">
                                 @if($errors->has('phone'))
                                     <span class="help-block text-danger">{{$errors->first('phone')}}</span>
                                 @endif
                             </div>
                         </div>
                     </div>
-                    <textarea name="message" placeholder="Message"></textarea>
+                    <textarea name="message" placeholder="@lang('labels.frontend.contact.message')"></textarea>
                     @if($errors->has('message'))
                         <span class="help-block text-danger">{{$errors->first('message')}}</span>
                     @endif
                     <div class="nws-button text-center  gradient-bg text-uppercase">
-                        <button type="submit" value="Submit">SEND EMAIL <i class="fas fa-caret-right"></i></button>
+                        <button type="submit" value="Submit">@lang('labels.frontend.contact.send_email') <i class="fas fa-caret-right"></i></button>
                     </div>
                 </form>
             </div>

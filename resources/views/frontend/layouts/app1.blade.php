@@ -79,11 +79,10 @@
                             </div><!-- /.navbar-header -->
 
                             <div class="select-lang">
-                                <select>
-                                    <option value="9" selected="">ENG</option>
-                                    <option value="10">BAN</option>
-                                    <option value="11">ARB</option>
-                                    <option value="12">FRN</option>
+                                <select class="text-uppercase">
+                                    <option value="en" selected="">@lang('labels.lang.en')</option>
+                                    <option value="sp">@lang('labels.lang.sp')</option>
+                                    <option value="fr">@lang('labels.lang.fr')</option>
                                 </select>
                             </div>
                             <div class="cart-search float-right ul-li">
@@ -146,7 +145,8 @@
                                         @else
                                             <li>
                                                 <div class="log-in mt-0">
-                                                    <a id="openLoginModal" data-target="#myModal" href="#">log in</a>
+                                                    <a id="openLoginModal" data-target="#myModal"
+                                                       href="#">@lang('navs.general.login')</a>
                                                     <!-- The Modal -->
                                                     @include('frontend.layouts.modals.loginModal')
                                                 </div>
@@ -176,13 +176,13 @@
                                                                 @endforeach
                                                             </ul>
                                                         </li>
-                                                    @else
-                                                        <li class="">
-                                                            <a href="{{asset($menu->link)}}"
-                                                               class="nav-link {{ active_class(Active::checkRoute('frontend.user.dashboard')) }}"
-                                                               id="menu-{{$menu->id}}">{{ $menu->label }}</a>
-                                                        </li>
                                                     @endif
+                                                @else
+                                                    <li class="">
+                                                        <a href="{{asset($menu->link)}}"
+                                                           class="nav-link {{ active_class(Active::checkRoute('frontend.user.dashboard')) }}"
+                                                           id="menu-{{$menu->id}}">{{ $menu->label }}</a>
+                                                    </li>
                                                 @endif
                                             @endforeach
                                         @endif
@@ -205,7 +205,8 @@
                                         @else
                                             <li>
                                                 <div class=" ">
-                                                    <a id="openLoginModal" data-target="#myModal" href="#">log in</a>
+                                                    <a id="openLoginModal" data-target="#myModal"
+                                                       href="#">@lang('navs.general.login')</a>
                                                     <!-- The Modal -->
                                                 </div>
                                             </li>

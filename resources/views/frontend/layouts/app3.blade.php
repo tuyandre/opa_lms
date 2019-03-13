@@ -81,16 +81,13 @@
                             <div class="col-md-6">
                                 <div class="header-top-bar ul-li float-right">
                                     <ul>
-                                        <li><i class="fas fa-phone-square"></i>Call Us +100 375 8899</li>
                                         <li>
-                                            <select>
-                                                <option value="9" selected="">English</option>
-                                                <option value="10">Bangla</option>
-                                                <option value="11">Arbia</option>
-                                                <option value="12">France</option>
+                                            <select class="text-uppercase">
+                                                <option value="en" selected="">@lang('labels.lang.en')</option>
+                                                <option value="sp">@lang('labels.lang.sp')</option>
+                                                <option value="fr">@lang('labels.lang.fr')</option>
                                             </select>
                                         </li>
-                                        <li><a href="#"><i class="fas fa-shopping-bag"></i></a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -109,11 +106,11 @@
                                     <li>
                                         <button type="button" class="toggle-overlay search-btn">
 
-                                        <a href="{{route('cart.index')}}"><i class="fas fa-shopping-bag"></i>
-                                            @if(auth()->check() && Cart::session(auth()->user()->id)->getTotalQuantity() != 0)
-                                                <span class="badge badge-danger position-absolute">{{Cart::session(auth()->user()->id)->getTotalQuantity()}}</span>
-                                            @endif
-                                        </a>
+                                            <a href="{{route('cart.index')}}"><i class="fas fa-shopping-bag"></i>
+                                                @if(auth()->check() && Cart::session(auth()->user()->id)->getTotalQuantity() != 0)
+                                                    <span class="badge badge-danger position-absolute">{{Cart::session(auth()->user()->id)->getTotalQuantity()}}</span>
+                                                @endif
+                                            </a>
                                         </button>
 
                                     </li>
@@ -135,13 +132,13 @@
                                                                 @endforeach
                                                             </ul>
                                                         </li>
-                                                    @else
-                                                        <li class="nav-item">
-                                                            <a href="{{asset($menu->link)}}"
-                                                               class="nav-link {{ active_class(Active::checkRoute('frontend.user.dashboard')) }}"
-                                                               id="menu-{{$menu->id}}">{{ $menu->label }}</a>
-                                                        </li>
                                                     @endif
+                                                @else
+                                                    <li class="nav-item">
+                                                        <a href="{{asset($menu->link)}}"
+                                                           class="nav-link {{ active_class(Active::checkRoute('frontend.user.dashboard')) }}"
+                                                           id="menu-{{$menu->id}}">{{ $menu->label }}</a>
+                                                    </li>
                                                 @endif
                                             @endforeach
                                         @endif
@@ -165,7 +162,7 @@
                                         @else
                                             <li class="log-in mt-0">
                                                 @if(!auth()->check())
-                                                    <a id="openLoginModal" data-target="#myModal" href="#">log in</a>
+                                                    <a id="openLoginModal" data-target="#myModal" href="#">@lang('navs.general.login')</a>
                                                     <!-- The Modal -->
                                                     @include('frontend.layouts.modals.loginModal')
                                                 @endif
@@ -192,13 +189,13 @@
                                                                 @endforeach
                                                             </ul>
                                                         </li>
-                                                    @else
-                                                        <li class="">
-                                                            <a href="{{asset($menu->link)}}"
-                                                               class="nav-link {{ active_class(Active::checkRoute('frontend.user.dashboard')) }}"
-                                                               id="menu-{{$menu->id}}">{{ $menu->label }}</a>
-                                                        </li>
                                                     @endif
+                                                @else
+                                                    <li class="">
+                                                        <a href="{{asset($menu->link)}}"
+                                                           class="nav-link {{ active_class(Active::checkRoute('frontend.user.dashboard')) }}"
+                                                           id="menu-{{$menu->id}}">{{ $menu->label }}</a>
+                                                    </li>
                                                 @endif
                                             @endforeach
                                         @endif
@@ -221,7 +218,7 @@
                                             </li>
                                         @else
                                             <li class="">
-                                                <a id="openLoginModal" data-target="#myModal" href="#">log in</a>
+                                                <a id="openLoginModal" data-target="#myModal" href="#">@lang('navs.general.login')</a>
                                                 <!-- The Modal -->
                                             </li>
                                         @endif

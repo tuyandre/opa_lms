@@ -70,14 +70,14 @@
                     @if($footer_data->newsletter_form->status == 1)
                         <div class="col-md-8">
                             <div class="subscribe-form ml-0 ">
-                                <h2 class="widget-title">>@lang('labels.frontend.layouts.partials.subscribe_newsletter')</h2>
+                                <h2 class="widget-title">@lang('labels.frontend.layouts.partials.subscribe_newsletter')</h2>
 
                                 <div class="subs-form relative-position">
                                     <form action="{{route("subscribe")}}" method="post">
                                         @csrf
-                                        <input class="email" required name="subs_email" type="email" placeholder="Email Address.">
+                                        <input class="email" required name="subs_email" type="email" placeholder="@lang('labels.frontend.layouts.partials.email_address').">
                                         <div class="nws-button text-center  gradient-bg text-uppercase">
-                                            <button type="submit" value="Submit">Subscribe now</button>
+                                            <button type="submit" value="Submit">@lang('labels.frontend.layouts.partials.subscribe_now')</button>
                                         </div>
                                         @if($errors->has('email'))
                                             <p class="text-danger text-left">{{$errors->first('email')}}</p>

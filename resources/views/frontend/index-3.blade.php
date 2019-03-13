@@ -1,6 +1,6 @@
 @extends('frontend.layouts.app'.config('theme_layout'))
 
-@section('title', app_name() . ' | Home')
+@section('title', trans('labels.frontend.home.title').' | '.app_name())
 @section('meta_description', '')
 @section('meta_keywords','')
 
@@ -29,7 +29,7 @@
                                 </div>
                                 <div class="counter-number">
                                     <span class=" bold-font">{{$total_students}}</span>
-                                    <p>Students Enrolled</p>
+                                    <p>@lang('labels.frontend.home.students_enrolled')</p>
                                 </div>
                             </div>
                         </div>
@@ -42,7 +42,7 @@
                                 </div>
                                 <div class="counter-number">
                                     <span class="bold-font">{{$total_courses}}</span>
-                                    <p>Online Available Courses</p>
+                                    <p>@lang('labels.frontend.home.online_available_courses')</p>
                                 </div>
                             </div>
                         </div>
@@ -55,7 +55,7 @@
                                 </div>
                                 <div class="counter-number">
                                     <span class="bold-font">{{$total_teachers}}</span>
-                                    <p>Teachers</p>
+                                    <p>@lang('labels.frontend.home.teachers')</p>
                                 </div>
                             </div>
                         </div>
@@ -107,8 +107,8 @@
         <section id="genius-teacher-2" class="genius-teacher-section-2">
             <div class="container">
                 <div class="section-title mb20  headline text-left">
-                    <span class="subtitle ml42 text-uppercase">LEARN NEW SKILLS</span>
-                    <h2><span>Popular</span> Teachers.</h2>
+                    <span class="subtitle ml42 text-uppercase">@lang('labels.frontend.home.learn_new_skills')</span>
+                    <h2>@lang('labels.frontend.home.popular_teachers').</h2>
                 </div>
                 @if(count($teachers)> 0)
                     <div class="teacher-third-slide">

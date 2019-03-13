@@ -59,7 +59,6 @@ class AppServiceProvider extends ServiceProvider
         }
 
         // Set the default string length for Laravel5.4
-        // https://laravel-news.com/laravel-5-4-key-too-long-error
         Schema::defaultStringLength(191);
 
         // Set the default template for Pagination to use the included Bootstrap 4 template

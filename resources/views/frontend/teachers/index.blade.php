@@ -37,13 +37,7 @@
 			<div class="container">
 				<div class="page-breadcrumb-content text-center">
 					<div class="page-breadcrumb-title">
-						<h2 class="breadcrumb-head black bold">{{env('APP_NAME')}} <span>Teacher</span></h2>
-					</div>
-					<div class="page-breadcrumb-item ul-li">
-						<ul class="breadcrumb text-uppercase black">
-							<li class="breadcrumb-item"><a href="#">Home</a></li>
-							<li class="breadcrumb-item active">Teachers</li>
-						</ul>
+						<h2 class="breadcrumb-head black bold">{{env('APP_NAME')}} <span>@lang('labels.frontend.teacher.title')</span></h2>
 					</div>
 				</div>
 			</div>
@@ -90,7 +84,7 @@
 								</div>
                                 @endforeach
                                 @else
-                                    <h4>No Teachers</h4>
+                                    <h4>@lang('lables.general.no_data_available')</h4>
                                 @endif
 
 

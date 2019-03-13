@@ -1,7 +1,7 @@
 <section id="why-choose" class="why-choose-section backgroud-style {{isset($class) ? $class : ''}}">
     <div class="container">
         <div class="section-title mb20 headline text-center ">
-            <span class="subtitle text-uppercase">{{env('APP_NAME')}} ADVANTAGES</span>
+            <span class="subtitle text-uppercase">{{env('APP_NAME')}} @lang('labels.frontend.layouts.partials.advantages')</span>
             <h2>Reason <span>Why Choose {{env('APP_NAME')}}.</span></h2>
         </div>
         <div class="extra-features-content">

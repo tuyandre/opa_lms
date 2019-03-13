@@ -13,7 +13,10 @@ return [
 
     '404' => [
         'title'       => 'Page Not Found',
-        'description' => 'Sorry, but the page you were trying to view does not exist.',
+        'title2'       => '404',
+        'back'       => 'Back To HomePage',
+        'description' => 'THIS IS SOMEWHAT EMBARRASSING, ISN’T IT?',
+        'description2' => ' It looks like nothing was found at this location.',
     ],
 
     '503' => [
