@@ -78,17 +78,9 @@
                                 </a>
                             </div><!-- /.navbar-header -->
 
-                            <div class="select-lang">
-                                <select class="text-uppercase">
-                                    <option value="en" selected="">@lang('labels.lang.en')</option>
-                                    <option value="sp">@lang('labels.lang.sp')</option>
-                                    <option value="fr">@lang('labels.lang.fr')</option>
-                                </select>
-                            </div>
                             <div class="cart-search float-right ul-li">
                                 <ul>
                                     <li>
-
                                         <a href="{{route('cart.index')}}"><i class="fas fa-shopping-bag"></i>
                                             @if(auth()->check() && Cart::session(auth()->user()->id)->getTotalQuantity() != 0)
                                                 <span class="badge badge-danger position-absolute">{{Cart::session(auth()->user()->id)->getTotalQuantity()}}</span>
@@ -152,6 +144,24 @@
                                                 </div>
                                             </li>
                                         @endif
+                                        @if(config('locale.status') && count(config('locale.languages')) > 1)
+                                            <li class="menu-item-has-children ul-li-block">
+                                                <a href="#">
+                                                    <span class="d-md-down-none">@lang('menus.language-picker.language')
+                                                        ({{ strtoupper(app()->getLocale()) }})</span>
+                                                </a>
+                                                <ul class="sub-menu">
+                                                    @foreach(array_keys(config('locale.languages')) as $lang)
+                                                        @if($lang != app()->getLocale())
+                                                            <li>
+                                                                <a href="{{ '/lang/'.$lang }}"
+                                                                   class=""> @lang('menus.language-picker.langs.'.$lang)</a>
+                                                            </li>
+                                                        @endif
+                                                    @endforeach
+                                                </ul>
+                                            </li>
+                                        @endif
                                     </ul>
                                 </div>
                             </nav>
@@ -211,6 +221,24 @@
                                                 </div>
                                             </li>
                                         @endif
+                                            @if(config('locale.status') && count(config('locale.languages')) > 1)
+                                                <li class="menu-item-has-children ul-li-block">
+                                                    <a href="#">
+                                                    <span class="d-md-down-none">@lang('menus.language-picker.language')
+                                                        ({{ strtoupper(app()->getLocale()) }})</span>
+                                                    </a>
+                                                    <ul class="">
+                                                        @foreach(array_keys(config('locale.languages')) as $lang)
+                                                            @if($lang != app()->getLocale())
+                                                                <li>
+                                                                    <a href="{{ '/lang/'.$lang }}"
+                                                                       class=""> @lang('menus.language-picker.langs.'.$lang)</a>
+                                                                </li>
+                                                            @endif
+                                                        @endforeach
+                                                    </ul>
+                                                </li>
+                                            @endif
                                     </ul>
                                 </nav>
 
@@ -235,8 +263,8 @@
 
     <!-- For Js Library -->
     <script src="{{asset('assets/js/jquery-2.1.4.min.js')}}"></script>
-    <script src="{{asset('assets/js/bootstrap.min.js')}}"></script>
     <script src="{{asset('assets/js/popper.min.js')}}"></script>
+    <script src="{{asset('assets/js/bootstrap.min.js')}}"></script>
     <script src="{{asset('assets/js/owl.carousel.min.js')}}"></script>
     <script src="{{asset('assets/js/jarallax.js')}}"></script>
     <script src="{{asset('assets/js/jquery.magnific-popup.min.js')}}"></script>

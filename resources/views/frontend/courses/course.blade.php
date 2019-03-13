@@ -117,7 +117,7 @@
                                                         <div>
                                                             <a class="btn btn-warning mt-3"
                                                                href="{{route('lessons.show',['id' => $lesson->course->id,'slug'=>$lesson->model->slug])}}">
-                                                                <span class=" text-white font-weight-bold ">@lang('labels.frontend.course.go') >></span>
+                                                                <span class=" text-white font-weight-bold ">@lang('labels.frontend.course.go') ></span>
                                                             </a>
                                                         </div>
                                                     @endif

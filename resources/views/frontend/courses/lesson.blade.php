@@ -213,8 +213,7 @@
 
                             @if ($next_lesson)
                                 <p><a class="btn btn-block gradient-bg font-weight-bold text-white"
-                                      href="{{ route('lessons.show', [$next_lesson->course_id, $next_lesson->model->slug]) }}">@lang('labels.frontend.course.next')
-                                        >></a></p>
+                                      href="{{ route('lessons.show', [$next_lesson->course_id, $next_lesson->model->slug]) }}">@lang('labels.frontend.course.next')></a></p>
                             @endif
 
 

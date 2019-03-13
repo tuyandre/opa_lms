@@ -389,3 +389,14 @@
 		margin-bottom: 30px;
 	}
 }
+
+@media screen and (max-width: 768px) {
+	.blog-post-img-content {
+		.blog-img-date {
+			.blog-thumnile{
+				width: 100%;
+			}
+		}
+	}
+
+}

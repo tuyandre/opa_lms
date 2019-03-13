@@ -121,19 +121,6 @@
                                 </li>
 
                             </ul>
-                            <ul class="lang-login">
-                                <li>
-                                    <div class="select-lang">
-                                        <select class="text-uppercase">
-                                            <option value="en" selected="">@lang('labels.lang.en')</option>
-                                            <option value="sp">@lang('labels.lang.sp')</option>
-                                            <option value="fr">@lang('labels.lang.fr')</option>
-                                        </select>
-                                    </div>
-                                </li>
-
-
-                            </ul>
                         </div>
                         <!-- Collect the nav links, forms, and other content for toggling -->
                         <nav class="navbar-menu float-left">
@@ -187,6 +174,25 @@
                                             @include('frontend.layouts.modals.loginModal')
                                         </li>
                                     @endif
+
+                                        @if(config('locale.status') && count(config('locale.languages')) > 1)
+                                            <li class="menu-item-has-children ul-li-block">
+                                                <a href="#">
+                                                    <span class="d-md-down-none">@lang('menus.language-picker.language')
+                                                        ({{ strtoupper(app()->getLocale()) }})</span>
+                                                </a>
+                                                <ul class="sub-menu">
+                                                    @foreach(array_keys(config('locale.languages')) as $lang)
+                                                        @if($lang != app()->getLocale())
+                                                            <li>
+                                                                <a href="{{ '/lang/'.$lang }}"
+                                                                   class=""> @lang('menus.language-picker.langs.'.$lang)</a>
+                                                            </li>
+                                                        @endif
+                                                    @endforeach
+                                                </ul>
+                                            </li>
+                                        @endif
                                 </ul>
                             </div>
                         </nav>
@@ -282,6 +288,34 @@
                             @endif
                         @endforeach
                     @endif
+
+                        @if(config('locale.status') && count(config('locale.languages')) > 1)
+
+
+                            <li class="card">
+                                <div class="card-header" id="headingLang">
+                                    <button class="menu-link" data-toggle="collapse"
+                                            data-target="#collapseLang"
+                                            aria-expanded="true" aria-controls="collapseLang">
+                                        @lang('menus.language-picker.language')
+                                        ({{ strtoupper(app()->getLocale()) }})
+                                    </button>
+                                </div>
+                                <ul id="collapseLang" class="submenu collapse "
+                                    aria-labelledby="headingLang"
+                                    data-parent="#accordion" style="">
+                                    @foreach(array_keys(config('locale.languages')) as $lang)
+                                        @if($lang != app()->getLocale())
+                                            <li>
+                                                <a href="{{ '/lang/'.$lang }}"
+                                                   class=""> @lang('menus.language-picker.langs.'.$lang)</a>
+                                            </li>
+                                        @endif
+                                    @endforeach
+                                </ul>
+                            </li>
+
+                        @endif
                 </ul>
             </div>
         </div>
@@ -299,8 +333,8 @@
     @stack('before-scripts')
     <!-- For Js Library -->
     <script src="{{asset('assets/js/jquery-2.1.4.min.js')}}"></script>
-    <script src="{{asset('assets/js/bootstrap.min.js')}}"></script>
     <script src="{{asset('assets/js/popper.min.js')}}"></script>
+    <script src="{{asset('assets/js/bootstrap.min.js')}}"></script>
     <script src="{{asset('assets/js/owl.carousel.min.js')}}"></script>
     <script src="{{asset('assets/js/jarallax.js')}}"></script>
     <script src="{{asset('assets/js/jquery.magnific-popup.min.js')}}"></script>
