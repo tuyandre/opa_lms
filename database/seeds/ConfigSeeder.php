@@ -83,8 +83,8 @@ class ConfigSeeder extends Seeder
             'logo_b_image' => 'logo-black-text.png',
             'logo_w_image' => 'logo-white-text.png',
             'logo_white_image' => 'logo-white-image.png',
-            'logo_popup' => 'popup-logo.jpg',
-            'favicon_image' => 'popup-logo.jpg',
+            'logo_popup' => 'popup-logo.png',
+            'favicon_image' => 'popup-logo.png',
             'contact_data' => $contact_data,
             'footer_data' => $footer_data,
         ];

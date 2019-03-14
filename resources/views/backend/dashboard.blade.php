@@ -288,7 +288,8 @@
                                         @endforeach
                                     @else
                                         <tr>
-                                            <td colspan="4">@lang('labels.backend.dashboard.data')</td>
+                                            <td colspan="4">@lang('labels.backend.dashboard.no_data')</td>
+
                                         </tr>
                                     @endif
                                     </tbody>

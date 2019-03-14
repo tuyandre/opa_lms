@@ -1,56 +1,47 @@
 <?php
 
-return [
-
-    /*
-    |--------------------------------------------------------------------------
-    | Buttons Language Lines
-    |--------------------------------------------------------------------------
-    |
-    | The following language lines are used in buttons throughout the system.
-    | Regardless where it is placed, a button can be listed here so it is easily
-    | found in a intuitive way.
-    |
-    */
-
-    'backend' => [
-        'access' => [
-            'users' => [
-                'activate'           => 'Activate',
-                'change_password'    => 'Change Password',
-                'clear_session'         => 'Clear Session',
-                'confirm'             => 'Confirm',
-                'deactivate'         => 'Deactivate',
-                'delete_permanently' => 'Delete Permanently',
-                'login_as'           => 'Login As :user',
-                'resend_email'       => 'Resend Confirmation E-mail',
-                'restore_user'       => 'Restore User',
-                'unconfirm'             => 'Un-confirm',
-                'unlink' => 'Unlink',
-            ],
-        ],
-    ],
-
-    'emails' => [
-        'auth' => [
-            'confirm_account' => 'Confirm Account',
-            'reset_password'  => 'Reset Password',
-        ],
-    ],
-
-    'general' => [
-        'cancel' => 'Cancel',
-        'continue' => 'Continue',
-
-        'crud' => [
-            'create' => 'Create',
-            'delete' => 'Delete',
-            'edit'   => 'Edit',
-            'update' => 'Update',
-            'view'   => 'View',
-        ],
-
-        'save' => 'Save',
-        'view' => 'View',
-    ],
-];
+return array (
+  'general' => 
+  array (
+    'crud' => 
+    array (
+      'edit' => 'Edit',
+      'delete' => 'Delete',
+      'view' => 'View',
+      'create' => 'Create',
+      'update' => 'Update',
+    ),
+    'cancel' => 'Cancel',
+    'continue' => 'Continue',
+    'save' => 'Save',
+    'view' => 'View',
+  ),
+  'backend' => 
+  array (
+    'access' => 
+    array (
+      'users' => 
+      array (
+        'unconfirm' => 'Un-confirm',
+        'confirm' => 'Confirm',
+        'unlink' => 'Unlink',
+        'login_as' => 'Login As :user',
+        'clear_session' => 'Clear Session',
+        'change_password' => 'Change Password',
+        'activate' => 'Activate',
+        'deactivate' => 'Deactivate',
+        'resend_email' => 'Resend Confirmation E-mail',
+        'delete_permanently' => 'Delete Permanently',
+        'restore_user' => 'Restore User',
+      ),
+    ),
+  ),
+  'emails' => 
+  array (
+    'auth' => 
+    array (
+      'confirm_account' => 'Confirm Account',
+      'reset_password' => 'Reset Password',
+    ),
+  ),
+);

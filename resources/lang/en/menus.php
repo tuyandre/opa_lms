@@ -1,178 +1,191 @@
 <?php
 
-return [
-
-    /*
-    |--------------------------------------------------------------------------
-    | Menus Language Lines
-    |--------------------------------------------------------------------------
-    |
-    | The following language lines are used in menu items throughout the system.
-    | Regardless where it is placed, a menu item can be listed here so it is easily
-    | found in a intuitive way.
-    |
-    */
-
-    'backend' => [
-        'access' => [
-            'title' => 'Access',
-
-            'roles' => [
-                'all'        => 'All Roles',
-                'create'     => 'Create Role',
-                'edit'       => 'Edit Role',
-                'management' => 'Role Management',
-                'main'       => 'Roles',
-            ],
-
-            'users' => [
-                'all'             => 'All Users',
-                'change-password' => 'Change Password',
-                'create'          => 'Create User',
-                'deactivated'     => 'Deactivated Users',
-                'deleted'         => 'Deleted Users',
-                'edit'            => 'Edit User',
-                'main'            => 'Users',
-                'view'            => 'View User',
-            ],
-        ],
-
-        'log-viewer' => [
-            'main'      => 'Log Viewer',
-            'dashboard' => 'Dashboard',
-            'logs'      => 'Logs',
-        ],
-
-        'sidebar' => [
-            'dashboard' => 'Dashboard',
-            'general'   => 'General',
-            'history'   => 'History',
-            'system'    => 'System',
-
-
-            /*=====Custom content========*/
-            'courses'    => [
-                'title' => 'Courses',
-                'management' => 'Courses Management',
-                'manage' => 'Manage Courses',
-            ],
-            'lessons'    => [
-                'title' => 'Lessons'
-            ],
-            'questions'    => [
-                'title' => 'Questions'
-            ],
-            'questions-options'    => [
-                'title' => 'Questions Options'
-            ],
-            'tests'    => [
-                'title' => 'Tests'
-            ],
-            'change-password'    => [
-                'title' => 'Change Password'
-            ],
-            'account'    => [
-                'title' => 'Account'
-            ],
-            'messages'    => [
-                'title' => 'Messages'
-            ],
-            'orders'    => [
-                'title' => 'Orders'
-            ],
-            'categories'    => [
-                'title' => 'Categories'
-            ],
-            'teachers'    => [
-                'title' => 'Teachers'
-            ],
-            'settings'    => [
-                'title' => 'Settings',
-                'general' => 'General',
-                'social-login' => 'Social Login'
-            ],
-            'hero-slider'    => [
-                'title' => 'Hero Slider',
-            ],
-            'sponsors'    => [
-                'title' => 'Sponsors',
-            ],
-            'testimonials'    => [
-                'title' => 'Testimonials',
-            ],
-            'blogs'    => [
-                'title' => 'Blog',
-            ],
-            'faqs'    => [
-                'title' => 'FAQs',
-            ],
-            'reasons'    => [
-                'title' => 'Reasons',
-            ],
-            'site-management'    => [
-                'title' => 'Site Management',
-            ],
-            'contact'    => [
-                'title' => 'Contact',
-            ],
-            'footer'    => [
-                'title' => 'Footer',
-            ],
-            'debug-site'    => [
-                'title' => 'Debug Site',
-            ],
-            'newsletter-configuration'    => [
-                'title' => 'Newsletter Configuration',
-            ],
-            'invoices'    => [
-                'title' => 'Invoices',
-            ],
-            'menu-manager' => [
-                'title' => 'Menu Manager',
-            ],
-            'contacts' => [
-                'title' => 'Contact Requests',
-            ],
-            'pages' => [
-                'title' => 'Pages Manager',
-            ],
-            'reviews' => [
-                'title' => 'Reviews',
-            ],
-            /*===========================*/
-        ],
-    ],
-
-    'language-picker' => [
-        'language' => 'Language',
-        /*
-         * Add the new language to this array.
-         * The key should have the same language code as the folder name.
-         * The string should be: 'Language-name-in-your-own-language (Language-name-in-English)'.
-         * Be sure to add the new language in alphabetical order.
-         */
-        'langs' => [
-            'ar'    => 'Arabic',
-            'zh'    => 'Chinese Simplified',
-            'zh-TW' => 'Chinese Traditional',
-            'da'    => 'Danish',
-            'de'    => 'German',
-            'el'    => 'Greek',
-            'en'    => 'English',
-            'es'    => 'Spanish',
-            'fa'    => 'Persian',
-            'fr'    => 'French',
-            'he'    => 'Hebrew',
-            'id'    => 'Indonesian',
-            'it'    => 'Italian',
-            'ja'    => 'Japanese',
-            'nl'    => 'Dutch',
-            'no'    => 'Norwegian',
-            'pt_BR' => 'Brazilian Portuguese',
-            'ru'    => 'Russian',
-            'sv'    => 'Swedish',
-            'th'    => 'Thai',
-            'tr'    => 'Turkish',
-        ],
-    ],
-];
+return array(
+    'backend' =>
+        array(
+            'sidebar' =>
+                array(
+                    'general' => 'General',
+                    'dashboard' => 'Dashboard',
+                    'courses' =>
+                        array(
+                            'management' => 'Courses Management',
+                            'title' => 'Courses',
+                            'manage' => 'Manage Courses',
+                        ),
+                    'site-management' =>
+                        array(
+                            'title' => 'Site Management',
+                        ),
+                    'menu-manager' =>
+                        array(
+                            'title' => 'Menu Manager',
+                        ),
+                    'system' => 'System',
+                    'settings' =>
+                        array(
+                            'title' => 'Settings',
+                            'general' => 'General',
+                            'social-login' => 'Social Login',
+                        ),
+                    'debug-site' =>
+                        array(
+                            'title' => 'Debug Site',
+                        ),
+                    'history' => 'History',
+                    'lessons' =>
+                        array(
+                            'title' => 'Lessons',
+                        ),
+                    'questions' =>
+                        array(
+                            'title' => 'Questions',
+                        ),
+                    'questions-options' =>
+                        array(
+                            'title' => 'Questions Options',
+                        ),
+                    'tests' =>
+                        array(
+                            'title' => 'Tests',
+                        ),
+                    'change-password' =>
+                        array(
+                            'title' => 'Change Password',
+                        ),
+                    'account' =>
+                        array(
+                            'title' => 'Account',
+                        ),
+                    'messages' =>
+                        array(
+                            'title' => 'Messages',
+                        ),
+                    'orders' =>
+                        array(
+                            'title' => 'Orders',
+                        ),
+                    'categories' =>
+                        array(
+                            'title' => 'Categories',
+                        ),
+                    'teachers' =>
+                        array(
+                            'title' => 'Teachers',
+                        ),
+                    'hero-slider' =>
+                        array(
+                            'title' => 'Hero Slider',
+                        ),
+                    'sponsors' =>
+                        array(
+                            'title' => 'Sponsors',
+                        ),
+                    'testimonials' =>
+                        array(
+                            'title' => 'Testimonials',
+                        ),
+                    'blogs' =>
+                        array(
+                            'title' => 'Blog',
+                        ),
+                    'faqs' =>
+                        array(
+                            'title' => 'FAQs',
+                        ),
+                    'reasons' =>
+                        array(
+                            'title' => 'Reasons',
+                        ),
+                    'contact' =>
+                        array(
+                            'title' => 'Contact',
+                        ),
+                    'footer' =>
+                        array(
+                            'title' => 'Footer',
+                        ),
+                    'newsletter-configuration' =>
+                        array(
+                            'title' => 'Newsletter Configuration',
+                        ),
+                    'invoices' =>
+                        array(
+                            'title' => 'Invoices',
+                        ),
+                    'contacts' =>
+                        array(
+                            'title' => 'Contact Requests',
+                        ),
+                    'pages' =>
+                        array(
+                            'title' => 'Pages Manager',
+                        ),
+                    'reviews' =>
+                        array(
+                            'title' => 'Reviews',
+                        ),
+                    'translations' =>
+                    array(
+                        'title' => 'Translation Manager',
+                    )
+                ),
+            'access' =>
+                array(
+                    'title' => 'Access',
+                    'roles' =>
+                        array(
+                            'management' => 'Role Management',
+                            'create' => 'Create Role',
+                            'edit' => 'Edit Role',
+                            'all' => 'All Roles',
+                            'main' => 'Roles',
+                        ),
+                    'users' =>
+                        array(
+                            'deactivated' => 'Deactivated Users',
+                            'deleted' => 'Deleted Users',
+                            'view' => 'View User',
+                            'edit' => 'Edit User',
+                            'change-password' => 'Change Password',
+                            'all' => 'All Users',
+                            'create' => 'Create User',
+                            'main' => 'Users',
+                        ),
+                ),
+            'log-viewer' =>
+                array(
+                    'dashboard' => 'Dashboard',
+                    'logs' => 'Logs',
+                    'main' => 'Log Viewer',
+                ),
+        ),
+    'language-picker' =>
+        array(
+            'language' => 'Language',
+            'langs' =>
+                array(
+                    'ar' => 'Arabic',
+                    'zh' => 'Chinese Simplified',
+                    'zh-TW' => 'Chinese Traditional',
+                    'da' => 'Danish',
+                    'de' => 'German',
+                    'el' => 'Greek',
+                    'en' => 'English',
+                    'es' => 'Spanish',
+                    'fa' => 'Persian',
+                    'fr' => 'French',
+                    'he' => 'Hebrew',
+                    'id' => 'Indonesian',
+                    'it' => 'Italian',
+                    'ja' => 'Japanese',
+                    'nl' => 'Dutch',
+                    'no' => 'Norwegian',
+                    'pt_BR' => 'Brazilian Portuguese',
+                    'ru' => 'Russian',
+                    'sv' => 'Swedish',
+                    'th' => 'Thai',
+                    'tr' => 'Turkish',
+                ),
+        ),
+);

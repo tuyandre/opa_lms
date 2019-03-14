@@ -202,6 +202,7 @@ return [
         Harimayco\Menu\MenuServiceProvider::class,
 
 
+        Barryvdh\TranslationManager\ManagerServiceProvider::class,
 
 
         /*

@@ -186,3 +186,9 @@ Route::get('get-contact-requests-data', ['uses' => 'ContactController@getData', 
 //====== Review Routes =====//
 Route::resource('reviews', 'ReviewController');
 Route::get('get-reviews-data', ['uses' => 'ReviewController@getData', 'as' => 'reviews.get_data']);
+
+
+//==== Remove Locale FIle ====//
+Route::post('delete-locale',function (){
+    \Illuminate\Support\Facades\File::deleteDirectory(public_path('../resources/lang/'.request('locale')));
+})->name('delete-locale');

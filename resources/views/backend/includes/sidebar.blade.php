@@ -346,6 +346,15 @@
                     </ul>
                 </li>
 
+                <li class="nav-item ">
+                    <a class="nav-link {{ $request->segment(1) == 'translation-manager' ? 'active' : '' }}"
+                       href="{{ asset('user/translations') }}">
+                        <i class="nav-icon icon-docs"></i>
+                        <span class="title">@lang('menus.backend.sidebar.translations.title')</span>
+                    </a>
+                </li>
+
+
 
             @endif
 
