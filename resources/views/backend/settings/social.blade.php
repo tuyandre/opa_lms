@@ -114,54 +114,54 @@
                         </div><!--col-->
                     </div><!--form-group-->
 
-                    {{--<div class="form-group row">--}}
-                        {{--{{ html()->label(__('validation.attributes.backend.settings.social_settings.twitter.label'))->class('col-md-2 form-control-label')->for('services.twitter.active') }}--}}
-                        {{--<div class="col-md-10">--}}
-                            {{--<div class="checkbox">--}}
-                                {{--{{ html()->label(--}}
-                                        {{--html()->checkbox('services__twitter__active', config('services.twitter.active') ? true : false,1)--}}
-                                              {{--->class('switch-input')->value(1)--}}
-                                        {{--. '<span class="switch-label"></span><span class="switch-handle"></span>')--}}
+                    <div class="form-group row">
+                        {{ html()->label(__('validation.attributes.backend.settings.social_settings.twitter.label'))->class('col-md-2 form-control-label')->for('services.twitter.active') }}
+                        <div class="col-md-10">
+                            <div class="checkbox">
+                                {{ html()->label(
+                                        html()->checkbox('services__twitter__active', config('services.twitter.active') ? true : false,1)
+                                              ->class('switch-input')->value(1)
+                                        . '<span class="switch-label"></span><span class="switch-handle"></span>')
 
-                                    {{--->class('switch switch-sm switch-3d switch-primary')--}}
-                                {{--}}--}}
-                            {{--</div>--}}
-                            {{--<small><i> Enable / disable twitter login for website</i></small>--}}
-                            {{--<div class="switch-content @if(config('services.twitter.active') == 0 || config('services.twitter.active') == false) d-none @endif">--}}
-                                {{--<br>--}}
-                                {{--<div class="form-group row">--}}
-                                    {{--{{ html()->label(__('validation.attributes.backend.settings.social_settings.twitter.client_id'))->class('col-md-2 form-control-label')->for('services.twitter.client_id') }}--}}
-                                    {{--<div class="col-md-6 col-xs-12">--}}
-                                        {{--{{ html()->text('services__twitter__client_id')--}}
-                                             {{--->class('form-control')--}}
-                                             {{--->value(config('services.twitter.client_id'))--}}
-                                             {{--}}--}}
-                                    {{--</div><!--col-->--}}
-                                {{--</div><!--form-group-->--}}
+                                    ->class('switch switch-sm switch-3d switch-primary')
+                                }}
+                            </div>
+                            <small><i> Enable / disable twitter login for website</i></small>
+                            <div class="switch-content @if(config('services.twitter.active') == 0 || config('services.twitter.active') == false) d-none @endif">
+                                <br>
+                                <div class="form-group row">
+                                    {{ html()->label(__('validation.attributes.backend.settings.social_settings.twitter.client_id'))->class('col-md-2 form-control-label')->for('services.twitter.client_id') }}
+                                    <div class="col-md-6 col-xs-12">
+                                        {{ html()->text('services__twitter__client_id')
+                                             ->class('form-control')
+                                             ->value(config('services.twitter.client_id'))
+                                             }}
+                                    </div><!--col-->
+                                </div><!--form-group-->
 
-                                {{--<div class="form-group row">--}}
-                                    {{--{{ html()->label(__('validation.attributes.backend.settings.social_settings.twitter.client_secret'))->class('col-md-2 form-control-label')->for('services.twitter.client_secret') }}--}}
-                                    {{--<div class="col-md-6 col-xs-12">--}}
-                                        {{--{{ html()->text('services__twitter__client_secret')--}}
-                                             {{--->class('form-control')--}}
-                                             {{--->value(config('services.twitter.client_secret'))--}}
-                                             {{--}}--}}
-                                    {{--</div><!--col-->--}}
-                                {{--</div><!--form-group-->--}}
+                                <div class="form-group row">
+                                    {{ html()->label(__('validation.attributes.backend.settings.social_settings.twitter.client_secret'))->class('col-md-2 form-control-label')->for('services.twitter.client_secret') }}
+                                    <div class="col-md-6 col-xs-12">
+                                        {{ html()->text('services__twitter__client_secret')
+                                             ->class('form-control')
+                                             ->value(config('services.twitter.client_secret'))
+                                             }}
+                                    </div><!--col-->
+                                </div><!--form-group-->
 
-                                {{--<div class="form-group row">--}}
-                                    {{--{{ html()->label(__('validation.attributes.backend.settings.social_settings.twitter.redirect'))->class('col-md-2 form-control-label')->for('services.twitter.redirect') }}--}}
-                                    {{--<div class="col-md-6 col-xs-12">--}}
-                                        {{--{{ html()->text('services__twitter__redirect')--}}
-                                             {{--->class('form-control')--}}
-                                             {{--->attribute('disabled')--}}
-                                             {{--->value(config('services.twitter.redirect'))--}}
-                                             {{--}}--}}
-                                    {{--</div><!--col-->--}}
-                                {{--</div><!--form-group-->--}}
-                            {{--</div>--}}
-                        {{--</div><!--col-->--}}
-                    {{--</div><!--form-group-->--}}
+                                <div class="form-group row">
+                                    {{ html()->label(__('validation.attributes.backend.settings.social_settings.twitter.redirect'))->class('col-md-2 form-control-label')->for('services.twitter.redirect') }}
+                                    <div class="col-md-6 col-xs-12">
+                                        {{ html()->text('services__twitter__redirect')
+                                             ->class('form-control')
+                                             ->attribute('disabled')
+                                             ->value(config('services.twitter.redirect'))
+                                             }}
+                                    </div><!--col-->
+                                </div><!--form-group-->
+                            </div>
+                        </div><!--col-->
+                    </div><!--form-group-->
 
                     {{--<div class="form-group row">--}}
                         {{--{{ html()->label(__('validation.attributes.backend.settings.social_settings.linkedin.label'))->class('col-md-2 form-control-label')->for('services.linkedin.active') }}--}}
