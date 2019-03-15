@@ -84,25 +84,24 @@ class ConfigController extends Controller
     public function saveSocialSettings(Request $request)
     {
         $requests = request()->all();
-        if ($request->get('services_facebook_active') == null) {
-            $requests['services_facebook_active'] = 0;
+        if ($request->get('services__facebook__active') == null) {
+            $requests['services__facebook__active'] = 0;
         }
-        if ($request->get('services_google_active') == null) {
-            $requests['services_google_active'] = 0;
+        if ($request->get('services__google__active') == null) {
+            $requests['services__google__active'] = 0;
         }
-        if ($request->get('services_twitter_active') == null) {
-            $requests['services_twitter_active'] = 0;
+        if ($request->get('services__twitter__active') == null) {
+            $requests['services__twitter__active'] = 0;
         }
-        if ($request->get('services_linkedin_active') == null) {
-            $requests['services_linkedin_active'] = 0;
+        if ($request->get('services__linkedin__active') == null) {
+            $requests['services__linkedin__active'] = 0;
         }
-        if ($request->get('services_github_active') == null) {
-            $requests['services_github_active'] = 0;
+        if ($request->get('services__github__active') == null) {
+            $requests['services__github__active'] = 0;
         }
-        if ($request->get('services_bitbucket_active') == null) {
-            $requests['services_bitbucket_active'] = 0;
+        if ($request->get('services__bitbucket__active') == null) {
+            $requests['services__bitbucket__active'] = 0;
         }
-
 
         foreach ($requests as $key => $value) {
             if ($key != '_token') {

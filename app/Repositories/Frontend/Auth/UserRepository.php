@@ -103,12 +103,12 @@ class UserRepository extends BaseRepository
                 'confirmed'         => config('access.users.requires_approval') || config('access.users.confirm_email') ? 0 : 1,
             ]);
 
-            if ($user) {
-                /*
-                 * Add the default site role to the new user
-                 */
-                $user->assignRole(config('access.users.default_role'));
-            }
+//            if ($user) {
+//                /*
+//                 * Add the default site role to the new user
+//                 */
+//                $user->assignRole(config('access.users.default_role'));
+//            }
 
             /*
              * If users have to confirm their email and this is not a social account,
@@ -278,6 +278,8 @@ class UserRepository extends BaseRepository
                 'password' => null,
                 'avatar_type' => $provider,
             ]);
+            $user->assignRole(config('access.users.default_role'));
+
 
             event(new UserProviderRegistered($user));
         }
@@ -300,7 +302,9 @@ class UserRepository extends BaseRepository
 
             $user->avatar_type = $provider;
             $user->update();
+
         }
+
 
         // Return the user object
         return $user;

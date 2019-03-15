@@ -70,7 +70,7 @@
                         <div class="col-md-10">
                             <div class="checkbox">
                                 {{ html()->label(
-                                        html()->checkbox('services.google.active', config('services.google.active') ? true : false,1)
+                                        html()->checkbox('services__google__active', config('services.google.active') ? true : false,1)
                                               ->class('switch-input')->value(1)
                                         . '<span class="switch-label"></span><span class="switch-handle"></span>')
 
@@ -119,7 +119,7 @@
                         <div class="col-md-10">
                             <div class="checkbox">
                                 {{ html()->label(
-                                        html()->checkbox('services.twitter.active', config('services.twitter.active') ? true : false,1)
+                                        html()->checkbox('services__twitter__active', config('services.twitter.active') ? true : false,1)
                                               ->class('switch-input')->value(1)
                                         . '<span class="switch-label"></span><span class="switch-handle"></span>')
 

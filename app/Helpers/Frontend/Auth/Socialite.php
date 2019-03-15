@@ -17,29 +17,33 @@ class Socialite
         $socialite_enable = [];
         $socialite_links = '';
 
-        if (config('services.bitbucket.active')) {
-            $socialite_enable[] = "<a href='".route('frontend.auth.social.login', 'bitbucket')."' class='btn btn-sm btn-info p-1 m-1 my-3'><i class='fab fa-bitbucket'></i></a>";
-        }
-
         if (config('services.facebook.active')) {
             $socialite_enable[] = "<a href='".route('frontend.auth.social.login', 'facebook')."' class='btn btn-sm btn-info  p-1 px-2  m-1 my-3'><i class='fab fa-facebook'></i></a>";
         }
 
+
         if (config('services.google.active')) {
-            $socialite_enable[] = "<a href='".route('frontend.auth.social.login', 'google')."' class='btn btn-sm btn-info-info  p-1 px-2  m-1 my-3'><i class='fab fa-google'></i></a>";
+            $socialite_enable[] = "<a href='".route('frontend.auth.social.login', 'google')."' class='btn btn-sm btn-info  p-1 px-2  m-1 my-3'><i class='fab fa-google'></i></a>";
         }
 
-        if (config('services.github.active')) {
-            $socialite_enable[] = "<a href='".route('frontend.auth.social.login', 'github')."' class='btn btn-sm btn-info  p-1 px-2  m-1 my-3'><i class='fab fa-github'></i></a>";
+        if (config('services.twitter.active')) {
+            $socialite_enable[] = "<a href='".route('frontend.auth.social.login', 'twitter')."' class='btn btn-sm btn-info  p-1 px-2  m-1 my-3'><i class='fab fa-twitter'></i></a>";
         }
 
         if (config('services.linkedin.active')) {
             $socialite_enable[] = "<a href='".route('frontend.auth.social.login', 'linkedin')."' class='btn btn-sm btn-info  p-1 px-2  m-1 my-3'><i class='fab fa-linkedin'></i></a>";
         }
 
-        if (config('services.twitter.active')) {
-            $socialite_enable[] = "<a href='".route('frontend.auth.social.login', 'twitter')."' class='btn btn-sm btn-info  p-1 px-2  m-1 my-3'><i class='fab fa-twitter'></i></a>";
+
+        if (config('services.bitbucket.active')) {
+            $socialite_enable[] = "<a href='".route('frontend.auth.social.login', 'bitbucket')."' class='btn btn-sm btn-info p-1 m-1 my-3'><i class='fab fa-bitbucket'></i></a>";
         }
+
+
+        if (config('services.github.active')) {
+            $socialite_enable[] = "<a href='".route('frontend.auth.social.login', 'github')."' class='btn btn-sm btn-info  p-1 px-2  m-1 my-3'><i class='fab fa-github'></i></a>";
+        }
+
 
         if ($count = count($socialite_enable)) {
             $socialite_links .= '<div class="alt-text text-center mb-0"><a href="#">SIGN IN WITH</a></div>';
