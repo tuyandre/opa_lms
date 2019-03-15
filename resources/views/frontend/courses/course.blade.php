@@ -419,7 +419,7 @@
                                             @if($global_featured_course->trending == 1)
                                                 <div class="trend-badge-2 text-center text-uppercase">
                                                     <i class="fas fa-bolt"></i>
-                                                    <span>@lang('labels.frontend.badge.trending')</span>
+                                                    <span>@lang('labels.frontend.badges.trending')</span>
                                                 </div>
                                             @endif
                                         </div>
