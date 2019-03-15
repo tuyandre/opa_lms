@@ -23,17 +23,11 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $this->call(AuthTableSeeder::class);
-        $this->call(CourseSeed::class);
-        $this->call(QuestionsSeed::class);
+        $this->call(PageSeeder::class);
         $this->call(ConfigSeeder::class);
         $this->call(SliderSeeder::class);
-        $this->call(TestimonialSeeder::class);
-        $this->call(SponsorSeeder::class);
-        $this->call(FaqSeeder::class);
-        $this->call(ReasonSeeder::class);
         $this->call(MenuSeeder::class);
-        $this->call(PageSeeder::class);
-
+        artisan::call('translations:import');
         Model::reguard();
     }
 }

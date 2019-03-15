@@ -22,7 +22,6 @@ Route::post('teachers_restore/{id}', ['uses' => 'Admin\TeachersController@restor
 Route::delete('teachers_perma_del/{id}', ['uses' => 'Admin\TeachersController@perma_del', 'as' => 'teachers.perma_del']);
 
 
-
 //===== Categories Routes =====//
 Route::resource('categories', 'Admin\CategoriesController');
 Route::get('get-categories-data', ['uses' => 'Admin\CategoriesController@getData', 'as' => 'categories.get_data']);
@@ -85,10 +84,10 @@ Route::group(['middleware' => ['auth', 'password_expires']], function () {
 
 
 //==== Messages Routes =====//
-Route::get('messages', ['uses' => 'MessagesController@index','as' => 'messages']);
-Route::post('messages/unread', ['uses' => 'MessagesController@getUnreadMessages','as' => 'messages.unread']);
-Route::post('messages/send', ['uses' => 'MessagesController@send','as' => 'messages.send']);
-Route::post('messages/reply', ['uses' => 'MessagesController@reply','as' => 'messages.reply']);
+Route::get('messages', ['uses' => 'MessagesController@index', 'as' => 'messages']);
+Route::post('messages/unread', ['uses' => 'MessagesController@getUnreadMessages', 'as' => 'messages.unread']);
+Route::post('messages/send', ['uses' => 'MessagesController@send', 'as' => 'messages.send']);
+Route::post('messages/reply', ['uses' => 'MessagesController@reply', 'as' => 'messages.reply']);
 
 
 //===== Orders Routes =====//
@@ -99,28 +98,26 @@ Route::post('orders/complete', ['uses' => 'Admin\OrderController@complete', 'as'
 Route::delete('orders_perma_del/{id}', ['uses' => 'Admin\OrderController@perma_del', 'as' => 'orders.perma_del']);
 
 
-
 //=== Invoice Routes =====//
 Route::get('invoice/download', ['uses' => 'Admin\InvoiceController@getInvoice', 'as' => 'invoice.download']);
 Route::get('invoices', ['uses' => 'Admin\InvoiceController@getIndex', 'as' => 'invoices.index']);
 
 
-
 //===== Settings Routes =====//
 Route::get('settings/general', ['uses' => 'Admin\ConfigController@getGeneralSettings', 'as' => 'general-settings']);
-Route::post('settings/general', ['uses' =>'Admin\ConfigController@saveGeneralSettings'])->name('general-settings');
-Route::get('settings/social', ['uses' =>'Admin\ConfigController@getSocialSettings'])->name('social-settings');
-Route::post('settings/social', ['uses' =>'Admin\ConfigController@saveSocialSettings'])->name('social-settings');
+Route::post('settings/general', ['uses' => 'Admin\ConfigController@saveGeneralSettings'])->name('general-settings');
+Route::get('settings/social', ['uses' => 'Admin\ConfigController@getSocialSettings'])->name('social-settings');
+Route::post('settings/social', ['uses' => 'Admin\ConfigController@saveSocialSettings'])->name('social-settings');
 
-Route::get('contact', ['uses' =>'Admin\ConfigController@getContact'])->name('contact-settings');
-Route::get('footer', ['uses' =>'Admin\ConfigController@getFooter'])->name('footer-settings');
-Route::get('newsletter', ['uses' =>'Admin\ConfigController@getNewsletterConfig'])->name('newsletter-settings');
-Route::post('newsletter/sendgrid-lists', ['uses' =>'Admin\ConfigController@getSendGridLists'])->name('newsletter.getSendGridLists');
+Route::get('contact', ['uses' => 'Admin\ConfigController@getContact'])->name('contact-settings');
+Route::get('footer', ['uses' => 'Admin\ConfigController@getFooter'])->name('footer-settings');
+Route::get('newsletter', ['uses' => 'Admin\ConfigController@getNewsletterConfig'])->name('newsletter-settings');
+Route::post('newsletter/sendgrid-lists', ['uses' => 'Admin\ConfigController@getSendGridLists'])->name('newsletter.getSendGridLists');
 
 
 //===== Slider Routes =====/
 Route::resource('sliders', 'Admin\SliderController');
-Route::get('sliders/status/{id}', 'Admin\SliderController@status')->name('sliders.status','id');
+Route::get('sliders/status/{id}', 'Admin\SliderController@status')->name('sliders.status', 'id');
 Route::post('sliders/save-sequence', ['uses' => 'Admin\SliderController@saveSequence', 'as' => 'sliders.saveSequence']);
 
 
@@ -128,20 +125,20 @@ Route::post('sliders/save-sequence', ['uses' => 'Admin\SliderController@saveSequ
 Route::resource('sponsors', 'Admin\SponsorController');
 Route::get('get-sponsors-data', ['uses' => 'Admin\SponsorController@getData', 'as' => 'sponsors.get_data']);
 Route::post('sponsors_mass_destroy', ['uses' => 'Admin\SponsorController@massDestroy', 'as' => 'sponsors.mass_destroy']);
-Route::get('sponsors/status/{id}', 'Admin\SponsorController@status')->name('sponsors.status','id');
+Route::get('sponsors/status/{id}', 'Admin\SponsorController@status')->name('sponsors.status', 'id');
 
 
 //===== Testimonials Routes =====//
 Route::resource('testimonials', 'Admin\TestimonialController');
 Route::get('get-testimonials-data', ['uses' => 'Admin\TestimonialController@getData', 'as' => 'testimonials.get_data']);
 Route::post('testimonials_mass_destroy', ['uses' => 'Admin\TestimonialController@massDestroy', 'as' => 'testimonials.mass_destroy']);
-Route::get('testimonials/status/{id}', 'Admin\TestimonialController@status')->name('testimonials.status','id');
+Route::get('testimonials/status/{id}', 'Admin\TestimonialController@status')->name('testimonials.status', 'id');
 
 
 //======= Blog Routes =====//
 Route::group(['prefix' => 'blog'], function () {
-    Route::get('/create','Admin\BlogController@create');
-    Route::post('/create','Admin\BlogController@store');
+    Route::get('/create', 'Admin\BlogController@create');
+    Route::post('/create', 'Admin\BlogController@store');
     Route::get('delete/{id}', 'Admin\BlogController@destroy')->name('blogs.delete');
     Route::get('edit/{id}', 'Admin\BlogController@edit')->name('blogs.edit');
     Route::post('edit/{id}', 'Admin\BlogController@update');
@@ -176,7 +173,7 @@ Route::post('reasons_mass_destroy', ['uses' => 'Admin\ReasonController@massDestr
 Route::get('reasons/status/{id}', 'Admin\ReasonController@status')->name('reasons.status');
 
 
-Route::get('menu-manager','MenuController@index')->name('menu-manager');
+Route::get('menu-manager', 'MenuController@index')->name('menu-manager');
 
 
 //====== Contacts Routes =====//
@@ -189,6 +186,8 @@ Route::get('get-reviews-data', ['uses' => 'ReviewController@getData', 'as' => 'r
 
 
 //==== Remove Locale FIle ====//
-Route::post('delete-locale',function (){
-    \Illuminate\Support\Facades\File::deleteDirectory(public_path('../resources/lang/'.request('locale')));
+Route::post('delete-locale', function () {
+    \Barryvdh\TranslationManager\Models\Translation::where('locale', request('locale'))->delete();
+
+    \Illuminate\Support\Facades\File::deleteDirectory(public_path('../resources/lang/' . request('locale')));
 })->name('delete-locale');

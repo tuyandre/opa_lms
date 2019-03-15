@@ -140,14 +140,14 @@
                                             </li>
                                         @endif
 
-                                            @if(config('locale.status') && count(config('locale.languages')) > 1)
+                                            @if(count($locales) > 1)
                                                 <li class="menu-item-has-children ul-li-block">
                                                     <a href="#">
                                                     <span class="d-md-down-none">@lang('menus.language-picker.language')
                                                         ({{ strtoupper(app()->getLocale()) }})</span>
                                                     </a>
                                                     <ul class="sub-menu">
-                                                        @foreach(array_keys(config('locale.languages')) as $lang)
+                                                        @foreach($locales as $lang)
                                                             @if($lang != app()->getLocale())
                                                                 <li>
                                                                     <a href="{{ '/lang/'.$lang }}"
@@ -216,14 +216,14 @@
                                             </li>
                                         @endif
 
-                                            @if(config('locale.status') && count(config('locale.languages')) > 1)
+                                            @if(count($locales) > 1)
                                                 <li class="menu-item-has-children ul-li-block">
                                                     <a href="#">
                                                     <span class="d-md-down-none">@lang('menus.language-picker.language')
                                                         ({{ strtoupper(app()->getLocale()) }})</span>
                                                     </a>
                                                     <ul class="">
-                                                        @foreach(array_keys(config('locale.languages')) as $lang)
+                                                        @foreach($locales as $lang)
                                                             @if($lang != app()->getLocale())
                                                                 <li>
                                                                     <a href="{{ '/lang/'.$lang }}"

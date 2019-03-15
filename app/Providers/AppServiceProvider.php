@@ -7,9 +7,11 @@ use App\Models\Blog;
 use App\Models\Config;
 use App\Models\Course;
 use App\Models\Slider;
+use Barryvdh\TranslationManager\Models\Translation;
 use Carbon\Carbon;
 use Harimayco\Menu\Models\MenuItems;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\View\View;
 
@@ -109,7 +111,15 @@ class AppServiceProvider extends ServiceProvider
             $view->with(compact('global_featured_course'));
         });
 
+        view()->composer(['frontend.*','backend.*'], function ($view) {
 
+            if (Schema::hasTable('ltm_translations')) {
+                $locales = Translation::groupBy('locale')->pluck('locale')->toArray();
+
+            }
+            $view->with(compact('locales'));
+
+        });
 
 
 

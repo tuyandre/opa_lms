@@ -81,14 +81,15 @@
                             <div class="col-md-6">
                                 <div class="header-top-bar ul-li float-right">
                                     <ul class="d-inline-block w-100 bg-white">
-                                        @if(config('locale.status') && count(config('locale.languages')) > 1)
-                                            <li class="menu-item-has-children ul-li-block">
+                                        @if(count($locales) > 1)
+
+                                        <li class="menu-item-has-children ul-li-block">
                                                 <a href="#">
                                                     <span class="d-md-down-none">@lang('menus.language-picker.language')
                                                         ({{ strtoupper(app()->getLocale()) }})</span>
                                                 </a>
                                                 <ul class="sub-menu bg-white" style="z-index: 1">
-                                                    @foreach(array_keys(config('locale.languages')) as $lang)
+                                                    @foreach($locales as $lang)
                                                         @if($lang != app()->getLocale())
                                                             <li class="border-0 border-bottom">
                                                                 <a href="{{ '/lang/'.$lang }}"
@@ -235,14 +236,14 @@
                                             </li>
                                         @endif
 
-                                            @if(config('locale.status') && count(config('locale.languages')) > 1)
+                                            @if(count($locales) > 1)
                                                 <li class="menu-item-has-children ul-li-block">
                                                     <a href="#">
                                                     <span class="d-md-down-none">@lang('menus.language-picker.language')
                                                         ({{ strtoupper(app()->getLocale()) }})</span>
                                                     </a>
                                                     <ul class="">
-                                                        @foreach(array_keys(config('locale.languages')) as $lang)
+                                                        @foreach($locales as $lang)
                                                             @if($lang != app()->getLocale())
                                                                 <li>
                                                                     <a href="{{ '/lang/'.$lang }}"

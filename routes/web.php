@@ -11,6 +11,9 @@ use App\Http\Controllers\Frontend\HomeController;
 // Switch between the included languages
 Route::get('lang/{lang}', [LanguageController::class, 'swap']);
 
+Route::get('test',function (){
+
+});
 
 /*
  * Frontend Routes
@@ -104,3 +107,4 @@ Route::group(['namespace' => 'Backend', 'prefix' => 'admin','middleware' => conf
 Route::group(['namespace' => 'Frontend', 'as' => 'frontend.'], function () {
     Route::get('/{page?}', [HomeController::class, 'index'])->name('index');
 });
+
