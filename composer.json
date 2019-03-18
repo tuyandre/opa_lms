@@ -26,6 +26,7 @@
         "laravel/socialite": "^3.0",
         "laravel/tinker": "^1.0",
         "laravelcollective/html": "^5.4.0",
+        "maatwebsite/excel": "^3.1",
         "paypal/rest-api-sdk-php": "^1.14",
         "sendgrid/sendgrid": "~7",
         "spatie/laravel-html": "^2.4",

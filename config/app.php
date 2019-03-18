@@ -203,6 +203,7 @@ return [
 
 
         Barryvdh\TranslationManager\ManagerServiceProvider::class,
+        Maatwebsite\Excel\ExcelServiceProvider::class,
 
 
         /*

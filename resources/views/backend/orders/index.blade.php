@@ -24,24 +24,22 @@
                 </ul>
             </div>
             <div class="table-responsive">
-
-
-                <table id="myTable" class="table table-bordered table-striped ">
+                <table id="myTable" class="table table-bordered table-striped">
                     <thead>
                     <tr>
-                        <th style="text-align:center;"><input type="checkbox" class="mass" id="select-all"/></th>
-
+                        <th style="text-align:center;">
+                            <input type="checkbox" class="mass" id="select-all"/>
+                        </th>
                         <th>@lang('labels.general.sr_no')</th>
                         <th>@lang('labels.backend.orders.fields.reference_no')</th>
                         <th>@lang('labels.backend.orders.fields.items')</th>
-                        <th>@lang('labels.backend.orders.fields.amount')</th>s
+                        <th>@lang('labels.backend.orders.fields.amount')</th>
                         <th>@lang('labels.backend.orders.fields.payment_status.title')</th>
                         <th>@lang('labels.backend.orders.fields.user_email')</th>
                         <th>@lang('labels.backend.orders.fields.date')</th>
                         <th>&nbsp; @lang('strings.backend.general.actions')</th>
                     </tr>
                     </thead>
-
                     <tbody>
                     </tbody>
                 </table>
@@ -82,9 +80,11 @@
                 ],
                 ajax: route,
                 columns: [
-                    { data: function(data){
-                        return '<input type="checkbox" class="single" name="id[]" value="'+ data.id +'" />';
-                    }, "orderable": false, "searchable":false, "name":"id" },
+                    {
+                        data: function (data) {
+                            return '<input type="checkbox" class="single" name="id[]" value="' + data.id + '" />';
+                        }, "orderable": false, "searchable": false, "name": "id"
+                    },
                     {data: "DT_RowIndex", name: 'DT_RowIndex'},
                     {data: "reference_no", name: 'reference_no'},
                     {data: "items", name: 'items'},
