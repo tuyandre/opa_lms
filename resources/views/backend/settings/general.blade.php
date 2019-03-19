@@ -197,7 +197,7 @@
                                 <div class="col-md-10">
                                     <select class="form-control" id="counter" name="counter">
                                         <option selected value="1">{{__('labels.backend.general_settings.static')}}</option>
-                                        <option value="2">{{__('labels.backend.general_settings.databse')}}</option>
+                                        <option value="2">{{__('labels.backend.general_settings.database')}}</option>
                                     </select>
                                     <span class="help-text font-italic">{!!  __('labels.backend.general_settings.counter_note') !!}</span>
                                     <div class="counter-container" id="counter-container">
