@@ -16,10 +16,24 @@
 
         ul.sorter li > span .title {
             padding-left: 15px;
+            width: 70%;
         }
 
         ul.sorter li > span .btn {
             width: 20%;
+        }
+        @media screen and (max-width: 768px){
+
+            ul.sorter li > span .btn {
+                width: 30%;
+            }
+            ul.sorter li > span .title {
+                padding-left: 15px;
+                width: 70%;
+                float: left;
+                margin: 0!important;
+            }
+
         }
 
 
@@ -99,7 +113,7 @@
 
             @if(count($courseTimeline) > 0)
                 <div class="row justify-content-center">
-                    <div class="col-6  ">
+                    <div class="col-lg-8 col-12  ">
                         <h4 class="">@lang('labels.backend.courses.course_timeline')</h4>
                         <p class="mb-0">@lang('labels.backend.courses.listing_note')</p>
                         <p class="">@lang('labels.backend.courses.timeline_description')</p>

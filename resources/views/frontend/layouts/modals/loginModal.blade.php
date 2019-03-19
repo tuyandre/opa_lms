@@ -234,9 +234,10 @@
                         if (data.success) {
                             $('#registerForm')[0].reset();
                             $('#register').removeClass('active').addClass('fade')
+                            $('.error-response').empty();
                             $('#login').addClass('active').removeClass('fade')
                             $('.success-response').html("@lang('labels.frontend.modal.registration_message')");
-                        }``
+                        }
                     }
                 });
             });

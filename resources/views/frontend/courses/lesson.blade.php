@@ -207,13 +207,13 @@
                         <div class="course-details-category ul-li">
                             @if ($previous_lesson)
                                 <p><a class="btn btn-block gradient-bg font-weight-bold text-white"
-                                      href="{{ route('lessons.show', [$previous_lesson->course_id, $previous_lesson->model->slug]) }}"><<
+                                      href="{{ route('lessons.show', [$previous_lesson->course_id, $previous_lesson->model->slug]) }}"><i class="fa fa-angle-double-left"></i>
                                         @lang('labels.frontend.course.prev')</a></p>
                             @endif
 
                             @if ($next_lesson)
                                 <p><a class="btn btn-block gradient-bg font-weight-bold text-white"
-                                      href="{{ route('lessons.show', [$next_lesson->course_id, $next_lesson->model->slug]) }}">@lang('labels.frontend.course.next')></a></p>
+                                      href="{{ route('lessons.show', [$next_lesson->course_id, $next_lesson->model->slug]) }}">@lang('labels.frontend.course.next') <i class="fa fa-angle-double-right"></i> </a></p>
                             @endif
 
 

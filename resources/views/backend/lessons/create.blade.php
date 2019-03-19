@@ -114,14 +114,7 @@
             </div>
 
             <div class="row">
-                <div class="col-12 col-lg-3  form-group">
-                    <div class="checkbox">
-                        {!! Form::hidden('free_lesson', 0) !!}
-                        {!! Form::checkbox('free_lesson', 1, false, []) !!}
-                        {!! Form::label('free_lesson',trans('labels.backend.lessons.fields.free_lesson'), ['class' => 'checkbox control-label font-weight-bold']) !!}
 
-                    </div>
-                </div>
                 <div class="col-12 col-lg-3 form-group">
                     <div class="checkbox">
                         {!! Form::hidden('published', 0) !!}

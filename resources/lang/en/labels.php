@@ -348,6 +348,7 @@ return array(
                     'create' => 'Create Reason',
                     'edit' => 'Edit Reason',
                     'view' => 'View Reasons',
+                    'note' => 'Reasons will be displayed as a slider on homepage as below',
                 ),
             'general_settings' =>
                 array(
