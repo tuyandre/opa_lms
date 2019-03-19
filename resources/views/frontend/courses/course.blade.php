@@ -30,7 +30,6 @@
     <!-- End of breadcrumb section
         ============================================= -->
 
-
     <!-- Start of course details section
         ============================================= -->
     <section id="course-details" class="course-details-section">
@@ -95,12 +94,15 @@
                                                             <span>@lang('labels.frontend.course.test')</span>
                                                         </div>
                                                     @endif
-
-                                                    @if(in_array($lesson->model->id,$completed_lessons))
-                                                        <div class="leanth-course ">
-                                                            <span class="gradient-bg text-white font-weight-bold completed">@lang('labels.frontend.course.completed')</span>
-                                                        </div>
+                                                    @if(auth()->check())
+                                                        @if(in_array($lesson->model->id,$completed_lessons))
+                                                            <div class="leanth-course ">
+                                                                <span class="gradient-bg text-white font-weight-bold completed">@lang('labels.frontend.course.completed')</span>
+                                                            </div>
+                                                        @endif
                                                     @endif
+
+
                                                 </div>
                                             </div>
                                             <div id="collapse{{$key}}" class="collapse" aria-labelledby="headingOne"
@@ -112,8 +114,10 @@
                                                         {{$lesson->model->short_text}}
 
                                                     @endif
+                                                        @if(auth()->check())
 
-                                                    @if(in_array($lesson->model->id,$completed_lessons))
+
+                                                        @if(in_array($lesson->model->id,$completed_lessons))
                                                         <div>
                                                             <a class="btn btn-warning mt-3"
                                                                href="{{route('lessons.show',['id' => $lesson->course->id,'slug'=>$lesson->model->slug])}}">
@@ -121,6 +125,7 @@
                                                             </a>
                                                         </div>
                                                     @endif
+                                                            @endif
 
                                                 </div>
                                             </div>
@@ -289,11 +294,12 @@
                 <div class="col-md-3">
                     <div class="side-bar">
                         <div class="course-side-bar-widget">
-                            <h3>@lang('labels.frontend.course.price') <span>${{$course->price}}</span></h3>
 
 
                             @if (!$purchased_course)
-                                @if(auth()->check() && (auth()->user()->hasRole('student')) && (Cart::session(auth()->user()->id)->get( $course->id)))
+                                <h3>@lang('labels.frontend.course.price') <span>${{$course->price}}</span></h3>
+
+                            @if(auth()->check() && (auth()->user()->hasRole('student')) && (Cart::session(auth()->user()->id)->get( $course->id)))
                                     <button class="btn genius-btn btn-block text-center my-2 text-uppercase  btn-success text-white bold-font"
                                             type="submit">@lang('labels.frontend.course.added_to_cart')
                                     </button>

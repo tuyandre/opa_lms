@@ -63,6 +63,15 @@ class ConfigController extends Controller
         if ($request->get('access_users_requires_approval') == null) {
             $requests['access_users_requires_approval'] = 0;
         }
+        if ($request->get('services__stripe__active') == null) {
+            $requests['services__stripe__active'] = 0;
+        }
+        if ($request->get('paypal__active') == null) {
+            $requests['paypal__active'] = 0;
+        }
+        if ($request->get('payment_offline_active') == null) {
+            $requests['payment_offline_active'] = 0;
+        }
 
         foreach ($requests->all() as $key => $value) {
             if ($key != '_token') {

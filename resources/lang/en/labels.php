@@ -431,9 +431,31 @@ return array(
 <li>Scroll down to <b>Less secure app access</b> and set it <b>ON</b></li>
 </ul>',
                         ),
+                    'payment_settings' => array(
+                        'title' => 'Payment Configuration',
+                        'stripe' => 'Stripe Payment Method',
+                        'stripe_note' => 'Enables payments in site with Debit / Credit Cards',
+                        'paypal' => 'Paypal Payment Method',
+                        'paypal_note' => 'Redirects to paypal for payment',
+                        'offline_mode' => 'Offline Payment Method',
+                        'offline_mode_note' => 'User gets assistance for offline payment via admin',
+                        'key' => 'API Key',
+                        'secret' => 'API Secret',
+                        'client_id' => 'Client ID',
+                        'client_secret' => 'Secret',
+                        'mode' => 'Mode',
+                        'sandbox' => 'Sandbox',
+                        'live' => 'Live',
+                        'how_to_stripe' => 'How to get STRIPE API Credentials?',
+                        'how_to_paypal' => 'How to get PayPal API Credentials?',
+                        'mode_note' => '<b>Sandbox</b>= Will be used for testing payments with PayPal Test Credentials. Account with USD only can make payments with PayPal for now. This options will redirect to test PayPal payment with Sandbox User Credentials. It will be used for dummy transactions only.<br>
+<b>Live</b> = Will be used with you Live PayPal credentials to make actual transaction with normal users with PayPal account.',
+                    ),
                     'management' => 'General Settings',
                     'app_name' => 'App Name',
                     'font_color' => 'Font Color',
+                    'static' => 'Static',
+                    'database' => 'Database / Real',
                     'counter' => 'Counter',
                     'counter_note' => '<b>Static</b> =  Manually add data for counter. Please enter exact text you want to display on frontend counter section,<br> <b>Database/Real</b> = It will take real data from database for all the fields (Students enrolled, Total Courses, Total Teachers)',
                     'total_students' => 'Enter Total Students. Ex: 1K, 1Million, 1000 etc.',
@@ -467,6 +489,7 @@ return array(
                         ),
                     'mail_configuration_note' => 'Have you configured <a target="_blank" href="http://laravel-lms.test/user/settings/general?tab=email">Mail Settings</a>? It is compulsory to setup to send/receive emails',
                     'app_url' => 'App URL',
+
                     'app_locale' => 'App Locale',
                     'app_timezone' => 'App Timezone',
                     'mail_driver' => 'Mail Driver',
@@ -510,6 +533,9 @@ return array(
             'social_settings' =>
                 array(
                     'management' => 'Social Settings',
+                    'fb_note' => 'Enable / disable facebook login for website',
+                    'google_note' => 'Enable / disable Google login for website',
+                    'twitter_note' => 'Enable / disable Twitter login for website',
                 ),
             'hero_slider' =>
                 array(
@@ -672,37 +698,37 @@ return array(
                         ),
                 ),
             'translations' =>
-            array(
-              'title' => 'Translation Manager',
-              'warning' => 'Warning, translations are not visible until they are exported back to the app/lang file, using
+                array(
+                    'title' => 'Translation Manager',
+                    'warning' => 'Warning, translations are not visible until they are exported back to the app/lang file, using
                         <code>php artisan translation:export</code> command or publish button.',
-                'done_importing' =>'Done importing, processed <strong class="counter">N</strong> items! Reload this page to
+                    'done_importing' => 'Done importing, processed <strong class="counter">N</strong> items! Reload this page to
                             refresh the groups!',
-                'done_searching' => 'Done searching for translations, found <strong class="counter">N</strong> items!',
-                'done_publishing_for_group' =>'Done publishing the translations for group',
-                'done_publishing_for_all_groups' =>'Done publishing the translations for all group!',
-                'append_new_translations' =>'Append new translations',
-                'replace_existing_translations' =>'Replace existing translations',
-                'import_groups' =>'Import Groups',
-                'import_groups_note' => '<p>This will get all locale files from <code>lang</code> folder and insert into database.<br> <b>Append new translations :</b> It will append only new files and data <b>&amp;</b>
+                    'done_searching' => 'Done searching for translations, found <strong class="counter">N</strong> items!',
+                    'done_publishing_for_group' => 'Done publishing the translations for group',
+                    'done_publishing_for_all_groups' => 'Done publishing the translations for all group!',
+                    'append_new_translations' => 'Append new translations',
+                    'replace_existing_translations' => 'Replace existing translations',
+                    'import_groups' => 'Import Groups',
+                    'import_groups_note' => '<p>This will get all locale files from <code>lang</code> folder and insert into database.<br> <b>Append new translations :</b> It will append only new files and data <b>&amp;</b>
                                             <b>Replace existing translations:</b>It will replace existing records according to files</p>',
-                'choose_a_group' =>'Choose a group to display the group translations. If no groups are visible, make sure
+                    'choose_a_group' => 'Choose a group to display the group translations. If no groups are visible, make sure
                                 you have run the migrations and imported the translations.',
-                'translation_warning' => 'Are you sure you want to publish the translations group :group ? This will overwrite existing language files',
-                'publishing' => 'Publishing..',
-                'publish_translations' => 'Publish Translations',
-                'total' => 'Total',
-                'changed' => 'Changed',
-                'key' => 'Key',
-                'supported_locales' => 'Supported Locales',
-                'current_supported_locales' => 'Current Supported Locales',
-                'enter_new_locale_key' => 'Enter new locale key',
-                'add_new_locale' => 'Add new locale',
-                'adding' => 'Adding...',
-                'export_all_translations' => 'Export all translations',
-                'publish_all' => 'Publish all',
-                'publish_all_warning' => 'Are you sure you want to publish all translations group? This will overwrite existing language files.',
-            ),
+                    'translation_warning' => 'Are you sure you want to publish the translations group :group ? This will overwrite existing language files',
+                    'publishing' => 'Publishing..',
+                    'publish_translations' => 'Publish Translations',
+                    'total' => 'Total',
+                    'changed' => 'Changed',
+                    'key' => 'Key',
+                    'supported_locales' => 'Supported Locales',
+                    'current_supported_locales' => 'Current Supported Locales',
+                    'enter_new_locale_key' => 'Enter new locale key',
+                    'add_new_locale' => 'Add new locale',
+                    'adding' => 'Adding...',
+                    'export_all_translations' => 'Export all translations',
+                    'publish_all' => 'Publish all',
+                    'publish_all_warning' => 'Are you sure you want to publish all translations group? This will overwrite existing language files.',
+                ),
         ),
     'general' =>
         array(
@@ -776,6 +802,7 @@ return array(
                     'payment_status' => 'Payment Status',
                     'payment_cards' => 'Credit or Debit Card',
                     'name_on_card_placeholder' => 'Enter the name written on your card',
+                    'no_payment_method' => 'No payment method available at this moment',
                     'card_number_placeholder' => 'Enter your card number',
                     'cvv' => 'CVV',
                     'mm' => 'MM',

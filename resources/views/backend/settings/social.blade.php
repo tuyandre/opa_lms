@@ -28,7 +28,7 @@
                                     ->class('switch switch-sm switch-3d switch-primary')
                                 }}
                             </div>
-                            <small><i> Enable / disable facebook login for website</i></small>
+                            <small><i> {{ __('labels.backend.social_settings.fb_note')}}</i></small>
                             <div class="switch-content @if(config('services.facebook.active') == 0 || config('services.facebook.active') == false) d-none @endif">
                                 <br>
                                 <div class="form-group row">
@@ -77,7 +77,7 @@
                                     ->class('switch switch-sm switch-3d switch-primary')
                                 }}
                             </div>
-                            <small><i> Enable / disable Google login for website</i></small>
+                            <small><i> {{ __('labels.backend.social_settings.google_note')}}</i></small>
                             <div class="switch-content @if(config('services.google.active') == 0 || config('services.google.active') == false) d-none @endif">
                                 <br>
                                 <div class="form-group row">
@@ -126,7 +126,7 @@
                                     ->class('switch switch-sm switch-3d switch-primary')
                                 }}
                             </div>
-                            <small><i> Enable / disable twitter login for website</i></small>
+                            <small><i>{{ __('labels.backend.social_settings.twitter_note')}}</i></small>
                             <div class="switch-content @if(config('services.twitter.active') == 0 || config('services.twitter.active') == false) d-none @endif">
                                 <br>
                                 <div class="form-group row">
@@ -163,151 +163,6 @@
                         </div><!--col-->
                     </div><!--form-group-->
 
-                    {{--<div class="form-group row">--}}
-                        {{--{{ html()->label(__('validation.attributes.backend.settings.social_settings.linkedin.label'))->class('col-md-2 form-control-label')->for('services.linkedin.active') }}--}}
-                        {{--<div class="col-md-10">--}}
-                            {{--<div class="checkbox">--}}
-                                {{--{{ html()->label(--}}
-                                        {{--html()->checkbox('services__linkedin__active', config('services.linkedin.active') ? true : false,1)--}}
-                                              {{--->class('switch-input')->value(1)--}}
-                                        {{--. '<span class="switch-label"></span><span class="switch-handle"></span>')--}}
-
-                                    {{--->class('switch switch-sm switch-3d switch-primary')--}}
-                                {{--}}--}}
-                            {{--</div>--}}
-                            {{--<small><i> Enable / disable linkedin login for website</i></small>--}}
-                            {{--<div class="switch-content @if(config('services.linkedin.active') == 0 || config('services.linkedin.active') == false) d-none @endif">--}}
-                                {{--<br>--}}
-                                {{--<div class="form-group row">--}}
-                                    {{--{{ html()->label(__('validation.attributes.backend.settings.social_settings.linkedin.client_id'))->class('col-md-2 form-control-label')->for('services.linkedin.client_id') }}--}}
-                                    {{--<div class="col-md-6 col-xs-12">--}}
-                                        {{--{{ html()->text('services__linkedin__client_id')--}}
-                                             {{--->class('form-control')--}}
-                                             {{--->value(config('services.linkedin.client_id'))--}}
-                                             {{--}}--}}
-                                    {{--</div><!--col-->--}}
-                                {{--</div><!--form-group-->--}}
-
-                                {{--<div class="form-group row">--}}
-                                    {{--{{ html()->label(__('validation.attributes.backend.settings.social_settings.linkedin.client_secret'))->class('col-md-2 form-control-label')->for('services.linkedin.client_secret') }}--}}
-                                    {{--<div class="col-md-6 col-xs-12">--}}
-                                        {{--{{ html()->text('services__linkedin__client_secret')--}}
-                                             {{--->class('form-control')--}}
-                                             {{--->value(config('services.linkedin.client_secret'))--}}
-                                             {{--}}--}}
-                                    {{--</div><!--col-->--}}
-                                {{--</div><!--form-group-->--}}
-
-                                {{--<div class="form-group row">--}}
-                                    {{--{{ html()->label(__('validation.attributes.backend.settings.social_settings.linkedin.redirect'))->class('col-md-2 form-control-label')->for('services.linkedin.redirect') }}--}}
-                                    {{--<div class="col-md-6 col-xs-12">--}}
-                                        {{--{{ html()->text('services__linkedin__redirect')--}}
-                                             {{--->class('form-control')--}}
-                                             {{--->attribute('disabled')--}}
-                                             {{--->value(config('services.linkedin.redirect'))--}}
-                                             {{--}}--}}
-                                    {{--</div><!--col-->--}}
-                                {{--</div><!--form-group-->--}}
-                            {{--</div>--}}
-                        {{--</div><!--col-->--}}
-                    {{--</div><!--form-group-->--}}
-
-                    {{--<div class="form-group row">--}}
-                        {{--{{ html()->label(__('validation.attributes.backend.settings.social_settings.github.label'))->class('col-md-2 form-control-label')->for('services.github.active') }}--}}
-                        {{--<div class="col-md-10">--}}
-                            {{--<div class="checkbox">--}}
-                                {{--{{ html()->label(--}}
-                                        {{--html()->checkbox('services__github__active', config('services.github.active') ? true : false,1)--}}
-                                              {{--->class('switch-input')->value(1)--}}
-                                        {{--. '<span class="switch-label"></span><span class="switch-handle"></span>')--}}
-
-                                    {{--->class('switch switch-sm switch-3d switch-primary')--}}
-                                {{--}}--}}
-                            {{--</div>--}}
-                            {{--<small><i> Enable / disable github login for website</i></small>--}}
-                            {{--<div class="switch-content @if(config('services.github.active') == 0 || config('services.github.active') == false) d-none @endif">--}}
-                                {{--<br>--}}
-                                {{--<div class="form-group row">--}}
-                                    {{--{{ html()->label(__('validation.attributes.backend.settings.social_settings.github.client_id'))->class('col-md-2 form-control-label')->for('services.github.client_id') }}--}}
-                                    {{--<div class="col-md-6 col-xs-12">--}}
-                                        {{--{{ html()->text('services__github__client_id')--}}
-                                             {{--->class('form-control')--}}
-                                             {{--->value(config('services.github.client_id'))--}}
-                                             {{--}}--}}
-                                    {{--</div><!--col-->--}}
-                                {{--</div><!--form-group-->--}}
-
-                                {{--<div class="form-group row">--}}
-                                    {{--{{ html()->label(__('validation.attributes.backend.settings.social_settings.github.client_secret'))->class('col-md-2 form-control-label')->for('services.github.client_secret') }}--}}
-                                    {{--<div class="col-md-6 col-xs-12">--}}
-                                        {{--{{ html()->text('services__github__client_secret')--}}
-                                             {{--->class('form-control')--}}
-                                             {{--->value(config('services.github.client_secret'))--}}
-                                             {{--}}--}}
-                                    {{--</div><!--col-->--}}
-                                {{--</div><!--form-group-->--}}
-
-                                {{--<div class="form-group row">--}}
-                                    {{--{{ html()->label(__('validation.attributes.backend.settings.social_settings.github.redirect'))->class('col-md-2 form-control-label')->for('services.github.redirect') }}--}}
-                                    {{--<div class="col-md-6 col-xs-12">--}}
-                                        {{--{{ html()->text('services__github__redirect')--}}
-                                             {{--->class('form-control')--}}
-                                             {{--->attribute('disabled')--}}
-                                             {{--->value(config('services.github.redirect'))--}}
-                                             {{--}}--}}
-                                    {{--</div><!--col-->--}}
-                                {{--</div><!--form-group-->--}}
-                            {{--</div>--}}
-                        {{--</div><!--col-->--}}
-                    {{--</div><!--form-group-->--}}
-
-                    {{--<div class="form-group row">--}}
-                        {{--{{ html()->label(__('validation.attributes.backend.settings.social_settings.bitbucket.label'))->class('col-md-2 form-control-label')->for('services.bitbucket.active') }}--}}
-                        {{--<div class="col-md-10">--}}
-                            {{--<div class="checkbox">--}}
-                                {{--{{ html()->label(--}}
-                                        {{--html()->checkbox('services__bitbucket__active', config('services.bitbucket.active') ? true : false,1)--}}
-                                              {{--->class('switch-input')->value(1)--}}
-                                        {{--. '<span class="switch-label"></span><span class="switch-handle"></span>')--}}
-                                    {{--->class('switch switch-sm switch-3d switch-primary')--}}
-                                {{--}}--}}
-                            {{--</div>--}}
-                            {{--<small><i> Enable / disable bitbucket login for website</i></small>--}}
-                            {{--<div class="switch-content @if(config('services.bitbucket.active') == 0 || config('services.bitbucket.active') == false) d-none @endif">--}}
-                                {{--<br>--}}
-                                {{--<div class="form-group row">--}}
-                                    {{--{{ html()->label(__('validation.attributes.backend.settings.social_settings.bitbucket.client_id'))->class('col-md-2 form-control-label')->for('services.bitbucket.client_id') }}--}}
-                                    {{--<div class="col-md-6 col-xs-12">--}}
-                                        {{--{{ html()->text('services__bitbucket__client_id')--}}
-                                             {{--->class('form-control')--}}
-                                             {{--->value(config('services.bitbucket.client_id'))--}}
-                                             {{--}}--}}
-                                    {{--</div><!--col-->--}}
-                                {{--</div><!--form-group-->--}}
-
-                                {{--<div class="form-group row">--}}
-                                    {{--{{ html()->label(__('validation.attributes.backend.settings.social_settings.bitbucket.client_secret'))->class('col-md-2 form-control-label')->for('services.bitbucket.client_secret') }}--}}
-                                    {{--<div class="col-md-6 col-xs-12">--}}
-                                        {{--{{ html()->text('services__bitbucket__client_secret')--}}
-                                             {{--->class('form-control')--}}
-                                             {{--->value(config('services.bitbucket.client_secret'))--}}
-                                             {{--}}--}}
-                                    {{--</div><!--col-->--}}
-                                {{--</div><!--form-group-->--}}
-
-                                {{--<div class="form-group row">--}}
-                                    {{--{{ html()->label(__('validation.attributes.backend.settings.social_settings.bitbucket.redirect'))->class('col-md-2 form-control-label')->for('services.bitbucket.redirect') }}--}}
-                                    {{--<div class="col-md-6 col-xs-12">--}}
-                                        {{--{{ html()->text('services__bitbucket__redirect')--}}
-                                             {{--->class('form-control')--}}
-                                             {{--->attribute('disabled')--}}
-                                             {{--->value(config('services.bitbucket.redirect'))--}}
-                                             {{--}}--}}
-                                    {{--</div><!--col-->--}}
-                                {{--</div><!--form-group-->--}}
-                            {{--</div>--}}
-                        {{--</div><!--col-->--}}
-                    {{--</div><!--form-group-->--}}
                 </div><!--col-->
             </div><!--row-->
         </div><!--card-body-->

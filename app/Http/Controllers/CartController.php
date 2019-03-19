@@ -50,14 +50,18 @@ class CartController extends Controller
     {
         $course = Course::findOrFail($request->get('course_id'));
         $teachers = $course->teachers->pluck('id', 'name');
-        Cart::session(auth()->user()->id)
-            ->add($course->id, $course->title, $course->price, 1,
-                [
-                    'user_id' => auth()->user()->id,
-                    'description' => $course->description,
-                    'image' => $course->course_image,
-                    'teachers' => $teachers
-                ]);
+        $cart_items = Cart::session(auth()->user()->id)->getContent()->keys()->toArray();
+        if(!in_array($course->id,$cart_items)) {
+
+            Cart::session(auth()->user()->id)
+                ->add($course->id, $course->title, $course->price, 1,
+                    [
+                        'user_id' => auth()->user()->id,
+                        'description' => $course->description,
+                        'image' => $course->course_image,
+                        'teachers' => $teachers
+                    ]);
+        }
         Session::flash('success', 'Course added to cart successfully');
         return back();
     }
@@ -66,16 +70,20 @@ class CartController extends Controller
     {
         $course = Course::findOrFail($request->get('course_id'));
         $teachers = $course->teachers->pluck('id', 'name');
-        Cart::session(auth()->user()->id)
-            ->add($course->id, $course->title, $course->price, 1,
-                [
-                    'user_id' => auth()->user()->id,
-                    'description' => $course->description,
-                    'image' => $course->course_image,
-                    'teachers' => $teachers
-                ]);
-        $courses = new Collection([$course]);
-        return view('frontend.cart.checkout', compact('courses'));
+        $cart_items = Cart::session(auth()->user()->id)->getContent()->keys()->toArray();
+        if(!in_array($course->id,$cart_items)){
+            Cart::session(auth()->user()->id)
+                ->add($course->id, $course->title, $course->price, 1,
+                    [
+                        'user_id' => auth()->user()->id,
+                        'description' => $course->description,
+                        'image' => $course->course_image,
+                        'teachers' => $teachers
+                    ]);
+        };
+        $cart_items =  Cart::session(auth()->user()->id)->getContent()->keys()->toArray();
+        $courses = Course::findOrFail($cart_items);
+        return view('frontend.cart.checkout', compact('courses','total'));
     }
 
     public function clear(Request $request)
@@ -86,6 +94,7 @@ class CartController extends Controller
 
     public function remove(Request $request)
     {
+
         Cart::session(auth()->user()->id)->remove($request->course);
         return redirect(route('cart.index'));
     }
@@ -94,6 +103,7 @@ class CartController extends Controller
     {
         //Making Order
         $order = $this->makeOrder();
+
 
         //Charging Customer
         $status = $this->createStripeCharge($request);
@@ -274,7 +284,7 @@ class CartController extends Controller
     private function createStripeCharge($request)
     {
         $status="";
-        Stripe::setApiKey(env('STRIPE_SECRET'));
+        Stripe::setApiKey(config('services.stripe.secret'));
         $amount = Cart::session(auth()->user()->id)->getTotal();
         try {
             Charge::create(array(

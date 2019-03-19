@@ -8,7 +8,7 @@
         }
     </style>
 @endpush
-
+<!-- TODO:: Checkout payment for Whole cart vs Buy Now and Set Payments APIS via backend--->
 @section('content')
 
     <!-- Start of breadcrumb section
@@ -56,10 +56,13 @@
                                     <tbody>
                                     @if(count($courses) > 0)
                                         @foreach($courses as $course)
-                                            <tr>
+                                            <tr class="position-relative">
+
                                                 <td>
+                                                    <a style="right: 3%;" class="text-danger position-absolute" href="{{route('cart.remove',['course'=>$course])}}"><i class="fa fa-times"></i></a>
                                                     <div class="course-list-img-text">
                                                         <div class="course-list-img" @if($course->course_image != "") style="background-image: url({{asset('storage/uploads/'.$course->course_image)}})" @endif >
+
                                                         </div>
                                                         <div class="course-list-text">
                                                             <h3>
@@ -97,166 +100,182 @@
                             </div>
                         </div>
                         @if(count($courses) > 0)
-                            <div class="order-payment">
-                                <div class="section-title-2  headline text-left">
-                                    <h2>@lang('labels.frontend.cart.order_payment')</h2>
+                            @if((config('services.stripe.active') == 0) && (config('services.stripe.active') == 0) && (config('payment_offline_active') == 0))
+                                <div class="order-payment">
+                                    <div class="section-title-2  headline text-left">
+                                <h2>@lang('labels.frontend.cart.no_payment_method')</h2>
+                                    </div>
                                 </div>
-                                <div id="accordion">
-                                    <div class="payment-method w-100 mb-0">
-                                        <div class="payment-method-header">
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="method-header-text">
-                                                        <div class="radio">
-                                                            <label>
-                                                                <input data-toggle="collapse" href="#collapsePaymentOne"
-                                                                       type="radio" name="paymentMethod" value="1"
-                                                                       checked>
-                                                                @lang('labels.frontend.cart.payment_cards')
-                                                            </label>
+                            @else
+                                <div class="order-payment">
+                                    <div class="section-title-2  headline text-left">
+                                        <h2>@lang('labels.frontend.cart.order_payment')</h2>
+                                    </div>
+                                    <div id="accordion">
+                                        @if(config('services.stripe.active') == 1)
+                                            <div class="payment-method w-100 mb-0">
+                                                <div class="payment-method-header">
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="method-header-text">
+                                                                <div class="radio">
+                                                                    <label>
+                                                                        <input data-toggle="collapse" href="#collapsePaymentOne"
+                                                                               type="radio" name="paymentMethod" value="1"
+                                                                               checked>
+                                                                        @lang('labels.frontend.cart.payment_cards')
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-6">
+                                                            <div class="payment-img float-right">
+                                                                <img src="{{asset('assets/img/banner/p-1.jpg')}}" alt="">
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
 
-                                                <div class="col-md-6">
-                                                    <div class="payment-img float-right">
-                                                        <img src="{{asset('assets/img/banner/p-1.jpg')}}" alt="">
-                                                    </div>
+                                                <div class="check-out-form collapse show" id="collapsePaymentOne"
+                                                     data-parent="#accordion">
+                                                    <script src='https://js.stripe.com/v2/' type='text/javascript'></script>
+
+                                                    <form accept-charset="UTF-8" action="{{route('cart.stripe.payment')}}"
+                                                          class="require-validation" data-cc-on-file="false"
+                                                          data-stripe-publishable-key="{{config('services.stripe.key')}}" id="payment-form"
+                                                          method="POST">
+
+                                                        <div style="margin:0;padding:0;display:inline">
+                                                            <input name="utf8" type="hidden"
+                                                                   value="✓"/>
+                                                            @csrf
+                                                        </div>
+
+
+
+                                                        <div class="payment-info">
+                                                            <label class=" control-label">@lang('labels.frontend.cart.name_on_card') :</label>
+                                                            <input type="text" autocomplete='off' class="form-control required card-name"
+                                                                   placeholder="@lang('labels.frontend.cart.name_on_card_placeholder')" value="">
+                                                        </div>
+                                                        <div class="payment-info">
+                                                            <label class=" control-label">@lang('labels.frontend.cart.card_number') :</label>
+                                                            <input autocomplete='off' type="text"
+                                                                   class="form-control required card-number"
+                                                                   placeholder="@lang('labels.frontend.cart.card_number_placeholder')" value="">
+                                                        </div>
+                                                        <div class="payment-info input-2">
+                                                            <label class=" control-label">@lang('labels.frontend.cart.cvv') :</label>
+                                                            <input type="text" class="form-control card-cvc required"
+                                                                   placeholder="@lang('labels.frontend.cart.cvv')"
+                                                                   value="">
+                                                        </div>
+                                                        <div class="payment-info input-2">
+                                                            <label class=" control-label">@lang('labels.frontend.cart.expiration_date') :</label>
+                                                            <input autocomplete='off' type="text"
+                                                                   class="form-control required card-expiry-month"
+                                                                   placeholder="@lang('labels.frontend.cart.mm')"
+                                                                   value="">
+                                                            <input autocomplete='off' type="text"
+                                                                   class="form-control required card-expiry-year"
+                                                                   placeholder="@lang('labels.frontend.cart.yy')"
+                                                                   value="">
+                                                        </div>
+                                                        <button type="submit"
+                                                                class="text-white genius-btn mt25 gradient-bg text-center text-uppercase  bold-font">
+                                                            @lang('labels.frontend.cart.pay_now') <i class="fas fa-caret-right"></i>
+                                                        </button>
+                                                        <div class="row mt-3">
+                                                            <div class="col-12 error form-group d-none">
+                                                                <div class="alert-danger alert">
+                                                                    @lang('labels.frontend.cart.stripe_error_message')
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </form>
                                                 </div>
                                             </div>
-                                        </div>
+                                        @endif
 
-                                        <div class="check-out-form collapse show" id="collapsePaymentOne"
-                                             data-parent="#accordion">
-                                            <script src='https://js.stripe.com/v2/' type='text/javascript'></script>
+                                        @if(config('paypal.active') == 1)
+                                            <div class="payment-method w-100 mb-0">
+                                                <div class="payment-method-header">
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="method-header-text">
+                                                                <div class="radio">
+                                                                    <label>
+                                                                        <input data-toggle="collapse" href="#collapsePaymentTwo"
+                                                                               type="radio" name="paymentMethod" value="2">
+                                                                        @lang('labels.frontend.cart.paypal')
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
 
-                                            <form accept-charset="UTF-8" action="{{route('cart.stripe.payment')}}"
-                                                  class="require-validation" data-cc-on-file="false"
-                                                  data-stripe-publishable-key="{{env('STRIPE_KEY')}}" id="payment-form"
-                                                  method="POST">
-                                                <div style="margin:0;padding:0;display:inline">
-                                                    <input name="utf8" type="hidden"
-                                                           value="✓"/>
-                                                    @csrf
-                                                </div>
-
-
-                                                <div class="payment-info">
-                                                    <label class=" control-label">@lang('labels.frontend.cart.name_on_card') :</label>
-                                                    <input type="text" autocomplete='off' class="form-control required card-name"
-                                                           placeholder="@lang('labels.frontend.cart.name_on_card_placeholder')" value="">
-                                                </div>
-                                                <div class="payment-info">
-                                                    <label class=" control-label">@lang('labels.frontend.cart.card_number') :</label>
-                                                    <input autocomplete='off' type="text"
-                                                           class="form-control required card-number"
-                                                           placeholder="@lang('labels.frontend.cart.card_number_placeholder')" value="">
-                                                </div>
-                                                <div class="payment-info input-2">
-                                                    <label class=" control-label">@lang('labels.frontend.cart.cvv') :</label>
-                                                    <input type="text" class="form-control card-cvc required"
-                                                           placeholder="@lang('labels.frontend.cart.cvv')"
-                                                           value="">
-                                                </div>
-                                                <div class="payment-info input-2">
-                                                    <label class=" control-label">@lang('labels.frontend.cart.expiration_date') :</label>
-                                                    <input autocomplete='off' type="text"
-                                                           class="form-control required card-expiry-month"
-                                                           placeholder="@lang('labels.frontend.cart.mm')"
-                                                           value="">
-                                                    <input autocomplete='off' type="text"
-                                                           class="form-control required card-expiry-year"
-                                                           placeholder="@lang('labels.frontend.cart.yy')"
-                                                           value="">
-                                                </div>
-                                                <button type="submit"
-                                                        class="text-white genius-btn mt25 gradient-bg text-center text-uppercase  bold-font">
-                                                    @lang('labels.frontend.cart.pay_now') <i class="fas fa-caret-right"></i>
-                                                </button>
-                                                <div class="row mt-3">
-                                                    <div class="col-12 error form-group d-none">
-                                                        <div class="alert-danger alert">
-                                                            @lang('labels.frontend.cart.stripe_error_message')
+                                                        <div class="col-md-6">
+                                                            <div class="payment-img float-right">
+                                                                <img src="{{asset('assets/img/banner/p-2.jpg')}}" alt="">
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                    <div class="payment-method w-100 mb-0">
-                                        <div class="payment-method-header">
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="method-header-text">
-                                                        <div class="radio">
-                                                            <label>
-                                                                <input data-toggle="collapse" href="#collapsePaymentTwo"
-                                                                       type="radio" name="paymentMethod" value="2">
-                                                                @lang('labels.frontend.cart.paypal')
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                                <div class="check-out-form collapse disabled" id="collapsePaymentTwo"
+                                                     data-parent="#accordion">
+                                                    <form class="w3-container w3-display-middle w3-card-4 " method="POST"
+                                                          id="payment-form" action="{{route('cart.paypal.payment')}}">
+                                                        {{ csrf_field() }}
+                                                        <p> @lang('labels.frontend.cart.pay_securely_paypal')</p>
 
-                                                <div class="col-md-6">
-                                                    <div class="payment-img float-right">
-                                                        <img src="{{asset('assets/img/banner/p-2.jpg')}}" alt="">
-                                                    </div>
+                                                        <button type="submit"
+                                                                class="text-white genius-btn mt25 gradient-bg text-center text-uppercase  bold-font">
+                                                            @lang('labels.frontend.cart.pay_now') <i class="fas fa-caret-right"></i>
+                                                        </button>
+                                                    </form>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="check-out-form collapse disabled" id="collapsePaymentTwo"
-                                             data-parent="#accordion">
-                                            <form class="w3-container w3-display-middle w3-card-4 " method="POST"
-                                                  id="payment-form" action="{{route('cart.paypal.payment')}}">
-                                                {{ csrf_field() }}
-                                                <p> @lang('labels.frontend.cart.pay_securely_paypal')</p>
+                                        @endif
 
-                                                <button type="submit"
-                                                        class="text-white genius-btn mt25 gradient-bg text-center text-uppercase  bold-font">
-                                                    @lang('labels.frontend.cart.pay_now') <i class="fas fa-caret-right"></i>
-                                                </button>
-                                            </form>
-                                        </div>
-                                    </div>
-                                    <div class="payment-method w-100 mb-0">
-                                        <div class="payment-method-header">
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="method-header-text">
-                                                        <div class="radio">
-                                                            <label>
-                                                                <input data-toggle="collapse"
-                                                                       href="#collapsePaymentThree" type="radio"
-                                                                       name="paymentMethod" value="3">
-                                                                @lang('labels.frontend.cart.offline_payment')
-                                                            </label>
+                                        @if(config('payment_offline_active') == 1)
+                                            <div class="payment-method w-100 mb-0">
+                                                <div class="payment-method-header">
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="method-header-text">
+                                                                <div class="radio">
+                                                                    <label>
+                                                                        <input data-toggle="collapse"
+                                                                               href="#collapsePaymentThree" type="radio"
+                                                                               name="paymentMethod" value="3">
+                                                                        @lang('labels.frontend.cart.offline_payment')
+                                                                    </label>
+                                                                </div>
+                                                            </div>
                                                         </div>
+
                                                     </div>
                                                 </div>
-
+                                                <div class="check-out-form collapse disabled" id="collapsePaymentThree"
+                                                     data-parent="#accordion">
+                                                    <p> @lang('labels.frontend.cart.offline_payment_note')</p>
+                                                    <form method="post" action="{{route('cart.offline.payment')}}">
+                                                        @csrf
+                                                        <button type="submit"
+                                                                class="text-white genius-btn mt25 gradient-bg text-center text-uppercase  bold-font">
+                                                            @lang('labels.frontend.cart.request_assistance') <i class="fas fa-caret-right"></i>
+                                                        </button>
+                                                    </form>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="check-out-form collapse disabled" id="collapsePaymentThree"
-                                             data-parent="#accordion">
-                                            <p> @lang('labels.frontend.cart.offline_payment_note')</p>
-                                            <form method="post" action="{{route('cart.offline.payment')}}">
-                                                @csrf
-                                                <button type="submit"
-                                                        class="text-white genius-btn mt25 gradient-bg text-center text-uppercase  bold-font">
-                                                    @lang('labels.frontend.cart.request_assistance') <i class="fas fa-caret-right"></i>
-                                                </button>
-                                            </form>
-
-                                        </div>
+                                        @endif
                                     </div>
 
+                                    <div class="terms-text pb45 mt25">
+                                        <p>@lang('labels.frontend.cart.confirmation_note')</p>
+                                    </div>
                                 </div>
-
-                                <div class="terms-text pb45 mt25">
-                                    <p>@lang('labels.frontend.cart.confirmation_note')</p>
-                                </div>
-                            </div>
+                            @endif
                         @endif
                     </div>
 
@@ -267,7 +286,14 @@
                                 @if(count($courses) > 0)
                                     <div class="purchase-list py-3 ul-li-block">
                                         <div class="in-total text-uppercase">@lang('labels.frontend.cart.total') :
-                                            <span>${{Cart::session(auth()->user()->id)->getTotal()}}</span></div>
+                                            <span>
+                                                @if(isset($total))
+                                                    ${{$total}}
+                                                @else
+                                                    ${{Cart::session(auth()->user()->id)->getTotal()}}
+
+                                                @endif
+                                            </span></div>
                                     </div>
                                 @else
                                     <div class="purchase-list mt15 ul-li-block">

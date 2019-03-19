@@ -71,7 +71,7 @@
     <div class="card">
         <div class="card-body">
             <div class="row">
-                <div class="col-sm-5">
+                <div class="col-sm-12">
 
                     <ul class="nav nav-tabs">
                         <li class="nav-item"><a data-toggle="tab" class="nav-link active " href="#general">General </a>
@@ -89,6 +89,11 @@
                         <li class="nav-item">
                             <a data-toggle="tab" class="nav-link" href="#email">
                                 {{ __('labels.backend.general_settings.email.title') }}
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a data-toggle="tab" class="nav-link" href="#payment_settings">
+                                {{ __('labels.backend.general_settings.payment_settings.title') }}
                             </a>
                         </li>
                     </ul>
@@ -191,8 +196,8 @@
 
                                 <div class="col-md-10">
                                     <select class="form-control" id="counter" name="counter">
-                                        <option selected value="1">Static</option>
-                                        <option value="2">Database / Real</option>
+                                        <option selected value="1">{{__('labels.backend.general_settings.static')}}</option>
+                                        <option value="2">{{__('labels.backend.general_settings.databse')}}</option>
                                     </select>
                                     <span class="help-text font-italic">{!!  __('labels.backend.general_settings.counter_note') !!}</span>
                                     <div class="counter-container" id="counter-container">
@@ -479,6 +484,119 @@
                     </div>
                 </div>
 
+                <!---Layout Tab--->
+                <div id="payment_settings" class="tab-pane container fade">
+                    <div class="row mt-4 mb-4">
+                        <div class="col">
+                            <div class="form-group row">
+                                {{ html()->label(__('labels.backend.general_settings.payment_settings.stripe'))->class('col-md-3 form-control-label')->for('services.stripe.active') }}
+                                <div class="col-md-9">
+                                    <div class="checkbox">
+                                        {{ html()->label(
+                                                html()->checkbox('services__stripe__active', config('services.stripe.active') ? true : false,1)
+                                                      ->class('switch-input')->value(1)
+                                                . '<span class="switch-label"></span><span class="switch-handle"></span>')
+
+                                            ->class('switch switch-sm switch-3d switch-primary')
+                                        }}
+                                        <a class="float-right font-weight-bold font-italic" href="https://stripe.com/docs/keys" target="_blank">{{ __('labels.backend.general_settings.payment_settings.how_to_stripe')}}</a>
+                                    </div>
+                                    <small><i> {{ __('labels.backend.general_settings.payment_settings.stripe_note')}}</i></small>
+                                    <div class="switch-content @if(config('services.stripe.active') == 0 || config('services.stripe.active') == false) d-none @endif">
+                                        <br>
+                                        <div class="form-group row">
+                                            {{ html()->label(__('labels.backend.general_settings.payment_settings.key'))->class('col-md-2 form-control-label')->for('services.stripe.key') }}
+                                            <div class="col-md-8 col-xs-12">
+                                                {{ html()->text('services__stripe__key')
+                                                     ->class('form-control')
+                                                     ->value(config('services.stripe.key'))
+                                                     }}
+                                            </div><!--col-->
+                                        </div><!--form-group-->
+                                        <div class="form-group row">
+                                            {{ html()->label(__('labels.backend.general_settings.payment_settings.secret'))->class('col-md-2 form-control-label')->for('services.stripe.secret') }}
+                                            <div class="col-md-8 col-xs-12">
+                                                {{ html()->text('services__stripe__secret')
+                                                     ->class('form-control')
+                                                     ->value(config('services.stripe.secret'))
+                                                     }}
+                                            </div><!--col-->
+                                        </div><!--form-group-->
+
+
+                                    </div>
+                                </div><!--col-->
+                            </div><!--form-group-->
+                            <div class="form-group row">
+                                {{ html()->label(__('labels.backend.general_settings.payment_settings.paypal'))->class('col-md-3 form-control-label')}}
+                                <div class="col-md-9">
+                                    <div class="checkbox">
+                                        {{ html()->label(
+                                                html()->checkbox('paypal__active', config('paypal.active') ? true : false,1)
+                                                      ->class('switch-input')->value(1)
+                                                . '<span class="switch-label"></span><span class="switch-handle"></span>')
+
+                                            ->class('switch switch-sm switch-3d switch-primary')
+                                        }}
+                                        <a target="_blank" href="https://developer.paypal.com/developer/applications/" class="float-right font-italic font-weight-bold">{{ __('labels.backend.general_settings.payment_settings.how_to_paypal')}}</a>
+                                    </div>
+                                    <small><i> {{ __('labels.backend.general_settings.payment_settings.paypal_note')}}</i></small>
+                                    <div class="switch-content @if(config('paypal.active') == 0 || config('paypal.active') == false) d-none @endif">
+                                        <br>
+                                        <div class="form-group row">
+                                            {{ html()->label(__('labels.backend.general_settings.payment_settings.mode'))->class('col-md-2 form-control-label') }}
+                                            <div class="col-md-8 col-xs-12">
+                                                <select class="form-control" id="paypal_settings_mode" name="paypal__settings__mode">
+                                                    <option selected value="sandbox">{{__('labels.backend.general_settings.payment_settings.sandbox')}}</option>
+                                                    <option value="live">{{__('labels.backend.general_settings.payment_settings.live')}}</option>
+                                                </select>
+                                                <span class="help-text font-italic">{!!  __('labels.backend.general_settings.payment_settings.mode_note') !!}</span>
+                                            </div><!--col-->
+                                        </div><!--form-group-->
+                                        <div class="form-group row">
+                                            {{ html()->label(__('labels.backend.general_settings.payment_settings.client_id'))->class('col-md-2 form-control-label') }}
+                                            <div class="col-md-8 col-xs-12">
+                                                {{ html()->text('paypal__client_id')
+                                                     ->class('form-control')
+                                                     ->value(config('paypal.client_id'))
+                                                     }}
+                                            </div><!--col-->
+                                        </div><!--form-group-->
+                                        <div class="form-group row">
+                                            {{ html()->label(__('labels.backend.general_settings.payment_settings.client_secret'))->class('col-md-2 form-control-label')->for('paypal.paypal.secret') }}
+                                            <div class="col-md-8 col-xs-12">
+                                                {{ html()->text('paypal__secret')
+                                                     ->class('form-control')
+                                                     ->value(config('paypal.secret'))
+                                                     }}
+                                            </div><!--col-->
+                                        </div><!--form-group-->
+
+
+                                    </div>
+                                </div><!--col-->
+                            </div><!--form-group-->
+                            <div class="form-group row">
+                                {{ html()->label(__('labels.backend.general_settings.payment_settings.offline_mode'))->class('col-md-3 form-control-label')}}
+                                <div class="col-md-9">
+                                    <div class="checkbox">
+                                        {{ html()->label(
+                                                html()->checkbox('payment_offline_active', config('payment_offline_active') ? true : false,1)
+                                                      ->class('switch-input')->value(1)
+                                                . '<span class="switch-label"></span><span class="switch-handle"></span>')
+
+                                            ->class('switch switch-sm switch-3d switch-primary')
+                                        }}
+                                    </div>
+                                    <small><i> {{ __('labels.backend.general_settings.payment_settings.offline_mode_note')}}</i></small>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+
                 <div class="card-footer clearfix">
                     <div class="row">
                         <div class="col">
@@ -557,6 +675,13 @@
 
             $('#counter').find('option').removeAttr('selected')
             $('#counter').find('option[value="{{config('counter')}}"]').attr('selected', 'selected');
+            @endif
+
+
+            //======== Preset PaymentMode for Paypal =======>
+            @if(config('paypal.settings.mode') != "")
+            $('#paypal_settings_mode').find('option').removeAttr('selected')
+            $('#paypal_settings_mode').find('option[value="{{config('paypal.settings.mode')}}"]').attr('selected', 'selected');
             @endif
 
 
@@ -660,6 +785,21 @@
 
         });
 
+        $(document).on('click', '.switch-input', function (e) {
+//              e.preventDefault();
+            var content = $(this).parents('.checkbox').siblings('.switch-content');
+            if (content.hasClass('d-none')) {
+                $(this).attr('checked', 'checked');
+                content.find('input').attr('required', true);
+                content.removeClass('d-none');
+            } else {
+                content.addClass('d-none');
+                content.find('input').attr('required', false);
+            }
+        })
+
 
     </script>
 @endpush
+
+

@@ -30,7 +30,7 @@
             <div class="section-title mb45 headline text-center">
                 @if(session()->has('success'))
                     <h2>  {{session('success')}}</h2>
-                    <h3>@lang('labels.frontend.cart.success_message)</h3>
+                    <h3>@lang('labels.frontend.cart.success_message')</h3>
                     <h4><a href="{{route('admin.dashboard')}}">@lang('labels.frontend.cart.see_more_courses')</a></h4>
                 @endif
                 @if(session()->has('failure'))

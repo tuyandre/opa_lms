@@ -24,7 +24,7 @@ class PermissionRoleTableSeeder extends Seeder
         $admin = Role::create(['name' => config('access.users.admin_role')]);
         $teacher = Role::create(['name' => 'teacher']);
         $student = Role::create(['name' => 'student']);
-        $user = Role::create(['name' => config('access.users.default_role')]);
+        $user = Role::create(['name' => 'user']);
 
 
         $permissions = [

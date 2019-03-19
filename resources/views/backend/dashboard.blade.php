@@ -84,7 +84,7 @@
                                             </span>
                                                         <span class="course-author float-right">
                                                  {{ $item->students()->count() }}
-                                                            >@lang('labels.backend.dashboard.students')
+                                                            @lang('labels.backend.dashboard.students')
                                             </span>
                                                     </div>
 
@@ -92,7 +92,7 @@
                                                         <div class="progress-bar"
                                                              style="width:{{$item->progress() }}%">{{ $item->progress()  }}
                                                             %
-                                                            >@lang('labels.backend.dashboard.completed')
+                                                            @lang('labels.backend.dashboard.completed')
                                                         </div>
                                                     </div>
                                                 </div>
@@ -165,7 +165,6 @@
                                     <div class="col-md-4 col-12">
                                         <div class="d-inline-block form-group w-100">
                                             <h4 class="mb-0">@lang('labels.backend.dashboard.recent_messages') <a class="btn btn-primary float-right" href="{{route('admin.messages')}}">@lang('labels.backend.dashboard.view_all')</a></h4>
-
                                         </div>
 
 
@@ -196,7 +195,6 @@
                                             </tbody>
                                         </table>
                                     </div>
-
                                 </div>
                             </div>
 
