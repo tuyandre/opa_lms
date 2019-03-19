@@ -85,6 +85,7 @@
                 @if(request('show_deleted') != 1)
                 columnDefs: [
                     {"width": "5%", "targets": 0},
+                    {"width": "15%", "targets": 5},
                     {"className": "text-center", "targets": [0]}
                 ],
                 @endif
