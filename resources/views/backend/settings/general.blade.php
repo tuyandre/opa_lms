@@ -1,4 +1,5 @@
 @extends('backend.layouts.app')
+@section('title', __('labels.backend.general_settings.title').' | '.app_name())
 
 @push('after-styles')
     <link rel="stylesheet" href="{{asset('plugins/bootstrap-iconpicker/css/bootstrap-iconpicker.min.css')}}"/>
@@ -74,7 +75,9 @@
                 <div class="col-sm-12">
 
                     <ul class="nav nav-tabs">
-                        <li class="nav-item"><a data-toggle="tab" class="nav-link active " href="#general">General </a>
+                        <li class="nav-item"><a data-toggle="tab" class="nav-link active " href="#general">
+                                {{__('labels.backend.general_settings.title')}}
+                            </a>
                         </li>
                         <li class="nav-item">
                             <a data-toggle="tab" class="nav-link" href="#logos">

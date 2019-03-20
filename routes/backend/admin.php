@@ -191,3 +191,7 @@ Route::post('delete-locale', function () {
 
     \Illuminate\Support\Facades\File::deleteDirectory(public_path('../resources/lang/' . request('locale')));
 })->name('delete-locale');
+
+
+//==== Update Theme Routes ====//
+Route::get('update-theme','UpdateController@index')->name('update-theme');

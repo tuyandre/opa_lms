@@ -1,4 +1,7 @@
 @extends('backend.layouts.app')
+
+@section('title', __('labels.backend.hero_slider.title').' | '.app_name())
+
 @push('after-styles')
     <link rel="stylesheet" type="text/css" href="{{asset('plugins/amigo-sorter/css/theme-default.css')}}">
     <style>

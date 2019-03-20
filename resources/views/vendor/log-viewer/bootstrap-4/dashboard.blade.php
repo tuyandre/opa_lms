@@ -1,4 +1,5 @@
 @extends('backend.layouts.app')
+@section('title', __('menus.backend.log-viewer.dashboard').' | '.app_name())
 
 @push('after-styles')
     @include('log-viewer::_template.style')

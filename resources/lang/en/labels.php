@@ -352,6 +352,7 @@ return array(
                 ),
             'general_settings' =>
                 array(
+                    'title' => 'General',
                     'contact' =>
                         array(
                             'short_text' => 'Short Text',
@@ -535,6 +536,9 @@ return array(
                 array(
                     'management' => 'Social Settings',
                     'fb_note' => 'Enable / disable facebook login for website',
+                    'fb_api_note' => 'How to get Facebook API Credentials?',
+                    'google_api_note' => 'How to get Google API Credentials?',
+                    'twitter_api_note' => 'How to get Twitter API Credentials?',
                     'google_note' => 'Enable / disable Google login for website',
                     'twitter_note' => 'Enable / disable Twitter login for website',
                 ),
@@ -729,6 +733,12 @@ return array(
                     'export_all_translations' => 'Export all translations',
                     'publish_all' => 'Publish all',
                     'publish_all_warning' => 'Are you sure you want to publish all translations group? This will overwrite existing language files.',
+                ),
+            'update' =>
+                array(
+                    'title' => 'Update Theme',
+                    'upload' => 'Upload new version',
+                    'current_app_version' => 'Current app version'
                 ),
         ),
     'general' =>

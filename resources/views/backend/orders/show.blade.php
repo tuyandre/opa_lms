@@ -1,4 +1,5 @@
 @extends('backend.layouts.app')
+@section('title', __('labels.backend.orders.title').' | '.app_name())
 
 @section('content')
 

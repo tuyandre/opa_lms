@@ -1,6 +1,8 @@
 @extends ('backend.layouts.app')
 @php $currentUrl = url()->current();
 @endphp
+@section('title', __('labels.backend.menu-manager.title').' | '.app_name())
+
 @push('after-styles')
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 

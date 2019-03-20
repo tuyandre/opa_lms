@@ -1,4 +1,5 @@
 @extends('backend.layouts.app')
+@section('title', __('labels.backend.social_settings.management').' | '.app_name())
 
 @section('content')
     {{ html()->form('POST', route('admin.social-settings'))->class('form-horizontal')->open() }}
@@ -27,6 +28,7 @@
 
                                     ->class('switch switch-sm switch-3d switch-primary')
                                 }}
+                                <a class="float-right font-weight-bold font-italic" target="_blank" href="https://developers.facebook.com/apps/">{{ __('labels.backend.social_settings.fb_api_note')}}</a>
                             </div>
                             <small><i> {{ __('labels.backend.social_settings.fb_note')}}</i></small>
                             <div class="switch-content @if(config('services.facebook.active') == 0 || config('services.facebook.active') == false) d-none @endif">
@@ -76,6 +78,7 @@
 
                                     ->class('switch switch-sm switch-3d switch-primary')
                                 }}
+                                <a class="float-right font-weight-bold font-italic" target="_blank" href="https://console.developers.google.com/apis">{{ __('labels.backend.social_settings.google_api_note')}}</a>
                             </div>
                             <small><i> {{ __('labels.backend.social_settings.google_note')}}</i></small>
                             <div class="switch-content @if(config('services.google.active') == 0 || config('services.google.active') == false) d-none @endif">
@@ -125,6 +128,8 @@
 
                                     ->class('switch switch-sm switch-3d switch-primary')
                                 }}
+                                <a class="float-right font-weight-bold font-italic" target="_blank" href="https://developer.twitter.com/en/apps">{{ __('labels.backend.social_settings.google_api_note')}}</a>
+
                             </div>
                             <small><i>{{ __('labels.backend.social_settings.twitter_note')}}</i></small>
                             <div class="switch-content @if(config('services.twitter.active') == 0 || config('services.twitter.active') == false) d-none @endif">

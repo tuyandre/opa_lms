@@ -1,4 +1,5 @@
 @extends('backend.layouts.app')
+@section('title', __('labels.backend.translations.title').' | '.app_name())
 
 @push('after-styles')
     <link href="{{asset('plugins/bootstrap4-editable/css/bootstrap-editable.css')}}" rel="stylesheet"/>

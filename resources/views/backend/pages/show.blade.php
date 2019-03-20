@@ -1,4 +1,5 @@
 @extends('backend.layouts.app')
+@section('title', __('labels.backend.pages.title').' | '.app_name())
 
 @push('after-styles')
     <style>

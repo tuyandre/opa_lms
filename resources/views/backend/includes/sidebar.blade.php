@@ -354,10 +354,15 @@
                     </a>
                 </li>
 
-
+                <li class="nav-item ">
+                    <a class="nav-link {{ $request->segment(1) == 'update-theme' ? 'active' : '' }}"
+                       href="{{ route('admin.update-theme') }}">
+                        <i class="nav-icon icon-refresh"></i>
+                        <span class="title">@lang('menus.backend.sidebar.update.title')</span>
+                    </a>
+                </li>
 
             @endif
-
 
         </ul>
     </nav>

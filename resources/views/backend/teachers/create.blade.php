@@ -1,5 +1,6 @@
 @extends('backend.layouts.app')
 
+@section('title', __('labels.backend.teachers.title').' | '.app_name())
 
 @section('content')
     {{ html()->form('POST', route('admin.teachers.store'))->class('form-horizontal')->open() }}

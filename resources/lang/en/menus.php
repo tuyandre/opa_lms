@@ -128,7 +128,11 @@ return array(
                     'translations' =>
                     array(
                         'title' => 'Translation Manager',
-                    )
+                    ),
+                    'update' =>
+                        array(
+                            'title' => 'Update',
+                        )
                 ),
             'access' =>
                 array(
@@ -155,7 +159,7 @@ return array(
                 ),
             'log-viewer' =>
                 array(
-                    'dashboard' => 'Dashboard',
+                    'dashboard' => 'Debug dashboard',
                     'logs' => 'Logs',
                     'main' => 'Log Viewer',
                 ),

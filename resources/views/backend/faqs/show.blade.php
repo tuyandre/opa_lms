@@ -1,4 +1,5 @@
 @extends('backend.layouts.app')
+@section('title', __('labels.backend.faqs.title').' | '.app_name())
 
 @section('content')
     <div class="card">

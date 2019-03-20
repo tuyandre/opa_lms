@@ -1,4 +1,5 @@
 @extends('backend.layouts.app')
+@section('title', __('labels.backend.faqs.title').' | '.app_name())
 
 @section('content')
     {!! Form::open(['method' => 'POST', 'route' => ['admin.faqs.store'], 'files' => true,]) !!}

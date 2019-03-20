@@ -1,9 +1,6 @@
 @extends('backend.layouts.app')
 
-@section('title', 'Reviews')
-
-
-
+@section('title', __('labels.backend.reviews.title').' | '.app_name())
 
 @section('content')
 

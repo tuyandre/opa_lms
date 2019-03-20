@@ -1,6 +1,6 @@
 @extends('backend.layouts.app')
 
-@section('title', __('labels.backend.reasons.title').' Management')
+@section('title', __('labels.backend.reasons.title').' | '.app_name())
 
 
 @section('content')

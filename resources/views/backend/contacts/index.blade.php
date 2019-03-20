@@ -1,6 +1,6 @@
 @extends('backend.layouts.app')
 
-@section('title', 'Category Management')
+@section('title', __('labels.backend.contacts.title').' | '.app_name())
 
 
 

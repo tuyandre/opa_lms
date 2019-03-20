@@ -1,7 +1,5 @@
 @extends('backend.layouts.app')
-
-@section('title', trans('labels.backend.sponsors.title').' Management')
-
+@section('title', __('labels.backend.sponsors.title').' | '.app_name())
 
 @section('content')
 

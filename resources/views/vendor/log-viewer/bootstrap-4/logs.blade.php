@@ -1,14 +1,10 @@
 @extends('backend.layouts.app')
+@section('title', __('menus.backend.log-viewer.logs').' | '.app_name())
 
 @push('after-styles')
     @include('log-viewer::_template.style')
 @endpush
 
-@section('page-header')
-    <h5 class="mb-4">Log Viewer
-        <small class="text-muted">By <a href="https://github.com/ARCANEDEV/LogViewer" target="_blank">ARCANEDEV</a></small>
-    </h5>
-@endsection
 
 @section('content')
     {!! $rows->render('log-viewer::_pagination.bootstrap-4') !!}

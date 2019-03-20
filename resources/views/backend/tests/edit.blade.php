@@ -1,4 +1,6 @@
 @extends('backend.layouts.app')
+@section('title', __('labels.backend.tests.title').' | '.app_name())
+
 @push('after-styles')
     <style>
         .select2-container--default .select2-selection--single {

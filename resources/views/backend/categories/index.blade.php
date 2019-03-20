@@ -1,9 +1,6 @@
 @extends('backend.layouts.app')
 
-@section('title', 'Category Management')
-
-
-
+@section('title', __('labels.backend.categories.title').' | '.app_name())
 
 @section('content')
 

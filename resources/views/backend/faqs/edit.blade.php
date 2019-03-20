@@ -1,5 +1,7 @@
 @extends('backend.layouts.app')
 
+@section('title', __('labels.backend.faqs.title').' | '.app_name())
+
 @section('content')
 
     {!! Form::model($faq, ['method' => 'PUT', 'route' => ['admin.faqs.update', $faq->id], 'files' => true,]) !!}
