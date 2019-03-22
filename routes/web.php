@@ -11,9 +11,8 @@ use App\Http\Controllers\Frontend\HomeController;
 // Switch between the included languages
 Route::get('lang/{lang}', [LanguageController::class, 'swap']);
 
-Route::get('test',function (){
-
-});
+//Route::get('test',function (){
+//});
 
 /*
  * Frontend Routes

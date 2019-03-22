@@ -21,9 +21,9 @@ class UpdateController extends Controller
        $file_name = time().'_'.$file->getClientOriginalName();
        $file->move(public_path().'/updates/' , $file_name);
        $is_verified = false;
-       $checkFiles =  \Zipper::make(public_path().'/updates/'.$file_name)->listFiles('/\.txt/i');
+       $checkFiles =  \Zipper::make(public_path().'/updates/'.$file_name)->listFiles('/\.key/i');
        foreach ($checkFiles as $item){
-           if($item == 'code.txt'){
+           if($item == md5('NeonLMSUpdate').'.key'){
                $is_verified = true;
            }
        }
