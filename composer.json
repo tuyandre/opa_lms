@@ -11,6 +11,7 @@
         "arcanedev/no-captcha": "^5.0",
         "barryvdh/laravel-translation-manager": "^0.5.3",
         "beyondcode/laravel-self-diagnosis": "^1.0",
+        "chumper/zipper": "^1.0",
         "consoletvs/invoices": "^1.1",
         "creativeorange/gravatar": "~1.0",
         "darryldecode/cart": "~4.0",

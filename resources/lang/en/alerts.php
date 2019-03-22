@@ -10,6 +10,8 @@ return array (
       'updated' => 'Updated successfully.',
       'deleted' => 'Deleted successfully.',
       'restored' => 'Restored successfully.',
+      'cancelled' => 'Update Cancelled.',
+      'unverified' => 'Unverified Update files.',
     ),
     'roles' => 
     array (

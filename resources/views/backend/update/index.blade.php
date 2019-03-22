@@ -12,17 +12,27 @@
             <div class="card">
                 <div class="card-header">
                     <h3 class="page-title float-left">@lang('labels.backend.update.title')</h3>
+                    <h3 class="float-right text-primary">@lang('labels.backend.update.current_version') {{config('app.version')}}</h3>
+
                 </div><!--card-header-->
                 <div class="card-body">
-                    <form method="post" enctype="multipart/form-data">
-                        <h4>@lang('labels.backend.update.current_app_version') {{config('app.version')}}</h4>
-                        <div class="row">
-                            <div class="form-group col-6">
-                                <label>@lang('labels.backend.update.upload')</label>
-                                <input type="file" class="form-control" name="file">
+
+                        <form method="post" action="{{route('admin.list-files')}}" enctype="multipart/form-data">
+                            @csrf
+                            <h2>@lang('labels.backend.update.note_before_upload_title')</h2>
+                            @lang('labels.backend.update.note_before_upload')
+                            <h5 class="text-danger">@lang('labels.backend.update.warning')</h5>
+
+                            <div class="row">
+                                <div class="form-group col-md-6 col-12">
+                                    <label class="font-weight-bold  ">@lang('labels.backend.update.upload')</label>
+                                    <input type="file" id="file" accept="application/zip" class="form-control" name="file">
+                                </div>
+                                <div class="form-group col-md-6 col-12 d-flex">
+                                    <button class="btn btn-primary mt-auto" type="submit">@lang('labels.general.buttons.update')</button>
+                                </div>
                             </div>
-                        </div>
-                    </form>
+                        </form>
                 </div>
             </div>
         </div>
@@ -31,5 +41,6 @@
 
 
 @push('after-scripts')
-    <script></script>
+    <script>
+    </script>
 @endpush

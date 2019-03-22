@@ -195,3 +195,5 @@ Route::post('delete-locale', function () {
 
 //==== Update Theme Routes ====//
 Route::get('update-theme','UpdateController@index')->name('update-theme');
+Route::post('update-theme','UpdateController@updateTheme')->name('update-files');
+Route::post('list-files','UpdateController@listFiles')->name('list-files');

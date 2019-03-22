@@ -737,8 +737,14 @@ return array(
             'update' =>
                 array(
                     'title' => 'Update Theme',
-                    'upload' => 'Upload new version',
-                    'current_app_version' => 'Current app version'
+                    'upload' => 'Upload new version  <small>(update.zip)</small>',
+                    'current_version' => 'Current Version',
+                    'note_before_upload_title' => 'Read following notes before updating',
+                    'file_replaced' => 'Following files will be updated / replaced',
+                    'warning' => '<b>WARNING : We strongly recommend you to update theme by version number</b>.<br> <b>Example :</b> update_v1.zip, update_v2.zip. Please do not jump version number. If your version number is 1 and you want to update it, then update to version 2. Do no directly update to version 3.',
+                    'note_before_upload' => '<p>Updated zip file may come with new folders and file updates. <b>Your current files will be replaced with new one</b>. So, <b>if you have made any changes in current application files it will be LOST</b>.</p>
+                        <p>If you are directly uploading from below file input box, your files will be replaced. We strongly recommend you to do it manual replacement of files one by one or edit the changes by comparing your current edited file and new updated files.</p>
+                        <p>If you still have confusion. Please contact us, we will guide you to update your application</p>',
                 ),
         ),
     'general' =>
@@ -753,6 +759,7 @@ return array(
             'buttons' =>
                 array(
                     'update' => 'Update',
+                    'cancel' => 'Cancel',
                     'save' => 'Save',
                 ),
             'toolbar_btn_groups' => 'Toolbar with button groups',
