@@ -215,7 +215,6 @@ return [
         Darryldecode\Cart\CartServiceProvider::class,
         ConsoleTVs\Invoices\InvoicesServiceProvider::class,
         Harimayco\Menu\MenuServiceProvider::class,
-        Infinety\Config\ConfigServiceProvider::class,
 
 
 

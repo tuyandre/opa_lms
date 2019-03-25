@@ -24,7 +24,6 @@
         "guzzlehttp/guzzle": "^6.3",
         "harimayco/laravel-menu": "^1.3",
         "hieu-le/active": "^3.5",
-        "infinety-es/config": "^1.2",
         "jenssegers/agent": "^2.6",
         "laravel/framework": "5.7.*",
         "laravel/socialite": "^3.0",
