@@ -69,6 +69,12 @@ return [
             'bucket' => env('AWS_BUCKET'),
             'url' => env('AWS_URL'),
         ],
+        'dropbox' => [
+            'driver' => 'dropbox',
+            'token' => env('DROPBOX_ACCESS_TOKEN'),
+            'app_secret' => env('DROPBOX_SECRET'),
+        ]
+
 
     ],
 

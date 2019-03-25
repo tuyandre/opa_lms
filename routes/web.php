@@ -11,8 +11,17 @@ use App\Http\Controllers\Frontend\HomeController;
 // Switch between the included languages
 Route::get('lang/{lang}', [LanguageController::class, 'swap']);
 
-//Route::get('test',function (){
-//});
+Route::get('test',function (){
+    set_time_limit(10000);
+
+
+
+    dd( config('backup.source.files.include'));
+
+//    Artisan::call('backup:run', ['--only-db' => true]);
+//    Artisan::call('backup:run', ['--only-files' => true]);
+//    Artisan::call('backup:run');
+});
 
 /*
  * Frontend Routes

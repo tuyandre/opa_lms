@@ -206,21 +206,6 @@
                 @endcan
             @endif
 
-
-
-
-
-
-            {{--@can('questions_option_access')--}}
-            {{--<li class="nav-item">--}}
-            {{--<a class="nav-link {{ $request->segment(2) == 'questions_options' ? 'active' : '' }}"--}}
-            {{--href="{{ route('admin.questions_options.index') }}">--}}
-            {{--<i class="nav-icon icon-note"></i> <span--}}
-            {{--class="title">@lang('menus.backend.sidebar.questions-options.title')</span>--}}
-            {{--</a>--}}
-            {{--</li>--}}
-            {{--@endcan--}}
-
             <li class="nav-item ">
                 <a class="nav-link {{ $request->segment(1) == 'messages' ? 'active' : '' }}"
                    href="{{ route('admin.messages') }}">
@@ -359,6 +344,13 @@
                        href="{{ route('admin.update-theme') }}">
                         <i class="nav-icon icon-refresh"></i>
                         <span class="title">@lang('menus.backend.sidebar.update.title')</span>
+                    </a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link {{ $request->segment(1) == 'backup' ? 'active' : '' }}"
+                       href="{{ route('admin.backup') }}">
+                        <i class="nav-icon icon-shield"></i>
+                        <span class="title">@lang('menus.backend.sidebar.backup.title')</span>
                     </a>
                 </li>
 

@@ -12,6 +12,7 @@ return array (
       'restored' => 'Restored successfully.',
       'cancelled' => 'Update Cancelled.',
       'unverified' => 'Unverified Update files.',
+      'backup_warning' => 'Please fill necessary details for backup',
     ),
     'roles' => 
     array (

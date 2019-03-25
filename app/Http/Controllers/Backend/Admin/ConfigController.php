@@ -72,6 +72,9 @@ class ConfigController extends Controller
         if ($request->get('payment_offline_active') == null) {
             $requests['payment_offline_active'] = 0;
         }
+        if ($request->get('backup__status') == null) {
+            $requests['backup__status'] = 0;
+        }
 
         foreach ($requests->all() as $key => $value) {
             if ($key != '_token') {
@@ -161,13 +164,6 @@ class ConfigController extends Controller
             return ['status' => 'error', 'message' => 'Something went wrong. Please check key'];
         };
 
-
-//        $request_body = json_decode('{
-//        "name": "Laravel LMS"
-//    }');
-//        $response = $sg->client->contactdb()->lists()->post($request_body);
-//
-//        return $response->body();
     }
 
 }

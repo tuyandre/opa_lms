@@ -12,8 +12,6 @@ class CreateBlogModule extends Migration {
      */
     public function up()
     {
-
-
         Schema::create('blogs', function(Blueprint $table)
         {
             $table->increments('id');
@@ -71,20 +69,12 @@ class CreateBlogModule extends Migration {
     public function down()
     {
         //take backup before dropping table
-        $table = 'blog_comments';
-        Storage::disk('local')->put($table.'_'.date('Y-m-d_H-i-s').'.bak', json_encode(DB::table($table)->get()));
         Schema::drop('blog_comments');
 
-        $table = 'blogs';
-        Storage::disk('local')->put($table.'_'.date('Y-m-d_H-i-s').'.bak', json_encode(DB::table($table)->get()));
         Schema::drop('blogs');
 
-        $table = 'tags';
-        Storage::disk('local')->put($table.'_'.date('Y-m-d_H-i-s').'.bak', json_encode(DB::table($table)->get()));
         Schema::drop('tags');
 
-        $table = 'taggables';
-        Storage::disk('local')->put($table.'_'.date('Y-m-d_H-i-s').'.bak', json_encode(DB::table($table)->get()));
         Schema::drop('taggables');
     }
 

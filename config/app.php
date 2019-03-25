@@ -215,11 +215,16 @@ return [
         Darryldecode\Cart\CartServiceProvider::class,
         ConsoleTVs\Invoices\InvoicesServiceProvider::class,
         Harimayco\Menu\MenuServiceProvider::class,
+        Infinety\Config\ConfigServiceProvider::class,
+
 
 
         Barryvdh\TranslationManager\ManagerServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
-        'Chumper\Zipper\ZipperServiceProvider',
+        Chumper\Zipper\ZipperServiceProvider::class,
+        BC\Laravel\DropboxDriver\ServiceProvider::class,
+
+
 
 
         /*

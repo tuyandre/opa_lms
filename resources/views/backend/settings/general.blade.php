@@ -132,12 +132,6 @@
 
                                 <div class="col-md-10">
                                     <ul class="d-inline-block list-inline w-100 mb-0 color-list list-style-none">
-                                        {{--<li>--}}
-                                        {{--<a data-color="default" class="color-default text-decoration-none text-dark"--}}
-                                        {{--href="#!"><i class="fas fa-circle"></i>--}}
-                                        {{--</a>--}}
-                                        {{--<span style="font-size: 10px">(Default)</span>--}}
-                                        {{--</li>--}}
                                         <li>
                                             <a data-color="default" class="color-default"
                                                href="#!"><i

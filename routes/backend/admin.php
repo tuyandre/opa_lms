@@ -197,3 +197,7 @@ Route::post('delete-locale', function () {
 Route::get('update-theme','UpdateController@index')->name('update-theme');
 Route::post('update-theme','UpdateController@updateTheme')->name('update-files');
 Route::post('list-files','UpdateController@listFiles')->name('list-files');
+Route::get('backup','BackupController@index')->name('backup');
+Route::get('generate-backup','BackupController@generateBackup')->name('generate-backup');
+
+Route::post('backup','BackupController@storeBackup')->name('backup.store');

@@ -132,6 +132,10 @@ return array(
                     'update' =>
                         array(
                             'title' => 'Update',
+                        ),
+                    'backup' =>
+                        array(
+                            'title' => 'Backup',
                         )
                 ),
             'access' =>
