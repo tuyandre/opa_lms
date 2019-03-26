@@ -692,7 +692,7 @@ return array(
                 ),
             'contacts' =>
                 array(
-                    'title' => 'Contacts',
+                    'title' => 'Leads',
                     'fields' =>
                         array(
                             'name' => 'Name',

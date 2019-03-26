@@ -115,7 +115,7 @@ return array(
                         ),
                     'contacts' =>
                         array(
-                            'title' => 'Contact Requests',
+                            'title' => 'Leads',
                         ),
                     'pages' =>
                         array(

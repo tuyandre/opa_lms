@@ -102,7 +102,7 @@
                                         <div class="col-md-6">
                                             <div class="blog-post-img-content">
                                                 <div class="blog-img-date relative-position">
-                                                    <div class="blog-thumnile" style="background-image: url({{asset('storage/uploads/'.$item->image)}})"></div>
+                                                    <div class="blog-thumnile" @if($item->image != "") style="background-image: url({{asset('storage/uploads/'.$item->image)}})" @endif></div>
 
                                                     <div class="course-price text-center gradient-bg">
                                                         <span>{{$item->created_at->format('d M Y')}}</span>
