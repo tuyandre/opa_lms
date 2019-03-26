@@ -2,7 +2,8 @@
 
 namespace App\Console;
 
-use App\Console\Commands\backup;
+use App\Console\Commands\Backup;
+use App\Console\Commands\RefreshSite;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -17,7 +18,8 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        //
+        Backup::class,
+        RefreshSite::class
     ];
 
     /**
@@ -28,13 +30,15 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+        $schedule->command(RefreshSite::class)->daily();
+
         if(config('backup_schedule') == 1){
-            $schedule->command(backup::class)->daily();
+            $schedule->command(Backup::class)->daily();
         }elseif(config('backup_schedule') == 2){
-            $schedule->command(backup::class)->weekly();
+            $schedule->command(Backup::class)->weekly();
 
         }elseif(config('backup_schedule') == 3){
-            $schedule->command(backup::class)->monthly();
+            $schedule->command(Backup::class)->monthly();
 
         }
     }

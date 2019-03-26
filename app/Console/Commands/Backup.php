@@ -5,7 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
 
-class backup extends Command
+class Backup extends Command
 {
     /**
      * The name and signature of the console command.
