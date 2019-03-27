@@ -57,7 +57,7 @@ class ConfigSeeder extends Seeder
             7 =>
                 array (
                     'name' => 'location_on_map',
-                    'value' => '<iframe src=\'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3692.122954730373!2d70.75464901494634!3d22.27333179950189!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3959cbb6403a06d1%3A0xa1b96fed244312fd!2sEYUVA+Technologies!5e0!3m2!1sen!2sin!4v1550551719110\' width=\'800\' height=\'600\' frameborder=\'0\' style=\'border:0\' allowfullscreen></iframe>',
+                    'value' => '<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d101408.2330017279!2d-122.15130702796371!3d37.41330279145996!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x808fb7495bec0189%3A0x7c17d44a466baf9b!2sMountain+View%2C+CA%2C+USA!5e0!3m2!1sen!2sin!4v1553663251022" width="800" height="600" frameborder="0" style="border:0" allowfullscreen></iframe>',
                     'status' => 1,
                 ),
         );

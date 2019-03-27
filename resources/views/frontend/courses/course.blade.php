@@ -420,7 +420,7 @@
                                 <div class="featured-course">
                                     <div class="best-course-pic-text relative-position pt-0">
                                         <div class="best-course-pic relative-position "
-                                             style="background-image: url({{asset('storage/uploads/'.$global_featured_course->course_image)}})">
+                                            @if($global_featured_course->course_image != "") style="background-image: url({{asset('storage/uploads/'.$global_featured_course->course_image)}})" @endif>
 
                                             @if($global_featured_course->trending == 1)
                                                 <div class="trend-badge-2 text-center text-uppercase">
