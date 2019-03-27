@@ -2,7 +2,7 @@
     <button class="navbar-toggler sidebar-toggler d-lg-none mr-auto" type="button" data-toggle="sidebar-show">
         <span class="navbar-toggler-icon"></span>
     </button>
-    <a class="navbar-brand" href="#">
+    <a class="navbar-brand" href="{{ route('admin.dashboard') }}">
         <img class="navbar-brand-full" src="{{asset('storage/logos/'.config('logo_b_image'))}}"  height="25" alt="Square Logo">
         <img class="navbar-brand-minimized" src="{{asset('storage/logos/'.config('logo_popup'))}}" height="30" alt="Square Logo">
     </a>
