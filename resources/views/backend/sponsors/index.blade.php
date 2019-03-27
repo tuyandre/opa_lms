@@ -138,13 +138,13 @@
                     {
                         extend: 'csv',
                         exportOptions: {
-                            columns: ':visible',
+                            columns: [ 1, 2, 4,5]
                         }
                     },
                     {
                         extend: 'pdf',
                         exportOptions: {
-                            columns: ':visible',
+                            columns: [ 1, 2, 4,5]
                         }
                     },
                     'colvis'

@@ -16,6 +16,8 @@ return array (
       'name' => 'Full Name',
       'phone' => 'Phone',
       'message' => 'Message',
+      'gravatar' => 'Gravatar',
+      'upload' => 'Upload',
       'new_password' => 'New Password',
       'new_password_confirmation' => 'New Password Confirmation',
       'timezone' => 'Timezone',

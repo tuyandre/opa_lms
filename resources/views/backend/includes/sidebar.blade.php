@@ -233,13 +233,7 @@
             @endif
 
 
-            <li class="nav-item ">
-                <a class="nav-link {{ $request->segment(1) == 'account' ? 'active' : '' }}"
-                   href="{{ route('admin.account') }}">
-                    <i class="nav-icon icon-key"></i>
-                    <span class="title">@lang('menus.backend.sidebar.account.title')</span>
-                </a>
-            </li>
+
             @if ($logged_in_user->isAdmin())
                 <li class="nav-item ">
                     <a class="nav-link {{ $request->segment(1) == 'contact-requests' ? 'active' : '' }}"
@@ -248,6 +242,16 @@
                         <span class="title">@lang('menus.backend.sidebar.contacts.title')</span>
                     </a>
                 </li>
+            @endif
+            <li class="nav-item ">
+                <a class="nav-link {{ $request->segment(1) == 'account' ? 'active' : '' }}"
+                   href="{{ route('admin.account') }}">
+                    <i class="nav-icon icon-key"></i>
+                    <span class="title">@lang('menus.backend.sidebar.account.title')</span>
+                </a>
+            </li>
+            @if ($logged_in_user->isAdmin())
+
 
                 <li class="nav-title">
                     @lang('menus.backend.sidebar.system')

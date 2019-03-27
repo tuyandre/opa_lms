@@ -179,8 +179,5 @@
             $('.backup-configs').toggleClass('d-none')
         })
 
-
-
-
     </script>
 @endpush
