@@ -24,6 +24,17 @@ return array (
       'updated' => 'Usuario actualizado satisfactoriamente.',
       'updated_password' => 'Contraseña actualizada satisfactoriamente.',
     ),
+    'general' => 
+    array (
+      'backup_warning' => 'Por favor, rellene los detalles necesarios para la copia de seguridad',
+      'cancelled' => 'Actualización cancelada.',
+      'created' => 'Creado con éxito.',
+      'deleted' => 'Borrado exitosamente.',
+      'error' => 'Algo salió mal. Inténtalo de nuevo',
+      'restored' => 'Restaurado con éxito.',
+      'unverified' => 'Archivos de actualización no verificados.',
+      'updated' => 'Actualizado con éxito.',
+    ),
   ),
   'frontend' => 
   array (

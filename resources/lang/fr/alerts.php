@@ -24,6 +24,17 @@ return array (
       'updated' => 'Utilisateur mis à jour avec succès.',
       'updated_password' => 'Le mot de passe utilisateur a été mis à jour avec succès.',
     ),
+    'general' => 
+    array (
+      'backup_warning' => 'S\'il vous plaît remplir les détails nécessaires pour la sauvegarde',
+      'cancelled' => 'Mise à jour annulée.',
+      'created' => 'Créé avec succès',
+      'deleted' => 'Supprimé avec succès.',
+      'error' => 'Quelque chose s\'est mal passé. Réessayer',
+      'restored' => 'Restauré avec éxito.',
+      'unverified' => 'Fichiers de mise à jour non vérifiés.',
+      'updated' => 'Mis à jour avec succés.',
+    ),
   ),
   'frontend' => 
   array (
