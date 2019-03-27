@@ -62,7 +62,13 @@
                         </tr>
                         <tr>
                             <th>@lang('labels.backend.courses.fields.title')</th>
-                            <td>{{ $course->title }}</td>
+                            <td>
+                                @if($course->published == 1)
+                                    <a target="_blank" href="{{ route('courses.show', [$course->slug]) }}">{{ $course->title }}</a>
+                                @else
+                                  { $course->title }}
+                                @endif
+                            </td>
                         </tr>
                         <tr>
                             <th>@lang('labels.backend.courses.fields.slug')</th>

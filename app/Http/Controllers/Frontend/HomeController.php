@@ -81,7 +81,7 @@ class HomeController extends Controller
 
     public function getFaqs()
     {
-        $faq_categories = Category::with('faqs')->get();
+        $faq_categories = Category::has('faqs','>',0)->get();
         return view('frontend.faq', compact('faq_categories'));
     }
 

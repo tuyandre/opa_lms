@@ -101,7 +101,7 @@
                                 <a href="{{asset('forums')}}">@lang('labels.frontend.faq.make_question') <i class="fas fa-caret-right"></i></a>
                             </div>
                             <div class="genius-btn gradient-bg text-center text-uppercase ul-li-block bold-font">
-                                <a href="{{route('frontend.contact')}}">@lang('labels.frontend.faq.contact_us') <i class="fas fa-caret-right"></i></a>
+                                <a href="{{route('contact')}}">@lang('labels.frontend.faq.contact_us') <i class="fas fa-caret-right"></i></a>
                             </div>
 
                         </div>

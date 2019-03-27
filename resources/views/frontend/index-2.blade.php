@@ -372,7 +372,7 @@
                             <div class="section-title-2 mb65 headline text-left">
                                 <h2>@lang('labels.frontend.contact.send_us_a_message')</h2>
                             </div>
-                            <form class="contact_form" action="{{route('frontend.contact.send')}}" method="POST" enctype="multipart/form-data">
+                            <form class="contact_form" action="{{route('contact.send')}}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 <div class="contact-info">
                                     <input class="name @if($errors->has('name')) border-bottom border-danger @endif" name="name" type="text" placeholder="@lang('labels.frontend.contact.your_name')">

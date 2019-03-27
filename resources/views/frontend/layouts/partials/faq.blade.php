@@ -38,7 +38,7 @@
 
                     </div>
                     <div class="view-all-btn bold-font {{isset($classes) ? 'text-white' : '' }}">
-                        <a href="{{route('frontend.faqs')}}">More FAQs <i class="fas fa-chevron-circle-right"></i></a>
+                        <a href="{{route('faqs')}}">More FAQs <i class="fas fa-chevron-circle-right"></i></a>
                     </div>
                 </div>
             </div>

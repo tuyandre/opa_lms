@@ -82,7 +82,7 @@
                             </div>
                         </div>
                         <div class="genius-btn mt60 gradient-bg text-center text-uppercase ul-li-block bold-font ">
-                            <a href="#">@lang('labels.frontend.layouts.partials.contact_us') <i class="fas fa-caret-right"></i></a>
+                            <a href="{{route('contact')}}">@lang('labels.frontend.layouts.partials.contact_us') <i class="fas fa-caret-right"></i></a>
                         </div>
                     </div>
                     @if($contact_data["location_on_map"]["status"] == 1)

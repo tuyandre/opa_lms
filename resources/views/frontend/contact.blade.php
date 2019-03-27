@@ -80,7 +80,7 @@
             </div>
 
             <div class="contact_third_form">
-                <form class="contact_form" action="{{route('frontend.contact.send')}}" method="POST" enctype="multipart/form-data">
+                <form class="contact_form" action="{{route('contact.send')}}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="row">
                         <div class="col-md-4">

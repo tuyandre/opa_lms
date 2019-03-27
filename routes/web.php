@@ -14,10 +14,6 @@ Route::get('lang/{lang}', [LanguageController::class, 'swap']);
 Route::get('test',function (){
     set_time_limit(10000);
 
-
-
-    dd( config('backup.source.files.include'));
-
 //    Artisan::call('backup:run', ['--only-db' => true]);
 //    Artisan::call('backup:run', ['--only-files' => true]);
 //    Artisan::call('backup:run');
@@ -78,6 +74,16 @@ Route::post('video/progress', 'LessonsController@videoProgress')->name('update.v
 Route::get('/search', [HomeController::class, 'searchCourse'])->name('search');
 Route::get('/search-blog', [HomeController::class, 'searchBlog'])->name('blogs.search');
 
+
+Route::get('/faqs', 'Frontend\HomeController@getFaqs')->name('faqs');
+
+
+/*=============== Theme blades routes ends ===================*/
+
+
+
+Route::get('contact', 'Frontend\ContactController@index')->name('contact');
+Route::post('contact/send', 'Frontend\ContactController@send')->name('contact.send');
 
 
 Route::get('download', ['uses' => 'Frontend\HomeController@getDownload', 'as' => 'download']);
