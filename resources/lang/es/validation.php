@@ -160,6 +160,75 @@ return array (
           'language' => 'Lenguaje',
         ),
       ),
+      'settings' => 
+      array (
+        'general_settings' => 
+        array (
+          'app_locale' => 'Localidad de la aplicación',
+          'app_name' => 'Nombre de la aplicación',
+          'app_timezone' => 'Zona horaria de la aplicación',
+          'app_url' => 'URL de la aplicación',
+          'change_email' => 'Cambiar e-mail',
+          'confirm_email' => 'Confirmar correo electrónico',
+          'enable_registration' => 'Habilitar registro',
+          'font_color' => 'Color de fuente',
+          'theme_layout' => 'Diseño del tema',
+          'requires_approval' => 'Requiere Aprobación',
+          'password_history' => 'Historial de contraseñas',
+          'password_expires_days' => 'Contraseña caduca días',
+          'mail_username' => 'Nombre de usuario del correo',
+          'mail_port' => 'Puerto de correo',
+          'mail_password' => 'Contraseña de correo',
+          'mail_host' => 'Host de correo',
+          'mail_from_name' => 'Correo de nombre',
+          'mail_from_address' => 'Correo de dirección',
+          'mail_driver' => 'Controlador de correo',
+          'layout_type' => 'Tipo de diseño',
+          'homepage' => 'Seleccione la página de inicio',
+        ),
+        'social_settings' => 
+        array (
+          'twitter' => 
+          array (
+            'redirect' => 'Redireccionar URL',
+            'label' => 'Estado de inicio de sesión de Twitter',
+            'client_secret' => 'Secreto del cliente',
+            'client_id' => 'Identificación del cliente',
+          ),
+          'linkedin' => 
+          array (
+            'redirect' => 'Redireccionar URL',
+            'client_secret' => 'Secreto del cliente',
+            'client_id' => 'Identificación del cliente',
+          ),
+          'google' => 
+          array (
+            'redirect' => 'Redireccionar URL',
+            'label' => 'Estado de inicio de sesión de Google',
+            'client_secret' => 'Secreto del cliente',
+            'client_id' => 'Identificación del cliente',
+          ),
+          'github' => 
+          array (
+            'client_secret' => 'Secreto del cliente',
+            'client_id' => 'Identificación del cliente',
+            'redirect' => 'Redireccionar URL',
+            'label' => 'Estado de inicio de sesión de Github',
+          ),
+          'facebook' => 
+          array (
+            'client_secret' => 'Secreto del cliente',
+            'redirect' => 'Redireccionar URL',
+            'label' => 'Estado de inicio de sesión de Facebook',
+            'client_id' => 'Identificación del cliente',
+          ),
+          'bitbucket' => 
+          array (
+            'client_secret' => 'Secreto del cliente',
+            'redirect' => 'Redireccionar URL',
+          ),
+        ),
+      ),
     ),
     'frontend' => 
     array (
@@ -177,6 +246,9 @@ return array (
       'new_password_confirmation' => 'Confirmación de la Nueva Contraseña',
       'timezone' => 'Zona Horaria',
       'language' => 'Lenguaje',
+      'upload' => 'Subir',
+      'gravatar' => 'Gravatar',
     ),
   ),
+  'mimetypes' => 'El :attribute debe ser un archivo de tipo: valores.',
 );

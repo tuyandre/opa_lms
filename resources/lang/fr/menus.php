@@ -38,6 +38,134 @@ return array (
       'general' => 'Général',
       'history' => 'History',
       'system' => 'Système',
+      'account' => 
+      array (
+        'title' => 'Compte',
+      ),
+      'backup' => 
+      array (
+        'title' => 'Sauvegarde',
+      ),
+      'blogs' => 
+      array (
+        'title' => 'Blog',
+      ),
+      'categories' => 
+      array (
+        'title' => 'Les catégories',
+      ),
+      'change-password' => 
+      array (
+        'title' => 'Changer le mot de passe',
+      ),
+      'contact' => 
+      array (
+        'title' => 'Contact',
+      ),
+      'contacts' => 
+      array (
+        'title' => 'Pistes',
+      ),
+      'courses' => 
+      array (
+        'manage' => 'Gérer les cours',
+        'management' => 'Gestion des cours',
+        'title' => 'Cours',
+      ),
+      'debug-site' => 
+      array (
+        'title' => 'Site de débogage',
+      ),
+      'faqs' => 
+      array (
+        'title' => 'FAQ',
+      ),
+      'footer' => 
+      array (
+        'title' => 'Bas de page',
+      ),
+      'hero-slider' => 
+      array (
+        'title' => 'Curseur de héros',
+      ),
+      'invoices' => 
+      array (
+        'title' => 'Factures',
+      ),
+      'lessons' => 
+      array (
+        'title' => 'Cours',
+      ),
+      'menu-manager' => 
+      array (
+        'title' => 'Gestionnaire de menu',
+      ),
+      'messages' => 
+      array (
+        'title' => 'messages',
+      ),
+      'newsletter-configuration' => 
+      array (
+        'title' => 'Configuration de la newsletter',
+      ),
+      'orders' => 
+      array (
+        'title' => 'Ordres',
+      ),
+      'pages' => 
+      array (
+        'title' => 'Gestionnaire de pages',
+      ),
+      'questions-options' => 
+      array (
+        'title' => 'Questions Options',
+      ),
+      'questions' => 
+      array (
+        'title' => 'Des questions',
+      ),
+      'reasons' => 
+      array (
+        'title' => 'Les raisons',
+      ),
+      'reviews' => 
+      array (
+        'title' => 'Avis',
+      ),
+      'settings' => 
+      array (
+        'general' => 'Général',
+        'social-login' => 'Connexion sociale',
+        'title' => 'Réglages',
+      ),
+      'site-management' => 
+      array (
+        'title' => 'Administration du site',
+      ),
+      'sponsors' => 
+      array (
+        'title' => 'Sponsors',
+      ),
+      'teachers' => 
+      array (
+        'title' => 'Enseignants',
+      ),
+      'testimonials' => 
+      array (
+        'title' => 'Témoignages',
+      ),
+      'tests' => 
+      array (
+        'title' => 'Des tests',
+      ),
+      'translations' => 
+      array (
+        'title' => 'Responsable de la traduction',
+      ),
+      'update' => 
+      array (
+        'title' => 'Mettre à jour',
+      ),
     ),
   ),
   'language-picker' => 

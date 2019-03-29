@@ -157,6 +157,77 @@ return array (
           'password' => 'Mot de passe',
           'password_confirmation' => 'Confirmation du mot de passe',
           'send_confirmation_email' => 'Envoyer un email de confirmation',
+          'language' => 'La langue',
+          'timezone' => 'Fuseau horaire',
+        ),
+      ),
+      'settings' => 
+      array (
+        'general_settings' => 
+        array (
+          'app_locale' => 'App Locale',
+          'app_name' => 'Nom de l\'application',
+          'app_timezone' => 'Fuseau horaire App',
+          'app_url' => 'URL de l\'application',
+          'change_email' => 'Changer l\'e-mail',
+          'confirm_email' => 'Confirmez votre e-mail',
+          'enable_registration' => 'Activer l\'inscription',
+          'font_color' => 'Couleur de la police',
+          'theme_layout' => 'Mise en page du thème',
+          'requires_approval' => 'Nécessite une approbation',
+          'password_history' => 'Historique du mot de passe',
+          'password_expires_days' => 'Mot de passe expire jours',
+          'mail_username' => 'Mail Nom d\'utilisateur',
+          'mail_port' => 'Port de messagerie',
+          'mail_password' => 'Mot de passe mail',
+          'mail_host' => 'Mail Host',
+          'mail_from_name' => 'Mail De Nom',
+          'mail_from_address' => 'Mail De Adresse',
+          'mail_driver' => 'Pilote de courrier',
+          'layout_type' => 'Type de disposition',
+          'homepage' => 'Sélectionner la page d\'accueil',
+        ),
+        'social_settings' => 
+        array (
+          'twitter' => 
+          array (
+            'redirect' => 'URL de redirection',
+            'label' => 'État de connexion Twitter',
+            'client_secret' => 'Secret du client',
+            'client_id' => 'identité du client',
+          ),
+          'linkedin' => 
+          array (
+            'redirect' => 'URL de redirection',
+            'client_secret' => 'Secret du client',
+            'client_id' => 'identité du client',
+          ),
+          'google' => 
+          array (
+            'redirect' => 'URL de redirection',
+            'label' => 'État de connexion Google',
+            'client_secret' => 'Secret du client',
+            'client_id' => 'identité du client',
+          ),
+          'github' => 
+          array (
+            'client_secret' => 'Secret du client',
+            'client_id' => 'identité du client',
+            'redirect' => 'URL de redirection',
+            'label' => 'État de connexion Github',
+          ),
+          'facebook' => 
+          array (
+            'client_secret' => 'Secret du client',
+            'client_id' => 'identité du client',
+            'redirect' => 'URL de redirection',
+            'label' => 'État de connexion Facebook',
+          ),
+          'bitbucket' => 
+          array (
+            'redirect' => 'URL de redirection',
+            'client_secret' => 'Secret du client',
+          ),
         ),
       ),
     ),
@@ -175,6 +246,9 @@ return array (
       'new_password_confirmation' => 'Confirmation du nouveau mot de passe',
       'old_password' => 'Ancien mot de passe',
       'timezone' => 'Fuseau Horaire',
+      'upload' => 'Télécharger',
+      'language' => 'la langue',
+      'gravatar' => 'Gravatar',
     ),
   ),
 );

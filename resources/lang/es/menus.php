@@ -38,6 +38,134 @@ return array (
       'general' => 'General',
       'history' => 'Historia',
       'system' => 'Sistema',
+      'account' => 
+      array (
+        'title' => 'Cuenta',
+      ),
+      'backup' => 
+      array (
+        'title' => 'Apoyo',
+      ),
+      'blogs' => 
+      array (
+        'title' => 'Blog',
+      ),
+      'categories' => 
+      array (
+        'title' => 'Categorías',
+      ),
+      'change-password' => 
+      array (
+        'title' => 'Cambia la contraseña',
+      ),
+      'contact' => 
+      array (
+        'title' => 'Contacto',
+      ),
+      'contacts' => 
+      array (
+        'title' => 'Lleva',
+      ),
+      'courses' => 
+      array (
+        'manage' => 'Gestionar cursos',
+        'management' => 'Gestión de cursos',
+        'title' => 'Los cursos',
+      ),
+      'debug-site' => 
+      array (
+        'title' => 'Depurar el sitio',
+      ),
+      'faqs' => 
+      array (
+        'title' => 'Preguntas frecuentes',
+      ),
+      'footer' => 
+      array (
+        'title' => 'Pie de página',
+      ),
+      'hero-slider' => 
+      array (
+        'title' => 'Control deslizante de héroe',
+      ),
+      'invoices' => 
+      array (
+        'title' => 'Facturas',
+      ),
+      'lessons' => 
+      array (
+        'title' => 'Lecciones',
+      ),
+      'menu-manager' => 
+      array (
+        'title' => 'Gerente de menú',
+      ),
+      'messages' => 
+      array (
+        'title' => 'Mensajes',
+      ),
+      'newsletter-configuration' => 
+      array (
+        'title' => 'Configuración del boletín',
+      ),
+      'orders' => 
+      array (
+        'title' => 'Pedidos',
+      ),
+      'pages' => 
+      array (
+        'title' => 'Administrador de Páginas',
+      ),
+      'questions-options' => 
+      array (
+        'title' => 'Preguntas Opciones',
+      ),
+      'questions' => 
+      array (
+        'title' => 'Preguntas',
+      ),
+      'reasons' => 
+      array (
+        'title' => 'Razones',
+      ),
+      'reviews' => 
+      array (
+        'title' => 'Opiniones',
+      ),
+      'settings' => 
+      array (
+        'general' => 'General',
+        'social-login' => 'Inicio de sesión social',
+        'title' => 'Ajustes',
+      ),
+      'site-management' => 
+      array (
+        'title' => 'Manejo de sitio',
+      ),
+      'sponsors' => 
+      array (
+        'title' => 'Los patrocinadores',
+      ),
+      'teachers' => 
+      array (
+        'title' => 'Maestros',
+      ),
+      'testimonials' => 
+      array (
+        'title' => 'Testimonios',
+      ),
+      'tests' => 
+      array (
+        'title' => 'Pruebas',
+      ),
+      'translations' => 
+      array (
+        'title' => 'Gerente de traducción',
+      ),
+      'update' => 
+      array (
+        'title' => 'Actualizar',
+      ),
     ),
   ),
   'language-picker' => 

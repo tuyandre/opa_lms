@@ -5,6 +5,7 @@ return array (
   array (
     'home' => 'Inicio',
     'logout' => 'Cerrar Sesión',
+    'login' => 'iniciar sesión',
   ),
   'frontend' => 
   array (
@@ -21,5 +22,7 @@ return array (
       'my_information' => 'Mi Cuenta',
       'profile' => 'Perfil',
     ),
+    'forums' => 'foros',
+    'courses' => 'Los cursos',
   ),
 );

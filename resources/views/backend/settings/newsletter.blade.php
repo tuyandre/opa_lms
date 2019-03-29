@@ -65,7 +65,7 @@
         </div>
 
         <div class="card-body" id="newsletter">
-            <h5>@lang('labels.backend.general_settings.mail_configuration_note')</h5>
+            <h5>@lang('labels.backend.general_settings.mail_configuration_note',['link'=>'<a target="_blank" href="'.route('admin.general-settings',['tab'=>'email']).'">'])</h5>
             <div class="form-group row">
                 {{ html()->label(__('labels.backend.general_settings.newsletter.mail_provider'))->class('col-md-2 form-control-label')->for('short_description') }}
                 <div class="col-md-10">

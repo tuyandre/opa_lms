@@ -20,7 +20,7 @@ if (config('nav_menu') != 0) {
 
                             <div class="manage-menus">
                                 <form method="get" action="{{ $currentUrl }}">
-                                    <label for="menu" class="selected-menu">Select the menu you want to edit:</label>
+                                    <label for="menu" class="selected-menu">{{ __('strings.backend.menu_manager.select_to_edit') }}</label>
 
                                     {!! Menu::select('menu', $menulist) !!}
 
@@ -28,7 +28,7 @@ if (config('nav_menu') != 0) {
 										<input type="submit" class="button-secondary" value="Choose">
 									</span>
                                     <span class="add-new-menu-action"> or <a
-                                                href="{{ $currentUrl }}?action=edit&menu=0">Create new menu</a>. </span>
+                                                href="{{ $currentUrl }}?action=edit&menu=0">>{{ __('strings.backend.menu_manager.create_new') }}</a>. </span>
                                 </form>
                             </div>
                             <div id="nav-menus-frame" class="row">
@@ -44,8 +44,7 @@ if (config('nav_menu') != 0) {
                                                 <ul class="outer-border">
                                                     <li class="control-section accordion-section  open add-page"
                                                         id="add-page">
-                                                        <h3 class="accordion-section-title hndle" tabindex="0"> Custom
-                                                            Link <span class="screen-reader-text">Press return or enter to expand</span>
+                                                        <h3 class="accordion-section-title hndle" tabindex="0"> >{{ __('strings.backend.menu_manager.custom_link') }} <span class="screen-reader-text">{{ __('strings.backend.menu_manager.screen_reader_text') }}</span>
                                                         </h3>
                                                         <div class="accordion-section-content ">
                                                             <div class="inside">
@@ -63,7 +62,7 @@ if (config('nav_menu') != 0) {
                                                                     <p id="menu-item-name-wrap">
                                                                         <label class="howto"
                                                                                for="custom-menu-item-name">
-                                                                            <span>Label</span>&nbsp;
+                                                                            <span>{{ __('strings.backend.menu_manager.label') }}</span>&nbsp;
                                                                             <input id="custom-menu-item-name"
                                                                                    name="label" type="text"
                                                                                    class="regular-text menu-item-textbox input-with-default-title"
@@ -239,7 +238,7 @@ if (config('nav_menu') != 0) {
                                                                         <div class="menu-item-settings col-12 col-lg-7"
                                                                              id="menu-item-settings-{{$m->id}}">
                                                                             <div class="row">
-                                                                                <div class="col-lg-6 col-12">
+                                                                                <div class="col-12">
                                                                                     <input type="hidden"
                                                                                            class="edit-menu-item-id"
                                                                                            name="menuid_{{$m->id}}"
@@ -257,21 +256,7 @@ if (config('nav_menu') != 0) {
                                                                                         </label>
                                                                                     </p>
                                                                                 </div>
-                                                                                <div class="col-lg-6 col-12">
-                                                                                    <p class="field-css-classes description description-thin">
-                                                                                        <label class="d-inline-block w-100"
-                                                                                               for="edit-menu-item-classes-{{$m->id}}">
 
-                                                                                            {{ __('strings.backend.menu_manager.class') }}
-                                                                                            <br>
-                                                                                            <input type="text"
-                                                                                                   id="clases_menu_{{$m->id}}"
-                                                                                                   class="widefat edit-menu-item-classes form-control"
-                                                                                                   name="clases_menu_{{$m->id}}"
-                                                                                                   value="{{$m->class}}">
-                                                                                        </label>
-                                                                                    </p>
-                                                                                </div>
                                                                                 <p class="field-css-url description col-12 description-wide">
                                                                                     <label for="edit-menu-item-url-{{$m->id}}">
                                                                                         {{ __('strings.backend.menu_manager.url') }}
