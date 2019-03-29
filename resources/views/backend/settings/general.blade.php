@@ -215,6 +215,25 @@
                                 </div><!--col-->
                             </div><!--form-group-->
 
+                            <div class="form-group row">
+                                {{ html()->label(__('labels.backend.general_settings.google_analytics_id'))->class('col-md-2 form-control-label')->for('app_name') }}
+
+                                <div class="col-md-10">
+                                    {{ html()->text('google_analytics_id')
+                                        ->class('form-control')
+                                        ->placeholder('Ex. UA-34XXXXX23-3')
+                                        ->attribute('maxlength', 191)
+
+                                        ->value(config('google_analytics_id'))
+                                        ->autofocus()
+                                        }}
+                                    <span class="float-right">
+                                        <a target="_blank" class="font-weight-bold font-italic" href="https://support.google.com/analytics/answer/1042508">{{__('labels.backend.general_settings.google_analytics_id_note')}}</a>
+                                    </span>
+
+                                </div><!--col-->
+                            </div><!--form-group-->
+
                         </div>
                     </div>
                 </div>
