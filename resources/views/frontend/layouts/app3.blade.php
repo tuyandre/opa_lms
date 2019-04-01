@@ -304,15 +304,23 @@
     <script src="{{asset('assets/js/script.js')}}"></script>
     <script>
         @if(request()->has('user')  && (request('user') == 'admin'))
+
         $('#myModal').modal('show');
         $('#loginForm').find('#email').val('admin@lms.com')
         $('#loginForm').find('#password').val('secret')
+
         @elseif(request()->has('user')  && (request('user') == 'student'))
+
+        $('#myModal').modal('show');
         $('#loginForm').find('#email').val('student@lms.com')
         $('#loginForm').find('#password').val('secret')
+
         @elseif(request()->has('user')  && (request('user') == 'teacher'))
+
+        $('#myModal').modal('show');
         $('#loginForm').find('#email').val('teacher@lms.com')
         $('#loginForm').find('#password').val('secret')
+
         @endif
     </script>
     <script>
