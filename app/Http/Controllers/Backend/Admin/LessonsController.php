@@ -149,36 +149,64 @@ class LessonsController extends Controller
             return abort(401);
         }
 
-
         $lesson = Lesson::create($request->except('downloadable_files', 'lesson_image')
             + ['position' => Lesson::where('course_id', $request->course_id)->max('position') + 1]);
 
 
-        //Saving youtube videos
-        if ($request->videos != "") {
-            $videos = explode(',', $request->videos);
-            foreach ($videos as $video) {
-                $video_id = array_last(explode('=', trim($video)));
-                $media = Media::where('url', $video)
-                    ->where('type', '=', 'YT')
+        //Saving  videos
+        if ($request->media_type != "") {
+            $model_type = Lesson::class;
+            $model_id = $lesson->id;
+            $size = 0;
+            $media = '';
+            $url = '';
+            $video_id = '';
+            $name = $lesson->title . ' - video';
+
+            if (($request->media_type == 'youtube') || ($request->media_type == 'vimeo')) {
+                $video = $request->video;
+                $url = $video;
+                $video_id = array_last(explode('/', $request->video));
+                $media = Media::where('url', $video_id)
+                    ->where('type', '=', $request->media_type)
                     ->where('model_type', '=', 'App\Models\Lesson')
                     ->where('model_id', '=', $lesson->id)
                     ->first();
-                if ($media == null) {
-                    $media = new Media();
-                    $media->model_type = Lesson::class;
-                    $media->model_id = $lesson->id;
-                    $media->name = $video_id;
-                    $media->url = $video;
-                    $media->type = 'YT';
-                    $media->file_name = $video_id;
-                    $media->size = 0;
-                    $media->save();
+                $size = 0;
+
+            } elseif ($request->media_type == 'upload') {
+                if (\Illuminate\Support\Facades\Request::hasFile('video_file')) {
+                    $file = \Illuminate\Support\Facades\Request::file('video_file');
+                    $filename = time() . '-' . $file->getClientOriginalName();
+                    $size = $file->getSize() / 1024;
+                    $path = public_path() . '/storage/uploads/';
+                    $file->move($path, $filename);
+
+                    $video_id = $filename;
+                    $url = asset('storage/uploads/' . $filename);
+
+                    $media = Media::where('type', '=', $request->media_type)
+                        ->where('model_type', '=', 'App\Models\Lesson')
+                        ->where('model_id', '=', $lesson->id)
+                        ->first();
                 }
-                $ids[$media->id] = ['type' => 'YT'];
+            } else if ($request->media_type == 'embed') {
+                $url = $request->video;
+                $filename = $lesson->title . ' - video';
             }
-        } else {
-            $lesson->media()->where('type', 'YT')->delete();
+
+
+            if ($media == null) {
+                $media = new Media();
+                $media->model_type = $model_type;
+                $media->model_id = $model_id;
+                $media->name = $name;
+                $media->url = $url;
+                $media->type = $request->media_type;
+                $media->file_name = $video_id;
+                $media->size = 0;
+                $media->save();
+            }
         }
 
         $request = $this->saveAllFiles($request, 'downloadable_files', Lesson::class, $lesson);
@@ -255,32 +283,50 @@ class LessonsController extends Controller
             $lesson->save();
         }
 
-        if ($request->videos != "") {
-            $lesson->media()->where('type', 'YT')->delete();
-
-            $videos = explode(',', $request->videos);
-            foreach ($videos as $video) {
-                $video_id = array_last(explode('=', trim($video)));
-                $media = Media::where('url', $video)
-                    ->where('type', '=', 'YT')
-                    ->where('model_type', '=', 'App\Models\Lesson')
-                    ->where('model_id', '=', $lesson->id)
-                    ->first();
-                if ($media == null) {
-                    $media = new Media();
-                    $media->model_type = Lesson::class;
-                    $media->model_id = $lesson->id;
-                    $media->name = $video_id;
-                    $media->url = $video;
-                    $media->type = 'YT';
-                    $media->file_name = $video_id;
-                    $media->size = 0;
-                    $media->save();
-                }
-                $ids[$media->id] = ['type' => 'YT'];
+        //Saving  videos
+        if ($request->media_type != "") {
+            $model_type = Lesson::class;
+            $model_id = $lesson->id;
+            $size = 0;
+            $media = '';
+            $url = '';
+            $video_id = '';
+            $name = $lesson->title . ' - video';
+            $media = $lesson->mediavideo;
+            if($media == ""){
+                $media = new  Media();
             }
-        } else {
-            $lesson->media()->where('type', 'YT')->delete();
+            if (($request->media_type == 'youtube') || ($request->media_type == 'vimeo')) {
+                $video = $request->video;
+                $url = $video;
+                $video_id = array_last(explode('/', $request->video));
+                $size = 0;
+
+            } elseif ($request->media_type == 'upload') {
+                if (\Illuminate\Support\Facades\Request::hasFile('video_file')) {
+                    $file = \Illuminate\Support\Facades\Request::file('video_file');
+                    $filename = time() . '-' . $file->getClientOriginalName();
+                    $size = $file->getSize() / 1024;
+                    $path = public_path() . '/storage/uploads/';
+                    $file->move($path, $filename);
+
+                    $video_id = $filename;
+                    $url = asset('storage/uploads/' . $filename);
+
+                }
+            } else if ($request->media_type == 'embed') {
+                $url = $request->video;
+                $filename = $lesson->title . ' - video';
+            }
+
+            $media->model_type = $model_type;
+            $media->model_id = $model_id;
+            $media->name = $name;
+            $media->url = $url;
+            $media->type = $request->media_type;
+            $media->file_name = $video_id;
+            $media->size = 0;
+            $media->save();
         }
 
 

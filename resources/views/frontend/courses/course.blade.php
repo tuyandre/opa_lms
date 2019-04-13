@@ -87,7 +87,8 @@
                                                     <button class="btn btn-link collapsed" data-toggle="collapse"
                                                             data-target="#collapse{{$key}}" aria-expanded="false"
                                                             aria-controls="collapse{{$key}}">
-                                                        <span>{{ sprintf("%02d", $key)}}</span> {{$lesson->model->title}}
+                                                        <span>{{ sprintf("%02d", $key)}}</span>
+                                                        {{$lesson->model->title}}
                                                     </button>
                                                     @if($lesson->model_type == 'App\Models\Test')
                                                         <div class="leanth-course">

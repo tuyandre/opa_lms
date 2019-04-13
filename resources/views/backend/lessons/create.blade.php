@@ -103,13 +103,30 @@
 
                 </div>
             </div>
+            {{--<div class="row">--}}
+                {{--<div class="col-md-12 form-group">--}}
+                    {{--<h4>Add <span class="text-danger text-bold">YOUTUBE</span> videos</h4>--}}
+                    {{--<h6 class="text-success">>@lang('labels.backend.lessons.yt_note')</h6>--}}
+                    {{--<p class="text text-primary font-bold mb-0">Ex. https://youtu.be/XXX0XX1X</p>--}}
+
+                    {{--{!! Form::text('videos', old('videos'), ['class' => 'form-control', 'placeholder' => '', 'data-role' => 'tagsinput' ]) !!}--}}
+
+                {{--</div>--}}
+            {{--</div>--}}
+
             <div class="row">
                 <div class="col-md-12 form-group">
-                    <h4>Add <span class="text-danger text-bold">YOUTUBE</span> videos</h4>
-                    <h6 class="text-success"><b>Instructions to add Video link: </b><br> Go to youtube -> open video -> right click on video and <b>Copy Video URL</b> and paste here.<br> If you want to add multiple videos, then separate them with <b>,</b> (Comma) Sign.</h6>
-                    <p class="text text-primary font-bold mb-0">Ex. https://youtu.be/XXX0XX1X</p>
+                    <h4>Add Video</h4>
 
-                    {!! Form::text('videos', old('videos'), ['class' => 'form-control', 'placeholder' => '', 'data-role' => 'tagsinput' ]) !!}
+                    {!! Form::select('media_type', ['youtube' => 'Youtube','vimeo' => 'Vimeo','upload' => 'Upload','embed' => 'Embed'],null,['class' => 'form-control', 'placeholder' => 'Select One','id'=>'media_type' ]) !!}
+
+
+
+                    {!! Form::text('video', old('video'), ['class' => 'form-control mt-3 d-none', 'placeholder' => trans('labels.backend.lessons.enter_video_url'),'id'=>'video'  ]) !!}
+
+
+                    {!! Form::file('video_file', ['class' => 'form-control mt-3 d-none', 'placeholder' => trans('labels.backend.lessons.enter_video_url'),'id'=>'video_file'  ]) !!}
+
 
                 </div>
             </div>
@@ -188,6 +205,21 @@
                    $this.val("");
                }
            })
+       });
+
+       $(document).on('change','#media_type',function () {
+           if($(this).val()){
+               if($(this).val() != 'upload'){
+                   $('#video').removeClass('d-none').attr('required',true)
+                   $('#video_file').addClass('d-none').attr('required',false)
+               }else if($(this).val() == 'upload'){
+                   $('#video').addClass('d-none').attr('required',false)
+                   $('#video_file').removeClass('d-none').attr('required',true)
+               }
+           } else{
+                $('#video_file').addClass('d-none').attr('required',false)
+                $('#video').addClass('d-none').attr('required',false)
+            }
        })
 
     </script>

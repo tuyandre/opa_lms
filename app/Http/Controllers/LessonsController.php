@@ -17,11 +17,11 @@ class LessonsController extends Controller
 
     public function show($course_id, $lesson_slug)
     {
-        $completed_lessons= "";
-        $lesson = Lesson::where('slug', $lesson_slug)->where('course_id', $course_id)->where('published','=',1)->first();
-        if($lesson == ""){
-           $lesson = Test::where('slug', $lesson_slug)->where('course_id', $course_id)->where('published','=',1)->firstOrFail();
-           $lesson->full_text = $lesson->description;
+        $completed_lessons = "";
+        $lesson = Lesson::where('slug', $lesson_slug)->where('course_id', $course_id)->where('published', '=', 1)->first();
+        if ($lesson == "") {
+            $lesson = Test::where('slug', $lesson_slug)->where('course_id', $course_id)->where('published', '=', 1)->firstOrFail();
+            $lesson->full_text = $lesson->description;
 
             $test_result = NULL;
             if ($lesson) {
@@ -31,19 +31,16 @@ class LessonsController extends Controller
             }
         }
 
-        if (\Auth::check())
-        {
+        if (\Auth::check()) {
             if ($lesson->chapterStudents()->where('user_id', \Auth::id())->count() == 0) {
                 $lesson->chapterStudents()->create([
-                    'model_type'=>get_class($lesson),
-                    'model_id'=>$lesson->id,
-                    'user_id'=>auth()->user()->id,
+                    'model_type' => get_class($lesson),
+                    'model_id' => $lesson->id,
+                    'user_id' => auth()->user()->id,
                     'course_id' => $lesson->course->id
                 ]);
             }
         }
-
-
 
 
         $previous_lesson = $lesson->course->courseTimeline()->where('sequence', '<', $lesson->courseTimeline->sequence)
@@ -52,7 +49,7 @@ class LessonsController extends Controller
         $next_lesson = $lesson->course->courseTimeline()->where('sequence', '>', $lesson->courseTimeline->sequence)
             ->orderBy('sequence', 'asc')
             ->first();
-        $lessons = $lesson->course->courseTimeline()->orderby('sequence','asc')->get();
+        $lessons = $lesson->course->courseTimeline()->orderby('sequence', 'asc')->get();
 
         $purchased_course = $lesson->course->students()->where('user_id', \Auth::id())->count() > 0;
         $test_exists = FALSE;
@@ -64,7 +61,7 @@ class LessonsController extends Controller
 
 
         return view('frontend.courses.lesson', compact('lesson', 'previous_lesson', 'next_lesson', 'test_result',
-            'purchased_course', 'test_exists','lessons','completed_lessons'));
+            'purchased_course', 'test_exists', 'lessons', 'completed_lessons'));
     }
 
     public function test($lesson_slug, Request $request)
@@ -75,8 +72,8 @@ class LessonsController extends Controller
         foreach ($request->get('questions') as $question_id => $answer_id) {
             $question = Question::find($question_id);
             $correct = QuestionsOption::where('question_id', $question_id)
-                ->where('id', $answer_id)
-                ->where('correct', 1)->count() > 0;
+                    ->where('id', $answer_id)
+                    ->where('correct', 1)->count() > 0;
             $answers[] = [
                 'question_id' => $question_id,
                 'option_id' => $answer_id,
@@ -101,20 +98,21 @@ class LessonsController extends Controller
         return back()->with('message', 'Test score: ' . $test_score);
     }
 
-    public function retest(Request $request){
-       $test = TestsResult::where('id','=',$request->result_id)
-            ->where('user_id','=',auth()->user()->id)
+    public function retest(Request $request)
+    {
+        $test = TestsResult::where('id', '=', $request->result_id)
+            ->where('user_id', '=', auth()->user()->id)
             ->first();
-       $test->delete();
-       return back();
+        $test->delete();
+        return back();
     }
 
-    public function videoProgress(Request $request){
+    public function videoProgress(Request $request)
+    {
         $user = auth()->user();
         $video = Media::findOrFail($request->video);
         $video_progress = VideoProgress::where('user_id', '=', $user->id)
             ->where('media_id', '=', $video->id)->first() ?: new VideoProgress();
-
         $video_progress->media_id = $video->id;
         $video_progress->user_id = $user->id;
         $video_progress->duration = $video_progress->duration ?: round($request->duration, 2);

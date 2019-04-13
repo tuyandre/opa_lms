@@ -1,7 +1,9 @@
 @extends('frontend.layouts.app'.config('theme_layout'))
 
 @push('after-styles')
-    <link rel="stylesheet" href="{{asset('plugins/YouTube-iFrame-API-Wrapper/css/main.css')}}">
+    {{--<link rel="stylesheet" href="{{asset('plugins/YouTube-iFrame-API-Wrapper/css/main.css')}}">--}}
+    <link rel="stylesheet" href="https://cdn.plyr.io/3.5.3/plyr.css"/>
+
 
     <style>
         .test-form {
@@ -133,40 +135,54 @@
                                     </h2>
                                 </div>
 
-                                @foreach($lesson->mediavideo as $video)
-                                    @php
-                                        $url = array_last(explode('=',$video->url));
-                                    @endphp
+                                @if($lesson->mediavideo != "")
                                     <div class="course-details-content">
-                                        <div class="video-container mb-5" data-id="{{$video->id}}" id="{{$url}}">
-                                            <div class="embed-responsive embed-responsive-16by9">
-                                                <div class="embed-responsive-item">
+                                        @if($lesson->mediavideo->type == 'youtube')
 
-                                                    <div class="mask"></div>
-                                                    {{--<img src="{{asset('vendor/YouTube-iFrame-API-Wrapper')}}/img/preload.gif" class="preload">--}}
+                                            <div class="video-container mb-5" data-id="{{$lesson->mediavideo->id}}">
+                                                {{--<div class="embed-responsive embed-responsive-16by9">--}}
+                                                {{--<div class="embed-responsive-item">--}}
 
-                                                    <div class="play">
-                                                        <i class="play-icon glyphicon glyphicon-play-circle"></i>
-                                                    </div>
+                                                {{--<div class="mask"></div>--}}
+                                                {{--<img src="{{asset('vendor/YouTube-iFrame-API-Wrapper')}}/img/preload.gif" class="preload">--}}
 
-                                                    <div class="mute">
-                                                        <i class="mute-icon notMuted glyphicon glyphicon-volume-up"></i>
-                                                        <i class="mute-icon isMuted glyphicon glyphicon-volume-off"></i>
-                                                    </div>
+                                                {{--<div class="play">--}}
+                                                {{--<i class="play-icon glyphicon glyphicon-play-circle"></i>--}}
+                                                {{--</div>--}}
 
-                                                    <img class="thumb"
-                                                         src="//img.youtube.com/vi/{{$url}}/maxresdefault.jpg">
-                                                    <div class="iframe" id="video-{{$url}}"></div>
+                                                {{--<div class="mute">--}}
+                                                {{--<i class="mute-icon notMuted glyphicon glyphicon-volume-up"></i>--}}
+                                                {{--<i class="mute-icon isMuted glyphicon glyphicon-volume-off"></i>--}}
+                                                {{--</div>--}}
 
-                                                </div>
+                                                {{--<img class="thumb"--}}
+                                                {{--src="//img.youtube.com/vi/{{$url}}/maxresdefault.jpg">--}}
+                                                {{--<div class="iframe" id="video-{{$url}}"></div>--}}
+
+                                                {{--</div>--}}
+                                                {{--</div>--}}
+
+                                                {{--<div class="progress">--}}
+                                                {{--<div class="progress-bar" role="progressbar"></div>--}}
+                                                {{--</div>--}}
+
+                                                <div id="player" class="js-player" data-plyr-provider="youtube"
+                                                     data-plyr-embed-id="{{$lesson->mediavideo->file_name}}"></div>
                                             </div>
+                                        @elseif($lesson->mediavideo->type == 'vimeo')
+                                            <div id="player" class="js-player" data-plyr-provider="vimeo"
+                                                 data-plyr-embed-id="{{$lesson->mediavideo->file_name}}"></div>
+                                        @elseif($lesson->mediavideo->type == 'upload')
+                                            <video poster="" id="player" class="js-player" playsinline controls>
+                                                <source src="{{$lesson->mediavideo->url}}" type="video/mp4"/>
+                                            </video>
+                                        @elseif($lesson->mediavideo->type == 'embed')
+                                            {!! $lesson->mediavideo->url !!}
+                                        @endif
 
-                                            <div class="progress">
-                                                <div class="progress-bar" role="progressbar"></div>
-                                            </div>
-                                        </div>
+
                                     </div>
-                                @endforeach
+                                @endif
                             </div>
 
                         @endif
@@ -193,6 +209,8 @@
                                 @endforeach
                             </div>
                         @endif
+
+
                     </div>
                     <!-- /course-details -->
 
@@ -207,13 +225,15 @@
                         <div class="course-details-category ul-li">
                             @if ($previous_lesson)
                                 <p><a class="btn btn-block gradient-bg font-weight-bold text-white"
-                                      href="{{ route('lessons.show', [$previous_lesson->course_id, $previous_lesson->model->slug]) }}"><i class="fa fa-angle-double-left"></i>
+                                      href="{{ route('lessons.show', [$previous_lesson->course_id, $previous_lesson->model->slug]) }}"><i
+                                                class="fa fa-angle-double-left"></i>
                                         @lang('labels.frontend.course.prev')</a></p>
                             @endif
 
                             @if ($next_lesson)
                                 <p><a class="btn btn-block gradient-bg font-weight-bold text-white"
-                                      href="{{ route('lessons.show', [$next_lesson->course_id, $next_lesson->model->slug]) }}">@lang('labels.frontend.course.next') <i class="fa fa-angle-double-right"></i> </a></p>
+                                      href="{{ route('lessons.show', [$next_lesson->course_id, $next_lesson->model->slug]) }}">@lang('labels.frontend.course.next')
+                                        <i class="fa fa-angle-double-right"></i> </a></p>
                             @endif
 
 
@@ -268,84 +288,45 @@
 @endsection
 
 @push('after-scripts')
-    <script src="//www.youtube.com/iframe_api"></script>
+    {{--<script src="//www.youtube.com/iframe_api"></script>--}}
     <script src="{{asset('plugins/sticky-kit/sticky-kit.js')}}"></script>
+    <script src="https://cdn.plyr.io/3.5.3/plyr.polyfilled.js"></script>
+
 
     <script>
-                @if($lesson->mediaVideo && $lesson->mediavideo->count() > 0)
-        var videos = [];
-        @foreach($lesson->mediaVideo as $key=>$video)
+        @if($lesson->mediaVideo)
+         var   current_progress = 0;
+        @if($lesson->mediaVideo->getProgress(auth()->user()->id) != "")
+            current_progress = "{{$lesson->mediaVideo->getProgress(auth()->user()->id)->progress}}";
+        @endif
 
-        @php  $key++    @endphp
-        videos.push({
-            id: "{{$video->name}}",
-            video_id: "{{$video->id}}",
-            time: parseFloat({{$video->getProgress(auth()->user()->id)->progress?:0}}),
-            duration: 0,
+        const player = new Plyr('#player');
+        var duration = 0;
+        var progress = 0;
+        var video_id = $('#player').parents('.video-container').data('id');
+        player.on('ready', event => {
+            player.currentTime = parseInt(current_progress);
+            duration = event.detail.plyr.duration;
         });
-        var update = false;
-
-                @endforeach
-        var players = [];
-
-
-        function onYouTubeIframeAPIReady() {
-            var videoinfo = videos;
-            var v = 0;
-            $('.video-container').each(function (key, value) {
-                players[key] = new Player();
-                var video_container = $(this);
-                players[key].init({
-                    id: videoinfo[key].id,
-                    start: videoinfo[key].time,
-                    onLoaded: function (player) {
-                        video_container.find('.play').show()
-                        duration = players[key].video.duration();
-                        video_container.attr('data-duration', duration)
-                    },
-                    onPlay: function (player) {
-                        video_container.find('.play').hide()
-
-                    },
-                    onPlaying: function (player) {
-                        videoinfo[key].time = player.time();
-                        video_container.attr('data-time', videoinfo[key].time)
-                        update = true;
-                        setInterval(function () {
-                            var id = video_container.data('id');
-                            var duration = video_container.data('duration');
-                            var time = videoinfo[key].time;
-                            saveProgress(id, duration, time);
-                        }, 5000)
-                    },
-                    onPause: function (player) {
-                        video_container.find('.play').show();
-                        update = false;
-
-                    },
-                    onEnd: function (player) {
-                        var state = saveProgress(videoinfo[key].video_id, videoinfo[key].duration, videoinfo[key].time);
-
-                    },
-                    onSeekStart: function (player) {
-                    },
-                    onSeeking: function (player) {
-                    },
-                    onSeekEnd: function (player) {
-                    }
-                })
+        setInterval(function () {
+            player.on('timeupdate', event => {
+                if(parseInt(current_progress) < parseInt(event.detail.plyr.currentTime) ){
+                    progress = current_progress;
+                }else{
+                    progress = parseInt(event.detail.plyr.currentTime);
+                }
             })
+            saveProgress(video_id,duration,progress);
+        }, 5000)
 
-        }
 
-
-        function saveProgress(id, duration, time) {
+        function saveProgress(id, duration, progress) {
             $.ajax({
                 url: "{{route('update.videos.progress')}}",
                 method: "POST",
-                data: {"_token": "{{ csrf_token() }}", 'video': id, 'duration': duration, 'progress': time},
+                data: {"_token": "{{ csrf_token() }}", 'video':parseInt(id), 'duration': parseInt(duration), 'progress': parseInt(progress)},
                 success: function (result) {
-                    if (duration === time) {
+                    if (duration === progress) {
                         location.reload();
                     }
                 }
@@ -361,5 +342,7 @@
         $("#sidebar").stick_in_parent();
 
     </script>
+
+
 
 @endpush

@@ -78,7 +78,7 @@ trait FileUploadTrait
                 if ($key == $downloadable_file_input) {
                     foreach ($request->file($key) as $item) {
                         $filename = time() . '-' . $item->getClientOriginalName();
-                        $size = $item->getClientSize() / 1024;
+                        $size = $item->getSize() / 1024;
                         $item->move(public_path('storage/uploads'), $filename);
                         Media::create([
                             'model_type' => $model_type,
@@ -91,11 +91,14 @@ trait FileUploadTrait
                     }
                     $finalRequest = $finalRequest = new Request($request->except($downloadable_file_input));
                 } else {
-                    $filename = time() . '-' . $request->file($key)->getClientOriginalName();
-                    $request->file($key)->move(public_path('storage/uploads'), $filename);
-                    $finalRequest = new Request(array_merge($finalRequest->all(), [$key => $filename]));
-                    $model->lesson_image = $filename;
-                    $model->save();
+                    if($key != 'video_file'){
+                        $filename = time() . '-' . $request->file($key)->getClientOriginalName();
+                        $request->file($key)->move(public_path('storage/uploads'), $filename);
+                        $finalRequest = new Request(array_merge($finalRequest->all(), [$key => $filename]));
+                        $model->lesson_image = $filename;
+                        $model->save();
+                    }
+
                 }
             }
         }

@@ -15,14 +15,16 @@
         .select2-container--default .select2-selection--single .select2-selection__arrow {
             height: 35px;
         }
-        .bootstrap-tagsinput{
-            width: 100%!important;
+
+        .bootstrap-tagsinput {
+            width: 100% !important;
             display: inline-block;
         }
-        .bootstrap-tagsinput .tag{
+
+        .bootstrap-tagsinput .tag {
             line-height: 1;
             margin-right: 2px;
-            background-color: #2f353a ;
+            background-color: #2f353a;
             color: white;
             padding: 3px;
             border-radius: 3px;
@@ -112,7 +114,8 @@
                         ]) !!}
                     <div class="photo-block mt-3">
                         <div class="files-list">
-                            @foreach($lesson->media()->where('type','!=','YT')->get() as $media)
+                            @if(count($lesson->downloadableMedia) > 0)
+                            @foreach($lesson->downloadableMedia as $media)
                                 <p class="form-group">
                                     <a href="{{ asset('storage/uploads/'.$media->name) }}"
                                        target="_blank">{{ $media->name }}
@@ -121,17 +124,22 @@
                                        class="btn btn-xs btn-danger delete remove-file">Remove</a>
                                 </p>
                             @endforeach
+                            @endif
                         </div>
                     </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-12 form-group">
-                    <h4>Add <span class="text-danger text-bold">YOUTUBE</span> videos</h4>
-                    <h6 class="text-success"><b>Instructions to add Video link: </b><br> Go to youtube -> open video -> right click on video and <b>Copy Video URL</b> and paste here.<br> If you want to add multiple videos, then separate them with <b>,</b> (Comma) Sign. Video should be public and listed in youtube.</h6>
-                    <p class="text text-primary font-bold mb-0">Ex. https://youtu.be/XXX0XX1X</p>
+                    <h4>Add Video</h4>
+                    {!! Form::select('media_type', ['youtube' => 'Youtube','vimeo' => 'Vimeo','upload' => 'Upload','embed' => 'Embed'],($lesson->mediavideo) ? $lesson->mediavideo->type : null,['class' => 'form-control', 'placeholder' => 'Select One','id'=>'media_type' ]) !!}
 
-                    {!! Form::text('videos', $videos, ['class' => 'form-control', 'placeholder' => '', 'data-role' => 'tagsinput']) !!}
+
+                    {!! Form::text('video', ($lesson->mediavideo) ? $lesson->mediavideo->url : null, ['class' => 'form-control mt-3 d-none', 'placeholder' => trans('labels.backend.lessons.enter_video_url'),'id'=>'video'  ]) !!}
+
+
+                    {!! Form::file('video_file', ['class' => 'form-control mt-3 d-none', 'placeholder' => trans('labels.backend.lessons.enter_video_url'),'id'=>'video_file'  ]) !!}
+
 
                 </div>
             </div>
@@ -211,10 +219,10 @@
                         function (data, status) {
                             if (data.success) {
                                 parent.remove();
-                            }else{
+                            } else {
                                 alert('Something Went Wrong')
                             }
-                    });
+                        });
                 }
             })
         })
@@ -222,14 +230,43 @@
         var uploadField = $('input[type="file"]');
 
 
-        $(document).on('change','input[name="lesson_image"]',function () {
+        $(document).on('change', 'input[name="lesson_image"]', function () {
             var $this = $(this);
-            $(this.files).each(function (key,value) {
-                if(value.size > 5000000){
-                    alert('"'+value.name+'"'+'exceeds limit of maximum file upload size' )
+            $(this.files).each(function (key, value) {
+                if (value.size > 5000000) {
+                    alert('"' + value.name + '"' + 'exceeds limit of maximum file upload size')
                     $this.val("");
                 }
             })
+        })
+
+        @if($lesson->mediavideo)
+        @if($lesson->mediavideo->type !=  'upload')
+        $('#video').removeClass('d-none').attr('required', true)
+        $('#video_file').addClass('d-none').attr('required', false)
+        @elseif($lesson->mediavideo->type == 'upload')
+        $('#video').addClass('d-none').attr('required', false)
+        $('#video_file').removeClass('d-none').attr('required', true)
+        @else
+        $('#video_file').addClass('d-none').attr('required', false)
+        $('#video').addClass('d-none').attr('required', false)
+
+        @endif
+        @endif
+
+        $(document).on('change', '#media_type', function () {
+            if ($(this).val()) {
+                if ($(this).val() != 'upload') {
+                    $('#video').removeClass('d-none').attr('required', true)
+                    $('#video_file').addClass('d-none').attr('required', false)
+                } else if ($(this).val() == 'upload') {
+                    $('#video').addClass('d-none').attr('required', false)
+                    $('#video_file').removeClass('d-none').attr('required', true)
+                }
+            } else {
+                $('#video_file').addClass('d-none').attr('required', false)
+                $('#video').addClass('d-none').attr('required', false)
+            }
         })
 
     </script>
