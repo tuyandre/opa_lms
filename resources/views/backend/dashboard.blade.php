@@ -80,7 +80,7 @@
                                                     <div class="d-inline-block w-100 0 mt-2">
                                                      <span class="course-category float-left">
                                                 <a href="{{route('courses.category',['category'=>$item->category->slug])}}"
-                                                   class="bg-primary px-2 p-1">{{$item->category->name}}</a>
+                                                   class="bg-success text-decoration-none px-2 p-1">{{$item->category->name}}</a>
                                             </span>
                                                         <span class="course-author float-right">
                                                  {{ $item->students()->count() }}

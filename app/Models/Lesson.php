@@ -75,7 +75,7 @@ class Lesson extends Model
         return $this->morphMany(Media::class,'model')
             ->where('type','!=','youtube')
             ->Where('type','!=','vimeo')
-            ->Where('type','!=','custom')
+            ->Where('type','!=','upload')
             ->Where('type','!=','embed');
 
     }
@@ -86,7 +86,7 @@ class Lesson extends Model
         return $this->morphOne(Media::class,'model')
             ->where('type','=','youtube')
             ->orWhere('type','=','vimeo')
-            ->orWhere('type','=','custom')
+            ->orWhere('type','=','upload')
             ->orWhere('type','=','embed');
     }
 

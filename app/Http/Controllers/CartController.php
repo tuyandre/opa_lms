@@ -267,7 +267,8 @@ class CartController extends Controller
         $order->user_id = auth()->user()->id;
         $order->reference_no  = str_random(8);
         $order->amount  = Cart::session(auth()->user()->id)->getTotal();
-        $order->status  = 0;
+        $order->status  = 1;
+        $order->payment_type  = 3;
         $order->save();
 
         //Getting and Adding items

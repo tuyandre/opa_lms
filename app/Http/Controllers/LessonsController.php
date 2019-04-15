@@ -117,7 +117,7 @@ class LessonsController extends Controller
         $video_progress->user_id = $user->id;
         $video_progress->duration = $video_progress->duration ?: round($request->duration, 2);
         $video_progress->progress = round($request->progress, 2);
-        if ($video_progress->duration - $video_progress->progress < 10) {
+        if ($video_progress->duration - $video_progress->progress < 5) {
             $video_progress->progress = $video_progress->duration;
             $video_progress->complete = 1;
         }

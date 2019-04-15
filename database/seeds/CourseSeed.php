@@ -18,8 +18,8 @@ class CourseSeed extends Seeder
     {
 
         //Adding Categories
-        factory(\App\Models\Category::class, 10)->create()->each(function ($cat){
-            $cat->blogs()->saveMany(factory(\App\Models\Blog::class,4)->create());
+        factory(\App\Models\Category::class, 10)->create()->each(function ($cat) {
+            $cat->blogs()->saveMany(factory(\App\Models\Blog::class, 4)->create());
 
         });
 
@@ -28,7 +28,7 @@ class CourseSeed extends Seeder
 
             $course->teachers()->sync([2]);
             $course->lessons()->saveMany(factory(Lesson::class, 10)->create());
-            foreach($course->lessons()->where('published','=',1)->get() as $key=>$lesson){
+            foreach ($course->lessons()->where('published', '=', 1)->get() as $key => $lesson) {
                 $key++;
                 $timeline = new \App\Models\CourseTimeline();
                 $timeline->course_id = $course->id;
@@ -38,9 +38,9 @@ class CourseSeed extends Seeder
                 $timeline->save();
             };
 
-            $course->tests()->saveMany(factory(Test::class,2)->create());
-            foreach($course->tests as $key=>$test){
-                $key+=11;
+            $course->tests()->saveMany(factory(Test::class, 2)->create());
+            foreach ($course->tests as $key => $test) {
+                $key += 11;
                 $timeline = new \App\Models\CourseTimeline();
                 $timeline->course_id = $course->id;
                 $timeline->model_id = $test->id;
@@ -49,6 +49,31 @@ class CourseSeed extends Seeder
                 $timeline->save();
             };
         });
+
+        $courses = Course::get()->take(3);
+
+        foreach ($courses as $course) {
+
+            $order = new \App\Models\Order();
+            $order->user_id = 3;
+            $order->reference_no = str_random(8);
+            $order->amount = $course->price;
+            $order->status = 0;
+            $order->save();
+
+            $order->items()->create([
+                'course_id' => $course->id,
+                'price' => $course->price
+            ]);
+            generateInvoice($order);
+
+            foreach ($order->items as $item) {
+                $item->course->students()->attach(3);
+            }
+
+        }
+
+
     }
 
 

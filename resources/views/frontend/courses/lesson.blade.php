@@ -58,7 +58,7 @@
                         </div>
                     @endif
                     <div class="course-details-item border-bottom-0 mb-0">
-                        @if($lesson->lesson_image != "")
+                    @if($lesson->lesson_image != "")
                             <div class="course-single-pic mb30">
                                 <img src="{{asset('storage/uploads/'.$lesson->lesson_image)}}"
                                      alt="">
@@ -137,9 +137,10 @@
 
                                 @if($lesson->mediavideo != "")
                                     <div class="course-details-content">
-                                        @if($lesson->mediavideo->type == 'youtube')
+                                        <div class="video-container mb-5" data-id="{{$lesson->mediavideo->id}}">
 
-                                            <div class="video-container mb-5" data-id="{{$lesson->mediavideo->id}}">
+                                            @if($lesson->mediavideo->type == 'youtube')
+
                                                 {{--<div class="embed-responsive embed-responsive-16by9">--}}
                                                 {{--<div class="embed-responsive-item">--}}
 
@@ -168,24 +169,24 @@
 
                                                 <div id="player" class="js-player" data-plyr-provider="youtube"
                                                      data-plyr-embed-id="{{$lesson->mediavideo->file_name}}"></div>
-                                            </div>
-                                        @elseif($lesson->mediavideo->type == 'vimeo')
-                                            <div id="player" class="js-player" data-plyr-provider="vimeo"
-                                                 data-plyr-embed-id="{{$lesson->mediavideo->file_name}}"></div>
-                                        @elseif($lesson->mediavideo->type == 'upload')
-                                            <video poster="" id="player" class="js-player" playsinline controls>
-                                                <source src="{{$lesson->mediavideo->url}}" type="video/mp4"/>
-                                            </video>
-                                        @elseif($lesson->mediavideo->type == 'embed')
-                                            {!! $lesson->mediavideo->url !!}
-                                        @endif
-
+                                            @elseif($lesson->mediavideo->type == 'vimeo')
+                                                <div id="player" class="js-player" data-plyr-provider="vimeo"
+                                                     data-plyr-embed-id="{{$lesson->mediavideo->file_name}}"></div>
+                                            @elseif($lesson->mediavideo->type == 'upload')
+                                                <video poster="" id="player" class="js-player" playsinline controls>
+                                                    <source src="{{$lesson->mediavideo->url}}" type="video/mp4"/>
+                                                </video>
+                                            @elseif($lesson->mediavideo->type == 'embed')
+                                                    {!! $lesson->mediavideo->url !!}
+                                            @endif
+                                        </div>
 
                                     </div>
                                 @endif
                             </div>
 
                         @endif
+
 
                         @if(($lesson->downloadableMedia != "") && ($lesson->downloadableMedia->count() > 0))
                             <div class="course-single-text mt-4 px-3 py-1 gradient-bg text-white">
@@ -294,11 +295,11 @@
 
 
     <script>
-        @if($lesson->mediaVideo)
-         var   current_progress = 0;
+                @if($lesson->mediaVideo && $lesson->mediaVideo->type != 'embed')
+        var current_progress = 0;
         @if($lesson->mediaVideo->getProgress(auth()->user()->id) != "")
             current_progress = "{{$lesson->mediaVideo->getProgress(auth()->user()->id)->progress}}";
-        @endif
+                @endif
 
         const player = new Plyr('#player');
         var duration = 0;
@@ -310,13 +311,13 @@
         });
         setInterval(function () {
             player.on('timeupdate', event => {
-                if(parseInt(current_progress) < parseInt(event.detail.plyr.currentTime) ){
+                if (parseInt(current_progress) < parseInt(event.detail.plyr.currentTime)) {
                     progress = current_progress;
-                }else{
+                } else {
                     progress = parseInt(event.detail.plyr.currentTime);
                 }
             })
-            saveProgress(video_id,duration,progress);
+            saveProgress(video_id, duration, progress);
         }, 5000)
 
 
@@ -324,7 +325,12 @@
             $.ajax({
                 url: "{{route('update.videos.progress')}}",
                 method: "POST",
-                data: {"_token": "{{ csrf_token() }}", 'video':parseInt(id), 'duration': parseInt(duration), 'progress': parseInt(progress)},
+                data: {
+                    "_token": "{{ csrf_token() }}",
+                    'video': parseInt(id),
+                    'duration': parseInt(duration),
+                    'progress': parseInt(progress)
+                },
                 success: function (result) {
                     if (duration === progress) {
                         location.reload();

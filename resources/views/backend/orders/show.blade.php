@@ -68,6 +68,14 @@
 
                                 @if($order->status == 0)
                                 {{trans('labels.backend.orders.fields.payment_status.pending') }}
+                                    <a class="btn btn-xs mb-1 mr-1 btn-success text-white" style="cursor:pointer;"
+                                       onclick="$(this).find('form').submit();">
+                                        {{trans('labels.backend.orders.complete')}}
+                                        <form action="{{route('admin.orders.complete', ['order' => $order->id])}}"
+                                              method="POST" name="complete" style="display:none">
+                                            @csrf
+                                        </form>
+                                    </a>
                                 @elseif($order->status == 1)
                                {{trans('labels.backend.orders.fields.payment_status.completed')}}
                                 @else
@@ -82,6 +90,7 @@
                             <th>@lang('labels.backend.orders.fields.date')</th>
                             <td>{{ $order->created_at->format('d M, Y | h:i A') }}</td>
                         </tr>
+
 
                     </table>
                 </div>

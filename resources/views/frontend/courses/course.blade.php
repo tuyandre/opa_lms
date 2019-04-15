@@ -81,7 +81,14 @@
                                 @if(count($lessons)  > 0)
                                     @foreach($lessons as $key=> $lesson)
                                         @php $key++ @endphp
-                                        <div class="panel">
+                                        <div class="panel position-relative">
+                                            @if(auth()->check())
+                                                @if(in_array($lesson->model->id,$completed_lessons))
+                                                    <div class="position-absolute" style="right: 0;top:0px">
+                                                        <span class="gradient-bg p-1 text-white font-weight-bold completed">@lang('labels.frontend.course.completed')</span>
+                                                    </div>
+                                                @endif
+                                            @endif
                                             <div class="panel-title" id="headingOne">
                                                 <div class="ac-head">
                                                     <button class="btn btn-link collapsed" data-toggle="collapse"
@@ -95,13 +102,7 @@
                                                             <span>@lang('labels.frontend.course.test')</span>
                                                         </div>
                                                     @endif
-                                                    @if(auth()->check())
-                                                        @if(in_array($lesson->model->id,$completed_lessons))
-                                                            <div class="leanth-course ">
-                                                                <span class="gradient-bg text-white font-weight-bold completed">@lang('labels.frontend.course.completed')</span>
-                                                            </div>
-                                                        @endif
-                                                    @endif
+
 
 
                                                 </div>

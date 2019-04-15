@@ -14,10 +14,12 @@
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 $factory->define(App\Models\Course::class, function (Faker\Generator $faker) {
     $name = $faker->sentence(5);
+    $placeholder = ['placeholder-1.jpg','placeholder-2.jpg','placeholder-3.jpg'];
     return [
         'title' => $name,
         'category_id' => rand(1,10),
         'slug' => str_slug($name),
+        'course_image' =>$placeholder[rand(0,2)],
         'description' => $faker->text(),
         'price' => $faker->randomFloat(2, 0, 199),
         'featured' => array_random([0,1]),
