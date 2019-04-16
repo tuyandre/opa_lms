@@ -313,13 +313,13 @@
         });
         setInterval(function () {
             player.on('timeupdate', event => {
-                if (parseInt(current_progress) < parseInt(event.detail.plyr.currentTime)) {
+                if ((parseInt(current_progress) > 0) && (parseInt(current_progress) < parseInt(event.detail.plyr.currentTime))) {
                     progress = current_progress;
                 } else {
                     progress = parseInt(event.detail.plyr.currentTime);
                 }
             })
-            saveProgress(video_id, duration, progress);
+            saveProgress(video_id, duration,parseInt(progress));
         }, 5000)
 
 
