@@ -72,7 +72,7 @@ class Lesson extends Model
     }
 
     public function downloadableMedia(){
-        $types = ['youtube','vimeo','upload','embed'];
+        $types = ['youtube','vimeo','upload','embed','lesson_pdf'];
 
         return $this->morphMany(Media::class,'model')
             ->whereNotIn('type',$types);
@@ -85,6 +85,12 @@ class Lesson extends Model
         return $this->morphOne(Media::class,'model')
             ->whereIn('type',$types);
 
+    }
+
+    public function mediaPDF()
+    {
+        return $this->morphOne(Media::class,'model')
+            ->where('type','=','lesson_pdf');
     }
 
     public function courseTimeline()

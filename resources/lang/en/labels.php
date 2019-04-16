@@ -244,6 +244,9 @@ return array(
                             'published' => 'Published',
                             'position' => 'Position',
                             'youtube_videos' => 'YouTube Videos',
+                            'add_pdf' => 'Add PDF',
+                            'add_video' => 'Add Video',
+
                         ),
                     'max_file_size' => '(max file size 5MB)',
                     'short_description_placeholder' => 'Input short description of lesson',
@@ -256,7 +259,7 @@ return array(
                     'create' => 'Create Lesson',
                     'edit' => 'Edit Lesson',
                     'view' => 'View Lessons',
-                    'video_guide'=>'<p class="mb-1"><b>Youtube :</b> Go to Youtube -> Go to video you want to display -> click on share button below video. Copy that links and paste in above text box </p>
+                    'video_guide'=>'<p class="my-1"><b>Youtube :</b> Go to Youtube -> Go to video you want to display -> click on share button below video. Copy that links and paste in above text box </p>
 <p class="mb-1"><b>Vimeo :</b> Go to Vimeo -> Go to video you want to display -> click on share button and copy paste video url here </p>
 <p class="mb-1"><b>Upload :</b> Upload <b>mp4</b> file in file input</p>
 <p class="mb-1"><b>Embed :</b> Copy / Paste embed code in above text box</p>',

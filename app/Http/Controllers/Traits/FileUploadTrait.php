@@ -90,13 +90,34 @@ trait FileUploadTrait
                         ]);
                     }
                     $finalRequest = $finalRequest = new Request($request->except($downloadable_file_input));
+
+
                 } else {
                     if($key != 'video_file'){
-                        $filename = time() . '-' . $request->file($key)->getClientOriginalName();
-                        $request->file($key)->move(public_path('storage/uploads'), $filename);
-                        $finalRequest = new Request(array_merge($finalRequest->all(), [$key => $filename]));
-                        $model->lesson_image = $filename;
-                        $model->save();
+                        if($key == 'add_pdf'){
+                            $file = $request->file($key);
+
+                            $filename = time() . '-' . $file->getClientOriginalName();
+                            $size = $file->getSize() / 1024;
+                            $file->move(public_path('storage/uploads'), $filename);
+                            Media::create([
+                                'model_type' => $model_type,
+                                'model_id' => $model->id,
+                                'name' => $filename,
+                                'type' => 'lesson_pdf',
+                                'file_name' => $filename,
+                                'size' => $size,
+                            ]);
+                            $finalRequest = new Request(array_merge($finalRequest->all(), [$key => $filename]));
+                        }else{
+                            $filename = time() . '-' . $request->file($key)->getClientOriginalName();
+                            $request->file($key)->move(public_path('storage/uploads'), $filename);
+                            $finalRequest = new Request(array_merge($finalRequest->all(), [$key => $filename]));
+                            $model->lesson_image = $filename;
+                            $model->save();
+                        }
+
+
                     }
 
                 }

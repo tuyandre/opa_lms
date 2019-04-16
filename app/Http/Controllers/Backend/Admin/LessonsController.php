@@ -210,7 +210,6 @@ class LessonsController extends Controller
 
         $request = $this->saveAllFiles($request, 'downloadable_files', Lesson::class, $lesson);
 
-
         if (($request->slug == "") || $request->slug == null) {
             $lesson->slug = str_slug($request->title);
             $lesson->save();
@@ -317,7 +316,6 @@ class LessonsController extends Controller
             }
 
             if ($request->media_type == 'upload') {
-                //TODO checkout upload for media file
                 if (\Illuminate\Support\Facades\Request::hasFile('video_file')) {
                     $file = \Illuminate\Support\Facades\Request::file('video_file');
                     $filename = time() . '-' . $file->getClientOriginalName();

@@ -103,6 +103,17 @@
 
                 </div>
             </div>
+            <div class="row">
+                <div class="col-12 form-group">
+                    {!! Form::label('pdf_files', trans('labels.backend.lessons.fields.add_pdf'), ['class' => 'control-label']) !!}
+                    {!! Form::file('add_pdf', [
+                        'class' => 'form-control file-upload',
+                         'id' => 'add_pdf',
+                        'accept' => "application/pdf"
+
+                        ]) !!}
+                </div>
+            </div>
             {{--<div class="row">--}}
                 {{--<div class="col-md-12 form-group">--}}
                     {{--<h4>Add <span class="text-danger text-bold">YOUTUBE</span> videos</h4>--}}
@@ -116,7 +127,7 @@
 
             <div class="row">
                 <div class="col-md-12 form-group">
-                    <h4>Add Video</h4>
+                    {!! Form::label('add_video', trans('labels.backend.lessons.fields.add_video'), ['class' => 'control-label']) !!}
 
                     {!! Form::select('media_type', ['youtube' => 'Youtube','vimeo' => 'Vimeo','upload' => 'Upload','embed' => 'Embed'],null,['class' => 'form-control', 'placeholder' => 'Select One','id'=>'media_type' ]) !!}
 

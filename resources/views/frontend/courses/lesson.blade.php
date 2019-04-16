@@ -58,7 +58,7 @@
                         </div>
                     @endif
                     <div class="course-details-item border-bottom-0 mb-0">
-                    @if($lesson->lesson_image != "")
+                        @if($lesson->lesson_image != "")
                             <div class="course-single-pic mb30">
                                 <img src="{{asset('storage/uploads/'.$lesson->lesson_image)}}"
                                      alt="">
@@ -127,6 +127,14 @@
                                 </div>
                             </div>
                         @endif
+
+                        @if($lesson->mediaPDF)
+                                <div class="course-single-text mb-5">
+                                    <iframe src="{{asset('storage/uploads/'.$lesson->mediaPDF->name)}}" width="100%" height="500px">
+                                    </iframe>
+                                </div>
+                        @endif
+
                         @if($lesson->mediaVideo && $lesson->mediavideo->count() > 0)
                             <div class="course-single-text">
                                 @if($lesson->mediavideo != "")
@@ -170,7 +178,7 @@
                                                     <source src="{{$lesson->mediavideo->url}}" type="video/mp4"/>
                                                 </video>
                                             @elseif($lesson->mediavideo->type == 'embed')
-                                                    {!! $lesson->mediavideo->url !!}
+                                                {!! $lesson->mediavideo->url !!}
                                             @endif
                                         </div>
                                     </div>
@@ -195,7 +203,6 @@
                                                         class="fa fa-download"></i> {{ $media->name }}
                                                 ({{ number_format((float)$media->size / 1024 , 2, '.', '')}} @lang('labels.frontend.course.mb')
                                                 )</a>
-
                                         </p>
                                     </div>
                                 @endforeach
@@ -232,16 +239,20 @@
                             <span class="float-none">@lang('labels.frontend.course.course_timeline')</span>
                             <ul class="course-timeline-list">
                                 @foreach($lesson->course->courseTimeline()->orderBy('sequence')->get() as $key=>$item)
-                                    @php $key++; @endphp
-                                    <li class="@if($lesson->id == $item->model->id) active @endif ">
-                                        <a @if(in_array($item->model->id,$completed_lessons))href="{{route('lessons.show',['id' => $lesson->course->id,'slug'=>$item->model->slug])}}"@endif>
-                                            {{$item->model->title}}
-                                            @if($item->model_type == 'App\Models\Test')
-                                                <p class="mb-0 text-primary"> - @lang('labels.frontend.course.test')</p>
-                                            @endif
-                                            @if(in_array($item->model->id,$completed_lessons)) <i
-                                                    class="fa text-success float-right fa-check-square"></i> @endif</a>
-                                    </li>
+                                    @if($item->model)
+                                        @php $key++; @endphp
+                                        <li class="@if($lesson->id == $item->model->id) active @endif ">
+                                            <a @if(in_array($item->model->id,$completed_lessons))href="{{route('lessons.show',['id' => $lesson->course->id,'slug'=>$item->model->slug])}}"@endif>
+                                                {{$item->model->title}}
+                                                @if($item->model_type == 'App\Models\Test')
+                                                    <p class="mb-0 text-primary">
+                                                        - @lang('labels.frontend.course.test')</p>
+                                                @endif
+                                                @if(in_array($item->model->id,$completed_lessons)) <i
+                                                        class="fa text-success float-right fa-check-square"></i> @endif
+                                            </a>
+                                        </li>
+                                    @endif
                                 @endforeach
                             </ul>
                         </div>
@@ -254,15 +265,15 @@
                                                 target="_blank">{{$lesson->course->category->name}}</a> </span></li>
                                 <li>@lang('labels.frontend.course.author') <span>
 
-                                        @foreach($lesson->course->teachers as $key=>$teacher)
+                   @foreach($lesson->course->teachers as $key=>$teacher)
                                             @php $key++ @endphp
                                             <a href="{{route('teachers.show',['id'=>$teacher->id])}}" target="_blank">
-                                                {{$teacher->full_name}}@if($key < count($lesson->course->teachers ))
+                           {{$teacher->full_name}}@if($key < count($lesson->course->teachers ))
                                                     , @endif
-                                            </a>
+                       </a>
                                         @endforeach
 
-                                       </span>
+                  </span>
                                 </li>
                                 <li>@lang('labels.frontend.course.progress') <span> <b> {{ intval(count($completed_lessons) /  $lesson->course->courseTimeline->count() * 100)  }}
                                             % @lang('labels.frontend.course.completed')</b></span></li>
@@ -275,7 +286,7 @@
         </div>
     </section>
     <!-- End of course details section
-        ============================================= -->
+    ============================================= -->
 
 @endsection
 

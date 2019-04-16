@@ -115,15 +115,41 @@
                     <div class="photo-block mt-3">
                         <div class="files-list">
                             @if(count($lesson->downloadableMedia) > 0)
-                            @foreach($lesson->downloadableMedia as $media)
+                                @foreach($lesson->downloadableMedia as $media)
+                                    <p class="form-group">
+                                        <a href="{{ asset('storage/uploads/'.$media->name) }}"
+                                           target="_blank">{{ $media->name }}
+                                            ({{ $media->size }} KB)</a>
+                                        <a href="#" data-media-id="{{$media->id}}"
+                                           class="btn btn-xs btn-danger delete remove-file">Remove</a>
+                                    </p>
+                                @endforeach
+                            @endif
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 form-group">
+                    {!! Form::label('pdf_files', trans('labels.backend.lessons.fields.add_pdf'), ['class' => 'control-label']) !!}
+                    {!! Form::file('add_pdf', [
+                        'class' => 'form-control file-upload',
+                         'id' => 'add_pdf',
+                        'accept' => "application/pdf"
+
+                        ]) !!}
+                    <div class="photo-block mt-3">
+                        <div class="files-list">
+                            @if($lesson->mediaPDF)
                                 <p class="form-group">
-                                    <a href="{{ asset('storage/uploads/'.$media->name) }}"
-                                       target="_blank">{{ $media->name }}
-                                        ({{ $media->size }} KB)</a>
-                                    <a href="#" data-media-id="{{$media->id}}"
+                                    <a href="{{ asset('storage/uploads/'.$lesson->mediaPDF->name) }}"
+                                       target="_blank">{{ $lesson->mediaPDF->name }}
+                                        ({{ $lesson->mediaPDF->size }} KB)</a>
+                                    <a href="#" data-media-id="{{$lesson->mediaPDF->id}}"
                                        class="btn btn-xs btn-danger delete remove-file">Remove</a>
+                                    <iframe src="{{asset('storage/uploads/'.$lesson->mediaPDF->name)}}" width="100%" height="500px">
+                                    </iframe>
                                 </p>
-                            @endforeach
                             @endif
                         </div>
                     </div>
@@ -131,22 +157,25 @@
             </div>
             <div class="row">
                 <div class="col-md-12 form-group">
-                    <h4>Add Video</h4>
+                    {!! Form::label('add_video', trans('labels.backend.lessons.fields.add_video'), ['class' => 'control-label']) !!}
                     {!! Form::select('media_type', ['youtube' => 'Youtube','vimeo' => 'Vimeo','upload' => 'Upload','embed' => 'Embed'],($lesson->mediavideo) ? $lesson->mediavideo->type : null,['class' => 'form-control', 'placeholder' => 'Select One','id'=>'media_type' ]) !!}
 
 
                     {!! Form::text('video', ($lesson->mediavideo) ? $lesson->mediavideo->url : null, ['class' => 'form-control mt-3 d-none', 'placeholder' => trans('labels.backend.lessons.enter_video_url'),'id'=>'video'  ]) !!}
 
-                    {!! Form::file('video_file', ['class' => 'form-control mt-3 d-none', 'placeholder' => trans('labels.backend.lessons.enter_video_url'),'id'=>'video_file'  ]) !!}
-                    <input type="hidden" name="old_video_file" value="{{($lesson->mediavideo && $lesson->mediavideo->type == 'upload') ? $lesson->mediavideo->url  : ""}}">
+                    {!! Form::file('video_file', ['class' => 'form-control mt-3 d-none', 'placeholder' => trans('labels.backend.lessons.enter_video_url'),'id'=>'video_file','accept' =>'video/mp4'  ]) !!}
+                    <input type="hidden" name="old_video_file"
+                           value="{{($lesson->mediavideo && $lesson->mediavideo->type == 'upload') ? $lesson->mediavideo->url  : ""}}">
+
 
                     @if($lesson->mediavideo && ($lesson->mediavideo->type == 'upload'))
                         <video width="300" class="mt-2 d-none video-player" controls>
-                            <source src="{{($lesson->mediavideo && $lesson->mediavideo->type == 'upload') ? $lesson->mediavideo->url  : ""}}" type="video/mp4">
+                            <source src="{{($lesson->mediavideo && $lesson->mediavideo->type == 'upload') ? $lesson->mediavideo->url  : ""}}"
+                                    type="video/mp4">
                             Your browser does not support HTML5 video.
                         </video>
-                    @endif
 
+                    @endif
 
                     @lang('labels.backend.lessons.video_guide')
                 </div>
@@ -158,7 +187,7 @@
                     {!! Form::label('published', trans('labels.backend.lessons.fields.published'), ['class' => 'control-label control-label font-weight-bold']) !!}
                 </div>
                 <div class="col-12  text-left form-group">
-                    {!! Form::submit(trans('strings.backend.general.app_update'), ['class' => 'btn  btn-danger']) !!}
+                    {!! Form::submit(trans('strings.backend.general.app_update'), ['class' => 'btn  btn-primary']) !!}
                 </div>
             </div>
         </div>

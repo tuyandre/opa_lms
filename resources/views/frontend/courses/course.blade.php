@@ -81,6 +81,8 @@
                                 @if(count($lessons)  > 0)
                                     @foreach($lessons as $key=> $lesson)
                                         @php $key++ @endphp
+                                        @if($lesson->model)
+
                                         <div class="panel position-relative">
                                             @if(auth()->check())
                                                 @if(in_array($lesson->model->id,$completed_lessons))
@@ -132,6 +134,7 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        @endif
                                     @endforeach
                                 @endif
                             </div>

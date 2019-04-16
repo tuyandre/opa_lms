@@ -23,16 +23,18 @@
         ul.sorter li > span .btn {
             width: 20%;
         }
-        @media screen and (max-width: 768px){
+
+        @media screen and (max-width: 768px) {
 
             ul.sorter li > span .btn {
                 width: 30%;
             }
+
             ul.sorter li > span .title {
                 padding-left: 15px;
                 width: 70%;
                 float: left;
-                margin: 0!important;
+                margin: 0 !important;
             }
 
         }
@@ -64,9 +66,10 @@
                             <th>@lang('labels.backend.courses.fields.title')</th>
                             <td>
                                 @if($course->published == 1)
-                                    <a target="_blank" href="{{ route('courses.show', [$course->slug]) }}">{{ $course->title }}</a>
+                                    <a target="_blank"
+                                       href="{{ route('courses.show', [$course->slug]) }}">{{ $course->title }}</a>
                                 @else
-                                  { $course->title }}
+                                    { $course->title }}
                                 @endif
                             </td>
                         </tr>
@@ -125,7 +128,9 @@
                         <p class="mb-0">@lang('labels.backend.courses.listing_note')</p>
                         <p class="">@lang('labels.backend.courses.timeline_description')</p>
                         <ul class="sorter d-inline-block">
-                            @foreach($courseTimeline as $item)
+
+                            @foreach($courseTimeline as $key=>$item)
+
                                 <li>
                             <span data-id="{{$item->id}}" data-sequence="{{$item->sequence}}">
                               @if($item->model_type == 'App\Models\Test')
@@ -137,7 +142,9 @@
                                         @lang('labels.backend.courses.lesson')
                                     </p>
                                 @endif
+                                @if($item->model)
                                 <p class="title d-inline ml-2">{{$item->model->title}}</p>
+                                @endif
                            </span>
 
                                 </li>
