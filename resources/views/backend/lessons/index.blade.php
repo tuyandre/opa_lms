@@ -50,7 +50,6 @@
                             @endcan
                             <th>@lang('labels.general.sr_no')</th>
                             <th>@lang('labels.backend.lessons.fields.title')</th>
-                            <th>@lang('labels.backend.lessons.fields.free_lesson')</th>
                             <th>@lang('labels.backend.lessons.fields.published')</th>
                             @if( request('show_deleted') == 1 )
                                 <th>@lang('strings.backend.general.actions') &nbsp;</th>
@@ -124,7 +123,6 @@
                         data: "DT_RowIndex", name: 'DT_RowIndex'
                     },
                     {data: "title", name: 'title'},
-                    {data: "free_lesson", name: "free_lesson"},
                     {data: "published", name: "published"},
                     {data: "actions", name: "actions"}
                 ],

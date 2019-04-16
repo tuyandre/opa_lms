@@ -20,6 +20,7 @@
                                 <a class="text-uppercase" href="{{ route('courses.show', [$item->slug]) }}">@lang('labels.frontend.layouts.partials.course_detail') <i
                                             class="fas fa-arrow-right"></i></a>
                             </div>
+
                         </div>
                         <div class="course-item-text">
                             <div class="course-meta">

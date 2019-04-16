@@ -72,22 +72,19 @@ class Lesson extends Model
     }
 
     public function downloadableMedia(){
-        return $this->morphMany(Media::class,'model')
-            ->where('type','!=','youtube')
-            ->Where('type','!=','vimeo')
-            ->Where('type','!=','upload')
-            ->Where('type','!=','embed');
+        $types = ['youtube','vimeo','upload','embed'];
 
+        return $this->morphMany(Media::class,'model')
+            ->whereNotIn('type',$types);
     }
 
 
     public function mediaVideo()
     {
+        $types = ['youtube','vimeo','upload','embed'];
         return $this->morphOne(Media::class,'model')
-            ->where('type','=','youtube')
-            ->orWhere('type','=','vimeo')
-            ->orWhere('type','=','upload')
-            ->orWhere('type','=','embed');
+            ->whereIn('type',$types);
+
     }
 
     public function courseTimeline()

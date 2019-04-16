@@ -20,7 +20,7 @@ $factory->define(App\Models\Lesson::class, function (Faker\Generator $faker) {
         'short_text' => $faker->paragraph(),
         'full_text' => $faker->text(1000),
         'position' => rand(1, 10),
-        'free_lesson' => rand(0, 1),
+        'free_lesson' => 1,
         'published' => rand(0, 1),
     ];
 });

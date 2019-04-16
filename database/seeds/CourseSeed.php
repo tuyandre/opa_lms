@@ -53,6 +53,26 @@ class CourseSeed extends Seeder
         $courses = Course::get()->take(3);
 
         foreach ($courses as $course) {
+            $lesson_id = $course->courseTimeline->where('sequence', '=', 1)->first()->model_id;
+            $lesson = Lesson::find($lesson_id);
+            $media = \App\Models\Media::where('type', '=', 'upload')
+                ->where('model_type', '=', 'App\Models\Lesson')
+                ->where('model_id', '=', $lesson->id)
+                ->first();
+            $filename = 'placeholder-video.mp4';
+            $url = asset('storage/uploads/' . $filename);
+
+            if ($media == null) {
+                $media = new \App\Models\Media();
+                $media->model_type = Lesson::class;
+                $media->model_id = $lesson->id;
+                $media->name = $filename;
+                $media->url = $url;
+                $media->type = 'upload';
+                $media->file_name = $filename;
+                $media->size = 0;
+                $media->save();
+            }
 
             $order = new \App\Models\Order();
             $order->user_id = 3;
@@ -69,6 +89,7 @@ class CourseSeed extends Seeder
 
             foreach ($order->items as $item) {
                 $item->course->students()->attach(3);
+
             }
 
         }

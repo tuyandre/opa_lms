@@ -195,7 +195,6 @@ class LessonsController extends Controller
                 $filename = $lesson->title . ' - video';
             }
 
-
             if ($media == null) {
                 $media = new Media();
                 $media->model_type = $model_type;

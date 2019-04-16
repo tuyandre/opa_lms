@@ -140,24 +140,19 @@
 
                     {!! Form::file('video_file', ['class' => 'form-control mt-3 d-none', 'placeholder' => trans('labels.backend.lessons.enter_video_url'),'id'=>'video_file'  ]) !!}
 
-
+                    @lang('labels.backend.lessons.video_guide')
                 </div>
             </div>
             <div class="row">
-
                 <div class="col-12 col-lg-3  form-group">
                     {!! Form::hidden('published', 0) !!}
                     {!! Form::checkbox('published', 1, old('published'), []) !!}
                     {!! Form::label('published', trans('labels.backend.lessons.fields.published'), ['class' => 'control-label control-label font-weight-bold']) !!}
-
                 </div>
                 <div class="col-12  text-left form-group">
-
                     {!! Form::submit(trans('strings.backend.general.app_update'), ['class' => 'btn  btn-danger']) !!}
                 </div>
-
             </div>
-
         </div>
     </div>
     {!! Form::close() !!}

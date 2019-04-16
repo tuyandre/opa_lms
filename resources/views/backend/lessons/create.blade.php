@@ -120,13 +120,12 @@
 
                     {!! Form::select('media_type', ['youtube' => 'Youtube','vimeo' => 'Vimeo','upload' => 'Upload','embed' => 'Embed'],null,['class' => 'form-control', 'placeholder' => 'Select One','id'=>'media_type' ]) !!}
 
-
-
                     {!! Form::text('video', old('video'), ['class' => 'form-control mt-3 d-none', 'placeholder' => trans('labels.backend.lessons.enter_video_url'),'id'=>'video'  ]) !!}
 
 
                     {!! Form::file('video_file', ['class' => 'form-control mt-3 d-none', 'placeholder' => trans('labels.backend.lessons.enter_video_url'),'id'=>'video_file'  ]) !!}
 
+                    @lang('labels.backend.lessons.video_guide')
 
                 </div>
             </div>
@@ -141,7 +140,6 @@
                     </div>
                 </div>
                 <div class="col-12  text-left form-group">
-
                     {!! Form::submit(trans('strings.backend.general.app_save'), ['class' => 'btn  btn-danger']) !!}
                 </div>
             </div>

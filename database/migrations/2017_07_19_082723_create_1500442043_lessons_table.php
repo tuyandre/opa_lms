@@ -23,7 +23,7 @@ class Create1500442043LessonsTable extends Migration
                 $table->text('short_text')->nullable();
                 $table->text('full_text')->nullable();
                 $table->integer('position')->nullable()->unsigned();
-                $table->tinyInteger('free_lesson')->nullable()->default(0);
+                $table->tinyInteger('free_lesson')->nullable()->default(1);
                 $table->tinyInteger('published')->nullable()->default(0);
                 
                 $table->timestamps();
