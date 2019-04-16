@@ -282,6 +282,8 @@ return array (
         'short_text' => 'Texto corto',
         'title' => 'Título',
         'youtube_videos' => 'Videos de Youtube',
+        'add_pdf' => 'Añadir PDF',
+        'add_video' => 'Añadir video',
       ),
       'create' => 'Crear lección',
       'edit' => 'Editar Lección',
@@ -295,6 +297,9 @@ return array (
 <p class = "mb-1"> <b> Vimeo: </b> Vaya a Vimeo -> Vaya al video que desea mostrar -> haga clic en el botón Compartir y copie la URL del video aquí </p>
 <p class = "mb-1"> <b> Subir: </b> Subir <b> mp4 </b> en la entrada del archivo </p>
 <p class = "mb-1"> <b> Incrustar: </b> Copiar / Pegar código de inserción en el cuadro de texto anterior </p>',
+      'remove' => 'Retirar',
+      'enter_video_url' => 'Introducir datos de video',
+      'enter_video_embed_code' => 'Ingrese el código de inserción de video',
     ),
     'contacts' => 
     array (
