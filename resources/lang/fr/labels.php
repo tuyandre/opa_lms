@@ -291,6 +291,10 @@ return array (
       'slug_placeholder' => 'Introduire une description succincte de la lecture',
       'title' => 'Cours',
       'view' => 'Voir les leçons',
+      'video_guide' => '<p class = "mb-1"> <b> Youtube: </b> Allez sur Youtube -> Allez à la vidéo que vous souhaitez afficher -> cliquez sur le bouton Partager en dessous de la vidéo. Copiez ces liens et collez-les dans la zone de texte ci-dessus </p>
+<p class = "mb-1"> <b> Vimeo: </b> Aller à Vimeo -> Aller à la vidéo que vous souhaitez afficher -> cliquez sur le bouton Partager et copiez l\'URL de la vidéo de collage ici </p>
+<p class = "mb-1"> <b> Transférer: </b> Transférer un fichier <b> mp4 </b> dans l\'entrée de fichier </p>.
+<p class = "mb-1"> <b> Incorporer: </b> copier / coller le code intégré dans la zone de texte ci-dessus </p>',
     ),
     'contacts' => 
     array (

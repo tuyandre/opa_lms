@@ -291,6 +291,10 @@ return array (
       'slug_placeholder' => 'Insertar una breve descripción de la lección',
       'title' => 'Lecciones',
       'view' => 'Ver Lecciones',
+      'video_guide' => '<p class = "mb-1"> <b> Youtube: </b> Vaya a Youtube -> Vaya al video que desea visualizar -> haga clic en el botón Compartir debajo del video. Copia los enlaces y pégalos en el cuadro de texto anterior </p>
+<p class = "mb-1"> <b> Vimeo: </b> Vaya a Vimeo -> Vaya al video que desea mostrar -> haga clic en el botón Compartir y copie la URL del video aquí </p>
+<p class = "mb-1"> <b> Subir: </b> Subir <b> mp4 </b> en la entrada del archivo </p>
+<p class = "mb-1"> <b> Incrustar: </b> Copiar / Pegar código de inserción en el cuadro de texto anterior </p>',
     ),
     'contacts' => 
     array (

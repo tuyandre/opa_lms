@@ -121,7 +121,7 @@
                                            target="_blank">{{ $media->name }}
                                             ({{ $media->size }} KB)</a>
                                         <a href="#" data-media-id="{{$media->id}}"
-                                           class="btn btn-xs btn-danger delete remove-file">Remove</a>
+                                           class="btn btn-xs btn-danger delete remove-file">@lang('labels.backend.lessons.remove')</a>
                                     </p>
                                 @endforeach
                             @endif
@@ -146,7 +146,7 @@
                                        target="_blank">{{ $lesson->mediaPDF->name }}
                                         ({{ $lesson->mediaPDF->size }} KB)</a>
                                     <a href="#" data-media-id="{{$lesson->mediaPDF->id}}"
-                                       class="btn btn-xs btn-danger delete remove-file">Remove</a>
+                                       class="btn btn-xs btn-danger delete remove-file">@lang('labels.backend.lessons.remove')</a>
                                     <iframe src="{{asset('storage/uploads/'.$lesson->mediaPDF->name)}}" width="100%" height="500px">
                                     </iframe>
                                 </p>
