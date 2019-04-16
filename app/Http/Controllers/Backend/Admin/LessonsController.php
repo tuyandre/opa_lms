@@ -292,16 +292,32 @@ class LessonsController extends Controller
             $video_id = '';
             $name = $lesson->title . ' - video';
             $media = $lesson->mediavideo;
-            if($media == ""){
+            if ($media == "") {
                 $media = new  Media();
             }
-            if (($request->media_type == 'youtube') || ($request->media_type == 'vimeo')) {
-                $video = $request->video;
-                $url = $video;
-                $video_id = array_last(explode('/', $request->video));
-                $size = 0;
+            if ($request->media_type != 'upload') {
+                if (($request->media_type == 'youtube') || ($request->media_type == 'vimeo')) {
+                    $video = $request->video;
+                    $url = $video;
+                    $video_id = array_last(explode('/', $request->video));
+                    $size = 0;
 
-            } elseif ($request->media_type == 'upload') {
+                } else if ($request->media_type == 'embed') {
+                    $url = $request->video;
+                    $filename = $lesson->title . ' - video';
+                }
+                $media->model_type = $model_type;
+                $media->model_id = $model_id;
+                $media->name = $name;
+                $media->url = $url;
+                $media->type = $request->media_type;
+                $media->file_name = $video_id;
+                $media->size = 0;
+                $media->save();
+            }
+
+            if ($request->media_type == 'upload') {
+                //TODO checkout upload for media file
                 if (\Illuminate\Support\Facades\Request::hasFile('video_file')) {
                     $file = \Illuminate\Support\Facades\Request::file('video_file');
                     $filename = time() . '-' . $file->getClientOriginalName();
@@ -312,20 +328,25 @@ class LessonsController extends Controller
                     $video_id = $filename;
                     $url = asset('storage/uploads/' . $filename);
 
-                }
-            } else if ($request->media_type == 'embed') {
-                $url = $request->video;
-                $filename = $lesson->title . ' - video';
-            }
+                    $media = Media::where('type', '=', $request->media_type)
+                        ->where('model_type', '=', 'App\Models\Lesson')
+                        ->where('model_id', '=', $lesson->id)
+                        ->first();
 
-            $media->model_type = $model_type;
-            $media->model_id = $model_id;
-            $media->name = $name;
-            $media->url = $url;
-            $media->type = $request->media_type;
-            $media->file_name = $video_id;
-            $media->size = 0;
-            $media->save();
+                    if ($media == null) {
+                        $media = new Media();
+                    }
+                    $media->model_type = $model_type;
+                    $media->model_id = $model_id;
+                    $media->name = $name;
+                    $media->url = $url;
+                    $media->type = $request->media_type;
+                    $media->file_name = $video_id;
+                    $media->size = 0;
+                    $media->save();
+
+                }
+            }
         }
 
 

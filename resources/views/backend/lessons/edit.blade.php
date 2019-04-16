@@ -137,13 +137,16 @@
 
                     {!! Form::text('video', ($lesson->mediavideo) ? $lesson->mediavideo->url : null, ['class' => 'form-control mt-3 d-none', 'placeholder' => trans('labels.backend.lessons.enter_video_url'),'id'=>'video'  ]) !!}
 
-
                     {!! Form::file('video_file', ['class' => 'form-control mt-3 d-none', 'placeholder' => trans('labels.backend.lessons.enter_video_url'),'id'=>'video_file'  ]) !!}
-                    <input type="hidden" name="video_file" value="{{($lesson->mediavideo && $lesson->mediavideo->type == 'upload') ? $lesson->mediavideo->url  : ""}}">
-                    <video width="300" class="mt-2 d-none video-player" controls>
-                        <source src="{{$lesson->mediavideo->url}}" type="video/mp4">
-                        Your browser does not support HTML5 video.
-                    </video>
+                    <input type="hidden" name="old_video_file" value="{{($lesson->mediavideo && $lesson->mediavideo->type == 'upload') ? $lesson->mediavideo->url  : ""}}">
+
+                    @if($lesson->mediavideo && ($lesson->mediavideo->type == 'upload'))
+                        <video width="300" class="mt-2 d-none video-player" controls>
+                            <source src="{{($lesson->mediavideo && $lesson->mediavideo->type == 'upload') ? $lesson->mediavideo->url  : ""}}" type="video/mp4">
+                            Your browser does not support HTML5 video.
+                        </video>
+                    @endif
+
 
                     @lang('labels.backend.lessons.video_guide')
                 </div>
