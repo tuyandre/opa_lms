@@ -129,16 +129,9 @@
                         @endif
                         @if($lesson->mediaVideo && $lesson->mediavideo->count() > 0)
                             <div class="course-single-text">
-                                <div class="course-title mt10 headline relative-position">
-                                    <h2>
-                                        @lang('labels.frontend.course.chapter_videos')
-                                    </h2>
-                                </div>
-
                                 @if($lesson->mediavideo != "")
-                                    <div class="course-details-content">
+                                    <div class="course-details-content mt-3">
                                         <div class="video-container mb-5" data-id="{{$lesson->mediavideo->id}}">
-
                                             @if($lesson->mediavideo->type == 'youtube')
 
                                                 {{--<div class="embed-responsive embed-responsive-16by9">--}}
@@ -180,11 +173,9 @@
                                                     {!! $lesson->mediavideo->url !!}
                                             @endif
                                         </div>
-
                                     </div>
                                 @endif
                             </div>
-
                         @endif
 
 
