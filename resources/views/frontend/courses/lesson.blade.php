@@ -60,6 +60,7 @@
             height: 30px;
         }
         .pdf-viewer{
+            box-sizing: border-box;
             left: 0!important;
             margin-top: 10px;
         }
