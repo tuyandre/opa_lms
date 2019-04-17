@@ -117,9 +117,7 @@ trait FileUploadTrait
                             $model->save();
                         }
 
-
                     }
-
                 }
             }
         }

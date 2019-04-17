@@ -136,7 +136,6 @@
                         'class' => 'form-control file-upload',
                          'id' => 'add_pdf',
                         'accept' => "application/pdf"
-
                         ]) !!}
                     <div class="photo-block mt-3">
                         <div class="files-list">

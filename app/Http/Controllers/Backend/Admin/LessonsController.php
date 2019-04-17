@@ -346,6 +346,12 @@ class LessonsController extends Controller
                 }
             }
         }
+        if($request->hasFile('add_pdf')){
+            $pdf = $lesson->mediaPDF;
+            if($pdf){
+                $pdf->delete();
+            }
+        }
 
 
         $request = $this->saveAllFiles($request, 'downloadable_files', Lesson::class, $lesson);

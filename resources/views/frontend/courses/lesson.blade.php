@@ -38,6 +38,7 @@
             width: 100% !important;
             left: 0!important;
             padding: 0px!important;
+            transform:scale(1)!important;
         }
 
         .pdf-viewer{
@@ -359,6 +360,7 @@
             current_progress = "{{$lesson->mediaVideo->getProgress(auth()->user()->id)->progress}}";
         @endif
         @if($lesson->mediaPDF)
+
         $(function () {
             $("#myPDF").pdf({
                 source: "{{asset('storage/uploads/'.$lesson->mediaPDF->name)}}",
@@ -366,6 +368,7 @@
                 loadingWidth: 800,
                 loadingHTML: ""
             });
+
         });
         @endif
 
