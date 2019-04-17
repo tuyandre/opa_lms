@@ -3,7 +3,7 @@
 @push('after-styles')
     {{--<link rel="stylesheet" href="{{asset('plugins/YouTube-iFrame-API-Wrapper/css/main.css')}}">--}}
     <link rel="stylesheet" href="https://cdn.plyr.io/3.5.3/plyr.css"/>
-
+    <link href="{{asset('plugins/touchpdf-master/jquery.touchPDF.css')}}" rel="stylesheet">
 
     <style>
         .test-form {
@@ -21,6 +21,53 @@
         .course-timeline-list {
             max-height: 300px;
             overflow: scroll;
+        }
+        .touchPDF{
+            border: 1px solid #e3e3e3;
+        }
+        .touchPDF > .pdf-outerdiv > .pdf-toolbar {
+            height: 0;
+            color: black;
+            padding: 5px 0;
+            text-align: right;
+        }
+        .pdf-tabs{
+            width: 100%!important;
+        }
+        .pdf-outerdiv{
+            width: 100% !important;
+            left: 0!important;
+            padding: 0px!important;
+        }
+
+        .pdf-viewer{
+            left: 0px;
+            width: 100%!important;
+        }
+        .pdf-drag{
+            width: 100%!important;
+        }
+        .pdf-outerdiv{
+            left: 0px!important;
+        }
+        .pdf-outerdiv{
+            padding-left: 0px!important;
+            left: 0px;
+        }
+        .pdf-toolbar{
+            left: 0px!important;
+            width: 99%!important;
+            height: 30px;
+        }
+        .pdf-viewer{
+            left: 0!important;
+            margin-top: 10px;
+        }
+        .pdf-title{
+            display: none!important;
+        }
+        @media screen  and  (max-width: 768px){
+
         }
 
     </style>
@@ -129,10 +176,13 @@
                         @endif
 
                         @if($lesson->mediaPDF)
-                                <div class="course-single-text mb-5">
-                                    <iframe src="{{asset('storage/uploads/'.$lesson->mediaPDF->name)}}" width="100%" height="500px">
-                                    </iframe>
-                                </div>
+                            <div class="course-single-text mb-5">
+                                {{--<iframe src="{{asset('storage/uploads/'.$lesson->mediaPDF->name)}}" width="100%"--}}
+                                {{--height="500px">--}}
+                                {{--</iframe>--}}
+                                <div id="myPDF"></div>
+
+                            </div>
                         @endif
 
                         @if($lesson->mediaVideo && $lesson->mediavideo->count() > 0)
@@ -294,14 +344,29 @@
     {{--<script src="//www.youtube.com/iframe_api"></script>--}}
     <script src="{{asset('plugins/sticky-kit/sticky-kit.js')}}"></script>
     <script src="https://cdn.plyr.io/3.5.3/plyr.polyfilled.js"></script>
-
+    <script src="{{asset('plugins/touchpdf-master/pdf.compatibility.js')}}"></script>
+    <script src="{{asset('plugins/touchpdf-master/pdf.js')}}"></script>
+    <script src="{{asset('plugins/touchpdf-master/jquery.touchSwipe.js')}}"></script>
+    <script src="{{asset('plugins/touchpdf-master/jquery.touchPDF.js')}}"></script>
+    <script src="{{asset('plugins/touchpdf-master/jquery.panzoom.js')}}"></script>
+    <script src="{{asset('plugins/touchpdf-master/jquery.mousewheel.js')}}"></script>
 
     <script>
-                @if($lesson->mediaVideo && $lesson->mediaVideo->type != 'embed')
+        @if($lesson->mediaVideo && $lesson->mediaVideo->type != 'embed')
         var current_progress = 0;
         @if($lesson->mediaVideo->getProgress(auth()->user()->id) != "")
             current_progress = "{{$lesson->mediaVideo->getProgress(auth()->user()->id)->progress}}";
-                @endif
+        @endif
+        @if($lesson->mediaPDF)
+        $(function () {
+            $("#myPDF").pdf({
+                source: "{{asset('storage/uploads/'.$lesson->mediaPDF->name)}}",
+                loadingHeight: 800,
+                loadingWidth: 800,
+                loadingHTML: ""
+            });
+        });
+        @endif
 
         const player = new Plyr('#player');
         var duration = 0;
@@ -319,7 +384,7 @@
                     progress = parseInt(event.detail.plyr.currentTime);
                 }
             })
-            saveProgress(video_id, duration,parseInt(progress));
+            saveProgress(video_id, duration, parseInt(progress));
         }, 5000)
 
 
