@@ -235,7 +235,6 @@ class LessonsController extends Controller
             $timeline->save();
         }
 
-
         return redirect()->route('admin.lessons.index', ['course_id' => $request->course_id])->withFlashSuccess(__('alerts.backend.general.created'));
     }
 
