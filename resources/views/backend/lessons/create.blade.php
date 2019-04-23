@@ -15,14 +15,16 @@
         .select2-container--default .select2-selection--single .select2-selection__arrow {
             height: 35px;
         }
-        .bootstrap-tagsinput{
-            width: 100%!important;
+
+        .bootstrap-tagsinput {
+            width: 100% !important;
             display: inline-block;
         }
-        .bootstrap-tagsinput .tag{
+
+        .bootstrap-tagsinput .tag {
             line-height: 1;
             margin-right: 2px;
-            background-color: #2f353a ;
+            background-color: #2f353a;
             color: white;
             padding: 3px;
             border-radius: 3px;
@@ -114,16 +116,19 @@
                         ]) !!}
                 </div>
             </div>
-            {{--<div class="row">--}}
-                {{--<div class="col-md-12 form-group">--}}
-                    {{--<h4>Add <span class="text-danger text-bold">YOUTUBE</span> videos</h4>--}}
-                    {{--<h6 class="text-success">>@lang('labels.backend.lessons.yt_note')</h6>--}}
-                    {{--<p class="text text-primary font-bold mb-0">Ex. https://youtu.be/XXX0XX1X</p>--}}
 
-                    {{--{!! Form::text('videos', old('videos'), ['class' => 'form-control', 'placeholder' => '', 'data-role' => 'tagsinput' ]) !!}--}}
+            <div class="row">
+                <div class="col-12 form-group">
+                    {!! Form::label('audio_files', trans('labels.backend.lessons.fields.add_audio'), ['class' => 'control-label']) !!}
+                    {!! Form::file('add_audio', [
+                        'class' => 'form-control file-upload',
+                         'id' => 'add_audio',
+                        'accept' => "audio/mpeg3"
 
-                {{--</div>--}}
-            {{--</div>--}}
+                        ]) !!}
+                </div>
+            </div>
+
 
             <div class="row">
                 <div class="col-md-12 form-group">
@@ -206,30 +211,30 @@
 
         var uploadField = $('input[type="file"]');
 
-       $(document).on('change','input[name="lesson_image"]',function () {
-          var $this = $(this);
-           $(this.files).each(function (key,value) {
-               if(value.size > 5000000){
-                   alert('"'+value.name+'"'+'exceeds limit of maximum file upload size' )
-                   $this.val("");
-               }
-           })
-       });
+        $(document).on('change', 'input[name="lesson_image"]', function () {
+            var $this = $(this);
+            $(this.files).each(function (key, value) {
+                if (value.size > 5000000) {
+                    alert('"' + value.name + '"' + 'exceeds limit of maximum file upload size')
+                    $this.val("");
+                }
+            })
+        });
 
-       $(document).on('change','#media_type',function () {
-           if($(this).val()){
-               if($(this).val() != 'upload'){
-                   $('#video').removeClass('d-none').attr('required',true)
-                   $('#video_file').addClass('d-none').attr('required',false)
-               }else if($(this).val() == 'upload'){
-                   $('#video').addClass('d-none').attr('required',false)
-                   $('#video_file').removeClass('d-none').attr('required',true)
-               }
-           } else{
-                $('#video_file').addClass('d-none').attr('required',false)
-                $('#video').addClass('d-none').attr('required',false)
+        $(document).on('change', '#media_type', function () {
+            if ($(this).val()) {
+                if ($(this).val() != 'upload') {
+                    $('#video').removeClass('d-none').attr('required', true)
+                    $('#video_file').addClass('d-none').attr('required', false)
+                } else if ($(this).val() == 'upload') {
+                    $('#video').addClass('d-none').attr('required', false)
+                    $('#video_file').removeClass('d-none').attr('required', true)
+                }
+            } else {
+                $('#video_file').addClass('d-none').attr('required', false)
+                $('#video').addClass('d-none').attr('required', false)
             }
-       })
+        })
 
     </script>
 

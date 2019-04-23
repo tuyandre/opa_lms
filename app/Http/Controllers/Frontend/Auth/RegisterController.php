@@ -7,6 +7,7 @@ use App\Http\Requests\RegisterRequest;
 use App\Helpers\Frontend\Auth\Socialite;
 use App\Events\Frontend\Auth\UserRegistered;
 use App\Models\Auth\User;
+use Arcanedev\NoCaptcha\Rules\CaptchaRule;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use App\Repositories\Frontend\Auth\UserRepository;
@@ -14,6 +15,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ClosureValidationRule;
 
 /**
  * Class RegisterController.
@@ -68,12 +70,17 @@ class RegisterController extends Controller
      */
     public function register(Request $request)
     {
+
         $validator = Validator::make(Input::all(), [
             'first_name' => 'required|max:255',
             'last_name' => 'required|max:255',
             'email' => 'required|email|max:255|unique:users',
             'password' => 'required|min:6|confirmed',
+            'g-recaptcha-response' => (config('access.captcha.registration') ? ['required',new CaptchaRule] : ''),
+        ],[
+            'g-recaptcha-response.required' => __('validation.attributes.frontend.captcha'),
         ]);
+
 
         if ($validator->passes()) {
             // Store your user in database

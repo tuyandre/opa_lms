@@ -40,12 +40,38 @@
                             <th>@lang('labels.backend.lessons.fields.position')</th>
                             <td>{{ $lesson->position }}</td>
                         </tr>
+
+                        <tr>
+                            <th>@lang('labels.backend.lessons.fields.media_pdf')</th>
+                            <td>
+                                @if($lesson->mediaPDF != null )
+                                <p class="form-group">
+                                    <a href="{{$lesson->mediaPDF->url}}" target="_blank">{{$lesson->mediaPDF->url}}</a>
+                                </p>
+                                @else
+                                    <p>No PDF</p>
+                                @endif
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>@lang('labels.backend.lessons.fields.media_audio')</th>
+                            <td>
+                                @if($lesson->mediaAudio != null )
+                                <p class="form-group">
+                                    <a href="{{$lesson->mediaAudio->url}}" target="_blank">{{$lesson->mediaAudio->url}}</a>
+                                </p>
+                                @else
+                                    <p>No Audio</p>
+                                @endif
+                            </td>
+                        </tr>
+
                         <tr>
 
                             <th>@lang('labels.backend.lessons.fields.downloadable_files')</th>
                             <td>
-                                @if(count($lesson->media()->where('type','!=','YT')->get()) > 0 )
-                                    @foreach($lesson->media as $media)
+                                @if(count($lesson->downloadableMedia) > 0 )
+                                    @foreach($lesson->downloadableMedia as $media)
                                         <p class="form-group">
                                             <a href="{{ asset('storage/uploads/'.$media->name) }}"
                                                target="_blank">{{ $media->name }}
@@ -58,21 +84,17 @@
                             </td>
                         </tr>
                         <tr>
-
-                            <th>@lang('labels.backend.lessons.fields.youtube_videos')</th>
+                            <th>@lang('labels.backend.lessons.fields.media_video')</th>
                             <td>
-                                @if(count($lesson->media()->where('type','=','YT')->get()) > 0 )
-                                    @foreach($lesson->media as $media)
+                                @if($lesson->mediaVideo !=  null )
                                         <p class="form-group">
-                                           <a href="{{$media->url}}" target="_blank">{{$media->url}}</a>
+                                           <a href="{{$lesson->mediaVideo->url}}" target="_blank">{{$lesson->mediaVideo->url}}</a>
                                         </p>
-                                    @endforeach
                                 @else
                                     <p>No Videos</p>
                                 @endif
                             </td>
                         </tr>
-
                         <tr>
                             <th>@lang('labels.backend.lessons.fields.published')</th>
                             <td>{{ Form::checkbox("published", 1, $lesson->published == 1 ? true : false, ["disabled"]) }}</td>

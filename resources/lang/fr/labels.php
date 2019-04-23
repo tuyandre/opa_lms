@@ -284,6 +284,10 @@ return array (
         'youtube_videos' => 'Vidéos youtube',
         'add_pdf' => 'Ajouter un PDF',
         'add_video' => 'Ajouter une vidéo',
+        'add_audio' => 'Ajouter de l\'audio',
+        'media_audio' => 'Média Audio',
+        'media_pdf' => 'Média PDF',
+        'media_video' => 'Vidéo média',
       ),
       'create' => 'Créer une leçon',
       'edit' => 'Modifier la leçon',
@@ -520,6 +524,14 @@ return array (
       'total_courses' => 'Entrez le nombre total de cours. Ex: 1K, 1000 etc.',
       'total_students' => 'Entrez le nombre total d\'étudiants. Ex: 1K, 1Million, 1000 etc.',
       'total_teachers' => 'Entrez le nombre total d\'enseignants. Ex: 1K, 1000 etc.',
+      'captcha' => 'Si l\'enregistrement - login captcha est activé ou désactivé',
+      'captcha_note' => 'Comment obtenir des informations d\'identification Google reCaptcha?',
+      'captcha_site_key' => 'Captcha Key',
+      'captcha_site_secret' => 'Captcha Secret',
+      'captcha_status' => 'Statut Captcha',
+      'google_analytics_id' => 'Identification Google Analytics',
+      'google_analytics_id_note' => 'Comment obtenir un identifiant Google Analytics?',
+      'retest_note' => 'Activer / Désactiver si l’utilisateur pourra effectuer un nouveau test pour le même examen',
     ),
     'hero_slider' => 
     array (
@@ -700,6 +712,8 @@ return array (
       'management' => 'Paramètres sociaux',
       'twitter_api_note' => 'Comment obtenir les informations d\'identification de l\'API Twitter?',
       'twitter_note' => 'Activer / désactiver la connexion à Twitter pour le site Web',
+      'linkedin_api_note' => 'Comment obtenir les informations d\'identification de l\'API LinkedIn?',
+      'linkedin_note' => 'Activer / désactiver la connexion à LinkedIn pour le site Web',
     ),
     'sponsors' => 
     array (

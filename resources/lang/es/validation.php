@@ -185,6 +185,11 @@ return array (
           'mail_driver' => 'Controlador de correo',
           'layout_type' => 'Tipo de diseño',
           'homepage' => 'Seleccione la página de inicio',
+          'captcha_site_key' => 'Captcha Key',
+          'captcha_site_secret' => 'Captcha Srcreto',
+          'captcha_status' => 'Estado Captcha',
+          'retest_status' => 'Volver a probar',
+          'google_analytics' => 'Código de Google Analytics',
         ),
         'social_settings' => 
         array (
@@ -200,6 +205,7 @@ return array (
             'redirect' => 'Redireccionar URL',
             'client_secret' => 'Secreto del cliente',
             'client_id' => 'Identificación del cliente',
+            'label' => 'Estado de inicio de sesión de LinkedIn',
           ),
           'google' => 
           array (
@@ -226,6 +232,7 @@ return array (
           array (
             'client_secret' => 'Secreto del cliente',
             'redirect' => 'Redireccionar URL',
+            'client_id' => 'Identificación del cliente',
           ),
         ),
       ),
@@ -248,6 +255,7 @@ return array (
       'language' => 'Lenguaje',
       'upload' => 'Subir',
       'gravatar' => 'Gravatar',
+      'captcha' => 'Captcha requerido',
     ),
   ),
   'mimetypes' => 'El :attribute debe ser un archivo de tipo: valores.',

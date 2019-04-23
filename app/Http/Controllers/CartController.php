@@ -198,6 +198,7 @@ class CartController extends Controller
         //Making Order
         $order = $this->makeOrder();
         $order->payment_type = 3;
+        $order->status  = 0;
         $order->save();
         $content = [];
         $items = [];

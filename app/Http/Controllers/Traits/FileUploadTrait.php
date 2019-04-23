@@ -109,7 +109,23 @@ trait FileUploadTrait
                                 'size' => $size,
                             ]);
                             $finalRequest = new Request(array_merge($finalRequest->all(), [$key => $filename]));
-                        }else{
+                        }elseif($key == 'add_audio'){
+                            $file = $request->file($key);
+
+                            $filename = time() . '-' . $file->getClientOriginalName();
+                            $size = $file->getSize() / 1024;
+                            $file->move(public_path('storage/uploads'), $filename);
+                            Media::create([
+                                'model_type' => $model_type,
+                                'model_id' => $model->id,
+                                'name' => $filename,
+                                'type' => 'lesson_audio',
+                                'file_name' => $filename,
+                                'url' => asset('storage/uploads/'.$filename),
+                                'size' => $size,
+                            ]);
+                            $finalRequest = new Request(array_merge($finalRequest->all(), [$key => $filename]));
+                        } else{
                             $filename = time() . '-' . $request->file($key)->getClientOriginalName();
                             $request->file($key)->move(public_path('storage/uploads'), $filename);
                             $finalRequest = new Request(array_merge($finalRequest->all(), [$key => $filename]));

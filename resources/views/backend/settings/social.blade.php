@@ -128,7 +128,7 @@
 
                                     ->class('switch switch-sm switch-3d switch-primary')
                                 }}
-                                <a class="float-right font-weight-bold font-italic" target="_blank" href="https://developer.twitter.com/en/apps">{{ __('labels.backend.social_settings.google_api_note')}}</a>
+                                <a class="float-right font-weight-bold font-italic" target="_blank" href="https://developer.twitter.com/en/apps">{{ __('labels.backend.social_settings.twitter_api_note')}}</a>
 
                             </div>
                             <small><i>{{ __('labels.backend.social_settings.twitter_note')}}</i></small>
@@ -161,6 +161,56 @@
                                              ->class('form-control')
                                              ->attribute('disabled')
                                              ->value(config('services.twitter.redirect'))
+                                             }}
+                                    </div><!--col-->
+                                </div><!--form-group-->
+                            </div>
+                        </div><!--col-->
+                    </div><!--form-group-->
+
+                    <div class="form-group row">
+                        {{ html()->label(__('validation.attributes.backend.settings.social_settings.linkedin.label'))->class('col-md-2 form-control-label')->for('services.linkedin.active') }}
+                        <div class="col-md-10">
+                            <div class="checkbox">
+                                {{ html()->label(
+                                        html()->checkbox('services__linkedin__active', config('services.linkedin.active') ? true : false,1)
+                                              ->class('switch-input')->value(1)
+                                        . '<span class="switch-label"></span><span class="switch-handle"></span>')
+
+                                    ->class('switch switch-sm switch-3d switch-primary')
+                                }}
+                                <a class="float-right font-weight-bold font-italic" target="_blank" href="https://www.linkedin.com/developers/apps">{{ __('labels.backend.social_settings.linkedin_api_note')}}</a>
+                            </div>
+                            <small><i>{{ __('labels.backend.social_settings.linkedin_note')}}</i></small>
+                            <div class="switch-content @if(config('services.linkedin.active') == 0 || config('services.linkedin.active') == false) d-none @endif">
+                                <br>
+                                <div class="form-group row">
+                                    {{ html()->label(__('validation.attributes.backend.settings.social_settings.linkedin.client_id'))->class('col-md-2 form-control-label')->for('services.linkedin.client_id') }}
+                                    <div class="col-md-6 col-xs-12">
+                                        {{ html()->text('services__linkedin__client_id')
+                                             ->class('form-control')
+                                             ->value(config('services.linkedin.client_id'))
+                                             }}
+                                    </div><!--col-->
+                                </div><!--form-group-->
+
+                                <div class="form-group row">
+                                    {{ html()->label(__('validation.attributes.backend.settings.social_settings.linkedin.client_secret'))->class('col-md-2 form-control-label')->for('services.linkedin.client_secret') }}
+                                    <div class="col-md-6 col-xs-12">
+                                        {{ html()->text('services__linkedin__client_secret')
+                                             ->class('form-control')
+                                             ->value(config('services.linkedin.client_secret'))
+                                             }}
+                                    </div><!--col-->
+                                </div><!--form-group-->
+
+                                <div class="form-group row">
+                                    {{ html()->label(__('validation.attributes.backend.settings.social_settings.linkedin.redirect'))->class('col-md-2 form-control-label')->for('services.linkedin.redirect') }}
+                                    <div class="col-md-6 col-xs-12">
+                                        {{ html()->text('services__linkedin__redirect')
+                                             ->class('form-control')
+                                             ->attribute('disabled')
+                                             ->value(config('services.linkedin.redirect'))
                                              }}
                                     </div><!--col-->
                                 </div><!--form-group-->

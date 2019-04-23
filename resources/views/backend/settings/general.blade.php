@@ -68,12 +68,10 @@
 @section('content')
     {{ html()->form('POST', route('admin.general-settings'))->id('general-settings-form')->class('form-horizontal')->acceptsFiles()->open() }}
 
-
     <div class="card">
         <div class="card-body">
             <div class="row">
                 <div class="col-sm-12">
-
                     <ul class="nav nav-tabs">
                         <li class="nav-item"><a data-toggle="tab" class="nav-link active " href="#general">
                                 {{__('labels.backend.general_settings.title')}}
@@ -234,6 +232,63 @@
                                 </div><!--col-->
                             </div><!--form-group-->
 
+                            <div class="form-group row">
+                                {{ html()->label(__('validation.attributes.backend.settings.general_settings.captcha_status'))->class('col-md-2 form-control-label')->for('captcha_status') }}
+                                <div class="col-md-10">
+                                    <div class="checkbox">
+                                        {{ html()->label(
+                                                html()->checkbox('access__captcha__registration', config('access.captcha.registration') ? true : false,1)->id('captcha_status')
+                                                      ->class('switch-input')->value(1)
+                                                . '<span class="switch-label"></span><span class="switch-handle"></span>')
+
+                                            ->class('switch switch-sm switch-3d switch-primary')
+                                        }}
+                                    </div>
+                                    <span class="float-right">
+                                        <a target="_blank" class="font-weight-bold font-italic" href="https://support.google.com/analytics/answer/1042508">{{__('labels.backend.general_settings.captcha_note')}}</a>
+                                    </span>
+                                    <small><i>{{__('labels.backend.general_settings.captcha')}}</i></small>
+                                    <div id="captcha-credentials" class="@if(config('access.captcha.registration') == 0 || config('access.captcha.registration') == false) d-none @endif">
+                                        <br>
+                                        <div class="form-group row">
+                                            {{ html()->label(__('validation.attributes.backend.settings.general_settings.captcha_site_key'))->class('col-md-2 form-control-label')->for('captcha_site_key') }}
+                                            <div class="col-md-10">
+                                                {{ html()->text('no-captcha.sitekey')
+                                                     ->class('form-control')
+                                                     ->placeholder(__('validation.attributes.backend.settings.general_settings.captcha_site_key'))
+                                                     ->value(config('no-captcha.sitekey'))
+                                                     }}
+                                            </div><!--col-->
+                                        </div><!--form-group-->
+                                        <div class="form-group row">
+                                            {{ html()->label(__('validation.attributes.backend.settings.general_settings.captcha_site_secret'))->class('col-md-2 form-control-label')->for('captcha_site_secret') }}
+                                            <div class="col-md-10">
+                                                {{ html()->text('no-captcha.secret')
+                                                     ->class('form-control')
+                                                     ->placeholder(__('validation.attributes.backend.settings.general_settings.captcha_site_secret'))
+                                                     ->value(config('no-captcha.secret'))
+                                                     }}
+                                            </div><!--col-->
+                                        </div><!--form-group-->
+                                    </div>
+
+                                </div><!--col-->
+                            </div><!--form-group-->
+
+                            <div class="form-group row">
+                                {{ html()->label(__('validation.attributes.backend.settings.general_settings.retest_status'))->class('col-md-2 form-control-label')->for('retest') }}
+                                <div class="col-md-10">
+                                    <div class="checkbox">
+                                        {{ html()->label(
+                                                html()->checkbox('retest', config('retest') ? true : false,1)->id('retest')
+                                                      ->class('switch-input')->value(1)
+                                                . '<span class="switch-label"></span><span class="switch-handle"></span>')
+                                            ->class('switch switch-sm switch-3d switch-primary')
+                                        }}
+                                    </div>
+                                    <small><i> {{__('labels.backend.general_settings.retest_note')}}</i></small>
+                                </div><!--col-->
+                            </div><!--form-group-->
                         </div>
                     </div>
                 </div>

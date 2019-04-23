@@ -141,7 +141,7 @@
                                 <ul class="quick-menu">
                                     @if(count($custom_menus) > 0 )
                                         @foreach($custom_menus as $menu)
-                                            @if($menu['id'] == $menu['parent'])
+                                            @if(is_array($menu['id']) && $menu['id'] == $menu['parent'])
                                                 @if(count($menu->subs) > 0)
                                                     <li class="menu-item-has-children ul-li-block">
                                                         <a href="#!">{{$menu->label}}</a>

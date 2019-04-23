@@ -1,4 +1,3 @@
-
 <style>
     .modal-dialog {
         margin: 1.75em auto;
@@ -7,20 +6,25 @@
         flex-direction: column;
         justify-content: center;
     }
-    #myModal .close{
+
+    #myModal .close {
         position: absolute;
         right: 0.3rem;
+    }
+    .g-recaptcha div{
+        margin: auto;
     }
 
     @media (max-width: 768px) {
         .modal-dialog {
             min-height: calc(100vh - 20px);
         }
-        #myModal .modal-body{
+
+        #myModal .modal-body {
             padding: 15px;
         }
     }
-
+    /*TODO|| ADD validation in login modal*/
 </style>
 @if(!auth()->check())
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
@@ -49,7 +53,8 @@
 
                             <span class="error-response text-danger"></span>
                             <span class="success-response text-success"></span>
-                            <form class="contact_form" id="loginForm" action="{{route('frontend.auth.login.post')}}" method="POST" enctype="multipart/form-data">
+                            <form class="contact_form" id="loginForm" action="{{route('frontend.auth.login.post')}}"
+                                  method="POST" enctype="multipart/form-data">
                                 <a href="#" class="go-register float-left text-info pl-0">
                                     @lang('labels.frontend.modal.new_user_note')
                                 </a>
@@ -58,19 +63,33 @@
                                         ->class('form-control mb-0')
                                         ->placeholder(__('validation.attributes.frontend.email'))
                                         ->attribute('maxlength', 191)
-                                        ->required() }}
+                                        }}
+                                    <span id="login-email-error" class="text-danger"></span>
+
                                 </div>
                                 <div class="contact-info mb-2">
                                     {{ html()->password('password')
                                                      ->class('form-control mb-0')
                                                      ->placeholder(__('validation.attributes.frontend.password'))
-                                                     ->required() }}
+                                                    }}
+                                    <span id="login-password-error" class="text-danger"></span>
+
                                     <a class="text-info p-0 d-block text-right my-2"
                                        href="{{ route('frontend.auth.password.reset') }}">@lang('labels.frontend.passwords.forgot_password')</a>
+
                                 </div>
+                                @if(config('access.captcha.registration'))
+                                    <div class="contact-info mb-2 text-center">
+                                        {!! Captcha::display() !!}
+                                        {{ html()->hidden('captcha_status', 'true') }}
+                                        <span id="login-captcha-error" class="text-danger"></span>
+
+                                    </div><!--col-->
+                                @endif
 
                                 <div class="nws-button text-center white text-capitalize">
-                                    <button type="submit" value="Submit">@lang('labels.frontend.modal.login_now')</button>
+                                    <button type="submit"
+                                            value="Submit">@lang('labels.frontend.modal.login_now')</button>
                                 </div>
                             </form>
 
@@ -80,10 +99,12 @@
                         </div>
                         <div class="tab-pane container fade" id="register">
 
-                            <form id="registerForm"  class="contact_form" action="{{  route('frontend.auth.register.post')}}"
+                            <form id="registerForm" class="contact_form"
+                                  action="{{  route('frontend.auth.register.post')}}"
                                   method="post">
                                 {!! csrf_field() !!}
-                                <a href="#" class="go-login float-right text-info pr-0">@lang('labels.frontend.modal.already_user_note')</a>
+                                <a href="#"
+                                   class="go-login float-right text-info pr-0">@lang('labels.frontend.modal.already_user_note')</a>
                                 <div class="contact-info mb-2">
 
 
@@ -124,10 +145,20 @@
                                         ->placeholder(__('validation.attributes.frontend.password_confirmation'))
                                          }}
                                 </div>
+                                @if(config('access.captcha.registration'))
+                                    <div class="contact-info mt-3 text-center">
+                                        {!! Captcha::display() !!}
+                                        {{ html()->hidden('captcha_status', 'true')->id('captcha_status') }}
+                                        <span id="captcha-error" class="text-danger"></span>
+
+                                    </div><!--col-->
+                                @endif
+
 
                                 <div class="contact-info mb-2 mx-auto w-50 py-4">
                                     <div class="nws-button text-center white text-capitalize">
-                                        <button type="submit" value="Submit">@lang('labels.frontend.modal.register_now')</button>
+                                        <button type="submit"
+                                                value="Submit">@lang('labels.frontend.modal.register_now')</button>
                                     </div>
                                 </div>
                             </form>
@@ -140,10 +171,12 @@
 @endif
 
 @push('after-scripts')
+    @if(config('access.captcha.registration'))
+        {!! Captcha::script() !!}
+    @endif
+
     <script>
-
         $(function () {
-
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -160,7 +193,7 @@
                     $('#login').removeClass('active').addClass('fade')
                     $('#register').addClass('active').removeClass('fade')
                 });
-            })
+            });
 
 
             $(document).on('click', '#openLoginModal', function (e) {
@@ -185,6 +218,22 @@
                     data: $this.serializeArray(),
                     dataType: $this.data('type'),
                     success: function (response) {
+                        $('#login-email-error').empty();
+                        $('#login-password-error').empty();
+                        $('#login-captcha-error').empty();
+                        if (response.errors) {
+                            if (response.errors.email) {
+                                $('#login-email-error').html(response.errors.email[0]);
+                            }
+                            if (response.errors.password) {
+                                $('#login-password-error').html(response.errors.password[0]);
+                            }
+
+                            var captcha = "g-recaptcha-response";
+                            if (response.errors[captcha]) {
+                                $('#login-captcha-error').html(response.errors[captcha][0]);
+                            }
+                        }
                         if (response.success) {
                             $('#loginForm')[0].reset();
                             if (response.redirect == 'back') {
@@ -196,6 +245,7 @@
                     },
                     error: function (jqXHR) {
                         var response = $.parseJSON(jqXHR.responseText);
+                        console.log(jqXHR)
                         if (response.message) {
                             $('#login').find('span.error-response').html(response.message)
                         }
@@ -217,6 +267,7 @@
                         $('#last-name-error').empty()
                         $('#email-error').empty()
                         $('#password-error').empty()
+                        $('#captcha-error').empty()
                         if (data.errors) {
                             if (data.errors.first_name) {
                                 $('#first-name-error').html(data.errors.first_name[0]);
@@ -230,6 +281,11 @@
                             if (data.errors.password) {
                                 $('#password-error').html(data.errors.password[0]);
                             }
+
+                            var captcha = "g-recaptcha-response";
+                            if (data.errors[captcha]) {
+                                $('#captcha-error').html(data.errors[captcha][0]);
+                            }
                         }
                         if (data.success) {
                             $('#registerForm')[0].reset();
@@ -241,7 +297,6 @@
                     }
                 });
             });
-
         });
     </script>
 @endpush

@@ -284,6 +284,10 @@ return array (
         'youtube_videos' => 'Videos de Youtube',
         'add_pdf' => 'Añadir PDF',
         'add_video' => 'Añadir video',
+        'add_audio' => 'Añadir audio',
+        'media_audio' => 'Media Audio',
+        'media_pdf' => 'Media PDF',
+        'media_video' => 'Video multimedia',
       ),
       'create' => 'Crear lección',
       'edit' => 'Editar Lección',
@@ -520,6 +524,14 @@ return array (
       'total_courses' => 'Introduzca el total de cursos. Ej: 1K, 1000 etc.',
       'total_students' => 'Ingrese el total de estudiantes. Ej: 1K, 1Million, 1000 etc.',
       'total_teachers' => 'Introduzca Total de Maestros. Ej: 1K, 1000 etc.',
+      'captcha' => 'Si el registro - login captcha está activado o desactivado',
+      'captcha_note' => '¿Cómo obtener credenciales reCaptcha de Google?',
+      'captcha_site_key' => 'Captcha Key',
+      'captcha_site_secret' => 'Captcha Secret',
+      'captcha_status' => 'Estado Captcha',
+      'google_analytics_id' => 'identificación de Google Analytics',
+      'google_analytics_id_note' => '¿Cómo obtener el ID de Google Analytics?',
+      'retest_note' => 'Habilitar / Deshabilitar si el usuario podrá volver a realizar la prueba para el mismo examen',
     ),
     'hero_slider' => 
     array (
@@ -700,6 +712,8 @@ return array (
       'management' => 'Ajustes sociales',
       'twitter_api_note' => '¿Cómo obtener las credenciales de la API de Twitter?',
       'twitter_note' => 'Habilitar / deshabilitar el inicio de sesión de Twitter para el sitio web',
+      'linkedin_api_note' => '¿Cómo obtener credenciales API de LinkedIn?',
+      'linkedin_note' => 'Habilitar / deshabilitar el inicio de sesión de LinkedIn para el sitio web',
     ),
     'sponsors' => 
     array (

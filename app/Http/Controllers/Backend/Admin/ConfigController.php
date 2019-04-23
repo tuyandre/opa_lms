@@ -75,6 +75,12 @@ class ConfigController extends Controller
         if ($request->get('backup__status') == null) {
             $requests['backup__status'] = 0;
         }
+        if ($request->get('access__captcha__registration') == null) {
+            $requests['access__captcha__registration'] = 0;
+        }
+        if ($request->get('retest') == null) {
+            $requests['retest'] = 0;
+        }
 
         foreach ($requests->all() as $key => $value) {
             if ($key != '_token') {

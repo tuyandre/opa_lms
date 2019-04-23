@@ -154,6 +154,33 @@
                     </div>
                 </div>
             </div>
+
+            <div class="row">
+                <div class="col-12 form-group">
+                    {!! Form::label('pdf_files', trans('labels.backend.lessons.fields.add_audio'), ['class' => 'control-label']) !!}
+                    {!! Form::file('add_audio', [
+                        'class' => 'form-control file-upload',
+                         'id' => 'add_audio',
+                        'accept' => "audio/mpeg3"
+                        ]) !!}
+                    <div class="photo-block mt-3">
+                        <div class="files-list">
+                            @if($lesson->mediaAudio)
+                                <p class="form-group">
+                                    <a href="{{ asset('storage/uploads/'.$lesson->mediaAudio->name) }}"
+                                       target="_blank">{{ $lesson->mediaAudio->name }}
+                                        ({{ $lesson->mediaAudio->size }} KB)</a>
+                                    <a href="#" data-media-id="{{$lesson->mediaAudio->id}}"
+                                       class="btn btn-xs btn-danger delete remove-file">@lang('labels.backend.lessons.remove')</a>
+                                    <audio id="player" controls>
+                                        <source src="{{ $lesson->mediaAudio->url }}" type="audio/mp3" />
+                                    </audio>
+                                </p>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="row">
                 <div class="col-md-12 form-group">
                     {!! Form::label('add_video', trans('labels.backend.lessons.fields.add_video'), ['class' => 'control-label']) !!}
@@ -256,7 +283,7 @@
                         });
                 }
             })
-        })
+        });
 
         var uploadField = $('input[type="file"]');
 
@@ -269,40 +296,37 @@
                     $this.val("");
                 }
             })
-        })
+        });
 
         @if($lesson->mediavideo)
         @if($lesson->mediavideo->type !=  'upload')
-        $('#video').removeClass('d-none').attr('required', true)
-        $('#video_file').addClass('d-none').attr('required', false)
-        $('.video-player').addClass('d-none')
+        $('#video').removeClass('d-none').attr('required', true);
+        $('#video_file').addClass('d-none').attr('required', false);
+        $('.video-player').addClass('d-none');
         @elseif($lesson->mediavideo->type == 'upload')
-        $('#video').addClass('d-none').attr('required', false)
-        $('#video_file').removeClass('d-none').attr('required', false)
-        $('.video-player').removeClass('d-none')
-
+        $('#video').addClass('d-none').attr('required', false);
+        $('#video_file').removeClass('d-none').attr('required', false);
+        $('.video-player').removeClass('d-none');
         @else
-        $('.video-player').addClass('d-none')
-        $('#video_file').addClass('d-none').attr('required', false)
-        $('#video').addClass('d-none').attr('required', false)
-
+        $('.video-player').addClass('d-none');
+        $('#video_file').addClass('d-none').attr('required', false);
+        $('#video').addClass('d-none').attr('required', false);
         @endif
         @endif
 
         $(document).on('change', '#media_type', function () {
             if ($(this).val()) {
                 if ($(this).val() != 'upload') {
-                    $('#video').removeClass('d-none').attr('required', true)
-                    $('#video_file').addClass('d-none').attr('required', false)
+                    $('#video').removeClass('d-none').attr('required', true);
+                    $('#video_file').addClass('d-none').attr('required', false);
                     $('.video-player').addClass('d-none')
-
                 } else if ($(this).val() == 'upload') {
-                    $('#video').addClass('d-none').attr('required', false)
-                    $('#video_file').removeClass('d-none').attr('required', true)
+                    $('#video').addClass('d-none').attr('required', false);
+                    $('#video_file').removeClass('d-none').attr('required', true);
                     $('.video-player').removeClass('d-none')
                 }
             } else {
-                $('#video_file').addClass('d-none').attr('required', false)
+                $('#video_file').addClass('d-none').attr('required', false);
                 $('#video').addClass('d-none').attr('required', false)
             }
         })

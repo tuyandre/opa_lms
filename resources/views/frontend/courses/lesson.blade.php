@@ -22,53 +22,64 @@
             max-height: 300px;
             overflow: scroll;
         }
-        .touchPDF{
+
+        .touchPDF {
             border: 1px solid #e3e3e3;
         }
+
         .touchPDF > .pdf-outerdiv > .pdf-toolbar {
             height: 0;
             color: black;
             padding: 5px 0;
             text-align: right;
         }
-        .pdf-tabs{
-            width: 100%!important;
-        }
-        .pdf-outerdiv{
+
+        .pdf-tabs {
             width: 100% !important;
-            left: 0!important;
-            padding: 0px!important;
-            transform:scale(1)!important;
         }
 
-        .pdf-viewer{
+        .pdf-outerdiv {
+            width: 100% !important;
+            left: 0 !important;
+            padding: 0px !important;
+            transform: scale(1) !important;
+        }
+
+        .pdf-viewer {
             left: 0px;
-            width: 100%!important;
+            width: 100% !important;
         }
-        .pdf-drag{
-            width: 100%!important;
+
+        .pdf-drag {
+            width: 100% !important;
         }
-        .pdf-outerdiv{
-            left: 0px!important;
+
+        .pdf-outerdiv {
+            left: 0px !important;
         }
-        .pdf-outerdiv{
-            padding-left: 0px!important;
+
+        .pdf-outerdiv {
+            padding-left: 0px !important;
             left: 0px;
         }
-        .pdf-toolbar{
-            left: 0px!important;
-            width: 99%!important;
+
+        .pdf-toolbar {
+            left: 0px !important;
+            width: 99% !important;
             height: 30px;
         }
-        .pdf-viewer{
+
+        .pdf-viewer {
             box-sizing: border-box;
-            left: 0!important;
+            left: 0 !important;
             margin-top: 10px;
         }
-        .pdf-title{
-            display: none!important;
+
+        .pdf-title {
+            display: none !important;
         }
-        @media screen  and  (max-width: 768px){
+
+        @media screen  and  (max-width: 768px) {
 
         }
 
@@ -131,13 +142,16 @@
                             @if (!is_null($test_result))
                                 <div class="alert alert-info">@lang('labels.frontend.course.your_test_score')
                                     : {{ $test_result->test_result }}</div>
-                                <form action="{{route('lessons.retest',[$test_result->test->slug])}}" method="post">
-                                    @csrf
-                                    <input type="hidden" name="result_id" value="{{$test_result->id}}">
-                                    <button type="submit" class="btn gradient-bg font-weight-bold text-white" href="">
-                                        @lang('labels.frontend.course.give_test_again')
-                                    </button>
-                                </form>
+                                @if(config('retest'))
+                                    <form action="{{route('lessons.retest',[$test_result->test->slug])}}" method="post">
+                                        @csrf
+                                        <input type="hidden" name="result_id" value="{{$test_result->id}}">
+                                        <button type="submit" class="btn gradient-bg font-weight-bold text-white"
+                                                href="">
+                                            @lang('labels.frontend.course.give_test_again')
+                                        </button>
+                                    </form>
+                                @endif
                             @else
                                 <div class="test-form">
                                     <form action="{{ route('lessons.test', [$lesson->slug]) }}" method="post">
@@ -154,11 +168,10 @@
                                                         {{ $option->option_text }}<br/>
                                                     </label>
                                                 </div>
-
                                             @endforeach
                                             <br/>
                                         @endforeach
-                                        <input class="btn  gradient-bg text-white font-weight-bold" type="submit"
+                                        <input class="btn gradient-bg text-white font-weight-bold" type="submit"
                                                value=" @lang('labels.frontend.course.submit_results') "/>
                                     </form>
                                 </div>
@@ -187,6 +200,7 @@
                             </div>
                         @endif
 
+
                         @if($lesson->mediaVideo && $lesson->mediavideo->count() > 0)
                             <div class="course-single-text">
                                 @if($lesson->mediavideo != "")
@@ -194,31 +208,6 @@
                                         <div class="video-container mb-5" data-id="{{$lesson->mediavideo->id}}">
                                             @if($lesson->mediavideo->type == 'youtube')
 
-                                                {{--<div class="embed-responsive embed-responsive-16by9">--}}
-                                                {{--<div class="embed-responsive-item">--}}
-
-                                                {{--<div class="mask"></div>--}}
-                                                {{--<img src="{{asset('vendor/YouTube-iFrame-API-Wrapper')}}/img/preload.gif" class="preload">--}}
-
-                                                {{--<div class="play">--}}
-                                                {{--<i class="play-icon glyphicon glyphicon-play-circle"></i>--}}
-                                                {{--</div>--}}
-
-                                                {{--<div class="mute">--}}
-                                                {{--<i class="mute-icon notMuted glyphicon glyphicon-volume-up"></i>--}}
-                                                {{--<i class="mute-icon isMuted glyphicon glyphicon-volume-off"></i>--}}
-                                                {{--</div>--}}
-
-                                                {{--<img class="thumb"--}}
-                                                {{--src="//img.youtube.com/vi/{{$url}}/maxresdefault.jpg">--}}
-                                                {{--<div class="iframe" id="video-{{$url}}"></div>--}}
-
-                                                {{--</div>--}}
-                                                {{--</div>--}}
-
-                                                {{--<div class="progress">--}}
-                                                {{--<div class="progress-bar" role="progressbar"></div>--}}
-                                                {{--</div>--}}
 
                                                 <div id="player" class="js-player" data-plyr-provider="youtube"
                                                      data-plyr-embed-id="{{$lesson->mediavideo->file_name}}"></div>
@@ -235,6 +224,14 @@
                                         </div>
                                     </div>
                                 @endif
+                            </div>
+                        @endif
+
+                        @if($lesson->mediaAudio)
+                            <div class="course-single-text mb-5">
+                                <audio id="audioPlayer" controls>
+                                    <source src="{{$lesson->mediaAudio->url}}" type="audio/mp3"/>
+                                </audio>
                             </div>
                         @endif
 
@@ -320,8 +317,7 @@
                    @foreach($lesson->course->teachers as $key=>$teacher)
                                             @php $key++ @endphp
                                             <a href="{{route('teachers.show',['id'=>$teacher->id])}}" target="_blank">
-                           {{$teacher->full_name}}@if($key < count($lesson->course->teachers ))
-                                                    , @endif
+                           {{$teacher->full_name}}@if($key < count($lesson->course->teachers )), @endif
                        </a>
                                         @endforeach
 
@@ -354,13 +350,13 @@
     <script src="{{asset('plugins/touchpdf-master/jquery.mousewheel.js')}}"></script>
 
     <script>
-        @if($lesson->mediaVideo && $lesson->mediaVideo->type != 'embed')
+                @if($lesson->mediaVideo && $lesson->mediaVideo->type != 'embed')
         var current_progress = 0;
         @if($lesson->mediaVideo->getProgress(auth()->user()->id) != "")
             current_progress = "{{$lesson->mediaVideo->getProgress(auth()->user()->id)->progress}}";
         @endif
-        @if($lesson->mediaPDF)
 
+        @if($lesson->mediaPDF)
         $(function () {
             $("#myPDF").pdf({
                 source: "{{asset('storage/uploads/'.$lesson->mediaPDF->name)}}",
@@ -370,7 +366,9 @@
             });
 
         });
-        @endif
+                @endif
+
+        const player2 = new Plyr('#audioPlayer');
 
         const player = new Plyr('#player');
         var duration = 0;
@@ -380,6 +378,7 @@
             player.currentTime = parseInt(current_progress);
             duration = event.detail.plyr.duration;
         });
+
         setInterval(function () {
             player.on('timeupdate', event => {
                 if ((parseInt(current_progress) > 0) && (parseInt(current_progress) < parseInt(event.detail.plyr.currentTime))) {
@@ -387,9 +386,9 @@
                 } else {
                     progress = parseInt(event.detail.plyr.currentTime);
                 }
-            })
+            });
             saveProgress(video_id, duration, parseInt(progress));
-        }, 5000)
+        }, 5000);
 
 
         function saveProgress(id, duration, progress) {
@@ -417,9 +416,5 @@
 
         @endif
         $("#sidebar").stick_in_parent();
-
     </script>
-
-
-
 @endpush

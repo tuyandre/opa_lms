@@ -22,6 +22,7 @@ return array (
       'language' => 'Language',
       'gravatar' => 'Gravatar',
       'upload' => 'Upload',
+      'captcha' => 'Captcha required',
     ),
     'backend' => 
     array (
@@ -140,6 +141,7 @@ return array (
           'theme_layout' => 'Theme Layout',
           'font_color' => 'Font Color',
           'layout_type' => 'Layout Type',
+          'retest_status' => 'Re-Test',
         ),
       ),
     ),

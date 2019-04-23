@@ -246,6 +246,10 @@ return array (
         'youtube_videos' => 'YouTube Videos',
         'add_pdf' => 'Add PDF',
         'add_video' => 'Add Video',
+        'media_video' => 'Media Video',
+        'media_audio' => 'Media Audio',
+        'media_pdf' => 'Media PDF',
+        'add_audio' => 'Add Audio',
       ),
       'max_file_size' => '(max file size 5MB)',
       'short_description_placeholder' => 'Input short description of lesson',
@@ -530,6 +534,9 @@ return array (
       array (
         'title' => 'General',
       ),
+      'captcha' => 'Whether the registration - login captcha is on or off',
+      'captcha_note' => 'How to get Google reCaptcha credentials?',
+      'retest_note' => 'Enable / Disable if user will be able to give retest for same exam',
     ),
     'logo' => 
     array (
@@ -554,6 +561,8 @@ return array (
       'twitter_api_note' => 'How to get Twitter API Credentials?',
       'google_note' => 'Enable / disable Google login for website',
       'twitter_note' => 'Enable / disable Twitter login for website',
+      'linkedin_api_note' => 'How to get LinkedIn API Credentials?',
+      'linkedin_note' => 'Enable / disable LinkedIn login for website',
     ),
     'hero_slider' => 
     array (

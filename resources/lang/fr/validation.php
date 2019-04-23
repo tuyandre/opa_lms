@@ -186,6 +186,11 @@ return array (
           'mail_driver' => 'Pilote de courrier',
           'layout_type' => 'Type de disposition',
           'homepage' => 'Sélectionner la page d\'accueil',
+          'captcha_site_key' => 'Captcha Key',
+          'captcha_site_secret' => 'Captcha Secret',
+          'captcha_status' => 'Statut Captcha',
+          'retest_status' => 'Re-tester',
+          'google_analytics' => 'Code Google Analytics',
         ),
         'social_settings' => 
         array (
@@ -201,6 +206,7 @@ return array (
             'redirect' => 'URL de redirection',
             'client_secret' => 'Secret du client',
             'client_id' => 'identité du client',
+            'label' => 'État de connexion LinkedIn',
           ),
           'google' => 
           array (
@@ -227,6 +233,7 @@ return array (
           array (
             'redirect' => 'URL de redirection',
             'client_secret' => 'Secret du client',
+            'client_id' => 'identité du client',
           ),
         ),
       ),
@@ -249,6 +256,7 @@ return array (
       'upload' => 'Télécharger',
       'language' => 'la langue',
       'gravatar' => 'Gravatar',
+      'captcha' => 'Captcha requis',
     ),
   ),
 );
