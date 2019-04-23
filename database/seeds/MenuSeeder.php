@@ -47,7 +47,7 @@ class MenuSeeder extends Seeder
             if ($menuItem == "") {
                 $menuItem = new \Harimayco\Menu\Models\MenuItems();
                 $menuItem->label = $item['name'];
-                $menuItem->link = '';
+                $menuItem->link = \Illuminate\Support\Arr::last(explode('/', $item['url']));
                 $menuItem->parent = 0;
                 $menuItem->sort = $key;
                 $menuItem->menu = $nav_menu->id;
