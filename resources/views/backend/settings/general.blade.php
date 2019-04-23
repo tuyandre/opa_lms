@@ -126,6 +126,21 @@
                             </div><!--form-group-->
 
                             <div class="form-group row">
+                                {{ html()->label(__('labels.backend.general_settings.app_url'))->class('col-md-2 form-control-label')->for('app_url') }}
+
+                                <div class="col-md-10">
+                                    {{ html()->text('app__url')
+                                        ->class('form-control')
+                                        ->placeholder(__('labels.backend.general_settings.app_url'))
+                                        ->attribute('maxlength', 191)
+
+                                        ->value(config('app.url'))
+                                        }}
+
+                                </div><!--col-->
+                            </div><!--form-group-->
+
+                            <div class="form-group row">
                                 {{ html()->label(__('labels.backend.general_settings.font_color'))->class('col-md-2 form-control-label')->for('font_color') }}
 
                                 <div class="col-md-10">
