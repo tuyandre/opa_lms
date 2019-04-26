@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
             'sessions',
         ]);
 
+        $this->call(LocaleSeeder::class);
         $this->call(AuthTableSeeder::class);
         $this->call(PageSeeder::class);
         $this->call(ConfigSeeder::class);

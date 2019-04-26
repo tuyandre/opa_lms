@@ -11,35 +11,22 @@ use App\Http\Controllers\Frontend\HomeController;
 // Switch between the included languages
 Route::get('lang/{lang}', [LanguageController::class, 'swap']);
 
-function array_values_recursive($array) {
+function array_values_recursive($array)
+{
     $flat = array();
 
-    foreach($array as $value) {
+    foreach ($array as $value) {
         if (is_array($value)) {
             $flat = array_merge($flat, array_values_recursive($value));
-        }
-        else {
+        } else {
             $flat[] = $value;
         }
     }
     return $flat;
 }
 
-Route::get('test',function (){
-//   $data = ['labels', 'menus', 'navs','strings','validation'];
-//   foreach ($data as $item ){
-//       $item_file = trans($item);
-//       $value = implode(' || ',array_values_recursive($item_file));
-//       File::put(public_path().'/'.$item.'.txt',$value);
-//   }
-    $data = ['chatter::intro','chatter::email','chatter::intro','chatter::messages','chatter::alert'];
-       foreach ($data as $item ){
-       $item_file = trans($item);
-       $value = implode(' || ',array_values_recursive($item_file));
-       File::put(public_path().'/chatter/'.$item.'.txt',$value);
-   }
-
-    dd('saved');
+Route::get('rtl', function () {
+    return view('frontend-rtl.index-1');
 });
 
 /*
@@ -104,7 +91,6 @@ Route::get('/faqs', 'Frontend\HomeController@getFaqs')->name('faqs');
 /*=============== Theme blades routes ends ===================*/
 
 
-
 Route::get('contact', 'Frontend\ContactController@index')->name('contact');
 Route::post('contact/send', 'Frontend\ContactController@send')->name('contact.send');
 
@@ -128,17 +114,17 @@ Route::group(['middleware' => 'auth'], function () {
 });
 
 //============= Menu  Manager Routes ===============//
-Route::group(['namespace' => 'Backend', 'prefix' => 'admin','middleware' => config('menu.middleware')], function () {
+Route::group(['namespace' => 'Backend', 'prefix' => 'admin', 'middleware' => config('menu.middleware')], function () {
 
     //Route::get('wmenuindex', array('uses'=>'\Harimayco\Menu\Controllers\MenuController@wmenuindex'));
     Route::post('add-custom-menu', 'MenuController@addcustommenu')->name('haddcustommenu');
     Route::post('delete-item-menu', 'MenuController@deleteitemmenu')->name('hdeleteitemmenu');
-    Route::post('delete-menug','MenuController@deletemenug')->name('hdeletemenug');
+    Route::post('delete-menug', 'MenuController@deletemenug')->name('hdeletemenug');
     Route::post('create-new-menu', 'MenuController@createnewmenu')->name('hcreatenewmenu');
     Route::post('generate-menu-control', 'MenuController@generatemenucontrol')->name('hgeneratemenucontrol');
     Route::post('update-item', 'MenuController@updateitem')->name('hupdateitem');
     Route::post('save-custom-menu', 'MenuController@saveCustomMenu')->name('hcustomitem');
-    Route::post('change-location','MenuController@updateLocation')->name('update-location');
+    Route::post('change-location', 'MenuController@updateLocation')->name('update-location');
 });
 
 Route::group(['namespace' => 'Frontend', 'as' => 'frontend.'], function () {

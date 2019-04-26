@@ -24,7 +24,6 @@
             padding: 15px;
         }
     }
-    /*TODO|| ADD validation in login modal*/
 </style>
 @if(!auth()->check())
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">

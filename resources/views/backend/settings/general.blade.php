@@ -10,16 +10,17 @@
             float: left;
             width: 8%;
         }
-        @media screen  and (max-width: 768px){
-            .color-list li{
+
+        @media screen  and (max-width: 768px) {
+            .color-list li {
                 width: 20%;
                 padding-bottom: 20px;
             }
-            .color-list li:first-child{
-                padding-bottom:0px;
+
+            .color-list li:first-child {
+                padding-bottom: 0px;
             }
         }
-
 
         .options {
             line-height: 35px;
@@ -59,7 +60,8 @@
             background-color: #dcd8d8;
             background-image: url(https://www.transparenttextures.com/patterns/carbon-fibre-v2.png);
         }
-        #logos img{
+
+        #logos img {
             height: auto;
             width: 100%;
         }
@@ -95,6 +97,11 @@
                         <li class="nav-item">
                             <a data-toggle="tab" class="nav-link" href="#payment_settings">
                                 {{ __('labels.backend.general_settings.payment_settings.title') }}
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a data-toggle="tab" class="nav-link" href="#language_settings">
+                                {{ __('labels.backend.general_settings.language_settings.title') }}
                             </a>
                         </li>
                     </ul>
@@ -206,7 +213,8 @@
 
                                 <div class="col-md-10">
                                     <select class="form-control" id="counter" name="counter">
-                                        <option selected value="1">{{__('labels.backend.general_settings.static')}}</option>
+                                        <option selected
+                                                value="1">{{__('labels.backend.general_settings.static')}}</option>
                                         <option value="2">{{__('labels.backend.general_settings.database')}}</option>
                                     </select>
                                     <span class="help-text font-italic">{!!  __('labels.backend.general_settings.counter_note') !!}</span>
@@ -241,7 +249,8 @@
                                         ->autofocus()
                                         }}
                                     <span class="float-right">
-                                        <a target="_blank" class="font-weight-bold font-italic" href="https://support.google.com/analytics/answer/1042508">{{__('labels.backend.general_settings.google_analytics_id_note')}}</a>
+                                        <a target="_blank" class="font-weight-bold font-italic"
+                                           href="https://support.google.com/analytics/answer/1042508">{{__('labels.backend.general_settings.google_analytics_id_note')}}</a>
                                     </span>
 
                                 </div><!--col-->
@@ -260,10 +269,12 @@
                                         }}
                                     </div>
                                     <span class="float-right">
-                                        <a target="_blank" class="font-weight-bold font-italic" href="https://support.google.com/analytics/answer/1042508">{{__('labels.backend.general_settings.captcha_note')}}</a>
+                                        <a target="_blank" class="font-weight-bold font-italic"
+                                           href="https://support.google.com/analytics/answer/1042508">{{__('labels.backend.general_settings.captcha_note')}}</a>
                                     </span>
                                     <small><i>{{__('labels.backend.general_settings.captcha')}}</i></small>
-                                    <div id="captcha-credentials" class="@if(config('access.captcha.registration') == 0 || config('access.captcha.registration') == false) d-none @endif">
+                                    <div id="captcha-credentials"
+                                         class="@if(config('access.captcha.registration') == 0 || config('access.captcha.registration') == false) d-none @endif">
                                         <br>
                                         <div class="form-group row">
                                             {{ html()->label(__('validation.attributes.backend.settings.general_settings.captcha_site_key'))->class('col-md-2 form-control-label')->for('captcha_site_key') }}
@@ -564,8 +575,6 @@
                             <p class="help-text mb-0">{!!   __('labels.backend.general_settings.email.note') !!}</p>
 
 
-
-
                         </div>
                     </div>
                 </div>
@@ -585,9 +594,13 @@
 
                                             ->class('switch switch-sm switch-3d switch-primary')
                                         }}
-                                        <a class="float-right font-weight-bold font-italic" href="https://stripe.com/docs/keys" target="_blank">{{ __('labels.backend.general_settings.payment_settings.how_to_stripe')}}</a>
+                                        <a class="float-right font-weight-bold font-italic"
+                                           href="https://stripe.com/docs/keys"
+                                           target="_blank">{{ __('labels.backend.general_settings.payment_settings.how_to_stripe')}}</a>
                                     </div>
-                                    <small><i> {{ __('labels.backend.general_settings.payment_settings.stripe_note')}}</i></small>
+                                    <small>
+                                        <i> {{ __('labels.backend.general_settings.payment_settings.stripe_note')}}</i>
+                                    </small>
                                     <div class="switch-content @if(config('services.stripe.active') == 0 || config('services.stripe.active') == false) d-none @endif">
                                         <br>
                                         <div class="form-group row">
@@ -624,16 +637,21 @@
 
                                             ->class('switch switch-sm switch-3d switch-primary')
                                         }}
-                                        <a target="_blank" href="https://developer.paypal.com/developer/applications/" class="float-right font-italic font-weight-bold">{{ __('labels.backend.general_settings.payment_settings.how_to_paypal')}}</a>
+                                        <a target="_blank" href="https://developer.paypal.com/developer/applications/"
+                                           class="float-right font-italic font-weight-bold">{{ __('labels.backend.general_settings.payment_settings.how_to_paypal')}}</a>
                                     </div>
-                                    <small><i> {{ __('labels.backend.general_settings.payment_settings.paypal_note')}}</i></small>
+                                    <small>
+                                        <i> {{ __('labels.backend.general_settings.payment_settings.paypal_note')}}</i>
+                                    </small>
                                     <div class="switch-content @if(config('paypal.active') == 0 || config('paypal.active') == false) d-none @endif">
                                         <br>
                                         <div class="form-group row">
                                             {{ html()->label(__('labels.backend.general_settings.payment_settings.mode'))->class('col-md-2 form-control-label') }}
                                             <div class="col-md-8 col-xs-12">
-                                                <select class="form-control" id="paypal_settings_mode" name="paypal__settings__mode">
-                                                    <option selected value="sandbox">{{__('labels.backend.general_settings.payment_settings.sandbox')}}</option>
+                                                <select class="form-control" id="paypal_settings_mode"
+                                                        name="paypal__settings__mode">
+                                                    <option selected
+                                                            value="sandbox">{{__('labels.backend.general_settings.payment_settings.sandbox')}}</option>
                                                     <option value="live">{{__('labels.backend.general_settings.payment_settings.live')}}</option>
                                                 </select>
                                                 <span class="help-text font-italic">{!!  __('labels.backend.general_settings.payment_settings.mode_note') !!}</span>
@@ -674,12 +692,43 @@
                                             ->class('switch switch-sm switch-3d switch-primary')
                                         }}
                                     </div>
-                                    <small><i> {{ __('labels.backend.general_settings.payment_settings.offline_mode_note')}}</i></small>
+                                    <small>
+                                        <i> {{ __('labels.backend.general_settings.payment_settings.offline_mode_note')}}</i>
+                                    </small>
                                 </div>
                             </div>
 
                         </div>
 
+                    </div>
+                </div>
+
+                <!--Language Tab--->
+                <div id="language_settings" class="tab-pane container fade">
+                    <div class="row mt-4 mb-4">
+                        <div class="col">
+                            <div class="form-group row">
+                                {{ html()->label(__('labels.backend.general_settings.language_settings.default_language'))->class('col-md-2 form-control-label')->for('default_language') }}
+
+                                <div class="col-md-10">
+                                    <select class="form-control" id="app_locale" name="app__locale">
+                                        @foreach($locales as $lang)
+                                                <option @if( app()->getLocale() == $lang) selected @endif value="{{$lang}}">{{(trans('menus.language-picker.langs.'.$lang)) ? trans('menus.language-picker.langs.'.$lang) : $lang  }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                {{ html()->label(__('labels.backend.general_settings.language_settings.display_type'))->class('col-md-2 form-control-label')->for('display_type') }}
+
+                                <div class="col-md-10">
+                                    <select class="form-control" id="app_display_type" name="app__display_type">
+                                       <option @if(config('app.display_type') == 'ltr') selected @endif value="ltr">@lang('labels.backend.general_settings.language_settings.left_to_right')</option>
+                                       <option value="rtl">@lang('labels.backend.general_settings.language_settings.right_to_left')</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -864,9 +913,9 @@
                 }
             });
 
-            @if(request()->has('tab'))
-                var tab = "{{request('tab')}}"
-                $('.nav-tabs a[href="#'+tab+'"]').tab('show')
+                    @if(request()->has('tab'))
+            var tab = "{{request('tab')}}"
+            $('.nav-tabs a[href="#' + tab + '"]').tab('show')
             @endif
 
         });

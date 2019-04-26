@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Helpers\Frontend\Auth\Socialite;
+use App\Locale;
 use App\Models\Blog;
 use App\Models\Config;
 use App\Models\Course;
@@ -112,9 +113,15 @@ class AppServiceProvider extends ServiceProvider
         });
 
         view()->composer(['frontend.*','backend.*'], function ($view) {
+//
+//            if (Schema::hasTable('ltm_translations')) {
+//                $locales = Translation::groupBy('locale')->pluck('locale')->toArray();
+//
+//            }
+//            $view->with(compact('locales'));
 
-            if (Schema::hasTable('ltm_translations')) {
-                $locales = Translation::groupBy('locale')->pluck('locale')->toArray();
+            if (Schema::hasTable('locales')) {
+                $locales = Locale::pluck('short_name as locale')->toArray();
 
             }
             $view->with(compact('locales'));

@@ -469,6 +469,13 @@ return array(
                             'mode_note' => '<b>Sandbox</b>= Will be used for testing payments with PayPal Test Credentials. Account with USD only can make payments with PayPal for now. This options will redirect to test PayPal payment with Sandbox User Credentials. It will be used for dummy transactions only.<br>
 <b>Live</b> = Will be used with you Live PayPal credentials to make actual transaction with normal users with PayPal account.',
                         ),
+                    'language_settings' => array(
+                        'title' => 'Language Settings',
+                        'default_language' => 'Default Language',
+                        'right_to_left' => 'Right to Left',
+                        'left_to_right' => 'Left to right',
+                        'display_type' => 'Display Type',
+                    ),
                     'management' => 'General Settings',
                     'app_name' => 'App Name',
                     'app_url' => 'App URL',
