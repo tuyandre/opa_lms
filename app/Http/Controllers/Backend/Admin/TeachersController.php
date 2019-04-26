@@ -106,8 +106,7 @@ class TeachersController extends Controller
      */
     public function create()
     {
-
-        return view('backend.teachers.create', compact('courses', 'lessons'));
+        return view('backend.teachers.create');
     }
 
     /**
