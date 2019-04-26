@@ -28,6 +28,7 @@ class DatabaseSeeder extends Seeder
         $this->call(SliderSeeder::class);
         $this->call(MenuSeeder::class);
         artisan::call('translations:import');
+        artisan::call('storage:link');
         Model::reguard();
     }
 }
