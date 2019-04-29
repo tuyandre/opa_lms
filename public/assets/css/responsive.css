@@ -884,9 +884,15 @@
 	}
 
 	.search-course .nws-button {
+		height: 40px;
+		line-height: 1.4;
+		width: 90px;
 
-		width: 125px;
-
+	}
+	.search-course input{
+		font-size: 12px;
+		height: 40px;
+		padding: 0px 8px;
 	}
 
 	.subs-form .nws-button {

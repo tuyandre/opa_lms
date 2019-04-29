@@ -29,6 +29,18 @@ class HomeController extends Controller
     /**
      * @return \Illuminate\View\View
      */
+
+    private $path;
+
+    public function __construct()
+    {
+        $path = 'frontend';
+        if (config('app.display_type') == 'rtl') {
+            $path = 'frontend-rtl';
+        }
+        $this->path = $path;
+    }
+
     public function index()
     {
         if (request('page')) {
@@ -76,12 +88,12 @@ class HomeController extends Controller
             $total_teachers = User::role('teacher')->get()->count();
         }
 
-        return view('frontend.index-' . config('theme_layout'), compact('popular_courses', 'featured_courses', 'sponsors', 'total_students', 'total_courses', 'total_teachers', 'testimonials', 'news', 'trending_courses', 'teachers', 'faqs', 'course_categories', 'reasons', 'sections'));
+        return view($this->path.'.index-' . config('theme_layout'), compact('popular_courses', 'featured_courses', 'sponsors', 'total_students', 'total_courses', 'total_teachers', 'testimonials', 'news', 'trending_courses', 'teachers', 'faqs', 'course_categories', 'reasons', 'sections'));
     }
 
     public function getFaqs()
     {
-        $faq_categories = Category::has('faqs','>',0)->get();
+        $faq_categories = Category::has('faqs', '>', 0)->get();
         return view('frontend.faq', compact('faq_categories'));
     }
 
@@ -208,7 +220,8 @@ class HomeController extends Controller
         return view('frontend.search-result.courses', compact('courses', 'q'));
     }
 
-    public function searchBlog(Request $request){
+    public function searchBlog(Request $request)
+    {
         $blogs = Blog::where('title', 'LIKE', '%' . $request->q . '%')
             ->paginate(12);
         $categories = Category::has('blogs')->where('status', '=', 1)->paginate(10);
@@ -216,7 +229,7 @@ class HomeController extends Controller
 
 
         $q = $request->q;
-        return view('frontend.search-result.blogs', compact('blogs', 'q','categories','popular_tags'));
+        return view('frontend.search-result.blogs', compact('blogs', 'q', 'categories', 'popular_tags'));
     }
 }
 

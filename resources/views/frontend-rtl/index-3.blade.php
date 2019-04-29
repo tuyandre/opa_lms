@@ -1,15 +1,22 @@
-@extends('frontend.layouts.app'.config('theme_layout'))
+@extends('frontend-rtl.layouts.app'.config('theme_layout'))
 
 @section('title', trans('labels.frontend.home.title').' | '.app_name())
 @section('meta_description', '')
 @section('meta_keywords','')
 
+@push('after-styles')
+<style>
+    #genius-teacher-2{
+
+    }
+</style>
+@endpush
 @section('content')
 
 
     <!-- Start of slider section
     ============================================= -->
-    @include('frontend.layouts.partials.slider')
+    @include('frontend-rtl.layouts.partials.slider')
 
     <!-- End of slider section
             ============================================= -->
@@ -104,7 +111,7 @@
     @if($sections->teachers->status == 1)
         <!-- Start of genius teacher v2
         ============================================= -->
-        <section id="genius-teacher-2" class="genius-teacher-section-2">
+        <section id="genius-teacher-2" class="genius-teacher-section-2 mb-5">
             <div class="container">
                 <div class="section-title mb20  headline text-left">
                     <span class="subtitle ml42 text-uppercase">@lang('labels.frontend.home.learn_new_skills')</span>
@@ -117,7 +124,7 @@
                                 <div class="teacher-double">
                                     @endif
                                     <div class="teacher-img-content relative-position">
-                                        <img height="210px" width="210px" src="{{$item->picture}}" alt="">
+                                        <img width="100%" src="{{$item->picture}}" alt="">
                                         <div class="teacher-cntent">
                                             <div class="teacher-social-name ul-li-block">
                                                 <ul>

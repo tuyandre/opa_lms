@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backend\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Traits\FileUploadTrait;
+use App\Locale;
 use App\Models\Config;
 use Illuminate\Http\Request;
 
@@ -18,7 +19,8 @@ class ConfigController extends Controller
         $footer_data = Config::where('key', '=', 'footer_data')->first();
         $footer_data = json_decode($footer_data->value);
         $sections = json_decode($sections->value);
-        return view('backend.settings.general', compact('sections', 'footer_data'));
+        $app_locales = Locale::get();
+        return view('backend.settings.general', compact('sections', 'footer_data','app_locales'));
     }
 
     public function saveGeneralSettings(Request $request)

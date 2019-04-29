@@ -86,8 +86,7 @@
         @endforeach
     </div>
 </section>
-<!-- End of slider section
-============================================= -->
+
 
 @push('after-scripts')
     <script>

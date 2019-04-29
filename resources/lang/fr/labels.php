@@ -592,7 +592,7 @@ return array (
     'logo' => 
     array (
       'favicon' => 'Ajouter un favicon',
-      'favicon_note' => 'Remarque: Téléchargez le logo avec une résolution <b> 32x32 </b> pixels et une extension <b> .png </b> ou <b> .gif </ b> ou <b> .ico </b>.',
+      'favicon_note' => 'Remarque: Téléchargez le logo avec une résolution <b> 32x32 </b> pixels et une extension <b> .png </b> ou <b> .gif </b> ou <b> .ico </b>.',
       'logo_b' => 'Logo 1',
       'logo_b_note' => 'Remarque: Téléchargez le logo avec <b> texte noir et fond transparent au format .png </b> et <b> 294x50 </b> (WxH) pixels. <br> <b> Hauteur </b> doit être corrigé, <b> largeur </b> en fonction de votre <b> format d\'image </b>.',
       'logo_popup' => 'Logo pour Popups',

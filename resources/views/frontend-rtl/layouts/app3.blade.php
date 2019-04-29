@@ -19,19 +19,21 @@
     <!-- Check if the language is set to RTL, so apply the RTL layouts -->
         <!-- Otherwise apply the normal LTR layouts -->
 
-        <link rel="stylesheet" href="{{asset('assets/css/owl.carousel.css')}}">
-        <link rel="stylesheet" href="{{asset('assets/css/fontawesome-all.css')}}">
-        <link rel="stylesheet" href="{{asset('assets/css/flaticon.css')}}">
-        <link rel="stylesheet" type="text/css" href="{{asset('assets/css/meanmenu.css')}}">
-        <link rel="stylesheet" href="{{asset('assets/css/bootstrap.min.css')}}">
-        <link rel="stylesheet" href="{{asset('assets/css/video.min.css')}}">
-        <link rel="stylesheet" href="{{asset('assets/css/lightbox.css')}}">
-        <link rel="stylesheet" href="{{asset('assets/css/progess.css')}}">
-        <link rel="stylesheet" href="{{asset('assets/css/animate.min.css')}}">
-        {{--<link rel="stylesheet" href="{{asset('assets/css/style.css')}}">--}}
-        <link rel="stylesheet" href="{{ mix('css/frontend.css') }}">
+        <link rel="stylesheet" href="{{asset('assets-rtl/css/owl.carousel.css')}}">
+        <link rel="stylesheet" href="{{asset('assets-rtl/css/fontawesome-all.css')}}">
+        <link rel="stylesheet" href="{{asset('assets-rtl/css/flaticon.css')}}">
+        <link rel="stylesheet" type="text/css" href="{{asset('assets-rtl/css/meanmenu.css')}}">
+        <link rel="stylesheet" href="{{asset('assets-rtl/css/bootstrap.min.css')}}">
+        <link rel="stylesheet" href="{{asset('assets-rtl/css/video.min.css')}}">
+        <link rel="stylesheet" href="{{asset('assets-rtl/css/lightbox.css')}}">
+        <link rel="stylesheet" href="{{asset('assets-rtl/css/progess.css')}}">
+        <link rel="stylesheet" href="{{asset('assets-rtl/css/animate.min.css')}}">
+        <link rel="stylesheet" href="{{asset('assets-rtl/css/slider.css')}}">
 
-        <link rel="stylesheet" href="{{asset('assets/css/responsive.css')}}">
+        <link rel="stylesheet" href="{{asset('assets-rtl/css/style.css')}}">
+
+        <link rel="stylesheet" href="{{asset('assets-rtl/css/responsive.css')}}">
+
 
         <link rel="stylesheet" href="{{asset('assets/css/colors/switch.css')}}">
         <link href="{{asset('assets/css/colors/color-2.css')}}" rel="alternate stylesheet" type="text/css"
@@ -57,21 +59,25 @@
                 top: inherit;
             }
         </style>
-        @stack('after-styles')
-        @yield('css')
+    @stack('after-styles')
+    @yield('css')
 
     @if(config('google_analytics_id') != "")
 
         <!-- Global site tag (gtag.js) - Google Analytics -->
-        <script async src="https://www.googletagmanager.com/gtag/js?id={{config('google_analytics_id')}}"></script>
-        <script>
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
+            <script async src="https://www.googletagmanager.com/gtag/js?id={{config('google_analytics_id')}}"></script>
+            <script>
+                window.dataLayer = window.dataLayer || [];
 
-            gtag('config', '{{config('google_analytics_id')}}');
-        </script>
-    @endif
+                function gtag() {
+                    dataLayer.push(arguments);
+                }
+
+                gtag('js', new Date());
+
+                gtag('config', '{{config('google_analytics_id')}}');
+            </script>
+        @endif
     </head>
     <body class="{{config('layout_type')}}">
     <div id="app">
@@ -96,7 +102,7 @@
                                     <ul class="d-inline-block w-100 bg-white">
                                         @if(count($locales) > 1)
 
-                                        <li class="menu-item-has-children ul-li-block">
+                                            <li class="menu-item-has-children ul-li-block">
                                                 <a href="#">
                                                     <span class="d-md-down-none">@lang('menus.language-picker.language')
                                                         ({{ strtoupper(app()->getLocale()) }})</span>
@@ -187,7 +193,8 @@
                                         @else
                                             <li class="log-in mt-0">
                                                 @if(!auth()->check())
-                                                    <a id="openLoginModal" data-target="#myModal" href="#">@lang('navs.general.login')</a>
+                                                    <a id="openLoginModal" data-target="#myModal"
+                                                       href="#">@lang('navs.general.login')</a>
                                                     <!-- The Modal -->
                                                     @include('frontend.layouts.modals.loginModal')
                                                 @endif
@@ -244,29 +251,30 @@
                                             </li>
                                         @else
                                             <li class="">
-                                                <a id="openLoginModal" data-target="#myModal" href="#">@lang('navs.general.login')</a>
+                                                <a id="openLoginModal" data-target="#myModal"
+                                                   href="#">@lang('navs.general.login')</a>
                                                 <!-- The Modal -->
                                             </li>
                                         @endif
 
-                                            @if(count($locales) > 1)
-                                                <li class="menu-item-has-children ul-li-block">
-                                                    <a href="#">
+                                        @if(count($locales) > 1)
+                                            <li class="menu-item-has-children ul-li-block">
+                                                <a href="#">
                                                     <span class="d-md-down-none">@lang('menus.language-picker.language')
                                                         ({{ strtoupper(app()->getLocale()) }})</span>
-                                                    </a>
-                                                    <ul class="">
-                                                        @foreach($locales as $lang)
-                                                            @if($lang != app()->getLocale())
-                                                                <li>
-                                                                    <a href="{{ '/lang/'.$lang }}"
-                                                                       class=""> @lang('menus.language-picker.langs.'.$lang)</a>
-                                                                </li>
-                                                            @endif
-                                                        @endforeach
-                                                    </ul>
-                                                </li>
-                                            @endif
+                                                </a>
+                                                <ul class="">
+                                                    @foreach($locales as $lang)
+                                                        @if($lang != app()->getLocale())
+                                                            <li>
+                                                                <a href="{{ '/lang/'.$lang }}"
+                                                                   class=""> @lang('menus.language-picker.langs.'.$lang)</a>
+                                                            </li>
+                                                        @endif
+                                                    @endforeach
+                                                </ul>
+                                            </li>
+                                        @endif
                                     </ul>
                                 </nav>
                             </div>
@@ -287,21 +295,21 @@
     <!-- Scripts -->
     @stack('before-scripts')
     <!-- For Js Library -->
-    <script src="{{asset('assets/js/jquery-2.1.4.min.js')}}"></script>
-    <script src="{{asset('assets/js/popper.min.js')}}"></script>
-    <script src="{{asset('assets/js/bootstrap.min.js')}}"></script>
-    <script src="{{asset('assets/js/owl.carousel.min.js')}}"></script>
-    <script src="{{asset('assets/js/jarallax.js')}}"></script>
-    <script src="{{asset('assets/js/jquery.magnific-popup.min.js')}}"></script>
-    <script src="{{asset('assets/js/lightbox.js')}}"></script>
-    <script src="{{asset('assets/js/jquery.meanmenu.js')}}"></script>
-    <script src="{{asset('assets/js/scrollreveal.min.js')}}"></script>
-    <script src="{{asset('assets/js/jquery.counterup.min.js')}}"></script>
-    <script src="{{asset('assets/js/waypoints.min.js')}}"></script>
-    <script src="{{asset('assets/js/jquery-ui.js')}}"></script>
-    <script src="{{asset('assets/js/gmap3.min.js')}}"></script>
+    <script src="{{asset('assets-rtl/js/jquery-2.1.4.min.js')}}"></script>
+    <script src="{{asset('assets-rtl/js/popper.min.js')}}"></script>
+    <script src="{{asset('assets-rtl/js/bootstrap.min.js')}}"></script>
+    <script src="{{asset('assets-rtl/js/owl.carousel.min.js')}}"></script>
+    <script src="{{asset('assets-rtl/js/jarallax.js')}}"></script>
+    <script src="{{asset('assets-rtl/js/jquery.magnific-popup.min.js')}}"></script>
+    <script src="{{asset('assets-rtl/js/lightbox.js')}}"></script>
+    <script src="{{asset('assets-rtl/js/jquery.meanmenu.js')}}"></script>
+    <script src="{{asset('assets-rtl/js/scrollreveal.min.js')}}"></script>
+    <script src="{{asset('assets-rtl/js/jquery.counterup.min.js')}}"></script>
+    <script src="{{asset('assets-rtl/js/waypoints.min.js')}}"></script>
+    <script src="{{asset('assets-rtl/js/jquery-ui.js')}}"></script>
+    <script src="{{asset('assets-rtl/js/gmap3.min.js')}}"></script>
     <script src="{{asset('assets/js/switch.js')}}"></script>
-    <script src="{{asset('assets/js/script.js')}}"></script>
+    <script src="{{asset('assets-rtl/js/script.js')}}"></script>
     <script>
         @if(request()->has('user')  && (request('user') == 'admin'))
 

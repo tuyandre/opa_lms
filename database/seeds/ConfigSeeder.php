@@ -45,13 +45,13 @@ class ConfigSeeder extends Seeder
             5 =>
                 array (
                     'name' => 'primary_email',
-                    'value' => 'info@geniuscourse.com',
+                    'value' => 'info@neonlms.com',
                     'status' => 1,
                 ),
             6 =>
                 array (
                     'name' => 'secondary_email',
-                    'value' => 'mail@genius.info',
+                    'value' => 'mail@neonlms.info',
                     'status' => 1,
                 ),
             7 =>
@@ -87,6 +87,8 @@ class ConfigSeeder extends Seeder
             'favicon_image' => 'popup-logo.png',
             'contact_data' => $contact_data,
             'footer_data' => $footer_data,
+            'app__locale' => 'en',
+            'app__display_type' => 'ltr',
         ];
 
         foreach ($data as $key => $value) {

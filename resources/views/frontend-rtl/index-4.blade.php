@@ -1,4 +1,4 @@
-@extends('frontend.layouts.app'.config('theme_layout'))
+@extends('frontend-rtl.layouts.app'.config('theme_layout'))
 
 @section('title', trans('labels.frontend.home.title').' | '.app_name())
 @section('meta_description', '')
@@ -32,7 +32,7 @@
 
     <!-- Start of slider section
     ============================================= -->
-    @include('frontend.layouts.partials.slider')
+    @include('frontend-rtl.layouts.partials.slider')
 
     <!-- End of slider section
             ============================================= -->
@@ -94,14 +94,14 @@
     @endif
 
     @if($sections->popular_courses->status == 1)
-        @include('frontend.layouts.partials.popular_courses',['class'=>'popular-three'])
+        @include('frontend-rtl.layouts.partials.popular_courses',['class'=>'popular-three'])
     @endif
 
 
     @if($sections->reasons->status == 1)
         <!-- Start why choose section
         ============================================= -->
-        @include('frontend.layouts.partials.why_choose_us',['class'=>'pb-5'])
+        @include('frontend-rtl.layouts.partials.why_choose_us',['class'=>'pb-5'])
         <!-- End why choose section
         ============================================= -->
     @endif
@@ -112,39 +112,39 @@
         <!-- Start of best course
         ============================================= -->
         <div id="best-product">
-            @include('frontend.layouts.partials.browse_courses')
+            @include('frontend-rtl.layouts.partials.browse_courses')
         </div>
         <!-- End of best course
             ============================================= -->
     @endif
 
 
-    @if($sections->course_by_category->status == 1)
-        <!-- Start of Categories
-    ============================================= -->
-        <div class="about-course-categori one-page-category about-teacher-2">
-            <div class="container">
-                <div class="category-slide text-center">
-                    @if($course_categories->count() > 0)
-                        @foreach($course_categories as $category)
-                            <a href="{{route('courses.category',['category'=>$category->slug])}}">
-                                <div class="category-icon-title text-center">
-                                    <div class="category-icon">
-                                        <i class="text-gradiant {{$category->icon}}"></i>
-                                    </div>
-                                    <div class="category-title">
-                                        <h4>{{$category->name}}</h4>
-                                    </div>
-                                </div>
-                            </a>
-                        @endforeach
-                    @endif
-                </div>
-            </div>
-        </div>
-        <!-- End of Categories
-       ============================================= -->
-    @endif
+    {{--@if($sections->course_by_category->status == 1)--}}
+        {{--<!-- Start of Categories--}}
+    {{--============================================= -->--}}
+        {{--<div class="about-course-categori one-page-category about-teacher-2">--}}
+            {{--<div class="container">--}}
+                {{--<div class="category-slide text-center">--}}
+                    {{--@if($course_categories->count() > 0)--}}
+                        {{--@foreach($course_categories as $category)--}}
+                            {{--<a href="{{route('courses.category',['category'=>$category->slug])}}">--}}
+                                {{--<div class="category-icon-title text-center">--}}
+                                    {{--<div class="category-icon">--}}
+                                        {{--<i class="text-gradiant {{$category->icon}}"></i>--}}
+                                    {{--</div>--}}
+                                    {{--<div class="category-title">--}}
+                                        {{--<h4>{{$category->name}}</h4>--}}
+                                    {{--</div>--}}
+                                {{--</div>--}}
+                            {{--</a>--}}
+                        {{--@endforeach--}}
+                    {{--@endif--}}
+                {{--</div>--}}
+            {{--</div>--}}
+        {{--</div>--}}
+        {{--<!-- End of Categories--}}
+       {{--============================================= -->--}}
+    {{--@endif--}}
 
 
     @if($sections->teachers->status == 1)
@@ -155,7 +155,7 @@
             <div class="container">
                 <div class="section-title mb20  headline text-center">
                     <span class="subtitle text-uppercase">@lang('labels.frontend.home.learn_new_skills')</span>
-                    <h2><@lang('labels.frontend.home.popular_teachers').</h2>
+                    <h2>@lang('labels.frontend.home.popular_teachers').</h2>
                 </div>
                 @if(count($teachers)> 0)
                     <div class="teacher-third-slide">
@@ -233,7 +233,7 @@
     @if($sections->faq->status == 1)
         <!-- Start FAQ section
         ============================================= -->
-        @include('frontend.layouts.partials.faq-with-bg')
+        @include('frontend-rtl.layouts.partials.faq-with-bg')
         <!-- End FAQ section
             ============================================= -->
     @endif
@@ -242,7 +242,7 @@
     @if($sections->testimonial->status == 1)
         <!-- Start of testimonial secound section
         ============================================= -->
-        @include('frontend.layouts.partials.testimonial')
+        @include('frontend-rtl.layouts.partials.testimonial')
         <!-- End  of testimonial secound section
             ============================================= -->
     @endif
@@ -252,7 +252,7 @@
         @if(count($sponsors) > 0 )
             <!-- Start of sponsor section
         ============================================= -->
-            @include('frontend.layouts.partials.sponsors')
+            @include('frontend-rtl.layouts.partials.sponsors')
             <!-- End of sponsor section
        ============================================= -->
         @endif

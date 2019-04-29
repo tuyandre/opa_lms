@@ -19,19 +19,21 @@
     <!-- Check if the language is set to RTL, so apply the RTL layouts -->
         <!-- Otherwise apply the normal LTR layouts -->
 
-        <link rel="stylesheet" href="{{asset('assets/css/owl.carousel.css')}}">
-        <link rel="stylesheet" href="{{asset('assets/css/fontawesome-all.css')}}">
-        <link rel="stylesheet" href="{{asset('assets/css/flaticon.css')}}">
-        <link rel="stylesheet" type="text/css" href="{{asset('assets/css/meanmenu.css')}}">
-        <link rel="stylesheet" href="{{asset('assets/css/bootstrap.min.css')}}">
-        <link rel="stylesheet" href="{{asset('assets/css/video.min.css')}}">
-        <link rel="stylesheet" href="{{asset('assets/css/lightbox.css')}}">
-        <link rel="stylesheet" href="{{asset('assets/css/progess.css')}}">
-        <link rel="stylesheet" href="{{asset('assets/css/animate.min.css')}}">
-        {{--<link rel="stylesheet" href="{{asset('assets/css/style.css')}}">--}}
-        <link rel="stylesheet" href="{{ mix('css/frontend.css') }}">
 
-        <link rel="stylesheet" href="{{asset('assets/css/responsive.css')}}">
+        <link rel="stylesheet" href="{{asset('assets-rtl/css/owl.carousel.css')}}">
+        <link rel="stylesheet" href="{{asset('assets-rtl/css/fontawesome-all.css')}}">
+        <link rel="stylesheet" href="{{asset('assets-rtl/css/flaticon.css')}}">
+        <link rel="stylesheet" type="text/css" href="{{asset('assets-rtl/css/meanmenu.css')}}">
+        <link rel="stylesheet" href="{{asset('assets-rtl/css/bootstrap.min.css')}}">
+        <link rel="stylesheet" href="{{asset('assets-rtl/css/video.min.css')}}">
+        <link rel="stylesheet" href="{{asset('assets-rtl/css/lightbox.css')}}">
+        <link rel="stylesheet" href="{{asset('assets-rtl/css/progess.css')}}">
+        <link rel="stylesheet" href="{{asset('assets-rtl/css/animate.min.css')}}">
+        <link rel="stylesheet" href="{{asset('assets-rtl/css/slider.css')}}">
+
+        <link rel="stylesheet" href="{{asset('assets-rtl/css/style.css')}}">
+
+        <link rel="stylesheet" href="{{asset('assets-rtl/css/responsive.css')}}">
 
         <link rel="stylesheet" href="{{asset('assets/css/colors/switch.css')}}">
         <link href="{{asset('assets/css/colors/color-2.css')}}" rel="alternate stylesheet" type="text/css"
@@ -90,7 +92,7 @@
                         @php
                             $contact_data = contact_data(config('contact_data'));
                         @endphp
-                        <ul>
+                        <ul style="margin-left: 20px">
                             @if($contact_data["primary_email"]["status"] == 1)
                                 <li>
                                     <div class="mail-phone">
@@ -229,7 +231,7 @@
 
                         <div class="logo-area">
                             <a href="{{url('/')}}">
-                                <img src="{{asset('assets/img/logo/logo.png')}}" alt="Logo_not_found">
+                                <img src="{{asset("storage/logos/".config('logo_w_image'))}}" alt="Logo_not_found">
                             </a>
                         </div>
 
@@ -272,7 +274,7 @@
                     </div>
                 </div>
 
-                <ul class="menu-list accordion" style="left: -100%;">
+                <ul class="menu-list accordion" style="right: -100%;">
 
 
                     @if(count($custom_menus) > 0 )
@@ -349,21 +351,21 @@
     <!-- Scripts -->
     @stack('before-scripts')
     <!-- For Js Library -->
-    <script src="{{asset('assets/js/jquery-2.1.4.min.js')}}"></script>
-    <script src="{{asset('assets/js/popper.min.js')}}"></script>
-    <script src="{{asset('assets/js/bootstrap.min.js')}}"></script>
-    <script src="{{asset('assets/js/owl.carousel.min.js')}}"></script>
-    <script src="{{asset('assets/js/jarallax.js')}}"></script>
-    <script src="{{asset('assets/js/jquery.magnific-popup.min.js')}}"></script>
-    <script src="{{asset('assets/js/lightbox.js')}}"></script>
-    <script src="{{asset('assets/js/jquery.meanmenu.js')}}"></script>
-    <script src="{{asset('assets/js/scrollreveal.min.js')}}"></script>
-    <script src="{{asset('assets/js/jquery.counterup.min.js')}}"></script>
-    <script src="{{asset('assets/js/waypoints.min.js')}}"></script>
-    <script src="{{asset('assets/js/jquery-ui.js')}}"></script>
-    <script src="{{asset('assets/js/gmap3.min.js')}}"></script>
+    <script src="{{asset('assets-rtl/js/jquery-2.1.4.min.js')}}"></script>
+    <script src="{{asset('assets-rtl/js/popper.min.js')}}"></script>
+    <script src="{{asset('assets-rtl/js/bootstrap.min.js')}}"></script>
+    <script src="{{asset('assets-rtl/js/owl.carousel.min.js')}}"></script>
+    <script src="{{asset('assets-rtl/js/jarallax.js')}}"></script>
+    <script src="{{asset('assets-rtl/js/jquery.magnific-popup.min.js')}}"></script>
+    <script src="{{asset('assets-rtl/js/lightbox.js')}}"></script>
+    <script src="{{asset('assets-rtl/js/jquery.meanmenu.js')}}"></script>
+    <script src="{{asset('assets-rtl/js/scrollreveal.min.js')}}"></script>
+    <script src="{{asset('assets-rtl/js/jquery.counterup.min.js')}}"></script>
+    <script src="{{asset('assets-rtl/js/waypoints.min.js')}}"></script>
+    <script src="{{asset('assets-rtl/js/jquery-ui.js')}}"></script>
+    <script src="{{asset('assets-rtl/js/gmap3.min.js')}}"></script>
     <script src="{{asset('assets/js/switch.js')}}"></script>
-    <script src="{{asset('assets/js/script.js')}}"></script>
+    <script src="{{asset('assets-rtl/js/script.js')}}"></script>
     <script>
         @if(request()->has('user')  && (request('user') == 'admin'))
 

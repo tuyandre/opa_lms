@@ -904,7 +904,7 @@ mobileMenu: function (){
 	function slideMenu() {
 		var activeState = jQuery('#menu-container .menu-list').hasClass('active');
 		jQuery('#menu-container .menu-list').animate({
-			left: activeState ? '0%' : '-100%'
+			right: activeState ? '0%' : '-100%'
 		}, 400);
 	}
 	jQuery('.alt-menu-btn').on ("click" , function(event) {

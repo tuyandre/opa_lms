@@ -155,7 +155,7 @@
             <div class="container">
                 <div class="section-title mb20  headline text-center">
                     <span class="subtitle text-uppercase">@lang('labels.frontend.home.learn_new_skills')</span>
-                    <h2><@lang('labels.frontend.home.popular_teachers').</h2>
+                    <h2>@lang('labels.frontend.home.popular_teachers').</h2>
                 </div>
                 @if(count($teachers)> 0)
                     <div class="teacher-third-slide">

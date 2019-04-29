@@ -1,4 +1,4 @@
-@extends('frontend.layouts.app'.config('theme_layout'))
+@extends('frontend-rtl.layouts.app'.config('theme_layout'))
 @php $no_footer = true; @endphp
 
 @section('title', trans('labels.frontend.home.title').' | '.app_name())
@@ -35,7 +35,7 @@
 
     <!-- Start of slider section
      ============================================= -->
-    @include('frontend.layouts.partials.slider')
+    @include('frontend-rtl.layouts.partials.slider')
 
     <!-- End of slider section
             ============================================= -->

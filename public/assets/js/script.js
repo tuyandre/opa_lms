@@ -888,7 +888,7 @@ Author:         HTMLMATE Team
                 function slideMenu() {
                     var activeState = jQuery('#menu-container .menu-list').hasClass('active');
                     jQuery('#menu-container .menu-list').animate({
-                        left: activeState ? '0%' : '-100%'
+                        right: activeState ? '0%' : '-100%'
                     }, 400);
                 }
 

@@ -208,6 +208,7 @@
                                 </div><!--col-->
                             </div><!--form-group-->
 
+
                             <div class="form-group row">
                                 {{ html()->label(__('labels.backend.general_settings.counter'))->class('col-md-2 form-control-label')->for('counter') }}
 
@@ -318,6 +319,7 @@
                         </div>
                     </div>
                 </div>
+
 
                 <!---Logos Tab--->
                 <div id="logos" class="tab-pane container fade">
@@ -712,8 +714,8 @@
 
                                 <div class="col-md-10">
                                     <select class="form-control" id="app_locale" name="app__locale">
-                                        @foreach($locales as $lang)
-                                                <option @if( app()->getLocale() == $lang) selected @endif value="{{$lang}}">{{(trans('menus.language-picker.langs.'.$lang)) ? trans('menus.language-picker.langs.'.$lang) : $lang  }}</option>
+                                        @foreach($app_locales as $lang)
+                                            <option data-display-type="{{$lang->display_type}}" @if($lang->is_default == 1) selected @endif value="{{$lang->short_name}}">{{(trans('menus.language-picker.langs.'.$lang)) ? trans('menus.language-picker.langs.'.$lang->short_name) : $lang  }} </option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -724,7 +726,7 @@
                                 <div class="col-md-10">
                                     <select class="form-control" id="app_display_type" name="app__display_type">
                                        <option @if(config('app.display_type') == 'ltr') selected @endif value="ltr">@lang('labels.backend.general_settings.language_settings.left_to_right')</option>
-                                       <option value="rtl">@lang('labels.backend.general_settings.language_settings.right_to_left')</option>
+                                       <option @if(config('app.display_type') == 'rtl') selected @endif  value="rtl">@lang('labels.backend.general_settings.language_settings.right_to_left')</option>
                                     </select>
                                 </div>
                             </div>
@@ -931,6 +933,13 @@
                 content.addClass('d-none');
                 content.find('input').attr('required', false);
             }
+        })
+
+
+        //On Default language change update Display type RTL/LTR
+        $(document).on('change','#app_locale',function () {
+            var display_type = $(this).find(":selected").data('display-type');
+            $('#app_display_type').val(display_type)
         })
 
 

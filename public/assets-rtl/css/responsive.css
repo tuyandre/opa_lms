@@ -402,8 +402,17 @@
 		margin-top: 25px;
 	}
 	.search-course .nws-button {
-		width: 125px;
+		height: 40px;
+		line-height: 1.4;
+		width: 90px;
+
 	}
+	.search-course input{
+		font-size: 12px;
+		height: 40px;
+		padding: 0px 8px;
+	}
+
 	.subs-form .nws-button {
 		width: 130px;
 	}
@@ -563,7 +572,7 @@
 		display: none;
 	}
 	.slider-text .section-title h2 {
-		font-size: 40px;
+		font-size: 30px;
 	}
 	.slider-text .section-title .subtitle {
 		font-size: 14px;
@@ -775,5 +784,12 @@
 	.teacher-img-content .teacher-category {
 		bottom: 150px;
 		left: 55px;
+	}
+}
+
+@media screen and (max-width: 768px){
+	.slider-text .section-title {
+		width: 100%;
+		margin: auto;
 	}
 }

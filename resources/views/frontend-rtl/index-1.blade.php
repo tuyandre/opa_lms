@@ -36,11 +36,15 @@
         <strong>{{session('alert')}}</strong>
     </div>
     @endif
-    @include('frontend.layouts.partials.slider')
+
+    <!-- Start of slider section
+          ============================================= -->
+    @include('frontend-rtl.layouts.partials.slider')
+    <!-- End of slider section
+          ============================================= -->
 
     @if($sections->search_section->status == 1)
-        <!-- End of slider section
-            ============================================= -->
+
         <section id="search-course" class="search-course-section">
             <div class="container">
                 <div class="section-title mb20 headline text-center ">
