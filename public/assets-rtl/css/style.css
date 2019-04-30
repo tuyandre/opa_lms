@@ -3215,6 +3215,8 @@ button.alt-menu-btn.float-left {
     border-radius: 5px;
     overflow: hidden;
     margin-bottom: 0;
+    height: 270px;
+    width: 270px;
 }
 
 .teacher-pic-content .teacher-img-content:after {
@@ -3233,6 +3235,11 @@ button.alt-menu-btn.float-left {
 
 .teacher-pic-content .teacher-name-designation {
     margin-top: 10px;
+}
+
+.teacher-pic-content .teacher-img-content img {
+    height: 100%;
+    width: 100%;
 }
 
 .teacher-pic-content .teacher-name-designation .teacher-name {
@@ -4000,7 +4007,7 @@ ul.product-tab li.active:after {
     content: "";
     font-size: 16px;
     position: absolute;
-    left: 20px;
+    left: 0px;
     top: 20px;
     -webkit-transform: scale(0);
     -ms-transform: scale(0);
@@ -4059,7 +4066,7 @@ ul.product-tab li.active:after {
 
 .faq-page-section .panel-group .panel-title .btn-link:before,
 .faq-page-section .panel-group .panel-title .btn-link:after {
-    left: 0;
+    left: -15px;
 }
 
 .faq-page-section .panel-group .panel-title .btn-link:after {
@@ -4539,7 +4546,7 @@ ul.product-tab li.active:after {
 .contact-page-section .social-contact .category-icon-title:before {
     content: '';
     position: absolute;
-    height: 165px;
+    height: 130px;
     width: 1px;
     background-color: #eee;
     top: 0;
@@ -4624,6 +4631,16 @@ ul.product-tab li.active:after {
 .blog-post-img-content .blog-img-date {
     border-radius: 4px;
     margin-bottom: 30px;
+}
+
+
+.blog-thumnile{
+    height: 250px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    width: 420px;
+    background-position: center;
+    background-color: #777777;
 }
 
 .blog-title-content h3 {

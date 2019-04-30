@@ -47,7 +47,7 @@ class HomeController extends Controller
             $page = Page::where('slug', '=', request('page'))
                 ->where('published', '=', 1)->first();
             if ($page != "") {
-                return view('frontend.pages.index', compact('page'));
+                return view($this->path.'.pages.index', compact('page'));
             }
             abort(404);
         }
@@ -94,7 +94,7 @@ class HomeController extends Controller
     public function getFaqs()
     {
         $faq_categories = Category::has('faqs', '>', 0)->get();
-        return view('frontend.faq', compact('faq_categories'));
+        return view($this->path.'.faq', compact('faq_categories'));
     }
 
     public function subscribe(Request $request)
@@ -180,14 +180,14 @@ class HomeController extends Controller
     {
         $recent_news = Blog::orderBy('created_at', 'desc')->take(2)->get();
         $teachers = User::role('teacher')->paginate(12);
-        return view('frontend.teachers.index', compact('teachers', 'recent_news'));
+        return view( $this->path.'.teachers.index', compact('teachers', 'recent_news'));
     }
 
     public function showTeacher(Request $request)
     {
         $recent_news = Blog::orderBy('created_at', 'desc')->take(2)->get();
         $teacher = User::role('teacher')->where('id', '=', $request->id)->first();
-        return view('frontend.teachers.show', compact('teacher', 'recent_news'));
+        return view($this->path.'.teachers.show', compact('teacher', 'recent_news'));
     }
 
     public function getDownload(Request $request)
@@ -209,7 +209,6 @@ class HomeController extends Controller
 
     }
 
-
     public function searchCourse(Request $request)
     {
         $courses = Course::where('title', 'LIKE', '%' . $request->q . '%')
@@ -217,7 +216,7 @@ class HomeController extends Controller
             ->where('published', '=', 1)
             ->paginate(12);
         $q = $request->q;
-        return view('frontend.search-result.courses', compact('courses', 'q'));
+        return view($this->path.'.search-result.courses', compact('courses', 'q'));
     }
 
     public function searchBlog(Request $request)
@@ -229,7 +228,7 @@ class HomeController extends Controller
 
 
         $q = $request->q;
-        return view('frontend.search-result.blogs', compact('blogs', 'q', 'categories', 'popular_tags'));
+        return view($this->path.'.search-result.blogs', compact('blogs', 'q', 'categories', 'popular_tags'));
     }
 }
 

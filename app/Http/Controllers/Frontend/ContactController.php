@@ -14,12 +14,25 @@ use Illuminate\Support\Facades\Session;
  */
 class ContactController extends Controller
 {
+
+    private $path;
+
+    public function __construct()
+    {
+        $path = 'frontend';
+        if (config('app.display_type') == 'rtl') {
+            $path = 'frontend-rtl';
+        }
+        $this->path = $path;
+    }
+
+
     /**
      * @return \Illuminate\View\View
      */
     public function index()
     {
-        return view('frontend.contact');
+        return view($this->path.'.contact');
     }
 
     /**

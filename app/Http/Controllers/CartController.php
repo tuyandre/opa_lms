@@ -28,6 +28,10 @@ use Stripe\Stripe;
 
 class CartController extends Controller
 {
+
+    private $path;
+
+
     public function __construct()
     {
         /** PayPal api context **/
@@ -37,13 +41,19 @@ class CartController extends Controller
                 $paypal_conf['secret'])
         );
         $this->_api_context->setConfig($paypal_conf['settings']);
+
+        $path = 'frontend';
+        if (config('app.display_type') == 'rtl') {
+            $path = 'frontend-rtl';
+        }
+        $this->path = $path;
     }
 
     public function index(Request $request)
     {
         $ids= Cart::session(auth()->user()->id)->getContent()->keys();
         $courses = Course::find($ids);
-        return view('frontend.cart.checkout', compact('courses'));
+        return view($this->path.'.cart.checkout', compact('courses'));
     }
 
     public function addToCart(Request $request)
@@ -83,7 +93,7 @@ class CartController extends Controller
         };
         $cart_items =  Cart::session(auth()->user()->id)->getContent()->keys()->toArray();
         $courses = Course::findOrFail($cart_items);
-        return view('frontend.cart.checkout', compact('courses','total'));
+        return view($this->path.'.cart.checkout', compact('courses','total'));
     }
 
     public function clear(Request $request)

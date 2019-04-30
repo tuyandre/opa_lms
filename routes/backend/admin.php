@@ -22,6 +22,7 @@ Route::post('teachers_restore/{id}', ['uses' => 'Admin\TeachersController@restor
 Route::delete('teachers_perma_del/{id}', ['uses' => 'Admin\TeachersController@perma_del', 'as' => 'teachers.perma_del']);
 
 
+
 //===== Categories Routes =====//
 Route::resource('categories', 'Admin\CategoriesController');
 Route::get('get-categories-data', ['uses' => 'Admin\CategoriesController@getData', 'as' => 'categories.get_data']);
@@ -103,16 +104,22 @@ Route::get('invoice/download', ['uses' => 'Admin\InvoiceController@getInvoice', 
 Route::get('invoices', ['uses' => 'Admin\InvoiceController@getIndex', 'as' => 'invoices.index']);
 
 
-//===== Settings Routes =====//
-Route::get('settings/general', ['uses' => 'Admin\ConfigController@getGeneralSettings', 'as' => 'general-settings']);
-Route::post('settings/general', ['uses' => 'Admin\ConfigController@saveGeneralSettings'])->name('general-settings');
-Route::get('settings/social', ['uses' => 'Admin\ConfigController@getSocialSettings'])->name('social-settings');
-Route::post('settings/social', ['uses' => 'Admin\ConfigController@saveSocialSettings'])->name('social-settings');
 
-Route::get('contact', ['uses' => 'Admin\ConfigController@getContact'])->name('contact-settings');
-Route::get('footer', ['uses' => 'Admin\ConfigController@getFooter'])->name('footer-settings');
-Route::get('newsletter', ['uses' => 'Admin\ConfigController@getNewsletterConfig'])->name('newsletter-settings');
-Route::post('newsletter/sendgrid-lists', ['uses' => 'Admin\ConfigController@getSendGridLists'])->name('newsletter.getSendGridLists');
+//Route::group(['middleware' => 'role:admin'], function () {
+
+//===== Settings Routes =====//
+    Route::get('settings/general', ['uses' => 'Admin\ConfigController@getGeneralSettings', 'as' => 'general-settings']);
+    Route::post('settings/general', ['uses' => 'Admin\ConfigController@saveGeneralSettings'])->name('general-settings');
+    Route::get('settings/social', ['uses' => 'Admin\ConfigController@getSocialSettings'])->name('social-settings');
+    Route::post('settings/social', ['uses' => 'Admin\ConfigController@saveSocialSettings'])->name('social-settings');
+
+    Route::get('contact', ['uses' => 'Admin\ConfigController@getContact'])->name('contact-settings');
+    Route::get('footer', ['uses' => 'Admin\ConfigController@getFooter'])->name('footer-settings');
+    Route::get('newsletter', ['uses' => 'Admin\ConfigController@getNewsletterConfig'])->name('newsletter-settings');
+    Route::post('newsletter/sendgrid-lists', ['uses' => 'Admin\ConfigController@getSendGridLists'])->name('newsletter.getSendGridLists');
+
+//});
+
 
 
 //===== Slider Routes =====/

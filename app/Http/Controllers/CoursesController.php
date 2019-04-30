@@ -16,6 +16,16 @@ use Cart;
 class CoursesController extends Controller
 {
 
+    private $path;
+
+    public function __construct()
+    {
+        $path = 'frontend';
+        if (config('app.display_type') == 'rtl') {
+            $path = 'frontend-rtl';
+        }
+        $this->path = $path;
+    }
 
     public function all()
     {
@@ -44,7 +54,7 @@ class CoursesController extends Controller
             ->where('featured', '=', 1)->take(8)->get();
 
         $recent_news = Blog::orderBy('created_at', 'desc')->take(2)->get();
-        return view('frontend.courses.index', compact('courses', 'purchased_courses', 'recent_news','featured_courses'));
+        return view( $this->path.'.courses.index', compact('courses', 'purchased_courses', 'recent_news','featured_courses'));
     }
 
     public function show($course_slug)
@@ -78,7 +88,7 @@ class CoursesController extends Controller
 
 
 
-        return view('frontend.courses.course', compact('course', 'purchased_course', 'recent_news', 'course_rating', 'completed_lessons','total_ratings','is_reviewed','lessons','continue_course'));
+        return view( $this->path.'.courses.course', compact('course', 'purchased_course', 'recent_news', 'course_rating', 'completed_lessons','total_ratings','is_reviewed','lessons','continue_course'));
     }
 
 
@@ -99,7 +109,7 @@ class CoursesController extends Controller
                 ->where('featured', '=', 1)->take(8)->get();
 
             $courses = $category->courses()->where('published', '=', 1)->paginate(9);
-            return view('frontend.courses.index', compact('courses', 'category', 'recent_news','featured_courses'));
+            return view( $this->path.'.courses.index', compact('courses', 'category', 'recent_news','featured_courses'));
         }
         return abort(404);
     }
@@ -145,7 +155,7 @@ class CoursesController extends Controller
                 }
 
             }
-            return view('frontend.courses.course', compact('course', 'purchased_course', 'recent_news','completed_lessons','continue_course', 'course_rating', 'total_ratings','lessons', 'review'));
+            return view( $this->path.'.courses.course', compact('course', 'purchased_course', 'recent_news','completed_lessons','continue_course', 'course_rating', 'total_ratings','lessons', 'review'));
         }
         return abort(404);
 

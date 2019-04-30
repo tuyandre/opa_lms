@@ -1,5 +1,10 @@
 <?php
 
+
+$path = 'frontend';
+if(config('app.display_type') == 'rtl'){
+    $path = 'frontend-rtl';
+}
 return [
 
     /*
@@ -69,7 +74,7 @@ return [
     |
     */
 
-    'master_file_extend' => 'frontend.layouts.app',
+    'master_file_extend' => $path.'.layouts.app',
 
     /*
     |--------------------------------------------------------------------------

@@ -1,4 +1,10 @@
-@extends(Config::get('chatter.master_file_extend').config("theme_layout"))
+@php
+    $path = 'frontend';
+   if (config('app.display_type') == 'rtl') {
+       $path = 'frontend-rtl';
+   }
+        @endphp
+@extends($path.'.layouts.app'.config('theme_layout'))
 
 @section(Config::get('chatter.yields.head'))
     <link href="{{ url('/vendor/devdojo/chatter/assets/vendor/spectrum/spectrum.css') }}" rel="stylesheet">

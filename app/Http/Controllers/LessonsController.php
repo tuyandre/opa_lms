@@ -15,6 +15,17 @@ use Illuminate\Http\Request;
 class LessonsController extends Controller
 {
 
+    private $path;
+
+    public function __construct()
+    {
+        $path = 'frontend';
+        if (config('app.display_type') == 'rtl') {
+            $path = 'frontend-rtl';
+        }
+        $this->path = $path;
+    }
+
     public function show($course_id, $lesson_slug)
     {
         $completed_lessons = "";
@@ -60,7 +71,7 @@ class LessonsController extends Controller
         $completed_lessons = \Auth::user()->chapters()->where('course_id', $lesson->course->id)->get()->pluck('model_id')->toArray();
 
 
-        return view('frontend.courses.lesson', compact('lesson', 'previous_lesson', 'next_lesson', 'test_result',
+        return view( $this->path.'.courses.lesson', compact('lesson', 'previous_lesson', 'next_lesson', 'test_result',
             'purchased_course', 'test_exists', 'lessons', 'completed_lessons'));
     }
 

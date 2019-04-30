@@ -14,6 +14,9 @@ class ConfigController extends Controller
 
     public function getGeneralSettings()
     {
+        if(!auth()->user()->isAdmin()){
+            return abort(403);
+        }
         $type = config('theme_layout');
         $sections = Config::where('key', '=', 'layout_' . $type)->first();
         $footer_data = Config::where('key', '=', 'footer_data')->first();
@@ -97,6 +100,9 @@ class ConfigController extends Controller
 
     public function getSocialSettings()
     {
+        if(!auth()->user()->isAdmin()){
+            return abort(403);
+        }
         return view('backend.settings.social');
     }
 
@@ -136,18 +142,27 @@ class ConfigController extends Controller
 
     public function getContact()
     {
+        if(!auth()->user()->isAdmin()){
+            return abort(403);
+        }
         $contact_data = config('contact_data');
         return view('backend.settings.contact', compact('contact_data'));
     }
 
     public function getFooter()
     {
+        if(!auth()->user()->isAdmin()){
+            return abort(403);
+        }
         $footer_data = config('footer_data');
         return view('backend.settings.footer', compact('footer_data'));
     }
 
     public function getNewsletterConfig()
     {
+        if(!auth()->user()->isAdmin()){
+            return abort(403);
+        }
         $newsletter_config = config('newsletter_config');
         return view('backend.settings.newsletter', compact('newsletter_config'));
     }
