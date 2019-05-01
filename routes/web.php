@@ -25,9 +25,6 @@ function array_values_recursive($array)
     return $flat;
 }
 
-Route::get('rtl', function () {
-    return view('frontend-rtl.index-1');
-});
 
 /*
  * Frontend Routes

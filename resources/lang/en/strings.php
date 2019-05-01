@@ -194,7 +194,7 @@ return array (
     ),
     'offline_order' => 
     array (
-      'subject' => 'Regarding your recent order on Neon LMS',
+      'subject' => 'Regarding your recent order on :app_name',
     ),
   ),
 );

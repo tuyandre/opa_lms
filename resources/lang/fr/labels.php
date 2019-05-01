@@ -304,6 +304,7 @@ return array (
       'remove' => 'Retirer',
       'enter_video_embed_code' => 'Entrez le code d\'intégration de la vidéo',
       'enter_video_url' => 'Entrer des données vidéo',
+      'vimeo_note' => '<b> Instructions pour ajouter un lien vidéo: </b> <br> Allez à vimeo -> ouvrir la vidéo -> cliquez avec le bouton droit sur la vidéo et <b> Copier l\'URL de la vidéo </b> et collez-le ici. <br> Si vous le souhaitez pour ajouter plusieurs vidéos, séparez-les par <b>, </b> (Virgule).',
     ),
     'contacts' => 
     array (
@@ -532,6 +533,14 @@ return array (
       'google_analytics_id' => 'Identification Google Analytics',
       'google_analytics_id_note' => 'Comment obtenir un identifiant Google Analytics?',
       'retest_note' => 'Activer / Désactiver si l’utilisateur pourra effectuer un nouveau test pour le même examen',
+      'language_settings' => 
+      array (
+        'default_language' => 'Langage par défaut',
+        'display_type' => 'Type d\'affichage',
+        'left_to_right' => 'De gauche à droite',
+        'right_to_left' => 'De droite à gauche',
+        'title' => 'Paramètres de langue',
+      ),
     ),
     'hero_slider' => 
     array (
@@ -780,12 +789,10 @@ return array (
       'add_new_locale' => 'Ajouter une nouvelle locale',
       'adding' => 'Ajouter...',
       'append_new_translations' => 'Ajouter de nouvelles traductions',
-      'choose_a_group' => 'Choisissez un groupe pour afficher les traductions du groupe. Si aucun groupe n\'est visible, assurez-vous
-                                 vous avez exécuté les migrations et importé les traductions.',
+      'choose_a_group' => 'Choisissez un groupe pour afficher les traductions du groupe. Si aucun groupe n\'est visible, assurez-vous vous avez exécuté les migrations et importé les traductions.',
       'changed' => 'Modifié',
       'current_supported_locales' => 'Paramètres régionaux pris en charge actuellement',
-      'done_importing' => 'Importation terminée, articles <strong class = "counter"> N </strong> traités! Recharger cette page pour
-                             rafraîchir les groupes!',
+      'done_importing' => 'Importation terminée, articles <strong class = "counter"> N </strong> traités! Recharger cette page pour rafraîchir les groupes!',
       'done_publishing_for_all_groups' => 'Terminé la publication des traductions pour tout le groupe!',
       'done_publishing_for_group' => 'Terminé la publication des traductions pour le groupe',
       'done_searching' => 'Terminé la recherche des traductions, <strong class = "counter"> éléments N </strong> trouvés!',
@@ -804,8 +811,7 @@ return array (
       'title' => 'Responsable de la traduction',
       'total' => 'Total',
       'translation_warning' => 'Êtes-vous sûr de vouloir publier le groupe de traductions :group ? Cela écrasera les fichiers de langue existants',
-      'warning' => 'Attention, les traductions ne sont visibles qu’après leur exportation dans le fichier app / lang, à l’aide de
-                         Commande <code> php traduction artisanale: exportation </code> ou bouton de publication.',
+      'warning' => 'Attention, les traductions ne sont visibles qu’après leur exportation dans le fichier app / lang, à l’aide de  Commande <code> php  artisan translation:export </code> ou bouton de publication.',
     ),
     'update' => 
     array (

@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Locale;
 
 /**
  * Class LanguageController.
@@ -14,7 +15,9 @@ class LanguageController extends Controller
      */
     public function swap($locale)
     {
-        if (array_key_exists($locale, config('locale.languages'))) {
+        $locales = Locale::get()->pluck('short_name')->toArray();
+
+        if (in_array($locale, $locales)) {
             session()->put('locale', $locale);
         }
 

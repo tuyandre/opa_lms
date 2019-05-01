@@ -304,6 +304,8 @@ return array (
       'remove' => 'Retirar',
       'enter_video_url' => 'Introducir datos de video',
       'enter_video_embed_code' => 'Ingrese el código de inserción de video',
+      'vimeo_note' => '<b> Instrucciones para agregar el enlace del video: </b> <br> Vaya a vimeo -> abrir video -> haga clic derecho en el video y <b> Copiar URL del video </b> y péguelo aquí. <br> Si desea para agregar varios videos, luego sepárelos con <b>, </b> (coma) Firmar.',
+      'yt_note' => '<b> Instructions pour ajouter un lien vidéo: </b> <br> Allez sur youtube -> ouvrir la vidéo -> faites un clic droit sur la vidéo et <b> Copier l\'URL de la vidéo </b> et collez-le ici. <br> Si vous voulez pour ajouter plusieurs vidéos, séparez-les par <b>, </b> (Virgule).',
     ),
     'contacts' => 
     array (
@@ -532,6 +534,14 @@ return array (
       'google_analytics_id' => 'identificación de Google Analytics',
       'google_analytics_id_note' => '¿Cómo obtener el ID de Google Analytics?',
       'retest_note' => 'Habilitar / Deshabilitar si el usuario podrá volver a realizar la prueba para el mismo examen',
+      'language_settings' => 
+      array (
+        'default_language' => 'Idioma predeterminado',
+        'display_type' => 'Tipo de visualización',
+        'left_to_right' => 'De izquierda a derecha',
+        'right_to_left' => 'De derecha a izquierda',
+        'title' => 'Configuraciones de idioma',
+      ),
     ),
     'hero_slider' => 
     array (
@@ -780,20 +790,17 @@ return array (
       'add_new_locale' => 'Agregar nuevo local',
       'adding' => 'Añadiendo ...',
       'append_new_translations' => 'Añadir nuevas traducciones',
-      'choose_a_group' => 'Elija un grupo para mostrar las traducciones del grupo. Si no hay grupos visibles, asegúrese de
-                                 Usted ha ejecutado las migraciones e importado las traducciones.',
+      'choose_a_group' => 'Elija un grupo para mostrar las traducciones del grupo. Si no hay grupos visibles, asegúrese de Usted ha ejecutado las migraciones e importado las traducciones.',
       'changed' => 'Cambiado',
       'current_supported_locales' => 'Locales soportados actuales',
-      'done_importing' => 'Hecho importando, procesamos <strong class = "counter"> N </strong> elementos! Actualizar esta página para
-                             actualizar los grupos!',
+      'done_importing' => 'Hecho importando, procesamos <strong class = "counter"> N </strong> elementos! Actualizar esta página para actualizar los grupos!',
       'done_publishing_for_all_groups' => 'Hecho publicando las traducciones para todo el grupo!',
       'done_publishing_for_group' => 'Hecho publicando las traducciones para grupo.',
       'done_searching' => '¡Terminé la búsqueda de traducciones, encontré elementos <strong class = "counter"> N </strong>!',
       'enter_new_locale_key' => 'Introduzca la nueva clave de configuración regional',
       'export_all_translations' => 'Exportar todas las traducciones',
       'import_groups' => 'Importar Grupos',
-      'import_groups_note' => '<p> Obtendrá todos los archivos locales de la carpeta <code> lang </code> e insertarlos en la base de datos. <br> <b> Agregar nuevas traducciones: </b> Agregará solo los archivos nuevos y datos <b> & </b>
-                                             <b> Reemplazar las traducciones existentes: </b> Reemplazará los registros existentes de acuerdo con los archivos </p>',
+      'import_groups_note' => '<p> Obtendrá todos los archivos locales de la carpeta <code> lang </code> e insertarlos en la base de datos. <br> <b> Agregar nuevas traducciones: </b> Agregará solo los archivos nuevos y datos <b> & </b> <b> Reemplazar las traducciones existentes: </b> Reemplazará los registros existentes de acuerdo con los archivos </p>',
       'key' => 'Llave',
       'publish_all' => 'Publicar todo',
       'publish_all_warning' => '¿Seguro que quieres publicar todas las traducciones del grupo? Esto sobrescribirá los archivos de idioma existentes.',
@@ -804,8 +811,7 @@ return array (
       'title' => 'Gerente de traducción',
       'total' => 'Total',
       'translation_warning' => '¿Estás seguro de que quieres publicar el grupo de traducciones :group ? Esto sobrescribirá los archivos de idioma existentes.',
-      'warning' => 'Advertencia, las traducciones no están visibles hasta que se exportan de nuevo al archivo app / lang, usando
-                         <code> php artisan translation: exportar </code> comando o botón de publicación.',
+      'warning' => 'Advertencia, las traducciones no están visibles hasta que se exportan de nuevo al archivo app / lang, usando  <code> php artisan translation:export </code> comando o botón de publicación.',
     ),
     'update' => 
     array (

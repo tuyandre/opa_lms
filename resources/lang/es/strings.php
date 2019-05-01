@@ -24,7 +24,7 @@ return array (
     array (
       'all_rights_reserved' => 'Todos los derechos reservados.',
       'are_you_sure' => 'Está seguro?',
-      'boilerplate_link' => 'Laravel 5 Boilerplate',
+      'boilerplate_link' => 'JThemes Studio',
       'continue' => 'Continuar',
       'member_since' => 'Miembro desde',
       'minutes' => ' minutos',
@@ -128,6 +128,7 @@ return array (
       'update_item' => 'Actualizar artículo',
       'url' => 'URL',
       'welcome' => 'Bienvenido',
+      'auto_add_pages_desc' => 'Añadir automáticamente nuevas páginas de nivel superior a este menú',
     ),
   ),
   'emails' => 

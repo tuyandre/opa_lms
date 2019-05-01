@@ -45,13 +45,13 @@ class AppServiceProvider extends ServiceProvider
          * Set the session variable for whether or not the app is using RTL support
          * For use in the blade directive in BladeServiceProvider
          */
-        if (! app()->runningInConsole()) {
-            if (config('locale.languages')[config('app.locale')][2]) {
-                session(['lang-rtl' => true]);
-            } else {
-                session()->forget('lang-rtl');
-            }
-        }
+//        if (! app()->runningInConsole()) {
+//            if (config('locale.languages')[config('app.locale')][2]) {
+//                session(['lang-rtl' => true]);
+//            } else {
+//                session()->forget('lang-rtl');
+//            }
+//        }
 
         // Force SSL in production
         if ($this->app->environment() == 'production') {
@@ -77,6 +77,7 @@ class AppServiceProvider extends ServiceProvider
          */
         Carbon::setLocale(config('app.locale'));
         App::setLocale(config('app.locale'));
+
 
 
         if (Schema::hasTable('sliders')) {
