@@ -92,6 +92,13 @@ class ConfigController extends Controller
                 $config = Config::firstOrCreate(['key' => $key]);
                 $config->value = $value;
                 $config->save();
+
+                if($key === 'app.locale'){
+                    Locale::where('short_name','!=',$value)->update(['is_default' => 0]);
+                    $locale = Locale::where('short_name','=',$value)->first();
+                    $locale->is_default = 1;
+                    $locale->save();
+                }
             }
         }
 
@@ -134,6 +141,8 @@ class ConfigController extends Controller
                 $config = Config::firstOrCreate(['key' => $key]);
                 $config->value = $value;
                 $config->save();
+
+
             }
         }
 

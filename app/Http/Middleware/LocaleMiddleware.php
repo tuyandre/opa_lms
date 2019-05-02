@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Locale;
 use Closure;
 use Carbon\Carbon;
 
@@ -24,7 +25,9 @@ class LocaleMiddleware
          * Locale is enabled and allowed to be changed
          */
         if (config('locale.status')) {
-            if (session()->has('locale') && in_array(session()->get('locale'), array_keys(config('locale.languages')))) {
+            $locales = Locale::get();
+            $locales_list = $locales->pluck('short_name')->toArray();
+            if (session()->has('locale') && in_array(session()->get('locale'),$locales_list)) {
 
                 /*
                  * Set the Laravel locale
@@ -34,22 +37,25 @@ class LocaleMiddleware
                 /*
                  * setLocale for php. Enables ->formatLocalized() with localized values for dates
                  */
-                setlocale(LC_TIME, config('locale.languages')[session()->get('locale')][1]);
+                setlocale(LC_TIME,array_search(session()->get('locale'),$locales_list));
 
                 /*
                  * setLocale to use Carbon source locales. Enables diffForHumans() localized
                  */
-                Carbon::setLocale(config('locale.languages')[session()->get('locale')][0]);
+                Carbon::setLocale(array_search(session()->get('locale'),$locales_list));
 
                 /*
                  * Set the session variable for whether or not the app is using RTL support
                  * for the current language being selected
                  * For use in the blade directive in BladeServiceProvider
                  */
-                if (config('locale.languages')[session()->get('locale')][2]) {
-                    session(['lang-rtl' => true]);
+                $locale_data = $locales->where('short_name','=',session()->get('locale'))->first();
+                if ($locale_data->display_type == 'rtl') {
+                    session(['display_type' => 'rtl']);
                 } else {
-                    session()->forget('lang-rtl');
+                    session(['display_type' => 'ltr']);
+
+//                    session()->forget('display_type');
                 }
             }
         }

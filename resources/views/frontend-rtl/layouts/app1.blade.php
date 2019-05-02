@@ -168,7 +168,7 @@
                                         @if(count($locales) > 1)
                                             <li class="menu-item-has-children ul-li-block">
                                                 <a href="#">
-                                                    <span class="d-md-down-none">@lang('menus.language-picker.language')
+                                                    <span class="d-md-down-none"> @lang('menus.language-picker.language')
                                                         ({{ strtoupper(app()->getLocale()) }})</span>
                                                 </a>
                                                 <ul class="sub-menu">

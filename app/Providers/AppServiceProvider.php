@@ -75,9 +75,9 @@ class AppServiceProvider extends ServiceProvider
         /*
          * setLocale to use Carbon source locales. Enables diffForHumans() localized
          */
+
         Carbon::setLocale(config('app.locale'));
         App::setLocale(config('app.locale'));
-
 
 
         if (Schema::hasTable('sliders')) {
@@ -87,18 +87,16 @@ class AppServiceProvider extends ServiceProvider
             });
         }
 
-        view()->composer(['frontend.layouts.*','frontend-rtl.layouts.*'], function ($view) {
-
-            $custom_menus = MenuItems::where('menu','=',config('nav_menu'))
+        view()->composer(['frontend.layouts.*', 'frontend-rtl.layouts.*'], function ($view) {
+            $custom_menus = MenuItems::where('menu', '=', config('nav_menu'))
                 ->orderBy('sort')
                 ->get();
             $custom_menus = $this->menuList($custom_menus);
-
             $max_depth = MenuItems::max('depth');
-            $view->with(compact('custom_menus','max_depth'));
+            $view->with(compact('custom_menus', 'max_depth'));
         });
 
-        view()->composer(['frontend.layouts.partials.right-sidebar','frontend-rtl.layouts.partials.right-sidebar'], function ($view) {
+        view()->composer(['frontend.layouts.partials.right-sidebar', 'frontend-rtl.layouts.partials.right-sidebar'], function ($view) {
 
             $featured_courses = Course::withoutGlobalScope('filter')->where('published', '=', 1)
                 ->where('featured', '=', 1)->first();
@@ -108,7 +106,7 @@ class AppServiceProvider extends ServiceProvider
             $view->with(compact('recent_news'));
         });
 
-        view()->composer(['frontend.*','frontend-rtl.*'], function ($view) {
+        view()->composer(['frontend.*', 'frontend-rtl.*'], function ($view) {
 
             $global_featured_course = Course::withoutGlobalScope('filter')->where('published', '=', 1)
                 ->where('featured', '=', 1)->where('trending', '=', 1)->first();
@@ -117,7 +115,7 @@ class AppServiceProvider extends ServiceProvider
             $view->with(compact('global_featured_course'));
         });
 
-        view()->composer(['frontend.*','backend.*','frontend-rtl.*'], function ($view) {
+        view()->composer(['frontend.*', 'backend.*', 'frontend-rtl.*'], function ($view) {
 //
 //            if (Schema::hasTable('ltm_translations')) {
 //                $locales = Translation::groupBy('locale')->pluck('locale')->toArray();
@@ -132,8 +130,6 @@ class AppServiceProvider extends ServiceProvider
             $view->with(compact('locales'));
 
         });
-
-
 
 
     }
