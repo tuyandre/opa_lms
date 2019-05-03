@@ -11,20 +11,6 @@ use App\Http\Controllers\Frontend\HomeController;
 // Switch between the included languages
 Route::get('lang/{lang}', [LanguageController::class, 'swap']);
 
-function array_values_recursive($array)
-{
-    $flat = array();
-
-    foreach ($array as $value) {
-        if (is_array($value)) {
-            $flat = array_merge($flat, array_values_recursive($value));
-        } else {
-            $flat[] = $value;
-        }
-    }
-    return $flat;
-}
-
 
 /*
  * Frontend Routes
