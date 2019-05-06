@@ -302,7 +302,7 @@
 
 
                             @if (!$purchased_course)
-                                <h3>@lang('labels.frontend.course.price') <span>${{$course->price}}</span></h3>
+                                <h3>@lang('labels.frontend.course.price') <span>{{$appCurrency['symbol'].' '.$course->price}}</span></h3>
 
                             @if(auth()->check() && (auth()->user()->hasRole('student')) && (Cart::session(auth()->user()->id)->get( $course->id)))
                                     <button class="btn genius-btn btn-block text-center my-2 text-uppercase  btn-success text-white bold-font"

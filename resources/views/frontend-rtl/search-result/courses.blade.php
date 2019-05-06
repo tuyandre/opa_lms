@@ -97,7 +97,7 @@
                                                                 </div>
                                                             @endif
                                                             <div class="course-price text-center gradient-bg">
-                                                                <span>${{$course->price}}</span>
+                                                                <span>{{$appCurrency['symbol'].' '.$course->price}}</span>
                                                             </div>
                                                             <div class="course-rate ul-li">
                                                                 <ul>
@@ -162,7 +162,7 @@
                                                                 </h3>
                                                                 <div class="course-meta">
                                                                 <span class="course-category bold-font"><a
-                                                                            href="{{ route('courses.show', [$course->slug]) }}">${{$course->price}}</a></span>
+                                                                            href="{{ route('courses.show', [$course->slug]) }}">{{$appCurrency['symbol'].' '.$course->price}}</a></span>
 
                                                                     <div class="course-rate ul-li">
                                                                         <ul>

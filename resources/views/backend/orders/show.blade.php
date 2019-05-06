@@ -46,7 +46,7 @@
                         </tr>
                         <tr>
                             <th>@lang('labels.backend.orders.fields.amount')</th>
-                            <td>{{ $order->amount }}</td>
+                            <td>{{ $order->amount.' '.$appCurrency['symbol'] }}</td>
                         </tr>
                         <tr>
                             <th>@lang('labels.backend.orders.fields.payment_type.title')</th>

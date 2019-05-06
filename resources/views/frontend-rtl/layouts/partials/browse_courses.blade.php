@@ -19,7 +19,7 @@
                                         </div>
                                     @endif
                                     <div class="course-price text-center gradient-bg">
-                                        <span>${{$item->price}}</span>
+                                        <span>{{$appCurrency['symbol'].' '.$item->price}}</span>
                                     </div>
                                     <div class="course-rate ul-li">
                                         <ul>

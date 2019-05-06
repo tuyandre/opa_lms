@@ -103,7 +103,9 @@
                             @else
                                 <div class="col-12 text-center">
                                     <h4 class="text-center">@lang('labels.backend.dashboard.no_data')</h4>
-                                    <a class="btn btn-primary" href="{{route('courses.all')}}">@lang('labels.backend.dashboard.buy_course_now') <i
+                                    <a class="btn btn-primary"
+                                       href="{{route('courses.all')}}">@lang('labels.backend.dashboard.buy_course_now')
+                                        <i
                                                 class="fa fa-arrow-right"></i></a>
                                 </div>
                             @endif
@@ -132,7 +134,10 @@
                                     </div>
                                     <div class="col-md-5 col-12 border-right">
                                         <div class="d-inline-block form-group w-100">
-                                            <h4 class="mb-0">@lang('labels.backend.dashboard.recent_reviews')   <a class="btn btn-primary float-right" href="{{route('admin.reviews.index')}}">@lang('labels.backend.dashboard.view_all')</a></h4>
+                                            <h4 class="mb-0">@lang('labels.backend.dashboard.recent_reviews') <a
+                                                        class="btn btn-primary float-right"
+                                                        href="{{route('admin.reviews.index')}}">@lang('labels.backend.dashboard.view_all')</a>
+                                            </h4>
 
                                         </div>
                                         <table class="table table-responsive-sm table-striped">
@@ -148,7 +153,8 @@
                                                 @foreach($recent_reviews as $item)
                                                     <tr>
                                                         <td>
-                                                            <a target="_blank" href="{{route('courses.show',[$item->reviewable->slug])}}">{{$item->reviewable->title}}</a>
+                                                            <a target="_blank"
+                                                               href="{{route('courses.show',[$item->reviewable->slug])}}">{{$item->reviewable->title}}</a>
                                                         </td>
                                                         <td>{{$item->content}}</td>
                                                         <td>{{$item->created_at->diffforhumans()}}</td>
@@ -164,7 +170,10 @@
                                     </div>
                                     <div class="col-md-4 col-12">
                                         <div class="d-inline-block form-group w-100">
-                                            <h4 class="mb-0">@lang('labels.backend.dashboard.recent_messages') <a class="btn btn-primary float-right" href="{{route('admin.messages')}}">@lang('labels.backend.dashboard.view_all')</a></h4>
+                                            <h4 class="mb-0">@lang('labels.backend.dashboard.recent_messages') <a
+                                                        class="btn btn-primary float-right"
+                                                        href="{{route('admin.messages')}}">@lang('labels.backend.dashboard.view_all')</a>
+                                            </h4>
                                         </div>
 
 
@@ -181,7 +190,8 @@
                                                 @foreach($threads as $item)
                                                     <tr>
                                                         <td>
-                                                            <a target="_blank" href="{{asset('/user/messages/?thread='.$item->id)}}">{{$item->title}}</a>
+                                                            <a target="_blank"
+                                                               href="{{asset('/user/messages/?thread='.$item->id)}}">{{$item->title}}</a>
                                                         </td>
                                                         <td>{{$item->lastMessage->body}}</td>
                                                         <td>{{$item->lastMessage->created_at->diffForHumans() }}</td>
@@ -226,7 +236,10 @@
                             </div>
                             <div class="col-md-6 col-12 border-right">
                                 <div class="d-inline-block form-group w-100">
-                                    <h4 class="mb-0">@lang('labels.backend.dashboard.recent_orders')   <a class="btn btn-primary float-right" href="{{route('admin.orders.index')}}">@lang('labels.backend.dashboard.view_all')</a></h4>
+                                    <h4 class="mb-0">@lang('labels.backend.dashboard.recent_orders') <a
+                                                class="btn btn-primary float-right"
+                                                href="{{route('admin.orders.index')}}">@lang('labels.backend.dashboard.view_all')</a>
+                                    </h4>
 
                                 </div>
                                 <table class="table table-responsive-sm table-striped">
@@ -243,11 +256,13 @@
                                         @foreach($recent_orders as $item)
                                             <tr>
                                                 <td>
-                                                   {{$item->user->full_name}}
+                                                    {{$item->user->full_name}}
                                                 </td>
-                                                <td>{{$item->amount}}$</td>
+                                                <td>{{$item->amount.' '.$appCurrency['symbol']}}</td>
                                                 <td>{{$item->created_at->diffforhumans()}}</td>
-                                                <td><a class="btn btn-sm btn-primary" href="{{route('admin.orders.show', $item->id)}}" target="_blank"><i class="fa fa-arrow-right"></i></a> </td>
+                                                <td><a class="btn btn-sm btn-primary"
+                                                       href="{{route('admin.orders.show', $item->id)}}" target="_blank"><i
+                                                                class="fa fa-arrow-right"></i></a></td>
                                             </tr>
                                         @endforeach
                                     @else
@@ -260,7 +275,10 @@
                             </div>
                             <div class="col-md-6 col-12">
                                 <div class="d-inline-block form-group w-100">
-                                    <h4 class="mb-0">@lang('labels.backend.dashboard.recent_contact_requests')   <a class="btn btn-primary float-right" href="{{route('admin.contact-requests.index')}}">@lang('labels.backend.dashboard.view_all')</a></h4>
+                                    <h4 class="mb-0">@lang('labels.backend.dashboard.recent_contact_requests') <a
+                                                class="btn btn-primary float-right"
+                                                href="{{route('admin.contact-requests.index')}}">@lang('labels.backend.dashboard.view_all')</a>
+                                    </h4>
 
                                 </div>
                                 <table class="table table-responsive-sm table-striped">
@@ -277,7 +295,7 @@
                                         @foreach($recent_contacts as $item)
                                             <tr>
                                                 <td>
-                                                   {{$item->name}}
+                                                    {{$item->name}}
                                                 </td>
                                                 <td>{{$item->email}}</td>
                                                 <td>{{$item->message}}</td>

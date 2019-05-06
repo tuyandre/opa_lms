@@ -320,7 +320,6 @@
                     </div>
                 </div>
 
-
                 <!---Logos Tab--->
                 <div id="logos" class="tab-pane container fade">
                     <div class="row mt-4 mb-4">
@@ -581,10 +580,22 @@
                     </div>
                 </div>
 
-                <!---Layout Tab--->
+                <!---Payment Configuration Tab--->
                 <div id="payment_settings" class="tab-pane container fade">
                     <div class="row mt-4 mb-4">
                         <div class="col">
+                            <div class="form-group row">
+                                {{ html()->label(__('labels.backend.general_settings.payment_settings.select_currency'))->class('col-md-3 form-control-label')}}
+                                <div class="col-md-9">
+                                    <select class="form-control" id="app__currency" name="app__currency">
+                                        @foreach(config('currencies') as $currency)
+                                            <option @if(config('app.currency') == $currency['short_code']) selected @endif value="{{$currency['short_code']}}">
+                                                {{$currency['symbol'].' - '.$currency['name']}}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
                             <div class="form-group row">
                                 {{ html()->label(__('labels.backend.general_settings.payment_settings.stripe'))->class('col-md-3 form-control-label')->for('services.stripe.active') }}
                                 <div class="col-md-9">
@@ -623,8 +634,6 @@
                                                      }}
                                             </div><!--col-->
                                         </div><!--form-group-->
-
-
                                     </div>
                                 </div><!--col-->
                             </div><!--form-group-->
@@ -699,9 +708,7 @@
                                     </small>
                                 </div>
                             </div>
-
                         </div>
-
                     </div>
                 </div>
 
@@ -711,11 +718,12 @@
                         <div class="col">
                             <div class="form-group row">
                                 {{ html()->label(__('labels.backend.general_settings.language_settings.default_language'))->class('col-md-2 form-control-label')->for('default_language') }}
-
                                 <div class="col-md-10">
                                     <select class="form-control" id="app_locale" name="app__locale">
                                         @foreach($app_locales as $lang)
-                                            <option data-display-type="{{$lang->display_type}}" @if($lang->is_default == 1) selected @endif value="{{$lang->short_name}}">{{(trans('menus.language-picker.langs.'.$lang)) ? trans('menus.language-picker.langs.'.$lang->short_name) : $lang  }} </option>
+                                            <option data-display-type="{{$lang->display_type}}"
+                                                    @if($lang->is_default == 1) selected
+                                                    @endif value="{{$lang->short_name}}">{{(trans('menus.language-picker.langs.'.$lang)) ? trans('menus.language-picker.langs.'.$lang->short_name) : $lang  }} </option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -725,8 +733,10 @@
 
                                 <div class="col-md-10">
                                     <select class="form-control" id="app_display_type" name="app__display_type">
-                                       <option @if(config('app.display_type') == 'ltr') selected @endif value="ltr">@lang('labels.backend.general_settings.language_settings.left_to_right')</option>
-                                       <option @if(config('app.display_type') == 'rtl') selected @endif  value="rtl">@lang('labels.backend.general_settings.language_settings.right_to_left')</option>
+                                        <option @if(config('app.display_type') == 'ltr') selected
+                                                @endif value="ltr">@lang('labels.backend.general_settings.language_settings.left_to_right')</option>
+                                        <option @if(config('app.display_type') == 'rtl') selected
+                                                @endif  value="rtl">@lang('labels.backend.general_settings.language_settings.right_to_left')</option>
                                     </select>
                                 </div>
                             </div>
@@ -937,7 +947,7 @@
 
 
         //On Default language change update Display type RTL/LTR
-        $(document).on('change','#app_locale',function () {
+        $(document).on('change', '#app_locale', function () {
             var display_type = $(this).find(":selected").data('display-type');
             $('#app_display_type').val(display_type)
         })

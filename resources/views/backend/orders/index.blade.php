@@ -35,7 +35,7 @@
                         <th>@lang('labels.general.sr_no')</th>
                         <th>@lang('labels.backend.orders.fields.reference_no')</th>
                         <th>@lang('labels.backend.orders.fields.items')</th>
-                        <th>@lang('labels.backend.orders.fields.amount')</th>
+                        <th>@lang('labels.backend.orders.fields.amount') <small>(in {{$appCurrency['symbol']}})</small></th>
                         <th>@lang('labels.backend.orders.fields.payment_status.title')</th>
                         <th>@lang('labels.backend.orders.fields.user_email')</th>
                         <th>@lang('labels.backend.orders.fields.date')</th>

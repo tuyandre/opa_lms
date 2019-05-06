@@ -86,7 +86,7 @@ class OrderController extends Controller
                 }
                 return $payment_status;
             })
-            ->addColumn('price', function ($q) {
+            ->editColumn('price', function ($q) {
                 return '$' . floatval($q->price);
             })
             ->rawColumns(['items', 'actions'])

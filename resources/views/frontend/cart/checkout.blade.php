@@ -70,7 +70,7 @@
                                                             </h3>
                                                             <div class="course-meta">
                                                                 <span class="course-category bold-font"><a
-                                                                            href="#">${{$course->price}}</a></span>
+                                                                            href="#">{{$appCurrency['symbol'].' '.$course->price}}</a></span>
                                                                 <div class="course-rate ul-li">
                                                                     <ul>
                                                                         @for($i=1; $i<=(int)$course->rating; $i++)
@@ -288,17 +288,16 @@
                                         <div class="in-total text-uppercase">@lang('labels.frontend.cart.total') :
                                             <span>
                                                 @if(isset($total))
-                                                    ${{$total}}
+                                                    {{$appCurrency['symbol'].' '.$total}}
                                                 @else
-                                                    ${{Cart::session(auth()->user()->id)->getTotal()}}
-
+                                                    {{$appCurrency['symbol'].' '.Cart::session(auth()->user()->id)->getTotal()}}
                                                 @endif
                                             </span></div>
                                     </div>
                                 @else
                                     <div class="purchase-list mt15 ul-li-block">
 
-                                        <div class="in-total text-uppercase">@lang('labels.frontend.cart.total') <span>$0.00</span></div>
+                                        <div class="in-total text-uppercase">@lang('labels.frontend.cart.total') <span>{{$appCurrency['symbol']}} 0.00</span></div>
                                     </div>
 
                                 @endif

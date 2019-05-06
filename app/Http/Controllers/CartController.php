@@ -30,7 +30,7 @@ class CartController extends Controller
 {
 
     private $path;
-
+    private $currency;
 
     public function __construct()
     {
@@ -43,23 +43,25 @@ class CartController extends Controller
         $this->_api_context->setConfig($paypal_conf['settings']);
 
         $path = 'frontend';
-        if(session()->has('display_type')){
-            if(session('display_type') == 'rtl'){
+        if (session()->has('display_type')) {
+            if (session('display_type') == 'rtl') {
                 $path = 'frontend-rtl';
-            }else{
+            } else {
                 $path = 'frontend';
             }
-        }else if(config('app.display_type') == 'rtl'){
+        } else if (config('app.display_type') == 'rtl') {
             $path = 'frontend-rtl';
         }
         $this->path = $path;
+        $this->currency = getCurrency(config('app.currency'));
+
     }
 
     public function index(Request $request)
     {
-        $ids= Cart::session(auth()->user()->id)->getContent()->keys();
+        $ids = Cart::session(auth()->user()->id)->getContent()->keys();
         $courses = Course::find($ids);
-        return view($this->path.'.cart.checkout', compact('courses'));
+        return view($this->path . '.cart.checkout', compact('courses'));
     }
 
     public function addToCart(Request $request)
@@ -67,7 +69,7 @@ class CartController extends Controller
         $course = Course::findOrFail($request->get('course_id'));
         $teachers = $course->teachers->pluck('id', 'name');
         $cart_items = Cart::session(auth()->user()->id)->getContent()->keys()->toArray();
-        if(!in_array($course->id,$cart_items)) {
+        if (!in_array($course->id, $cart_items)) {
 
             Cart::session(auth()->user()->id)
                 ->add($course->id, $course->title, $course->price, 1,
@@ -87,7 +89,7 @@ class CartController extends Controller
         $course = Course::findOrFail($request->get('course_id'));
         $teachers = $course->teachers->pluck('id', 'name');
         $cart_items = Cart::session(auth()->user()->id)->getContent()->keys()->toArray();
-        if(!in_array($course->id,$cart_items)){
+        if (!in_array($course->id, $cart_items)) {
             Cart::session(auth()->user()->id)
                 ->add($course->id, $course->title, $course->price, 1,
                     [
@@ -97,9 +99,9 @@ class CartController extends Controller
                         'teachers' => $teachers
                     ]);
         };
-        $cart_items =  Cart::session(auth()->user()->id)->getContent()->keys()->toArray();
+        $cart_items = Cart::session(auth()->user()->id)->getContent()->keys()->toArray();
         $courses = Course::findOrFail($cart_items);
-        return view($this->path.'.cart.checkout', compact('courses','total'));
+        return view($this->path . '.cart.checkout', compact('courses', 'total'));
     }
 
     public function clear(Request $request)
@@ -117,6 +119,7 @@ class CartController extends Controller
 
     public function stripePayment(Request $request)
     {
+
         //Making Order
         $order = $this->makeOrder();
 
@@ -124,11 +127,11 @@ class CartController extends Controller
         //Charging Customer
         $status = $this->createStripeCharge($request);
 
-        if($status == 'success'){
+        if ($status == 'success') {
             $order->status = 1;
             $order->payment_type = 1;
             $order->save();
-            foreach ($order->items as $item){
+            foreach ($order->items as $item) {
                 $item->course->students()->attach(\Auth::id());
             }
 
@@ -138,33 +141,39 @@ class CartController extends Controller
             Cart::session(auth()->user()->id)->clear();
             return redirect()->route('status');
 
-        }else{
+        } else {
             $order->status = 2;
             $order->save();
             return redirect()->route('cart.index');
         }
     }
 
-    public function paypalPayment(Request $request){
+    public function paypalPayment(Request $request)
+    {
         $payer = new Payer();
         $payer->setPaymentMethod('paypal');
-        $items=[];
+        $items = [];
 
         $cartItems = Cart::session(auth()->user()->id)->getContent();
         $cartTotal = Cart::session(auth()->user()->id)->getTotal();
-        foreach ($cartItems as $cartItem){
+        $currency = $this->currency['short_code'];
+
+        foreach ($cartItems as $cartItem) {
+
             $item_1 = new Item();
-            $item_1->setName($cartItem->name) /** item name **/
-            ->setCurrency('USD')
+            $item_1->setName($cartItem->name)/** item name **/
+            ->setCurrency($currency)
                 ->setQuantity(1)
-                ->setPrice($cartItem->price); /** unit price **/
+                ->setPrice($cartItem->price);
+            /** unit price **/
             $items[] = $item_1;
         }
 
         $item_list = new ItemList();
         $item_list->setItems($items);
+
         $amount = new Amount();
-        $amount->setCurrency('USD')
+        $amount->setCurrency($currency)
             ->setTotal($cartTotal);
 
 
@@ -174,7 +183,7 @@ class CartController extends Controller
             ->setDescription(auth()->user()->name);
 
         $redirect_urls = new RedirectUrls();
-        $redirect_urls->setReturnUrl(URL::route('cart.paypal.status')) /** Specify return URL **/
+        $redirect_urls->setReturnUrl(URL::route('cart.paypal.status'))/** Specify return URL **/
         ->setCancelUrl(URL::route('cart.paypal.status'));
         $payment = new Payment();
         $payment->setIntent('Sale')
@@ -210,28 +219,29 @@ class CartController extends Controller
         return Redirect::route('cart.paypal.status');
     }
 
-    public function offlinePayment(Request $request){
+    public function offlinePayment(Request $request)
+    {
         //Making Order
         $order = $this->makeOrder();
         $order->payment_type = 3;
-        $order->status  = 0;
+        $order->status = 0;
         $order->save();
         $content = [];
         $items = [];
         $counter = 0;
-        foreach (Cart::session(auth()->user()->id)->getContent() as $key=>$cartItem){
+        foreach (Cart::session(auth()->user()->id)->getContent() as $key => $cartItem) {
             $counter++;
-            array_push($items,['number' => $counter,'name'=>$cartItem->name,'price' => $cartItem->price]);
+            array_push($items, ['number' => $counter, 'name' => $cartItem->name, 'price' => $cartItem->price]);
         }
 
         $content['items'] = $items;
-        $content['total'] =  Cart::session(auth()->user()->id)->getTotal();
-        $content['reference_no'] =  $order->reference_no;
+        $content['total'] = Cart::session(auth()->user()->id)->getTotal();
+        $content['reference_no'] = $order->reference_no;
 
         try {
             \Mail::to(auth()->user()->email)->send(new OfflineOrderMail($content));
         } catch (\Exception $e) {
-           \Log::info($e->getMessage().' for order '.$order->id);
+            \Log::info($e->getMessage() . ' for order ' . $order->id);
         }
 
         Cart::session(auth()->user()->id)->clear();
@@ -239,7 +249,8 @@ class CartController extends Controller
         return redirect()->route('courses.all');
     }
 
-    public function getPaymentStatus(){
+    public function getPaymentStatus()
+    {
         /** Get the payment ID before session clear **/
         $payment_id = Session::get('paypal_payment_id');
         /** clear the session payment ID **/
@@ -250,7 +261,7 @@ class CartController extends Controller
         }
         $payment = Payment::get($payment_id, $this->_api_context);
         $order = $this->makeOrder();
-        $order->payment_type  = 2;
+        $order->payment_type = 2;
         $order->save();
         $execution = new PaymentExecution();
         $execution->setPayerId(Input::get('PayerID'));
@@ -261,7 +272,7 @@ class CartController extends Controller
             \Session::flash('success', 'Payment success');
             $order->status = 1;
             $order->save();
-            foreach ($order->items as $item){
+            foreach ($order->items as $item) {
                 $item->course->students()->attach(\Auth::id());
             }
 
@@ -269,7 +280,7 @@ class CartController extends Controller
             generateInvoice($order);
 
             return Redirect::route('status');
-        }else{
+        } else {
             \Session::flash('failure', 'Payment failed');
             $order->status = 2;
             $order->save();
@@ -279,19 +290,20 @@ class CartController extends Controller
 
     }
 
-    private function makeOrder(){
+    private function makeOrder()
+    {
         $order = new Order();
         $order->user_id = auth()->user()->id;
-        $order->reference_no  = str_random(8);
-        $order->amount  = Cart::session(auth()->user()->id)->getTotal();
-        $order->status  = 1;
-        $order->payment_type  = 3;
+        $order->reference_no = str_random(8);
+        $order->amount = Cart::session(auth()->user()->id)->getTotal();
+        $order->status = 1;
+        $order->payment_type = 3;
         $order->save();
 
         //Getting and Adding items
-        foreach (Cart::session(auth()->user()->id)->getContent() as $cartItem){
+        foreach (Cart::session(auth()->user()->id)->getContent() as $cartItem) {
             $order->items()->create([
-                'course_id'=> $cartItem->id,
+                'course_id' => $cartItem->id,
                 'price' => $cartItem->price
             ]);
         }
@@ -301,13 +313,14 @@ class CartController extends Controller
 
     private function createStripeCharge($request)
     {
-        $status="";
+        $status = "";
         Stripe::setApiKey(config('services.stripe.secret'));
         $amount = Cart::session(auth()->user()->id)->getTotal();
+        $currency = $this->currency['short_code'];
         try {
             Charge::create(array(
                 "amount" => $amount * 100,
-                "currency" => "usd",
+                "currency" => strtolower($currency),
                 "source" => $request->reservation['stripe_token'], // obtained with Stripe.js
                 "description" => auth()->user()->name
             ));
@@ -320,8 +333,6 @@ class CartController extends Controller
         }
         return $status;
     }
-
-
 
 
 }

@@ -78,6 +78,9 @@ class AppServiceProvider extends ServiceProvider
 
         Carbon::setLocale(config('app.locale'));
         App::setLocale(config('app.locale'));
+        config()->set('invoices.currency', config('app.currency'));
+
+
 
 
         if (Schema::hasTable('sliders')) {
@@ -115,7 +118,7 @@ class AppServiceProvider extends ServiceProvider
             $view->with(compact('global_featured_course'));
         });
 
-        view()->composer(['frontend.*', 'backend.*', 'frontend-rtl.*'], function ($view) {
+        view()->composer(['frontend.*', 'backend.*', 'frontend-rtl.*','vendor.invoices.*'], function ($view) {
 //
 //            if (Schema::hasTable('ltm_translations')) {
 //                $locales = Translation::groupBy('locale')->pluck('locale')->toArray();
@@ -123,11 +126,13 @@ class AppServiceProvider extends ServiceProvider
 //            }
 //            $view->with(compact('locales'));
 
+            $appCurrency = getCurrency(config('app.currency'));
+
             if (Schema::hasTable('locales')) {
                 $locales = Locale::pluck('short_name as locale')->toArray();
 
             }
-            $view->with(compact('locales'));
+            $view->with(compact('locales','appCurrency'));
 
         });
 

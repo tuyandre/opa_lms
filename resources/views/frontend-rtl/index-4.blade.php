@@ -119,34 +119,6 @@
     @endif
 
 
-    {{--@if($sections->course_by_category->status == 1)--}}
-        {{--<!-- Start of Categories--}}
-    {{--============================================= -->--}}
-        {{--<div class="about-course-categori one-page-category about-teacher-2">--}}
-            {{--<div class="container">--}}
-                {{--<div class="category-slide text-center">--}}
-                    {{--@if($course_categories->count() > 0)--}}
-                        {{--@foreach($course_categories as $category)--}}
-                            {{--<a href="{{route('courses.category',['category'=>$category->slug])}}">--}}
-                                {{--<div class="category-icon-title text-center">--}}
-                                    {{--<div class="category-icon">--}}
-                                        {{--<i class="text-gradiant {{$category->icon}}"></i>--}}
-                                    {{--</div>--}}
-                                    {{--<div class="category-title">--}}
-                                        {{--<h4>{{$category->name}}</h4>--}}
-                                    {{--</div>--}}
-                                {{--</div>--}}
-                            {{--</a>--}}
-                        {{--@endforeach--}}
-                    {{--@endif--}}
-                {{--</div>--}}
-            {{--</div>--}}
-        {{--</div>--}}
-        {{--<!-- End of Categories--}}
-       {{--============================================= -->--}}
-    {{--@endif--}}
-
-
     @if($sections->teachers->status == 1)
 
         <!-- Start of genius teacher v2

@@ -14,7 +14,7 @@
                         <div class="course-pic relative-position mb25" @if($item->course_image != "")  style="background-image: url({{asset('storage/uploads/'.$item->course_image)}})" @endif>
 
                             <div class="course-price text-center gradient-bg">
-                                <span>${{$item->price}}</span>
+                                <span>{{$appCurrency['symbol'].' '.$item->price}}</span>
                             </div>
                             <div class="course-details-btn">
                                 <a class="text-uppercase" href="{{ route('courses.show', [$item->slug]) }}">@lang('labels.frontend.layouts.partials.course_detail') <i

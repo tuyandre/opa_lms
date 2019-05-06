@@ -330,3 +330,23 @@ if (!function_exists('trashUrl')) {
 
     }
 }
+
+if (!function_exists('getCurrency')) {
+
+    /**
+     * @param $str
+     *
+     * @return array
+     */
+    function getCurrency($short_code)
+    {
+        $currencies = config('currencies');
+        $currency = "";
+            foreach ($currencies as $key => $val) {
+                if ($val['short_code'] == $short_code) {
+                    $currency = $val;
+                }
+            }
+       return $currency;
+    }
+}

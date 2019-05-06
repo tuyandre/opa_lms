@@ -87,7 +87,7 @@
                         </tr>
                         <tr>
                             <th>@lang('labels.backend.courses.fields.price')</th>
-                            <td>{{ $course->price }}</td>
+                            <td>{{ $course->price.' '.$appCurrency['symbol'] }}</td>
                         </tr>
                         <tr>
                             <th>@lang('labels.backend.courses.fields.course_image')</th>

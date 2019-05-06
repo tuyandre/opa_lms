@@ -451,6 +451,7 @@ return array (
       'payment_settings' => 
       array (
         'title' => 'Payment Configuration',
+        'select_currency' => 'Select Currency',
         'stripe' => 'Stripe Payment Method',
         'stripe_note' => 'Enables payments in site with Debit / Credit Cards',
         'paypal' => 'Paypal Payment Method',

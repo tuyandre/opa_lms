@@ -60,7 +60,7 @@
                                         {{$item->order->updated_at->format('d M, Y | h:i A')}}
                                     </td>
                                     <td>
-                                        {{$item->order->amount}}$
+                                        {{$appCurrency['symbol'].' '.$item->order->amount}}
                                     </td>
 
                                     <td>
