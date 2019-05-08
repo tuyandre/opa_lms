@@ -113,6 +113,10 @@ return array (
       array (
         'title' => 'Invoices',
       ),
+        'certificates' =>
+            array (
+                'title' => 'Certificates',
+            ),
       'contacts' => 
       array (
         'title' => 'Leads',

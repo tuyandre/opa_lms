@@ -200,6 +200,11 @@ Route::post('delete-locale', function () {
 })->name('delete-locale');
 
 
+//==== Get Certificates ====//
+Route::get('certificates', 'Admin\CoursesController@getCertificates')->name('certificates.index');
+
+
+
 //==== Update Theme Routes ====//
 Route::get('update-theme','UpdateController@index')->name('update-theme');
 Route::post('update-theme','UpdateController@updateTheme')->name('update-files');

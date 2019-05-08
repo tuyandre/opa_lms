@@ -20,6 +20,19 @@ Route::group(['namespace' => 'Frontend', 'as' => 'frontend.'], function () {
     include_route_files(__DIR__ . '/frontend/');
 });
 
+
+Route::get('cert', function () {
+    $data = [
+        'name' => 'Hardik Tankariya',
+        'course_name' => 'My dummy course',
+        'date' => '13, Jan 2019',
+    ];
+    $pdf = PDF::loadView('certificate.index', compact('data'))->setPaper('', 'landscape');
+    return $pdf->stream();
+//    return view('certificate.index', compact('data'));
+});
+
+
 /*
  * Backend Routes
  * Namespaces indicate folder structure

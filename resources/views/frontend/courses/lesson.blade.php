@@ -257,18 +257,15 @@
                                 @endforeach
                             </div>
                         @endif
-
-
                     </div>
                     <!-- /course-details -->
 
                     <!-- /market guide -->
 
                     <!-- /review overview -->
-
                 </div>
 
-                <div class="col-md-3 ">
+                <div class="col-md-3">
                     <div id="sidebar" class="sidebar">
                         <div class="course-details-category ul-li">
                             @if ($previous_lesson)
@@ -320,8 +317,7 @@
                            {{$teacher->full_name}}@if($key < count($lesson->course->teachers )), @endif
                        </a>
                                         @endforeach
-
-                  </span>
+                                    </span>
                                 </li>
                                 <li>@lang('labels.frontend.course.progress') <span> <b> {{ intval(count($completed_lessons) /  $lesson->course->courseTimeline->count() * 100)  }}
                                             % @lang('labels.frontend.course.completed')</b></span></li>

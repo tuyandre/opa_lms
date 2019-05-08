@@ -806,6 +806,15 @@ return array (
       'backup_notice' => 'Please refer documentation before beginning backup. It has every details step by step for creating backup with Dropbox.',
       'backup_note' => '<b>Note </b>: To run this backup properly you need to add following code to your <b>CRON TAB:</b><br><code>* * * * * cd /path-to-your-project && php artisan schedule:run >> /dev/null 2>&1</code>',
     ),
+      'certificates' =>
+      array(
+          'title' => 'Certificates',
+          'fields' => array(
+              'course_name' => 'Course Name',
+              'progress' => 'Progress',
+              'action' => 'Action',
+          ),
+      )
   ),
   'general' => 
   array (
