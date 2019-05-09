@@ -78,7 +78,7 @@ class CourseSeed extends Seeder
             $order->user_id = 3;
             $order->reference_no = str_random(8);
             $order->amount = $course->price;
-            $order->status = 0;
+            $order->status = 1;
             $order->save();
 
             $order->items()->create([
