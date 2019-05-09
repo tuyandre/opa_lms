@@ -206,8 +206,6 @@ Route::post('certificates/generate', 'CertificateController@generateCertificate'
 Route::get('certificates/download', ['uses' => 'CertificateController@download', 'as' => 'certificates.download']);
 
 
-
-
 //==== Update Theme Routes ====//
 Route::get('update-theme','UpdateController@index')->name('update-theme');
 Route::post('update-theme','UpdateController@updateTheme')->name('update-files');
