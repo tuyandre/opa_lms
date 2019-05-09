@@ -219,6 +219,8 @@ return [
 
 
         Barryvdh\TranslationManager\ManagerServiceProvider::class,
+        Barryvdh\DomPDF\ServiceProvider::class,
+
         Maatwebsite\Excel\ExcelServiceProvider::class,
         Chumper\Zipper\ZipperServiceProvider::class,
         BC\Laravel\DropboxDriver\ServiceProvider::class,
@@ -237,6 +239,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\ObserverServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+
 
 
     ],
@@ -304,6 +307,8 @@ return [
         'Agent' => Jenssegers\Agent\Facades\Agent::class,
         'Cart' => Darryldecode\Cart\Facades\CartFacade::class,
         'Menu' => Harimayco\Menu\Facades\Menu::class,
+        'PDF' => Barryvdh\DomPDF\Facade::class,
+
 
 
     ],
