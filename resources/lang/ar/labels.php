@@ -602,6 +602,7 @@ return array (
         'stripe' => 'طريقة الدفع الشريطية',
         'stripe_note' => 'تمكن المدفوعات في الموقع مع بطاقات الخصم / الائتمان',
         'title' => 'تكوين الدفع',
+        'select_currency' => 'اختر العملة',
       ),
       'requires_approval' => 'يتطلب موافقة',
       'retest_note' => 'تمكين / تعطيل إذا كان المستخدم سيكون قادرا على إعادة اختبار للامتحان نفسه',
@@ -803,12 +804,25 @@ return array (
       'upload' => 'تحميل الإصدار الجديد <small> (update.zip) </small>',
       'warning' => '<b> تحذير: نوصيك بشدة بتحديث المظهر حسب رقم الإصدار </b>. <br> <b> مثال: </b> update_v1.zip، update_v2.zip. من فضلك لا تقفز رقم الإصدار. إذا كان رقم الإصدار هو 1 وتريد تحديثه ، فقم بالتحديث إلى الإصدار 2. لا تقم بالتحديث مباشرة إلى الإصدار 3.',
     ),
+    'certificates' => 
+    array (
+      'download' => 'تحميل',
+      'fields' => 
+      array (
+        'action' => 'عمل',
+        'course_name' => 'اسم الدورة التدريبية',
+        'progress' => 'تقدم',
+      ),
+      'title' => 'شهادات',
+      'view' => 'رأي',
+    ),
   ),
   'lang' => 
   array (
     'sp' => 'الأسبانية',
     'fr' => 'الفرنسية',
     'en' => 'الإنجليزية',
+    'ar' => 'عربى',
   ),
   'general' => 
   array (
@@ -980,6 +994,8 @@ return array (
       'view_all_news' => 'عرض جميع الأخبار',
       'your_rating' => 'تقييمك',
       'your_test_score' => 'نقاط الاختبار الخاصة بك',
+      'certified' => 'أنت معتمد لهذه الدورة',
+      'finish_course' => 'الانتهاء من الدورة',
     ),
     'faq' => 
     array (
@@ -1044,6 +1060,7 @@ return array (
         'view_all_popular_courses' => 'عرض جميع الدورات الشعبية',
         'view_all_trending_courses' => 'عرض جميع الدورات التدريبية',
         'why_choose' => 'السبب في اختيار',
+        'certificate_verification' => 'التحقق من الشهادة',
       ),
     ),
     'modal' => 
@@ -1106,6 +1123,14 @@ return array (
         'name' => 'اسم',
         'update_information' => 'تحديث المعلومات',
       ),
+    ),
+    'certificate_verification' => 
+    array (
+      'date_on_certificate' => 'تاريخ الشهادة. السابق. 2018-11-25',
+      'name_on_certificate' => 'الاسم في الشهادة. السابق. يوحنا',
+      'not_found' => 'لم يتم العثور على شهادة للمعلومات المقدمة.',
+      'title' => 'التحقق من الشهادة',
+      'verify_now' => 'تحقق الآن',
     ),
   ),
 );

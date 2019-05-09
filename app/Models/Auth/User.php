@@ -2,6 +2,7 @@
 
 namespace App\Models\Auth;
 
+use App\Models\Certificate;
 use App\Models\ChapterStudent;
 use App\Models\Course;
 use App\Models\Invoice;
@@ -128,6 +129,11 @@ class User extends Authenticatable implements MessageableInterface
             $percentage = 0;
         }
         return round($percentage,2);
+    }
+
+    //Get Certificates
+    public function certificates(){
+        return $this->hasMany(Certificate::class);
     }
 
 }

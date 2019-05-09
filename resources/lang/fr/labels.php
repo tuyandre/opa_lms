@@ -305,6 +305,7 @@ return array (
       'enter_video_embed_code' => 'Entrez le code d\'intégration de la vidéo',
       'enter_video_url' => 'Entrer des données vidéo',
       'vimeo_note' => '<b> Instructions pour ajouter un lien vidéo: </b> <br> Allez à vimeo -> ouvrir la vidéo -> cliquez avec le bouton droit sur la vidéo et <b> Copier l\'URL de la vidéo </b> et collez-le ici. <br> Si vous le souhaitez pour ajouter plusieurs vidéos, séparez-les par <b>, </b> (Virgule).',
+      'yt_note' => '<b> Instructions pour ajouter un lien vidéo: </b> <br> Allez sur youtube -> ouvrir la vidéo -> faites un clic droit sur la vidéo et <b> Copier l\'URL de la vidéo </b> et collez-le ici. <br> Si vous voulez pour ajouter plusieurs vidéos, séparez-les par <b>, </b> (Virgule).',
     ),
     'contacts' => 
     array (
@@ -516,6 +517,7 @@ return array (
         'stripe' => 'Méthode de paiement Stripe',
         'stripe_note' => 'Permet les paiements sur le site avec les cartes de débit / crédit',
         'title' => 'Configuration du paiement',
+        'select_currency' => 'Sélectionnez la devise',
       ),
       'requires_approval' => 'Nécessite une approbation',
       'sections_note' => 'Une fois que vous cliquez sur mettre à jour, vous verrez la liste des sections à activer / désactiver.',
@@ -825,6 +827,18 @@ return array (
       'upload' => 'Télécharger la nouvelle version <small> (update.zip) </small>',
       'warning' => '<b> AVERTISSEMENT: nous vous recommandons vivement de mettre à jour le thème par numéro de version </b>. <br> <b> Exemple: </b> update_v1.zip, update_v2.zip. S\'il vous plaît ne sautez pas le numéro de version. Si votre numéro de version est 1 et que vous souhaitez le mettre à jour, passez à la version 2. Ne mettez pas à jour directement à la version 3.',
     ),
+    'certificates' => 
+    array (
+      'download' => 'Télécharger',
+      'fields' => 
+      array (
+        'action' => 'action',
+        'course_name' => 'Nom du cours',
+        'progress' => 'Le progrès',
+      ),
+      'title' => 'Certificats',
+      'view' => 'Vue',
+    ),
   ),
   'frontend' => 
   array (
@@ -1015,6 +1029,8 @@ return array (
       'view_all_news' => 'Voir toutes les nouvelles',
       'your_rating' => 'Votre note',
       'your_test_score' => 'Votre score de test',
+      'certified' => 'Vous êtes certifié pour ce cours',
+      'finish_course' => 'Cours de finition',
     ),
     'faq' => 
     array (
@@ -1079,6 +1095,7 @@ return array (
         'view_all_popular_courses' => 'Voir tous les cours populaires',
         'view_all_trending_courses' => 'Voir tous les cours tendance',
         'why_choose' => 'Raison pour laquelle choisir',
+        'certificate_verification' => 'Certificat de vérification',
       ),
     ),
     'modal' => 
@@ -1091,11 +1108,20 @@ return array (
       'register_now' => 'Inscrire maintenant',
       'registration_message' => 'Inscription réussi. S\'il vous plaît connecter',
     ),
+    'certificate_verification' => 
+    array (
+      'date_on_certificate' => 'Date sur le certificat. Ex. 2018-11-25',
+      'name_on_certificate' => 'Nom sur le certificat. Ex. John',
+      'not_found' => 'Aucun certificat trouvé pour les informations fournies.',
+      'title' => 'Certificat de vérification',
+      'verify_now' => 'Vérifiez maintenant',
+    ),
   ),
   'lang' => 
   array (
     'sp' => 'Español',
     'fr' => 'Français',
     'en' => 'Anglais',
+    'ar' => 'arabe',
   ),
 );

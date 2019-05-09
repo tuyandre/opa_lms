@@ -351,19 +351,4 @@ class CoursesController extends Controller
 
         return 'success';
     }
-
-
-    /**
-     * Get certificates lost for purchased courses.
-     */
-    public function getCertificates(){
-        $courses = Course::whereHas('students', function($query) {
-            $query->where('id', \Auth::id());
-        })
-            ->with('lessons')
-            ->orderBy('id', 'desc')
-            ->get();
-
-        return view('backend.certificates.index',compact('courses'));
-    }
 }

@@ -87,7 +87,6 @@
 @endpush
 
 @section('content')
-
     <!-- Start of breadcrumb section
         ============================================= -->
     <section id="breadcrumb" class="breadcrumb-section relative-position backgroud-style">
@@ -117,6 +116,8 @@
                             {{session('success')}}
                         </div>
                     @endif
+                    @include('includes.partials.messages')
+
                     <div class="course-details-item border-bottom-0 mb-0">
                         @if($lesson->lesson_image != "")
                             <div class="course-single-pic mb30">
@@ -280,6 +281,20 @@
                                       href="{{ route('lessons.show', [$next_lesson->course_id, $next_lesson->model->slug]) }}">@lang('labels.frontend.course.next')
                                         <i class="fa fa-angle-double-right"></i> </a></p>
                             @endif
+                            @if($lesson->course->progress() == 100)
+                                @if(!$lesson->course->isUserCertified())
+                                    <form method="post" action="{{route('admin.certificates.generate')}}">
+                                        @csrf
+                                        <input type="hidden" value="{{$lesson->course->id}}" name="course_id">
+                                        <button class="btn btn-success btn-block text-white mb-3 text-uppercase font-weight-bold"
+                                                id="finish">@lang('labels.frontend.course.finish_course')</button>
+                                    </form>
+                                @else
+                                    <div class="alert alert-success">
+                                        @lang('labels.frontend.course.certified')
+                                    </div>
+                                @endif
+                            @endif
 
 
                             <span class="float-none">@lang('labels.frontend.course.course_timeline')</span>
@@ -319,7 +334,7 @@
                                         @endforeach
                                     </span>
                                 </li>
-                                <li>@lang('labels.frontend.course.progress') <span> <b> {{ intval(count($completed_lessons) /  $lesson->course->courseTimeline->count() * 100)  }}
+                                <li>@lang('labels.frontend.course.progress') <span> <b> {{ $lesson->course->progress()  }}
                                             % @lang('labels.frontend.course.completed')</b></span></li>
                             </ul>
 
@@ -352,6 +367,8 @@
             current_progress = "{{$lesson->mediaVideo->getProgress(auth()->user()->id)->progress}}";
         @endif
 
+
+
         @if($lesson->mediaPDF)
         $(function () {
             $("#myPDF").pdf({
@@ -362,7 +379,7 @@
             });
 
         });
-                @endif
+        @endif
 
         const player2 = new Plyr('#audioPlayer');
 
@@ -409,8 +426,9 @@
             location.reload();
         });
 
-
         @endif
         $("#sidebar").stick_in_parent();
+
+
     </script>
 @endpush

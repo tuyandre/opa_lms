@@ -806,15 +806,18 @@ return array (
       'backup_notice' => 'Please refer documentation before beginning backup. It has every details step by step for creating backup with Dropbox.',
       'backup_note' => '<b>Note </b>: To run this backup properly you need to add following code to your <b>CRON TAB:</b><br><code>* * * * * cd /path-to-your-project && php artisan schedule:run >> /dev/null 2>&1</code>',
     ),
-      'certificates' =>
-      array(
-          'title' => 'Certificates',
-          'fields' => array(
-              'course_name' => 'Course Name',
-              'progress' => 'Progress',
-              'action' => 'Action',
-          ),
-      )
+    'certificates' => 
+    array (
+      'title' => 'Certificates',
+      'fields' => 
+      array (
+        'course_name' => 'Course Name',
+        'progress' => 'Progress',
+        'action' => 'Action',
+      ),
+      'view' => 'View',
+      'download' => 'Download',
+    ),
   ),
   'general' => 
   array (
@@ -995,6 +998,8 @@ return array (
       'find_your_course' => '<span>Find </span>Your Course.',
       'next' => 'NEXT',
       'progress' => 'Progress',
+      'finish_course' => 'Finish Course',
+      'certified' => 'You\'re Certified for this course',
     ),
     'home' => 
     array (
@@ -1052,6 +1057,7 @@ return array (
         'sponsors' => 'Sponsors.',
         'students_testimonial' => 'Students <span>Testimonial.</span>',
         'why_choose' => 'Reason Why Choose',
+        'certificate_verification' => 'Certificate Verification',
       ),
     ),
     'modal' => 
@@ -1113,11 +1119,20 @@ return array (
       'make_question' => 'Make Question',
       'contact_us' => 'Contact Us',
     ),
+    'certificate_verification' => 
+    array (
+      'title' => 'Certificate Verification',
+      'name_on_certificate' => 'Name on Certificate. Ex. John',
+      'date_on_certificate' => 'Date on Certificate. Ex. 2018-11-25',
+      'verify_now' => 'Verify Now',
+      'not_found' => 'No certificate found for given information.',
+    ),
   ),
   'lang' => 
   array (
     'en' => 'English',
     'sp' => 'Spanish',
     'fr' => 'French',
+    'ar' => 'Arabic',
   ),
 );

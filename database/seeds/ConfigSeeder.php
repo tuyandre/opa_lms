@@ -89,6 +89,7 @@ class ConfigSeeder extends Seeder
             'footer_data' => $footer_data,
             'app__locale' => 'en',
             'app__display_type' => 'ltr',
+            'app__currency' => 'USD'
         ];
 
         foreach ($data as $key => $value) {

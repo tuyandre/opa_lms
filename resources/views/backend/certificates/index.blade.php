@@ -25,24 +25,24 @@
                             </thead>
 
                             <tbody>
-                            @if(count($courses) > 0)
-                                @foreach($courses as $key=>$course)
+                            @if(count($certificates) > 0)
+                                @foreach($certificates as $key=>$certificate)
                                     @php $key++; @endphp
                                     <tr>
                                         <td>{{$key}}</td>
-                                        <td>{{$course->title}}</td>
-                                        <td>{{$course->progress() }}</td>
+                                        <td>{{$certificate->course->title}}</td>
+                                        <td>{{$certificate->course->progress() }}%</td>
                                         <th>
-                                            @if($course->progress() == 100)
-                                                <button class="btn btn-success">Generate Certificate</button>
+                                            @if($certificate->course->progress() == 100)
+                                                <a href="{{asset('storage/certificates/'.$certificate->url)}}" class="btn btn-success">
+                                                    @lang('labels.backend.certificates.view') </a>
+
+                                                <a class="btn btn-primary" href="{{route('admin.certificates.download',['certificate_id'=>$certificate->id])}}">
+                                                    @lang('labels.backend.certificates.download') </a>
                                             @endif
                                         </th>
                                     </tr>
                                 @endforeach
-                            @else
-                                <tr>
-                                    <td colspan="4">@lang('strings.backend.general.app_no_entries_in_table')</td>
-                                </tr>
                             @endif
                             </tbody>
                         </table>
@@ -72,16 +72,13 @@
                     {
                         extend: 'pdf',
                         exportOptions: {
-                            columns: [1, 2, 3, 5]
+                            columns: [0, 1, 2]
                         }
                     },
                     'colvis'
                 ],
 
-
             });
-
-
         });
 
     </script>

@@ -42,5 +42,9 @@ return array (
     array (
       'sent' => 'Your information was successfully sent. We will respond back to the e-mail provided as soon as we can.',
     ),
+    'course' => 
+    array (
+      'completed' => 'Congratulations! You\'ve successfully completed course. Checkout your certificate in dashboard',
+    ),
   ),
 );

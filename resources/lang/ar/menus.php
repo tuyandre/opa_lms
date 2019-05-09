@@ -166,6 +166,10 @@ return array (
       array (
         'title' => 'تحديث',
       ),
+      'certificates' => 
+      array (
+        'title' => 'شهادات',
+      ),
     ),
   ),
   'language-picker' => 

@@ -200,8 +200,11 @@ Route::post('delete-locale', function () {
 })->name('delete-locale');
 
 
-//==== Get Certificates ====//
-Route::get('certificates', 'Admin\CoursesController@getCertificates')->name('certificates.index');
+//==== Certificates ====//
+Route::get('certificates', 'CertificateController@getCertificates')->name('certificates.index');
+Route::post('certificates/generate', 'CertificateController@generateCertificate')->name('certificates.generate');
+Route::get('certificates/download', ['uses' => 'CertificateController@download', 'as' => 'certificates.download']);
+
 
 
 

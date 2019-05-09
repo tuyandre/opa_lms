@@ -21,18 +21,6 @@ Route::group(['namespace' => 'Frontend', 'as' => 'frontend.'], function () {
 });
 
 
-Route::get('cert', function () {
-    $data = [
-        'name' => 'Hardik Tankariya',
-        'course_name' => 'My dummy course',
-        'date' => '13, Jan 2019',
-    ];
-    $pdf = PDF::loadView('certificate.index', compact('data'))->setPaper('', 'landscape');
-    return $pdf->stream();
-//    return view('certificate.index', compact('data'));
-});
-
-
 /*
  * Backend Routes
  * Namespaces indicate folder structure
@@ -122,6 +110,12 @@ Route::group(['namespace' => 'Backend', 'prefix' => 'admin', 'middleware' => con
     Route::post('save-custom-menu', 'MenuController@saveCustomMenu')->name('hcustomitem');
     Route::post('change-location', 'MenuController@updateLocation')->name('update-location');
 });
+
+Route::get('certificate-verification','Backend\CertificateController@getVerificationForm')->name('frontend.certificates.getVerificationForm');
+Route::post('certificate-verification','Backend\CertificateController@verifyCertificate')->name('frontend.certificates.verify');
+Route::get('certificates/download', ['uses' => 'Backend\CertificateController@download', 'as' => 'certificates.download']);
+
+
 
 Route::group(['namespace' => 'Frontend', 'as' => 'frontend.'], function () {
     Route::get('/{page?}', [HomeController::class, 'index'])->name('index');

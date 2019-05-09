@@ -42,5 +42,9 @@ return array (
     array (
       'sent' => 'Votre message a été envoyé avec succès. Nous répondrons à l\'adresse email que vous nous avez fourni dès que nous le pourrons.',
     ),
+    'course' => 
+    array (
+      'completed' => 'Toutes nos félicitations! Vous avez terminé le cours avec succès. Commander votre certificat dans le tableau de bord',
+    ),
   ),
 );

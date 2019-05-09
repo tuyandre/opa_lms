@@ -517,6 +517,7 @@ return array (
         'stripe' => 'Método de pago a rayas',
         'stripe_note' => 'Permite pagos en sitio con tarjetas de débito / crédito.',
         'title' => 'Configuración de pago',
+        'select_currency' => 'Seleccione el tipo de moneda',
       ),
       'requires_approval' => 'Requiere Aprobación',
       'sections_note' => 'Una vez que haga clic en actualizar, verá la lista de secciones para activar / desactivar.',
@@ -825,6 +826,18 @@ return array (
       'upload' => 'Subir nueva versión <small> (update.zip) </small>',
       'warning' => '<b> ADVERTENCIA: le recomendamos encarecidamente que actualice el tema por el número de versión </b>. <br> <b> Ejemplo: </b> update_v1.zip, update_v2.zip. Por favor, no saltar el número de versión. Si su número de versión es 1 y desea actualizarlo, entonces actualice a la versión 2. No actualice directamente a la versión 3.',
     ),
+    'certificates' => 
+    array (
+      'download' => 'Descargar',
+      'fields' => 
+      array (
+        'action' => 'Acción',
+        'course_name' => 'Nombre del curso',
+        'progress' => 'Progreso',
+      ),
+      'title' => 'Certificados',
+      'view' => 'Ver',
+    ),
   ),
   'frontend' => 
   array (
@@ -1015,6 +1028,8 @@ return array (
       'view_all_news' => 'Ver todas las noticias',
       'your_rating' => 'Tu clasificación',
       'your_test_score' => 'Su puntuación de la prueba',
+      'certified' => 'Estás certificado para este curso',
+      'finish_course' => 'Terminar el curso',
     ),
     'faq' => 
     array (
@@ -1079,6 +1094,7 @@ return array (
         'view_all_popular_courses' => 'Ver todos los cursos populares',
         'view_all_trending_courses' => 'Ver todos los cursos de tendencias',
         'why_choose' => 'Razón por la que elegir',
+        'certificate_verification' => 'Verificación del certificado',
       ),
     ),
     'modal' => 
@@ -1091,11 +1107,20 @@ return array (
       'register_now' => 'Regístrate ahora',
       'registration_message' => 'Registro exitoso. Por favor Iniciar sesión',
     ),
+    'certificate_verification' => 
+    array (
+      'date_on_certificate' => 'Fecha en el certificado. Ex. 2018-11-25',
+      'name_on_certificate' => 'Nombre en el certificado. Ex. Juan',
+      'not_found' => 'Ningún certificado encontrado para la información dada.',
+      'title' => 'Verificación del certificado',
+      'verify_now' => 'verifica ahora',
+    ),
   ),
   'lang' => 
   array (
     'sp' => 'Español',
     'fr' => 'Francés',
     'en' => 'Inglés',
+    'ar' => 'Arábica',
   ),
 );

@@ -95,6 +95,19 @@
                                                             @lang('labels.backend.dashboard.completed')
                                                         </div>
                                                     </div>
+                                                    @if($item->progress() == 100)
+                                                        @if(!$item->isUserCertified())
+                                                            <form method="post" action="{{route('admin.certificates.generate')}}">
+                                                                @csrf
+                                                                <input type="hidden" value="{{$item->id}}" name="course_id">
+                                                                <button class="btn btn-success btn-block text-white mb-3 text-uppercase font-weight-bold" id="finish">@lang('labels.frontend.course.finish_course')</button>
+                                                            </form>
+                                                        @else
+                                                            <div class="alert alert-success px-1 text-center mb-0">
+                                                                @lang('labels.frontend.course.certified')
+                                                            </div>
+                                                        @endif
+                                                    @endif
                                                 </div>
                                             </div>
                                         </div>

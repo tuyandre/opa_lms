@@ -154,5 +154,14 @@ class Course extends Model
         }
     }
 
+    public function isUserCertified(){
+        $status = false;
+        $certified = auth()->user()->certificates()->where('course_id','=',$this->id)->first();
+        if($certified != null){
+            $status= true;
+        }
+        return $status;
+    }
+
 
 }

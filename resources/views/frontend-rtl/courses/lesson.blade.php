@@ -283,6 +283,20 @@
                                       href="{{ route('lessons.show', [$next_lesson->course_id, $next_lesson->model->slug]) }}">@lang('labels.frontend.course.next')
                                         <i class="fa fa-angle-double-right"></i> </a></p>
                             @endif
+                                @if($lesson->course->progress() == 100)
+                                    @if(!$lesson->course->isUserCertified())
+                                        <form method="post" action="{{route('admin.certificates.generate')}}">
+                                            @csrf
+                                            <input type="hidden" value="{{$lesson->course->id}}" name="course_id">
+                                            <button class="btn btn-success btn-block text-white mb-3 text-uppercase font-weight-bold"
+                                                    id="finish">@lang('labels.frontend.course.finish_course')</button>
+                                        </form>
+                                    @else
+                                        <div class="alert alert-success">
+                                            @lang('labels.frontend.course.certified')
+                                        </div>
+                                    @endif
+                                @endif
 
 
                             <span class="float-none">@lang('labels.frontend.course.course_timeline')</span>

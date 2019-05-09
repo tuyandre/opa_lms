@@ -152,6 +152,10 @@ return array (
       'email_body_title' => 'Vous avez une nouvelle prise de contact dont voici les détails :',
       'subject' => 'Nouvelle soumission du formulaire de contact sur :app_name !',
     ),
+    'offline_order' => 
+    array (
+      'subject' => 'Concernant votre commande récente sur :app_name',
+    ),
   ),
   'frontend' => 
   array (
