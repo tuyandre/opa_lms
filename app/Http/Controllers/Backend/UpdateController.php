@@ -48,6 +48,8 @@ class UpdateController extends Controller
         } else {
             \Zipper::make(public_path() . '/updates/' . $file_name)->extractTo(base_path());
             unlink(public_path() . '/updates/' . $file_name);
+            shell_exec('cd '.base_path().' | composer install');
+
 
             return redirect(route('admin.update-theme'))->withFlashSuccess(__('alerts.backend.general.updated'));
         }
