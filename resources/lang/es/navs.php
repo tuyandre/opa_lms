@@ -6,6 +6,10 @@ return array (
     'home' => 'Inicio',
     'logout' => 'Cerrar Sesión',
     'login' => 'iniciar sesión',
+    'account' => 'Cuenta',
+    'messages' => 'Mensajes',
+    'no_messages' => 'Ningún mensaje',
+    'profile' => 'Perfil',
   ),
   'frontend' => 
   array (

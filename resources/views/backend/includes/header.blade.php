@@ -47,10 +47,10 @@
             </a>
             <div class="dropdown-menu dropdown-menu-right">
                 <div class="dropdown-header text-center">
-                    <strong>Messages</strong>
+                    <strong>@lang('navs.general.messages')</strong>
                 </div>
                 <div class="unreadMessages">
-                   <p class="mb-0 text-center py-2">No Messages</p>
+                   <p class="mb-0 text-center py-2">@lang('navs.general.no_messages')</p>
                 </div>
 
 
@@ -65,16 +65,16 @@
           </a>
           <div class="dropdown-menu dropdown-menu-right">
             <div class="dropdown-header text-center">
-              <strong>Account</strong>
+              <strong>@lang('navs.general.account')</strong>
             </div>
 
             <a class="dropdown-item" href="{{route('admin.messages')}}">
-              <i class="fa fa-envelope"></i> Messages
+              <i class="fa fa-envelope"></i> @lang('navs.general.messages')
               <span class="badge unreadMessageCounter d-none badge-success">5</span>
             </a>
 
             <a class="dropdown-item" href="{{ route('admin.account') }}">
-              <i class="fa fa-user"></i> Profile
+              <i class="fa fa-user"></i> @lang('navs.general.profile')
             </a>
 
             <div class="divider"></div>

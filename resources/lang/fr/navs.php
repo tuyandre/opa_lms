@@ -6,6 +6,10 @@ return array (
     'home' => 'Accueil',
     'logout' => 'Déconnexion',
     'login' => 's\'identifier',
+    'account' => 'Compte',
+    'messages' => 'messages',
+    'no_messages' => 'Pas de messages',
+    'profile' => 'Profil',
   ),
   'frontend' => 
   array (
