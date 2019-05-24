@@ -26,8 +26,7 @@ return [
     | or any other location as required by the application or its packages.
     |
     */
-    'version' => '2.0',
-
+    'version' => '2.0.1',
 
 
     /*
@@ -217,15 +216,12 @@ return [
         Harimayco\Menu\MenuServiceProvider::class,
 
 
-
         Barryvdh\TranslationManager\ManagerServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
 
         Maatwebsite\Excel\ExcelServiceProvider::class,
         Chumper\Zipper\ZipperServiceProvider::class,
         BC\Laravel\DropboxDriver\ServiceProvider::class,
-
-
 
 
         /*
@@ -366,8 +362,7 @@ return [
     | Contact Data
     |--------------------------------------------------------------------------
     */
-     'contact_data' => '{[]}',
-
+    'contact_data' => '{[]}',
 
 
 ];

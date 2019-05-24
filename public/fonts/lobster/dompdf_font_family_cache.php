@@ -80,4 +80,7 @@
   'lobster two' => array(
     'normal' => $fontDir . '/d74bce80a4578c4055fc3abb06f1a5a8',
   ),
+  'amiri' => array(
+    'normal' => $fontDir . '/7065ab98453d16d0654b4a71c0981392',
+  ),
 ) ?>

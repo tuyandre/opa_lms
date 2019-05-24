@@ -7,6 +7,8 @@
             display: inline-block !important;
         }
     </style>
+    <script src='https://js.stripe.com/v2/' type='text/javascript'></script>
+
 @endpush
 <!-- TODO:: Checkout payment for Whole cart vs Buy Now and Set Payments APIS via backend--->
 @section('content')
@@ -100,7 +102,7 @@
                             </div>
                         </div>
                         @if(count($courses) > 0)
-                            @if((config('services.stripe.active') == 0) && (config('services.stripe.active') == 0) && (config('payment_offline_active') == 0))
+                            @if((config('services.stripe.active') == 0) && (config('paypal.active') == 0) && (config('payment_offline_active') == 0))
                                 <div class="order-payment">
                                     <div class="section-title-2  headline text-left">
                                 <h2>@lang('labels.frontend.cart.no_payment_method')</h2>
@@ -139,7 +141,7 @@
 
                                                 <div class="check-out-form collapse show" id="collapsePaymentOne"
                                                      data-parent="#accordion">
-                                                    <script src='https://js.stripe.com/v2/' type='text/javascript'></script>
+
 
                                                     <form accept-charset="UTF-8" action="{{route('cart.stripe.payment')}}"
                                                           class="require-validation" data-cc-on-file="false"
@@ -343,7 +345,9 @@
 @endsection
 
 @push('after-scripts')
-    <script type="text/javascript" src="{{asset('js/stripe-form.js')}}"></script>
+    @if(config('services.stripe.active') == 1)
+        <script type="text/javascript" src="{{asset('js/stripe-form.js')}}"></script>
+    @endif
     <script>
         $(document).ready(function () {
             $(document).on('click', 'input[type="radio"]:checked', function () {
