@@ -1,11 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
     <title>Neon LMS : Certificate of Completion</title>
+
     {{--<link href="https://fonts.googleapis.com/css?family=Dancing+Script:400,700" rel="stylesheet">--}}
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link href="https://fonts.googleapis.com/css?family=Lobster+Two:400,700" rel="stylesheet">
+
+
 
     <style>
         @font-face {
@@ -14,9 +18,10 @@
             url({{public_path('/fonts/lobster/LobsterTwo-BoldItalic.ttf')}}) format('truetype'),
             url({{public_path('/fonts/lobster/LobsterTwo-Italic.ttf')}}) format('truetype'),
             url({{public_path('/fonts/lobster/LobsterTwo-Regular.ttf')}}) format('truetype'),
+
         }
 
-        body, h1, h2, h3, h4, p, span, div {
+        body, h1, h2, h3, h4, span, div {
             /*font-family: 'Dancing Script', cursive;*/
             font-family: 'Lobster Two', cursive;
 
@@ -25,6 +30,7 @@
         body {
             margin: 0px;
             color: #37231a;
+
         }
 
         .main-border {
@@ -112,9 +118,9 @@
         <img class="logo" src="{{public_path('storage/logos/logo-black-text.png')}}">
 
         <div class="col-12 text-block align-self-center">
-            <p class="text-center mb-0">This is to certify that <span class="font-weight-bold">{{$data['name']}}</span>
+            <p class="text-center mb-0">This is to certify that <span class="font-weight-bold" style="font-family: DejaVu Sans;">{{$data['name']}}</span>
             </p>
-            <p> successfully completed <span class="font-weight-bold">{{$data['course_name']}}</span>
+            <p> successfully completed <span class="font-weight-bold" style="font-family: DejaVu Sans;">{{$data['course_name']}}</span>
             </p>
             <p>on {{config('app.name')}} online course on <span class="font-weight-bold">{{$data['date']}}</span></p>
         </div>
