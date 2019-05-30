@@ -40,6 +40,16 @@ Route::delete('courses_perma_del/{id}', ['uses' => 'Admin\CoursesController@perm
 Route::post('save-sequence', ['uses' => 'Admin\CoursesController@saveSequence', 'as' => 'courses.saveSequence']);
 
 
+
+//===== Bundles Routes =====//
+Route::resource('bundles', 'Admin\BundlesController');
+Route::get('get-bundles-data', ['uses' => 'Admin\BundlesController@getData', 'as' => 'bundles.get_data']);
+Route::post('bundles_mass_destroy', ['uses' => 'Admin\BundlesController@massDestroy', 'as' => 'bundles.mass_destroy']);
+Route::post('bundles_restore/{id}', ['uses' => 'Admin\BundlesController@restore', 'as' => 'bundles.restore']);
+Route::delete('bundles_perma_del/{id}', ['uses' => 'Admin\BundlesController@perma_del', 'as' => 'bundles.perma_del']);
+Route::post('save-sequence', ['uses' => 'Admin\BundlesController@saveSequence', 'as' => 'bundles.saveSequence']);
+
+
 //===== Lessons Routes =====//
 Route::resource('lessons', 'Admin\LessonsController');
 Route::get('get-lessons-data', ['uses' => 'Admin\LessonsController@getData', 'as' => 'lessons.get_data']);
