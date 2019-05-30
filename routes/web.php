@@ -11,7 +11,6 @@ use App\Http\Controllers\Frontend\HomeController;
 // Switch between the included languages
 Route::get('lang/{lang}', [LanguageController::class, 'swap']);
 
-
 /*
  * Frontend Routes
  * Namespaces indicate folder structure
@@ -60,10 +59,12 @@ Route::post('courses/review/{id}/edit', ['uses' => 'CoursesController@updateRevi
 Route::get('courses/review/{id}/delete', ['uses' => 'CoursesController@deleteReview', 'as' => 'courses.review.delete']);
 
 
-Route::get('lesson/{course_id}/{slug}/', ['uses' => 'LessonsController@show', 'as' => 'lessons.show']);
-Route::post('lesson/{slug}/test', ['uses' => 'LessonsController@test', 'as' => 'lessons.test']);
-Route::post('lesson/{slug}/retest', ['uses' => 'LessonsController@retest', 'as' => 'lessons.retest']);
-Route::post('video/progress', 'LessonsController@videoProgress')->name('update.videos.progress');
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('lesson/{course_id}/{slug}/', ['uses' => 'LessonsController@show', 'as' => 'lessons.show']);
+    Route::post('lesson/{slug}/test', ['uses' => 'LessonsController@test', 'as' => 'lessons.test']);
+    Route::post('lesson/{slug}/retest', ['uses' => 'LessonsController@retest', 'as' => 'lessons.retest']);
+    Route::post('video/progress', 'LessonsController@videoProgress')->name('update.videos.progress');
+});
 
 Route::get('/search', [HomeController::class, 'searchCourse'])->name('search');
 Route::get('/search-blog', [HomeController::class, 'searchBlog'])->name('blogs.search');

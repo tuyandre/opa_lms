@@ -25,7 +25,7 @@ trait FileUploadTrait
             if ($request->hasFile($key)) {
                 if ($request->has($key . '_max_width') && $request->has($key . '_max_height')) {
                     // Check file width
-                    $filename = time() . '-' . $request->file($key)->getClientOriginalName();
+                    $filename = time() . '-' . str_slug($request->file($key)->getClientOriginalName());
                     $file = $request->file($key);
                     $image = Image::make($file);
                     if (!file_exists(public_path('storage/uploads/thumb'))) {
@@ -52,7 +52,7 @@ trait FileUploadTrait
                     $finalRequest = new Request(array_merge($finalRequest->all(), [$key => $filename]));
                 } else {
 
-                    $filename = time() . '-' . $request->file($key)->getClientOriginalName();
+                    $filename = time() . '-' . str_slug($request->file($key)->getClientOriginalName());
                     $request->file($key)->move(public_path('storage/uploads'), $filename);
                     $finalRequest = new Request(array_merge($finalRequest->all(), [$key => $filename]));
                 }
@@ -77,7 +77,7 @@ trait FileUploadTrait
 
                 if ($key == $downloadable_file_input) {
                     foreach ($request->file($key) as $item) {
-                        $filename = time() . '-' . $item->getClientOriginalName();
+                        $filename = time() . '-' . str_slug($item->getClientOriginalName());
                         $size = $item->getSize() / 1024;
                         $item->move(public_path('storage/uploads'), $filename);
                         Media::create([
@@ -97,7 +97,7 @@ trait FileUploadTrait
                         if($key == 'add_pdf'){
                             $file = $request->file($key);
 
-                            $filename = time() . '-' . $file->getClientOriginalName();
+                            $filename = time() . '-' . str_slug($file->getClientOriginalName());
                             $size = $file->getSize() / 1024;
                             $file->move(public_path('storage/uploads'), $filename);
                             Media::create([
@@ -112,7 +112,7 @@ trait FileUploadTrait
                         }elseif($key == 'add_audio'){
                             $file = $request->file($key);
 
-                            $filename = time() . '-' . $file->getClientOriginalName();
+                            $filename = time() . '-' . str_slug($file->getClientOriginalName());
                             $size = $file->getSize() / 1024;
                             $file->move(public_path('storage/uploads'), $filename);
                             Media::create([
@@ -126,7 +126,7 @@ trait FileUploadTrait
                             ]);
                             $finalRequest = new Request(array_merge($finalRequest->all(), [$key => $filename]));
                         } else{
-                            $filename = time() . '-' . $request->file($key)->getClientOriginalName();
+                            $filename = time() . '-' . str_slug($request->file($key)->getClientOriginalName());
                             $request->file($key)->move(public_path('storage/uploads'), $filename);
                             $finalRequest = new Request(array_merge($finalRequest->all(), [$key => $filename]));
                             $model->lesson_image = $filename;
@@ -149,7 +149,7 @@ trait FileUploadTrait
 
         foreach ($request->all() as $key => $value) {
             if ($request->hasFile($key)) {
-                    $filename = time() . '-' . $request->file($key)->getClientOriginalName();
+                    $filename = time() . '-' . str_slug($request->file($key)->getClientOriginalName());
                     $request->file($key)->move(public_path('storage/logos'), $filename);
                     $finalRequest = new Request(array_merge($finalRequest->all(), [$key => $filename]));
 
