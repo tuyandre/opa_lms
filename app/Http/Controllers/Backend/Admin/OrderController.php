@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Backend\Admin;
 
+use App\Models\Bundle;
+use App\Models\Course;
 use App\Models\Order;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -66,7 +68,7 @@ class OrderController extends Controller
                 $items = "";
                 foreach ($q->items as $key => $item) {
                     $key++;
-                    $items .= "<a class='text-decoration-none' target='_blank' href='" . route('admin.courses.show', $item->course_id) . "'> " . $key . '. ' . $item->course->title . "</a><br>";
+                    $items .= w $key . '. ' . $item->item->title . "<br>";
                 }
                 return $items;
             })
@@ -108,8 +110,14 @@ class OrderController extends Controller
         //Generating Invoice
         generateInvoice($order);
 
-        foreach ($order->items as $item) {
-            $item->course->students()->attach($order->user_id);
+        foreach ($order->items as $orderItem) {
+            //Bundle Entries
+            if($orderItem->item_type == Bundle::class){
+               foreach ($orderItem->item->courses as $course){
+                   $course->students()->attach($order->user_id);
+               }
+            }
+            $orderItem->item->students()->attach($order->user_id);
         }
         return back()->withFlashSuccess(trans('alerts.backend.general.updated'));
     }

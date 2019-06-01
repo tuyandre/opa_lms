@@ -71,7 +71,6 @@ class LoginController extends Controller
         if($validator->passes()){
             $credentials = $request->only($this->username(), 'password');
             $authSuccess = \Illuminate\Support\Facades\Auth::attempt($credentials, $request->has('remember'));
-
             if($authSuccess) {
                 $request->session()->regenerate();
                 if(auth()->user()->active > 0){
@@ -88,6 +87,12 @@ class LoginController extends Controller
                             'message' => 'Login failed. Account is not active'
                         ], Response::HTTP_FORBIDDEN);
                 }
+            }else{
+                return
+                    response([
+                        'success' => false,
+                        'message' => 'Login failed. Account not found'
+                    ], Response::HTTP_FORBIDDEN);
             }
 
         }

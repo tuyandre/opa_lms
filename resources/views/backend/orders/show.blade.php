@@ -40,7 +40,7 @@
                             <td>
                                 @foreach($order->items as $key=>$item)
                                     @php $key++ @endphp
-                                    <a class="text-decoration-none" target="_blank" href="{{route('admin.courses.show',$item->course_id)}}">{{$key.'. '.$item->course->title}}</a><br>
+                                    {{$key.'. '.$item->item->title}}<br>
                                 @endforeach
                             </td>
                         </tr>

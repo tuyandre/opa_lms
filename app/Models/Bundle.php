@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Auth\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -18,6 +19,10 @@ class Bundle extends Model
         return $this->belongsToMany(Course::class, 'bundle_courses');
     }
 
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
+
     public function scopeOfAuthor($query)
     {
         if (!\Auth::user()->isAdmin()) {
@@ -30,5 +35,23 @@ class Bundle extends Model
     {
         return $this->belongsTo(Category::class);
     }
+
+    public function students()
+    {
+        return $this->belongsToMany(User::class, 'bundle_student')->withTimestamps()->withPivot(['rating']);
+    }
+
+
+    public function reviews()
+    {
+        return $this->morphMany('App\Models\Review', 'reviewable');
+    }
+
+
+    public function item()
+    {
+        return $this->morphMany(OrderItem::class,'item');
+    }
+
 
 }

@@ -49,8 +49,8 @@
 
                                     <thead>
                                     <tr class="list-head text-uppercase">
-                                        <th>@lang('labels.frontend.cart.course_name')</th>
-                                        <th>@lang('labels.frontend.cart.course_type')</th>
+                                        <th>@lang('labels.frontend.cart.product_name')</th>
+                                        <th>@lang('labels.frontend.cart.product_type')</th>
                                         <th>@lang('labels.frontend.cart.starts')</th>
                                     </tr>
                                     </thead>
@@ -72,6 +72,7 @@
                                                             <div class="course-meta">
                                                                 <span class="course-category bold-font"><a
                                                                             href="#">{{$appCurrency['symbol'].' '.$course->price}}</a></span>
+                                                                <span class="bold-font">{{$course->category->name}}</span>
                                                                 <div class="course-rate ul-li">
                                                                     <ul>
                                                                         @for($i=1; $i<=(int)$course->rating; $i++)
@@ -85,7 +86,7 @@
                                                 </td>
                                                 <td>
                                                     <div class="course-type-list">
-                                                        <span>{{$course->category->name}}</span>
+                                                        <span>{{class_basename($course)}}</span>
                                                     </div>
                                                 </td>
                                                 <td>{{($course->start_date != "") ? $course->start_date : 'N/A'}}</td>

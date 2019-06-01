@@ -19,7 +19,7 @@ class CreateBundlesTable extends Migration
             Schema::create('bundles', function (Blueprint $table) {
                 $table->increments('id');
                 $table->integer('category_id')->nullable();
-                $table->integer('user_id')->unsigned();
+                $table->integer('user_id')->unsigned()->nullable();
                 $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->nullable();
                 $table->string('title');
                 $table->string('slug')->nullable();

@@ -2,14 +2,18 @@
 
 namespace App\Models\Auth;
 
+use App\Models\Bundle;
 use App\Models\Certificate;
 use App\Models\ChapterStudent;
 use App\Models\Course;
 use App\Models\Invoice;
 use App\Models\Lesson;
 use App\Models\Media;
+use App\Models\Order;
+use App\Models\OrderItem;
 use App\Models\Traits\Uuid;
 use App\Models\VideoProgress;
+use Illuminate\Support\Collection;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
 use App\Models\Auth\Traits\Scope\UserScope;
@@ -135,6 +139,47 @@ class User extends Authenticatable implements MessageableInterface
     //Get Certificates
     public function certificates(){
         return $this->hasMany(Certificate::class);
+    }
+
+
+    public function purchasedCourses(){
+        $orders = Order::where('status','=',1)
+            ->where('user_id','=',$this->id)
+            ->pluck('id');
+        $courses_id = OrderItem::whereIn('order_id',$orders)
+            ->where('item_type','=',"App\Models\Course")
+            ->pluck('item_id');
+        $courses = Course::where('published','=',1)
+            ->whereIn('id',$courses_id)
+            ->get();
+        return $courses;
+    }
+
+    public function purchasedBundles(){
+        $orders = Order::where('status','=',1)
+            ->where('user_id','=',$this->id)
+            ->pluck('id');
+        $bundles_id = OrderItem::whereIn('order_id',$orders)
+            ->where('item_type','=',"App\Models\Bundle")
+            ->pluck('item_id');
+        $bundles = Bundle::where('published','=',1)
+            ->whereIn('id',$bundles_id)
+            ->get();
+
+        return $bundles;
+    }
+
+
+    public function purchases(){
+        $orders = Order::where('status','=',1)
+            ->where('user_id','=',$this->id)
+            ->pluck('id');
+        $courses_id = OrderItem::whereIn('order_id',$orders)
+            ->pluck('item_id');
+        $purchases = Course::where('published','=',1)
+            ->whereIn('id',$courses_id)
+            ->get();
+        return $purchases;
     }
 
 }

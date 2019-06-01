@@ -163,6 +163,11 @@ class Course extends Model
         return $status;
     }
 
+    public function item()
+    {
+        return $this->morphMany(OrderItem::class,'item');
+    }
+
 
 
 

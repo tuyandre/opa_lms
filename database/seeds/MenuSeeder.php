@@ -21,6 +21,10 @@ class MenuSeeder extends Seeder
                 'name' => 'Courses'
             ],
             [
+                'url' => route('bundles.all'),
+                'name' => 'Bundles'
+            ],
+            [
                 'url' => asset('forums'),
                 'name' => 'Forums'
             ],

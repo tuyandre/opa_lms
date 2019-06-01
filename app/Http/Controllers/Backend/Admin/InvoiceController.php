@@ -17,7 +17,7 @@ class InvoiceController extends Controller
      */
     public function getIndex(){
 
-        $invoices = auth()->user()->invoices;
+        $invoices = auth()->user()->invoices()->whereHas('order')->get();
         return view('backend.invoices.index',compact('invoices'));
     }
 

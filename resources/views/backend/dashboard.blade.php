@@ -50,6 +50,7 @@
                         @if(auth()->user()->hasRole('student'))
                             @if(count($purchased_courses) > 0)
                                 @foreach($purchased_courses as $item)
+
                                     <div class="col-md-3">
                                         <div class="best-course-pic-text position-relative border">
                                             <div class="best-course-pic position-relative overflow-hidden"
@@ -97,10 +98,13 @@
                                                     </div>
                                                     @if($item->progress() == 100)
                                                         @if(!$item->isUserCertified())
-                                                            <form method="post" action="{{route('admin.certificates.generate')}}">
+                                                            <form method="post"
+                                                                  action="{{route('admin.certificates.generate')}}">
                                                                 @csrf
-                                                                <input type="hidden" value="{{$item->id}}" name="course_id">
-                                                                <button class="btn btn-success btn-block text-white mb-3 text-uppercase font-weight-bold" id="finish">@lang('labels.frontend.course.finish_course')</button>
+                                                                <input type="hidden" value="{{$item->id}}"
+                                                                       name="course_id">
+                                                                <button class="btn btn-success btn-block text-white mb-3 text-uppercase font-weight-bold"
+                                                                        id="finish">@lang('labels.frontend.course.finish_course')</button>
                                                             </form>
                                                         @else
                                                             <div class="alert alert-success px-1 text-center mb-0">
@@ -120,6 +124,89 @@
                                        href="{{route('courses.all')}}">@lang('labels.backend.dashboard.buy_course_now')
                                         <i
                                                 class="fa fa-arrow-right"></i></a>
+                                </div>
+                            @endif
+                            @if(count($purchased_bundles) > 0)
+
+                                <div class="col-12 mt-5">
+
+
+                                <h4>My Bundles</h4>
+                                </div>
+                                @foreach($purchased_bundles as $key=>$bundle)
+                                    @php $key++ @endphp
+                                         <div class="col-12">   <h5><a href="{{route('bundles.show',['slug'=>$bundle->slug ])}}">
+                                                     {{$key.'. '.$bundle->title}}</a></h5></div>
+                                    @if(count($bundle->courses) > 0)
+                                        @foreach($bundle->courses as $item)
+                                            <div class="col-md-3">
+                                                <div class="best-course-pic-text position-relative border">
+                                                    <div class="best-course-pic position-relative overflow-hidden"
+                                                         @if($item->course_image != "") style="background-image: url({{asset('storage/uploads/'.$item->course_image)}})" @endif>
+
+                                                        @if($item->trending == 1)
+                                                            <div class="trend-badge-2 text-center text-uppercase">
+                                                                <i class="fas fa-bolt"></i>
+                                                                <span>@lang('labels.backend.dashboard.trending') </span>
+                                                            </div>
+                                                        @endif
+
+                                                        <div class="course-rate ul-li">
+                                                            <ul>
+                                                                @for($i=1; $i<=(int)$item->rating; $i++)
+                                                                    <li><i class="fas fa-star"></i></li>
+                                                                @endfor
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                    <div class="best-course-text d-inline-block w-100 p-2">
+                                                        <div class="course-title mb20 headline relative-position">
+                                                            <h5>
+                                                                <a href="{{ route('courses.show', [$item->slug]) }}">{{$item->title}}</a>
+                                                            </h5>
+                                                        </div>
+                                                        <div class="course-meta d-inline-block w-100 ">
+                                                            <div class="d-inline-block w-100 0 mt-2">
+                                                     <span class="course-category float-left">
+                                                <a href="{{route('courses.category',['category'=>$item->category->slug])}}"
+                                                   class="bg-success text-decoration-none px-2 p-1">{{$item->category->name}}</a>
+                                            </span>
+                                                                <span class="course-author float-right">
+                                                 {{ $item->students()->count() }}
+                                                                    @lang('labels.backend.dashboard.students')
+                                            </span>
+                                                            </div>
+
+                                                            <div class="progress my-2">
+                                                                <div class="progress-bar"
+                                                                     style="width:{{$item->progress() }}%">{{ $item->progress()  }}
+                                                                    %
+                                                                    @lang('labels.backend.dashboard.completed')
+                                                                </div>
+                                                            </div>
+                                                            @if($item->progress() == 100)
+                                                                @if(!$item->isUserCertified())
+                                                                    <form method="post"
+                                                                          action="{{route('admin.certificates.generate')}}">
+                                                                        @csrf
+                                                                        <input type="hidden" value="{{$item->id}}"
+                                                                               name="course_id">
+                                                                        <button class="btn btn-success btn-block text-white mb-3 text-uppercase font-weight-bold"
+                                                                                id="finish">@lang('labels.frontend.course.finish_course')</button>
+                                                                    </form>
+                                                                @else
+                                                                    <div class="alert alert-success px-1 text-center mb-0">
+                                                                        @lang('labels.frontend.course.certified')
+                                                                    </div>
+                                                                @endif
+                                                            @endif
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    @endif
+                                @endforeach
                                 </div>
                             @endif
                         @elseif(auth()->user()->hasRole('teacher'))

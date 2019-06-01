@@ -16,7 +16,7 @@
 
                 </div><!--card-header-->
                 <div class="card-body">
-                    <h4>>@lang('labels.backend.update.file_replaced')</h4>
+                    <h4>@lang('labels.backend.update.file_replaced')</h4>
                     <ul>
                         @foreach($files as $file)
                             <li>{{$file}}</li>

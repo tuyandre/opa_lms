@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Auth\User;
+use App\Models\Bundle;
 use App\Models\Contact;
 use App\Models\Course;
 use App\Models\Order;
+use App\Models\OrderItem;
 use App\Models\Review;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -28,13 +30,12 @@ class DashboardController extends Controller
         $courses_count = NULL;
         $recent_orders = NULL;
         $recent_contacts = NULL;
+        $purchased_bundles = NULL;
         if (\Auth::check()) {
-            $purchased_courses = Course::whereHas('students', function($query) {
-                $query->where('id', \Auth::id());
-            })
-                ->with('lessons')
-                ->orderBy('id', 'desc')
-                ->get();
+
+            $purchased_courses = auth()->user()->purchasedCourses();
+            $purchased_bundles = auth()->user()->purchasedBundles();
+
             if(auth()->user()->hasRole('teacher')){
                 //IF logged in user is teacher
                 $students_count = Course::whereHas('teachers', function ($query) {
@@ -76,6 +77,6 @@ class DashboardController extends Controller
             }
         }
 
-        return view('backend.dashboard',compact('purchased_courses','students_count','recent_reviews','threads','teachers_count','courses_count','recent_orders','recent_contacts'));
+        return view('backend.dashboard',compact('purchased_courses','students_count','recent_reviews','threads','purchased_bundles','teachers_count','courses_count','recent_orders','recent_contacts'));
     }
 }

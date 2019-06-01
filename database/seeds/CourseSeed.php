@@ -82,20 +82,15 @@ class CourseSeed extends Seeder
             $order->save();
 
             $order->items()->create([
-                'course_id' => $course->id,
+                'item_id' => $course->id,
+                'item_type' => get_class($course),
                 'price' => $course->price
             ]);
             generateInvoice($order);
 
-            foreach ($order->items as $item) {
-                $item->course->students()->attach(3);
-
+            foreach ($order->items as $orderItem) {
+                $orderItem->item->students()->attach(3);
             }
-
         }
-
-
     }
-
-
 }

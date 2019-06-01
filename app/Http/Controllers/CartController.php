@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Mail\OfflineOrderMail;
+use App\Models\Bundle;
 use App\Models\Course;
 use App\Models\Order;
 use Illuminate\Http\Request;
@@ -60,47 +61,94 @@ class CartController extends Controller
     public function index(Request $request)
     {
         $ids = Cart::session(auth()->user()->id)->getContent()->keys();
-        $courses = Course::find($ids);
-        return view($this->path . '.cart.checkout', compact('courses'));
+        $course_ids = [];
+        $bundle_ids = [];
+        foreach (Cart::session(auth()->user()->id)->getContent() as $item) {
+            if ($item->attributes->type == 'bundle') {
+                $bundle_ids[] = $item->id;
+            } else {
+                $course_ids[] = $item->id;
+            }
+        }
+        $courses = new Collection(Course::find($course_ids));
+        $bundles = Bundle::find($bundle_ids);
+        $courses = $bundles->merge($courses);
+        return view($this->path . '.cart.checkout', compact('courses', 'bundles'));
     }
 
     public function addToCart(Request $request)
     {
-        $course = Course::findOrFail($request->get('course_id'));
-        $teachers = $course->teachers->pluck('id', 'name');
-        $cart_items = Cart::session(auth()->user()->id)->getContent()->keys()->toArray();
-        if (!in_array($course->id, $cart_items)) {
+        $product = "";
+        $teachers = "";
+        $type = "";
+        if ($request->has('course_id')) {
+            $product = Course::findOrFail($request->get('course_id'));
+            $teachers = $product->teachers->pluck('id', 'name');
+            $type = 'course';
 
+        } elseif ($request->has('bundle_id')) {
+            $product = Bundle::findOrFail($request->get('bundle_id'));
+            $teachers = $product->user->name;
+            $type = 'bundle';
+        }
+
+        $cart_items = Cart::session(auth()->user()->id)->getContent()->keys()->toArray();
+        if (!in_array($product->id, $cart_items)) {
             Cart::session(auth()->user()->id)
-                ->add($course->id, $course->title, $course->price, 1,
+                ->add($product->id, $product->title, $product->price, 1,
                     [
                         'user_id' => auth()->user()->id,
-                        'description' => $course->description,
-                        'image' => $course->course_image,
+                        'description' => $product->description,
+                        'image' => $product->course_image,
+                        'type' => $type,
                         'teachers' => $teachers
                     ]);
         }
-        Session::flash('success', 'Course added to cart successfully');
+        Session::flash('success', 'Product added to cart successfully');
         return back();
     }
 
     public function checkout(Request $request)
     {
-        $course = Course::findOrFail($request->get('course_id'));
-        $teachers = $course->teachers->pluck('id', 'name');
+        $product = "";
+        $teachers = "";
+        $type = "";
+        $bundle_ids = [];
+        $course_ids = [];
+        if ($request->has('course_id')) {
+            $product = Course::findOrFail($request->get('course_id'));
+            $teachers = $product->teachers->pluck('id', 'name');
+            $type = 'course';
+
+        } elseif ($request->has('bundle_id')) {
+            $product = Bundle::findOrFail($request->get('bundle_id'));
+            $teachers = $product->user->name;
+            $type = 'bundle';
+        }
+
         $cart_items = Cart::session(auth()->user()->id)->getContent()->keys()->toArray();
-        if (!in_array($course->id, $cart_items)) {
+        if (!in_array($product->id, $cart_items)) {
+
             Cart::session(auth()->user()->id)
-                ->add($course->id, $course->title, $course->price, 1,
+                ->add($product->id, $product->title, $product->price, 1,
                     [
                         'user_id' => auth()->user()->id,
-                        'description' => $course->description,
-                        'image' => $course->course_image,
+                        'description' => $product->description,
+                        'image' => $product->course_image,
+                        'type' => $type,
                         'teachers' => $teachers
                     ]);
-        };
-        $cart_items = Cart::session(auth()->user()->id)->getContent()->keys()->toArray();
-        $courses = Course::findOrFail($cart_items);
+        }
+        foreach (Cart::session(auth()->user()->id)->getContent() as $item) {
+            if ($item->attributes->type == 'bundle') {
+                $bundle_ids[] = $item->id;
+            } else {
+                $course_ids[] = $item->id;
+            }
+        }
+        $courses = new Collection(Course::find($course_ids));
+        $bundles = Bundle::find($bundle_ids);
+        $courses = $bundles->merge($courses);
         return view($this->path . '.cart.checkout', compact('courses', 'total'));
     }
 
@@ -112,7 +160,6 @@ class CartController extends Controller
 
     public function remove(Request $request)
     {
-
         Cart::session(auth()->user()->id)->remove($request->course);
         return redirect(route('cart.index'));
     }
@@ -299,11 +346,16 @@ class CartController extends Controller
         $order->status = 1;
         $order->payment_type = 3;
         $order->save();
-
         //Getting and Adding items
         foreach (Cart::session(auth()->user()->id)->getContent() as $cartItem) {
+            if ($cartItem->attributes->type == 'bundle') {
+                $type = Bundle::class;
+            } else {
+                $type = Course::class;
+            }
             $order->items()->create([
-                'course_id' => $cartItem->id,
+                'item_id' => $cartItem->id,
+                'item_type' => $type,
                 'price' => $cartItem->price
             ]);
         }

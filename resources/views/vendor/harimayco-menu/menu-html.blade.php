@@ -28,7 +28,7 @@ if (config('nav_menu') != 0) {
 										<input type="submit" class="button-secondary" value="Choose">
 									</span>
                                     <span class="add-new-menu-action"> or <a
-                                                href="{{ $currentUrl }}?action=edit&menu=0">>{{ __('strings.backend.menu_manager.create_new') }}</a>. </span>
+                                                href="{{ $currentUrl }}?action=edit&menu=0">{{ __('strings.backend.menu_manager.create_new') }}</a>. </span>
                                 </form>
                             </div>
                             <div id="nav-menus-frame" class="row">
@@ -44,7 +44,7 @@ if (config('nav_menu') != 0) {
                                                 <ul class="outer-border">
                                                     <li class="control-section accordion-section  open add-page"
                                                         id="add-page">
-                                                        <h3 class="accordion-section-title hndle" tabindex="0"> >{{ __('strings.backend.menu_manager.custom_link') }} <span class="screen-reader-text">{{ __('strings.backend.menu_manager.screen_reader_text') }}</span>
+                                                        <h3 class="accordion-section-title hndle" tabindex="0">{{ __('strings.backend.menu_manager.custom_link') }} <span class="screen-reader-text">{{ __('strings.backend.menu_manager.screen_reader_text') }}</span>
                                                         </h3>
                                                         <div class="accordion-section-content ">
                                                             <div class="inside">

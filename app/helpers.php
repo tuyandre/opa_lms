@@ -279,17 +279,17 @@ if (!function_exists('generateInvoice')) {
     function generateInvoice($order)
     {
         $invoice = ConsoleTVs\Invoices\Classes\Invoice::make();
+        $invoice->number($order->id);
         foreach ($order->items as $item) {
-            $title = $item->course->title;
-            $price = $item->course->price;
+            $title = $item->item->title;
+            $price = $item->item->price;
             $qty = 1;
-            $id = 'prod-'.$item->course->id;
+            $id = 'prod-'.$item->item->id;
             $invoice->addItem($title, $price, $qty, $id);
         }
         $user = \App\Models\Auth\User::find($order->user_id);
 
-        $invoice->number($order->id)
-            ->customer([
+        $invoice->customer([
                 'name' => $user->full_name,
                 'id' => $user->id,
                 'email' => $user->email

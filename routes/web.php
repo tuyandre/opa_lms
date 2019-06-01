@@ -48,9 +48,9 @@ Route::get('teachers/{id}/show', 'Frontend\HomeController@showTeacher')->name('t
 
 Route::post('newsletter/subscribe', 'Frontend\HomeController@subscribe')->name('subscribe');
 
+//============Course Routes=================//
 Route::get('courses', ['uses' => 'CoursesController@all', 'as' => 'courses.all']);
 Route::get('course/{slug}', ['uses' => 'CoursesController@show', 'as' => 'courses.show']);
-Route::get('bundle/{slug}', ['uses' => 'BundlesController@show', 'as' => 'bundles.show']);
 //Route::post('course/payment', ['uses' => 'CoursesController@payment', 'as' => 'courses.payment']);
 Route::post('course/{course_id}/rating', ['uses' => 'CoursesController@rating', 'as' => 'courses.rating']);
 Route::get('category/{category}/courses', ['uses' => 'CoursesController@getByCategory', 'as' => 'courses.category']);
@@ -58,6 +58,18 @@ Route::post('courses/{id}/review', ['uses' => 'CoursesController@addReview', 'as
 Route::get('courses/review/{id}/edit', ['uses' => 'CoursesController@editReview', 'as' => 'courses.review.edit']);
 Route::post('courses/review/{id}/edit', ['uses' => 'CoursesController@updateReview', 'as' => 'courses.review.update']);
 Route::get('courses/review/{id}/delete', ['uses' => 'CoursesController@deleteReview', 'as' => 'courses.review.delete']);
+
+
+//============Bundle Routes=================//
+Route::get('bundles', ['uses' => 'BundlesController@all', 'as' => 'bundles.all']);
+Route::get('bundle/{slug}', ['uses' => 'BundlesController@show', 'as' => 'bundles.show']);
+//Route::post('course/payment', ['uses' => 'CoursesController@payment', 'as' => 'courses.payment']);
+Route::post('bundle/{bundle_id}/rating', ['uses' => 'BundlesController@rating', 'as' => 'bundles.rating']);
+Route::get('category/{category}/bundles', ['uses' => 'BundlesController@getByCategory', 'as' => 'bundles.category']);
+Route::post('bundles/{id}/review', ['uses' => 'BundlesController@addReview', 'as' => 'bundles.review']);
+Route::get('bundles/review/{id}/edit', ['uses' => 'BundlesController@editReview', 'as' => 'bundles.review.edit']);
+Route::post('bundles/review/{id}/edit', ['uses' => 'BundlesController@updateReview', 'as' => 'bundles.review.update']);
+Route::get('bundles/review/{id}/delete', ['uses' => 'BundlesController@deleteReview', 'as' => 'bundles.review.delete']);
 
 
 Route::group(['middleware' => 'auth'], function () {

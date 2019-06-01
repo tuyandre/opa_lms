@@ -8,15 +8,9 @@ use App\Models\Category;
 use App\Models\Course;
 use App\Models\Review;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Session;
-use Stripe\Stripe;
-use Stripe\Charge;
-use Stripe\Customer;
-use Cart;
 
-class CoursesController extends Controller
+class BundlesController extends Controller
 {
-
     private $path;
 
     public function __construct()
@@ -37,24 +31,23 @@ class CoursesController extends Controller
     public function all()
     {
         if (request('type') == 'popular') {
-            $courses = Course::withoutGlobalScope('filter')->where('published', 1)->where('popular', '=', 1)->orderBy('id', 'desc')->paginate(9);
+            $bundles = Bundle::withoutGlobalScope('filter')->where('published', 1)->where('popular', '=', 1)->orderBy('id', 'desc')->paginate(9);
 
         } else if (request('type') == 'trending') {
-            $courses = Course::withoutGlobalScope('filter')->where('published', 1)->where('trending', '=', 1)->orderBy('id', 'desc')->paginate(9);
+            $bundles = Bundle::withoutGlobalScope('filter')->where('published', 1)->where('trending', '=', 1)->orderBy('id', 'desc')->paginate(9);
 
         } else if (request('type') == 'featured') {
-            $courses = Course::withoutGlobalScope('filter')->where('published', 1)->where('featured', '=', 1)->orderBy('id', 'desc')->paginate(9);
+            $bundles = Bundle::withoutGlobalScope('filter')->where('published', 1)->where('featured', '=', 1)->orderBy('id', 'desc')->paginate(9);
 
         } else {
-            $courses = Course::withoutGlobalScope('filter')->where('published', 1)->orderBy('id', 'desc')->paginate(9);
+            $bundles = Bundle::withoutGlobalScope('filter')->where('published', 1)->orderBy('id', 'desc')->paginate(9);
         }
-        $purchased_courses = NULL;
         $purchased_bundles = NULL;
         if (\Auth::check()) {
-            $purchased_courses = Course::withoutGlobalScope('filter')->whereHas('students', function ($query) {
+            $purchased_bundles = Bundle::withoutGlobalScope('filter')->whereHas('students', function ($query) {
                 $query->where('id', \Auth::id());
             })
-                ->with('lessons')
+                ->with('courses')
                 ->orderBy('id', 'desc')
                 ->get();
         }
@@ -62,47 +55,34 @@ class CoursesController extends Controller
             ->where('featured', '=', 1)->take(8)->get();
 
         $recent_news = Blog::orderBy('created_at', 'desc')->take(2)->get();
-        return view( $this->path.'.courses.index', compact('courses', 'purchased_courses', 'recent_news','featured_courses'));
+        return view( $this->path.'.bundles.index', compact('bundles', 'purchased_bundles', 'recent_news','featured_courses'));
     }
 
-    public function show($course_slug)
+    public function show($bundle_slug)
     {
         $recent_news = Blog::orderBy('created_at', 'desc')->take(2)->get();
-        $course = Course::withoutGlobalScope('filter')->where('slug', $course_slug)->with('publishedLessons')->firstOrFail();
-        $purchased_course = \Auth::check() && $course->students()->where('user_id', \Auth::id())->count() > 0 ;
-        $course_rating = 0;
+        $bundle = Bundle::withoutGlobalScope('filter')->where('slug', $bundle_slug)->firstOrFail();
+        $purchased_bundle = \Auth::check() && $bundle->students()->where('user_id', \Auth::id())->count() > 0;
+        $bundle_rating = 0;
         $total_ratings = 0;
-        $completed_lessons = "";
         $is_reviewed = false;
-        if(auth()->check() && $course->reviews()->where('user_id','=',auth()->user()->id)->first()){
+        if(auth()->check() && $bundle->reviews()->where('user_id','=',auth()->user()->id)->first()){
             $is_reviewed = true;
         }
-        if ($course->reviews->count() > 0) {
-            $course_rating = $course->reviews->avg('rating');
-            $total_ratings = $course->reviews()->where('rating', '!=', "")->get()->count();
+        if ($bundle->reviews->count() > 0) {
+            $bundle_rating = $bundle->reviews->avg('rating');
+            $total_ratings = $bundle->reviews()->where('rating', '!=', "")->get()->count();
         }
-        $lessons = $course->courseTimeline()->orderby('sequence','asc')->get();
-
-        if (\Auth::check()) {
-
-            $completed_lessons = \Auth::user()->chapters()->where('course_id', $course->id)->get()->pluck('model_id')->toArray();
-            $continue_course  = $course->courseTimeline()->orderby('sequence','asc')->whereNotIn('model_id',$completed_lessons)->first();
-            if($continue_course == ""){
-                $continue_course = $course->courseTimeline()->orderby('sequence','asc')->first();
-            }
-
-        }
+        $courses = $bundle->courses()->orderby('id','asc')->get();
 
 
-
-
-        return view( $this->path.'.courses.course', compact('course', 'purchased_course', 'recent_news', 'course_rating', 'completed_lessons','total_ratings','is_reviewed','lessons','continue_course'));
+        return view( $this->path.'.bundles.show', compact('bundle', 'purchased_bundle', 'recent_news', 'bundle_rating','bundle_rating','courses','total_ratings','is_reviewed'));
     }
 
 
     public function rating($course_id, Request $request)
     {
-        $course = Course::findOrFail($course_id);
+        $course = Bundle::findOrFail($course_id);
         $course->students()->updateExistingPivot(\Auth::id(), ['rating' => $request->get('rating')]);
 
         return redirect()->back()->with('success', 'Thank you for rating.');
