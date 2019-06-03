@@ -36,6 +36,13 @@ class Bundle extends Model
         return $this->belongsTo(Category::class);
     }
 
+    public function getRatingAttribute()
+    {
+        return $this->reviews->avg('rating');
+
+    }
+
+
     public function students()
     {
         return $this->belongsToMany(User::class, 'bundle_student')->withTimestamps()->withPivot(['rating']);

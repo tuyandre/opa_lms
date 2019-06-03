@@ -68,7 +68,7 @@ class OrderController extends Controller
                 $items = "";
                 foreach ($q->items as $key => $item) {
                     $key++;
-                    $items .= w $key . '. ' . $item->item->title . "<br>";
+                    $items .= $key . '. ' . $item->item->title . "<br>";
                 }
                 return $items;
             })

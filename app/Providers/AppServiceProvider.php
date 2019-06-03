@@ -101,17 +101,19 @@ class AppServiceProvider extends ServiceProvider
 
         view()->composer(['frontend.layouts.partials.right-sidebar', 'frontend-rtl.layouts.partials.right-sidebar'], function ($view) {
 
-            $featured_courses = Course::withoutGlobalScope('filter')->where('published', '=', 1)
+            $featured_courses = Course::withoutGlobalScope('filter')->whereHas('category')->where('published', '=', 1)
                 ->where('featured', '=', 1)->first();
 
-            $recent_news = Blog::orderBy('created_at', 'desc')->take(2)->get();
+            $recent_news = Blog::orderBy('created_at', 'desc')->whereHas('category')->take(2)->get();
 
             $view->with(compact('recent_news'));
         });
 
         view()->composer(['frontend.*', 'frontend-rtl.*'], function ($view) {
 
-            $global_featured_course = Course::withoutGlobalScope('filter')->where('published', '=', 1)
+            $global_featured_course = Course::withoutGlobalScope('filter')
+                ->whereHas('category')
+                ->where('published', '=', 1)
                 ->where('featured', '=', 1)->where('trending', '=', 1)->first();
 
 

@@ -1,4 +1,4 @@
- <section id="contact-area" class="contact-area-section backgroud-style">
+<section id="contact-area" class="contact-area-section backgroud-style">
     <div class="container">
         <div class="contact-area-content">
             <div class="row">
@@ -17,68 +17,76 @@
                             </div>
 
                             <div class="contact-address">
-                                <div class="contact-address-details">
-                                    <div class="address-icon relative-position text-center float-left">
-                                        <i class="fas fa-map-marker-alt"></i>
-                                    </div>
-                                    <div class="address-details ul-li-block">
-                                        <ul>
-                                            @if($contact_data["primary_address"]["status"] == 1)
-                                                <li>
-                                                    <span>@lang('labels.frontend.layouts.partials.primary'): </span>{{$contact_data["primary_address"]["value"]}}
-                                                </li>
-                                            @endif
+                                @if(($contact_data["primary_address"]["status"] == 1) || ($contact_data["secondary_address"]["status"] == 1))
+                                    <div class="contact-address-details">
 
-                                            @if($contact_data["secondary_address"]["status"] == 1)
-                                                <li>
-                                                    <span>@lang('labels.frontend.layouts.partials.second'): </span>{{$contact_data["secondary_address"]["value"]}}
-                                                </li>
-                                            @endif
-                                        </ul>
-                                    </div>
-                                </div>
+                                        <div class="address-icon relative-position text-center float-left">
+                                            <i class="fas fa-map-marker-alt"></i>
+                                        </div>
+                                        <div class="address-details ul-li-block">
+                                            <ul>
+                                                @if($contact_data["primary_address"]["status"] == 1)
+                                                    <li>
+                                                        <span>@lang('labels.frontend.layouts.partials.primary'): </span>{{$contact_data["primary_address"]["value"]}}
+                                                    </li>
+                                                @endif
 
-                                <div class="contact-address-details">
-                                    <div class="address-icon relative-position text-center float-left">
-                                        <i class="fas fa-phone"></i>
+                                                @if($contact_data["secondary_address"]["status"] == 1)
+                                                    <li>
+                                                        <span>@lang('labels.frontend.layouts.partials.second'): </span>{{$contact_data["secondary_address"]["value"]}}
+                                                    </li>
+                                                @endif
+                                            </ul>
+                                        </div>
                                     </div>
-                                    <div class="address-details ul-li-block">
-                                        <ul>
-                                            @if($contact_data["primary_phone"]["status"] == 1)
-                                                <li>
-                                                    <span>@lang('labels.frontend.layouts.partials.primary'): </span>{{$contact_data["primary_phone"]["value"]}}
-                                                </li>
-                                            @endif
+                                @endif
 
-                                            @if($contact_data["secondary_phone"]["status"] == 1)
-                                                <li>
-                                                    <span>@lang('labels.frontend.layouts.partials.second'): </span>{{$contact_data["secondary_phone"]["value"]}}
-                                                </li>
-                                            @endif
-                                        </ul>
-                                    </div>
-                                </div>
+                                @if(($contact_data["primary_phone"]["status"] == 1) || ($contact_data["secondary_phone"]["status"] == 1))
+                                    <div class="contact-address-details">
+                                        <div class="address-icon relative-position text-center float-left">
+                                            <i class="fas fa-phone"></i>
+                                        </div>
+                                        <div class="address-details ul-li-block">
+                                            <ul>
+                                                @if($contact_data["primary_phone"]["status"] == 1)
+                                                    <li>
+                                                        <span>@lang('labels.frontend.layouts.partials.primary'): </span>{{$contact_data["primary_phone"]["value"]}}
+                                                    </li>
+                                                @endif
 
-                                <div class="contact-address-details">
-                                    <div class="address-icon relative-position text-center float-left">
-                                        <i class="fas fa-envelope"></i>
+                                                @if($contact_data["secondary_phone"]["status"] == 1)
+                                                    <li>
+                                                        <span>@lang('labels.frontend.layouts.partials.second'): </span>{{$contact_data["secondary_phone"]["value"]}}
+                                                    </li>
+                                                @endif
+                                            </ul>
+                                        </div>
                                     </div>
-                                    <div class="address-details ul-li-block">
-                                        <ul>
-                                            @if($contact_data["primary_email"]["status"] == 1)
-                                                <li>
-                                                    <span>@lang('labels.frontend.layouts.partials.primary'): </span>{{$contact_data["primary_email"]["value"]}}
-                                                </li>
-                                            @endif
+                                @endif
 
-                                            @if($contact_data["secondary_email"]["status"] == 1)
-                                                <li>
-                                                    <span>@lang('labels.frontend.layouts.partials.second'): </span>{{$contact_data["secondary_email"]["value"]}}
-                                                </li>
-                                            @endif
-                                        </ul>
+                                @if(($contact_data["primary_email"]["status"] == 1) || ($contact_data["secondary_email"]["status"] == 1))
+
+                                    <div class="contact-address-details">
+                                        <div class="address-icon relative-position text-center float-left">
+                                            <i class="fas fa-envelope"></i>
+                                        </div>
+                                        <div class="address-details ul-li-block">
+                                            <ul>
+                                                @if($contact_data["primary_email"]["status"] == 1)
+                                                    <li>
+                                                        <span>@lang('labels.frontend.layouts.partials.primary'): </span>{{$contact_data["primary_email"]["value"]}}
+                                                    </li>
+                                                @endif
+
+                                                @if($contact_data["secondary_email"]["status"] == 1)
+                                                    <li>
+                                                        <span>@lang('labels.frontend.layouts.partials.second'): </span>{{$contact_data["secondary_email"]["value"]}}
+                                                    </li>
+                                                @endif
+                                            </ul>
+                                        </div>
                                     </div>
-                                </div>
+                                @endif
                             </div>
                         </div>
                         <div class="genius-btn mt60 gradient-bg text-center text-uppercase ul-li-block bold-font ">

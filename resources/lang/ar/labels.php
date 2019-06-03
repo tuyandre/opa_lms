@@ -433,6 +433,8 @@ return array (
       'view' => 'رأي',
       'view_all' => 'عرض الكل',
       'your_courses' => 'الدورات الخاصة بك',
+      'my_course_bundles' => 'حزم دورة بلدي',
+      'my_courses' => 'دوراتي',
     ),
     'general_settings' => 
     array (
@@ -816,6 +818,54 @@ return array (
       'title' => 'شهادات',
       'view' => 'رأي',
     ),
+    'bundles' => 
+    array (
+      'fields' => 
+      array (
+        'slug' => 'سبيكة',
+        'status' => 'الحالة',
+        'category' => 'الفئة',
+        'course' => 'دورة',
+        'course_image' => 'صورة الدورة',
+        'description' => 'وصف',
+        'featured' => 'متميز',
+        'lessons' => 
+        array (
+          'add' => 'أضف دروس',
+          'view' => 'عرض الدروس',
+        ),
+        'meta_description' => 'ميتا الوصف',
+        'meta_keywords' => 'كلمات دلالية',
+        'meta_title' => 'عنوان الفوقية',
+        'popular' => 'جمع',
+        'price' => 'السعر',
+        'published' => 'نشرت',
+        'sidebar' => 'أضف الشريط الجانبي',
+        'start_date' => 'تاريخ البدء',
+        'teachers' => 'معلمون',
+        'title' => 'عنوان',
+        'trending' => 'الشائع',
+        'courses' => 'الدورات',
+      ),
+      'add_categories' => 'إضافة فئات',
+      'add_teachers' => 'إضافة المعلمين',
+      'category' => 'الفئة',
+      'course_timeline' => 'الجدول الزمني للدورة',
+      'create' => 'إنشاء دورة',
+      'edit' => 'تحرير الدورة',
+      'lesson' => 'درس',
+      'listing_note' => 'سيتم عرض وفرز الدروس المنشورة فقط.',
+      'save_timeline' => 'حفظ الجدول الزمني',
+      'select_category' => 'اختر الفئة',
+      'select_teachers' => 'اختر المعلمين',
+      'slug_placeholder' => 'سبيكة الإدخال أو سيتم إنشاؤه تلقائيا',
+      'test' => 'اختبار',
+      'timeline_description' => 'سحب وتغيير تسلسل الدروس / الاختبارات بالطبع',
+      'title' => 'الدورات',
+      'view' => 'عرض الدورات',
+      'add_courses' => 'إضافة الدورات',
+      'select_courses' => 'اختر الدورات',
+    ),
   ),
   'lang' => 
   array (
@@ -924,6 +974,8 @@ return array (
       'your_payment_status' => '<span> حالة الدفع الخاصة بك. </span>',
       'your_shopping_cart' => 'سلة التسوق الخاصة بك',
       'yy' => 'YY',
+      'product_name' => 'اسم المنتج',
+      'product_type' => 'نوع المنتج',
     ),
     'contact' => 
     array (
@@ -996,6 +1048,10 @@ return array (
       'your_test_score' => 'نقاط الاختبار الخاصة بك',
       'certified' => 'أنت معتمد لهذه الدورة',
       'finish_course' => 'الانتهاء من الدورة',
+      'course' => 'دورة',
+      'bundle_detail' => 'حزمة التفاصيل',
+      'bundle_reviews' => 'الحزمة <span> من المراجعات: </span>',
+      'bundles' => 'بال',
     ),
     'faq' => 
     array (

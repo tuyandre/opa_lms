@@ -34,7 +34,7 @@ class FaqController extends Controller
         $has_view = false;
         $has_delete = false;
         $has_edit = false;
-        $faqs = Faq::orderBy('created_at', 'desc')->get();
+        $faqs = Faq::whereHas('category')->orderBy('created_at', 'desc')->get();
 
 
         return DataTables::of($faqs)

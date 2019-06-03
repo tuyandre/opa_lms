@@ -177,11 +177,11 @@
                                                             </div>
                                                             <div class="course-list-text">
                                                                 <h3>
-                                                                    <a href="{{ route('courses.show', [$bundle->slug]) }}">{{$bundle->title}}</a>
+                                                                    <a href="{{ route('bundles.show', [$bundle->slug]) }}">{{$bundle->title}}</a>
                                                                 </h3>
                                                                 <div class="course-meta">
                                                                 <span class="course-category bold-font"><a
-                                                                            href="{{ route('courses.show', [$bundle->slug]) }}">{{$appCurrency['symbol'].' '.$bundle->price}}</a></span>
+                                                                            href="{{ route('bundles.show', [$bundle->slug]) }}">{{$appCurrency['symbol'].' '.$bundle->price}}</a></span>
 
                                                                     <div class="course-rate ul-li">
                                                                         <ul>

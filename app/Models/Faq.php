@@ -8,7 +8,7 @@ class Faq extends Model
 {
     protected  $guarded = [];
 
-    protected function category(){
+    public function category(){
         return $this->belongsTo(Category::class);
     }
 }

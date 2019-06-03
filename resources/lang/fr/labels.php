@@ -347,6 +347,8 @@ return array (
       'view' => 'Vue',
       'view_all' => 'Voir tout',
       'your_courses' => 'Vos cours',
+      'my_course_bundles' => 'Mes cours',
+      'my_courses' => 'Mes cours',
     ),
     'faqs' => 
     array (
@@ -839,6 +841,54 @@ return array (
       'title' => 'Certificats',
       'view' => 'Vue',
     ),
+    'bundles' => 
+    array (
+      'fields' => 
+      array (
+        'slug' => 'Limace',
+        'status' => 'Statut',
+        'category' => 'Catégorie',
+        'course' => 'Cours',
+        'course_image' => 'Image du cours',
+        'description' => 'La description',
+        'featured' => 'En vedette',
+        'lessons' => 
+        array (
+          'add' => 'Ajouter des leçons',
+          'view' => 'Voir les leçons',
+        ),
+        'meta_description' => 'Meta Description',
+        'meta_keywords' => 'Méta Mots-clés',
+        'meta_title' => 'Meta Title',
+        'popular' => 'Populaire',
+        'price' => 'Prix',
+        'published' => 'Publié',
+        'sidebar' => 'Ajouter une barre latérale',
+        'start_date' => 'Date de début',
+        'teachers' => 'Enseignants',
+        'title' => 'Titre',
+        'trending' => 'Tendances',
+        'courses' => 'Cours',
+      ),
+      'add_categories' => 'Ajouter des catégories',
+      'add_teachers' => 'Ajouter des professeurs',
+      'category' => 'Catégorie',
+      'course_timeline' => 'Chronologie du cours',
+      'create' => 'Créer un cours',
+      'edit' => 'Modifier le cours',
+      'lesson' => 'Leçon',
+      'listing_note' => 'Seuls les cours et les tests publiés seront affichés et triés.',
+      'save_timeline' => 'Enregistrer la chronologie',
+      'select_category' => 'Choisir une catégorie',
+      'select_teachers' => 'Sélectionner les enseignants',
+      'slug_placeholder' => 'Slug d\'entrée ou il sera généré automatiquement',
+      'test' => 'Tester',
+      'timeline_description' => 'Faites glisser et modifier la séquence de leçons / tests pour le cours',
+      'title' => 'Cours',
+      'view' => 'Voir les cours',
+      'add_courses' => 'Ajouter des cours',
+      'select_courses' => 'Sélectionnez des cours',
+    ),
   ),
   'frontend' => 
   array (
@@ -973,6 +1023,8 @@ return array (
       'your_payment_status' => 'Votre <span> statut de paiement. </span>',
       'your_shopping_cart' => 'Votre Panier',
       'yy' => 'YY',
+      'product_name' => 'Nom du produit',
+      'product_type' => 'type de produit',
     ),
     'course' => 
     array (
@@ -1031,6 +1083,10 @@ return array (
       'your_test_score' => 'Votre score de test',
       'certified' => 'Vous êtes certifié pour ce cours',
       'finish_course' => 'Cours de finition',
+      'course' => 'Cours',
+      'bundle_detail' => 'Détails du paquet',
+      'bundle_reviews' => 'Offre groupée <span> Commentaires: </span>',
+      'bundles' => 'Liasses',
     ),
     'faq' => 
     array (

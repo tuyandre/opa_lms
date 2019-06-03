@@ -82,8 +82,8 @@ class BundlesController extends Controller
 
     public function rating($course_id, Request $request)
     {
-        $course = Bundle::findOrFail($course_id);
-        $course->students()->updateExistingPivot(\Auth::id(), ['rating' => $request->get('rating')]);
+        $bundle = Bundle::findOrFail($course_id);
+        $bundle->students()->updateExistingPivot(\Auth::id(), ['rating' => $request->get('rating')]);
 
         return redirect()->back()->with('success', 'Thank you for rating.');
     }
@@ -111,7 +111,7 @@ class BundlesController extends Controller
         $review = new Review();
         $review->user_id = auth()->user()->id;
         $review->reviewable_id = $blog->id;
-        $review->reviewable_type = Course::class;
+        $review->reviewable_type = Bundle::class;
         $review->rating = $request->rating;
         $review->content = $request->review;
         $review->save();
@@ -123,27 +123,18 @@ class BundlesController extends Controller
     {
         $review = Review::where('id', '=', $request->id)->where('user_id', '=', auth()->user()->id)->first();
         if ($review) {
-            $course = $review->reviewable;
+            $bundle = $review->reviewable;
             $recent_news = Blog::orderBy('created_at', 'desc')->take(2)->get();
-            $purchased_course = \Auth::check() && $course->students()->where('user_id', \Auth::id())->count() > 0;
-            $course_rating = 0;
+            $purchased_bundle= \Auth::check() && $bundle->students()->where('user_id', \Auth::id())->count() > 0;
+            $bundle_rating = 0;
             $total_ratings = 0;
-            $lessons = $course->courseTimeline()->orderby('sequence','asc')->get();
 
-            if ($course->reviews->count() > 0) {
-                $course_rating = $course->reviews->avg('rating');
-                $total_ratings = $course->reviews()->where('rating', '!=', "")->get()->count();
+            if ($bundle->reviews->count() > 0) {
+                $bundle_rating = $bundle->reviews->avg('rating');
+                $total_ratings = $bundle->reviews()->where('rating', '!=', "")->get()->count();
             }
-            if (\Auth::check()) {
 
-                $completed_lessons = \Auth::user()->chapters()->where('course_id', $course->id)->get()->pluck('model_id')->toArray();
-                $continue_course  = $course->courseTimeline()->orderby('sequence','asc')->whereNotIn('model_id',$completed_lessons)->first();
-                if($continue_course == ""){
-                    $continue_course = $course->courseTimeline()->orderby('sequence','asc')->first();
-                }
-
-            }
-            return view( $this->path.'.courses.course', compact('course', 'purchased_course', 'recent_news','completed_lessons','continue_course', 'course_rating', 'total_ratings','lessons', 'review'));
+            return view( $this->path.'.bundles.show', compact('bundle', 'purchased_bundle', 'recent_news', 'bundle_rating', 'total_ratings', 'review'));
         }
         return abort(404);
 
@@ -158,7 +149,7 @@ class BundlesController extends Controller
             $review->content = $request->review;
             $review->save();
 
-            return redirect()->route('courses.show', ['slug' => $review->reviewable->slug]);
+            return redirect()->route('bundles.show', ['slug' => $review->reviewable->slug]);
         }
         return abort(404);
 
@@ -170,7 +161,7 @@ class BundlesController extends Controller
         if ($review) {
             $slug = $review->reviewable->slug;
             $review->delete();
-            return redirect()->route('courses.show', ['slug' => $slug]);
+            return redirect()->route('bundles.show', ['slug' => $slug]);
         }
         return abort(404);
     }

@@ -170,6 +170,10 @@ return array (
       array (
         'title' => 'شهادات',
       ),
+      'bundles' => 
+      array (
+        'title' => 'بال',
+      ),
     ),
   ),
   'language-picker' => 

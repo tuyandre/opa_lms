@@ -63,82 +63,83 @@
                                     {!! $bundle->description !!}
                                 </p>
                             </div>
-
-                            @if(count($courses)  > 0)
-
-                                <div class="course-details-category ul-li">
-                                    <span class="float-none">@lang('labels.frontend.course.courses')</span>
-                                </div>
-                            @endif
                         </div>
-                        <!-- /course-details -->
 
+                        @if(count($bundle->courses)  > 0)
 
-                        <div class="genius-post-item mb55">
-                            <div class="tab-container">
-                                <div id="tab1" class="tab-content-1 pt35">
-                                    <div class="best-course-area best-course-v2">
-                                        <div class="row">
-                                            @foreach($courses as $course)
+                            <div class="course-details-category ul-li">
+                                <span class="float-none">@lang('labels.frontend.course.courses')</span>
+                            </div>
+                            <div class="genius-post-item mb55">
+                                <div class="tab-container">
+                                    <div id="tab1" class="tab-content-1 pt35">
+                                        <div class="best-course-area best-course-v2">
+                                            <div class="row">
+                                                @foreach($bundle->courses as $course)
 
-                                                <div class="col-md-4">
-                                                    <div class="best-course-pic-text relative-position">
-                                                        <div class="best-course-pic relative-position"
-                                                             @if($course->course_image != "") style="background-image: url('{{asset('storage/uploads/'.$course->course_image)}}')" @endif>
+                                                    <div class="col-md-4">
+                                                        <div class="best-course-pic-text relative-position">
+                                                            <div class="best-course-pic relative-position"
+                                                                 @if($course->course_image != "") style="background-image: url('{{asset('storage/uploads/'.$course->course_image)}}')" @endif>
 
-                                                            @if($course->trending == 1)
-                                                                <div class="trend-badge-2 text-center text-uppercase">
-                                                                    <i class="fas fa-bolt"></i>
-                                                                    <span>@lang('labels.frontend.badges.trending')</span>
+                                                                @if($course->trending == 1)
+                                                                    <div class="trend-badge-2 text-center text-uppercase">
+                                                                        <i class="fas fa-bolt"></i>
+                                                                        <span>@lang('labels.frontend.badges.trending')</span>
+                                                                    </div>
+                                                                @endif
+                                                                <div class="course-price text-center gradient-bg">
+                                                                    <span> {{$appCurrency['symbol'].' '.$course->price}}</span>
                                                                 </div>
-                                                            @endif
-                                                            <div class="course-price text-center gradient-bg">
-                                                                <span> {{$appCurrency['symbol'].' '.$course->price}}</span>
+                                                                <div class="course-rate ul-li">
+                                                                    <ul>
+                                                                        @for($i=1; $i<=(int)$course->rating; $i++)
+                                                                            <li><i class="fas fa-star"></i></li>
+                                                                        @endfor
+                                                                    </ul>
+                                                                </div>
+                                                                <div class="course-details-btn">
+                                                                    <a href="{{ route('courses.show', [$course->slug]) }}">@lang('labels.frontend.course.course_detail')
+                                                                        <i class="fas fa-arrow-right"></i></a>
+                                                                </div>
+                                                                <div class="blakish-overlay"></div>
                                                             </div>
-                                                            <div class="course-rate ul-li">
-                                                                <ul>
-                                                                    @for($i=1; $i<=(int)$course->rating; $i++)
-                                                                        <li><i class="fas fa-star"></i></li>
-                                                                    @endfor
-                                                                </ul>
-                                                            </div>
-                                                            <div class="course-details-btn">
-                                                                <a href="{{ route('bundles.show', [$course->slug]) }}">@lang('labels.frontend.course.bundle_detail')
-                                                                    <i class="fas fa-arrow-right"></i></a>
-                                                            </div>
-                                                            <div class="blakish-overlay"></div>
-                                                        </div>
-                                                        <div class="best-course-text">
-                                                            <div class="course-title mb20 headline relative-position">
-                                                                <h3>
-                                                                    <a href="{{ route('courses.show', [$course->slug]) }}">{{$course->title}}</a>
-                                                                </h3>
-                                                            </div>
-                                                            <div class="course-meta">
+                                                            <div class="best-course-text">
+                                                                <div class="course-title mb20 headline relative-position">
+                                                                    <h3>
+                                                                        <a href="{{ route('courses.show', [$course->slug]) }}">{{$course->title}}</a>
+                                                                    </h3>
+                                                                </div>
+                                                                <div class="course-meta">
                                                             <span class="course-category"><a
                                                                         href="{{route('courses.category',['category'=>$course->category->slug])}}">{{$course->category->name}}</a></span>
-                                                                <span class="course-author"><a href="#">{{ $course->students()->count() }}
-                                                                        @lang('labels.frontend.course.students')</a></span>
+                                                                    <span class="course-author"><a href="#">{{ $course->students()->count() }}
+                                                                            @lang('labels.frontend.course.students')</a></span>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                        @endforeach
+                                            @endforeach
 
-                                        <!-- /course -->
+                                            <!-- /course -->
 
 
+                                            </div>
                                         </div>
-                                    </div>
-                                </div><!-- /tab-1 -->
+                                    </div><!-- /tab-1 -->
+                                </div>
                             </div>
-                        </div>
+
+                    @endif
+                        <!-- /course-details -->
+
+
                     </div>
                     <!-- /market guide -->
 
                     <div class="course-review">
                         <div class="section-title-2 mb20 headline text-left">
-                            <h2>@lang('labels.frontend.course.course_reviews')</h2>
+                            <h2>@lang('labels.frontend.course.bundle_reviews')</h2>
                         </div>
                         <div class="row">
                             <div class="col-md-6">
@@ -198,9 +199,9 @@
                                                     </ul>
                                                     @if(auth()->check() && ($item->user_id == auth()->user()->id))
                                                         <div>
-                                                            <a href="{{route('courses.review.edit',['id'=>$item->id])}}"
+                                                            <a href="{{route('bundles.review.edit',['id'=>$item->id])}}"
                                                                class="mr-2">@lang('labels.general.edit')</a>
-                                                            <a href="{{route('courses.review.delete',['id'=>$item->id])}}"
+                                                            <a href="{{route('bundles.review.delete',['id'=>$item->id])}}"
                                                                class="text-danger">@lang('labels.general.delete')</a>
                                                         </div>
 
@@ -264,9 +265,9 @@
                                         <div class="teacher-faq-form">
                                             @php
                                                 if(isset($review)){
-                                                    $route = route('courses.review.update',['id'=>$review->id]);
+                                                    $route = route('bundles.review.update',['id'=>$review->id]);
                                                 }else{
-                                                    $route = route('courses.review',['course'=>$bundle->id]);
+                                                    $route = route('bundles.review',['course'=>$bundle->id]);
                                                 }
                                             @endphp
                                             <form method="POST"

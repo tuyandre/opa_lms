@@ -114,7 +114,7 @@ class Course extends Model
 
     public function getRatingAttribute()
     {
-        return number_format(\DB::table('course_student')->where('course_id', $this->attributes['id'])->average('rating'), 2);
+        return $this->reviews->avg('rating');
     }
 
     public function orderItem()

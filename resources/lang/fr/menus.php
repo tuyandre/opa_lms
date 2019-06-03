@@ -170,6 +170,10 @@ return array (
       array (
         'title' => 'Certificats',
       ),
+      'bundles' => 
+      array (
+        'title' => 'Liasses',
+      ),
     ),
   ),
   'language-picker' => 

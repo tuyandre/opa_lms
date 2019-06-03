@@ -178,8 +178,14 @@ class CartController extends Controller
             $order->status = 1;
             $order->payment_type = 1;
             $order->save();
-            foreach ($order->items as $item) {
-                $item->course->students()->attach(\Auth::id());
+            foreach ($order->items as $orderItem) {
+                //Bundle Entries
+                if($orderItem->item_type == Bundle::class){
+                    foreach ($orderItem->item->courses as $course){
+                        $course->students()->attach($order->user_id);
+                    }
+                }
+                $orderItem->item->students()->attach($order->user_id);
             }
 
             //Generating Invoice
@@ -319,8 +325,14 @@ class CartController extends Controller
             \Session::flash('success', 'Payment success');
             $order->status = 1;
             $order->save();
-            foreach ($order->items as $item) {
-                $item->course->students()->attach(\Auth::id());
+            foreach ($order->items as $orderItem) {
+                //Bundle Entries
+                if($orderItem->item_type == Bundle::class){
+                    foreach ($orderItem->item->courses as $course){
+                        $course->students()->attach($order->user_id);
+                    }
+                }
+                $orderItem->item->students()->attach($order->user_id);
             }
 
             //Generating Invoice

@@ -170,6 +170,10 @@ return array (
       array (
         'title' => 'Certificados',
       ),
+      'bundles' => 
+      array (
+        'title' => 'manojos',
+      ),
     ),
   ),
   'language-picker' => 

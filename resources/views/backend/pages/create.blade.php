@@ -124,6 +124,7 @@
     <script src="{{asset('plugins/bootstrap-tagsinput/bootstrap-tagsinput.js')}}"></script>
     <script>
         $('.editor').each(function () {
+            CKEDITOR.plugins.addExternal( 'bidi', '{{asset('plugins/bidi')}}', 'plugin.js' );
             CKEDITOR.replace($(this).attr('id'), {
                 filebrowserImageBrowseUrl: '/laravel-filemanager?type=Images',
                 filebrowserImageUploadUrl: '/laravel-filemanager/upload?type=Images&_token={{csrf_token()}}',

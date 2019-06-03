@@ -147,6 +147,8 @@
     <script src="//cdn.ckeditor.com/4.5.4/full/ckeditor.js"></script>
     <script>
         $('.editor').each(function () {
+            CKEDITOR.plugins.addExternal( 'bidi', '{{asset('plugins/bidi')}}', 'plugin.js' );
+
             CKEDITOR.replace($(this).attr('id'), {
                 filebrowserImageBrowseUrl: '/laravel-filemanager?type=Images',
                 filebrowserImageUploadUrl: '/laravel-filemanager/upload?type=Images&_token={{csrf_token()}}',
