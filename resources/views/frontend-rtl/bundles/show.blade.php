@@ -64,7 +64,7 @@
                                 </p>
                             </div>
 
-                            @if(count($courses)  > 0)
+                            @if(count($bundle->courses)  > 0)
 
                                 <div class="course-details-category ul-li">
                                     <span class="float-none">@lang('labels.frontend.course.courses')</span>
@@ -79,7 +79,7 @@
                                 <div id="tab1" class="tab-content-1 pt35">
                                     <div class="best-course-area best-course-v2">
                                         <div class="row">
-                                            @foreach($courses as $course)
+                                            @foreach($bundle->courses as $course)
                                                 <div class="col-md-4">
                                                     <div class="best-course-pic-text relative-position">
                                                         <div class="best-course-pic relative-position"
@@ -90,9 +90,7 @@
                                                                     <span>@lang('labels.frontend.badges.trending')</span>
                                                                 </div>
                                                             @endif
-                                                            <div class="course-price text-center gradient-bg">
-                                                                <span> {{$appCurrency['symbol'].' '.$course->price}}</span>
-                                                            </div>
+
                                                             <div class="course-rate ul-li">
                                                                 <ul>
                                                                     @for($i=1; $i<=(int)$course->rating; $i++)

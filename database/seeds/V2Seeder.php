@@ -24,12 +24,12 @@ class V2Seeder extends Seeder
 
         foreach ($permissions as $item) {
             $permission = Permission::findOrCreate($item);
-            $permission_ids[] = $permission->id;
+            $permission->save();
         }
         $admin = Role::findByName('administrator');
-        $admin->givePermissionTo($permission_ids);
+        $admin->givePermissionTo($permissions);
         $teacher =Role::findByName('teacher');
-        $teacher->givePermissionTo($permission_ids);
+        $teacher->givePermissionTo($permissions);
 
         $student =Role::findByName('student');
         $student->givePermissionTo(['bundle_view','bundle_access']);
@@ -37,7 +37,7 @@ class V2Seeder extends Seeder
 
         $menus = [
             [
-                'url' => route('bundles.all'),
+                'url' => 'bundles',
                 'name' => 'Bundles'
             ],
         ];
@@ -63,5 +63,10 @@ class V2Seeder extends Seeder
                 $menuItem->save();
             }
         }
+
+        //=========Order fix ===================//
+
+        \App\Models\OrderItem::where('item_type','=',NULL)->update(['item_type'=>"\App\Models\Course"]);
+
     }
 }

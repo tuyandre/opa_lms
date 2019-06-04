@@ -13,12 +13,15 @@ class CreateBundleCoursesTable extends Migration
      */
     public function up()
     {
-        Schema::create('bundle_courses', function (Blueprint $table) {
-            $table->integer('bundle_id')->unsigned();
-            $table->foreign('bundle_id')->references('id')->on('bundles')->onDelete('cascade');
-            $table->integer('course_id')->unsigned();
-            $table->foreign('course_id')->references('id')->on('courses')->onDelete('cascade');
-        });
+        if(! Schema::hasTable('bundle_courses')) {
+
+            Schema::create('bundle_courses', function (Blueprint $table) {
+                $table->integer('bundle_id')->unsigned();
+                $table->foreign('bundle_id')->references('id')->on('bundles')->onDelete('cascade');
+                $table->integer('course_id')->unsigned();
+                $table->foreign('course_id')->references('id')->on('courses')->onDelete('cascade');
+            });
+        }
     }
 
     /**

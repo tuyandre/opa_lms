@@ -16,7 +16,7 @@ class UpdateOrderItemsWithMorph extends Migration
 
         Schema::table('order_items', function (Blueprint $table) {
             $table->renameColumn('course_id','item_id');
-            $table->string('item_type')->nullable()->after('item_id');
+            $table->string('item_type')->nullable()->after('order_id');
 
         });
     }

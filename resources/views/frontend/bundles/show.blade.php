@@ -88,9 +88,7 @@
                                                                         <span>@lang('labels.frontend.badges.trending')</span>
                                                                     </div>
                                                                 @endif
-                                                                <div class="course-price text-center gradient-bg">
-                                                                    <span> {{$appCurrency['symbol'].' '.$course->price}}</span>
-                                                                </div>
+
                                                                 <div class="course-rate ul-li">
                                                                     <ul>
                                                                         @for($i=1; $i<=(int)$course->rating; $i++)
