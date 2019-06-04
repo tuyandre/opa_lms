@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use App\Models\System\Session;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Storage;
 
 class UpdateController extends Controller
@@ -49,7 +50,8 @@ class UpdateController extends Controller
             \Zipper::make(public_path() . '/updates/' . $file_name)->extractTo(base_path());
             unlink(public_path() . '/updates/' . $file_name);
             shell_exec('cd '.base_path().' | composer install');
-
+            Artisan::call("migrate");
+            Artisan::call("db:seed", '--class=V2Seeder');
 
             return redirect(route('admin.update-theme'))->withFlashSuccess(__('alerts.backend.general.updated'));
         }
