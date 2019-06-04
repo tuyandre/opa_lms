@@ -22,10 +22,12 @@ class V2Seeder extends Seeder
         ];
         $permission_ids = [];
 
+
         foreach ($permissions as $item) {
-            $permission = Permission::findOrCreate($item);
-            $permission->save();
+           Permission::findOrCreate($item);
         }
+        Artisan::call('cache:clear');
+
         $admin = Role::findByName('administrator');
         $admin->givePermissionTo($permissions);
         $teacher =Role::findByName('teacher');
