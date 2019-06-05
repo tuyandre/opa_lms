@@ -1087,6 +1087,7 @@ return array (
       'bundle_detail' => 'Détails du paquet',
       'bundle_reviews' => 'Offre groupée <span> Commentaires: </span>',
       'bundles' => 'Liasses',
+      'available_in_bundles' => 'Aussi disponible en paquets',
     ),
     'faq' => 
     array (

@@ -1056,6 +1056,7 @@ return array (
       'finish_course' => 'Finish Course',
       'certified' => 'You\'re Certified for this course',
       'bundle_reviews' => 'Bundle <span>Reviews:</span>',
+      'available_in_bundles' => 'Also available in Bundles',
     ),
     'home' => 
     array (

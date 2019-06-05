@@ -1052,6 +1052,7 @@ return array (
       'bundle_detail' => 'حزمة التفاصيل',
       'bundle_reviews' => 'الحزمة <span> من المراجعات: </span>',
       'bundles' => 'بال',
+      'available_in_bundles' => 'متاح أيضا في حزم',
     ),
     'faq' => 
     array (

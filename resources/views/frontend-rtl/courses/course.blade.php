@@ -294,6 +294,75 @@
                             @endif
                         </div>
                     </div>
+                        @if(count($course->bundles) > 0)
+                            <div class="course-details-category ul-li mt-5">
+                                <h3 class="float-none text-dark">@lang('labels.frontend.course.available_in_bundles')</h3>
+                            </div>
+                            <div class="genius-post-item mb55">
+                                <div class="tab-container">
+                                    <div id="tab1" class="tab-content-1 pt35">
+                                        <div class="best-course-area best-course-v2">
+                                            <div class="row">
+                                                @foreach($course->bundles as $bundle)
+
+                                                    <div class="col-md-4">
+                                                        <div class="best-course-pic-text relative-position">
+                                                            <div class="best-course-pic relative-position"
+                                                                 @if($bundle->course_image != "") style="background-image: url('{{asset('storage/uploads/'.$course->course_image)}}')" @endif>
+
+                                                                @if($bundle->trending == 1)
+                                                                    <div class="trend-badge-2 text-center text-uppercase">
+                                                                        <i class="fas fa-bolt"></i>
+                                                                        <span>@lang('labels.frontend.badges.trending')</span>
+                                                                    </div>
+                                                                @endif
+
+                                                                <div class="course-rate ul-li">
+                                                                    <ul>
+                                                                        @for($i=1; $i<=(int)$bundle->rating; $i++)
+                                                                            <li><i class="fas fa-star"></i></li>
+                                                                        @endfor
+                                                                    </ul>
+                                                                </div>
+                                                                <div class="course-details-btn">
+                                                                    <a href="{{ route('bundles.show', [$bundle->slug]) }}">@lang('labels.frontend.course.bundle_detail')
+                                                                        <i class="fas fa-arrow-right"></i></a>
+                                                                </div>
+                                                                <div class="blakish-overlay"></div>
+                                                            </div>
+                                                            <div class="best-course-text">
+                                                                <div class="course-title mb20 headline relative-position">
+                                                                    <h3>
+                                                                        <a href="{{ route('bundles.show', [$bundle->slug]) }}">{{$bundle->title}}</a>
+                                                                    </h3>
+                                                                </div>
+                                                                <div class="course-meta">
+                                                            <span class="course-category"><a
+                                                                        href="{{route('courses.category',['category'=>$bundle->category->slug])}}">{{$bundle->category->name}}</a></span>
+                                                                    <span class="course-author"><a href="#">{{ $bundle->students()->count() }}
+                                                                            @lang('labels.frontend.course.students')</a></span>
+                                                                    <span class="course-author mr-0">{{ $bundle->courses()->count() }}
+                                                                        @if($bundle->courses()->count() > 1 )
+                                                                            @lang('labels.frontend.course.courses')
+                                                                        @else
+                                                                            @lang('labels.frontend.course.course')
+                                                                        @endif
+                                                                </span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                            @endforeach
+
+                                            <!-- /course -->
+
+
+                                            </div>
+                                        </div>
+                                    </div><!-- /tab-1 -->
+                                </div>
+                            </div>
+                        @endif
                 </div>
 
                 <div class="col-md-3">

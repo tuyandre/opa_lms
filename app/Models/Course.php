@@ -168,6 +168,10 @@ class Course extends Model
         return $this->morphMany(OrderItem::class,'item');
     }
 
+    public function bundles(){
+        return $this->belongsToMany(Bundle::class,'bundle_courses');
+    }
+
 
 
 
