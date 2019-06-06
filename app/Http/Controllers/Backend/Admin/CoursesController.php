@@ -60,18 +60,26 @@ class CoursesController extends Controller
             if (!Gate::allows('course_delete')) {
                 return abort(401);
             }
-            $courses = Course::onlyTrashed()->ofTeacher()->orderBy('created_at', 'desc')->get();
+            $courses = Course::onlyTrashed()
+                ->whereHas('category')
+                ->ofTeacher()->orderBy('created_at', 'desc')->get();
+
         } else if (request('teacher_id') != "") {
             $id = request('teacher_id');
             $courses = Course::ofTeacher()
+                ->whereHas('category')
                 ->whereHas('teachers', function ($q) use ($id) {
                     $q->where('course_user.user_id', '=', $id);
                 })->orderBy('created_at', 'desc')->get();
         } else if (request('cat_id') != "") {
             $id = request('cat_id');
-            $courses = Course::ofTeacher()->where('category_id', '=', $id)->orderBy('created_at', 'desc')->get();
+            $courses = Course::ofTeacher()
+                ->whereHas('category')
+                ->where('category_id', '=', $id)->orderBy('created_at', 'desc')->get();
         } else {
-            $courses = Course::ofTeacher()->orderBy('created_at', 'desc')->get();
+            $courses = Course::ofTeacher()
+                ->whereHas('category')
+                ->orderBy('created_at', 'desc')->get();
 
         }
 

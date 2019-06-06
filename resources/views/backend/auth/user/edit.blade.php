@@ -54,7 +54,7 @@
                             {{ html()->email('email')
                                 ->class('form-control')
                                 ->placeholder(__('validation.attributes.backend.access.users.email'))
-                                ->attribute('maxlength', 191)
+                                ->attributes(['maxlength'=> 191,'readonly'=>true])
                                 ->required() }}
                         </div><!--col-->
                     </div><!--form-group-->

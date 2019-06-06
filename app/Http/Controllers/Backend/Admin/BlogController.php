@@ -51,7 +51,7 @@ class BlogController extends Controller
         $blogs = "";
 
 
-        $blogs = Blog::query()->with('category')->orderBy('created_at', 'desc')->get();
+        $blogs = Blog::query()->whereHas('category')->orderBy('created_at', 'desc')->get();
 
 
         if (auth()->user()->can('blog_view')) {

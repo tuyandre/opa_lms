@@ -47,7 +47,7 @@
                             {{ html()->email('email')
                                 ->class('form-control')
                                 ->placeholder(__('labels.backend.teachers.fields.email'))
-                                ->attribute('maxlength', 191)
+                                ->attributes(['maxlength'=> 191,'readonly'=>true])
                                 ->required() }}
                         </div><!--col-->
                     </div><!--form-group-->

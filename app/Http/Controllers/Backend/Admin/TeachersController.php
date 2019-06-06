@@ -153,7 +153,7 @@ class TeachersController extends Controller
 
         $request = $this->saveFiles($request);
         $teacher = User::findOrFail($id);
-        $teacher->update($request->all());
+        $teacher->update($request->except('email'));
 
         return redirect()->route('admin.teachers.index')->withFlashSuccess(trans('alerts.backend.general.updated'));
     }
