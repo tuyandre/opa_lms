@@ -92,5 +92,40 @@ class CourseSeed extends Seeder
                 $orderItem->item->students()->attach(3);
             }
         }
+
+
+        //Creating Bundles
+        factory(\App\Models\Bundle::class, 10)->create()->each(function ($bundle) {
+            $bundle->courses()->sync([ rand(1,50) , rand(1,50) , rand(1,50)  ]);
+        });
+
+
+        $bundles = \App\Models\Bundle::get()->take(2);
+
+        foreach ($bundles as $bundle){
+            $order = new \App\Models\Order();
+            $order->user_id = 3;
+            $order->reference_no = str_random(8);
+            $order->amount = $bundle->price;
+            $order->status = 1;
+            $order->save();
+
+            $order->items()->create([
+                'item_id' => $bundle->id,
+                'item_type' => get_class($bundle),
+                'price' => $bundle->price
+            ]);
+            generateInvoice($order);
+
+            foreach ($order->items as $orderItem) {
+                //Bundle Entries
+                if($orderItem->item_type == \App\Models\Bundle::class){
+                    foreach ($orderItem->item->courses as $course){
+                        $course->students()->attach($order->user_id);
+                    }
+                }
+                $orderItem->item->students()->attach($order->user_id);
+            }
+        }
     }
 }

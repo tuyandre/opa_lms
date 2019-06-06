@@ -137,10 +137,11 @@
                                     @php $key++ @endphp
                                     <div class="col-12"><h5><a
                                                     href="{{route('bundles.show',['slug'=>$bundle->slug ])}}">
-                                                {{$key.'. '.$bundle->title}}</a></h5></div>
+                                                {{$key.'. '.$bundle->title}}</a></h5>
+                                    </div>
                                     @if(count($bundle->courses) > 0)
                                         @foreach($bundle->courses as $item)
-                                            <div class="col-md-3">
+                                            <div class="col-md-3 mb-5">
                                                 <div class="best-course-pic-text position-relative border">
                                                     <div class="best-course-pic position-relative overflow-hidden"
                                                          @if($item->course_image != "") style="background-image: url({{asset('storage/uploads/'.$item->course_image)}})" @endif>
