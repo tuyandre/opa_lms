@@ -1,5 +1,6 @@
 @extends('backend.layouts.app')
 @section('title', __('labels.backend.general_settings.title').' | '.app_name())
+//====TODO:: Add dynamic inputs=====//
 
 @push('after-styles')
     <link rel="stylesheet" href="{{asset('plugins/bootstrap-iconpicker/css/bootstrap-iconpicker.min.css')}}"/>
@@ -102,6 +103,11 @@
                         <li class="nav-item">
                             <a data-toggle="tab" class="nav-link" href="#language_settings">
                                 {{ __('labels.backend.general_settings.language_settings.title') }}
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a data-toggle="tab" class="nav-link" href="#user_registration_settings">
+                                {{ __('labels.backend.general_settings.user_registration_settings.title') }}
                             </a>
                         </li>
                     </ul>
@@ -686,8 +692,6 @@
                                                      }}
                                             </div><!--col-->
                                         </div><!--form-group-->
-
-
                                     </div>
                                 </div><!--col-->
                             </div><!--form-group-->
@@ -744,6 +748,70 @@
                     </div>
                 </div>
 
+                <!---User Registration Settings--->
+                <div id="user_registration_settings" class="tab-pane container fade">
+                    <div class="row mt-4 mb-4">
+                        <div class="col-12">
+                            <h4>{{__('labels.backend.general_settings.user_registration_settings.desc')}}</h4>
+                        </div>
+                        <div class="col-lg-9 input-boxes col-12">
+                            <div class="form-group">
+                                <input type="text" readonly value="{{__('labels.backend.general_settings.user_registration_settings.fields.first_name')}}" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <input type="text" readonly value="{{__('labels.backend.general_settings.user_registration_settings.fields.last_name')}}" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <input type="text" readonly value="{{__('labels.backend.general_settings.user_registration_settings.fields.email')}}" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <input type="text" readonly value="{{__('labels.backend.general_settings.user_registration_settings.fields.password')}}" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-lg-3 border-left col-12">
+                            <div class="form-group input-list">
+                                <div class="checkbox">
+                                    <label><input type="checkbox" checked disabled value=""> First Name</label>
+                                </div>
+                                <div class="checkbox">
+                                    <label><input type="checkbox" checked disabled value=""> Last Name</label>
+                                </div>
+                                <div class="checkbox">
+                                    <label><input type="checkbox" checked disabled  value=""> Email</label>
+                                </div>
+                                <div class="checkbox">
+                                    <label><input type="checkbox" checked disabled  value=""> Password</label>
+                                </div>
+                                <div class="checkbox">
+                                    <label><input type="checkbox" data-name="phone" data-type="number" value=""> Phone</label>
+                                </div>
+                                <div class="checkbox">
+                                    <label><input type="checkbox" data-name="dob" data-type="date" value=""> Date of Birth</label>
+                                </div>
+                                <div class="checkbox">
+                                    <label><input type="checkbox" data-name="gender" data-type="gender" value=""> Gender</label>
+                                </div>
+                                <div class="checkbox">
+                                    <label><input type="checkbox" data-name="address" data-type="textarea" value=""> Address</label>
+                                </div>
+                                <div class="checkbox">
+                                    <label><input type="checkbox" data-name="city" data-type="text" value=""> City</label>
+                                </div>
+                                <div class="checkbox">
+                                    <label><input type="checkbox" data-name="pincode" data-type="text" value=""> Pincode</label>
+                                </div>
+                                <div class="checkbox">
+                                    <label><input type="checkbox" data-name="state" data-type="text" value=""> State</label>
+                                </div>
+                                <div class="checkbox">
+                                    <label><input type="checkbox" data-name="country" data-type="text" value=""> Country</label>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
                 <div class="card-footer clearfix">
                     <div class="row">
                         <div class="col">
@@ -754,7 +822,6 @@
                         </div><!--col-->
                     </div><!--row-->
                 </div><!--card-footer-->
-
             </div><!--card-->
         </div>
     </div>
@@ -950,7 +1017,24 @@
         $(document).on('change', '#app_locale', function () {
             var display_type = $(this).find(":selected").data('display-type');
             $('#app_display_type').val(display_type)
-        })
+        });
+
+
+        //On click add input list
+        $(document).on('click','.input-list input[type="checkbox"]',function () {
+            if($(this).is(':checked')){
+                var type = $(this).data('type');
+                var name = $(this).data('name');
+                var value = "{{__('labels.backend.general_settings.user_registration_settings.fields.')}}"+name;
+                if($(this).data('type') == 'text'){
+                    var html = "<div class='form-group'>" +
+                        "<input type='"+type+"' readonly name='"+name+"' value='"+value+"' class='form-control'>" +
+                        "</div>";
+                    $('.input-boxes').append(html)
+                }
+                //====TODO:: Add dynamic inputs=====//
+            }
+        });
 
 
     </script>
