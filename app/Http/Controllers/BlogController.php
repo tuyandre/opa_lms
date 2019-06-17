@@ -65,7 +65,7 @@ class BlogController extends Controller
         }
 
 
-        $blogs = Blog::OrderBy('created_at','desc')->paginate(6);
+        $blogs = Blog::has('category')->OrderBy('created_at','desc')->paginate(6);
         return view($this->path.'.blogs.index',
             compact('category', 'blogs', 'categories', 'popular_tags'));
     }

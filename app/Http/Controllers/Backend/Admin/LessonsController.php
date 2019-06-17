@@ -29,7 +29,7 @@ class LessonsController extends Controller
         if (!Gate::allows('lesson_access')) {
             return abort(401);
         }
-        $courses = $courses = Course::ofTeacher()->pluck('title', 'id')->prepend('Please select', '');
+        $courses = $courses = Course::has('category')->ofTeacher()->pluck('title', 'id')->prepend('Please select', '');
 
         return view('backend.lessons.index', compact('courses'));
     }
@@ -133,7 +133,7 @@ class LessonsController extends Controller
         if (!Gate::allows('lesson_create')) {
             return abort(401);
         }
-        $courses = \App\Models\Course::ofTeacher()->get()->pluck('title', 'id')->prepend('Please select', '');
+        $courses = Course::has('category')->ofTeacher()->get()->pluck('title', 'id')->prepend('Please select', '');
         return view('backend.lessons.create', compact('courses'));
     }
 
@@ -251,7 +251,7 @@ class LessonsController extends Controller
             return abort(401);
         }
         $videos = '';
-        $courses = \App\Models\Course::ofTeacher()->get()->pluck('title', 'id')->prepend('Please select', '');
+        $courses = Course::has('category')->ofTeacher()->get()->pluck('title', 'id')->prepend('Please select', '');
 
         $lesson = Lesson::with('media')->findOrFail($id);
         if ($lesson->media) {

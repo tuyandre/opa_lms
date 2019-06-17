@@ -1189,5 +1189,13 @@ return array (
       'title' => 'التحقق من الشهادة',
       'verify_now' => 'تحقق الآن',
     ),
+      'footer' =>
+          array (
+              'featured_courses' => 'دورات مميزة',
+              'popular_categories' => 'فئات شعبية',
+              'popular_courses' => 'دورات شعبية',
+              'trending_courses' => 'تتجه الدورات',
+              'useful_links' => 'روابط مفيدة',
+          ),
   ),
 );

@@ -11,8 +11,22 @@
         position: absolute;
         right: 0.3rem;
     }
-    .g-recaptcha div{
+
+    .g-recaptcha div {
         margin: auto;
+    }
+
+    .modal-body .contact_form input[type='radio'] {
+        width: auto;
+        height: auto;
+    }
+    .modal-body .contact_form textarea{
+        background-color: #eeeeee;
+        padding: 15px;
+        border-radius: 4px;
+        margin-bottom: 10px;
+        width: 100%;
+        border: none
     }
 
     @media (max-width: 768px) {
@@ -24,8 +38,10 @@
             padding: 15px;
         }
     }
+
 </style>
 @if(!auth()->check())
+
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -77,6 +93,7 @@
                                        href="{{ route('frontend.auth.password.reset') }}">@lang('labels.frontend.passwords.forgot_password')</a>
 
                                 </div>
+
                                 @if(config('access.captcha.registration'))
                                     <div class="contact-info mb-2 text-center">
                                         {!! Captcha::display() !!}
@@ -144,6 +161,38 @@
                                         ->placeholder(__('validation.attributes.frontend.password_confirmation'))
                                          }}
                                 </div>
+                                @if(config('registration_fields') != NULL)
+                                    @php
+                                        $fields = json_decode(config('registration_fields'));
+                                        $inputs = ['text','number','date'];
+                                    @endphp
+                                    @foreach($fields as $item)
+                                        @if(in_array($item->type,$inputs))
+                                            <div class="contact-info mb-2">
+                                                <input type="{{$item->type}}" class="form-control mb-0" value="{{old($item->name)}}" name="{{$item->name}}"
+                                                       placeholder="{{__('labels.backend.general_settings.user_registration_settings.fields.'.$item->name)}}">
+                                            </div>
+                                        @elseif($item->type == 'gender')
+                                            <div class="contact-info mb-2">
+                                                <label class="radio-inline mr-3 mb-0">
+                                                    <input type="radio" name="{{$item->name}}" value="male"> {{__('validation.attributes.frontend.male')}}
+                                                </label>
+                                                <label class="radio-inline mr-3 mb-0">
+                                                    <input type="radio" name="{{$item->name}}" value="female"> {{__('validation.attributes.frontend.female')}}
+                                                </label>
+                                                <label class="radio-inline mr-3 mb-0">
+                                                    <input type="radio" name="{{$item->name}}" value="other"> {{__('validation.attributes.frontend.other')}}
+                                                </label>
+                                            </div>
+                                        @elseif($item->type == 'textarea')
+                                            <div class="contact-info mb-2">
+
+                                            <textarea name="{{$item->name}}" placeholder="{{__('labels.backend.general_settings.user_registration_settings.fields.'.$item->name)}}" class="form-control mb-0">{{old($item->name)}}</textarea>
+                                            </div>
+                                        @endif
+                                    @endforeach
+                                @endif
+
                                 @if(config('access.captcha.registration'))
                                     <div class="contact-info mt-3 text-center">
                                         {!! Captcha::display() !!}

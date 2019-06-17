@@ -1172,6 +1172,14 @@ return array (
       'title' => 'Verificación del certificado',
       'verify_now' => 'verifica ahora',
     ),
+      'footer' =>
+          array (
+              'useful_links' => 'Enlaces útiles',
+              'trending_courses' => 'Cursos de tendencias',
+              'popular_courses' => 'Cursos populares',
+              'popular_categories' => 'Categorías Populares',
+              'featured_courses' => 'Cursos destacados',
+          ),
   ),
   'lang' => 
   array (

@@ -101,12 +101,10 @@ class AppServiceProvider extends ServiceProvider
 
         view()->composer(['frontend.layouts.partials.right-sidebar', 'frontend-rtl.layouts.partials.right-sidebar'], function ($view) {
 
-            $featured_courses = Course::withoutGlobalScope('filter')->whereHas('category')->where('published', '=', 1)
-                ->where('featured', '=', 1)->first();
 
             $recent_news = Blog::orderBy('created_at', 'desc')->whereHas('category')->take(2)->get();
 
-            $view->with(compact('recent_news'));
+            $view->with(compact('recent_news','featured_courses'));
         });
 
         view()->composer(['frontend.*', 'frontend-rtl.*'], function ($view) {
@@ -116,8 +114,13 @@ class AppServiceProvider extends ServiceProvider
                 ->where('published', '=', 1)
                 ->where('featured', '=', 1)->where('trending', '=', 1)->first();
 
+            $featured_courses = Course::withoutGlobalScope('filter')->where('published', '=', 1)
+                ->whereHas('category')
+                ->where('featured', '=', 1)->take(8)->get();
 
-            $view->with(compact('global_featured_course'));
+
+
+            $view->with(compact('global_featured_course','featured_courses'));
         });
 
         view()->composer(['frontend.*', 'backend.*', 'frontend-rtl.*','vendor.invoices.*'], function ($view) {

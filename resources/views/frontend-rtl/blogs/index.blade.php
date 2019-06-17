@@ -88,7 +88,7 @@
                                                             <div class="blog-title-content headline">
                                                                 <h3><a href="{{route('blogs.index',['slug'=> $item->slug.'-'.$item->id])}}">{{$item->title}}</a></h3>
                                                                 <div class="blog-content">
-                                                                    {!!  mb_substr($item->content,0,100).'...'  !!}
+                                                                    {!!  strip_tags(mb_substr($item->content,0,100).'...')  !!}
                                                                 </div>
 
                                                                 <div class="view-all-btn bold-font">
@@ -127,7 +127,7 @@
                                                                 <h3><a href="{{route('blogs.index',['slug'=> $item->slug.'-'.$item->id])}}">{{$item->title}}</a>
                                                                 </h3>
                                                                 <div class="blog-content">
-                                                                    {!!  mb_substr($item->content,0,100).'...'  !!}
+                                                                    {!!  strip_tags(mb_substr($item->content,0,100).'...')  !!}
                                                                 </div>
 
                                                                 <div class="view-all-btn bold-font">

@@ -7,6 +7,9 @@ return array (
     'frontend' => 
     array (
       'old_password' => 'Old Password',
+      'male' => 'Male',
+      'female' => 'Female',
+      'other' => 'Other',
       'password' => 'Password',
       'password_confirmation' => 'Password Confirmation',
       'avatar' => 'Avatar Location',

@@ -203,7 +203,7 @@ if (!function_exists('section_filter')) {
         if ($type == 1) {
             $section_content = \App\Models\Category::has('courses', '>', 7)
                 ->where('status', '=', 1)->get()->take(6);
-            $section_title = 'Popular Categories';
+            $section_title = trans('labels.frontend.footer.popular_categories');
             foreach ($section_content as $item) {
                 $single_item = [
                     'label' => $item->name,
@@ -213,11 +213,12 @@ if (!function_exists('section_filter')) {
             }
         } else if ($type == 2) {
             $section_content = \App\Models\Course::where('featured', '=', 1)
+                ->has('category')
                 ->where('published', '=', 1)
                 ->orderBy('created_at', 'desc')
                 ->take(6)
                 ->get();
-            $section_title = 'Featured Courses';
+            $section_title = trans('labels.frontend.footer.featured_courses');
             foreach ($section_content as $item) {
                 $single_item = [
                     'label' => $item->title,
@@ -228,11 +229,12 @@ if (!function_exists('section_filter')) {
 
         } else if ($type == 3) {
             $section_content = \App\Models\Course::where('trending', '=', 1)
+                ->has('category')
                 ->where('published', '=', 1)
                 ->orderBy('created_at', 'desc')
                 ->take(6)
                 ->get();
-            $section_title = 'Trending Courses';
+            $section_title = trans('labels.frontend.footer.trending_courses');
             foreach ($section_content as $item) {
                 $single_item = [
                     'label' => $item->title,
@@ -243,11 +245,12 @@ if (!function_exists('section_filter')) {
 
         } else if ($type == 4) {
             $section_content = \App\Models\Course::where('popular', '=', 1)
+                ->has('category')
                 ->where('published', '=', 1)
                 ->orderBy('created_at', 'desc')
                 ->take(6)
                 ->get();
-            $section_title = 'Popular Courses';
+            $section_title = trans('labels.frontend.footer.popular_courses');
             foreach ($section_content as $item) {
                 $single_item = [
                     'label' => $item->title,
@@ -257,7 +260,7 @@ if (!function_exists('section_filter')) {
             }
 
         } else if ($type == 5) {
-            $section_title = 'Useful Links';
+            $section_title = trans('labels.frontend.footer.useful_links');
             $section_content = $section->links;
             foreach ($section_content as $item) {
                 $single_item = [

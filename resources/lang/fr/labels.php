@@ -1173,6 +1173,14 @@ return array (
       'title' => 'Certificat de vérification',
       'verify_now' => 'Vérifiez maintenant',
     ),
+      'footer' =>
+          array (
+              'useful_links' => 'Liens utiles',
+              'trending_courses' => 'Cours tendance',
+              'popular_courses' => 'Cours populaires',
+              'popular_categories' => 'Catégories populaires',
+              'featured_courses' => 'Cours en vedette',
+          ),
   ),
   'lang' => 
   array (

@@ -1,9 +1,9 @@
 @extends('backend.layouts.app')
 @section('title', __('labels.backend.general_settings.title').' | '.app_name())
-//====TODO:: Add dynamic inputs=====//
 
 @push('after-styles')
     <link rel="stylesheet" href="{{asset('plugins/bootstrap-iconpicker/css/bootstrap-iconpicker.min.css')}}"/>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <link rel="stylesheet" href="{{asset('assets/css/colors/switch.css')}}">
     <style>
@@ -437,6 +437,7 @@
 
                                 </div><!--col-->
                             </div><!--form-group-->
+
                             <div class="form-group row" id="sections">
                                 <div class="col-md-10 offset-md-2">
                                     <div class="row">
@@ -595,7 +596,8 @@
                                 <div class="col-md-9">
                                     <select class="form-control" id="app__currency" name="app__currency">
                                         @foreach(config('currencies') as $currency)
-                                            <option @if(config('app.currency') == $currency['short_code']) selected @endif value="{{$currency['short_code']}}">
+                                            <option @if(config('app.currency') == $currency['short_code']) selected
+                                                    @endif value="{{$currency['short_code']}}">
                                                 {{$currency['symbol'].' - '.$currency['name']}}
                                             </option>
                                         @endforeach
@@ -754,18 +756,28 @@
                         <div class="col-12">
                             <h4>{{__('labels.backend.general_settings.user_registration_settings.desc')}}</h4>
                         </div>
+                        <input type="hidden" id="registration_fields" name="registration_fields">
+
                         <div class="col-lg-9 input-boxes col-12">
                             <div class="form-group">
-                                <input type="text" readonly value="{{__('labels.backend.general_settings.user_registration_settings.fields.first_name')}}" class="form-control">
+                                <input type="text" readonly
+                                       placeholder="{{__('labels.backend.general_settings.user_registration_settings.fields.first_name')}}"
+                                       class="form-control">
                             </div>
                             <div class="form-group">
-                                <input type="text" readonly value="{{__('labels.backend.general_settings.user_registration_settings.fields.last_name')}}" class="form-control">
+                                <input type="text" readonly
+                                       placeholder="{{__('labels.backend.general_settings.user_registration_settings.fields.last_name')}}"
+                                       class="form-control">
                             </div>
                             <div class="form-group">
-                                <input type="text" readonly value="{{__('labels.backend.general_settings.user_registration_settings.fields.email')}}" class="form-control">
+                                <input type="text" readonly
+                                       placeholder="{{__('labels.backend.general_settings.user_registration_settings.fields.email')}}"
+                                       class="form-control">
                             </div>
                             <div class="form-group">
-                                <input type="text" readonly value="{{__('labels.backend.general_settings.user_registration_settings.fields.password')}}" class="form-control">
+                                <input type="text" readonly
+                                       placeholder="{{__('labels.backend.general_settings.user_registration_settings.fields.password')}}"
+                                       class="form-control">
                             </div>
                         </div>
                         <div class="col-lg-3 border-left col-12">
@@ -777,34 +789,42 @@
                                     <label><input type="checkbox" checked disabled value=""> Last Name</label>
                                 </div>
                                 <div class="checkbox">
-                                    <label><input type="checkbox" checked disabled  value=""> Email</label>
+                                    <label><input type="checkbox" checked disabled value=""> Email</label>
                                 </div>
                                 <div class="checkbox">
-                                    <label><input type="checkbox" checked disabled  value=""> Password</label>
+                                    <label><input type="checkbox" checked disabled value=""> Password</label>
                                 </div>
                                 <div class="checkbox">
-                                    <label><input type="checkbox" data-name="phone" data-type="number" value=""> Phone</label>
+                                    <label><input class="option" type="checkbox" data-name="phone" data-type="number"
+                                                  value=""> Phone</label>
                                 </div>
                                 <div class="checkbox">
-                                    <label><input type="checkbox" data-name="dob" data-type="date" value=""> Date of Birth</label>
+                                    <label><input class="option" type="checkbox" data-name="dob" data-type="date"
+                                                  value=""> Date of Birth</label>
                                 </div>
                                 <div class="checkbox">
-                                    <label><input type="checkbox" data-name="gender" data-type="gender" value=""> Gender</label>
+                                    <label><input class="option" type="checkbox" data-name="gender" data-type="gender"
+                                                  value=""> Gender</label>
                                 </div>
                                 <div class="checkbox">
-                                    <label><input type="checkbox" data-name="address" data-type="textarea" value=""> Address</label>
+                                    <label><input class="option" type="checkbox" data-name="address"
+                                                  data-type="textarea" value=""> Address</label>
                                 </div>
                                 <div class="checkbox">
-                                    <label><input type="checkbox" data-name="city" data-type="text" value=""> City</label>
+                                    <label><input class="option" type="checkbox" data-name="city" data-type="text"
+                                                  value=""> City</label>
                                 </div>
                                 <div class="checkbox">
-                                    <label><input type="checkbox" data-name="pincode" data-type="text" value=""> Pincode</label>
+                                    <label><input class="option" type="checkbox" data-name="pincode" data-type="text"
+                                                  value=""> Pincode</label>
                                 </div>
                                 <div class="checkbox">
-                                    <label><input type="checkbox" data-name="state" data-type="text" value=""> State</label>
+                                    <label><input class="option" type="checkbox" data-name="state" data-type="text"
+                                                  value=""> State</label>
                                 </div>
                                 <div class="checkbox">
-                                    <label><input type="checkbox" data-name="country" data-type="text" value=""> Country</label>
+                                    <label><input class="option" type="checkbox" data-name="country" data-type="text"
+                                                  value=""> Country</label>
                                 </div>
                             </div>
                         </div>
@@ -957,13 +977,28 @@
             });
 
 
+            //========== Registration fields status =========//
+            @if(config('registration_fields') != NULL)
+            var fields = "{{config('registration_fields')}}";
+
+            fields = JSON.parse(fields.replace(/&quot;/g, '"'));
+
+            $(fields).each(function (key,element) {
+                appendElement(element.type,element.name);
+                $('.input-list').find('[data-name="'+element.name+'"]').attr('checked',true)
+
+            });
+
+            @endif
+
+
             //======= Saving settings for All tabs =================//
             $(document).on('submit', '#general-settings-form', function (e) {
 //                e.preventDefault();
 
                 //======Saving Layout sections details=====//
                 var sections = $('#sections').find('input[type="checkbox"]');
-                var title, name;
+                var title, name, status;
                 var sections_data = {};
                 $(sections).each(function () {
                     if ($(this).is(':checked')) {
@@ -976,6 +1011,17 @@
                     sections_data[name] = {title: title, status: status}
                 });
                 $('#section_data').val(JSON.stringify(sections_data));
+
+                //=========Saving Registration fields ===============//
+                var inputName, inputType;
+                var fieldsData = [];
+                var registrationFields = $('.input-list').find('.option:checked');
+                $(registrationFields).each(function (key, value) {
+                    inputName = $(value).attr('data-name');
+                    inputType = $(value).attr('data-type');
+                    fieldsData.push({name: inputName, type: inputType});
+                });
+                $('#registration_fields').val(JSON.stringify(fieldsData));
 
             });
 
@@ -1021,20 +1067,45 @@
 
 
         //On click add input list
-        $(document).on('click','.input-list input[type="checkbox"]',function () {
-            if($(this).is(':checked')){
-                var type = $(this).data('type');
-                var name = $(this).data('name');
-                var value = "{{__('labels.backend.general_settings.user_registration_settings.fields.')}}"+name;
-                if($(this).data('type') == 'text'){
-                    var html = "<div class='form-group'>" +
-                        "<input type='"+type+"' readonly name='"+name+"' value='"+value+"' class='form-control'>" +
-                        "</div>";
-                    $('.input-boxes').append(html)
+        $(document).on('click', '.input-list input[type="checkbox"]', function () {
+
+            var html;
+            var type = $(this).data('type');
+            var name = $(this).data('name');
+            var textInputs = ['text', 'date', 'number'];
+            if ($(this).is(':checked')) {
+                appendElement(type, name)
+            } else {
+                if ((textInputs.includes(type)) || (type == 'textarea')) {
+                    $('.input-boxes').find('[data-name="' + name + '"]').parents('.form-group').remove();
+                } else if (type == 'gender') {
+                    $('.input-boxes').find('.radiogroup').remove();
                 }
-                //====TODO:: Add dynamic inputs=====//
             }
         });
+
+        function appendElement(type, name) {
+            var values = "{{json_encode(Lang::get('labels.backend.general_settings.user_registration_settings.fields'))}}";
+            values = JSON.parse(values.replace(/&quot;/g, '"'));
+            var textInputs = ['text', 'date', 'number'];
+            var html;
+            if (textInputs.includes(type)) {
+                html = "<div class='form-group'>" +
+                    "<input type='" + type + "' readonly data-name='" + name + "' placeholder='" + values[name] + "' class='form-control'>" +
+                    "</div>";
+            } else if (type == 'gender') {
+                html = "<div class='form-group radiogroup'>" +
+                    "<label class='radio-inline mr-3'><input type='radio' data-name='optradio'> Male</label>" +
+                    "<label class='radio-inline mr-3'><input type='radio' data-name='optradio'> Female</label>" +
+                    "<label class='radio-inline mr-3'><input type='radio' data-name='optradio'> Other</label>" +
+                    "</div>";
+            } else if (type == 'textarea') {
+                html = "<div class='form-group'>" +
+                    "<textarea  readonly data-name='" + name + "' placeholder='" + values[name] + "' class='form-control'></textarea>" +
+                    "</div>";
+            }
+            $('.input-boxes').append(html)
+        }
 
 
     </script>

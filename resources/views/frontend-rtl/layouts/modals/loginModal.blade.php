@@ -145,6 +145,7 @@
                                         ->placeholder(__('validation.attributes.frontend.password_confirmation'))
                                          }}
                                 </div>
+
                                 @if(config('access.captcha.registration'))
                                     <div class="contact-info mt-3 text-center">
                                         {!! Captcha::display() !!}

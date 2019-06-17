@@ -925,6 +925,7 @@ return array(
         ),
     'frontend' =>
         array(
+
             'auth' =>
                 array(
                     'login_button' => 'Login',
@@ -1206,6 +1207,13 @@ return array(
                     'verify_now' => 'Verify Now',
                     'not_found' => 'No certificate found for given information.',
                 ),
+            'footer' => array(
+                'popular_courses' => 'Popular courses',
+                'popular_categories' => 'Popular Categories',
+                'featured_courses' => 'Featured Courses',
+                'trending_courses' => 'Trending Courses',
+                'useful_links' => 'Useful Links',
+            ),
         ),
     'lang' =>
         array(
