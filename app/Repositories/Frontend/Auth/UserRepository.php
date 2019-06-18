@@ -143,6 +143,15 @@ class UserRepository extends BaseRepository
         $user->first_name = $input['first_name'];
         $user->last_name = $input['last_name'];
         $user->avatar_type = $input['avatar_type'];
+        $user->dob = isset($input['dob']) ? $input['dob'] : NULL ;
+        $user->phone = isset($input['phone']) ? $input['phone'] : NULL ;
+        $user->gender = isset($input['gender']) ? $input['gender'] : NULL;
+        $user->address = isset($input['address']) ? $input['address'] : NULL;
+        $user->city =  isset($input['city']) ? $input['city'] : NULL;
+        $user->pincode = isset($input['pincode']) ? $input['pincode'] : NULL;
+        $user->state = isset($input['state']) ? $input['state'] : NULL;
+        $user->country = isset($input['country']) ? $input['country'] : NULL;
+        $user->save();
 
         // Upload profile image if necessary
         if ($image) {

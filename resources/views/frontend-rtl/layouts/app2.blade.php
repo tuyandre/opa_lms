@@ -72,7 +72,6 @@
         @endif
     </head>
     <body class="{{config('layout_type')}}">
-    @include('frontend.layouts.modals.loginModal')
 
     <div id="app">
     {{--<div id="preloader"></div>--}}
@@ -153,6 +152,7 @@
                                                        href="#">@lang('navs.general.login')</a>
                                                     <!-- The Modal -->
                                                     @include('frontend.layouts.modals.loginModal')
+
                                                 @endif
                                             </li>
                                         @endif
@@ -324,6 +324,7 @@
     @yield('js')
 
     @stack('after-scripts')
+
 
     @include('includes.partials.ga')
     </body>

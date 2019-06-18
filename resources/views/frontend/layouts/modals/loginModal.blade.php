@@ -116,7 +116,7 @@
                         <div class="tab-pane container fade" id="register">
 
                             <form id="registerForm" class="contact_form"
-                                  action="{{  route('frontend.auth.register.post')}}"
+                                  action="#"
                                   method="post">
                                 {!! csrf_field() !!}
                                 <a href="#"
@@ -205,7 +205,7 @@
 
                                 <div class="contact-info mb-2 mx-auto w-50 py-4">
                                     <div class="nws-button text-center white text-capitalize">
-                                        <button type="submit"
+                                        <button id="registerButton" type="submit"
                                                 value="Submit">@lang('labels.frontend.modal.register_now')</button>
                                     </div>
                                 </div>
@@ -241,110 +241,113 @@
                     $('#login').removeClass('active').addClass('fade')
                     $('#register').addClass('active').removeClass('fade')
                 });
-            });
 
+                $(document).on('click', '#openLoginModal', function (e) {
+                    $.ajax({
+                        type: "GET",
+                        url: "{{route('frontend.auth.login')}}",
+                        success: function (response) {
+                            $('#socialLinks').html(response.socialLinks)
+                            $('#myModal').modal('show');
+                        },
+                    });
+                });
 
-            $(document).on('click', '#openLoginModal', function (e) {
-                $.ajax({
-                    type: "GET",
-                    url: "{{route('frontend.auth.login')}}",
-                    success: function (response) {
-                        $('#socialLinks').html(response.socialLinks)
-                        $('#myModal').modal('show');
-                    },
+                $('#loginForm').on('submit', function (e) {
+                    e.preventDefault();
+
+                    var $this = $(this);
+
+                    $.ajax({
+                        type: $this.attr('method'),
+                        url: $this.attr('action'),
+                        data: $this.serializeArray(),
+                        dataType: $this.data('type'),
+                        success: function (response) {
+                            $('#login-email-error').empty();
+                            $('#login-password-error').empty();
+                            $('#login-captcha-error').empty();
+                            if (response.errors) {
+                                if (response.errors.email) {
+                                    $('#login-email-error').html(response.errors.email[0]);
+                                }
+                                if (response.errors.password) {
+                                    $('#login-password-error').html(response.errors.password[0]);
+                                }
+
+                                var captcha = "g-recaptcha-response";
+                                if (response.errors[captcha]) {
+                                    $('#login-captcha-error').html(response.errors[captcha][0]);
+                                }
+                            }
+                            if (response.success) {
+                                $('#loginForm')[0].reset();
+                                if (response.redirect == 'back') {
+                                    location.reload();
+                                } else {
+                                    window.location.href = "{{route('admin.dashboard')}}"
+                                }
+                            }
+                        },
+                        error: function (jqXHR) {
+                            var response = $.parseJSON(jqXHR.responseText);
+                            console.log(jqXHR)
+                            if (response.message) {
+                                $('#login').find('span.error-response').html(response.message)
+                            }
+                        }
+                    });
+                });
+
+                $(document).on('submit','#registerForm', function (e) {
+                    e.preventDefault();
+                    console.log('he')
+                    var $this = $(this);
+
+                    $.ajax({
+                        type: $this.attr('method'),
+                        url: "{{  route('frontend.auth.register.post')}}",
+                        data: $this.serializeArray(),
+                        dataType: $this.data('type'),
+                        success: function (data) {
+                            $('#first-name-error').empty()
+                            $('#last-name-error').empty()
+                            $('#email-error').empty()
+                            $('#password-error').empty()
+                            $('#captcha-error').empty()
+                            if (data.errors) {
+                                if (data.errors.first_name) {
+                                    $('#first-name-error').html(data.errors.first_name[0]);
+                                }
+                                if (data.errors.last_name) {
+                                    $('#last-name-error').html(data.errors.last_name[0]);
+                                }
+                                if (data.errors.email) {
+                                    $('#email-error').html(data.errors.email[0]);
+                                }
+                                if (data.errors.password) {
+                                    $('#password-error').html(data.errors.password[0]);
+                                }
+
+                                var captcha = "g-recaptcha-response";
+                                if (data.errors[captcha]) {
+                                    $('#captcha-error').html(data.errors[captcha][0]);
+                                }
+                            }
+                            if (data.success) {
+                                $('#registerForm')[0].reset();
+                                $('#register').removeClass('active').addClass('fade')
+                                $('.error-response').empty();
+                                $('#login').addClass('active').removeClass('fade')
+                                $('.success-response').html("@lang('labels.frontend.modal.registration_message')");
+                            }
+                        }
+                    });
                 });
             });
 
-            $('#loginForm').on('submit', function (e) {
-                e.preventDefault();
 
-                var $this = $(this);
 
-                $.ajax({
-                    type: $this.attr('method'),
-                    url: $this.attr('action'),
-                    data: $this.serializeArray(),
-                    dataType: $this.data('type'),
-                    success: function (response) {
-                        $('#login-email-error').empty();
-                        $('#login-password-error').empty();
-                        $('#login-captcha-error').empty();
-                        if (response.errors) {
-                            if (response.errors.email) {
-                                $('#login-email-error').html(response.errors.email[0]);
-                            }
-                            if (response.errors.password) {
-                                $('#login-password-error').html(response.errors.password[0]);
-                            }
-
-                            var captcha = "g-recaptcha-response";
-                            if (response.errors[captcha]) {
-                                $('#login-captcha-error').html(response.errors[captcha][0]);
-                            }
-                        }
-                        if (response.success) {
-                            $('#loginForm')[0].reset();
-                            if (response.redirect == 'back') {
-                                location.reload();
-                            } else {
-                                window.location.href = "{{route('admin.dashboard')}}"
-                            }
-                        }
-                    },
-                    error: function (jqXHR) {
-                        var response = $.parseJSON(jqXHR.responseText);
-                        console.log(jqXHR)
-                        if (response.message) {
-                            $('#login').find('span.error-response').html(response.message)
-                        }
-                    }
-                });
-            });
-
-            $('#registerForm').on('submit', function (e) {
-                e.preventDefault();
-                var $this = $(this);
-
-                $.ajax({
-                    type: $this.attr('method'),
-                    url: $this.attr('action'),
-                    data: $this.serializeArray(),
-                    dataType: $this.data('type'),
-                    success: function (data) {
-                        $('#first-name-error').empty()
-                        $('#last-name-error').empty()
-                        $('#email-error').empty()
-                        $('#password-error').empty()
-                        $('#captcha-error').empty()
-                        if (data.errors) {
-                            if (data.errors.first_name) {
-                                $('#first-name-error').html(data.errors.first_name[0]);
-                            }
-                            if (data.errors.last_name) {
-                                $('#last-name-error').html(data.errors.last_name[0]);
-                            }
-                            if (data.errors.email) {
-                                $('#email-error').html(data.errors.email[0]);
-                            }
-                            if (data.errors.password) {
-                                $('#password-error').html(data.errors.password[0]);
-                            }
-
-                            var captcha = "g-recaptcha-response";
-                            if (data.errors[captcha]) {
-                                $('#captcha-error').html(data.errors[captcha][0]);
-                            }
-                        }
-                        if (data.success) {
-                            $('#registerForm')[0].reset();
-                            $('#register').removeClass('active').addClass('fade')
-                            $('.error-response').empty();
-                            $('#login').addClass('active').removeClass('fade')
-                            $('.success-response').html("@lang('labels.frontend.modal.registration_message')");
-                        }
-                    }
-                });
-            });
         });
     </script>
 @endpush

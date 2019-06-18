@@ -34,9 +34,17 @@ class ProfileController extends Controller
      */
     public function update(UpdateProfileRequest $request)
     {
+        $fieldsList = [];
+        if(config('registration_fields') != NULL){
+            $fields = json_decode(config('registration_fields'));
+
+            foreach ($fields  as $field){
+                $fieldsList[] =  ''.$field->name;
+            }
+        }
         $output = $this->userRepository->update(
             $request->user()->id,
-            $request->only('first_name', 'last_name', 'avatar_type', 'avatar_location'),
+            $request->only('first_name', 'last_name','dob', 'phone', 'gender', 'address', 'city', 'pincode', 'state', 'country', 'avatar_type', 'avatar_location'),
             $request->has('avatar_location') ? $request->file('avatar_location') : false
         );
 

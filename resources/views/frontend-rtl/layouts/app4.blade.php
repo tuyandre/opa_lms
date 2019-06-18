@@ -74,7 +74,6 @@
         @endif
     </head>
     <body class="{{config('layout_type')}}">
-    @include('frontend.layouts.modals.loginModal')
 
     <div id="app">
     {{--<div id="preloader"></div>--}}
@@ -189,8 +188,9 @@
                                             <div class="login">
                                                 <a data-toggle="modal" data-target="#myModal"
                                                    href="#">@lang('navs.general.login')</a>
+                                                @include('frontend.layouts.modals.loginModal')
+
                                             </div>
-                                            @include('frontend.layouts.modals.loginModal')
                                         </li>
                                     @endif
 

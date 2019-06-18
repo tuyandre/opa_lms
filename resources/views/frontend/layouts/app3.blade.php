@@ -75,7 +75,6 @@
     </head>
     <body class="{{config('layout_type')}}">
     <div id="app">
-    @include('frontend.layouts.modals.loginModal')
 
     {{--<div id="preloader"></div>--}}
 
@@ -190,6 +189,7 @@
                                                     <a id="openLoginModal" data-target="#myModal" href="#">@lang('navs.general.login')</a>
                                                     <!-- The Modal -->
                                                     @include('frontend.layouts.modals.loginModal')
+
                                                 @endif
                                             </li>
                                         @endif

@@ -11,8 +11,22 @@
         position: absolute;
         right: 0.3rem;
     }
-    .g-recaptcha div{
+
+    .g-recaptcha div {
         margin: auto;
+    }
+
+    .modal-body .contact_form input[type='radio'] {
+        width: auto;
+        height: auto;
+    }
+    .modal-body .contact_form textarea{
+        background-color: #eeeeee;
+        padding: 15px;
+        border-radius: 4px;
+        margin-bottom: 10px;
+        width: 100%;
+        border: none
     }
 
     @media (max-width: 768px) {
@@ -24,9 +38,10 @@
             padding: 15px;
         }
     }
-    /*TODO|| ADD validation in login modal*/
+
 </style>
 @if(!auth()->check())
+
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -78,6 +93,7 @@
                                        href="{{ route('frontend.auth.password.reset') }}">@lang('labels.frontend.passwords.forgot_password')</a>
 
                                 </div>
+
                                 @if(config('access.captcha.registration'))
                                     <div class="contact-info mb-2 text-center">
                                         {!! Captcha::display() !!}
@@ -100,7 +116,7 @@
                         <div class="tab-pane container fade" id="register">
 
                             <form id="registerForm" class="contact_form"
-                                  action="{{  route('frontend.auth.register.post')}}"
+                                  action="#"
                                   method="post">
                                 {!! csrf_field() !!}
                                 <a href="#"
@@ -145,6 +161,37 @@
                                         ->placeholder(__('validation.attributes.frontend.password_confirmation'))
                                          }}
                                 </div>
+                                @if(config('registration_fields') != NULL)
+                                    @php
+                                        $fields = json_decode(config('registration_fields'));
+                                        $inputs = ['text','number','date'];
+                                    @endphp
+                                    @foreach($fields as $item)
+                                        @if(in_array($item->type,$inputs))
+                                            <div class="contact-info mb-2">
+                                                <input type="{{$item->type}}" class="form-control mb-0" value="{{old($item->name)}}" name="{{$item->name}}"
+                                                       placeholder="{{__('labels.backend.general_settings.user_registration_settings.fields.'.$item->name)}}">
+                                            </div>
+                                        @elseif($item->type == 'gender')
+                                            <div class="contact-info mb-2">
+                                                <label class="radio-inline mr-3 mb-0">
+                                                    <input type="radio" name="{{$item->name}}" value="male"> {{__('validation.attributes.frontend.male')}}
+                                                </label>
+                                                <label class="radio-inline mr-3 mb-0">
+                                                    <input type="radio" name="{{$item->name}}" value="female"> {{__('validation.attributes.frontend.female')}}
+                                                </label>
+                                                <label class="radio-inline mr-3 mb-0">
+                                                    <input type="radio" name="{{$item->name}}" value="other"> {{__('validation.attributes.frontend.other')}}
+                                                </label>
+                                            </div>
+                                        @elseif($item->type == 'textarea')
+                                            <div class="contact-info mb-2">
+
+                                                <textarea name="{{$item->name}}" placeholder="{{__('labels.backend.general_settings.user_registration_settings.fields.'.$item->name)}}" class="form-control mb-0">{{old($item->name)}}</textarea>
+                                            </div>
+                                        @endif
+                                    @endforeach
+                                @endif
 
                                 @if(config('access.captcha.registration'))
                                     <div class="contact-info mt-3 text-center">
@@ -158,7 +205,7 @@
 
                                 <div class="contact-info mb-2 mx-auto w-50 py-4">
                                     <div class="nws-button text-center white text-capitalize">
-                                        <button type="submit"
+                                        <button id="registerButton" type="submit"
                                                 value="Submit">@lang('labels.frontend.modal.register_now')</button>
                                     </div>
                                 </div>
@@ -194,110 +241,113 @@
                     $('#login').removeClass('active').addClass('fade')
                     $('#register').addClass('active').removeClass('fade')
                 });
-            });
 
+                $(document).on('click', '#openLoginModal', function (e) {
+                    $.ajax({
+                        type: "GET",
+                        url: "{{route('frontend.auth.login')}}",
+                        success: function (response) {
+                            $('#socialLinks').html(response.socialLinks)
+                            $('#myModal').modal('show');
+                        },
+                    });
+                });
 
-            $(document).on('click', '#openLoginModal', function (e) {
-                $.ajax({
-                    type: "GET",
-                    url: "{{route('frontend.auth.login')}}",
-                    success: function (response) {
-                        $('#socialLinks').html(response.socialLinks)
-                        $('#myModal').modal('show');
-                    },
+                $('#loginForm').on('submit', function (e) {
+                    e.preventDefault();
+
+                    var $this = $(this);
+
+                    $.ajax({
+                        type: $this.attr('method'),
+                        url: $this.attr('action'),
+                        data: $this.serializeArray(),
+                        dataType: $this.data('type'),
+                        success: function (response) {
+                            $('#login-email-error').empty();
+                            $('#login-password-error').empty();
+                            $('#login-captcha-error').empty();
+                            if (response.errors) {
+                                if (response.errors.email) {
+                                    $('#login-email-error').html(response.errors.email[0]);
+                                }
+                                if (response.errors.password) {
+                                    $('#login-password-error').html(response.errors.password[0]);
+                                }
+
+                                var captcha = "g-recaptcha-response";
+                                if (response.errors[captcha]) {
+                                    $('#login-captcha-error').html(response.errors[captcha][0]);
+                                }
+                            }
+                            if (response.success) {
+                                $('#loginForm')[0].reset();
+                                if (response.redirect == 'back') {
+                                    location.reload();
+                                } else {
+                                    window.location.href = "{{route('admin.dashboard')}}"
+                                }
+                            }
+                        },
+                        error: function (jqXHR) {
+                            var response = $.parseJSON(jqXHR.responseText);
+                            console.log(jqXHR)
+                            if (response.message) {
+                                $('#login').find('span.error-response').html(response.message)
+                            }
+                        }
+                    });
+                });
+
+                $(document).on('submit','#registerForm', function (e) {
+                    e.preventDefault();
+                    console.log('he')
+                    var $this = $(this);
+
+                    $.ajax({
+                        type: $this.attr('method'),
+                        url: "{{  route('frontend.auth.register.post')}}",
+                        data: $this.serializeArray(),
+                        dataType: $this.data('type'),
+                        success: function (data) {
+                            $('#first-name-error').empty()
+                            $('#last-name-error').empty()
+                            $('#email-error').empty()
+                            $('#password-error').empty()
+                            $('#captcha-error').empty()
+                            if (data.errors) {
+                                if (data.errors.first_name) {
+                                    $('#first-name-error').html(data.errors.first_name[0]);
+                                }
+                                if (data.errors.last_name) {
+                                    $('#last-name-error').html(data.errors.last_name[0]);
+                                }
+                                if (data.errors.email) {
+                                    $('#email-error').html(data.errors.email[0]);
+                                }
+                                if (data.errors.password) {
+                                    $('#password-error').html(data.errors.password[0]);
+                                }
+
+                                var captcha = "g-recaptcha-response";
+                                if (data.errors[captcha]) {
+                                    $('#captcha-error').html(data.errors[captcha][0]);
+                                }
+                            }
+                            if (data.success) {
+                                $('#registerForm')[0].reset();
+                                $('#register').removeClass('active').addClass('fade')
+                                $('.error-response').empty();
+                                $('#login').addClass('active').removeClass('fade')
+                                $('.success-response').html("@lang('labels.frontend.modal.registration_message')");
+                            }
+                        }
+                    });
                 });
             });
 
-            $('#loginForm').on('submit', function (e) {
-                e.preventDefault();
 
-                var $this = $(this);
 
-                $.ajax({
-                    type: $this.attr('method'),
-                    url: $this.attr('action'),
-                    data: $this.serializeArray(),
-                    dataType: $this.data('type'),
-                    success: function (response) {
-                        $('#login-email-error').empty();
-                        $('#login-password-error').empty();
-                        $('#login-captcha-error').empty();
-                        if (response.errors) {
-                            if (response.errors.email) {
-                                $('#login-email-error').html(response.errors.email[0]);
-                            }
-                            if (response.errors.password) {
-                                $('#login-password-error').html(response.errors.password[0]);
-                            }
-
-                            var captcha = "g-recaptcha-response";
-                            if (response.errors[captcha]) {
-                                $('#login-captcha-error').html(response.errors[captcha][0]);
-                            }
-                        }
-                        if (response.success) {
-                            $('#loginForm')[0].reset();
-                            if (response.redirect == 'back') {
-                                location.reload();
-                            } else {
-                                window.location.href = "{{route('admin.dashboard')}}"
-                            }
-                        }
-                    },
-                    error: function (jqXHR) {
-                        var response = $.parseJSON(jqXHR.responseText);
-                        console.log(jqXHR)
-                        if (response.message) {
-                            $('#login').find('span.error-response').html(response.message)
-                        }
-                    }
-                });
-            });
-
-            $('#registerForm').on('submit', function (e) {
-                e.preventDefault();
-                var $this = $(this);
-
-                $.ajax({
-                    type: $this.attr('method'),
-                    url: $this.attr('action'),
-                    data: $this.serializeArray(),
-                    dataType: $this.data('type'),
-                    success: function (data) {
-                        $('#first-name-error').empty()
-                        $('#last-name-error').empty()
-                        $('#email-error').empty()
-                        $('#password-error').empty()
-                        $('#captcha-error').empty()
-                        if (data.errors) {
-                            if (data.errors.first_name) {
-                                $('#first-name-error').html(data.errors.first_name[0]);
-                            }
-                            if (data.errors.last_name) {
-                                $('#last-name-error').html(data.errors.last_name[0]);
-                            }
-                            if (data.errors.email) {
-                                $('#email-error').html(data.errors.email[0]);
-                            }
-                            if (data.errors.password) {
-                                $('#password-error').html(data.errors.password[0]);
-                            }
-
-                            var captcha = "g-recaptcha-response";
-                            if (data.errors[captcha]) {
-                                $('#captcha-error').html(data.errors[captcha][0]);
-                            }
-                        }
-                        if (data.success) {
-                            $('#registerForm')[0].reset();
-                            $('#register').removeClass('active').addClass('fade')
-                            $('.error-response').empty();
-                            $('#login').addClass('active').removeClass('fade')
-                            $('.success-response').html("@lang('labels.frontend.modal.registration_message')");
-                        }
-                    }
-                });
-            });
         });
     </script>
 @endpush
