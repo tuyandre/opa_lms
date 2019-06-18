@@ -202,6 +202,13 @@ Route::resource('reviews', 'ReviewController');
 Route::get('get-reviews-data', ['uses' => 'ReviewController@getData', 'as' => 'reviews.get_data']);
 
 
+//====== Reports Routes =====//
+Route::get('reports', ['uses' => 'ReportController@index','as' => 'reports.index']);
+Route::get('get-course-reports-data', ['uses' => 'ReportController@getCourseData', 'as' => 'reports.get_course_data']);
+Route::get('get-bundle-reports-data', ['uses' => 'ReportController@getBundleData', 'as' => 'reports.get_bundle_data']);
+
+
+
 //==== Remove Locale FIle ====//
 Route::post('delete-locale', function () {
     \Barryvdh\TranslationManager\Models\Translation::where('locale', request('locale'))->delete();

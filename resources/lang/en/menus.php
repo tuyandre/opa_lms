@@ -129,6 +129,10 @@ return array (
       array (
         'title' => 'Reviews',
       ),
+        'reports' =>
+            array (
+                'title' => 'Reports',
+            ),
       'translations' => 
       array (
         'title' => 'Translation Manager',

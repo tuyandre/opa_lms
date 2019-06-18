@@ -45,6 +45,7 @@ class DashboardController extends Controller
                     ->get()
                     ->sum('students_count');
 
+
                 $courses_id = auth()->user()->courses()->has('reviews')->pluck('id')->toArray();
                 $recent_reviews = Review::where('reviewable_type','=','App\Models\Course')
                     ->whereIn('reviewable_id',$courses_id)

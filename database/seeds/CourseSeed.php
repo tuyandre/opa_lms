@@ -96,6 +96,8 @@ class CourseSeed extends Seeder
 
         //Creating Bundles
         factory(\App\Models\Bundle::class, 10)->create()->each(function ($bundle) {
+            $bundle->user_id = 2;
+            $bundle->save();
             $bundle->courses()->sync([ rand(1,50) , rand(1,50) , rand(1,50)  ]);
         });
 

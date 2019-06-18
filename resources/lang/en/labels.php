@@ -793,6 +793,19 @@ return array(
                             'time' => 'Time',
                         ),
                 ),
+            'reports' =>
+                array(
+                    'title' => 'Reports',
+                    'fields' =>
+                        array(
+                            'course' => 'Course',
+                            'user' => 'User',
+                            'content' => 'Content',
+                            'time' => 'Time',
+                            'students' => 'Students',
+                            'bundle' => 'Bundle',
+                        ),
+                ),
             'contacts' =>
                 array(
                     'title' => 'Leads',

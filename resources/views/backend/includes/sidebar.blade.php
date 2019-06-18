@@ -247,6 +247,13 @@
                                 class="title">@lang('menus.backend.sidebar.reviews.title')</span>
                     </a>
                 </li>
+                <li class="nav-item ">
+                    <a class="nav-link {{ $request->segment(1) == 'reports' ? 'active' : '' }}"
+                       href="{{ route('admin.reports.index') }}">
+                        <i class="nav-icon icon-pie-chart"></i> <span
+                                class="title">@lang('menus.backend.sidebar.reports.title')</span>
+                    </a>
+                </li>
             @endif
 
 
