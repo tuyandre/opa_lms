@@ -103,6 +103,26 @@
                         </a>
                     </li>
                 @endcan
+                <li class="nav-item nav-dropdown {{ active_class(Active::checkUriPattern(['user/reports*']), 'open') }}">
+                    <a class="nav-link nav-dropdown-toggle {{ active_class(Active::checkUriPattern('admin/*')) }}"
+                       href="#">
+                        <i class="nav-icon icon-pie-chart"></i>@lang('menus.backend.sidebar.reports.title')
+
+                    </a>
+                    <ul class="nav-dropdown-items">
+                        <li class="nav-item ">
+                            <a class="nav-link {{ $request->segment(1) == 'sales' ? 'active' : '' }}"
+                               href="{{ route('admin.reports.sales') }}">
+                                @lang('menus.backend.sidebar.reports.sales')
+                            </a>
+                        </li>
+                        <li class="nav-item ">
+                            <a class="nav-link {{ $request->segment(1) == 'students' ? 'active' : '' }}"
+                               href="{{ route('admin.reports.students') }}">@lang('menus.backend.sidebar.reports.students')
+                            </a>
+                        </li>
+                    </ul>
+                </li>
             @endif
 
 
@@ -247,13 +267,7 @@
                                 class="title">@lang('menus.backend.sidebar.reviews.title')</span>
                     </a>
                 </li>
-                <li class="nav-item ">
-                    <a class="nav-link {{ $request->segment(1) == 'reports' ? 'active' : '' }}"
-                       href="{{ route('admin.reports.index') }}">
-                        <i class="nav-icon icon-pie-chart"></i> <span
-                                class="title">@lang('menus.backend.sidebar.reports.title')</span>
-                    </a>
-                </li>
+
             @endif
 
 
@@ -381,8 +395,6 @@
                         <span class="title">@lang('menus.backend.sidebar.update.title')</span>
                     </a>
                 </li>
-
-
             @endif
 
         </ul>

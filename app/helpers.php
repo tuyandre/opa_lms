@@ -283,6 +283,7 @@ if (!function_exists('generateInvoice')) {
     {
         $invoice = ConsoleTVs\Invoices\Classes\Invoice::make();
         $invoice->number($order->id);
+
         foreach ($order->items as $item) {
             $title = $item->item->title;
             $price = $item->item->price;
@@ -290,6 +291,7 @@ if (!function_exists('generateInvoice')) {
             $id = 'prod-'.$item->item->id;
             $invoice->addItem($title, $price, $qty, $id);
         }
+//        $invoice->number($order->id);
         $user = \App\Models\Auth\User::find($order->user_id);
 
         $invoice->customer([
@@ -297,8 +299,9 @@ if (!function_exists('generateInvoice')) {
                 'id' => $user->id,
                 'email' => $user->email
             ])
-            ->save('public/invoices/invoice-'.$order->id.'.pdf');
+//            ->save('public/invoices/invoice-'.$order->id.'.pdf');
 //                ->download('invoice-'.$order->id.'.pdf');
+                ->show('invoice-'.$order->id.'.pdf');
 
         $invoiceEntry = \App\Models\Invoice::where('order_id','=',$order->id)->first();
         if($invoiceEntry == ""){

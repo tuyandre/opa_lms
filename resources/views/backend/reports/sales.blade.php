@@ -1,40 +1,45 @@
 @extends('backend.layouts.app')
 
-@section('title', __('labels.backend.reports.title').' | '.app_name())
+@section('title', __('labels.backend.reports.sales_report').' | '.app_name())
 
 @push('after-styles')
-    <style>
-        .dataTables_wrapper .dataTables_filter {
-            float: right!important;
-            text-align: left;
-            margin-left: 25%;
-        }
-        div.dt-buttons {
-            display: inline-block;
-            width: 100%;
-            text-align: center;
-        }
-    </style>
 @endpush
 @section('content')
 
     <div class="card">
         <div class="card-header">
-
-            <h3 class="page-title float-left">@lang('labels.backend.reports.title')</h3>
-
-
+            <h3 class="page-title float-left">@lang('labels.backend.reports.sales_report')</h3>
         </div>
         <div class="card-body">
             <div class="row">
-                <div class="col-lg-6 col-12 border-right">
+                <div class="col-12 col-lg-5">
+                    <div class="card text-white bg-primary text-center">
+                        <div class="card-body">
+                            <h2 class="">{{$appCurrency['symbol'].' '.$total_earnings}}</h2>
+                            <h5>@lang('labels.backend.reports.total_earnings')</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-5 ml-auto">
+                    <div class="card text-white bg-success text-center">
+                        <div class="card-body">
+                            <h2 class="">{{$total_sales}}</h2>
+                            <h5>@lang('labels.backend.reports.total_sales')</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <h4>@lang('labels.backend.reports.courses')</h4>
                     <div class="table-responsive">
                         <table id="myCourseTable" class="table table-bordered table-striped ">
                             <thead>
                             <tr>
                                 <th>@lang('labels.general.sr_no')</th>
-                                <th>@lang('labels.backend.reports.fields.course')</th>
-                                <th>@lang('labels.backend.reports.fields.students')</th>
+                                <th>@lang('labels.backend.reports.fields.name')</th>
+                                <th>@lang('labels.backend.reports.fields.orders')</th>
+                                <th>@lang('labels.backend.reports.fields.earnings')</th>
                             </tr>
                             </thead>
 
@@ -43,14 +48,19 @@
                         </table>
                     </div>
                 </div>
-                <div class="col-lg-6 col-12">
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-12">
+                    <h4>@lang('labels.backend.reports.bundles')</h4>
                     <div class="table-responsive">
                         <table id="myBundleTable" class="table table-bordered table-striped ">
                             <thead>
                             <tr>
                                 <th>@lang('labels.general.sr_no')</th>
-                                <th>@lang('labels.backend.reports.fields.bundle')</th>
-                                <th>@lang('labels.backend.reports.fields.students')</th>
+                                <th>@lang('labels.backend.reports.fields.name')</th>
+                                <th>@lang('labels.backend.reports.fields.orders')</th>
+                                <th>@lang('labels.backend.reports.fields.earnings')</th>
                             </tr>
                             </thead>
 
@@ -95,10 +105,10 @@
                 ],
                 ajax: course_route,
                 columns: [
-
-                    {data: "DT_RowIndex", name: 'DT_RowIndex', width:'8%'},
-                    {data: "course", name: 'course'},
-                    {data: "students", name: 'students'},
+                    {data: "DT_RowIndex", name: 'DT_RowIndex', width: '8%'},
+                    {data: "name", name: 'name'},
+                    {data: "orders", name: 'orders'},
+                    {data: "earnings", name: 'earnings'},
                 ],
 
 
@@ -106,7 +116,6 @@
                     $(row).attr('data-entry-id', data.id);
                 },
             });
-
 
             $('#myBundleTable').DataTable({
                 processing: true,
@@ -131,10 +140,10 @@
                 ],
                 ajax: bundle_route,
                 columns: [
-
-                    {data: "DT_RowIndex", name: 'DT_RowIndex', width:'8%'},
-                    {data: "bundle", name: 'bundle'},
-                    {data: "students", name: 'students'},
+                    {data: "DT_RowIndex", name: 'DT_RowIndex', width: '8%'},
+                    {data: "name", name: 'name'},
+                    {data: "orders", name: 'orders'},
+                    {data: "earnings", name: 'earnings'},
                 ],
 
 
@@ -142,7 +151,6 @@
                     $(row).attr('data-entry-id', data.id);
                 },
             });
-
         });
 
     </script>

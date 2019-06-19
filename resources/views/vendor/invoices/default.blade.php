@@ -1,14 +1,16 @@
 <!DOCTYPE html>
-<html>
+<html dir="ltr">
 <head>
     <meta charset="utf-8">
     <title>{{ $invoice->name }}</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <style>
-        h1, h2, h3, h4, p, span, div {
+        h1, h2, h3, h4, span, p, div {
             font-family: DejaVu Sans;
         }
+
+
     </style>
 </head>
 <body>
@@ -17,10 +19,10 @@
         <img class="img-rounded" height="50px"
              src="{{ asset('storage/logos/'.config('logo_b_image')) }}">
     </div>
-    <div style="float: right;width: 180pt">
+    <div style="float: right;width: 180pt;">
         <h5>Date: <b> {{ $invoice->date->formatLocalized('%A %d %B %Y') }}</b></h5>
         @if ($invoice->number)
-            <h5>Invoice #: <b> {{ $invoice->number }}</b></h5>
+            <h5>Invoice #: <b>{{strval($invoice->number) }}</b></h5>
         @endif
     </div>
 </div>
@@ -35,18 +37,19 @@
                     @php
                         $contact_data = contact_data(config('contact_data'));
                     @endphp
-                    <h4 style="font-weight: bold">{{env('APP_NAME')}}</h4>
+                    <h4 style="font-weight: bold;">{{env('APP_NAME')}}</h4>
 
-                    @if($contact_data["primary_address"]["status"] == 1)
-                        <span>Address: </span>{{$contact_data["primary_address"]["value"]}} <br>
+                @if($contact_data["primary_address"]["status"] == 1)
+                        <span>Address: {{$contact_data["primary_address"]["value"]}} </span><br>
                     @endif
 
                     @if($contact_data["primary_phone"]["status"] == 1)
-                        <span>Contact No.: </span>{{$contact_data["primary_phone"]["value"]}}<br>
+                        {{--{{dd($contact_data["primary_phone"]["value"])}}--}}
+                        <span style="font-family: Helvetica, Arial, sans-serif;">Contact No.: {{ $contact_data["primary_phone"]["value"]}}</span><br>
                     @endif
 
                     @if($contact_data["primary_email"]["status"] == 1)
-                        <span> Email: </span>{{$contact_data["primary_email"]["value"]}}<br>
+                        <span> Email : {{$contact_data["primary_email"]["value"]}} </span><br>
                     @endif
                 @else
                     <i>No business details</i><br/>
@@ -58,13 +61,13 @@
         <h4>Customer Details:</h4>
         <div class="panel panel-default" style="padding: 15px;padding-top: 0px">
             {!! $invoice->customer_details->count() == 0 ? '<i>No customer details</i><br />' : '' !!}
-            <h4 style="font-weight: bold;"> {{ $invoice->customer_details->get('name') }}</h4>
+            <h4  style="font-weight: bold; font-family: DejaVu Sans;"> {{ $invoice->customer_details->get('name') }}</h4>
             <span>Email :</span> {{ $invoice->customer_details->get('email') }}
         </div>
     </div>
 </div>
 
-<div style="clear:both;display: block">
+<div style="clear:both;display: block;">
     <h4>Items:</h4>
     <table class="table table-bordered">
         <thead>
@@ -76,11 +79,12 @@
         </tr>
         </thead>
         <tbody>
-        @foreach ($invoice->items as $item)
+        @foreach ($invoice->items as $key=>$item)
+            @php $key++ @endphp
             <tr>
-                <td>{{ $loop->iteration }}</td>
+                <td>{{$key}}</td>
                 <td>{{ $item->get('id') }}</td>
-                <td>{{ $item->get('name') }}</td>
+                <td style=" font-family: DejaVu Sans;">{{ $item->get('name') }}</td>
                 <td>{{ $item->get('totalPrice') }} {{ $invoice->formatCurrency()->symbol }}</td>
             </tr>
         @endforeach

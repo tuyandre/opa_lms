@@ -796,14 +796,24 @@ return array(
             'reports' =>
                 array(
                     'title' => 'Reports',
+                    'sales_report' => 'Sales Report',
+                    'students_report' => 'Students Report',
+                    'bundles' => 'Bundles',
+                    'courses' => 'Courses',
+                    'total_earnings' => 'Total Earnings',
+                    'total_sales' => 'Total Sales',
                     'fields' =>
                         array(
+                            'name' => 'Name',
+                            'orders' => 'Orders',
+                            'earnings' => 'Earnings',
                             'course' => 'Course',
                             'user' => 'User',
                             'content' => 'Content',
                             'time' => 'Time',
                             'students' => 'Students',
                             'bundle' => 'Bundle',
+                            'completed' => 'Completed Course',
                         ),
                 ),
             'contacts' =>

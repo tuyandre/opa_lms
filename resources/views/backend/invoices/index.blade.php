@@ -73,7 +73,6 @@
                                            class="btn mb-1 btn-success">
                                             @lang('labels.backend.invoices.fields.download')
                                         </a>
-
                                     </td>
                                 </tr>
                             @endforeach
