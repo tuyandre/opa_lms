@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\Auth\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Auth;
 
 class Bundle extends Model
 {
@@ -13,6 +14,14 @@ class Bundle extends Model
 
     protected $fillable = ['category_id', 'title', 'slug', 'description', 'price', 'course_image', 'start_date', 'published', 'featured', 'trending', 'popular', 'meta_title', 'meta_description', 'meta_keywords','user_id'];
 
+
+    public function scopeOfTeacher($query)
+    {
+        if (!Auth::user()->isAdmin()) {
+            return $query->where('user_id', Auth::user()->id);
+        }
+        return $query;
+    }
 
     public function courses()
     {

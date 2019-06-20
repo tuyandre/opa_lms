@@ -15,12 +15,8 @@ class ReportController extends Controller
     public function getSalesReport()
     {
 
-
-
-
-
-        $courses = auth()->user()->courses()->where('published','=',1)->pluck('id');
-        $bundles = auth()->user()->bundles()->where('published','=',1)->pluck('id');
+        $courses = Course::ofTeacher()->where('published','=',1)->pluck('id');
+        $bundles = Bundle::ofTeacher()->where('published','=',1)->pluck('id');
 
         $bundle_earnings = OrderItem::whereHas('order',function ($q){
             $q->where('status','=',1);
@@ -53,7 +49,7 @@ class ReportController extends Controller
     public function getCourseData(Request $request)
     {
 
-        $courses = auth()->user()->courses()->where('published','=',1)->pluck('id');
+        $courses = Course::ofTeacher()->where('published','=',1)->pluck('id');
 
         $course_orders = OrderItem::whereHas('order',function ($q){
             $q->where('status','=',1);
@@ -78,7 +74,7 @@ class ReportController extends Controller
 
     public function getBundleData(Request $request)
     {
-        $bundles = auth()->user()->bundles()->has('students','>',0)->withCount('students')->get();
+        $bundles = Bundle::ofTeacher()->has('students','>',0)->withCount('students')->get();
 
         $bundle_orders = OrderItem::whereHas('order',function ($q){
             $q->where('status','=',1);
@@ -106,7 +102,7 @@ class ReportController extends Controller
     }
 
     public function getStudentsData(Request $request){
-        $courses = auth()->user()->courses()->has('students','>',0)->withCount('students')->get();
+        $courses = Course::ofTeacher()->has('students','>',0)->withCount('students')->get();
 
         return \DataTables::of($courses)
             ->addIndexColumn()

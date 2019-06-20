@@ -4,6 +4,7 @@
 
 @push('after-styles')
 @endpush
+
 @section('content')
 
     <div class="card">
@@ -39,7 +40,7 @@
                                 <th>@lang('labels.general.sr_no')</th>
                                 <th>@lang('labels.backend.reports.fields.name')</th>
                                 <th>@lang('labels.backend.reports.fields.orders')</th>
-                                <th>@lang('labels.backend.reports.fields.earnings')</th>
+                                <th>@lang('labels.backend.reports.fields.earnings') <span style="font-weight: lighter">(in {{$appCurrency['symbol']}})</span></th>
                             </tr>
                             </thead>
 
@@ -60,7 +61,7 @@
                                 <th>@lang('labels.general.sr_no')</th>
                                 <th>@lang('labels.backend.reports.fields.name')</th>
                                 <th>@lang('labels.backend.reports.fields.orders')</th>
-                                <th>@lang('labels.backend.reports.fields.earnings')</th>
+                                <th>@lang('labels.backend.reports.fields.earnings') <span style="font-weight: lighter">(in {{$appCurrency['symbol']}})</span></th>
                             </tr>
                             </thead>
 
