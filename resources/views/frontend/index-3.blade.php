@@ -113,9 +113,7 @@
                 @if(count($teachers)> 0)
                     <div class="teacher-third-slide">
                         @foreach($teachers as $key=>$item)
-                            @if($key%2 == 0 && (count($teachers) > 5))
                                 <div class="teacher-double">
-                                    @endif
                                     <div class="teacher-img-content relative-position">
                                         <img height="210px" width="210px" src="{{$item->picture}}" alt="">
                                         <div class="teacher-cntent">
@@ -133,9 +131,7 @@
                                         {{--<span class="st-name">Mobile Apps </span>--}}
                                         {{--</div>--}}
                                     </div>
-                                    @if($key%2 == 1)
                                 </div>
-                            @endif
                         @endforeach
                     </div>
                 @endif

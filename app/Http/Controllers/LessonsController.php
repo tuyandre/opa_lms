@@ -36,6 +36,7 @@ class LessonsController extends Controller
     {
         $completed_lessons = "";
         $lesson = Lesson::where('slug', $lesson_slug)->where('course_id', $course_id)->where('published', '=', 1)->first();
+
         if ($lesson == "") {
             $lesson = Test::where('slug', $lesson_slug)->where('course_id', $course_id)->where('published', '=', 1)->firstOrFail();
             $lesson->full_text = $lesson->description;
@@ -48,16 +49,16 @@ class LessonsController extends Controller
             }
         }
 
-        if (\Auth::check()) {
-            if ($lesson->chapterStudents()->where('user_id', \Auth::id())->count() == 0) {
-                $lesson->chapterStudents()->create([
-                    'model_type' => get_class($lesson),
-                    'model_id' => $lesson->id,
-                    'user_id' => auth()->user()->id,
-                    'course_id' => $lesson->course->id
-                ]);
-            }
-        }
+//        if (\Auth::check()) {
+//            if ($lesson->chapterStudents()->where('user_id', \Auth::id())->count() == 0) {
+//                $lesson->chapterStudents()->create([
+//                    'model_type' => get_class($lesson),
+//                    'model_id' => $lesson->id,
+//                    'user_id' => auth()->user()->id,
+//                    'course_id' => $lesson->course->id
+//                ]);
+//            }
+//        }
 
 
         $previous_lesson = $lesson->course->courseTimeline()->where('sequence', '<', $lesson->courseTimeline->sequence)
@@ -68,14 +69,18 @@ class LessonsController extends Controller
             ->first();
         $lessons = $lesson->course->courseTimeline()->orderby('sequence', 'asc')->get();
 
+
         $purchased_course = $lesson->course->students()->where('user_id', \Auth::id())->count() > 0;
         $test_exists = FALSE;
         if ($lesson->questions && $lesson->questions->count() > 0) {
             $test_exists = TRUE;
         }
 
-        $completed_lessons = \Auth::user()->chapters()->where('course_id', $lesson->course->id)->get()->pluck('model_id')->toArray();
-
+        $completed_lessons = \Auth::user()->chapters()
+            ->where('course_id', $lesson->course->id)
+            ->get()
+            ->pluck('model_id')
+            ->toArray();
 
         return view( $this->path.'.courses.lesson', compact('lesson', 'previous_lesson', 'next_lesson', 'test_result',
             'purchased_course', 'test_exists', 'lessons', 'completed_lessons'));

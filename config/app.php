@@ -26,7 +26,7 @@ return [
     | or any other location as required by the application or its packages.
     |
     */
-    'version' => '2.1.0',
+    'version' => '2.1.2',
 
 
     /*
@@ -222,6 +222,10 @@ return [
         Maatwebsite\Excel\ExcelServiceProvider::class,
         Chumper\Zipper\ZipperServiceProvider::class,
         BC\Laravel\DropboxDriver\ServiceProvider::class,
+        Mtownsend\ReadTime\Providers\ReadTimeServiceProvider::class,
+
+
+
 
 
         /*

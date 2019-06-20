@@ -277,9 +277,7 @@
                             @endif
 
                             @if ($next_lesson)
-                                <p><a class="btn btn-block gradient-bg font-weight-bold text-white"
-                                      href="{{ route('lessons.show', [$next_lesson->course_id, $next_lesson->model->slug]) }}">@lang('labels.frontend.course.next')
-                                        <i class="fa fa-angle-double-right"></i> </a></p>
+                                <p id="nextButton"></p>
                             @endif
                             @if($lesson->course->progress() == 100)
                                 @if(!$lesson->course->isUserCertified())
@@ -359,8 +357,11 @@
     <script src="{{asset('plugins/touchpdf-master/jquery.touchPDF.js')}}"></script>
     <script src="{{asset('plugins/touchpdf-master/jquery.panzoom.js')}}"></script>
     <script src="{{asset('plugins/touchpdf-master/jquery.mousewheel.js')}}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+
 
     <script>
+
                 @if($lesson->mediaVideo && $lesson->mediaVideo->type != 'embed')
         var current_progress = 0;
         @if($lesson->mediaVideo->getProgress(auth()->user()->id) != "")
@@ -379,18 +380,45 @@
             });
 
         });
-        @endif
+                @endif
 
         const player2 = new Plyr('#audioPlayer');
 
         const player = new Plyr('#player');
-        var duration = 0;
+        duration = 0;
         var progress = 0;
         var video_id = $('#player').parents('.video-container').data('id');
         player.on('ready', event => {
             player.currentTime = parseInt(current_progress);
             duration = event.detail.plyr.duration;
         });
+
+
+        //Next Button enables/disable according to time
+        var storedDuration = Cookies.get('duration')
+        if (!storedDuration) {
+            Cookies.set('duration', player.duration);
+        }
+        var readTime = parseInt("{{$lesson->readTime()}}") * 60;
+        var totalLessonTime = readTime + parseInt(storedDuration);
+
+        var counter = totalLessonTime;
+        var interval = setInterval(function () {
+            counter--;
+            // Display 'counter' wherever you want to display it.
+            if (counter >= 0) {
+                // Display a next button box
+                $('#nextButton').html("<a class='btn btn-block bg-dark font-weight-bold text-white' href='#'>@lang('labels.frontend.course.next') (in "+counter+" seconds)</a>")
+            }
+            if (counter === 0) {
+                //    alert('this is where it happens');
+                $('#nextButton').html("<a class='btn btn-block gradient-bg font-weight-bold text-white'" +
+                    " href='{{ route('lessons.show', [$next_lesson->course_id, $next_lesson->model->slug]) }}'>@lang('labels.frontend.course.next')<i class='fa fa-angle-double-right'></i> </a>")
+                clearInterval(counter);
+
+            }
+        }, 1000);
+
 
         setInterval(function () {
             player.on('timeupdate', event => {
@@ -400,8 +428,9 @@
                     progress = parseInt(event.detail.plyr.currentTime);
                 }
             });
+
             saveProgress(video_id, duration, parseInt(progress));
-        }, 5000);
+        }, 3000);
 
 
         function saveProgress(id, duration, progress) {
@@ -428,6 +457,9 @@
 
         @endif
         $("#sidebar").stick_in_parent();
+
+
+        //Cookie check
 
 
     </script>

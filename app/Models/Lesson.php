@@ -1,10 +1,13 @@
 <?php
 namespace App\Models;
 
+use FFMpeg\FFMpeg;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
-use Spatie\MediaLibrary\HasMedia\HasMedia;
+//use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
+//use Spatie\MediaLibrary\HasMedia\HasMedia;
+use Mtownsend\ReadTime\ReadTime;
+
 
 
 /**
@@ -38,6 +41,7 @@ class Lesson extends Model
         $this->attributes['course_id'] = $input ? $input : null;
     }
 
+
     /**
      * Set attribute to money format
      * @param $input
@@ -46,7 +50,14 @@ class Lesson extends Model
     {
         $this->attributes['position'] = $input ? $input : null;
     }
-    
+
+
+    public function readTime()
+    {
+        $readTime = (new ReadTime($this->full_text))->toArray();
+        return $readTime['minutes'];
+    }
+
     public function course()
     {
         return $this->belongsTo(Course::class, 'course_id')->withTrashed();

@@ -82,58 +82,53 @@
                                     @foreach($lessons as $key=> $lesson)
                                         @php $key++ @endphp
                                         @if($lesson->model)
-
-                                        <div class="panel position-relative">
-                                            @if(auth()->check())
-                                                @if(in_array($lesson->model->id,$completed_lessons))
-                                                    <div class="position-absolute" style="right: 0;top:0px">
-                                                        <span class="gradient-bg p-1 text-white font-weight-bold completed">@lang('labels.frontend.course.completed')</span>
-                                                    </div>
-                                                @endif
-                                            @endif
-                                            <div class="panel-title" id="headingOne">
-                                                <div class="ac-head">
-                                                    <button class="btn btn-link collapsed" data-toggle="collapse"
-                                                            data-target="#collapse{{$key}}" aria-expanded="false"
-                                                            aria-controls="collapse{{$key}}">
-                                                        <span>{{ sprintf("%02d", $key)}}</span>
-                                                        {{$lesson->model->title}}
-                                                    </button>
-                                                    @if($lesson->model_type == 'App\Models\Test')
-                                                        <div class="leanth-course">
-                                                            <span>@lang('labels.frontend.course.test')</span>
+                                            <div class="panel position-relative">
+                                                @if(auth()->check())
+                                                    @if(in_array($lesson->model->id,$completed_lessons))
+                                                        <div class="position-absolute" style="right: 0;top:0px">
+                                                            <span class="gradient-bg p-1 text-white font-weight-bold completed">@lang('labels.frontend.course.completed')</span>
                                                         </div>
                                                     @endif
-
-
-
+                                                @endif
+                                                <div class="panel-title" id="headingOne">
+                                                    <div class="ac-head">
+                                                        <button class="btn btn-link collapsed" data-toggle="collapse"
+                                                                data-target="#collapse{{$key}}" aria-expanded="false"
+                                                                aria-controls="collapse{{$key}}">
+                                                            <span>{{ sprintf("%02d", $key)}}</span>
+                                                            {{$lesson->model->title}}
+                                                        </button>
+                                                        @if($lesson->model_type == 'App\Models\Test')
+                                                            <div class="leanth-course">
+                                                                <span>@lang('labels.frontend.course.test')</span>
+                                                            </div>
+                                                        @endif
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div id="collapse{{$key}}" class="collapse" aria-labelledby="headingOne"
-                                                 data-parent="#accordion">
-                                                <div class="panel-body">
-                                                    @if($lesson->model_type == 'App\Models\Test')
-                                                        {{ mb_substr($lesson->model->description,0,20).'...'}}
-                                                    @else
-                                                        {{$lesson->model->short_text}}
+                                                <div id="collapse{{$key}}" class="collapse" aria-labelledby="headingOne"
+                                                     data-parent="#accordion">
+                                                    <div class="panel-body">
+                                                        @if($lesson->model_type == 'App\Models\Test')
+                                                            {{ mb_substr($lesson->model->description,0,20).'...'}}
+                                                        @else
+                                                            {{$lesson->model->short_text}}
 
-                                                    @endif
+                                                        @endif
                                                         @if(auth()->check())
 
-
-                                                        @if(in_array($lesson->model->id,$completed_lessons))
-                                                        <div>
-                                                            <a class="btn btn-warning mt-3"
-                                                               href="{{route('lessons.show',['id' => $lesson->course->id,'slug'=>$lesson->model->slug])}}">
-                                                                <span class=" text-white font-weight-bold ">@lang('labels.frontend.course.go') ></span>
-                                                            </a>
-                                                        </div>
-                                                    @endif
+                                                            @if(in_array($lesson->model->id,$completed_lessons))
+                                                                <div>
+                                                                    <a class="btn btn-warning mt-3"
+                                                                       href="{{route('lessons.show',['id' => $lesson->course->id,'slug'=>$lesson->model->slug])}}">
+                                                                        <span class=" text-white font-weight-bold ">@lang('labels.frontend.course.go')
+                                                                            ></span>
+                                                                    </a>
+                                                                </div>
                                                             @endif
-
+                                                        @endif
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
                                         @endif
                                     @endforeach
                                 @endif
@@ -193,7 +188,8 @@
 
                                             <div class="author-name-rate">
                                                 <div class="author-name float-left">
-                                                    @lang('labels.frontend.course.by'): <span>{{$item->user->full_name}}</span>
+                                                    @lang('labels.frontend.course.by'):
+                                                    <span>{{$item->user->full_name}}</span>
                                                 </div>
                                                 <div class="comment-ratting float-right ul-li">
                                                     <ul>
@@ -284,7 +280,8 @@
                                                           cols="20">@if(isset($review)){{$review->content}} @endif</textarea>
                                                 <span class="help-block text-danger">{{ $errors->first('review', ':message') }}</span>
                                                 <div class="nws-button text-center  gradient-bg text-uppercase">
-                                                    <button type="submit" value="Submit">@lang('labels.frontend.course.add_review_now')
+                                                    <button type="submit"
+                                                            value="Submit">@lang('labels.frontend.course.add_review_now')
                                                     </button>
                                                 </div>
                                             </form>
@@ -296,93 +293,91 @@
 
                         </div>
                     </div>
-                        @if(count($course->bundles) > 0)
-                            <div class="course-details-category ul-li mt-5">
-                                <h3 class="float-none text-dark">@lang('labels.frontend.course.available_in_bundles')</h3>
-                            </div>
-                            <div class="genius-post-item mb55">
-                                <div class="tab-container">
-                                    <div id="tab1" class="tab-content-1 pt35">
-                                        <div class="best-course-area best-course-v2">
-                                            <div class="row">
-                                                @foreach($course->bundles as $bundle)
+                    @if(count($course->bundles) > 0)
+                        <div class="course-details-category ul-li mt-5">
+                            <h3 class="float-none text-dark">@lang('labels.frontend.course.available_in_bundles')</h3>
+                        </div>
+                        <div class="genius-post-item mb55">
+                            <div class="tab-container">
+                                <div id="tab1" class="tab-content-1 pt35">
+                                    <div class="best-course-area best-course-v2">
+                                        <div class="row">
+                                            @foreach($course->bundles as $bundle)
 
-                                                    <div class="col-md-4">
-                                                        <div class="best-course-pic-text relative-position">
-                                                            <div class="best-course-pic relative-position"
-                                                                 @if($bundle->course_image != "") style="background-image: url('{{asset('storage/uploads/'.$course->course_image)}}')" @endif>
+                                                <div class="col-md-4">
+                                                    <div class="best-course-pic-text relative-position">
+                                                        <div class="best-course-pic relative-position"
+                                                             @if($bundle->course_image != "") style="background-image: url('{{asset('storage/uploads/'.$course->course_image)}}')" @endif>
 
-                                                                @if($bundle->trending == 1)
-                                                                    <div class="trend-badge-2 text-center text-uppercase">
-                                                                        <i class="fas fa-bolt"></i>
-                                                                        <span>@lang('labels.frontend.badges.trending')</span>
-                                                                    </div>
-                                                                @endif
-
-                                                                <div class="course-rate ul-li">
-                                                                    <ul>
-                                                                        @for($i=1; $i<=(int)$bundle->rating; $i++)
-                                                                            <li><i class="fas fa-star"></i></li>
-                                                                        @endfor
-                                                                    </ul>
+                                                            @if($bundle->trending == 1)
+                                                                <div class="trend-badge-2 text-center text-uppercase">
+                                                                    <i class="fas fa-bolt"></i>
+                                                                    <span>@lang('labels.frontend.badges.trending')</span>
                                                                 </div>
-                                                                <div class="course-details-btn">
-                                                                    <a href="{{ route('bundles.show', [$bundle->slug]) }}">@lang('labels.frontend.course.bundle_detail')
-                                                                        <i class="fas fa-arrow-right"></i></a>
-                                                                </div>
-                                                                <div class="blakish-overlay"></div>
+                                                            @endif
+
+                                                            <div class="course-rate ul-li">
+                                                                <ul>
+                                                                    @for($i=1; $i<=(int)$bundle->rating; $i++)
+                                                                        <li><i class="fas fa-star"></i></li>
+                                                                    @endfor
+                                                                </ul>
                                                             </div>
-                                                            <div class="best-course-text">
-                                                                <div class="course-title mb20 headline relative-position">
-                                                                    <h3>
-                                                                        <a href="{{ route('bundles.show', [$bundle->slug]) }}">{{$bundle->title}}</a>
-                                                                    </h3>
-                                                                </div>
-                                                                <div class="course-meta">
+                                                            <div class="course-details-btn">
+                                                                <a href="{{ route('bundles.show', [$bundle->slug]) }}">@lang('labels.frontend.course.bundle_detail')
+                                                                    <i class="fas fa-arrow-right"></i></a>
+                                                            </div>
+                                                            <div class="blakish-overlay"></div>
+                                                        </div>
+                                                        <div class="best-course-text">
+                                                            <div class="course-title mb20 headline relative-position">
+                                                                <h3>
+                                                                    <a href="{{ route('bundles.show', [$bundle->slug]) }}">{{$bundle->title}}</a>
+                                                                </h3>
+                                                            </div>
+                                                            <div class="course-meta">
                                                             <span class="course-category"><a
                                                                         href="{{route('courses.category',['category'=>$bundle->category->slug])}}">{{$bundle->category->name}}</a></span>
-                                                                    <span class="course-author"><a href="#">{{ $bundle->students()->count() }}
-                                                                            @lang('labels.frontend.course.students')</a></span>
-                                                                    <span class="course-author mr-0">{{ $bundle->courses()->count() }}
+                                                                <span class="course-author"><a href="#">{{ $bundle->students()->count() }}
+                                                                        @lang('labels.frontend.course.students')</a></span>
+                                                                <span class="course-author mr-0">{{ $bundle->courses()->count() }}
                                                                     @if($bundle->courses()->count() > 1 )
-                                                                    @lang('labels.frontend.course.courses')
+                                                                        @lang('labels.frontend.course.courses')
                                                                     @else
-                                                                    @lang('labels.frontend.course.course')
+                                                                        @lang('labels.frontend.course.course')
                                                                     @endif
                                                                 </span>
-                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                            @endforeach
-
-                                            <!-- /course -->
-
-
-                                            </div>
+                                                </div>
+                                        @endforeach
+                                        <!-- /course -->
                                         </div>
-                                    </div><!-- /tab-1 -->
-                                </div>
+                                    </div>
+                                </div><!-- /tab-1 -->
                             </div>
-                        @endif
+                        </div>
+                    @endif
                 </div>
 
                 <div class="col-md-3">
                     <div class="side-bar">
                         <div class="course-side-bar-widget">
 
-
                             @if (!$purchased_course)
-                                <h3>@lang('labels.frontend.course.price') <span>{{$appCurrency['symbol'].' '.$course->price}}</span></h3>
+                                <h3>@lang('labels.frontend.course.price')
+                                    <span>{{$appCurrency['symbol'].' '.$course->price}}</span></h3>
 
-                            @if(auth()->check() && (auth()->user()->hasRole('student')) && (Cart::session(auth()->user()->id)->get( $course->id)))
+                                @if(auth()->check() && (auth()->user()->hasRole('student')) && (Cart::session(auth()->user()->id)->get( $course->id)))
                                     <button class="btn genius-btn btn-block text-center my-2 text-uppercase  btn-success text-white bold-font"
                                             type="submit">@lang('labels.frontend.course.added_to_cart')
                                     </button>
                                 @elseif(!auth()->check())
                                     <a id="openLoginModal"
                                        class="genius-btn btn-block text-white  gradient-bg text-center text-uppercase  bold-font"
-                                       data-target="#myModal" href="#">@lang('labels.frontend.course.buy_now') <i class="fas fa-caret-right"></i></a>
+                                       data-target="#myModal" href="#">@lang('labels.frontend.course.buy_now') <i
+                                                class="fas fa-caret-right"></i></a>
 
                                     <a id="openLoginModal"
                                        class="genius-btn btn-block my-2 bg-dark text-center text-white text-uppercase "
@@ -394,7 +389,8 @@
                                         <input type="hidden" name="course_id" value="{{ $course->id }}"/>
                                         <input type="hidden" name="amount" value="{{ $course->price}}"/>
                                         <button class="genius-btn btn-block text-white  gradient-bg text-center text-uppercase  bold-font"
-                                                href="#">@lang('labels.frontend.course.buy_now') <i class="fas fa-caret-right"></i></button>
+                                                href="#">@lang('labels.frontend.course.buy_now') <i
+                                                    class="fas fa-caret-right"></i></button>
                                     </form>
                                     <form action="{{ route('cart.addToCart') }}" method="POST">
                                         @csrf
@@ -402,7 +398,8 @@
                                         <input type="hidden" name="amount" value="{{ $course->price}}"/>
                                         <button type="submit"
                                                 class="genius-btn btn-block my-2 bg-dark text-center text-white text-uppercase ">
-                                            @lang('labels.frontend.course.add_to_cart') <i class="fa fa-shopping-bag"></i></button>
+                                            @lang('labels.frontend.course.add_to_cart') <i
+                                                    class="fa fa-shopping-bag"></i></button>
                                     </form>
                                 @else
                                     <h6 class="alert alert-danger"> @lang('labels.frontend.course.buy_note')</h6>
@@ -416,7 +413,6 @@
                                         @lang('labels.frontend.course.continue_course')
 
                                         <i class="fa fa-arrow-right"></i></a>
-
                                 @endif
 
                             @endif
@@ -436,7 +432,8 @@
                         </div>
                         <div class="couse-feature ul-li-block">
                             <ul>
-                                <li> @lang('labels.frontend.course.chapters') <span> {{$course->courseTimeline->count()}} </span></li>
+                                <li> @lang('labels.frontend.course.chapters')
+                                    <span> {{$course->courseTimeline->count()}} </span></li>
                                 {{--<li>Language <span>English</span></li>--}}
                                 <li> @lang('labels.frontend.course.category') <span><a
                                                 href="{{route('courses.category',['category'=>$course->category->slug])}}"
@@ -482,8 +479,8 @@
 
 
                                     <div class="view-all-btn bold-font">
-                                        <a href="{{route('blogs.index')}}">@lang('labels.frontend.course.view_all_news') <i
-                                                    class="fas fa-chevron-circle-right"></i></a>
+                                        <a href="{{route('blogs.index')}}">@lang('labels.frontend.course.view_all_news')
+                                            <i class="fas fa-chevron-circle-right"></i></a>
                                     </div>
                                 </div>
                             </div>
@@ -496,7 +493,7 @@
                                 <div class="featured-course">
                                     <div class="best-course-pic-text relative-position pt-0">
                                         <div class="best-course-pic relative-position "
-                                            @if($global_featured_course->course_image != "") style="background-image: url({{asset('storage/uploads/'.$global_featured_course->course_image)}})" @endif>
+                                             @if($global_featured_course->course_image != "") style="background-image: url({{asset('storage/uploads/'.$global_featured_course->course_image)}})" @endif>
 
                                             @if($global_featured_course->trending == 1)
                                                 <div class="trend-badge-2 text-center text-uppercase">
