@@ -20,13 +20,13 @@ class LessonsController extends Controller
     public function __construct()
     {
         $path = 'frontend';
-        if(session()->has('display_type')){
-            if(session('display_type') == 'rtl'){
+        if (session()->has('display_type')) {
+            if (session('display_type') == 'rtl') {
                 $path = 'frontend-rtl';
-            }else{
+            } else {
                 $path = 'frontend';
             }
-        }else if(config('app.display_type') == 'rtl'){
+        } else if (config('app.display_type') == 'rtl') {
             $path = 'frontend-rtl';
         }
         $this->path = $path;
@@ -48,17 +48,6 @@ class LessonsController extends Controller
                     ->first();
             }
         }
-
-//        if (\Auth::check()) {
-//            if ($lesson->chapterStudents()->where('user_id', \Auth::id())->count() == 0) {
-//                $lesson->chapterStudents()->create([
-//                    'model_type' => get_class($lesson),
-//                    'model_id' => $lesson->id,
-//                    'user_id' => auth()->user()->id,
-//                    'course_id' => $lesson->course->id
-//                ]);
-//            }
-//        }
 
 
         $previous_lesson = $lesson->course->courseTimeline()->where('sequence', '<', $lesson->courseTimeline->sequence)
@@ -82,7 +71,7 @@ class LessonsController extends Controller
             ->pluck('model_id')
             ->toArray();
 
-        return view( $this->path.'.courses.lesson', compact('lesson', 'previous_lesson', 'next_lesson', 'test_result',
+        return view($this->path . '.courses.lesson', compact('lesson', 'previous_lesson', 'next_lesson', 'test_result',
             'purchased_course', 'test_exists', 'lessons', 'completed_lessons'));
     }
 
@@ -117,6 +106,18 @@ class LessonsController extends Controller
         ]);
         $test_result->answers()->createMany($answers);
 
+
+            if ($test->chapterStudents()->where('user_id', \Auth::id())->count() == 0) {
+                $test->chapterStudents()->create([
+                    'model_type' => $test->model_type,
+                    'model_id' => $test->id,
+                    'user_id' => auth()->user()->id,
+                    'course_id' => $test->course->id
+                ]);
+            }
+
+
+
         return back()->with('message', 'Test score: ' . $test_score);
     }
 
@@ -145,6 +146,26 @@ class LessonsController extends Controller
         }
         $video_progress->save();
         return $video_progress->progress;
+    }
+
+
+    public function courseProgress(Request $request)
+    {
+        if (\Auth::check()) {
+            $lesson = Lesson::find($request->model_id);
+            if ($lesson != null) {
+                if ($lesson->chapterStudents()->where('user_id', \Auth::id())->count() == 0) {
+                    $lesson->chapterStudents()->create([
+                        'model_type' => $request->model_type,
+                        'model_id' => $request->model_id,
+                        'user_id' => auth()->user()->id,
+                        'course_id' => $lesson->course->id
+                    ]);
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
 }

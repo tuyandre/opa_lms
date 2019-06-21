@@ -276,9 +276,16 @@
                                         @lang('labels.frontend.course.prev')</a></p>
                             @endif
 
-                            @if ($next_lesson)
-                                <p id="nextButton"></p>
-                            @endif
+                            <p id="nextButton">
+                                @if ($lesson->isCompleted() && $next_lesson)
+
+
+                                    <a class="btn btn-block gradient-bg font-weight-bold text-white"
+                                       href="{{ route('lessons.show', [$next_lesson->course_id, $next_lesson->model->slug]) }}">@lang('labels.frontend.course.next')
+                                        <i class='fa fa-angle-double-right'></i> </a>
+                                @endif
+
+                            </p>
                             @if($lesson->course->progress() == 100)
                                 @if(!$lesson->course->isUserCertified())
                                     <form method="post" action="{{route('admin.certificates.generate')}}">
@@ -361,106 +368,168 @@
 
 
     <script>
+        var storedDuration = 0;
+        var storedLesson;
+        storedDuration = Cookies.get('duration');
+        storedLesson = Cookies.get('lesson');
+        var user_lesson;
 
-                @if($lesson->mediaVideo && $lesson->mediaVideo->type != 'embed')
-        var current_progress = 0;
-        @if($lesson->mediaVideo->getProgress(auth()->user()->id) != "")
-            current_progress = "{{$lesson->mediaVideo->getProgress(auth()->user()->id)->progress}}";
-        @endif
-
-
-
-        @if($lesson->mediaPDF)
-        $(function () {
-            $("#myPDF").pdf({
-                source: "{{asset('storage/uploads/'.$lesson->mediaPDF->name)}}",
-                loadingHeight: 800,
-                loadingWidth: 800,
-                loadingHTML: ""
-            });
-
-        });
-                @endif
-
-        const player2 = new Plyr('#audioPlayer');
-
-        const player = new Plyr('#player');
-        duration = 0;
-        var progress = 0;
-        var video_id = $('#player').parents('.video-container').data('id');
-        player.on('ready', event => {
-            player.currentTime = parseInt(current_progress);
-            duration = event.detail.plyr.duration;
-        });
-
-
-        //Next Button enables/disable according to time
-        var storedDuration = Cookies.get('duration')
-        if (!storedDuration) {
-            Cookies.set('duration', player.duration);
+        if(parseInt(storedLesson) != parseInt("{{$lesson->id}}")){
+            Cookies.set('lesson', parseInt('{{$lesson->id}}'));
         }
-        var readTime = parseInt("{{$lesson->readTime()}}") * 60;
-        var totalLessonTime = readTime + parseInt(storedDuration);
-
-        var counter = totalLessonTime;
-        var interval = setInterval(function () {
-            counter--;
-            // Display 'counter' wherever you want to display it.
-            if (counter >= 0) {
-                // Display a next button box
-                $('#nextButton').html("<a class='btn btn-block bg-dark font-weight-bold text-white' href='#'>@lang('labels.frontend.course.next') (in "+counter+" seconds)</a>")
-            }
-            if (counter === 0) {
-                //    alert('this is where it happens');
-                $('#nextButton').html("<a class='btn btn-block gradient-bg font-weight-bold text-white'" +
-                    " href='{{ route('lessons.show', [$next_lesson->course_id, $next_lesson->model->slug]) }}'>@lang('labels.frontend.course.next')<i class='fa fa-angle-double-right'></i> </a>")
-                clearInterval(counter);
-
-            }
-        }, 1000);
 
 
-        setInterval(function () {
-            player.on('timeupdate', event => {
-                if ((parseInt(current_progress) > 0) && (parseInt(current_progress) < parseInt(event.detail.plyr.currentTime))) {
-                    progress = current_progress;
-                } else {
-                    progress = parseInt(event.detail.plyr.currentTime);
-                }
+        @if($lesson->mediaVideo && $lesson->mediaVideo->type != 'embed')
+            var current_progress = 0;
+
+
+            @if($lesson->mediaVideo->getProgress(auth()->user()->id) != "")
+                current_progress = "{{$lesson->mediaVideo->getProgress(auth()->user()->id)->progress}}";
+            @endif
+
+            @if($lesson->mediaPDF)
+            $(function () {
+                $("#myPDF").pdf({
+                    source: "{{asset('storage/uploads/'.$lesson->mediaPDF->name)}}",
+                    loadingHeight: 800,
+                    loadingWidth: 800,
+                    loadingHTML: ""
+                });
+
             });
+            @endif
 
-            saveProgress(video_id, duration, parseInt(progress));
-        }, 3000);
+            const player2 = new Plyr('#audioPlayer');
+
+            const player = new Plyr('#player');
+            duration = 0;
+            var progress = 0;
+            var video_id = $('#player').parents('.video-container').data('id');
+            player.on('ready', event => {
+                player.currentTime = parseInt(current_progress);
+                duration = event.detail.plyr.duration;
+            });
+            if (!storedDuration) {
+                Cookies.set('duration', player.duration);
+            }
 
 
-        function saveProgress(id, duration, progress) {
-            $.ajax({
-                url: "{{route('update.videos.progress')}}",
-                method: "POST",
-                data: {
-                    "_token": "{{ csrf_token() }}",
-                    'video': parseInt(id),
-                    'duration': parseInt(duration),
-                    'progress': parseInt(progress)
-                },
-                success: function (result) {
-                    if (duration === progress) {
-                        location.reload();
+            setInterval(function () {
+                player.on('timeupdate', event => {
+                    if ((parseInt(current_progress) > 0) && (parseInt(current_progress) < parseInt(event.detail.plyr.currentTime))) {
+                        progress = current_progress;
+                    } else {
+                        progress = parseInt(event.detail.plyr.currentTime);
                     }
-                }
-            });
-        }
+                });
 
-        $('#notice').on('hidden.bs.modal', function () {
-            location.reload();
-        });
+                saveProgress(video_id, duration, parseInt(progress));
+            }, 3000);
+
+
+            function saveProgress(id, duration, progress) {
+                $.ajax({
+                    url: "{{route('update.videos.progress')}}",
+                    method: "POST",
+                    data: {
+                        "_token": "{{ csrf_token() }}",
+                        'video': parseInt(id),
+                        'duration': parseInt(duration),
+                        'progress': parseInt(progress)
+                    },
+                    success: function (result) {
+                        if (duration === progress) {
+                            location.reload();
+                        }
+                    }
+                });
+            }
+
+
+            $('#notice').on('hidden.bs.modal', function () {
+                location.reload();
+            });
 
         @endif
         $("#sidebar").stick_in_parent();
 
 
-        //Cookie check
+        //Next Button enables/disable according to time
 
+        var readTime, totalQuestions, testTime;
+        user_lesson = Cookies.get("user_lesson_"+"{{auth()->user()->id}}"+"_"+"{{$lesson->id}}");
+        console.log(user_lesson)
+
+        @if ($test_exists )
+            totalQuestions = '{{count($lesson->questions)}}'
+            readTime = parseInt(totalQuestions) * 30;
+        @else
+            readTime = parseInt("{{$lesson->readTime()}}") * 60;
+        @endif
+
+        @if(!$lesson->isCompleted())
+            storedDuration = Cookies.get('duration');
+            storedLesson = Cookies.get('lesson');
+
+
+            var totalLessonTime = readTime + (parseInt(storedDuration) ? parseInt(storedDuration) : 0);
+            var storedCounter = (Cookies.get('storedCounter')) ? Cookies.get('storedCounter') : 0;
+            var counter;
+            if(user_lesson){
+                if(user_lesson === 'true') {
+                    counter = 1;
+                }
+            }else{
+                if ((storedCounter != 0) && storedCounter < totalLessonTime) {
+                    counter = storedCounter;
+                }else{
+                    counter = totalLessonTime;
+                }
+            }
+
+
+            var interval = setInterval(function () {
+            counter--;
+            // Display 'counter' wherever you want to display it.
+                if (counter >= 0) {
+                    // Display a next button box
+                    $('#nextButton').html("<a class='btn btn-block bg-danger font-weight-bold text-white' href='#'>@lang('labels.frontend.course.next') (in " + counter + " seconds)</a>")
+                    Cookies.set('storedCounter', counter);
+
+                }
+                if (counter === 0) {
+                    Cookies.set("user_lesson_"+"{{auth()->user()->id}}"+"_"+"{{$lesson->id}}",'true');
+
+//                    Cookies.remove('storedCounter');
+                    Cookies.remove('duration');
+
+                    @if ($test_exists && (is_null($test_result)))
+                    $('#nextButton').html("<a class='btn btn-block bg-danger font-weight-bold text-white' href='#'>@lang('labels.frontend.course.complete_test')</a>")
+                    @else
+                    $('#nextButton').html("<a class='btn btn-block gradient-bg font-weight-bold text-white'" +
+                        " href='{{ route('lessons.show', [$next_lesson->course_id, $next_lesson->model->slug]) }}'>@lang('labels.frontend.course.next')<i class='fa fa-angle-double-right'></i> </a>")
+
+                    @if(!$lesson->isCompleted())
+                    courseCompleted("{{$lesson->id}}", "{{get_class($lesson)}}");
+                    @endif
+                    @endif
+                    clearInterval(counter);
+                }
+            }, 1000);
+
+        @endif
+
+        function courseCompleted(id, type) {
+            $.ajax({
+                url: "{{route('update.course.progress')}}",
+                method: "POST",
+                data: {
+                    "_token": "{{ csrf_token() }}",
+                    'model_id': parseInt(id),
+                    'model_type': type,
+                },
+            });
+        }
 
     </script>
 @endpush

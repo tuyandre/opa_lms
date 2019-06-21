@@ -1052,6 +1052,7 @@ return array(
                     'continue_course' => 'Continue Course',
                     'enrolled' => 'Enrolled',
                     'chapters' => 'Chapters',
+                    'complete_test' => 'Please Complete Test',
                     'category' => 'Category',
                     'author' => 'Author',
                     'courses' => 'Courses',

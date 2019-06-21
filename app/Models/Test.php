@@ -4,6 +4,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Mtownsend\ReadTime\ReadTime;
 
 /**
  * Class Test
@@ -82,4 +83,15 @@ class Test extends Model
     {
         return $this->morphOne(CourseTimeline::class,'model');
     }
+
+    public function isCompleted(){
+        $isCompleted = $this->chapterStudents()->where('user_id', \Auth::id())->count();
+        if($isCompleted > 0){
+            return true;
+        }
+        return false;
+
+    }
+
+
 }

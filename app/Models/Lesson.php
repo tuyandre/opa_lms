@@ -114,5 +114,14 @@ class Lesson extends Model
     {
         return $this->morphOne(CourseTimeline::class,'model');
     }
+
+    public function isCompleted(){
+        $isCompleted = $this->chapterStudents()->where('user_id', \Auth::id())->count();
+        if($isCompleted > 0){
+            return true;
+        }
+        return false;
+
+    }
     
 }

@@ -67,8 +67,11 @@ class OrderController extends Controller
             ->addColumn('items', function ($q) {
                 $items = "";
                 foreach ($q->items as $key => $item) {
-                    $key++;
-                    $items .= $key . '. ' . $item->item->title . "<br>";
+                    if($item->item != null){
+                        $key++;
+                        $items .= $key . '. ' . $item->item->title . "<br>";
+                    }
+
                 }
                 return $items;
             })

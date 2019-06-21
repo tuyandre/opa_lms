@@ -118,9 +118,9 @@
         <img class="logo" src="{{public_path('storage/logos/logo-black-text.png')}}">
 
         <div class="col-12 text-block align-self-center">
-            <p class="text-center mb-0">This is to certify that <span class="font-weight-bold" style="font-family: DejaVu Sans;">{{$data['name']}}</span>
+            <p class="text-center mb-0">This is to certify that <span class="font-weight-bold" style="font-family: DejaVu Sans;">{{$data['name']}}</span> successfully completed
             </p>
-            <p> successfully completed <span class="font-weight-bold" style="font-family: DejaVu Sans;">{{$data['course_name']}}</span>
+            <p style="word-wrap: break-word;white-space: nowrap"><span class="font-weight-bold" style="font-family: DejaVu Sans;">{{$data['course_name']}}</span>
             </p>
             <p>on {{config('app.name')}} online course on <span class="font-weight-bold">{{$data['date']}}</span></p>
         </div>

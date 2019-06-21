@@ -19,6 +19,25 @@ Route::group(['namespace' => 'Frontend', 'as' => 'frontend.'], function () {
     include_route_files(__DIR__ . '/frontend/');
 });
 
+Route::get('test',function(){
+    $course = \App\Models\Course::first();
+
+
+        $data = [
+            'name' => auth()->user()->name,
+            'course_name' => $course->title,
+            'date' => \Carbon\Carbon::now()->format('d M, Y'),
+        ];
+        $certificate_name = 'Certificate-' . $course->id . '-' . auth()->user()->id . '.pdf';
+
+        $pdf = \PDF::loadView('certificate.index', compact('data'))->setPaper('', 'landscape');
+
+    return $pdf->stream($certificate_name);
+
+
+});
+
+
 /*
  * Backend Routes
  * Namespaces indicate folder structure
@@ -76,6 +95,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('lesson/{slug}/test', ['uses' => 'LessonsController@test', 'as' => 'lessons.test']);
     Route::post('lesson/{slug}/retest', ['uses' => 'LessonsController@retest', 'as' => 'lessons.retest']);
     Route::post('video/progress', 'LessonsController@videoProgress')->name('update.videos.progress');
+    Route::post('lesson/progress', 'LessonsController@courseProgress')->name('update.course.progress');
 });
 
 Route::get('/search', [HomeController::class, 'searchCourse'])->name('search');
