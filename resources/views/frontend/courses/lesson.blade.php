@@ -370,8 +370,8 @@
     <script>
         var storedDuration = 0;
         var storedLesson;
-        storedDuration = Cookies.get('duration');
-        storedLesson = Cookies.get('lesson');
+        storedDuration = Cookies.get("duration_"+"{{auth()->user()->id}}"+"_"+"{{$lesson->id}}"+"_"+"{{$lesson->course->id}}");
+        storedLesson = Cookies.get("lesson"+"{{auth()->user()->id}}"+"_"+"{{$lesson->id}}"+"_"+"{{$lesson->course->id}}");
         var user_lesson;
 
         if(parseInt(storedLesson) != parseInt("{{$lesson->id}}")){
@@ -410,7 +410,7 @@
                 duration = event.detail.plyr.duration;
             });
             if (!storedDuration) {
-                Cookies.set('duration', player.duration);
+                Cookies.set("duration_"+"{{auth()->user()->id}}"+"_"+"{{$lesson->id}}"+"_"+"{{$lesson->course->id}}", player.duration);
             }
 
 
@@ -457,7 +457,7 @@
         //Next Button enables/disable according to time
 
         var readTime, totalQuestions, testTime;
-        user_lesson = Cookies.get("user_lesson_"+"{{auth()->user()->id}}"+"_"+"{{$lesson->id}}");
+        user_lesson = Cookies.get("user_lesson_"+"{{auth()->user()->id}}"+"_"+"{{$lesson->id}}"+"_"+"{{$lesson->course->id}}");
         console.log(user_lesson)
 
         @if ($test_exists )
@@ -468,18 +468,19 @@
         @endif
 
         @if(!$lesson->isCompleted())
-            storedDuration = Cookies.get('duration');
-            storedLesson = Cookies.get('lesson');
+            storedDuration = Cookies.get("duration_"+"{{auth()->user()->id}}"+"_"+"{{$lesson->id}}"+"_"+"{{$lesson->course->id}}");
+            storedLesson = Cookies.get("lesson_"+"{{auth()->user()->id}}"+"_"+"{{$lesson->id}}"+"_"+"{{$lesson->course->id}}");
 
 
             var totalLessonTime = readTime + (parseInt(storedDuration) ? parseInt(storedDuration) : 0);
-            var storedCounter = (Cookies.get('storedCounter')) ? Cookies.get('storedCounter') : 0;
+            var storedCounter = (Cookies.get("storedCounter_"+"{{auth()->user()->id}}"+"_"+"{{$lesson->id}}"+"_"+"{{$lesson->course->id}}")) ? Cookies.get("storedCounter_"+"{{auth()->user()->id}}"+"_"+"{{$lesson->id}}"+"_"+"{{$lesson->course->id}}") : 0;
             var counter;
             if(user_lesson){
                 if(user_lesson === 'true') {
                     counter = 1;
                 }
             }else{
+                console.log(storedCounter)
                 if ((storedCounter != 0) && storedCounter < totalLessonTime) {
                     counter = storedCounter;
                 }else{
@@ -494,13 +495,11 @@
                 if (counter >= 0) {
                     // Display a next button box
                     $('#nextButton').html("<a class='btn btn-block bg-danger font-weight-bold text-white' href='#'>@lang('labels.frontend.course.next') (in " + counter + " seconds)</a>")
-                    Cookies.set('storedCounter', counter);
+                    Cookies.set("storedCounter_"+"{{auth()->user()->id}}"+"_"+"{{$lesson->id}}"+"_"+"{{$lesson->course->id}}", counter);
 
                 }
                 if (counter === 0) {
-                    Cookies.set("user_lesson_"+"{{auth()->user()->id}}"+"_"+"{{$lesson->id}}",'true');
-
-//                    Cookies.remove('storedCounter');
+                    Cookies.set("user_lesson_"+"{{auth()->user()->id}}"+"_"+"{{$lesson->id}}"+"_"+"{{$lesson->course->id}}",'true');
                     Cookies.remove('duration');
 
                     @if ($test_exists && (is_null($test_result)))
