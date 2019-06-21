@@ -174,6 +174,12 @@ return array (
       array (
         'title' => 'Liasses',
       ),
+      'reports' => 
+      array (
+        'sales' => 'Ventes',
+        'students' => 'Étudiantes',
+        'title' => 'Rapports',
+      ),
     ),
   ),
   'language-picker' => 

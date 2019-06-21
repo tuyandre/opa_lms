@@ -3,8 +3,8 @@
 return [
     'reads_left_to_right' => true,
     'min' => 'min',
-    'minute' => 'minuut',
+    'minute' => 'minute',
     'sec' => 'sec',
-    'second' => 'seconde',
-    'read' => 'leestijd'
+    'second' => 'second',
+    'read' => 'read'
 ];

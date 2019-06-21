@@ -257,6 +257,9 @@ return array (
       'language' => 'la langue',
       'gravatar' => 'Gravatar',
       'captcha' => 'Captcha requis',
+      'female' => 'Femelle',
+      'male' => 'Mâle',
+      'other' => 'autre',
     ),
   ),
 );

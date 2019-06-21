@@ -174,6 +174,12 @@ return array (
       array (
         'title' => 'manojos',
       ),
+      'reports' => 
+      array (
+        'sales' => 'Ventas',
+        'students' => 'Estudiantes',
+        'title' => 'Informes',
+      ),
     ),
   ),
   'language-picker' => 

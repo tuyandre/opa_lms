@@ -545,6 +545,29 @@ return array (
         'right_to_left' => 'De derecha a izquierda',
         'title' => 'Configuraciones de idioma',
       ),
+      'user_registration_settings' => 
+      array (
+        'desc' => 'Los campos marcados en la barra lateral derecha se mostrarán en el formulario de registro',
+        'fields' => 
+        array (
+          'address' => 'Dirección',
+          'city' => 'Ciudad',
+          'country' => 'País',
+          'dob' => 'Fecha de nacimiento',
+          'email' => 'Email',
+          'female' => 'Hembra',
+          'first_name' => 'Nombre de pila',
+          'gender' => 'Género',
+          'last_name' => 'Apellido',
+          'male' => 'Masculina',
+          'other' => 'Otra',
+          'password' => 'Contraseña',
+          'phone' => 'Teléfono',
+          'pincode' => 'Código PIN',
+          'state' => 'Estado',
+        ),
+        'title' => 'Configuración de registro de usuario',
+      ),
     ),
     'hero_slider' => 
     array (
@@ -888,6 +911,29 @@ return array (
       'add_courses' => 'Añadir cursos',
       'select_courses' => 'Seleccionar cursos',
     ),
+    'reports' => 
+    array (
+      'bundles' => 'manojos',
+      'courses' => 'Los cursos',
+      'fields' => 
+      array (
+        'bundle' => 'Haz',
+        'completed' => 'Curso completado',
+        'content' => 'Contenido',
+        'course' => 'Curso',
+        'earnings' => 'Ganancias',
+        'name' => 'Nombre',
+        'orders' => 'Pedidos',
+        'students' => 'Estudiantes',
+        'time' => 'Hora',
+        'user' => 'Usuaria',
+      ),
+      'sales_report' => 'Reporte de ventas',
+      'students_report' => 'Informe de los estudiantes',
+      'title' => 'Informes',
+      'total_earnings' => 'Ganancias Totales',
+      'total_sales' => 'Ventas totales',
+    ),
   ),
   'frontend' => 
   array (
@@ -1087,6 +1133,7 @@ return array (
       'bundle_reviews' => 'Comentarios de <span> paquetes: </span>',
       'bundles' => 'manojos',
       'available_in_bundles' => 'También disponible en paquetes',
+      'complete_test' => 'Por favor complete la prueba',
     ),
     'faq' => 
     array (
@@ -1172,14 +1219,14 @@ return array (
       'title' => 'Verificación del certificado',
       'verify_now' => 'verifica ahora',
     ),
-      'footer' =>
-          array (
-              'useful_links' => 'Enlaces útiles',
-              'trending_courses' => 'Cursos de tendencias',
-              'popular_courses' => 'Cursos populares',
-              'popular_categories' => 'Categorías Populares',
-              'featured_courses' => 'Cursos destacados',
-          ),
+    'footer' => 
+    array (
+      'useful_links' => 'Enlaces útiles',
+      'trending_courses' => 'Cursos de tendencias',
+      'popular_courses' => 'Cursos populares',
+      'popular_categories' => 'Categorías Populares',
+      'featured_courses' => 'Cursos destacados',
+    ),
   ),
   'lang' => 
   array (

@@ -174,6 +174,12 @@ return array (
       array (
         'title' => 'بال',
       ),
+      'reports' => 
+      array (
+        'sales' => 'مبيعات',
+        'students' => 'الطلاب',
+        'title' => 'تقارير',
+      ),
     ),
   ),
   'language-picker' => 

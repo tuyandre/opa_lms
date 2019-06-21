@@ -615,6 +615,29 @@ return array (
       'total_courses' => 'أدخل مجموع الدورات. على سبيل المثال: 1 كيلو ، 1000 إلخ',
       'total_students' => 'أدخل مجموع الطلاب. على سبيل المثال: 1 كيلو ، مليون ، 1000 إلخ.',
       'total_teachers' => 'أدخل مجموع المعلمين. على سبيل المثال: 1 كيلو ، 1000 إلخ',
+      'user_registration_settings' => 
+      array (
+        'desc' => 'سيتم عرض الحقول المحددة من الشريط الجانبي الأيمن في نموذج التسجيل',
+        'fields' => 
+        array (
+          'address' => 'عنوان',
+          'city' => 'مدينة',
+          'country' => 'بلد',
+          'dob' => 'تاريخ الولادة',
+          'email' => 'البريد الإلكتروني',
+          'female' => 'إناثا',
+          'first_name' => 'الاسم الاول',
+          'gender' => 'جنس',
+          'last_name' => 'الكنية',
+          'male' => 'الذكر',
+          'other' => 'آخر',
+          'password' => 'كلمه السر',
+          'phone' => 'هاتف',
+          'pincode' => 'الرقم السري',
+          'state' => 'حالة',
+        ),
+        'title' => 'إعدادات تسجيل المستخدم',
+      ),
     ),
     'invoices' => 
     array (
@@ -866,6 +889,29 @@ return array (
       'add_courses' => 'إضافة الدورات',
       'select_courses' => 'اختر الدورات',
     ),
+    'reports' => 
+    array (
+      'bundles' => 'بال',
+      'courses' => 'الدورات',
+      'fields' => 
+      array (
+        'bundle' => 'حزمة',
+        'completed' => 'بالطبع الانتهاء',
+        'content' => 'يحتوى',
+        'course' => 'دورة',
+        'earnings' => 'أرباح',
+        'name' => 'اسم',
+        'orders' => 'أوامر',
+        'students' => 'الطلاب',
+        'time' => 'زمن',
+        'user' => 'المستعمل',
+      ),
+      'sales_report' => 'تقرير المبيعات',
+      'students_report' => 'تقرير الطلاب',
+      'title' => 'تقارير',
+      'total_earnings' => 'الأرباح الكلية',
+      'total_sales' => 'إجمالي المبيعات',
+    ),
   ),
   'lang' => 
   array (
@@ -1053,6 +1099,7 @@ return array (
       'bundle_reviews' => 'الحزمة <span> من المراجعات: </span>',
       'bundles' => 'بال',
       'available_in_bundles' => 'متاح أيضا في حزم',
+      'complete_test' => 'يرجى إكمال الاختبار',
     ),
     'faq' => 
     array (
@@ -1189,13 +1236,13 @@ return array (
       'title' => 'التحقق من الشهادة',
       'verify_now' => 'تحقق الآن',
     ),
-      'footer' =>
-          array (
-              'featured_courses' => 'دورات مميزة',
-              'popular_categories' => 'فئات شعبية',
-              'popular_courses' => 'دورات شعبية',
-              'trending_courses' => 'تتجه الدورات',
-              'useful_links' => 'روابط مفيدة',
-          ),
+    'footer' => 
+    array (
+      'featured_courses' => 'دورات مميزة',
+      'popular_categories' => 'فئات شعبية',
+      'popular_courses' => 'دورات شعبية',
+      'trending_courses' => 'تتجه الدورات',
+      'useful_links' => 'روابط مفيدة',
+    ),
   ),
 );
