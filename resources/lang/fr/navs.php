@@ -1,29 +1,32 @@
-<?php 
+<?php
 
-return [
-    'general' => [
-        'home' => 'Accueil',
-        'logout' => 'Connectez - Out',
-        'login' => 'S\'identifier',
-        'account' => 'Compte',
-        'messages' => 'messages',
-        'no_messages' => 'Pas de messages',
-        'profile' => 'Profil',
-    ],
-    'frontend' => [
-        'contact' => 'Contact',
-        'dashboard' => 'Tableau de bord',
-        'login' => 'S\'identifier',
-        'macros' => 'Les macros',
-        'register' => 'registre',
-        'user' => [
-            'account' => 'Mon compte',
-            'administration' => 'Administration',
-            'change_password' => 'Changer le mot de passe',
-            'my_information' => 'Mon information',
-            'profile' => 'Profil',
-        ],
-        'forums' => 'Les forums',
-        'courses' => 'Cours',
-    ],
-];
+return array (
+  'general' => 
+  array (
+    'home' => 'Accueil',
+    'logout' => 'Connectez - Out',
+    'login' => 'S\'identifier',
+    'account' => 'Compte',
+    'messages' => 'messages',
+    'no_messages' => 'Pas de messages',
+    'profile' => 'Profil',
+  ),
+  'frontend' => 
+  array (
+    'contact' => 'Contact',
+    'dashboard' => 'Tableau de bord',
+    'login' => 'S\'identifier',
+    'macros' => 'Les macros',
+    'register' => 'registre',
+    'user' => 
+    array (
+      'account' => 'Mon compte',
+      'administration' => 'Administration',
+      'change_password' => 'Changer le mot de passe',
+      'my_information' => 'Mon information',
+      'profile' => 'Profil',
+    ),
+    'forums' => 'Les forums',
+    'courses' => 'Cours',
+  ),
+);
