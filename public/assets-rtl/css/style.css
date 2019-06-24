@@ -5837,3 +5837,17 @@ ul.product-tab li.active:after {
 .pt150 {
     padding-top: 150px;
 }
+
+.trend-badge-2 {
+    top: -24px;
+    right: -40px;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    position: absolute;
+    padding: 30px 35px 5px;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+    background-color: #ff5a00;
+}

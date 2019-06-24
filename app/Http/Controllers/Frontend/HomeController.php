@@ -199,7 +199,11 @@ class HomeController extends Controller
     {
         $recent_news = Blog::orderBy('created_at', 'desc')->take(2)->get();
         $teacher = User::role('teacher')->where('id', '=', $request->id)->first();
-        return view($this->path.'.teachers.show', compact('teacher', 'recent_news'));
+        $courses= NULL;
+        if(count($teacher->courses)> 0){
+            $courses = $teacher->courses()->paginate(12);
+        }
+        return view($this->path.'.teachers.show', compact('teacher', 'recent_news','courses'));
     }
 
     public function getDownload(Request $request)

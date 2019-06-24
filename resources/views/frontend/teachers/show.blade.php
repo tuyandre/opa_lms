@@ -6,6 +6,31 @@
             bottom: 0px;
             position: relative;
         }
+         .couse-pagination li.active {
+             color: #333333!important;
+             font-weight: 700;
+         }
+        .page-link {
+            position: relative;
+            display: block;
+            padding: .5rem .75rem;
+            margin-left: -1px;
+            line-height: 1.25;
+            color: #c7c7c7;
+            background-color: white;
+            border: none;
+        }
+        .page-item.active .page-link {
+            z-index: 1;
+            color: #333333;
+            background-color:white;
+            border:none;
+
+        }
+        ul.pagination{
+            display: inline;
+            text-align: center;
+        }
     </style>
 @endpush
 @section('content')
@@ -78,9 +103,9 @@
                         <div class="section-title-2  mb-0 headline text-left">
                             <h2>@lang('labels.frontend.teacher.courses_by_teacher')</h2>
                         </div>
-                        @if(count($teacher->courses) > 0)
+                        @if(count($courses) > 0)
                             <div class="row">
-                                @foreach($teacher->courses as $item)
+                                @foreach($courses as $item)
                                     <div class="col-md-4">
                                         <div class="best-course-pic-text relative-position ">
                                             <div class="best-course-pic relative-position"
@@ -131,6 +156,9 @@
                                 @endforeach
 
 
+                            </div>
+                            <div class="couse-pagination text-center ul-li">
+                                {{ $courses->links() }}
                             </div>
 
                         @else
