@@ -29,10 +29,11 @@ return [
          * Index 1 of sub-array is the PHP locale code for setlocale()
          * Index 2 of sub-array is whether or not to use RTL (right-to-left) html direction for this language
          */
-
         'en'    => ['en', 'en_US', false],
         'es'    => ['es', 'es_ES', false],
         'fr'    => ['fr', 'fr_FR', false],
+        'ar'    => ['ar', 'ar_AR', false],
+
 
     ],
 ];

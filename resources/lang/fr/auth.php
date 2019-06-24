@@ -1,14 +1,13 @@
-<?php
+<?php 
 
-return array (
-  'failed' => 'Ces informations de connexion ne correspondent pas.',
-  'general_error' => 'Vous n\'avez pas les droits requis pour cette action.',
-  'password_rules' => 'Your password must be more than 8 characters long, should contain at least 1 uppercase, 1 lowercase and 1 number.',
-  'password_used' => 'Vous ne pouvez pas utiliser un mot de passe que vous avez déjà utilisé',
-  'socialite' => 
-  array (
-    'unacceptable' => 'Le login :provider est de type incorrect.',
-  ),
-  'throttle' => 'Vous avez effectué trop de tentatives de connexion. Veuillez ré-essayer dans :seconds secondes.',
-  'unknown' => 'Une erreur inconnue est survenue.',
-);
+return [
+    'failed' => 'Ces informations d\'identification ne correspondent pas à nos enregistrements.',
+    'general_error' => 'Vous n\'avez pas le droit de le faire.',
+    'password_rules' => 'Votre mot de passe doit comporter plus de 8 caractères et doit contenir au moins une majuscule, une minuscule et un chiffre.',
+    'password_used' => 'Vous ne pouvez pas définir un mot de passe que vous avez déjà utilisé.',
+    'socialite' => [
+        'unacceptable' => ': fournisseur n\'est pas un type de connexion acceptable.',
+    ],
+    'throttle' => 'Trop de tentatives de connexion. Veuillez réessayer dans: secondes secondes.',
+    'unknown' => 'Une erreur inconnue est survenue',
+];

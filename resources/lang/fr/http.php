@@ -1,17 +1,15 @@
-<?php
+<?php 
 
-return array (
-  404 => 
-  array (
-    'title' => 'Page introuvable',
-    'description' => 'Désolé, cette page n\'existe pas.',
-    'back' => 'Retour à la page d\'accueil',
-    'description2' => 'On dirait que rien n\'a été trouvé à cet endroit.',
-    'title2' => '404',
-  ),
-  503 => 
-  array (
-    'title' => 'Bientôt de retour.',
-    'description' => 'Bientôt de retour.',
-  ),
-);
+return [
+    '404' => [
+        'title' => 'Page non trouvée',
+        'description' => 'C’EST QUELQU\'UN QUELQUE EMBARRASSEMENT, N\'EST-CE PAS?',
+        'back' => 'Retour à la page d\'accueil',
+        'description2' => 'On dirait que rien n\'a été trouvé à cet endroit.',
+        'title2' => '404',
+    ],
+    '503' => [
+        'title' => 'Je reviens tout de suite.',
+        'description' => 'Je reviens tout de suite.',
+    ],
+];

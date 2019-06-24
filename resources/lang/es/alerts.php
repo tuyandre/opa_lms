@@ -1,50 +1,43 @@
-<?php
+<?php 
 
-return array (
-  'backend' => 
-  array (
-    'roles' => 
-    array (
-      'created' => 'Rol creado satisfactoriamente.',
-      'deleted' => 'Rol eliminado satisfactoriamente.',
-      'updated' => 'Rol actualizado satisfactoriamente.',
-    ),
-    'users' => 
-    array (
-      'cant_resend_confirmation' => 'La aplicación esta actualmente configurada para aprobación manual de usuarios.',
-      'confirmation_email' => 'Un nuevo mensaje de confirmación ha sido enviado a tu correo.',
-      'confirmed' => 'El usuario fue confirmado exitosamente.',
-      'created' => 'Usuario creado satisfactoriamente.',
-      'deleted' => 'Usuario eliminado satisfactoriamente.',
-      'deleted_permanently' => 'Usuario eliminado de forma permanente.',
-      'restored' => 'Usuario restaurado satisfactoriamente.',
-      'session_cleared' => 'La sesión del usuario se borró exitosamente.',
-      'social_deleted' => 'Cuenta social removida exitosamente.',
-      'unconfirmed' => 'El usuario fue desconfirmado exitosamente',
-      'updated' => 'Usuario actualizado satisfactoriamente.',
-      'updated_password' => 'Contraseña actualizada satisfactoriamente.',
-    ),
-    'general' => 
-    array (
-      'backup_warning' => 'Por favor, rellene los detalles necesarios para la copia de seguridad',
-      'cancelled' => 'Actualización cancelada.',
-      'created' => 'Creado con éxito.',
-      'deleted' => 'Borrado exitosamente.',
-      'error' => 'Algo salió mal. Inténtalo de nuevo',
-      'restored' => 'Restaurado con éxito.',
-      'unverified' => 'Archivos de actualización no verificados.',
-      'updated' => 'Actualizado con éxito.',
-    ),
-  ),
-  'frontend' => 
-  array (
-    'contact' => 
-    array (
-      'sent' => 'Tu información fue enviada exitosamente. Responderemos tan pronto sea posible al e-mail que proporcionaste.',
-    ),
-    'course' => 
-    array (
-      'completed' => '¡Felicidades! Has completado con éxito el curso. Revisa tu certificado en el tablero',
-    ),
-  ),
-);
+return [
+    'backend' => [
+        'roles' => [
+            'created' => 'El rol fue creado exitosamente.',
+            'deleted' => 'El rol fue eliminado con éxito.',
+            'updated' => 'El rol fue actualizado exitosamente.',
+        ],
+        'users' => [
+            'cant_resend_confirmation' => 'La aplicación está configurada actualmente para aprobar manualmente los usuarios.',
+            'confirmation_email' => 'Se ha enviado un nuevo correo electrónico de confirmación a la dirección que figura en el archivo.',
+            'confirmed' => 'El usuario fue confirmado con éxito.',
+            'created' => 'El usuario fue creado con éxito.',
+            'deleted' => 'El usuario fue eliminado con éxito.',
+            'deleted_permanently' => 'El usuario fue eliminado permanentemente.',
+            'restored' => 'El usuario fue restaurado con éxito.',
+            'session_cleared' => 'La sesión del usuario fue borrada con éxito.',
+            'social_deleted' => 'Cuenta social eliminada con éxito',
+            'unconfirmed' => 'El usuario fue exitosamente sin confirmar',
+            'updated' => 'El usuario fue actualizado con éxito.',
+            'updated_password' => 'La contraseña del usuario se actualizó con éxito.',
+        ],
+        'general' => [
+            'backup_warning' => 'Por favor, rellene los detalles necesarios para la copia de seguridad',
+            'cancelled' => 'Actualización cancelada.',
+            'created' => 'Creado con éxito.',
+            'deleted' => 'Borrado exitosamente.',
+            'error' => 'Algo salió mal. Inténtalo de nuevo',
+            'restored' => 'Restaurado con éxito.',
+            'unverified' => 'Archivos de actualización no verificados.',
+            'updated' => 'Actualizado con éxito.',
+        ],
+    ],
+    'frontend' => [
+        'contact' => [
+            'sent' => 'Su información fue enviada con éxito. Le responderemos lo antes posible al correo electrónico proporcionado.',
+        ],
+        'course' => [
+            'completed' => '¡Felicidades! Has completado con éxito el curso. Revisa tu certificado en el tablero',
+        ],
+    ],
+];

@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'all'       => 'Tous',
+    'all'       => 'tout',
     'emergency' => 'Urgence',
     'alert'     => 'Alerte',
     'critical'  => 'Critique',

@@ -1,47 +1,40 @@
-<?php
+<?php 
 
-return array (
-  'backend' => 
-  array (
-    'access' => 
-    array (
-      'users' => 
-      array (
-        'activate' => 'Activar',
-        'change_password' => 'Cambiar contraseña',
-        'clear_session' => 'Eliminar Sesión',
-        'confirm' => 'Confirmar',
-        'deactivate' => 'Desactivar',
-        'delete_permanently' => 'Eliminar de forma permanente',
-        'login_as' => 'Iniciar sesión como :user',
-        'resend_email' => 'Reenviar E-mail de confirmación',
-        'restore_user' => 'Restaurar Usuario',
-        'unconfirm' => 'Deshacer',
-        'unlink' => 'Desactivar',
-      ),
-    ),
-  ),
-  'emails' => 
-  array (
-    'auth' => 
-    array (
-      'confirm_account' => 'Confirmar Cuenta',
-      'reset_password' => 'Resetear Contraseña',
-    ),
-  ),
-  'general' => 
-  array (
-    'cancel' => 'Cancelar',
-    'continue' => 'Continue',
-    'crud' => 
-    array (
-      'create' => 'Crear',
-      'delete' => 'Eliminar',
-      'edit' => 'Modificar',
-      'update' => 'Actualizar',
-      'view' => 'Visualizar',
-    ),
-    'save' => 'Guardar',
-    'view' => 'Visualizar',
-  ),
-);
+return [
+    'backend' => [
+        'access' => [
+            'users' => [
+                'activate' => 'Activar',
+                'change_password' => 'Cambia la contraseña',
+                'clear_session' => 'Sesión clara',
+                'confirm' => 'Confirmar',
+                'deactivate' => 'Desactivar',
+                'delete_permanently' => 'borrar permanentemente',
+                'login_as' => 'Iniciar sesión como: usuario',
+                'resend_email' => 'Reenviar correo electrónico de confirmación',
+                'restore_user' => 'Restaurar usuario',
+                'unconfirm' => 'Des-confirmar',
+                'unlink' => 'Desconectar',
+            ],
+        ],
+    ],
+    'emails' => [
+        'auth' => [
+            'confirm_account' => 'Confirmar cuenta',
+            'reset_password' => 'Restablecer la contraseña',
+        ],
+    ],
+    'general' => [
+        'cancel' => 'Cancelar',
+        'continue' => 'Continuar',
+        'crud' => [
+            'create' => 'Crear',
+            'delete' => 'Borrar',
+            'edit' => 'Editar',
+            'update' => 'Actualizar',
+            'view' => 'Ver',
+        ],
+        'save' => 'Salvar',
+        'view' => 'Ver',
+    ],
+];

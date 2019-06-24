@@ -1,74 +1,66 @@
-<?php
+<?php 
 
-return array (
-  'backend' => 
-  array (
-    'access' => 
-    array (
-      'roles' => 
-      array (
-        'already_exists' => 'Este Rol ya existe. Por favor, especifique un nombre de Rol diferente.',
-        'cant_delete_admin' => 'No puede eliminar el Rol de Administrador.',
-        'create_error' => 'Hubo un problema al crear el Rol. Intentelo de nuevo.',
-        'delete_error' => 'Hubo un problema al eliminar el Rol. Intentelo de nuevo.',
-        'has_users' => 'No puede eliminar un Rol que tenga usuarios asignados.',
-        'needs_permission' => 'Debe seleccionar al menos un permiso para cada Rol.',
-        'not_found' => 'El Rol requerido no existe.',
-        'update_error' => 'Hubo un problema al modificar el Rol. Intentelo de nuevo.',
-      ),
-      'users' => 
-      array (
-        'already_confirmed' => 'Este usuario ya fue confirmado',
-        'cant_confirm' => 'Hubo un problema al confirmar la cuenta de usuario.',
-        'cant_deactivate_self' => 'No puede desactivarse a sí mismo.',
-        'cant_delete_admin' => 'You can not delete the super administrator.',
-        'cant_delete_self' => 'No puede eliminarse usted mismo.',
-        'cant_delete_own_session' => 'No puedes borrar tu propia sesión.',
-        'cant_restore' => 'Este usuario no fue eliminado, por lo que no se puede restaurar.',
-        'cant_unconfirm_admin' => 'No puede anular la confirmación del superadministrador.',
-        'cant_unconfirm_self' => 'No puedes anular tu propia confirmación.',
-        'create_error' => 'Hubo un problema al crear el Usuario. Intentelo de nuevo.',
-        'delete_error' => 'Hubo un problema al eliminar el Usuario. Intentelo de nuevo.',
-        'delete_first' => 'Este usuario debe ser eliminado primero antes de que pueda ser destruido permanentemente.',
-        'email_error' => 'Ya hay un Usuario con la dirección de E-Mail especificada.',
-        'mark_error' => 'Hubo un problema al modificar el Usuario. Intentelo de nuevo.',
-        'not_confirmed' => 'Este usuario no está confirmado.',
-        'not_found' => 'El Usuario requerido no existe.',
-        'restore_error' => 'Hubo un problema al restaurar el Usuario. Intentelo de nuevo.',
-        'role_needed_create' => 'Los Usuarios deben tener al menos un Rol.',
-        'role_needed' => 'Debes elegir al menos un Rol.',
-        'session_wrong_driver' => 'Su controlador de sesión debe configurarse en la base de datos para usar esta característica.',
-        'social_delete_error' => 'Hubo un problema al eliminar la cuenta social del usuario.',
-        'update_error' => 'Hubo un problema al modificar el Usuario. Intentelo de nuevo.',
-        'update_password_error' => 'Hubo un problema al cambiar la contraseña. Intentelo de nuevo.',
-      ),
-    ),
-  ),
-  'frontend' => 
-  array (
-    'auth' => 
-    array (
-      'confirmation' => 
-      array (
-        'already_confirmed' => 'Su cuenta ya ha sido verificada.',
-        'confirm' => 'Revise su correo y verifique su cuenta!',
-        'created_confirm' => 'Su cuenta ha sido creada. Le hemos enviado un e-mail con un enlace de verificación.',
-        'created_pending' => 'Su cuenta fue creada con éxito y está pendiente de aprobación. Se enviará un correo electrónico cuando su cuenta sea aprobada.',
-        'mismatch' => 'El código de verificación no coincide.',
-        'not_found' => 'El código de verificación especificado no existe.',
-        'pending' => 'Su cuenta esta actualmente pendiente de aprobación',
-        'resend' => 'Su cuenta no ha sido verificada todavía. Por favor, revise su e-mail, o <a href=":url">pulse aquí</a> para re-enviar el correo de verificación.',
-        'success' => 'Su cuenta ha sido verificada satisfactoriamente!',
-        'resent' => 'Un nuevo correo de verificación le ha sido enviado.',
-      ),
-      'deactivated' => 'Su cuenta ha sido desactivada.',
-      'email_taken' => 'El correo especificado ya está registrado.',
-      'password' => 
-      array (
-        'change_mismatch' => 'La contraseña antigua no coincide.',
-        'reset_problem' => 'Hubo un problema al restablecer su contraseña. Por favor, vuelva a enviar el correo electrónico de restablecimiento de contraseña',
-      ),
-      'registration_disabled' => 'Los registros se encuentran actualmente cerrado.',
-    ),
-  ),
-);
+return [
+    'backend' => [
+        'access' => [
+            'roles' => [
+                'already_exists' => 'Ese papel ya existe. Por favor, elija un nombre diferente.',
+                'cant_delete_admin' => 'No se puede eliminar la función de administrador.',
+                'create_error' => 'Hubo un problema creando este rol. Inténtalo de nuevo.',
+                'delete_error' => 'Hubo un problema al eliminar este rol. Inténtalo de nuevo.',
+                'has_users' => 'No se puede eliminar un rol con usuarios asociados.',
+                'needs_permission' => 'Debe seleccionar al menos un permiso para este rol.',
+                'not_found' => 'Ese papel no existe.',
+                'update_error' => 'Hubo un problema al actualizar este rol. Inténtalo de nuevo.',
+            ],
+            'users' => [
+                'already_confirmed' => 'Este usuario ya está confirmado.',
+                'cant_confirm' => 'Hubo un problema al confirmar la cuenta de usuario.',
+                'cant_deactivate_self' => 'No puedes hacer eso a ti mismo.',
+                'cant_delete_admin' => 'No se puede eliminar el super administrador.',
+                'cant_delete_self' => 'No puedes borrarte.',
+                'cant_delete_own_session' => 'No puedes borrar tu propia sesión.',
+                'cant_restore' => 'Este usuario no se elimina, por lo que no se puede restaurar.',
+                'cant_unconfirm_admin' => 'No puedes anular la confirmación del super administrador.',
+                'cant_unconfirm_self' => 'Usted no puede anular la confirmación de sí mismo.',
+                'create_error' => 'Hubo un problema al crear este usuario. Inténtalo de nuevo.',
+                'delete_error' => 'Hubo un problema al eliminar este usuario. Inténtalo de nuevo.',
+                'delete_first' => 'Este usuario debe eliminarse primero antes de que pueda ser destruido permanentemente.',
+                'email_error' => 'Esa dirección de correo electrónico pertenece a un usuario diferente.',
+                'mark_error' => 'Hubo un problema al actualizar este usuario. Inténtalo de nuevo.',
+                'not_confirmed' => 'Este usuario no está confirmado.',
+                'not_found' => 'Ese usuario no existe.',
+                'restore_error' => 'Hubo un problema al restaurar este usuario. Inténtalo de nuevo.',
+                'role_needed_create' => 'Debes elegir al menos un rol.',
+                'role_needed' => 'Debes elegir al menos un rol.',
+                'session_wrong_driver' => 'Su controlador de sesión debe configurarse en la base de datos para usar esta función.',
+                'social_delete_error' => 'Hubo un problema al eliminar la cuenta social del usuario.',
+                'update_error' => 'Hubo un problema al actualizar este usuario. Inténtalo de nuevo.',
+                'update_password_error' => 'Hubo un problema al cambiar la contraseña de este usuario. Inténtalo de nuevo.',
+            ],
+        ],
+    ],
+    'frontend' => [
+        'auth' => [
+            'confirmation' => [
+                'already_confirmed' => 'Tu cuenta ya está confirmada.',
+                'confirm' => '¡Confirme su cuenta!',
+                'created_confirm' => 'Tu cuenta fue creada exitosamente. Le hemos enviado un correo electrónico para confirmar su cuenta.',
+                'created_pending' => 'Su cuenta fue creada exitosamente y está pendiente de aprobación. Se enviará un correo electrónico cuando se apruebe su cuenta.',
+                'mismatch' => 'Su código de confirmación no coincide.',
+                'not_found' => 'Ese código de confirmación no existe.',
+                'pending' => 'Su cuenta está pendiente de aprobación.',
+                'resend' => 'Tu cuenta no está confirmada. Haga clic en el enlace de confirmación en su correo electrónico o <a href=":url">click haga clic aquí </a> para reenviar el correo electrónico de confirmación.',
+                'success' => 'Su cuenta ha sido confirmada con éxito!',
+                'resent' => 'Se ha enviado un nuevo correo electrónico de confirmación a la dirección que figura en el archivo.',
+            ],
+            'deactivated' => 'Tu cuenta ha sido desactivada.',
+            'email_taken' => 'Esa dirección de correo electrónico ya está tomada.',
+            'password' => [
+                'change_mismatch' => 'Esa no es tu antigua contraseña.',
+                'reset_problem' => 'Hubo un problema al restablecer su contraseña. Por favor, vuelva a enviar el correo electrónico de restablecimiento de contraseña.',
+            ],
+            'registration_disabled' => 'La inscripción está actualmente cerrada.',
+        ],
+    ],
+];
