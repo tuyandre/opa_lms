@@ -294,7 +294,7 @@
                             @endif
                         </div>
                     </div>
-                        @if(count($course->bundles) > 0)
+                        @if($course->bundles && (count($course->bundles) > 0))
                             <div class="course-details-category ul-li mt-5">
                                 <h3 class="float-none text-dark">@lang('labels.frontend.course.available_in_bundles')</h3>
                             </div>

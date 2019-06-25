@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use App\Models\System\Session;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Artisan;
 
@@ -26,6 +27,7 @@ class UpdateController extends Controller
         $is_verified = false;
         $checkFiles = \Zipper::make(public_path() . '/updates/' . $file_name)->listFiles('/\.key/i');
         foreach ($checkFiles as $item) {
+            $item = Arr::last(explode('/',$item));
             if ($item == md5('NeonLMSUpdate') . '.key') {
                 $is_verified = true;
             }
@@ -50,6 +52,7 @@ class UpdateController extends Controller
             \Zipper::make(public_path() . '/updates/' . $file_name)->extractTo(base_path());
             unlink(public_path() . '/updates/' . $file_name);
             shell_exec('cd '.base_path().' | composer install');
+
             Artisan::call("migrate");
             Artisan::call("db:seed", ['--class'=>'V2Seeder']);
 
