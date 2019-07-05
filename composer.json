@@ -28,6 +28,7 @@
         "hieu-le/active": "^3.5",
         "jenssegers/agent": "^2.6",
         "laravel/framework": "5.7.*",
+        "laravel/passport": "^7.3",
         "laravel/socialite": "^4.1",
         "laravel/tinker": "^1.0",
         "laravelcollective/html": "^5.4.0",

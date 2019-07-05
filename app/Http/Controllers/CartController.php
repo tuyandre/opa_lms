@@ -104,7 +104,7 @@ class CartController extends Controller
                         'teachers' => $teachers
                     ]);
         }
-        Session::flash('success', 'Product added to cart successfully');
+        Session::flash('success', trans('labels.frontend.cart.product_added'));
         return back();
     }
 
@@ -248,10 +248,10 @@ class CartController extends Controller
             $payment->create($this->_api_context);
         } catch (\PayPal\Exception\PayPalConnectionException $ex) {
             if (\Config::get('app.debug')) {
-                \Session::put('failure', 'Connection timeout');
+                \Session::put('failure', trans('labels.frontend.cart.connection_timeout'));
                 return Redirect::route('cart.paypal.status');
             } else {
-                \Session::put('failure', 'Some error occur, sorry for inconvenient');
+                \Session::put('failure', trans('labels.frontend.cart.unknown_error'));
                 return Redirect::route('cart.paypal.status');
             }
         }
@@ -268,7 +268,7 @@ class CartController extends Controller
             /** redirect to paypal **/
             return Redirect::away($redirect_url);
         }
-        \Session::put('failure', 'Unknown error occurred');
+        \Session::put('failure',trans('labels.frontend.cart.unknown_error'));
         return Redirect::route('cart.paypal.status');
     }
 
@@ -298,7 +298,7 @@ class CartController extends Controller
         }
 
         Cart::session(auth()->user()->id)->clear();
-        \Session::flash('success', 'Request received successfully! check your registered email for further details');
+        \Session::flash('success', trans('labels.frontend.cart.offline_request'));
         return redirect()->route('courses.all');
     }
 
@@ -309,7 +309,7 @@ class CartController extends Controller
         /** clear the session payment ID **/
         Session::forget('paypal_payment_id');
         if (empty(Input::get('PayerID')) || empty(Input::get('token'))) {
-            \Session::put('failure', 'Payment failed');
+            \Session::put('failure', trans('labels.frontend.cart.payment_failed'));
             return Redirect::route('cart');
         }
         $payment = Payment::get($payment_id, $this->_api_context);
@@ -322,7 +322,7 @@ class CartController extends Controller
         $result = $payment->execute($execution, $this->_api_context);
         if ($result->getState() == 'approved') {
             Cart::session(auth()->user()->id)->clear();
-            \Session::flash('success', 'Payment success');
+            \Session::flash('success', trans('labels.frontend.cart.payment_done'));
             $order->status = 1;
             $order->save();
             foreach ($order->items as $orderItem) {
@@ -340,7 +340,7 @@ class CartController extends Controller
 
             return Redirect::route('status');
         } else {
-            \Session::flash('failure', 'Payment failed');
+            \Session::flash('failure', trans('labels.frontend.cart.payment_failed'));
             $order->status = 2;
             $order->save();
             return Redirect::route('cart');
@@ -389,10 +389,10 @@ class CartController extends Controller
                 "description" => auth()->user()->name
             ));
             $status = "success";
-            Session::flash('success', 'Payment done successfully !');
+            Session::flash('success', trans('labels.frontend.cart.payment_done'));
         } catch (\Exception $e) {
             \Log::info($e->getMessage() . ' for id = ' . auth()->user()->id);
-            Session::flash('failure', "Error! Please Try again.");
+            Session::flash('failure', trans('labels.frontend.cart.try_again'));
             $status = "failure";
         }
         return $status;
