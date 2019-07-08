@@ -14,6 +14,7 @@ use App\Models\OrderItem;
 use App\Models\Traits\Uuid;
 use App\Models\VideoProgress;
 use Illuminate\Support\Collection;
+use Laravel\Passport\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
 use App\Models\Auth\Traits\Scope\UserScope;
@@ -41,7 +42,8 @@ class User extends Authenticatable implements MessageableInterface
         UserRelationship,
         UserScope,
         Uuid,
-        Messageable;
+        Messageable,
+        HasApiTokens;
 
     /**
      * The attributes that are mass assignable.
