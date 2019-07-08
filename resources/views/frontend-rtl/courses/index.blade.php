@@ -135,59 +135,56 @@
                                 </div>
                             </div><!-- /tab-1 -->
 
-                            <div id="tab2" class="tab-content-1">
-                                <div class="course-list-view">
-                                    <table>
-                                        <tr class="list-head">
-                                            <th>@lang('labels.frontend.course.course_name')</th>
-                                            <th>@lang('labels.frontend.course.course_type')</th>
-                                            <th>@lang('labels.frontend.course.starts')</th>
-                                        </tr>
-                                        @foreach($courses as $course)
+                            {{--<div id="tab2" class="tab-content-1">--}}
+                                {{--<div class="course-list-view">--}}
+                                    {{--<table>--}}
+                                        {{--<tr class="list-head">--}}
+                                            {{--<th>@lang('labels.frontend.course.course_name')</th>--}}
+                                            {{--<th>@lang('labels.frontend.course.course_type')</th>--}}
+                                            {{--<th>@lang('labels.frontend.course.starts')</th>--}}
+                                        {{--</tr>--}}
+                                        {{--@foreach($courses as $course)--}}
+                                            {{--<tr>--}}
+                                                {{--<td>--}}
+                                                    {{--<div class="course-list-img-text">--}}
+                                                        {{--<div class="course-list-img" @if($course->course_image != "") style="background-image: url({{asset('storage/uploads/'.$course->course_image)}})" @endif >--}}
+                                                        {{--</div>--}}
+                                                        {{--<div class="course-list-text">--}}
+                                                            {{--<h3>--}}
+                                                                {{--<a href="{{ route('courses.show', [$course->slug]) }}">{{$course->title}}</a>--}}
+                                                            {{--</h3>--}}
+                                                            {{--<div class="course-meta">--}}
+                                                                {{--<span class="course-category bold-font"><a--}}
+                                                                            {{--href="{{ route('courses.show', [$course->slug]) }}">{{$appCurrency['symbol'].' '.$course->price}}</a></span>--}}
 
-                                            <tr>
-                                                <td>
-                                                    <div class="course-list-img-text">
-                                                        <div class="course-list-img" @if($course->course_image != "") style="background-image: url({{asset('storage/uploads/'.$course->course_image)}})" @endif >
-                                                        </div>
-                                                        <div class="course-list-text">
-                                                            <h3>
-                                                                <a href="{{ route('courses.show', [$course->slug]) }}">{{$course->title}}</a>
-                                                            </h3>
-                                                            <div class="course-meta">
-                                                                <span class="course-category bold-font"><a
-                                                                            href="{{ route('courses.show', [$course->slug]) }}">{{$appCurrency['symbol'].' '.$course->price}}</a></span>
+                                                                {{--<div class="course-rate ul-li">--}}
+                                                                    {{--<ul>--}}
+                                                                        {{--@for($i=1; $i<=(int)$course->rating; $i++)--}}
+                                                                            {{--<li><i class="fas fa-star"></i></li>--}}
+                                                                        {{--@endfor--}}
+                                                                    {{--</ul>--}}
+                                                                {{--</div>--}}
+                                                            {{--</div>--}}
+                                                        {{--</div>--}}
+                                                    {{--</div>--}}
+                                                {{--</td>--}}
+                                                {{--<td>--}}
+                                                    {{--<div class="course-type-list">--}}
+                                                        {{--<span><a href="{{route('courses.category',['category'=>$course->category->slug])}}">{{$course->category->name}}</a></span>--}}
+                                                    {{--</div>--}}
+                                                {{--</td>--}}
+                                                {{--<td>{{\Carbon\Carbon::parse($course->start_date)->format('d M Y')}}</td>--}}
+                                            {{--</tr>--}}
+                                        {{--@endforeach--}}
 
-                                                                <div class="course-rate ul-li">
-                                                                    <ul>
-                                                                        @for($i=1; $i<=(int)$course->rating; $i++)
-                                                                            <li><i class="fas fa-star"></i></li>
-                                                                        @endfor
-                                                                    </ul>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="course-type-list">
-                                                        <span><a href="{{route('courses.category',['category'=>$course->category->slug])}}">{{$course->category->name}}</a></span>
-                                                    </div>
-                                                </td>
-                                                <td>{{\Carbon\Carbon::parse($course->start_date)->format('d M Y')}}</td>
-                                            </tr>
-                                        @endforeach
-
-                                    </table>
-                                </div>
-                            </div><!-- /tab-2 -->
+                                    {{--</table>--}}
+                                {{--</div>--}}
+                            {{--</div><!-- /tab-2 -->--}}
                         </div>
                         <div class="couse-pagination text-center ul-li">
                             {{ $courses->links() }}
                         </div>
                     </div>
-
-
                 </div>
 
                 <div class="col-md-3">
