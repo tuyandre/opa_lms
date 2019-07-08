@@ -120,6 +120,9 @@ class CoursesController extends Controller
                         ->render();
                     $view .= $delete;
                 }
+
+                $view .= view('backend.datatable.action-publish')
+                    ->with(['route' => route('admin.courses.publish', ['course' => $q->id])])->render();
                 return $view;
 
             })
@@ -358,5 +361,28 @@ class CoursesController extends Controller
         }
 
         return 'success';
+    }
+
+
+    /**
+     * Publish / Unpublish courses
+     *
+     * @param  Request
+     */
+    public function publish($id)
+    {
+        if (!Gate::allows('course_edit')) {
+            return abort(401);
+        }
+
+        $course = Course::findOrFail($id);
+        if($course->published == 1){
+            $course->published = 0;
+        }else{
+            $course->published = 1;
+        }
+        $course->save();
+
+        return back()->withFlashSuccess(trans('alerts.backend.general.updated'));
     }
 }

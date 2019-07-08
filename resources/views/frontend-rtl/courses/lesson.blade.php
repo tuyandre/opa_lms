@@ -117,9 +117,9 @@
                             {{session('success')}}
                         </div>
                     @endif
-                        @include('includes.partials.messages')
+                    @include('includes.partials.messages')
 
-                        <div class="course-details-item border-bottom-0 mb-0">
+                    <div class="course-details-item border-bottom-0 mb-0">
                         @if($lesson->lesson_image != "")
                             <div class="course-single-pic mb30">
                                 <img src="{{asset('storage/uploads/'.$lesson->lesson_image)}}"
@@ -156,26 +156,32 @@
                                 @endif
                             @else
                                 <div class="test-form">
-                                    <form action="{{ route('lessons.test', [$lesson->slug]) }}" method="post">
-                                        {{ csrf_field() }}
-                                        @foreach ($lesson->questions as $question)
-                                            <h4 class="mb-0">{{ $loop->iteration }}. {{ $question->question }}</h4>
-                                            <br/>
-                                            @foreach ($question->options as $option)
-                                                <div class="radio">
-                                                    <label>
-                                                        <input type="radio" name="questions[{{ $question->id }}]"
-                                                               value="{{ $option->id }}"/>
-                                                        <span class="cr"><i class="cr-icon fa fa-circle"></i></span>
-                                                        {{ $option->option_text }}<br/>
-                                                    </label>
-                                                </div>
+                                    @if(count($lesson->questions) > 0  )
+
+                                        <form action="{{ route('lessons.test', [$lesson->slug]) }}" method="post">
+                                            {{ csrf_field() }}
+                                            @foreach ($lesson->questions as $question)
+                                                <h4 class="mb-0">{{ $loop->iteration }}. {{ $question->question }}</h4>
+                                                <br/>
+                                                @foreach ($question->options as $option)
+                                                    <div class="radio">
+                                                        <label>
+                                                            <input type="radio" name="questions[{{ $question->id }}]"
+                                                                   value="{{ $option->id }}"/>
+                                                            <span class="cr"><i class="cr-icon fa fa-circle"></i></span>
+                                                            {{ $option->option_text }}<br/>
+                                                        </label>
+                                                    </div>
+                                                @endforeach
+                                                <br/>
                                             @endforeach
-                                            <br/>
-                                        @endforeach
-                                        <input class="btn gradient-bg text-white font-weight-bold" type="submit"
-                                               value=" @lang('labels.frontend.course.submit_results') "/>
-                                    </form>
+                                            <input class="btn gradient-bg text-white font-weight-bold" type="submit"
+                                                   value=" @lang('labels.frontend.course.submit_results') "/>
+                                        </form>
+                                    @else
+                                        <h3>@lang('labels.general.no_data_available')</h3>
+
+                                    @endif
                                 </div>
                             @endif
                             <hr/>
@@ -280,30 +286,30 @@
                                         @lang('labels.frontend.course.prev')</a></p>
                             @endif
 
-                                <p id="nextButton">
-                                    @if ($lesson->isCompleted() && $next_lesson)
+                            <p id="nextButton">
+                                @if ($lesson->isCompleted() && $next_lesson)
 
 
-                                        <a class="btn btn-block gradient-bg font-weight-bold text-white"
-                                           href="{{ route('lessons.show', [$next_lesson->course_id, $next_lesson->model->slug]) }}">@lang('labels.frontend.course.next')
-                                            <i class='fa fa-angle-double-right'></i> </a>
-                                    @endif
-
-                                </p>
-                                @if($lesson->course->progress() == 100)
-                                    @if(!$lesson->course->isUserCertified())
-                                        <form method="post" action="{{route('admin.certificates.generate')}}">
-                                            @csrf
-                                            <input type="hidden" value="{{$lesson->course->id}}" name="course_id">
-                                            <button class="btn btn-success btn-block text-white mb-3 text-uppercase font-weight-bold"
-                                                    id="finish">@lang('labels.frontend.course.finish_course')</button>
-                                        </form>
-                                    @else
-                                        <div class="alert alert-success">
-                                            @lang('labels.frontend.course.certified')
-                                        </div>
-                                    @endif
+                                    <a class="btn btn-block gradient-bg font-weight-bold text-white"
+                                       href="{{ route('lessons.show', [$next_lesson->course_id, $next_lesson->model->slug]) }}">@lang('labels.frontend.course.next')
+                                        <i class='fa fa-angle-double-right'></i> </a>
                                 @endif
+
+                            </p>
+                            @if($lesson->course->progress() == 100)
+                                @if(!$lesson->course->isUserCertified())
+                                    <form method="post" action="{{route('admin.certificates.generate')}}">
+                                        @csrf
+                                        <input type="hidden" value="{{$lesson->course->id}}" name="course_id">
+                                        <button class="btn btn-success btn-block text-white mb-3 text-uppercase font-weight-bold"
+                                                id="finish">@lang('labels.frontend.course.finish_course')</button>
+                                    </form>
+                                @else
+                                    <div class="alert alert-success">
+                                        @lang('labels.frontend.course.certified')
+                                    </div>
+                                @endif
+                            @endif
 
 
                             <span class="float-none">@lang('labels.frontend.course.course_timeline')</span>
@@ -376,14 +382,13 @@
     <script>
         var storedDuration = 0;
         var storedLesson;
-        storedDuration = Cookies.get('duration');
-        storedLesson = Cookies.get('lesson');
+        storedDuration = Cookies.get("duration_" + "{{auth()->user()->id}}" + "_" + "{{$lesson->id}}" + "_" + "{{$lesson->course->id}}");
+        storedLesson = Cookies.get("lesson" + "{{auth()->user()->id}}" + "_" + "{{$lesson->id}}" + "_" + "{{$lesson->course->id}}");
         var user_lesson;
 
-        if(parseInt(storedLesson) != parseInt("{{$lesson->id}}")){
+        if (parseInt(storedLesson) != parseInt("{{$lesson->id}}")) {
             Cookies.set('lesson', parseInt('{{$lesson->id}}'));
         }
-
 
                 @if($lesson->mediaVideo && $lesson->mediaVideo->type != 'embed')
         var current_progress = 0;
@@ -416,7 +421,7 @@
             duration = event.detail.plyr.duration;
         });
         if (!storedDuration) {
-            Cookies.set('duration', player.duration);
+            Cookies.set("duration_" + "{{auth()->user()->id}}" + "_" + "{{$lesson->id}}" + "_" + "{{$lesson->course->id}}", player.duration);
         }
 
 
@@ -459,11 +464,10 @@
         @endif
         $("#sidebar").stick_in_parent();
 
-
         //Next Button enables/disable according to time
 
         var readTime, totalQuestions, testTime;
-        user_lesson = Cookies.get("user_lesson_"+"{{auth()->user()->id}}"+"_"+"{{$lesson->id}}");
+        user_lesson = Cookies.get("user_lesson_" + "{{auth()->user()->id}}" + "_" + "{{$lesson->id}}" + "_" + "{{$lesson->course->id}}");
         console.log(user_lesson)
 
         @if ($test_exists )
@@ -474,21 +478,22 @@
         @endif
 
                 @if(!$lesson->isCompleted())
-            storedDuration = Cookies.get('duration');
-        storedLesson = Cookies.get('lesson');
+            storedDuration = Cookies.get("duration_" + "{{auth()->user()->id}}" + "_" + "{{$lesson->id}}" + "_" + "{{$lesson->course->id}}");
+        storedLesson = Cookies.get("lesson_" + "{{auth()->user()->id}}" + "_" + "{{$lesson->id}}" + "_" + "{{$lesson->course->id}}");
 
 
         var totalLessonTime = readTime + (parseInt(storedDuration) ? parseInt(storedDuration) : 0);
-        var storedCounter = (Cookies.get('storedCounter')) ? Cookies.get('storedCounter') : 0;
+        var storedCounter = (Cookies.get("storedCounter_" + "{{auth()->user()->id}}" + "_" + "{{$lesson->id}}" + "_" + "{{$lesson->course->id}}")) ? Cookies.get("storedCounter_" + "{{auth()->user()->id}}" + "_" + "{{$lesson->id}}" + "_" + "{{$lesson->course->id}}") : 0;
         var counter;
-        if(user_lesson){
-            if(user_lesson === 'true') {
+        if (user_lesson) {
+            if (user_lesson === 'true') {
                 counter = 1;
             }
-        }else{
+        } else {
+            console.log(storedCounter)
             if ((storedCounter != 0) && storedCounter < totalLessonTime) {
                 counter = storedCounter;
-            }else{
+            } else {
                 counter = totalLessonTime;
             }
         }
@@ -500,13 +505,11 @@
             if (counter >= 0) {
                 // Display a next button box
                 $('#nextButton').html("<a class='btn btn-block bg-danger font-weight-bold text-white' href='#'>@lang('labels.frontend.course.next') (in " + counter + " seconds)</a>")
-                Cookies.set('storedCounter', counter);
+                Cookies.set("storedCounter_" + "{{auth()->user()->id}}" + "_" + "{{$lesson->id}}" + "_" + "{{$lesson->course->id}}", counter);
 
             }
             if (counter === 0) {
-                Cookies.set("user_lesson_"+"{{auth()->user()->id}}"+"_"+"{{$lesson->id}}",'true');
-
-//                    Cookies.remove('storedCounter');
+                Cookies.set("user_lesson_" + "{{auth()->user()->id}}" + "_" + "{{$lesson->id}}" + "_" + "{{$lesson->course->id}}", 'true');
                 Cookies.remove('duration');
 
                 @if ($test_exists && (is_null($test_result)))
@@ -538,4 +541,5 @@
         }
 
     </script>
+
 @endpush

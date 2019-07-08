@@ -293,7 +293,7 @@
 
                         </div>
                     </div>
-                        @if($course->bundles && (count($course->bundles) > 0))
+                    @if($course->bundles && (count($course->bundles) > 0))
                         <div class="course-details-category ul-li mt-5">
                             <h3 class="float-none text-dark">@lang('labels.frontend.course.available_in_bundles')</h3>
                         </div>
@@ -407,13 +407,14 @@
                             @else
 
                                 @if($continue_course)
-                                    <a href="{{route('lessons.show',['id' => $course->id,'slug'=>$continue_course->model->slug])}}"
-                                       class="genius-btn btn-block text-white  gradient-bg text-center text-uppercase  bold-font">
 
-                                        @lang('labels.frontend.course.continue_course')
+                                <a href="{{route('lessons.show',['id' => $course->id,'slug'=>$continue_course->model->slug])}}"
+                                   class="genius-btn btn-block text-white  gradient-bg text-center text-uppercase  bold-font">
 
-                                        <i class="fa fa-arrow-right"></i></a>
-                                @endif
+                                    @lang('labels.frontend.course.continue_course')
+
+                                    <i class="fa fa-arow-right"></i></a>
+                                 @endif
 
                             @endif
 
