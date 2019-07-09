@@ -1144,6 +1144,7 @@ return array (
         'call_us_registration' => 'Call Us For Free Registration',
         'students' => 'Students',
         'faq' => 'FAQ',
+        'more_faqs' => 'More Faqs',
         'search_placeholder' => 'Type what do you want to learn today?',
         'search_our_courses' => 'SEARCH OUR COURSES',
         'browse_featured_course' => 'Browse Our<span> Featured Course.</span>',
