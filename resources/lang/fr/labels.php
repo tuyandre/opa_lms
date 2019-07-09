@@ -349,6 +349,8 @@ return array (
       'your_courses' => 'Vos cours',
       'my_course_bundles' => 'Mes cours',
       'my_courses' => 'Mes cours',
+      'course_and_bundles' => 'Cours et forfaits',
+      'your_courses_and_bundles' => 'Vos cours et forfaits',
     ),
     'faqs' => 
     array (
@@ -568,6 +570,7 @@ return array (
         ),
         'title' => 'Paramètres d\'inscription de l\'utilisateur',
       ),
+      'lesson_note' => 'Activer / Désactiver si l\'utilisateur peut sauter avant la fin du temps',
     ),
     'hero_slider' => 
     array (
@@ -1082,6 +1085,13 @@ return array (
       'yy' => 'AA',
       'product_name' => 'Nom du produit',
       'product_type' => 'type de produit',
+      'connection_timeout' => 'Délai de connection dépassé',
+      'offline_request' => 'Demande reçue avec succès! vérifiez votre email enregistré pour plus de détails.',
+      'payment_done' => 'Paiement effectué avec succès!',
+      'payment_failed' => 'Erreur! Paiement échoué!',
+      'product_added' => 'Produit ajouté au panier avec succès',
+      'try_again' => 'Erreur! Veuillez réessayer.',
+      'unknown_error' => 'Une erreur inconnue s\'est produite',
     ),
     'course' => 
     array (
@@ -1146,6 +1156,7 @@ return array (
       'bundles' => 'Liasses',
       'available_in_bundles' => 'Aussi disponible en paquets',
       'complete_test' => 'S\'il vous plaît compléter le test',
+      'looking_for' => 'À la recherche de?',
     ),
     'faq' => 
     array (
@@ -1211,6 +1222,7 @@ return array (
         'view_all_trending_courses' => 'Voir tous les cours tendance',
         'why_choose' => 'Raison pour laquelle choisir',
         'certificate_verification' => 'Certificat de vérification',
+        'more_faqs' => 'Plus de FAQ',
       ),
     ),
     'modal' => 

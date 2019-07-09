@@ -58,7 +58,7 @@
         <div class="card-header">
             <div class="row">
                 <div class="col-sm-5">
-                    <h3 class="page-title float-left">@lang('labels.backend.general_settings.contact.title')</h3>
+                    <h3 class="page-title">@lang('labels.backend.general_settings.contact.title')</h3>
                 </div>
             </div>
         </div>

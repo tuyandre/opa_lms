@@ -349,6 +349,8 @@ return array (
       'your_courses' => 'Sus cursos',
       'my_course_bundles' => 'Mis paquetes de curso',
       'my_courses' => 'Mis cursos',
+      'course_and_bundles' => 'Curso y Paquetes',
+      'your_courses_and_bundles' => 'Tus cursos y paquetes',
     ),
     'faqs' => 
     array (
@@ -568,6 +570,7 @@ return array (
         ),
         'title' => 'Configuración de registro de usuario',
       ),
+      'lesson_note' => 'Habilitar / Deshabilitar si el usuario podrá omitir antes de que finalice el temporizador.',
     ),
     'hero_slider' => 
     array (
@@ -1082,6 +1085,13 @@ return array (
       'yy' => 'YY',
       'product_name' => 'nombre del producto',
       'product_type' => 'tipo de producto',
+      'connection_timeout' => 'El tiempo de conexión expiro',
+      'offline_request' => 'Solicitud recibida con éxito! Revise su correo electrónico registrado para más detalles.',
+      'payment_done' => 'Pago realizado con éxito!',
+      'payment_failed' => '¡Error! ¡Pago fallido!',
+      'product_added' => 'Producto añadido al carrito con éxito.',
+      'try_again' => '¡Error! Inténtalo de nuevo.',
+      'unknown_error' => 'Ocurrió un error desconocido',
     ),
     'course' => 
     array (
@@ -1146,6 +1156,7 @@ return array (
       'bundles' => 'manojos',
       'available_in_bundles' => 'También disponible en paquetes',
       'complete_test' => 'Por favor complete la prueba',
+      'looking_for' => '¿Buscando?',
     ),
     'faq' => 
     array (
@@ -1211,6 +1222,7 @@ return array (
         'view_all_trending_courses' => 'Ver todos los cursos de tendencias',
         'why_choose' => 'Razón por la que elegir',
         'certificate_verification' => 'Verificación del certificado',
+        'more_faqs' => 'Más preguntas frecuentes',
       ),
     ),
     'modal' => 

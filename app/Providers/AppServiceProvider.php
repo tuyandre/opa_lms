@@ -142,6 +142,19 @@ class AppServiceProvider extends ServiceProvider
         });
 
 
+        view()->composer(['backend.*'], function ($view) {
+
+            $locale_full_name = 'English';
+            $locale =  \App\Locale::where('short_name','=',config('app.locale'))->first();
+            if($locale){
+                $locale_full_name = $locale->name;
+            }
+
+            $view->with(compact('locale_full_name'));
+        });
+
+
+
     }
 
     function menuList($array)

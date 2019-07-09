@@ -11,7 +11,7 @@
         <div class="col">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="page-title float-left">@lang('labels.backend.update.title')</h3>
+                    <h3 class="page-title">@lang('labels.backend.update.title')</h3>
                     <h3 class="float-right text-primary">@lang('labels.backend.update.current_version') {{config('app.version')}}</h3>
 
                 </div><!--card-header-->

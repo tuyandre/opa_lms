@@ -219,8 +219,8 @@
                                         <div class="col-12">
                                             <div class="card text-white bg-primary text-center">
                                                 <div class="card-body">
-                                                    <h2 class="">{{count(auth()->user()->courses)}}</h2>
-                                                    <h5>@lang('labels.backend.dashboard.your_courses')</h5>
+                                                    <h2 class="">{{count(auth()->user()->courses) + count(auth()->user()->bundles)}}</h2>
+                                                    <h5>@lang('labels.backend.dashboard.your_courses_and_bundles')</h5>
                                                 </div>
                                             </div>
                                         </div>
@@ -315,7 +315,7 @@
                             <div class="card text-white bg-dark text-center py-3">
                                 <div class="card-body">
                                     <h1 class="">{{$courses_count}}</h1>
-                                    <h3>@lang('labels.backend.dashboard.courses')</h3>
+                                    <h3>@lang('labels.backend.dashboard.course_and_bundles')</h3>
                                 </div>
                             </div>
                         </div>

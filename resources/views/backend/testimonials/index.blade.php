@@ -95,7 +95,16 @@
                 createdRow: function (row, data, dataIndex) {
                     $(row).attr('data-entry-id', data.id);
                 },
+                language:{
+                    url : "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/{{$locale_full_name}}.json",
+                    buttons :{
+                        colvis : '{{trans("datatable.colvis")}}',
+                        pdf : '{{trans("datatable.pdf")}}',
+                        csv : '{{trans("datatable.csv")}}',
+                    }
+                }
             });
+
             @can('question_delete')
             @if(request('show_deleted') != 1)
             $('.actions').html('<a href="' + '{{ route('admin.testimonials.mass_destroy') }}' + '" class="btn btn-xs btn-danger js-delete-selected" style="margin-top:0.755em;margin-left: 20px;">Delete selected</a>');

@@ -127,6 +127,7 @@ return array (
           'mail_host' => 'Mail Host',
           'mail_port' => 'Mail Port',
           'mail_from_name' => 'Mail From Name',
+          'lesson_timer' => 'Lesson Timer',
           'mail_from_address' => 'Mail From Address',
           'mail_username' => 'Mail Username',
           'mail_password' => 'Mail Password',

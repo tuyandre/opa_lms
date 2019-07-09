@@ -435,6 +435,8 @@ return array (
       'your_courses' => 'الدورات الخاصة بك',
       'my_course_bundles' => 'حزم دورة بلدي',
       'my_courses' => 'دوراتي',
+      'course_and_bundles' => 'بالطبع وحزم',
+      'your_courses_and_bundles' => 'الدورات الخاصة بك والحزم',
     ),
     'general_settings' => 
     array (
@@ -640,6 +642,7 @@ return array (
         ),
         'title' => 'إعدادات تسجيل المستخدم',
       ),
+      'lesson_note' => 'تمكين / تعطيل إذا كان المستخدم سيكون قادرا على تخطي قبل انتهاء الموقت.',
     ),
     'invoices' => 
     array (
@@ -1024,6 +1027,13 @@ return array (
       'yy' => 'YY',
       'product_name' => 'اسم المنتج',
       'product_type' => 'نوع المنتج',
+      'connection_timeout' => 'انتهى وقت محاولة الاتصال',
+      'offline_request' => 'تم استلام الطلب بنجاح! تحقق من بريدك الإلكتروني المسجل لمزيد من التفاصيل.',
+      'payment_done' => 'تم الدفع بنجاح!',
+      'payment_failed' => 'خطأ! عملية الدفع فشلت!',
+      'product_added' => 'تم اضافة المنتج الى السلة بنجاح',
+      'try_again' => 'خطأ! حاول مرة اخرى.',
+      'unknown_error' => 'حدث خطأ غير معروف',
     ),
     'contact' => 
     array (
@@ -1102,6 +1112,7 @@ return array (
       'bundles' => 'بال',
       'available_in_bundles' => 'متاح أيضا في حزم',
       'complete_test' => 'يرجى إكمال الاختبار',
+      'looking_for' => 'البحث عن؟',
     ),
     'faq' => 
     array (
@@ -1167,6 +1178,7 @@ return array (
         'view_all_trending_courses' => 'عرض جميع الدورات التدريبية',
         'why_choose' => 'السبب في اختيار',
         'certificate_verification' => 'التحقق من الشهادة',
+        'more_faqs' => 'المزيد من الأسئلة الشائعة',
       ),
     ),
     'modal' => 

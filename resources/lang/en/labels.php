@@ -517,6 +517,9 @@ return array (
         'how_to_paypal' => 'How to get PayPal API Credentials?',
         'mode_note' => '<b>Sandbox</b>= Will be used for testing payments with PayPal Test Credentials. Account with USD only can make payments with PayPal for now. This options will redirect to test PayPal payment with Sandbox User Credentials. It will be used for dummy transactions only.<br>
 <b>Live</b> = Will be used with you Live PayPal credentials to make actual transaction with normal users with PayPal account.',
+        'bluesnap' => 'Bluesnap Payment Method',
+        'bluesnap_note' => 'Bluesnap card form for payment',
+        'how_to_bluesnap' => 'How to get Bluesnap API Credentials?',
       ),
       'user_registration_settings' => 
       array (
@@ -617,6 +620,7 @@ return array (
         'left_to_right' => 'Left to right',
         'display_type' => 'Display Type',
       ),
+      'lesson_note' => 'Enable / Disable if user will be able to skip before timer is over.',
     ),
     'logo' => 
     array (
@@ -763,6 +767,8 @@ return array (
       'email' => 'Email',
       'my_course_bundles' => 'My Course Bundles',
       'my_courses' => 'My Courses',
+      'your_courses_and_bundles' => 'Your Courses and Bundles',
+      'course_and_bundles' => 'Course and Bundles',
     ),
     'questions_options' => 
     array (
@@ -1022,6 +1028,13 @@ return array (
       'success_message' => 'Congratulations. Enjoy your course',
       'see_more_courses' => 'See More Courses',
       'go_back_to_cart' => 'Go back to Cart',
+      'product_added' => 'Product added to cart successfully',
+      'try_again' => 'Error! Please Try again.',
+      'payment_done' => 'Payment done successfully !',
+      'payment_failed' => 'Error! Payment Failed!',
+      'offline_request' => 'Request received successfully! check your registered email for further details.',
+      'unknown_error' => 'Unknown error occurred',
+      'connection_timeout' => 'Connection Timeout',
     ),
     'contact' => 
     array (
@@ -1104,6 +1117,7 @@ return array (
       'bundle_reviews' => 'Bundle <span>Reviews:</span>',
       'available_in_bundles' => 'Also available in Bundles',
       'complete_test' => 'Please Complete Test',
+      'looking_for' => 'Looking For?',
     ),
     'home' => 
     array (
@@ -1162,6 +1176,7 @@ return array (
         'students_testimonial' => 'Students <span>Testimonial.</span>',
         'why_choose' => 'Reason Why Choose',
         'certificate_verification' => 'Certificate Verification',
+        'more_faqs' => 'More FAQs',
       ),
     ),
     'modal' => 

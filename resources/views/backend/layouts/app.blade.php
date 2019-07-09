@@ -104,6 +104,7 @@
         <script>
             window._token = '{{ csrf_token() }}';
         </script>
+
         @stack('after-scripts')
 
         </body>

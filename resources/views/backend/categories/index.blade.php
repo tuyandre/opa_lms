@@ -7,7 +7,7 @@
     <div class="card">
         <div class="card-header">
 
-                <h3 class="page-title float-left">@lang('labels.backend.categories.title')</h3>
+                <h3 class="page-title">@lang('labels.backend.categories.title')</h3>
                 <div class="float-right">
                     <a href="{{ route('admin.categories.create') }}"
                        class="btn btn-success">@lang('strings.backend.general.app_add_new')</a>
@@ -132,6 +132,14 @@
                 createdRow: function (row, data, dataIndex) {
                     $(row).attr('data-entry-id', data.id);
                 },
+                language:{
+                    url : "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/{{$locale_full_name}}.json",
+                    buttons :{
+                        colvis : '{{trans("datatable.colvis")}}',
+                        pdf : '{{trans("datatable.pdf")}}',
+                        csv : '{{trans("datatable.csv")}}',
+                    }
+                }
             });
             @can('category_access')
             @if(request('show_deleted') != 1)

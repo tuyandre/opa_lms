@@ -6,7 +6,7 @@
 
     <div class="card">
         <div class="card-header">
-            <h3 class="page-title float-left">@lang('labels.backend.certificates.title')</h3>
+            <h3 class="page-title ">@lang('labels.backend.certificates.title')</h3>
         </div>
         <div class="card-body">
             <div class="row">
@@ -77,6 +77,14 @@
                     },
                     'colvis'
                 ],
+                language:{
+                    url : "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/{{$locale_full_name}}.json",
+                    buttons :{
+                        colvis : '{{trans("datatable.colvis")}}',
+                        pdf : '{{trans("datatable.pdf")}}',
+                        csv : '{{trans("datatable.csv")}}',
+                    }
+                }
 
             });
         });

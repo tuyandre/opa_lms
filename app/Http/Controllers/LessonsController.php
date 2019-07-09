@@ -49,6 +49,16 @@ class LessonsController extends Controller
             }
         }
 
+        if ((int)config('lesson_timer') == 0) {
+            if ($lesson->chapterStudents()->where('user_id', \Auth::id())->count() == 0) {
+                $lesson->chapterStudents()->create([
+                    'model_type' => get_class($lesson),
+                    'model_id' => $lesson->id,
+                    'user_id' => auth()->user()->id,
+                    'course_id' => $lesson->course->id
+                ]);
+            }
+        }
 
         $previous_lesson = $lesson->course->courseTimeline()->where('sequence', '<', $lesson->courseTimeline->sequence)
             ->orderBy('sequence', 'desc')
@@ -59,10 +69,13 @@ class LessonsController extends Controller
         $lessons = $lesson->course->courseTimeline()->orderby('sequence', 'asc')->get();
 
 
+
+
+
         $purchased_course = $lesson->course->students()->where('user_id', \Auth::id())->count() > 0;
         $test_exists = FALSE;
 
-        if (get_class($lesson) ==  'App\Models\Test') {
+        if (get_class($lesson) == 'App\Models\Test') {
             $test_exists = TRUE;
         }
 
@@ -108,15 +121,14 @@ class LessonsController extends Controller
         $test_result->answers()->createMany($answers);
 
 
-            if ($test->chapterStudents()->where('user_id', \Auth::id())->count() == 0) {
-                $test->chapterStudents()->create([
-                    'model_type' => $test->model_type,
-                    'model_id' => $test->id,
-                    'user_id' => auth()->user()->id,
-                    'course_id' => $test->course->id
-                ]);
-            }
-
+        if ($test->chapterStudents()->where('user_id', \Auth::id())->count() == 0) {
+            $test->chapterStudents()->create([
+                'model_type' => $test->model_type,
+                'model_id' => $test->id,
+                'user_id' => auth()->user()->id,
+                'course_id' => $test->course->id
+            ]);
+        }
 
 
         return back()->with('message', 'Test score: ' . $test_score);

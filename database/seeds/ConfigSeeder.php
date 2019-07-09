@@ -90,6 +90,7 @@ class ConfigSeeder extends Seeder
             'app__locale' => 'en',
             'app__display_type' => 'ltr',
             'app__currency' => 'USD',
+            'lesson_timer' => 0,
         ];
 
         foreach ($data as $key => $value) {

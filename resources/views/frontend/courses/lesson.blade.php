@@ -282,13 +282,20 @@
                             @endif
 
                             <p id="nextButton">
-                                @if ($lesson->isCompleted() && $next_lesson)
 
+                                @if($next_lesson)
+                                    @if((int)config('lesson_timer') == 1 && $lesson->isCompleted() )
+                                        <a class="btn btn-block gradient-bg font-weight-bold text-white"
+                                           href="{{ route('lessons.show', [$next_lesson->course_id, $next_lesson->model->slug]) }}">@lang('labels.frontend.course.next')
+                                            <i class='fa fa-angle-double-right'></i> </a>
+                                    @else
+                                        <a class="btn btn-block gradient-bg font-weight-bold text-white"
+                                           href="{{ route('lessons.show', [$next_lesson->course_id, $next_lesson->model->slug]) }}">@lang('labels.frontend.course.next')
+                                            <i class='fa fa-angle-double-right'></i> </a>
 
-                                    <a class="btn btn-block gradient-bg font-weight-bold text-white"
-                                       href="{{ route('lessons.show', [$next_lesson->course_id, $next_lesson->model->slug]) }}">@lang('labels.frontend.course.next')
-                                        <i class='fa fa-angle-double-right'></i> </a>
+                                    @endif
                                 @endif
+
 
                             </p>
                             @if($lesson->course->progress() == 100)
@@ -456,8 +463,11 @@
         });
 
         @endif
+
         $("#sidebar").stick_in_parent();
 
+
+        @if((int)config('lesson_timer') != 0)
         //Next Button enables/disable according to time
 
         var readTime, totalQuestions, testTime;
@@ -520,6 +530,7 @@
             }
         }, 1000);
 
+        @endif
         @endif
 
         function courseCompleted(id, type) {
