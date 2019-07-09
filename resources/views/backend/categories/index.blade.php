@@ -7,7 +7,7 @@
     <div class="card">
         <div class="card-header">
 
-                <h3 class="page-title">@lang('labels.backend.categories.title')</h3>
+                <h3 class="page-title d-inline">@lang('labels.backend.categories.title')</h3>
                 <div class="float-right">
                     <a href="{{ route('admin.categories.create') }}"
                        class="btn btn-success">@lang('strings.backend.general.app_add_new')</a>

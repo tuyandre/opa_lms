@@ -1,9 +1,11 @@
 <?php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\File;
 
 /**
  * Class Question
@@ -12,7 +14,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property text $question
  * @property string $question_image
  * @property integer $score
-*/
+ */
 class Question extends Model
 {
     use SoftDeletes;
@@ -22,16 +24,24 @@ class Question extends Model
     protected static function boot()
     {
         parent::boot();
-        if(auth()->check()) {
+        if (auth()->check()) {
             if (auth()->user()->hasRole('teacher')) {
                 static::addGlobalScope('filter', function (Builder $builder) {
                     $courses = auth()->user()->courses->pluck('id');
-                    $builder->whereHas('tests', function ($q) use  ($courses) {
+                    $builder->whereHas('tests', function ($q) use ($courses) {
                         $q->whereIn('tests.course_id', $courses);
                     });
                 });
             }
         }
+
+        static::deleting(function ($question) { // before delete() method call this
+            if ($question->isForceDeleting()) {
+                if (File::exists(public_path('/storage/uploads/' . $question->question_image))) {
+                    File::delete(public_path('/storage/uploads/' . $question->question_image));
+                }
+            }
+        });
 
     }
 
@@ -54,5 +64,5 @@ class Question extends Model
         return $this->belongsToMany(Test::class, 'question_test');
     }
 
-    
+
 }

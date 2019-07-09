@@ -8,6 +8,7 @@ use App\Models\Lesson;
 use App\Models\Media;
 use App\Models\Test;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Gate;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StoreLessonsRequest;
@@ -468,10 +469,20 @@ class LessonsController extends Controller
             return abort(401);
         }
         $lesson = Lesson::onlyTrashed()->findOrFail($id);
-        $lesson->forceDelete();
+
+        if(File::exists(public_path('/storage/uploads/'.$lesson->lesson_image))) {
+            File::delete(public_path('/storage/uploads/'.$lesson->lesson_image));
+            File::delete(public_path('/storage/uploads/thumb/'.$lesson->lesson_image));
+        }
+
         $timelineStep = CourseTimeline::where('model_id', '=', $id)
             ->where('course_id', '=', $lesson->course->id)->first();
-        $timelineStep->delete();
+        if($timelineStep){
+            $timelineStep->delete();
+        }
+
+        $lesson->forceDelete();
+
 
 
         return back()->withFlashSuccess(trans('alerts.backend.general.deleted'));

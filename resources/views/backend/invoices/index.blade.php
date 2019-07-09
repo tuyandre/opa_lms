@@ -28,7 +28,7 @@
 @section('content')
     <div class="card">
         <div class="card-header">
-            <h3 class="page-title">@lang('labels.backend.invoices.title')</h3>
+            <h3 class="page-title d-inline">@lang('labels.backend.invoices.title')</h3>
 
         </div>
         <div class="card-body">

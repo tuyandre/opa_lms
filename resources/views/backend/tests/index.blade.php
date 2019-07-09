@@ -7,7 +7,7 @@
 
     <div class="card">
         <div class="card-header">
-            <h3 class="page-title">@lang('labels.backend.tests.title')</h3>
+            <h3 class="page-title d-inline">@lang('labels.backend.tests.title')</h3>
             @can('test_create')
                 <div class="float-right">
                     <a href="{{ route('admin.tests.create') }}"

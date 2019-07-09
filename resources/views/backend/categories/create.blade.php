@@ -8,7 +8,7 @@
 
     <div class="card">
         <div class="card-header">
-            <h3 class="page-title">@lang('labels.backend.categories.create')</h3>
+            <h3 class="page-title d-inline">@lang('labels.backend.categories.create')</h3>
             <div class="float-right">
                 <a href="{{ route('admin.categories.index') }}"
                    class="btn btn-success">@lang('labels.backend.categories.view')</a>

@@ -1,13 +1,15 @@
 <?php
+
 namespace App\Models;
 
 use FFMpeg\FFMpeg;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+
 //use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 //use Spatie\MediaLibrary\HasMedia\HasMedia;
+use Illuminate\Support\Facades\File;
 use Mtownsend\ReadTime\ReadTime;
-
 
 
 /**
@@ -24,13 +26,32 @@ use Mtownsend\ReadTime\ReadTime;
  * @property string $downloadable_files
  * @property tinyInteger $free_lesson
  * @property tinyInteger $published
-*/
+ */
 class Lesson extends Model
 {
     use SoftDeletes;
 
     protected $fillable = ['title', 'slug', 'lesson_image', 'short_text', 'full_text', 'position', 'downloadable_files', 'free_lesson', 'published', 'course_id'];
-    
+
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($lesson) { // before delete() method call this
+            if($lesson->isForceDeleting()){
+                $media = $lesson->media;
+                foreach ($media as $item) {
+                    if (File::exists(public_path('/storage/uploads/' . $item->name))) {
+                        File::delete(public_path('/storage/uploads/' . $item->name));
+                    }
+                }
+                $lesson->media()->delete();
+            }
+
+        });
+    }
+
 
     /**
      * Set to null if empty
@@ -63,7 +84,8 @@ class Lesson extends Model
         return $this->belongsTo(Course::class, 'course_id')->withTrashed();
     }
 
-    public function test() {
+    public function test()
+    {
         return $this->hasOne('App\Models\Test');
     }
 
@@ -74,54 +96,56 @@ class Lesson extends Model
 
     public function media()
     {
-        return $this->morphMany(Media::class,'model');
+        return $this->morphMany(Media::class, 'model');
     }
 
     public function chapterStudents()
     {
-        return $this->morphMany(ChapterStudent::class,'model');
+        return $this->morphMany(ChapterStudent::class, 'model');
     }
 
-    public function downloadableMedia(){
-        $types = ['youtube','vimeo','upload','embed','lesson_pdf','lesson_audio'];
+    public function downloadableMedia()
+    {
+        $types = ['youtube', 'vimeo', 'upload', 'embed', 'lesson_pdf', 'lesson_audio'];
 
-        return $this->morphMany(Media::class,'model')
-            ->whereNotIn('type',$types);
+        return $this->morphMany(Media::class, 'model')
+            ->whereNotIn('type', $types);
     }
 
 
     public function mediaVideo()
     {
-        $types = ['youtube','vimeo','upload','embed'];
-        return $this->morphOne(Media::class,'model')
-            ->whereIn('type',$types);
+        $types = ['youtube', 'vimeo', 'upload', 'embed'];
+        return $this->morphOne(Media::class, 'model')
+            ->whereIn('type', $types);
 
     }
 
     public function mediaPDF()
     {
-        return $this->morphOne(Media::class,'model')
-            ->where('type','=','lesson_pdf');
+        return $this->morphOne(Media::class, 'model')
+            ->where('type', '=', 'lesson_pdf');
     }
 
     public function mediaAudio()
     {
-        return $this->morphOne(Media::class,'model')
-            ->where('type','=','lesson_audio');
+        return $this->morphOne(Media::class, 'model')
+            ->where('type', '=', 'lesson_audio');
     }
 
     public function courseTimeline()
     {
-        return $this->morphOne(CourseTimeline::class,'model');
+        return $this->morphOne(CourseTimeline::class, 'model');
     }
 
-    public function isCompleted(){
+    public function isCompleted()
+    {
         $isCompleted = $this->chapterStudents()->where('user_id', \Auth::id())->count();
-        if($isCompleted > 0){
+        if ($isCompleted > 0) {
             return true;
         }
         return false;
 
     }
-    
+
 }

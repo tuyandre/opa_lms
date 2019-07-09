@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\Course;
 use App\Models\CourseTimeline;
 use function foo\func;
+use Illuminate\Support\Facades\File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use App\Http\Controllers\Controller;
@@ -196,6 +197,7 @@ class CoursesController extends Controller
         }
         $teachers = \Auth::user()->isAdmin() ? array_filter((array)$request->input('teachers')) : [\Auth::user()->id];
         $course->teachers()->sync($teachers);
+
 
         return redirect()->route('admin.courses.index')->withFlashSuccess(trans('alerts.backend.general.created'));
     }

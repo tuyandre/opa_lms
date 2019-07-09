@@ -7,7 +7,7 @@
 
     <div class="card">
         <div class="card-header">
-            <h3 class="page-title">@lang('labels.backend.blogs.title')</h3>
+            <h3 class="page-title d-inline">@lang('labels.backend.blogs.title')</h3>
             @can('blog_create')
                 <div class="float-right">
                     <a href="{{ route('admin.blogs.create') }}" class="btn btn-success">@lang('strings.backend.general.app_add_new')</a>

@@ -6,13 +6,13 @@
     <div class="card">
         <div class="card-header">
             @if(isset($sponsor))
-            <h3 class="page-title">@lang('labels.backend.sponsors.edit')</h3>
+            <h3 class="page-title d-inline">@lang('labels.backend.sponsors.edit')</h3>
                 <div class="float-right">
                     <a href="{{ route('admin.sponsors.index') }}"
                        class="btn btn-success">@lang('labels.backend.sponsors.view')</a>
                 </div>
             @else
-                <h3 class="page-title">@lang('labels.backend.sponsors.create')</h3>
+                <h3 class="page-title d-inline">@lang('labels.backend.sponsors.create')</h3>
                 <div class="float-right">
                     <a data-toggle="collapse" id="createCatBtn" data-target="#createCat" href="#"
                        class="btn btn-success">@lang('strings.backend.general.app_add_new')</a>

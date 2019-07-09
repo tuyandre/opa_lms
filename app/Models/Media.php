@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\Auth\User;
 use App\Models\VideoProgress;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\File;
 
 class Media extends Model
 {
