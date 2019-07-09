@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use App\Models\Auth\User;
 use App\Models\Blog;
+use App\Models\Bundle;
 use App\Models\Category;
 use App\Models\Config;
 use App\Models\Course;
@@ -95,8 +96,10 @@ class HomeController extends Controller
             $total_courses = config('total_courses');
             $total_teachers = config('total_teachers');
         } else {
+            $total_course = Course::where('published', '=', 1)->get()->count();
+            $total_bundle = Bundle::where('published', '=', 1)->get()->count();
             $total_students = User::role('student')->get()->count();
-            $total_courses = Course::where('published', '=', 1)->get()->count();
+            $total_courses = $total_course+$total_bundle;
             $total_teachers = User::role('teacher')->get()->count();
         }
 

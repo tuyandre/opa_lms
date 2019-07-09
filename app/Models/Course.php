@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 
 /**
  * Class Course
@@ -40,6 +41,16 @@ class Course extends Model
                 });
             }
         }
+
+        static::deleting(function ($course) { // before delete() method call this
+            if($course->isForceDeleting()){
+                if(File::exists(public_path('/storage/uploads/'.$course->course_image))) {
+                    File::delete(public_path('/storage/uploads/'.$course->course_image));
+                    File::delete(public_path('/storage/uploads/thumb/'.$course->course_image));
+                }
+            }
+        });
+
 
     }
 

@@ -16,7 +16,7 @@
     </div>
     <div class="card">
         <div class="card-header">
-            <h3 class="page-title float-left">@lang('labels.backend.categories.edit')</h3>
+            <h3 class="page-title d-inline">@lang('labels.backend.categories.edit')</h3>
             <div class="float-right">
                 <a href="{{ route('admin.categories.index') }}"
                    class="btn btn-success">@lang('labels.backend.categories.view')</a>

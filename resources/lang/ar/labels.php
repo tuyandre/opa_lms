@@ -435,6 +435,8 @@ return array (
       'your_courses' => 'الدورات الخاصة بك',
       'my_course_bundles' => 'حزم دورة بلدي',
       'my_courses' => 'دوراتي',
+      'course_and_bundles' => 'بالطبع وحزم',
+      'your_courses_and_bundles' => 'الدورات الخاصة بك والحزم',
     ),
     'general_settings' => 
     array (
@@ -638,6 +640,7 @@ return array (
         ),
         'title' => 'إعدادات تسجيل المستخدم',
       ),
+      'lesson_note' => 'تمكين / تعطيل إذا كان المستخدم سيكون قادرا على تخطي قبل انتهاء الموقت.',
     ),
     'invoices' => 
     array (
@@ -1107,6 +1110,7 @@ return array (
       'bundles' => 'بال',
       'available_in_bundles' => 'متاح أيضا في حزم',
       'complete_test' => 'يرجى إكمال الاختبار',
+      'looking_for' => 'البحث عن؟',
     ),
     'faq' => 
     array (

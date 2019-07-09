@@ -77,6 +77,8 @@
 
     <div id="app">
     {{--<div id="preloader"></div>--}}
+    @include('frontend.layouts.modals.loginModal')
+
 
     <!-- Start of Header section
     ============================================= -->
@@ -188,7 +190,7 @@
                                             <div class="login">
                                                 <a data-toggle="modal" data-target="#myModal"
                                                    href="#">@lang('navs.general.login')</a>
-                                                @include('frontend.layouts.modals.loginModal')
+                                                {{--@include('frontend.layouts.modals.loginModal')--}}
 
                                             </div>
                                         </li>

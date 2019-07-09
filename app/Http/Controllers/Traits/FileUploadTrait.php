@@ -14,6 +14,7 @@ trait FileUploadTrait
      */
     public function saveFiles(Request $request)
     {
+        ini_set('memory_limit', '-1');
         if (!file_exists(public_path('storage/uploads'))) {
             mkdir(public_path('storage/uploads'), 0777);
             mkdir(public_path('storage/uploads/thumb'), 0777);
@@ -25,15 +26,16 @@ trait FileUploadTrait
             if ($request->hasFile($key)) {
                 if ($request->has($key . '_max_width') && $request->has($key . '_max_height')) {
                     // Check file width
-                    $filename = time() . '-' . str_slug($request->file($key)->getClientOriginalName());
+                    $extension = array_last(explode('.',$request->file($key)->getClientOriginalName()));
+                    $name = array_first(explode('.',$request->file($key)->getClientOriginalName()));
+                    $filename = time() . '-' . str_slug($name).'.'.$extension;
                     $file = $request->file($key);
                     $image = Image::make($file);
                     if (!file_exists(public_path('storage/uploads/thumb'))) {
                         mkdir(public_path('storage/uploads/thumb'), 0777, true);
                     }
-//                    dd($image);
 
-                    Image::make($file)->resize(50, 50)->save(public_path('storage/uploads/thumb') . '/' . $filename);
+                  Image::make($file)->resize(50, 50)->save(public_path('storage/uploads/thumb') . '/' . $filename);
 
                     $width = $image->width();
                     $height = $image->height();
@@ -52,13 +54,14 @@ trait FileUploadTrait
                     $finalRequest = new Request(array_merge($finalRequest->all(), [$key => $filename]));
                 } else {
 
-                    $filename = time() . '-' . str_slug($request->file($key)->getClientOriginalName());
+                    $extension = array_last(explode('.',$request->file($key)->getClientOriginalName()));
+                    $name = array_first(explode('.',$request->file($key)->getClientOriginalName()));
+                    $filename = time() . '-' . str_slug($name).'.'.$extension;
                     $request->file($key)->move(public_path('storage/uploads'), $filename);
                     $finalRequest = new Request(array_merge($finalRequest->all(), [$key => $filename]));
                 }
             }
         }
-
         return $finalRequest;
     }
 
@@ -77,7 +80,9 @@ trait FileUploadTrait
 
                 if ($key == $downloadable_file_input) {
                     foreach ($request->file($key) as $item) {
-                        $filename = time() . '-' . str_slug($item->getClientOriginalName());
+                        $extension = array_last(explode('.',$item->getClientOriginalName()));
+                        $name = array_first(explode('.',$item->getClientOriginalName()));
+                        $filename = time() . '-' . str_slug($name).'.'.$extension;
                         $size = $item->getSize() / 1024;
                         $item->move(public_path('storage/uploads'), $filename);
                         Media::create([
@@ -97,7 +102,10 @@ trait FileUploadTrait
                         if($key == 'add_pdf'){
                             $file = $request->file($key);
 
-                            $filename = time() . '-' . str_slug($file->getClientOriginalName());
+                            $extension = array_last(explode('.',$request->file($key)->getClientOriginalName()));
+                            $name = array_first(explode('.',$request->file($key)->getClientOriginalName()));
+                            $filename = time() . '-' . str_slug($name).'.'.$extension;
+
                             $size = $file->getSize() / 1024;
                             $file->move(public_path('storage/uploads'), $filename);
                             Media::create([
@@ -112,7 +120,10 @@ trait FileUploadTrait
                         }elseif($key == 'add_audio'){
                             $file = $request->file($key);
 
-                            $filename = time() . '-' . str_slug($file->getClientOriginalName());
+                            $extension = array_last(explode('.',$request->file($key)->getClientOriginalName()));
+                            $name = array_first(explode('.',$request->file($key)->getClientOriginalName()));
+                            $filename = time() . '-' . str_slug($name).'.'.$extension;
+
                             $size = $file->getSize() / 1024;
                             $file->move(public_path('storage/uploads'), $filename);
                             Media::create([
@@ -126,7 +137,10 @@ trait FileUploadTrait
                             ]);
                             $finalRequest = new Request(array_merge($finalRequest->all(), [$key => $filename]));
                         } else{
-                            $filename = time() . '-' . str_slug($request->file($key)->getClientOriginalName());
+                            $extension = array_last(explode('.',$request->file($key)->getClientOriginalName()));
+                            $name = array_first(explode('.',$request->file($key)->getClientOriginalName()));
+                            $filename = time() . '-' . str_slug($name).'.'.$extension;
+
                             $request->file($key)->move(public_path('storage/uploads'), $filename);
                             $finalRequest = new Request(array_merge($finalRequest->all(), [$key => $filename]));
                             $model->lesson_image = $filename;

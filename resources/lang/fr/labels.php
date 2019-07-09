@@ -349,6 +349,8 @@ return array (
       'your_courses' => 'Vos cours',
       'my_course_bundles' => 'Mes cours',
       'my_courses' => 'Mes cours',
+      'course_and_bundles' => 'Cours et forfaits',
+      'your_courses_and_bundles' => 'Vos cours et forfaits',
     ),
     'faqs' => 
     array (
@@ -568,6 +570,7 @@ return array (
         ),
         'title' => 'Paramètres d\'inscription de l\'utilisateur',
       ),
+      'lesson_note' => 'Activer / Désactiver si l\'utilisateur peut sauter avant la fin du temps',
     ),
     'hero_slider' => 
     array (
@@ -1150,6 +1153,7 @@ return array (
       'bundles' => 'Liasses',
       'available_in_bundles' => 'Aussi disponible en paquets',
       'complete_test' => 'S\'il vous plaît compléter le test',
+      'looking_for' => 'À la recherche de?',
     ),
     'faq' => 
     array (

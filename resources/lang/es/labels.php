@@ -349,6 +349,8 @@ return array (
       'your_courses' => 'Tus cursos',
       'my_course_bundles' => 'Mis paquetes de curso',
       'my_courses' => 'Mis cursos',
+      'course_and_bundles' => 'Curso y Paquetes',
+      'your_courses_and_bundles' => 'Tus cursos y paquetes',
     ),
     'faqs' => 
     array (
@@ -568,6 +570,7 @@ return array (
         ),
         'title' => 'Configuración de registro de usuario',
       ),
+      'lesson_note' => 'Habilitar / Deshabilitar si el usuario podrá omitir antes de que finalice el temporizador.',
     ),
     'hero_slider' => 
     array (
@@ -1149,6 +1152,7 @@ return array (
       'bundles' => 'manojos',
       'available_in_bundles' => 'También disponible en paquetes',
       'complete_test' => 'Por favor complete la prueba',
+      'looking_for' => '¿Buscando?',
     ),
     'faq' => 
     array (

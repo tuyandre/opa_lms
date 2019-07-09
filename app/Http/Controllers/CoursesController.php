@@ -127,10 +127,10 @@ class CoursesController extends Controller
         $this->validate($request, [
             'review' => 'required'
         ]);
-        $blog = Blog::findORFail($request->id);
+        $course = Course::findORFail($request->id);
         $review = new Review();
         $review->user_id = auth()->user()->id;
-        $review->reviewable_id = $blog->id;
+        $review->reviewable_id = $course->id;
         $review->reviewable_type = Course::class;
         $review->rating = $request->rating;
         $review->content = $request->review;

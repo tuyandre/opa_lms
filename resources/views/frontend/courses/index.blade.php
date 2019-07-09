@@ -4,9 +4,10 @@
 @push('after-styles')
     <style>
         .couse-pagination li.active {
-            color: #333333!important;
+            color: #333333 !important;
             font-weight: 700;
         }
+
         .page-link {
             position: relative;
             display: block;
@@ -17,14 +18,16 @@
             background-color: white;
             border: none;
         }
+
         .page-item.active .page-link {
             z-index: 1;
             color: #333333;
-            background-color:white;
-            border:none;
+            background-color: white;
+            border: none;
 
         }
-        ul.pagination{
+
+        ul.pagination {
             display: inline;
             text-align: center;
         }
@@ -39,7 +42,9 @@
         <div class="container">
             <div class="page-breadcrumb-content text-center">
                 <div class="page-breadcrumb-title">
-                    <h2 class="breadcrumb-head black bold"><span>@if(isset($category)) {{$category->name}} @else @lang('labels.frontend.course.courses') @endif </span></h2>
+                    <h2 class="breadcrumb-head black bold">
+                        <span>@if(isset($category)) {{$category->name}} @else @lang('labels.frontend.course.courses') @endif </span>
+                    </h2>
                 </div>
             </div>
         </div>
@@ -85,51 +90,59 @@
                             <div id="tab1" class="tab-content-1 pt35">
                                 <div class="best-course-area best-course-v2">
                                     <div class="row">
-                                        @foreach($courses as $course)
+                                        @if($courses->count() > 0)
 
-                                            <div class="col-md-4">
-                                                <div class="best-course-pic-text relative-position">
-                                                    <div class="best-course-pic relative-position" @if($course->course_image != "") style="background-image: url('{{asset('storage/uploads/'.$course->course_image)}}')" @endif>
+                                            @foreach($courses as $course)
 
-                                                        @if($course->trending == 1)
-                                                        <div class="trend-badge-2 text-center text-uppercase">
-                                                        <i class="fas fa-bolt"></i>
-                                                        <span>@lang('labels.frontend.badges.trending')</span>
+                                                <div class="col-md-4">
+                                                    <div class="best-course-pic-text relative-position">
+                                                        <div class="best-course-pic relative-position"
+                                                             @if($course->course_image != "") style="background-image: url('{{asset('storage/uploads/'.$course->course_image)}}')" @endif>
+
+                                                            @if($course->trending == 1)
+                                                                <div class="trend-badge-2 text-center text-uppercase">
+                                                                    <i class="fas fa-bolt"></i>
+                                                                    <span>@lang('labels.frontend.badges.trending')</span>
+                                                                </div>
+                                                            @endif
+                                                            <div class="course-price text-center gradient-bg">
+                                                                <span> {{$appCurrency['symbol'].' '.$course->price}}</span>
+                                                            </div>
+                                                            <div class="course-rate ul-li">
+                                                                <ul>
+                                                                    @for($i=1; $i<=(int)$course->rating; $i++)
+                                                                        <li><i class="fas fa-star"></i></li>
+                                                                    @endfor
+                                                                </ul>
+                                                            </div>
+                                                            <div class="course-details-btn">
+                                                                <a href="{{ route('courses.show', [$course->slug]) }}">@lang('labels.frontend.course.course_detail')
+                                                                    <i class="fas fa-arrow-right"></i></a>
+                                                            </div>
+                                                            <div class="blakish-overlay"></div>
                                                         </div>
-                                                        @endif
-                                                        <div class="course-price text-center gradient-bg">
-                                                            <span> {{$appCurrency['symbol'].' '.$course->price}}</span>
-                                                        </div>
-                                                        <div class="course-rate ul-li">
-                                                            <ul>
-                                                                @for($i=1; $i<=(int)$course->rating; $i++)
-                                                                    <li><i class="fas fa-star"></i></li>
-                                                                @endfor
-                                                            </ul>
-                                                        </div>
-                                                        <div class="course-details-btn">
-                                                            <a href="{{ route('courses.show', [$course->slug]) }}">@lang('labels.frontend.course.course_detail') <i class="fas fa-arrow-right"></i></a>
-                                                        </div>
-                                                        <div class="blakish-overlay"></div>
-                                                    </div>
-                                                    <div class="best-course-text">
-                                                        <div class="course-title mb20 headline relative-position">
-                                                            <h3>
-                                                                <a href="{{ route('courses.show', [$course->slug]) }}">{{$course->title}}</a>
-                                                            </h3>
-                                                        </div>
-                                                        <div class="course-meta">
-                                                            <span class="course-category"><a href="{{route('courses.category',['category'=>$course->category->slug])}}">{{$course->category->name}}</a></span>
-                                                            <span class="course-author"><a href="#">{{ $course->students()->count() }}
-                                                                    @lang('labels.frontend.course.students')</a></span>
+                                                        <div class="best-course-text">
+                                                            <div class="course-title mb20 headline relative-position">
+                                                                <h3>
+                                                                    <a href="{{ route('courses.show', [$course->slug]) }}">{{$course->title}}</a>
+                                                                </h3>
+                                                            </div>
+                                                            <div class="course-meta">
+                                                                <span class="course-category"><a
+                                                                            href="{{route('courses.category',['category'=>$course->category->slug])}}">{{$course->category->name}}</a></span>
+                                                                <span class="course-author"><a href="#">{{ $course->students()->count() }}
+                                                                        @lang('labels.frontend.course.students')</a></span>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                    @endforeach
+
+                                            @endforeach
+                                        @else
+                                            <h3>@lang('labels.general.no_data_available')</h3>
+                                    @endif
 
                                     <!-- /course -->
-
 
                                     </div>
                                 </div>
@@ -143,40 +156,50 @@
                                             <th>@lang('labels.frontend.course.course_type')</th>
                                             <th>@lang('labels.frontend.course.starts')</th>
                                         </tr>
-                                        @foreach($courses as $course)
+                                        @if($courses->count() > 0)
+                                            @foreach($courses as $course)
 
-                                            <tr>
-                                                <td>
-                                                    <div class="course-list-img-text">
-                                                        <div class="course-list-img" @if($course->course_image != "") style="background-image: url({{asset('storage/uploads/'.$course->course_image)}})" @endif >
-                                                        </div>
-                                                        <div class="course-list-text">
-                                                            <h3>
-                                                                <a href="{{ route('courses.show', [$course->slug]) }}">{{$course->title}}</a>
-                                                            </h3>
-                                                            <div class="course-meta">
+                                                <tr>
+                                                    <td>
+                                                        <div class="course-list-img-text">
+                                                            <div class="course-list-img"
+                                                                 @if($course->course_image != "") style="background-image: url({{asset('storage/uploads/'.$course->course_image)}})" @endif >
+                                                            </div>
+                                                            <div class="course-list-text">
+                                                                <h3>
+                                                                    <a href="{{ route('courses.show', [$course->slug]) }}">{{$course->title}}</a>
+                                                                </h3>
+                                                                <div class="course-meta">
                                                                 <span class="course-category bold-font"><a
                                                                             href="{{ route('courses.show', [$course->slug]) }}">{{$appCurrency['symbol'].' '.$course->price}}</a></span>
 
-                                                                <div class="course-rate ul-li">
-                                                                    <ul>
-                                                                        @for($i=1; $i<=(int)$course->rating; $i++)
-                                                                            <li><i class="fas fa-star"></i></li>
-                                                                        @endfor
-                                                                    </ul>
+                                                                    <div class="course-rate ul-li">
+                                                                        <ul>
+                                                                            @for($i=1; $i<=(int)$course->rating; $i++)
+                                                                                <li><i class="fas fa-star"></i></li>
+                                                                            @endfor
+                                                                        </ul>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="course-type-list">
+                                                            <span><a href="{{route('courses.category',['category'=>$course->category->slug])}}">{{$course->category->name}}</a></span>
+                                                        </div>
+                                                    </td>
+                                                    <td>{{\Carbon\Carbon::parse($course->start_date)->format('d M Y')}}</td>
+                                                </tr>
+                                            @endforeach
+                                        @else
+                                            <tr>
+                                                <td colspan="3">
+                                                    <h3>@lang('labels.general.no_data_available')</h3>
+
                                                 </td>
-                                                <td>
-                                                    <div class="course-type-list">
-                                                        <span><a href="{{route('courses.category',['category'=>$course->category->slug])}}">{{$course->category->name}}</a></span>
-                                                    </div>
-                                                </td>
-                                                <td>{{\Carbon\Carbon::parse($course->start_date)->format('d M Y')}}</td>
                                             </tr>
-                                        @endforeach
+                                        @endif
 
                                     </table>
                                 </div>
@@ -200,9 +223,11 @@
 
                                     <div class="filter-search mb20">
                                         <label>@lang('labels.frontend.course.full_text')</label>
-                                        <input type="text" class="" name="q" placeholder="Looking for?">
+                                        <input type="text" class="" name="q" placeholder="{{trans('labels.frontend.course.looking_for')}}">
                                     </div>
-                                        <button class="genius-btn gradient-bg text-center text-uppercase btn-block text-white font-weight-bold" type="submit">@lang('labels.frontend.course.find_courses') <i class="fas fa-caret-right"></i></button>
+                                    <button class="genius-btn gradient-bg text-center text-uppercase btn-block text-white font-weight-bold"
+                                            type="submit">@lang('labels.frontend.course.find_courses') <i
+                                                class="fas fa-caret-right"></i></button>
                                 </form>
 
                             </div>
@@ -224,14 +249,17 @@
                                             <div class="date-meta">
                                                 <i class="fas fa-calendar-alt"></i> {{$item->created_at->format('d M Y')}}
                                             </div>
-                                            <h3 class="latest-title bold-font"><a href="{{route('blogs.index',['slug'=>$item->slug.'-'.$item->id])}}">{{$item->title}}</a></h3>
+                                            <h3 class="latest-title bold-font"><a
+                                                        href="{{route('blogs.index',['slug'=>$item->slug.'-'.$item->id])}}">{{$item->title}}</a>
+                                            </h3>
                                         </div>
                                         <!-- /post -->
                                     @endforeach
 
 
                                     <div class="view-all-btn bold-font">
-                                        <a href="{{route('blogs.index')}}">@lang('labels.frontend.course.view_all_news') <i class="fas fa-chevron-circle-right"></i></a>
+                                        <a href="{{route('blogs.index')}}">@lang('labels.frontend.course.view_all_news')
+                                            <i class="fas fa-chevron-circle-right"></i></a>
                                     </div>
                                 </div>
                             </div>
@@ -245,7 +273,7 @@
                                 <div class="featured-course">
                                     <div class="best-course-pic-text relative-position pt-0">
                                         <div class="best-course-pic relative-position "
-                                            @if($global_featured_course->course_image != "") style="background-image: url({{asset('storage/uploads/'.$global_featured_course->course_image)}})" @endif>
+                                             @if($global_featured_course->course_image != "") style="background-image: url({{asset('storage/uploads/'.$global_featured_course->course_image)}})" @endif>
 
                                             @if($global_featured_course->trending == 1)
                                                 <div class="trend-badge-2 text-center text-uppercase">
@@ -256,10 +284,13 @@
                                         </div>
                                         <div class="best-course-text" style="left: 0;right: 0;">
                                             <div class="course-title mb20 headline relative-position">
-                                                <h3><a href="{{ route('courses.show', [$global_featured_course->slug]) }}">{{$global_featured_course->title}}</a></h3>
+                                                <h3>
+                                                    <a href="{{ route('courses.show', [$global_featured_course->slug]) }}">{{$global_featured_course->title}}</a>
+                                                </h3>
                                             </div>
                                             <div class="course-meta">
-                                                <span class="course-category"><a href="{{route('courses.category',['category'=>$global_featured_course->category->slug])}}">{{$global_featured_course->category->name}}</a></span>
+                                                <span class="course-category"><a
+                                                            href="{{route('courses.category',['category'=>$global_featured_course->category->slug])}}">{{$global_featured_course->category->name}}</a></span>
                                                 <span class="course-author">{{ $global_featured_course->students()->count() }}</span>
                                             </div>
                                         </div>
@@ -287,16 +318,16 @@
 @push('after-scripts')
     <script>
         $(document).ready(function () {
-            $(document).on('change','#sortBy',function () {
-               if($(this).val() != ""){
-                   location.href = '{{url()->current()}}?type='+$(this).val();
-               }else{
-                   location.href = '{{route('courses.all')}}';
-               }
+            $(document).on('change', '#sortBy', function () {
+                if ($(this).val() != "") {
+                    location.href = '{{url()->current()}}?type=' + $(this).val();
+                } else {
+                    location.href = '{{route('courses.all')}}';
+                }
             })
 
             @if(request('type') != "")
-                $('#sortBy').find('option[value="'+"{{request('type')}}"+'"]').attr('selected',true);
+            $('#sortBy').find('option[value="' + "{{request('type')}}" + '"]').attr('selected', true);
             @endif
         });
 

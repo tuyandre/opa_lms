@@ -7,7 +7,7 @@
 
     <div class="card">
         <div class="card-header">
-            <h3 class="page-title float-left">@lang('labels.backend.bundles.create')</h3>
+            <h3 class="page-title d-inline">@lang('labels.backend.bundles.create')</h3>
             <div class="float-right">
                 <a href="{{ route('admin.bundles.index') }}"
                    class="btn btn-success">@lang('labels.backend.bundles.view')</a>

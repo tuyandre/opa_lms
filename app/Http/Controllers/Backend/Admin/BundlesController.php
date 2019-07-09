@@ -109,6 +109,14 @@ class BundlesController extends Controller
                         ->render();
                     $view .= $delete;
                 }
+
+                if ($has_delete) {
+                    $delete = view('backend.datatable.action-delete')
+                        ->with(['route' => route('admin.bundles.destroy', ['bundles' => $q->id])])
+                        ->render();
+                    $view .= $delete;
+                }
+
                 return $view;
 
             })
@@ -317,6 +325,29 @@ class BundlesController extends Controller
         $bundle->forceDelete();
 
         return redirect()->route('admin.bundles.index')->withFlashSuccess(trans('alerts.backend.general.deleted'));
+    }
+
+
+    /**
+     * Publish / Unpublish courses
+     *
+     * @param  Request
+     */
+    public function publish($id)
+    {
+        if (!Gate::allows('bundle_edit')) {
+            return abort(401);
+        }
+
+        $bundle = Bundle::findOrFail($id);
+        if($bundle->published == 1){
+            $bundle->published = 0;
+        }else{
+            $bundle->published = 1;
+        }
+        $bundle->save();
+
+        return back()->withFlashSuccess(trans('alerts.backend.general.updated'));
     }
 
 

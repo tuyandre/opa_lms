@@ -107,10 +107,10 @@ class BundlesController extends Controller
         $this->validate($request, [
             'review' => 'required'
         ]);
-        $blog = Blog::findORFail($request->id);
+        $bundle = Bundle::findORFail($request->id);
         $review = new Review();
         $review->user_id = auth()->user()->id;
-        $review->reviewable_id = $blog->id;
+        $review->reviewable_id = $bundle->id;
         $review->reviewable_type = Bundle::class;
         $review->rating = $request->rating;
         $review->content = $request->review;

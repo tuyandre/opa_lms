@@ -6,7 +6,7 @@
 
     <div class="card">
         <div class="card-header">
-            <h3 class="page-title float-left">@lang('labels.backend.lessons.title')</h3>
+            <h3 class="page-title d-inline">@lang('labels.backend.lessons.title')</h3>
             @can('lesson_create')
                 <div class="float-right">
                     <a href="{{ route('admin.lessons.create') }}@if(request('course_id')){{'?course_id='.request('course_id')}}@endif"
@@ -136,6 +136,14 @@
                 createdRow: function (row, data, dataIndex) {
                     $(row).attr('data-entry-id', data.id);
                 },
+                language:{
+                    url : "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/{{$locale_full_name}}.json",
+                    buttons :{
+                        colvis : '{{trans("datatable.colvis")}}',
+                        pdf : '{{trans("datatable.pdf")}}',
+                        csv : '{{trans("datatable.csv")}}',
+                    }
+                }
             });
 
             @endif

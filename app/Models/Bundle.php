@@ -6,6 +6,7 @@ use App\Models\Auth\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 
 class Bundle extends Model
 {
@@ -14,6 +15,20 @@ class Bundle extends Model
 
     protected $fillable = ['category_id', 'title', 'slug', 'description', 'price', 'course_image', 'start_date', 'published', 'featured', 'trending', 'popular', 'meta_title', 'meta_description', 'meta_keywords','user_id'];
 
+
+
+    protected static function boot()
+    {
+        parent::boot();
+        static::deleting(function ($bundle) { // before delete() method call this
+            if($bundle->isForceDeleting()){
+                if(File::exists(public_path('/storage/uploads/'.$bundle->course_image))) {
+                    File::delete(public_path('/storage/uploads/'.$bundle->course_image));
+                    File::delete(public_path('/storage/uploads/thumb/'.$bundle->course_image));
+                }
+            }
+        });
+    }
 
     public function scopeOfTeacher($query)
     {

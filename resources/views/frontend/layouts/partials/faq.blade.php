@@ -39,6 +39,7 @@
                     </div>
                     <div class="view-all-btn bold-font {{isset($classes) ? 'text-white' : '' }}">
                         <a href="{{route('faqs')}}">@lang('labels.frontend.layouts.partials.more_faqs')<i class="fas fa-chevron-circle-right"></i></a>
+
                     </div>
                 </div>
             </div>
