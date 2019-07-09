@@ -48,7 +48,7 @@
 
             @stack('after-styles')
 
-            @if((config('app.display_type') == 'rtl') || (session()->has('display_type') == 'rtl'))
+            @if((config('app.display_type') == 'rtl') || (session('display_type') == 'rtl'))
                 <style>
                     .float-left {
                         float: right !important;
