@@ -47,6 +47,19 @@
 
 
             @stack('after-styles')
+
+            @if((config('app.display_type') == 'rtl') || (session()->has('display_type') == 'rtl'))
+                <style>
+                    .float-left {
+                        float: right !important;
+                    }
+
+                    .float-right {
+                        float: left !important;
+                    }
+                </style>
+            @endif
+
         </head>
 
         <body class="{{ config('backend.body_classes') }}">

@@ -8,7 +8,7 @@
 
     <div class="card">
         <div class="card-header">
-            <h3 class="page-title float-left mb-0">@lang('labels.backend.orders.title')</h3>
+            <h3 class="page-title d-inline mb-0">@lang('labels.backend.orders.title')</h3>
 
         </div>
         <div class="card-body">
