@@ -33,3 +33,6 @@ Route::group([
     });
 });
 
+Route::post('popular-courses','ApiController@getPopularCourses');
+Route::post('search','ApiController@search');
+Route::post('latest-news','ApiController@getLatestNews');

@@ -356,3 +356,19 @@ if (!function_exists('getCurrency')) {
        return $currency;
     }
 }
+
+if (!function_exists('menuList')) {
+
+
+    function menuList($array)
+    {
+        $temp_array = array();
+        foreach ($array as $item) {
+            if ($item->getsons($item->id)->except($item->id)) {
+                $item->subs = menuList($item->getsons($item->id)->except($item->id)); // here is the recursion
+                $temp_array[] = $item;
+            }
+        }
+        return $temp_array;
+    }
+}

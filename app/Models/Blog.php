@@ -10,6 +10,22 @@ class Blog extends Model
 {
     protected $dates = ['deleted_at'];
 
+    protected $appends = ['category','blog_image','blog_author'];
+
+    public function getCategoryAttribute()
+    {
+        return $this->category->name;
+    }
+
+    public function getBlogImageAttribute()
+    {
+        return url('storage/uploads/'.$this->image->name);
+    }
+
+    public function getBlogAuthorAttribute()
+    {
+        return $this->author->full_name;
+    }
 
     public static function boot()
     {

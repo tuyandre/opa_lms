@@ -102,7 +102,7 @@ class AppServiceProvider extends ServiceProvider
             $custom_menus = MenuItems::where('menu', '=', config('nav_menu'))
                 ->orderBy('sort')
                 ->get();
-            $custom_menus = $this->menuList($custom_menus);
+            $custom_menus = menuList($custom_menus);
             $max_depth = MenuItems::max('depth');
             $view->with(compact('custom_menus', 'max_depth'));
         });

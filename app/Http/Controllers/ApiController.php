@@ -3,10 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\Auth\User;
+use App\Models\Blog;
+use App\Models\Bundle;
 use App\Models\Config;
+use App\Models\Course;
 use Arcanedev\NoCaptcha\Rules\CaptchaRule;
 use Carbon\Carbon;
+use Harimayco\Menu\Models\MenuItems;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 
 class ApiController extends Controller
@@ -19,25 +24,29 @@ class ApiController extends Controller
     public function signupForm()
     {
         $fields = [];
-       if(config('registration_fields') != NULL){
-           $fields= json_decode(config('registration_fields'),true );
-       }
-       if(config('access.captcha.registration') > 0){
-           $fields[] = ['name'=>'g-recaptcha-response','type' => 'captcha'];
-       }
-       return response()->json(['status' => 'success','fields' => $fields]);
+        if (config('registration_fields') != NULL) {
+            $fields = json_decode(config('registration_fields'), true);
+        }
+        if (config('access.captcha.registration') > 0) {
+            $fields[] = ['name' => 'g-recaptcha-response', 'type' => 'captcha'];
+        }
+        return response()->json(['status' => 'success', 'fields' => $fields]);
     }
 
     public function signup(Request $request)
     {
-        $request->validate([
+        $validation = $request->validate([
             'first_name' => 'required|string',
             'last_name' => 'required|string',
             'email' => 'required|string|email|unique:users',
-            'g-recaptcha-response' => (config('access.captcha.registration') ? ['required',new CaptchaRule()] : ''),
-        ],[
+            'g-recaptcha-response' => (config('access.captcha.registration') ? ['required', new CaptchaRule()] : ''),
+        ], [
             'g-recaptcha-response.required' => __('validation.attributes.frontend.captcha'),
         ]);
+
+        if (!$validation) {
+            return response()->json(['errors' => $validation->errors()]);
+        }
         $user = new User([
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
@@ -45,11 +54,11 @@ class ApiController extends Controller
             'password' => bcrypt($request->password)
         ]);
 
-        $user->dob = isset($request->dob) ? $request->dob : NULL ;
-        $user->phone = isset($request->phone) ? $request->phone : NULL ;
+        $user->dob = isset($request->dob) ? $request->dob : NULL;
+        $user->phone = isset($request->phone) ? $request->phone : NULL;
         $user->gender = isset($request->gender) ? $request->gender : NULL;
         $user->address = isset($request->address) ? $request->address : NULL;
-        $user->city =  isset($request->city) ? $request->city : NULL;
+        $user->city = isset($request->city) ? $request->city : NULL;
         $user->pincode = isset($request->pincode) ? $request->pincode : NULL;
         $user->state = isset($request->state) ? $request->state : NULL;
         $user->country = isset($request->country) ? $request->country : NULL;
@@ -61,6 +70,7 @@ class ApiController extends Controller
         $userForRole->assignRole('student');
         $user->save();
         return response()->json([
+            'status' => 'success',
             'message' => 'Successfully created user!'
         ], 201);
     }
@@ -132,16 +142,85 @@ class ApiController extends Controller
      */
     public function getConfig(Request $request)
     {
-        $data = ['font_color','contact_data','counter','total_students','total_courses','total_teachers','logo_b_image','logo_w_image','logo_white_image','contact_data','footer_data','app.locale','app.display_type','app.currency','app.name','app.url','access.captcha.registration','paypal.active','payment_offline_active'];
+        $data = ['font_color', 'contact_data', 'counter', 'total_students', 'total_courses', 'total_teachers', 'logo_b_image', 'logo_w_image', 'logo_white_image', 'contact_data', 'footer_data', 'app.locale', 'app.display_type', 'app.currency', 'app.name', 'app.url', 'access.captcha.registration', 'paypal.active', 'payment_offline_active'];
         $json_arr = [];
-        $config = Config::whereIn('key',$data)->select('key','value')->get();
-        foreach ($config as $data){
-            if((array_first(explode('_',$data->key)) == 'logo') || (array_first(explode('_',$data->key)) == 'favicon')){
-                $data->value = asset('storage/logos/'.$data->value);
+        $config = Config::whereIn('key', $data)->select('key', 'value')->get();
+        foreach ($config as $data) {
+            if ((array_first(explode('_', $data->key)) == 'logo') || (array_first(explode('_', $data->key)) == 'favicon')) {
+                $data->value = asset('storage/logos/' . $data->value);
             }
-            $json_arr[$data->key ] = (is_null(json_decode($data->value, true))) ? $data->value : json_decode($data->value, true) ;
+            $json_arr[$data->key] = (is_null(json_decode($data->value, true))) ? $data->value : json_decode($data->value, true);
         }
-        return response()->json(['status' => 'success','data' =>$json_arr]);
+        return response()->json(['status' => 'success', 'data' => $json_arr]);
+    }
+
+
+    /**
+     * Get Popular courses
+     *
+     * @return [json] course object
+     */
+
+    public function getPopularCourses()
+    {
+        $popular_courses = Course::where('published', '=', 1)
+            ->where('popular', '=', 1)
+            ->paginate(5);
+        return response()->json(['status' => 'success', 'result' => $popular_courses]);
+
+    }
+
+
+    public function search(Request $request)
+    {
+        $result = NULL;
+        if ($request->type) {
+
+            if ($request->type == 1) {
+                $result = Course::where('title', 'LIKE', '%' . $request->q . '%')
+                    ->orWhere('description', 'LIKE', '%' . $request->q . '%')
+                    ->where('published', '=', 1)
+                    ->with('teachers')
+                    ->paginate(10);
+
+            } elseif ($request->type == 2) {
+                $result = Bundle::where('title', 'LIKE', '%' . $request->q . '%')
+                    ->orWhere('description', 'LIKE', '%' . $request->q . '%')
+                    ->where('published', '=', 1)
+                    ->with('user')
+                    ->paginate(10);
+
+            } elseif ($request->type == 3) {
+                $result = Blog::where('title', 'LIKE', '%' . $request->q . '%')
+                    ->orWhere('content', 'LIKE', '%' . $request->q . '%')
+                    ->with('author')
+                    ->paginate(10);
+            }
+
+        }
+        $q = $request->q;
+        return response()->json(['status' => 'success', 'q' => $q, 'result' => $result]);
+
+    }
+
+    public function getLatestNews(Request $request)
+    {
+        $blogData = [];
+        $blog = Blog::orderBy('created_at', 'desc')
+            ->paginate(10);
+
+        dd($blog->first()->blog_author);
+//        foreach ($blogs as $blog){
+//            $blogData[] = [
+//                'title' => $blog->title,
+//                'category' => $blog->category->name,
+//                'content' => $blog->content,
+//                'image' => url('storage/uploads/'.$blog->image),
+//                'author' => $blog->author->full_name,
+//                'created_at' => $blog->created_at,
+//            ];
+//        }
+        dd($blogData);
     }
 
 
