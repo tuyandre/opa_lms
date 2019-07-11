@@ -19,16 +19,13 @@ class BackupController extends Controller
     public function storeBackup(Request $request)
     {
         $this->validate($request, [
-            'notifications__mail__to' => 'required|email',
+            'backup__notifications__mail__to' => 'required|email',
         ]);
         if ($request->get('backup__status') == null) {
             $request['backup__status'] = 0;
         }
 
         $backupFile = config_path().'/backup.php';
-
-
-
 
         foreach ($request->all() as $key => $value) {
             if ($key != '_token') {

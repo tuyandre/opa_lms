@@ -42,7 +42,7 @@
                             <div class="form-group row">
                                 {{ html()->label(__('labels.backend.backup.email'))->class('col-md-2 form-control-label')->for('app_name') }}
                                 <div class="col-md-10">
-                                    {{ html()->text('notifications__mail__to')
+                                    {{ html()->text('backup__notifications__mail__to')
                                         ->class('form-control')
                                         ->placeholder(__('labels.backend.backup.email'))
                                         ->value(config('backup.notifications.mail.to'))
