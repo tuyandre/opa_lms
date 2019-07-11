@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Auth\User;
+use App\Models\Config;
 use Arcanedev\NoCaptcha\Rules\CaptchaRule;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -10,10 +11,28 @@ use Illuminate\Support\Facades\Auth;
 
 class ApiController extends Controller
 {
+    /**
+     * Get the Signup Form
+     *
+     * @return [json] config object
+     */
+    public function signupForm()
+    {
+        $fields = [];
+       if(config('registration_fields') != NULL){
+           $fields= json_decode(config('registration_fields'),true );
+       }
+       if(config('access.captcha.registration') > 0){
+           $fields[] = ['name'=>'g-recaptcha-response','type' => 'captcha'];
+       }
+       return response()->json(['status' => 'success','fields' => $fields]);
+    }
+
     public function signup(Request $request)
     {
         $request->validate([
-            'name' => 'required|string',
+            'first_name' => 'required|string',
+            'last_name' => 'required|string',
             'email' => 'required|string|email|unique:users',
             'g-recaptcha-response' => (config('access.captcha.registration') ? ['required',new CaptchaRule()] : ''),
         ],[
@@ -113,7 +132,16 @@ class ApiController extends Controller
      */
     public function getConfig(Request $request)
     {
-        return response()->json($request->user());
+        $data = ['font_color','contact_data','counter','total_students','total_courses','total_teachers','logo_b_image','logo_w_image','logo_white_image','contact_data','footer_data','app.locale','app.display_type','app.currency','app.name','app.url','access.captcha.registration','paypal.active','payment_offline_active'];
+        $json_arr = [];
+        $config = Config::whereIn('key',$data)->select('key','value')->get();
+        foreach ($config as $data){
+            if((array_first(explode('_',$data->key)) == 'logo') || (array_first(explode('_',$data->key)) == 'favicon')){
+                $data->value = asset('storage/logos/'.$data->value);
+            }
+            $json_arr[$data->key ] = (is_null(json_decode($data->value, true))) ? $data->value : json_decode($data->value, true) ;
+        }
+        return response()->json(['status' => 'success','data' =>$json_arr]);
     }
 
 

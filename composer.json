@@ -14,6 +14,7 @@
         "benjamincrozat/laravel-dropbox-driver": "^2.0",
         "beyondcode/laravel-self-diagnosis": "^1.0",
         "chumper/zipper": "^1.0",
+        "coderello/laravel-passport-social-grant": "^2.0",
         "consoletvs/invoices": "^1.1",
         "creativeorange/gravatar": "~1.0",
         "darryldecode/cart": "~4.0",

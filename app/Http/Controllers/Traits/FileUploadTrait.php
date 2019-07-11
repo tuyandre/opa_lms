@@ -26,16 +26,16 @@ trait FileUploadTrait
             if ($request->hasFile($key)) {
                 if ($request->has($key . '_max_width') && $request->has($key . '_max_height')) {
                     // Check file width
-                    $extension = array_last(explode('.',$request->file($key)->getClientOriginalName()));
-                    $name = array_first(explode('.',$request->file($key)->getClientOriginalName()));
-                    $filename = time() . '-' . str_slug($name).'.'.$extension;
+                    $extension = array_last(explode('.', $request->file($key)->getClientOriginalName()));
+                    $name = array_first(explode('.', $request->file($key)->getClientOriginalName()));
+                    $filename = time() . '-' . str_slug($name) . '.' . $extension;
                     $file = $request->file($key);
                     $image = Image::make($file);
                     if (!file_exists(public_path('storage/uploads/thumb'))) {
                         mkdir(public_path('storage/uploads/thumb'), 0777, true);
                     }
 
-                  Image::make($file)->resize(50, 50)->save(public_path('storage/uploads/thumb') . '/' . $filename);
+                    Image::make($file)->resize(50, 50)->save(public_path('storage/uploads/thumb') . '/' . $filename);
 
                     $width = $image->width();
                     $height = $image->height();
@@ -54,9 +54,9 @@ trait FileUploadTrait
                     $finalRequest = new Request(array_merge($finalRequest->all(), [$key => $filename]));
                 } else {
 
-                    $extension = array_last(explode('.',$request->file($key)->getClientOriginalName()));
-                    $name = array_first(explode('.',$request->file($key)->getClientOriginalName()));
-                    $filename = time() . '-' . str_slug($name).'.'.$extension;
+                    $extension = array_last(explode('.', $request->file($key)->getClientOriginalName()));
+                    $name = array_first(explode('.', $request->file($key)->getClientOriginalName()));
+                    $filename = time() . '-' . str_slug($name) . '.' . $extension;
                     $request->file($key)->move(public_path('storage/uploads'), $filename);
                     $finalRequest = new Request(array_merge($finalRequest->all(), [$key => $filename]));
                 }
@@ -80,9 +80,9 @@ trait FileUploadTrait
 
                 if ($key == $downloadable_file_input) {
                     foreach ($request->file($key) as $item) {
-                        $extension = array_last(explode('.',$item->getClientOriginalName()));
-                        $name = array_first(explode('.',$item->getClientOriginalName()));
-                        $filename = time() . '-' . str_slug($name).'.'.$extension;
+                        $extension = array_last(explode('.', $item->getClientOriginalName()));
+                        $name = array_first(explode('.', $item->getClientOriginalName()));
+                        $filename = time() . '-' . str_slug($name) . '.' . $extension;
                         $size = $item->getSize() / 1024;
                         $item->move(public_path('storage/uploads'), $filename);
                         Media::create([
@@ -98,13 +98,13 @@ trait FileUploadTrait
 
 
                 } else {
-                    if($key != 'video_file'){
-                        if($key == 'add_pdf'){
+                    if ($key != 'video_file') {
+                        if ($key == 'add_pdf') {
                             $file = $request->file($key);
 
-                            $extension = array_last(explode('.',$request->file($key)->getClientOriginalName()));
-                            $name = array_first(explode('.',$request->file($key)->getClientOriginalName()));
-                            $filename = time() . '-' . str_slug($name).'.'.$extension;
+                            $extension = array_last(explode('.', $request->file($key)->getClientOriginalName()));
+                            $name = array_first(explode('.', $request->file($key)->getClientOriginalName()));
+                            $filename = time() . '-' . str_slug($name) . '.' . $extension;
 
                             $size = $file->getSize() / 1024;
                             $file->move(public_path('storage/uploads'), $filename);
@@ -117,12 +117,12 @@ trait FileUploadTrait
                                 'size' => $size,
                             ]);
                             $finalRequest = new Request(array_merge($finalRequest->all(), [$key => $filename]));
-                        }elseif($key == 'add_audio'){
+                        } elseif ($key == 'add_audio') {
                             $file = $request->file($key);
 
-                            $extension = array_last(explode('.',$request->file($key)->getClientOriginalName()));
-                            $name = array_first(explode('.',$request->file($key)->getClientOriginalName()));
-                            $filename = time() . '-' . str_slug($name).'.'.$extension;
+                            $extension = array_last(explode('.', $request->file($key)->getClientOriginalName()));
+                            $name = array_first(explode('.', $request->file($key)->getClientOriginalName()));
+                            $filename = time() . '-' . str_slug($name) . '.' . $extension;
 
                             $size = $file->getSize() / 1024;
                             $file->move(public_path('storage/uploads'), $filename);
@@ -132,14 +132,14 @@ trait FileUploadTrait
                                 'name' => $filename,
                                 'type' => 'lesson_audio',
                                 'file_name' => $filename,
-                                'url' => asset('storage/uploads/'.$filename),
+                                'url' => asset('storage/uploads/' . $filename),
                                 'size' => $size,
                             ]);
                             $finalRequest = new Request(array_merge($finalRequest->all(), [$key => $filename]));
-                        } else{
-                            $extension = array_last(explode('.',$request->file($key)->getClientOriginalName()));
-                            $name = array_first(explode('.',$request->file($key)->getClientOriginalName()));
-                            $filename = time() . '-' . str_slug($name).'.'.$extension;
+                        } else {
+                            $extension = array_last(explode('.', $request->file($key)->getClientOriginalName()));
+                            $name = array_first(explode('.', $request->file($key)->getClientOriginalName()));
+                            $filename = time() . '-' . str_slug($name) . '.' . $extension;
 
                             $request->file($key)->move(public_path('storage/uploads'), $filename);
                             $finalRequest = new Request(array_merge($finalRequest->all(), [$key => $filename]));
@@ -155,7 +155,8 @@ trait FileUploadTrait
         return $finalRequest;
     }
 
-    public function saveLogos(Request $request){
+    public function saveLogos(Request $request)
+    {
         if (!file_exists(public_path('storage/logos'))) {
             mkdir(public_path('storage/logos'), 0777);
         }
@@ -163,9 +164,11 @@ trait FileUploadTrait
 
         foreach ($request->all() as $key => $value) {
             if ($request->hasFile($key)) {
-                    $filename = time() . '-' . str_slug($request->file($key)->getClientOriginalName());
-                    $request->file($key)->move(public_path('storage/logos'), $filename);
-                    $finalRequest = new Request(array_merge($finalRequest->all(), [$key => $filename]));
+                $extension = array_last(explode('.', $request->file($key)->getClientOriginalName()));
+                $name = array_first(explode('.', $request->file($key)->getClientOriginalName()));
+                $filename = time() . '-' . str_slug($name) . '.' . $extension;
+                $request->file($key)->move(public_path('storage/logos'), $filename);
+                $finalRequest = new Request(array_merge($finalRequest->all(), [$key => $filename]));
 
             }
         }

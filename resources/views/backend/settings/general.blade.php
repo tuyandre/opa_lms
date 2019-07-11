@@ -818,7 +818,7 @@
                                                   value=""> Date of Birth</label>
                                 </div>
                                 <div class="checkbox">
-                                    <label><input class="option" type="checkbox" data-name="gender" data-type="gender"
+                                    <label><input class="option" type="checkbox" data-name="gender" data-type="radio"
                                                   value=""> Gender</label>
                                 </div>
                                 <div class="checkbox">
@@ -1054,8 +1054,8 @@
             });
 
                     @if(request()->has('tab'))
-            var tab = "{{request('tab')}}"
-            $('.nav-tabs a[href="#' + tab + '"]').tab('show')
+            var tab = "{{request('tab')}}";
+            $('.nav-tabs a[href="#' + tab + '"]').tab('show');
             @endif
 
         });
@@ -1093,7 +1093,7 @@
             } else {
                 if ((textInputs.includes(type)) || (type == 'textarea')) {
                     $('.input-boxes').find('[data-name="' + name + '"]').parents('.form-group').remove();
-                } else if (type == 'gender') {
+                } else if (type == 'radio') {
                     $('.input-boxes').find('.radiogroup').remove();
                 }
             }
@@ -1108,7 +1108,7 @@
                 html = "<div class='form-group'>" +
                     "<input type='" + type + "' readonly data-name='" + name + "' placeholder='" + values[name] + "' class='form-control'>" +
                     "</div>";
-            } else if (type == 'gender') {
+            } else if (type == 'radio') {
                 html = "<div class='form-group radiogroup'>" +
                     "<label class='radio-inline mr-3'><input type='radio' data-name='optradio'> Male</label>" +
                     "<label class='radio-inline mr-3'><input type='radio' data-name='optradio'> Female</label>" +

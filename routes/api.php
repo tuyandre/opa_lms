@@ -21,8 +21,9 @@ Route::group([
     'prefix' => 'auth'
 ], function () {
 
-    Route::post('login', 'ApiController@login');
-//    Route::post('signup', 'ApiController@signup');
+//    Route::post('login', 'ApiController@login');
+    Route::post('signup-form', 'ApiController@signupForm');
+    Route::post('signup-save', 'ApiController@signup');
 
     Route::group([
         'middleware' => 'auth:api'
@@ -31,3 +32,4 @@ Route::group([
 
     });
 });
+

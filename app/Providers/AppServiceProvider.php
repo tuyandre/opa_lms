@@ -16,12 +16,20 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\View\View;
+use App\Resolvers\SocialUserResolver;
+use Coderello\SocialGrant\Resolvers\SocialUserResolverInterface;
 
 /**
  * Class AppServiceProvider.
  */
 class AppServiceProvider extends ServiceProvider
 {
+
+    public $bindings = [
+        SocialUserResolverInterface::class => SocialUserResolver::class,
+    ];
+
+
     /**
      * Bootstrap any application services.
      *
