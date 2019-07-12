@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Backend\Admin;
 
+use App\Exceptions\GeneralException;
 use App\Http\Controllers\Traits\FileUploadTrait;
 use App\Http\Requests\Admin\StoreTeachersRequest;
 use App\Http\Requests\Admin\UpdateTeachersRequest;
@@ -14,6 +15,7 @@ use Yajra\DataTables\DataTables;
 class TeachersController extends Controller
 {
     use FileUploadTrait;
+
     /**
      * Display a listing of Category.
      *
@@ -46,10 +48,10 @@ class TeachersController extends Controller
 
 
         if (request('show_deleted') == 1) {
-           
-            $teachers = User::role('teacher')->onlyTrashed()->orderBy('created_at','desc')->get();
+
+            $teachers = User::role('teacher')->onlyTrashed()->orderBy('created_at', 'desc')->get();
         } else {
-            $teachers =  User::role('teacher')->orderBy('created_at','desc')->get();
+            $teachers = User::role('teacher')->orderBy('created_at', 'desc')->get();
         }
 
         if (auth()->user()->isAdmin()) {
@@ -57,7 +59,7 @@ class TeachersController extends Controller
             $has_edit = true;
             $has_delete = true;
         }
-      
+
 
         return DataTables::of($teachers)
             ->addIndexColumn()
@@ -87,7 +89,7 @@ class TeachersController extends Controller
                     $view .= $delete;
                 }
 
-                    $view .= '<a class="btn btn-warning mb-1" href="'.route('admin.courses.index',['teacher_id' => $q->id]).'">'.trans('labels.backend.courses.title').'</a>';
+                $view .= '<a class="btn btn-warning mb-1" href="' . route('admin.courses.index', ['teacher_id' => $q->id]) . '">' . trans('labels.backend.courses.title') . '</a>';
 
                 return $view;
 
@@ -95,7 +97,7 @@ class TeachersController extends Controller
             ->editColumn('status', function ($q) {
                 return ($q->active == 1) ? "Enabled" : "Disabled";
             })
-            ->rawColumns(['actions','image'])
+            ->rawColumns(['actions', 'image'])
             ->make();
     }
 
@@ -112,7 +114,7 @@ class TeachersController extends Controller
     /**
      * Store a newly created Category in storage.
      *
-     * @param  \App\Http\Requests\StoreTeachersRequest  $request
+     * @param  \App\Http\Requests\StoreTeachersRequest $request
      * @return \Illuminate\Http\Response
      */
     public function store(StoreTeachersRequest $request)
@@ -130,7 +132,7 @@ class TeachersController extends Controller
     /**
      * Show the form for editing Category.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -144,16 +146,25 @@ class TeachersController extends Controller
     /**
      * Update Category in storage.
      *
-     * @param  \App\Http\Requests\UpdateTeachersRequest  $request
-     * @param  int  $id
+     * @param  \App\Http\Requests\UpdateTeachersRequest $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(UpdateTeachersRequest $request, $id)
     {
-
-        $request = $this->saveFiles($request);
         $teacher = User::findOrFail($id);
         $teacher->update($request->except('email'));
+        $teacher->avatar_type = 'storage';
+        if ($request->image) {
+            $teacher->avatar_location = $request->image->store('/avatars', 'public');
+        } else {
+            // No image being passed
+            // If there is no existing image
+            if (!strlen(auth()->user()->avatar_location)) {
+                throw new GeneralException('You must supply a profile image.');
+            }
+        }
+        $teacher->save();
 
         return redirect()->route('admin.teachers.index')->withFlashSuccess(trans('alerts.backend.general.updated'));
     }
@@ -162,7 +173,7 @@ class TeachersController extends Controller
     /**
      * Display Category.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -176,7 +187,7 @@ class TeachersController extends Controller
     /**
      * Remove Category from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
@@ -209,7 +220,7 @@ class TeachersController extends Controller
     /**
      * Restore Category from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function restore($id)
@@ -223,7 +234,7 @@ class TeachersController extends Controller
     /**
      * Permanently delete Category from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function perma_del($id)

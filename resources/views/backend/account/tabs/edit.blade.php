@@ -109,10 +109,9 @@
                                    value="other"> {{__('validation.attributes.frontend.other')}}
                         </label>
                     @elseif($item->type == 'textarea')
-
                         <textarea name="{{$item->name}}"
                                   placeholder="{{__('labels.backend.general_settings.user_registration_settings.fields.'.$item->name)}}"
-                                  class="form-control mb-0">{{$logged_in_user($item->name)}}</textarea>
+                                  class="form-control mb-0">{{$logged_in_user[$item->name]}}</textarea>
                     @endif
                 </div>
             </div>

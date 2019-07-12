@@ -6,7 +6,11 @@
         input[type="radio"] {
             display: inline-block !important;
         }
+        .course-rate li {
+            color: #ffc926!important;
+        }
     </style>
+
     <script src='https://js.stripe.com/v2/' type='text/javascript'></script>
 @endpush
 <!-- TODO:: Checkout payment for Whole cart vs Buy Now and Set Payments APIS via backend--->

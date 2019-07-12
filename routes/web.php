@@ -37,6 +37,9 @@ Route::group(['namespace' => 'Backend', 'prefix' => 'user', 'as' => 'admin.', 'm
     include_route_files(__DIR__ . '/backend/');
 });
 
+Route::get('certificates', 'CertificateController@getCertificates')->name('certificates.index');
+Route::post('certificates/generate', 'CertificateController@generateCertificate')->name('certificates.generate');
+
 Route::get('category/{category}/blogs', 'BlogController@getByCategory')->name('blogs.category');
 Route::get('tag/{tag}/blogs', 'BlogController@getByTag')->name('blogs.tag');
 Route::get('blog/{slug?}', 'BlogController@getIndex')->name('blogs.index');

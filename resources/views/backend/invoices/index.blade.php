@@ -64,7 +64,7 @@
                                     </td>
 
                                     <td>
-                                        <a target="_blank" href="{{asset('invoices/'.$item->url)}}"
+                                        <a target="_blank" href="{{asset('storage/invoices/'.$item->url)}}"
                                            class="btn mb-1 btn-danger">
                                             @lang('labels.backend.invoices.fields.view')
                                         </a>

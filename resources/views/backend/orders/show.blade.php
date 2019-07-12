@@ -9,7 +9,7 @@
             <h3 class="page-title mb-0 float-left">@lang('labels.backend.orders.title')</h3>
             @if($order->invoice != "")
                 <div class="float-right">
-                    <a class="btn btn-success" target="_blank" href="{{asset('invoices/'.$order->invoice->url)}}">
+                    <a class="btn btn-success" target="_blank" href="{{asset('storage/invoices/'.$order->invoice->url)}}">
                         @lang('labels.backend.orders.view_invoice')
                     </a>
                     <a class="btn btn-primary" href="{{route('admin.invoice.download',['order'=>$order->id])}}">

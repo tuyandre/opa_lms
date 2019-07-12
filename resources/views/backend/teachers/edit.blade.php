@@ -2,7 +2,7 @@
 @section('title', __('labels.backend.teachers.title').' | '.app_name())
 
 @section('content')
-    {{ html()->modelForm($teacher, 'PATCH', route('admin.teachers.update', $teacher->id))->class('form-horizontal')->open() }}
+    {{ html()->modelForm($teacher, 'PATCH', route('admin.teachers.update', $teacher->id))->class('form-horizontal')->acceptsFiles()->open() }}
 
     <div class="card">
         <div class="card-header">
@@ -60,7 +60,7 @@
                                 ->class('form-control')
                                 ->value('')
                                 ->placeholder(__('labels.backend.teachers.fields.password'))
-                                ->required() }}
+                                }}
                         </div><!--col-->
                     </div><!--form-group-->
 
