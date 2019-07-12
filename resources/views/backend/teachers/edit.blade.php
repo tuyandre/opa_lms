@@ -60,7 +60,7 @@
                                 ->class('form-control')
                                 ->value('')
                                 ->placeholder(__('labels.backend.teachers.fields.password'))
-                                ->required() }}
+                                 }}
                         </div><!--col-->
                     </div><!--form-group-->
 

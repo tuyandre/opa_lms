@@ -150,10 +150,14 @@ class TeachersController extends Controller
      */
     public function update(UpdateTeachersRequest $request, $id)
     {
-
         $request = $this->saveFiles($request);
         $teacher = User::findOrFail($id);
         $teacher->update($request->except('email'));
+        if($request->image != null){
+            $teacher->avatar_location = $request->image;
+            $teacher->save();
+
+        }
 
         return redirect()->route('admin.teachers.index')->withFlashSuccess(trans('alerts.backend.general.updated'));
     }

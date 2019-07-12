@@ -10,17 +10,8 @@ class Blog extends Model
 {
     protected $dates = ['deleted_at'];
 
-    protected $appends = ['category','blog_image','blog_author'];
+    protected $appends = ['blog_category','blog_image','blog_author'];
 
-    public function getCategoryAttribute()
-    {
-        return $this->category->name;
-    }
-
-    public function getBlogImageAttribute()
-    {
-        return url('storage/uploads/'.$this->image->name);
-    }
 
     public function getBlogAuthorAttribute()
     {
@@ -35,7 +26,6 @@ class Blog extends Model
             if (File::exists(public_path('/storage/uploads/' . $blog->image))) {
                 File::delete(public_path('/storage/uploads/' . $blog->image));
             }
-
         });
     }
 
@@ -73,13 +63,21 @@ class Blog extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function getBlogCategoryAttribute()
-    {
-        return $this->category->pluck('id');
-    }
 
     public function tags()
     {
         return $this->morphToMany(Tag::class, 'taggable');
     }
+
+
+    public function getBlogCategoryAttribute()
+    {
+        return $this->category->name;
+    }
+
+    public function getBlogImageAttribute()
+    {
+        return url('storage/uploads/'.$this->image);
+    }
+
 }

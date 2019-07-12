@@ -197,4 +197,5 @@ class User extends Authenticatable implements MessageableInterface
         return $purchases;
     }
 
+
 }

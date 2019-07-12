@@ -33,6 +33,10 @@ Route::group([
     });
 });
 
-Route::post('popular-courses','ApiController@getPopularCourses');
-Route::post('search','ApiController@search');
-Route::post('latest-news','ApiController@getLatestNews');
+Route::group(['middleware' => 'auth:api'],function (){
+    Route::post('courses','ApiController@getCourses');
+    Route::post('search','ApiController@search');
+    Route::post('latest-news','ApiController@getLatestNews');
+    Route::post('testimonials','ApiController@getTestimonials');
+    Route::post('teachers','ApiController@getTeachers');
+});

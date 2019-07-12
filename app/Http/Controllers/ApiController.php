@@ -7,6 +7,7 @@ use App\Models\Blog;
 use App\Models\Bundle;
 use App\Models\Config;
 use App\Models\Course;
+use App\Models\Testimonial;
 use Arcanedev\NoCaptcha\Rules\CaptchaRule;
 use Carbon\Carbon;
 use Harimayco\Menu\Models\MenuItems;
@@ -156,20 +157,37 @@ class ApiController extends Controller
 
 
     /**
-     * Get Popular courses
+     * Get  courses
      *
      * @return [json] course object
      */
 
-    public function getPopularCourses()
+    public function getCourses(Request $request)
     {
-        $popular_courses = Course::where('published', '=', 1)
-            ->where('popular', '=', 1)
-            ->paginate(5);
-        return response()->json(['status' => 'success', 'result' => $popular_courses]);
+        $types = ['popular', 'trending', 'featured'];
+        $type = ($request->type) ? $request->type : null;
+        if ($type != null) {
+            if (in_array($type, $types)) {
+                $courses = Course::where('published', '=', 1)
+                    ->where($type, '=', 1)
+                    ->paginate(10);
+            } else {
+                return response()->json(['status' => 'failure', 'message' => 'Invalid Request']);
+            }
+        } else {
+            $courses = Course::where('published', '=', 1)
+                ->paginate(10);
+        }
+
+        return response()->json(['status' => 'success', 'type' => $type, 'result' => $courses]);
 
     }
 
+    /**
+     * Search Basic
+     *
+     * @return [json] Course / Bundle / Blog object
+     */
 
     public function search(Request $request)
     {
@@ -198,30 +216,51 @@ class ApiController extends Controller
             }
 
         }
+        $type = $request->type;
         $q = $request->q;
-        return response()->json(['status' => 'success', 'q' => $q, 'result' => $result]);
+        return response()->json(['status' => 'success', 'q' => $q, 'type' => $type, 'result' => $result]);
 
     }
+
+    /**
+     * Latest News / Blog
+     *
+     * @return [json] Blog object
+     */
 
     public function getLatestNews(Request $request)
     {
-        $blogData = [];
         $blog = Blog::orderBy('created_at', 'desc')
+            ->select('id', 'category_id', 'user_id', 'title', 'slug', 'content', 'image')
             ->paginate(10);
-
-        dd($blog->first()->blog_author);
-//        foreach ($blogs as $blog){
-//            $blogData[] = [
-//                'title' => $blog->title,
-//                'category' => $blog->category->name,
-//                'content' => $blog->content,
-//                'image' => url('storage/uploads/'.$blog->image),
-//                'author' => $blog->author->full_name,
-//                'created_at' => $blog->created_at,
-//            ];
-//        }
-        dd($blogData);
+        return response()->json(['status' => 'success', 'result' => $blog]);
     }
+
+
+    /**
+     * Get Latest Testimonials
+     *
+     * @return [json] Testimonial object
+     */
+    public function  getTestimonials(Request $request){
+        $testimonials = Testimonial::where('status','=',1)
+            ->orderBy('created_at','desc')
+            ->paginate(10);
+        return response()->json(['status' => 'success', 'result' => $testimonials]);
+    }
+
+    /**
+     * Get Teachers
+     *
+     * @return [json] Teacher object
+     */
+
+    public function getTeachers(Request $request){
+        $teachers = User::role('teacher')->paginate(10);
+        return response()->json(['status' => 'success', 'result' => $teachers]);
+    }
+
+
 
 
 }
