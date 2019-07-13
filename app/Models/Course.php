@@ -28,6 +28,7 @@ class Course extends Model
 
     protected $fillable = ['category_id', 'title', 'slug', 'description', 'price', 'course_image', 'start_date', 'published', 'featured', 'trending', 'popular', 'meta_title', 'meta_description', 'meta_keywords'];
 
+    protected $appends = ['image'];
 
     protected static function boot()
     {
@@ -53,6 +54,13 @@ class Course extends Model
 
 
     }
+
+
+    public function getImageAttribute()
+    {
+        return url('storage/uploads/'.$this->course_image);
+    }
+
 
     /**
      * Set attribute to money format

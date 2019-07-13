@@ -93,9 +93,6 @@ class CoursesController extends Controller
 
         }
 
-
-
-
         return view( $this->path.'.courses.course', compact('course', 'purchased_course', 'recent_news', 'course_rating', 'completed_lessons','total_ratings','is_reviewed','lessons','continue_course'));
     }
 

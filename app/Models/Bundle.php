@@ -15,6 +15,7 @@ class Bundle extends Model
 
     protected $fillable = ['category_id', 'title', 'slug', 'description', 'price', 'course_image', 'start_date', 'published', 'featured', 'trending', 'popular', 'meta_title', 'meta_description', 'meta_keywords','user_id'];
 
+    protected $appends = ['image'];
 
 
     protected static function boot()
@@ -83,6 +84,12 @@ class Bundle extends Model
     {
         return $this->morphMany(OrderItem::class,'item');
     }
+
+    public function getImageAttribute()
+    {
+        return url('storage/uploads/'.$this->course_image);
+    }
+
 
 
 }

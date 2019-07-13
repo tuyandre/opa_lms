@@ -2,11 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\Frontend\Contact\SendContact;
 use App\Models\Auth\User;
 use App\Models\Blog;
 use App\Models\Bundle;
 use App\Models\Config;
+use App\Models\Contact;
 use App\Models\Course;
+use App\Models\Faq;
+use App\Models\Reason;
+use App\Models\Review;
+use App\Models\Sponsor;
+use App\Models\System\Session;
 use App\Models\Testimonial;
 use Arcanedev\NoCaptcha\Rules\CaptchaRule;
 use Carbon\Carbon;
@@ -161,7 +168,6 @@ class ApiController extends Controller
      *
      * @return [json] course object
      */
-
     public function getCourses(Request $request)
     {
         $types = ['popular', 'trending', 'featured'];
@@ -188,7 +194,6 @@ class ApiController extends Controller
      *
      * @return [json] Course / Bundle / Blog object
      */
-
     public function search(Request $request)
     {
         $result = NULL;
@@ -227,7 +232,6 @@ class ApiController extends Controller
      *
      * @return [json] Blog object
      */
-
     public function getLatestNews(Request $request)
     {
         $blog = Blog::orderBy('created_at', 'desc')
@@ -242,9 +246,10 @@ class ApiController extends Controller
      *
      * @return [json] Testimonial object
      */
-    public function  getTestimonials(Request $request){
-        $testimonials = Testimonial::where('status','=',1)
-            ->orderBy('created_at','desc')
+    public function getTestimonials(Request $request)
+    {
+        $testimonials = Testimonial::where('status', '=', 1)
+            ->orderBy('created_at', 'desc')
             ->paginate(10);
         return response()->json(['status' => 'success', 'result' => $testimonials]);
     }
@@ -254,13 +259,211 @@ class ApiController extends Controller
      *
      * @return [json] Teacher object
      */
-
-    public function getTeachers(Request $request){
+    public function getTeachers(Request $request)
+    {
         $teachers = User::role('teacher')->paginate(10);
+        if ($teachers == null) {
+            return response()->json(['status' => 'failure', 'result' => null]);
+        }
         return response()->json(['status' => 'success', 'result' => $teachers]);
     }
 
+    /**
+     * Get Single Teacher
+     *
+     * @return [json] Teacher object
+     */
+    public function getSingleTeacher(Request $request)
+    {
+        $teacher = User::role('teacher')->find($request->teacher_id);
+        if ($teacher == null) {
+            return response()->json(['status' => 'failure', 'result' => null]);
+        }
+        $courses = $teacher->courses->take(5);
+        $bundles = $teacher->bundles->take(5);
+        return response()->json(['status' => 'success', 'result' => ['teacher' => $teacher, 'courses' => $courses, 'bundles' => $bundles]]);
+    }
+
+    /**
+     * Get Teacher Courses
+     *
+     * @return [json] Teacher Courses object
+     */
+    public function getTeacherCourses(Request $request)
+    {
+        $teacher = User::role('teacher')->find($request->teacher_id);
+        if ($teacher == null) {
+            return response()->json(['status' => 'failure', 'result' => null]);
+        }
+        $courses = $teacher->courses()->paginate(10);
+        return response()->json(['status' => 'success', 'result' => ['teacher' => $teacher, 'courses' => $courses]]);
+    }
+
+    /**
+     * Get Teacher Bundles
+     *
+     * @return [json] Teacher Bundles object
+     */
+    public function getTeacherBundles(Request $request)
+    {
+        $teacher = User::role('teacher')->find($request->teacher_id);
+        if ($teacher == null) {
+            return response()->json(['status' => 'failure', 'result' => null]);
+        }
+        $bundles = $teacher->bundles()->paginate(10);
+        return response()->json(['status' => 'success', 'result' => ['teacher' => $teacher, 'bundles' => $bundles]]);
+    }
+
+    /**
+     * Get FAQs
+     *
+     * @return [json] FAQs object
+     */
+    public function getFaqs()
+    {
+
+        $faqs = Faq::whereHas('category')
+            ->where('status', '=', 1)
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
+
+        return response()->json(['status' => 'success', 'result' => $faqs]);
+    }
+
+    /**
+     * Get WHy Us Reasons
+     *
+     * @return [json] Reason object
+     */
+    public function getWhyUs()
+    {
+        $reasons = Reason::where('status', '=', 1)->paginate(10);
+        return response()->json(['status' => 'success', 'result' => $reasons]);
+
+    }
+
+    /**
+     * Get Sponsors
+     *
+     * @return [json] Sponsors object
+     */
+    public function getSponsors()
+    {
+        $sponsors = Sponsor::where('status', '=', 1)->paginate(10);
+        return response()->json(['status' => 'success', 'result' => $sponsors]);
+    }
+
+    /**
+     * Save Contact Us Request
+     *
+     * @return [json] Success feedback
+     */
+    public function saveContactUs(Request $request)
+    {
+        $validation = $this->validate($request, [
+            'name' => 'required',
+            'email' => 'required|email',
+            'message' => 'required'
+        ]);
+        if (!$validation) {
+            return response()->json(['status' => 'failure', 'errors' => $validation->errors()]);
+        }
+
+        $contact = new Contact();
+        $contact->name = $request->name;
+        $contact->number = $request->number;
+        $contact->email = $request->email;
+        $contact->message = $request->message;
+        $contact->save();
+
+        \Mail::send(new SendContact($request));
+
+        return response()->json(['status' => 'success']);
+    }
+
+    /**
+     * Get Single Course
+     *
+     * @return [json] Success feedback
+     */
+    public function getSingleCourse(Request $request)
+    {
+        $continue_course = NULL;
+        $course = Course::withoutGlobalScope('filter')->with('teachers','category')->where('id', '=', $request->course_id)->with('publishedLessons')->first();
+        if ($course == null) {
+            return response()->json(['status' => 'failure', 'result' => NULL]);
+        }
+
+        $purchased_course = \Auth::check() && $course->students()->where('user_id', \Auth::id())->count() > 0;
+        $course_rating = 0;
+        $total_ratings = 0;
+        $completed_lessons = NULL;
+        $is_reviewed = false;
+        if (auth()->check() && $course->reviews()->where('user_id', '=', auth()->user()->id)->first()) {
+            $is_reviewed = true;
+        }
+        if ($course->reviews->count() > 0) {
+            $course_rating = $course->reviews->avg('rating');
+            $total_ratings = $course->reviews()->where('rating', '!=', "")->get()->count();
+        }
+        $lessons = $course->courseTimeline()->orderby('sequence', 'asc')->get();
 
 
+        if (\Auth::check()) {
+            $completed_lessons = \Auth::user()->chapters()->where('course_id', $course->id)->get()->pluck('model_id')->toArray();
+            $continue_course = $course->courseTimeline()->orderby('sequence', 'asc')->whereNotIn('model_id', $completed_lessons)->first();
+            if ($continue_course == NULL) {
+                $continue_course = $course->courseTimeline()->orderby('sequence', 'asc')->first();
+            }
+        }
+        $result = [
+            'course' => $course,
+            'purchased_course' => $purchased_course,
+            'course_rating' => $course_rating,
+            'total_ratings' => $total_ratings,
+            'is_reviewed' => $is_reviewed,
+            'lessons' => $lessons,
+            'completed_lessons' => $completed_lessons,
+            'continue_course' => $continue_course,
+        ];
+        return response()->json(['status' => 'success', 'result' => $result]);
+    }
+
+
+    public function submitReview(Request $request){
+        $reviewable_id = $request->item_id;
+        if($request->type == 'course'){
+            $reviewable_type = Course::class;
+            $item = Course::find($request->item_id);
+
+        }else{
+            $reviewable_type = Bundle::class;
+            $item = Bundle::find($request->item_id);
+        }
+        if($item != null){
+            $review = new Review();
+            $review->user_id = auth()->user()->id;
+            $review->reviewable_id = $reviewable_id;
+            $review->reviewable_type = $reviewable_type;
+            $review->rating = $request->rating;
+            $review->content = $request->review;
+            $review->save();
+            return response()->json(['status' => 'success']);
+        }
+        return response()->json(['status' => 'failure']);
+    }
+
+
+    public function updateReview(Request $request){
+        $review = Review::where('id', '=', $request->review_id)->where('user_id', '=', auth()->user()->id)->first();
+        if ($review != null) {
+            $review->rating = $request->rating;
+            $review->content = $request->review;
+            $review->save();
+
+            return response()->json(['status' => 'success']);
+        }
+        return response()->json(['status' => 'failure']);
+    }
 
 }

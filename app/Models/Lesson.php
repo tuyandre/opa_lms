@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use FFMpeg\FFMpeg;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -33,13 +32,15 @@ class Lesson extends Model
 
     protected $fillable = ['title', 'slug', 'lesson_image', 'short_text', 'full_text', 'position', 'downloadable_files', 'free_lesson', 'published', 'course_id'];
 
+    protected $appends = ['image'];
+
 
     public static function boot()
     {
         parent::boot();
 
         static::deleting(function ($lesson) { // before delete() method call this
-            if($lesson->isForceDeleting()){
+            if ($lesson->isForceDeleting()) {
                 $media = $lesson->media;
                 foreach ($media as $item) {
                     if (File::exists(public_path('/storage/uploads/' . $item->name))) {
@@ -60,6 +61,13 @@ class Lesson extends Model
     public function setCourseIdAttribute($input)
     {
         $this->attributes['course_id'] = $input ? $input : null;
+    }
+
+    public function getImageAttribute()
+    {
+        if ($this->attributes['lesson_image'] != NULL) {
+            return url('storage/uploads' / $this->lesson_image);
+        }
     }
 
 

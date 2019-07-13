@@ -39,4 +39,15 @@ Route::group(['middleware' => 'auth:api'],function (){
     Route::post('latest-news','ApiController@getLatestNews');
     Route::post('testimonials','ApiController@getTestimonials');
     Route::post('teachers','ApiController@getTeachers');
+    Route::post('single-teacher','ApiController@getSingleTeacher');
+    Route::post('teacher-courses','ApiController@getTeacherCourses');
+    Route::post('teacher-bundles','ApiController@getTeacherBundles');
+    Route::post('get-faqs','ApiController@getFaqs');
+    Route::post('why-us','ApiController@getWhyUs');
+    Route::post('sponsors','ApiController@getSponsors');
+    Route::post('contact-us','ApiController@saveContactUs');
+    Route::post('single-course','ApiController@getSingleCourse');
+    Route::post('submit-review','ApiController@submitReview');
+    Route::post('update-review','ApiController@updateReview');
+
 });

@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\File;
 class Sponsor extends Model
 {
     protected $guarded = [];
+    protected $appends = ['image'];
 
     protected static function boot()
     {
@@ -19,4 +20,10 @@ class Sponsor extends Model
             }
         });
     }
+
+    public function getImageAttribute()
+    {
+        return url('storage/uploads/'.$this->logo);
+    }
+
 }

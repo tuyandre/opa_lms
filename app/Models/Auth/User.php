@@ -90,7 +90,7 @@ class User extends Authenticatable implements MessageableInterface
      * The dynamic attributes from mutators that should be returned with the user object.
      * @var array
      */
-    protected $appends = ['full_name'];
+    protected $appends = ['full_name','image'];
 
     /**
      * The attributes that should be cast to native types.
@@ -101,6 +101,8 @@ class User extends Authenticatable implements MessageableInterface
         'active' => 'boolean',
         'confirmed' => 'boolean',
     ];
+
+
 
     public function lessons()
     {
@@ -125,6 +127,11 @@ class User extends Authenticatable implements MessageableInterface
 
     public function invoices(){
         return $this->hasMany(Invoice::class);
+    }
+
+
+    public function getImageAttribute(){
+        return $this->picture;
     }
 
 
