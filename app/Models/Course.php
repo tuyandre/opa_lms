@@ -157,6 +157,13 @@ class Course extends Model
         return $this->hasMany(CourseTimeline::class);
     }
 
+    public function getIsAddedToCart(){
+        if(auth()->check() && (auth()->user()->hasRole('student')) && (\Cart::session(auth()->user()->id)->get( $this->id))){
+            return true;
+        }
+        return false;
+    }
+
 
     public function reviews()
     {

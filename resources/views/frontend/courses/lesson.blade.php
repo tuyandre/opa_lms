@@ -472,7 +472,6 @@
 
         var readTime, totalQuestions, testTime;
         user_lesson = Cookies.get("user_lesson_" + "{{auth()->user()->id}}" + "_" + "{{$lesson->id}}" + "_" + "{{$lesson->course->id}}");
-        console.log(user_lesson)
 
         @if ($test_exists )
             totalQuestions = '{{count($lesson->questions)}}'

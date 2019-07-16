@@ -15,7 +15,7 @@ use Mtownsend\ReadTime\ReadTime;
  * Class Lesson
  *
  * @package App
- * @property string $course
+// * @property string $course
  * @property string $title
  * @property string $slug
  * @property string $lesson_image
@@ -32,7 +32,7 @@ class Lesson extends Model
 
     protected $fillable = ['title', 'slug', 'lesson_image', 'short_text', 'full_text', 'position', 'downloadable_files', 'free_lesson', 'published', 'course_id'];
 
-    protected $appends = ['image'];
+    protected $appends = ['image','lesson_readtime'];
 
 
     public static function boot()
@@ -70,6 +70,15 @@ class Lesson extends Model
         }
     }
 
+    public function getLessonReadtimeAttribute(){
+        $readTime = (new ReadTime($this->full_text))->toArray();
+        return $readTime['minutes'];
+    }
+
+    public function lessonMediaAttribute(){
+
+    }
+
 
     /**
      * Set attribute to money format
@@ -89,7 +98,7 @@ class Lesson extends Model
 
     public function course()
     {
-        return $this->belongsTo(Course::class, 'course_id')->withTrashed();
+        return $this->belongsTo(Course::class);
     }
 
     public function test()

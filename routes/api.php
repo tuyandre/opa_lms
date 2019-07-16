@@ -35,6 +35,7 @@ Route::group([
 
 Route::group(['middleware' => 'auth:api'],function (){
     Route::post('courses','ApiController@getCourses');
+    Route::post('bundles','ApiController@getBundles');
     Route::post('search','ApiController@search');
     Route::post('latest-news','ApiController@getLatestNews');
     Route::post('testimonials','ApiController@getTestimonials');
@@ -49,5 +50,12 @@ Route::group(['middleware' => 'auth:api'],function (){
     Route::post('single-course','ApiController@getSingleCourse');
     Route::post('submit-review','ApiController@submitReview');
     Route::post('update-review','ApiController@updateReview');
-
+    Route::post('single-lesson','ApiController@getLesson');
+    Route::post('video-progress','ApiController@videoProgress');
+    Route::post('generate-certificate','ApiController@generateCertificate');
+    Route::post('single-bundle','ApiController@getSingleBundle');
+    Route::post('add-to-cart','ApiController@addToCart');
+    Route::post('remove-from-cart','ApiController@removeFromCart');
+    Route::post('get-cart-data','ApiController@getCartData');
+    Route::post('clear-cart','ApiController@clearCart');
 });

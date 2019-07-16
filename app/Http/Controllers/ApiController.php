@@ -6,21 +6,26 @@ use App\Mail\Frontend\Contact\SendContact;
 use App\Models\Auth\User;
 use App\Models\Blog;
 use App\Models\Bundle;
+use App\Models\Certificate;
 use App\Models\Config;
 use App\Models\Contact;
 use App\Models\Course;
 use App\Models\Faq;
+use App\Models\Lesson;
+use App\Models\Media;
 use App\Models\Reason;
 use App\Models\Review;
 use App\Models\Sponsor;
 use App\Models\System\Session;
 use App\Models\Testimonial;
+use App\Models\VideoProgress;
 use Arcanedev\NoCaptcha\Rules\CaptchaRule;
 use Carbon\Carbon;
 use Harimayco\Menu\Models\MenuItems;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
+use Cart;
 
 class ApiController extends Controller
 {
@@ -389,6 +394,7 @@ class ApiController extends Controller
     public function getSingleCourse(Request $request)
     {
         $continue_course = NULL;
+        $course_timeline = NULL;
         $course = Course::withoutGlobalScope('filter')->with('teachers','category')->where('id', '=', $request->course_id)->with('publishedLessons')->first();
         if ($course == null) {
             return response()->json(['status' => 'failure', 'result' => NULL]);
@@ -416,6 +422,32 @@ class ApiController extends Controller
                 $continue_course = $course->courseTimeline()->orderby('sequence', 'asc')->first();
             }
         }
+
+        if($course->courseTimeline){
+
+            $timeline =$course->courseTimeline()->orderBy('sequence')->get();
+            foreach ($timeline as $item){
+                $completed = false;
+                if(in_array($item->model_id,$completed_lessons)){
+                    $completed = true;
+                }
+                $type = 'lesson';
+                $description = "";
+                if($item->model_type == 'App\Models\Test'){
+                    $type = 'test';
+                    $description = $item->model->description;
+                }else{
+                    $description = $item->model->short_text;
+                }
+                $course_timeline[] = [
+                    'title' => $item->model->title,
+                    'type' => $type,
+                    'id' => $item->model_id,
+                    'description' => $description,
+                    'completed' => $completed,
+                ];
+            }
+        }
         $result = [
             'course' => $course,
             'purchased_course' => $purchased_course,
@@ -423,13 +455,21 @@ class ApiController extends Controller
             'total_ratings' => $total_ratings,
             'is_reviewed' => $is_reviewed,
             'lessons' => $lessons,
+            'course_timeline' => $course_timeline,
             'completed_lessons' => $completed_lessons,
             'continue_course' => $continue_course,
+            'is_certified' => $course->isUserCertified(),
+            'course_process' => $course->progress()
         ];
         return response()->json(['status' => 'success', 'result' => $result]);
     }
 
 
+    /**
+     * Submit review
+     *
+     * @return [json] Success message
+     */
     public function submitReview(Request $request){
         $reviewable_id = $request->item_id;
         if($request->type == 'course'){
@@ -453,7 +493,11 @@ class ApiController extends Controller
         return response()->json(['status' => 'failure']);
     }
 
-
+    /**
+     * Update Review
+     *
+     * @return [json] Success message
+     */
     public function updateReview(Request $request){
         $review = Review::where('id', '=', $request->review_id)->where('user_id', '=', auth()->user()->id)->first();
         if ($review != null) {
@@ -465,5 +509,247 @@ class ApiController extends Controller
         }
         return response()->json(['status' => 'failure']);
     }
+
+    /**
+     * Get Lesson
+     *
+     * @return [json] Success message
+     */
+    public function getLesson(Request $request){
+        $lesson = Lesson::where('published','=',1)
+            ->where('id','=',$request->lesson_id)
+            ->first();
+        if($lesson != null){
+            $course = $lesson->course;
+            $previous_lesson = $lesson->course->courseTimeline()->where('sequence', '<', $lesson->courseTimeline->sequence)
+                ->orderBy('sequence', 'desc')
+                ->first();
+            $next_lesson = $lesson->course->courseTimeline()->where('sequence', '>', $lesson->courseTimeline->sequence)
+                ->orderBy('sequence', 'asc')
+                ->first();
+
+           $is_certified = $lesson->course->isUserCertified();
+           $course_progress = $lesson->course->progress();
+
+          $downloadable_media = $lesson->downloadable_media;
+          $video = $lesson->mediaVideo;
+          $pdf = $lesson->mediaPDF;
+          $audio = $lesson->mediaAudio;
+          $lesson_media =[
+              'downloadable_media' => $downloadable_media,
+              'video' => $video,
+              'pdf' => $pdf,
+              'audio' => $audio,
+          ];
+
+
+            return response()->json(['status' => 'success','result'=>['lesson' => $lesson,'lesson_media' => $lesson_media,'previous_lesson' => $previous_lesson, 'next_lesson' => $next_lesson,'is_certified' => $is_certified, 'course_progress' => $course_progress, 'course' => $course]]);
+        }
+        return response()->json(['status' => 'failure']);
+    }
+
+
+    /**
+     * Save video progress for Lesson
+     *
+     * @return [json] Success message
+     */
+    public function videoProgress(Request $request)
+    {
+        $user = auth()->user();
+        $video = Media::find($request->media_id);
+        if($video == null){
+            return response()->json(['status' => 'failure']);
+        }
+        $video_progress = VideoProgress::where('user_id', '=', $user->id)
+            ->where('media_id', '=', $video->id)->first() ?: new VideoProgress();
+        $video_progress->media_id = $video->id;
+        $video_progress->user_id = $user->id;
+        $video_progress->duration = $video_progress->duration ?: round($request->duration, 2);
+        $video_progress->progress = round($request->progress, 2);
+        if ($video_progress->duration - $video_progress->progress < 5) {
+            $video_progress->progress = $video_progress->duration;
+            $video_progress->complete = 1;
+        }
+        $video_progress->save();
+        return response()->json(['status' => 'success']);
+    }
+
+
+
+    /**
+     * Generate course certificate
+     *
+     * @return [json] Success message
+     */
+
+    public function generateCertificate(Request $request)
+    {
+        $course = Course::whereHas('students', function ($query) {
+            $query->where('id', \Auth::id());
+        })
+            ->where('id', '=', $request->course_id)->first();
+        if (($course != null) && ($course->progress() == 100)) {
+            $certificate = Certificate::firstOrCreate([
+                'user_id' => auth()->user()->id,
+                'course_id' => $request->course_id
+            ]);
+
+            $data = [
+                'name' => auth()->user()->name,
+                'course_name' => $course->title,
+                'date' => Carbon::now()->format('d M, Y'),
+            ];
+            $certificate_name = 'Certificate-' . $course->id . '-' . auth()->user()->id . '.pdf';
+            $certificate->name = auth()->user()->id;
+            $certificate->url = $certificate_name;
+            $certificate->save();
+
+            $pdf = \PDF::loadView('certificate.index', compact('data'))->setPaper('', 'landscape');
+
+            $pdf->save(public_path('storage/certificates/' . $certificate_name));
+
+            return response()->json(['status' => 'success']);
+        }
+        return response()->json(['status' => 'failure']);
+    }
+
+
+    /**
+     * Get Bundles
+     *
+     * @return [json] Bundle Object
+     */
+    public function getBundles(Request $request)
+    {
+        $types = ['popular', 'trending', 'featured'];
+        $type = ($request->type) ? $request->type : null;
+        if ($type != null) {
+            if (in_array($type, $types)) {
+                $bundles = Bundle::where('published', '=', 1)
+                    ->where($type, '=', 1)
+                    ->paginate(10);
+            } else {
+                return response()->json(['status' => 'failure', 'message' => 'Invalid Request']);
+            }
+        } else {
+            $bundles = Bundle::where('published', '=', 1)
+                ->paginate(10);
+        }
+
+        return response()->json(['status' => 'success', 'type' => $type, 'result' => $bundles]);
+
+    }
+
+    /**
+     * Get Bundles
+     *
+     * @return [json] Bundle Object
+     */
+    public function getSingleBundle(Request $request){
+        $result['bundle'] = Bundle::where('published','=',1)
+            ->where('id','=',$request->bundle_id)
+            ->first();
+        if($result['bundle'] == null){
+            return response()->json(['status' => 'failure', 'message' => 'Invalid Request']);
+        }
+        $result['courses'] = $result['bundle']->courses;
+        return response()->json(['status' => 'success','result' => $result]);
+    }
+
+
+    /**
+     * Add to cart
+     *
+     * @return [json] Return cart value
+     */
+
+    public function addToCart(Request $request)
+    {
+        $product = "";
+        $teachers = "";
+        $type = "";
+        if ($request->type == 'course') {
+            $product = Course::findOrFail($request->item_id);
+            $teachers = $product->teachers->pluck('id', 'name');
+            $type = 'course';
+
+        } elseif ($request->type == 'bundle') {
+            $product = Bundle::findOrFail($request->item_id);
+            $teachers = $product->user->name;
+            $type = 'bundle';
+        }
+
+        $cart_items = Cart::session(auth()->user()->id)->getContent()->keys()->toArray();
+        if (!in_array($product->id, $cart_items)) {
+            Cart::session(auth()->user()->id)
+                ->add($product->id, $product->title, $product->price, 1,
+                    [
+                        'user_id' => auth()->user()->id,
+                        'description' => $product->description,
+                        'image' => $product->course_image,
+                        'product_id' => $product->id,
+                        'type' => $type,
+                        'teachers' => $teachers
+                    ]);
+        }
+        return response()->json(['status' => 'success']);
+    }
+
+
+    /**
+     * Remove from cart
+     *
+     * @return [json] Remove from cart
+     */
+    public function removeFromCart(Request $request)
+    {
+
+        foreach (Cart::session(auth()->user()->id)->getContent() as $cartItem){
+            if(($cartItem->attributes->type == $request->type) && ($cartItem->attributes->product_id == $request->item_id)){
+                Cart::session(auth()->user()->id)->remove($request->item_id);
+            }
+        }
+        return response()->json(['status' => 'success']);
+    }
+
+
+    /**
+     * Show Cart
+     *
+     * @return [json] Get Cart data
+     */
+    public function getCartData(Request $request){
+        $course_ids = [];
+        $bundle_ids = [];
+
+        if(Cart::session(auth()->user()->id)->getContent()){
+            foreach (Cart::session(auth()->user()->id)->getContent() as $item) {
+                if ($item->attributes->type == 'bundle') {
+                    $bundle_ids[] = $item->id;
+                } else {
+                    $course_ids[] = $item->id;
+                }
+            }
+            $courses = Course::find($course_ids);
+            $bundles = Bundle::find($bundle_ids);
+            $total = Cart::session(auth()->user()->id)->getTotal();
+
+
+            return response()->json(['status' => 'success', 'result' => ['courses' => $courses, 'bundles'=> $bundles,'total' => $total]]);
+        }
+        return response()->json(['status' => 'failure']);
+    }
+
+    /**
+     * Clear Cart
+     *
+     * @return [json] Success Message
+     */
+    public function clearCart(){
+        Cart::session(auth()->user()->id)->clear();
+        return response()->json(['status' => 'success']);
+    }
+
 
 }

@@ -34,6 +34,7 @@ class LessonsController extends Controller
 
     public function show($course_id, $lesson_slug)
     {
+
         $completed_lessons = "";
         $lesson = Lesson::where('slug', $lesson_slug)->where('course_id', $course_id)->where('published', '=', 1)->first();
 

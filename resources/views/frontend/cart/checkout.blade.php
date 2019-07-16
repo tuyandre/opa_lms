@@ -104,7 +104,7 @@
                         @if(count($courses) > 0)
                             @if((config('services.stripe.active') == 0) && (config('paypal.active') == 0) && (config('payment_offline_active') == 0))
                                 <div class="order-payment">
-                                    <div class="section-title-2  headline text-left">
+                                    <div class="section-title-2 headline text-left">
                                 <h2>@lang('labels.frontend.cart.no_payment_method')</h2>
                                     </div>
                                 </div>
