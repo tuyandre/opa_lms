@@ -20,7 +20,6 @@ Route::group(['namespace' => 'Frontend', 'as' => 'frontend.'], function () {
 });
 
 
-
 /*
  * Backend Routes
  * Namespaces indicate folder structure
