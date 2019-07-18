@@ -518,8 +518,16 @@
                 @if ($test_exists && (is_null($test_result)))
                 $('#nextButton').html("<a class='btn btn-block bg-danger font-weight-bold text-white' href='#'>@lang('labels.frontend.course.complete_test')</a>")
                 @else
+                        @if($next_lesson)
                 $('#nextButton').html("<a class='btn btn-block gradient-bg font-weight-bold text-white'" +
-                    " href='{{ route('lessons.show', [$next_lesson->course_id, $next_lesson->model->slug]) }}'>@lang('labels.frontend.course.next')<i class='fa fa-angle-double-right'></i> </a>")
+                    " href='{{ route('lessons.show', [$next_lesson->course_id, $next_lesson->model->slug]) }}'>@lang('labels.frontend.course.next')<i class='fa fa-angle-double-right'></i> </a>");
+                @else
+                $('#nextButton').html( "<form method='post' action='{{route("admin.certificates.generate")}}'>" +
+                    "<input type='hidden' name='_token' id='csrf-token' value='{{ Session::token() }}' />"+
+                    "<input type='hidden' value='{{$lesson->course->id}}' name='course_id'> " +
+                    "<button class='btn btn-success btn-block text-white mb-3 text-uppercase font-weight-bold' id='finish'>@lang('labels.frontend.course.finish_course')</button></form>");
+
+                @endif
 
                 @if(!$lesson->isCompleted())
                 courseCompleted("{{$lesson->id}}", "{{get_class($lesson)}}");

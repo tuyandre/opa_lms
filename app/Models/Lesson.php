@@ -92,8 +92,11 @@ class Lesson extends Model
 
     public function readTime()
     {
-        $readTime = (new ReadTime($this->full_text))->toArray();
-        return $readTime['minutes'];
+        if($this->full_text != null){
+            $readTime = (new ReadTime($this->full_text))->toArray();
+            return $readTime['minutes'];
+        }
+        return 0;
     }
 
     public function course()
