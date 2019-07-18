@@ -226,7 +226,7 @@
 
                                     <div class="filter-search mb20">
                                         <label>@lang('labels.frontend.course.full_text')</label>
-                                        <input type="text" class="" name="q" placeholder="Looking for?">
+                                        <input type="text" class="" name="q" placeholder="{{trans('labels.frontend.course.looking_for')}}">
                                     </div>
                                     <button class="genius-btn gradient-bg text-center text-uppercase btn-block text-white font-weight-bold"
                                             type="submit">@lang('labels.frontend.course.find_courses') <i

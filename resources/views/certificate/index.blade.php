@@ -115,14 +115,14 @@
 <div class="container-fluid px-0" style="height: 500px">
     <div style="position: relative;text-align: center"
          class="row h-100 justify-content-center text-center position-relative m-0">
-        <img class="logo" src="{{public_path('storage/logos/logo-black-text.png')}}">
+        <img class="logo" src="{{public_path('storage/logos/'.config('logo_b_image'))}}">
 
         <div class="col-12 text-block align-self-center">
             <p class="text-center mb-0">This is to certify that <span class="font-weight-bold" style="font-family: DejaVu Sans;">{{$data['name']}}</span> successfully completed
             </p>
             <p style="word-wrap: break-word;white-space: nowrap"><span class="font-weight-bold" style="font-family: DejaVu Sans;">{{$data['course_name']}}</span>
             </p>
-            <p>on {{config('app.name')}} online course on <span class="font-weight-bold">{{$data['date']}}</span></p>
+            <p  style="word-wrap: break-word;white-space: nowrap">on <span class="font-weight-bold" style="font-family: DejaVu Sans;">{{config('app.name')}}</span> online course on <span class="font-weight-bold">{{$data['date']}}</span></p>
         </div>
         <img width="100%" src="{{public_path('images/certificate.jpg')}}">
     </div>
