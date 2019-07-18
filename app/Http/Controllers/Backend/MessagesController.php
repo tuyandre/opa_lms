@@ -30,7 +30,7 @@ class MessagesController extends Controller
         }
         $threads = Collection::make(array_merge($unreadThreads,$threads)) ;
 
-       if(request()->has('thread')){
+       if(request()->has('thread') && ($request->thread != null)){
 
            if(request('thread')){
                $thread = auth()->user()->threads()

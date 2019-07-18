@@ -42,12 +42,13 @@ use DevDojo\Chatter\Models\Models;
 use DevDojo\Chatter\Helpers\ChatterHelper as Helper;
 use Illuminate\Support\Facades\Validator;
 use Purifier;
-
+use Messenger;
 
 
 class ApiController extends Controller
 {
     use FileUploadTrait;
+
     /**
      * Get the Signup Form
      *
@@ -1004,20 +1005,21 @@ class ApiController extends Controller
      * @return [json] success message
      */
 
-    public function createDiscussion(Request $request){
+    public function createDiscussion(Request $request)
+    {
         $request->request->add(['body_content' => strip_tags($request->body)]);
 
         $validator = Validator::make($request->all(), [
-            'title'               => 'required|min:5|max:255',
-            'body_content'        => 'required|min:10',
+            'title' => 'required|min:5|max:255',
+            'body_content' => 'required|min:10',
             'chatter_category_id' => 'required',
-        ],[
-            'title.required' =>  trans('chatter::alert.danger.reason.title_required'),
-            'title.min'     => [
-                'string'  => trans('chatter::alert.danger.reason.title_min'),
+        ], [
+            'title.required' => trans('chatter::alert.danger.reason.title_required'),
+            'title.min' => [
+                'string' => trans('chatter::alert.danger.reason.title_min'),
             ],
             'title.max' => [
-                'string'  => trans('chatter::alert.danger.reason.title_max'),
+                'string' => trans('chatter::alert.danger.reason.title_max'),
             ],
             'body_content.required' => trans('chatter::alert.danger.reason.content_required'),
             'body_content.min' => trans('chatter::alert.danger.reason.content_min'),
@@ -1025,9 +1027,9 @@ class ApiController extends Controller
         ]);
 
 
-        Event::fire(new ChatterBeforeNewDiscussion($request,$validator));
+        Event::fire(new ChatterBeforeNewDiscussion($request, $validator));
         if (function_exists('chatter_before_new_discussion')) {
-            chatter_before_new_discussion($request,$validator);
+            chatter_before_new_discussion($request, $validator);
         }
 
         $user_id = Auth::user()->id;
@@ -1036,7 +1038,7 @@ class ApiController extends Controller
             if ($this->notEnoughTimeBetweenDiscussion()) {
                 $minutes = trans_choice('chatter::messages.words.minutes', config('chatter.security.time_between_posts'));
 
-                return response()->json(['status' => 'failure','result' => trans('chatter::alert.danger.reason.prevent_spam', [
+                return response()->json(['status' => 'failure', 'result' => trans('chatter::alert.danger.reason.prevent_spam', [
                     'minutes' => $minutes,
                 ])]);
             }
@@ -1049,7 +1051,7 @@ class ApiController extends Controller
         $incrementer = 1;
         $new_slug = $slug;
         while (isset($discussion_exists->id)) {
-            $new_slug = $slug.'-'.$incrementer;
+            $new_slug = $slug . '-' . $incrementer;
             $discussion_exists = Models::discussion()->where('slug', '=', $new_slug)->withTrashed()->first();
             $incrementer += 1;
         }
@@ -1059,11 +1061,11 @@ class ApiController extends Controller
         }
 
         $new_discussion = [
-            'title'               => $request->title,
+            'title' => $request->title,
             'chatter_category_id' => $request->chatter_category_id,
-            'user_id'             => $user_id,
-            'slug'                => $slug,
-            'color'               => '#0c0919',
+            'user_id' => $user_id,
+            'slug' => $slug,
+            'color' => '#0c0919',
         ];
 
         $category = Models::category()->find($request->chatter_category_id);
@@ -1075,8 +1077,8 @@ class ApiController extends Controller
 
         $new_post = [
             'chatter_discussion_id' => $discussion->id,
-            'user_id'               => $user_id,
-            'body'                  => $request->body,
+            'user_id' => $user_id,
+            'body' => $request->body,
         ];
 
         if (config('chatter.editor') == 'simplemde'):
@@ -1114,7 +1116,7 @@ class ApiController extends Controller
         $stripped_tags_body = ['body' => strip_tags($request->body)];
         $validator = Validator::make($stripped_tags_body, [
             'body' => 'required|min:10',
-        ],[
+        ], [
             'body.required' => trans('chatter::alert.danger.reason.content_required'),
             'body.min' => trans('chatter::alert.danger.reason.content_min'),
         ]);
@@ -1160,11 +1162,11 @@ class ApiController extends Controller
             }
 
 
-            return response()->json(['status' => 'success','message'=>trans('chatter::alert.success.reason.submitted_to_post')]);
+            return response()->json(['status' => 'success', 'message' => trans('chatter::alert.success.reason.submitted_to_post')]);
 
 
         } else {
-            return response()->json(['status' => 'failure','message'=> trans('chatter::alert.danger.reason.trouble')]);
+            return response()->json(['status' => 'failure', 'message' => trans('chatter::alert.danger.reason.trouble')]);
         }
     }
 
@@ -1182,7 +1184,7 @@ class ApiController extends Controller
         $stripped_tags_body = ['body' => strip_tags($request->body)];
         $validator = Validator::make($stripped_tags_body, [
             'body' => 'required|min:10',
-        ],[
+        ], [
             'body.required' => trans('chatter::alert.danger.reason.content_required'),
             'body.min' => trans('chatter::alert.danger.reason.content_min'),
         ]);
@@ -1207,16 +1209,16 @@ class ApiController extends Controller
                 $category = Models::category()->first();
             }
 
-            return response()->json(['status' => 'success','message'=>trans('chatter::alert.success.reason.updated_post')]);
+            return response()->json(['status' => 'success', 'message' => trans('chatter::alert.success.reason.updated_post')]);
 
         } else {
 
-            return response()->json(['status' => 'failure','message'=> trans('chatter::alert.danger.reason.update_post')]);
+            return response()->json(['status' => 'failure', 'message' => trans('chatter::alert.danger.reason.update_post')]);
         }
     }
 
     /**
-     * Delete Respnse.
+     * Delete Response.
      *
      * @param string $id
      * @param  \Illuminate\Http\Request
@@ -1229,13 +1231,13 @@ class ApiController extends Controller
 
         $post = Models::post()->with('discussion')->findOrFail($id);
 
-        if ($request->user()->id !== (int) $post->user_id) {
+        if ($request->user()->id !== (int)$post->user_id) {
 
-            return response()->json(['status' => 'failure','message'=> trans('chatter::alert.danger.reason.destroy_post')]);
+            return response()->json(['status' => 'failure', 'message' => trans('chatter::alert.danger.reason.destroy_post')]);
         }
 
         if ($post->discussion->posts()->oldest()->first()->id === $post->id) {
-            if(config('chatter.soft_deletes')) {
+            if (config('chatter.soft_deletes')) {
                 $post->discussion->posts()->delete();
                 $post->discussion()->delete();
             } else {
@@ -1243,12 +1245,152 @@ class ApiController extends Controller
                 $post->discussion()->forceDelete();
             }
 
-            return response()->json(['status' => 'success','message'=> trans('chatter::alert.success.reason.destroy_post')]);
+            return response()->json(['status' => 'success', 'message' => trans('chatter::alert.success.reason.destroy_post')]);
         }
 
         $post->delete();
 
-        return response()->json(['status' => 'success','message'=> trans('chatter::alert.success.reason.destroy_from_discussion')]);
+        return response()->json(['status' => 'success', 'message' => trans('chatter::alert.success.reason.destroy_from_discussion')]);
+    }
+
+
+    /**
+     * Get Conversations.
+     *
+     * @param  \Illuminate\Http\Request
+     *
+     * @return [json] messages
+     */
+
+    public function getMessages(Request $request)
+    {
+        $thread = "";
+
+        $teachers = User::role('teacher')->get()->pluck('name', 'id');
+
+        auth()->user()->load('threads.messages.sender');
+
+        $unreadThreads = [];
+        $threads = [];
+        foreach (auth()->user()->threads as $item) {
+            if ($item->unreadMessagesCount > 0) {
+                $unreadThreads[] = $item;
+            } else {
+                $threads[] = $item;
+            }
+        }
+        $threads = Collection::make(array_merge($unreadThreads, $threads));
+
+        if (request()->has('thread') && ($request->thread != null)) {
+
+            if (request('thread')) {
+                $thread = auth()->user()->threads()
+                    ->where('message_threads.id', '=', $request->thread)
+                    ->first();
+                if ($thread == "") {
+                    return response()->json(['status' => 'failure', 'Not found']);
+                }
+                //Read Thread
+                auth()->user()->markThreadAsRead($thread->id);
+            }
+        }
+
+
+        return response()->json(['status' => 'success', 'threads' => $threads,
+            'teachers' => $teachers,
+            'thread' => $thread]);
+
+    }
+
+
+    /**
+     * Create Message
+     *
+     * @param  \Illuminate\Http\Request
+     *
+     * @return [json] Success Message
+     */
+    public function composeMessage(Request $request)
+    {
+        $recipients = $request->data['recipients'];
+        $message = $request->data['message'];
+
+        $message = Messenger::from(auth()->user())->to($recipients)->message($message)->send();
+        return response()->json(['status' => 'success', 'thread' => $message->thread_id]);
+    }
+
+
+    /**
+     * Reply Message
+     *
+     * @param  \Illuminate\Http\Request
+     *
+     * @return [json] Success Message
+     */
+    public function replyMessage(Request $request){
+
+        $thread = auth()->user()->threads()
+            ->where('message_threads.id','=',$request->thread_id)
+            ->first();
+        $message = Messenger::from(auth()->user())->to($thread)->message($request->message)->send();
+        return response()->json(['status' => 'success', 'thread' => $message->thread_id]);
+
+    }
+
+    /**
+     * Get Unread Messages
+     *
+     * @param  \Illuminate\Http\Request
+     *
+     * @return [json] Success Message
+     */
+    public function getUnreadMessages(Request $request){
+        $unreadMessageCount = auth()->user()->unreadMessagesCount;
+        $unreadThreads = [];
+        foreach(auth()->user()->threads as $item){
+            if($item->unreadMessagesCount > 0){
+                $data = [
+                    'thread_id' => $item->id,
+                    'message' => str_limit($item->lastMessage->body, 35),
+                    'unreadMessagesCount' => $item->unreadMessagesCount,
+                    'title' => $item->title
+                ];
+                $unreadThreads[] = $data;
+            }
+        }
+        return response()->json(['status' => 'success','unreadMessageCount' =>$unreadMessageCount,'threads' => $unreadThreads]);
+    }
+
+
+    /**
+     * Get My Certificates
+     *
+     * @param  \Illuminate\Http\Request
+     *
+     * @return [json] certificates object
+     */
+    public function getMyCertificates()
+    {
+        $certificates = auth()->user()->certificates;
+
+        return response()->json(['status' => 'success','result'=>$certificates]);
+    }
+
+
+
+    /**
+     * Get My Courses / Bundles / Purchases
+     *
+     * @param  \Illuminate\Http\Request
+     *
+     * @return [json] certificates object
+     */
+    public function getMyPurchases()
+    {
+        $purchased_courses = auth()->user()->purchasedCourses();
+        $purchased_bundles = auth()->user()->purchasedBundles();
+
+        return response()->json(['status' => 'success','result'=>['courses' => $purchased_courses,'bundles' => $purchased_bundles]]);
     }
 
 

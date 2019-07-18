@@ -69,4 +69,11 @@ Route::group(['middleware' => 'auth:api'],function (){
     Route::post('store-response','ApiController@storeResponse');
     Route::post('update-response','ApiController@updateResponse');
     Route::post('delete-response','ApiController@deleteResponse');
+    Route::post('messages','ApiController@getMessages');
+    Route::post('compose-message','ApiController@composeMessage');
+    Route::post('reply-message','ApiController@replyMessage');
+    Route::post('unread-messages','ApiController@getUnreadMessages');
+    Route::post('search-messages','ApiController@searchMessages');
+    Route::post('my-certificates','ApiController@getMyCertificates');
+    Route::post('my-purchases','ApiController@getMyPurchases');
 });
