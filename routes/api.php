@@ -66,4 +66,7 @@ Route::group(['middleware' => 'auth:api'],function (){
     Route::post('delete-blog-comment','ApiController@deleteBlogComment');
     Route::post('forum','ApiController@getForum');
     Route::post('create-discussion','ApiController@createDiscussion');
+    Route::post('store-response','ApiController@storeResponse');
+    Route::post('update-response','ApiController@updateResponse');
+    Route::post('delete-response','ApiController@deleteResponse');
 });

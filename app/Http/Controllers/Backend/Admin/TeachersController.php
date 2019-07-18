@@ -119,11 +119,18 @@ class TeachersController extends Controller
      */
     public function store(StoreTeachersRequest $request)
     {
-        $request = $this->saveFiles($request);
+//        $request = $this->saveFiles($request);
+
         $user = User::create($request->all());
         $user->confirmed = 1;
+        $user->avatar_type = 'storage';
+        if ($request->image) {
+            $user->avatar_location = $request->image->store('/avatars', 'public');
+        }
         $user->save();
+
         $user->assignRole('teacher');
+
         return redirect()->route('admin.teachers.index')->withFlashSuccess(trans('alerts.backend.general.created'));
     }
 

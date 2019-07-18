@@ -27,7 +27,10 @@ use App\Models\Testimonial;
 use App\Models\VideoProgress;
 use Arcanedev\NoCaptcha\Rules\CaptchaRule;
 use Carbon\Carbon;
+use DevDojo\Chatter\Events\ChatterAfterNewResponse;
 use DevDojo\Chatter\Events\ChatterBeforeNewDiscussion;
+use DevDojo\Chatter\Events\ChatterBeforeNewResponse;
+use DevDojo\Chatter\Mail\ChatterDiscussionUpdated;
 use Harimayco\Menu\Models\MenuItems;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
@@ -38,6 +41,8 @@ use Event;
 use DevDojo\Chatter\Models\Models;
 use DevDojo\Chatter\Helpers\ChatterHelper as Helper;
 use Illuminate\Support\Facades\Validator;
+use Purifier;
+
 
 
 class ApiController extends Controller
@@ -1099,6 +1104,154 @@ class ApiController extends Controller
     }
 
 
+    /**
+     * Create Response for Discussion
+     *
+     * @return [json] success message
+     */
+    public function storeResponse(Request $request)
+    {
+        $stripped_tags_body = ['body' => strip_tags($request->body)];
+        $validator = Validator::make($stripped_tags_body, [
+            'body' => 'required|min:10',
+        ],[
+            'body.required' => trans('chatter::alert.danger.reason.content_required'),
+            'body.min' => trans('chatter::alert.danger.reason.content_min'),
+        ]);
+
+        Event::fire(new ChatterBeforeNewResponse($request, $validator));
+        if (function_exists('chatter_before_new_response')) {
+            chatter_before_new_response($request, $validator);
+        }
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
+
+
+        $request->request->add(['user_id' => Auth::user()->id]);
+
+        if (config('chatter.editor') == 'simplemde'):
+            $request->request->add(['markdown' => 1]);
+        endif;
+
+        $new_post = Models::post()->create($request->all());
+
+        $discussion = Models::discussion()->find($request->chatter_discussion_id);
+
+        $category = Models::category()->find($discussion->chatter_category_id);
+        if (!isset($category->slug)) {
+            $category = Models::category()->first();
+        }
+
+        if ($new_post->id) {
+            $discussion->last_reply_at = $discussion->freshTimestamp();
+            $discussion->save();
+
+            Event::fire(new ChatterAfterNewResponse($request, $new_post));
+            if (function_exists('chatter_after_new_response')) {
+                chatter_after_new_response($request);
+            }
+
+            // if email notifications are enabled
+            if (config('chatter.email.enabled')) {
+                // Send email notifications about new post
+                $this->sendEmailNotifications($new_post->discussion);
+            }
+
+
+            return response()->json(['status' => 'success','message'=>trans('chatter::alert.success.reason.submitted_to_post')]);
+
+
+        } else {
+            return response()->json(['status' => 'failure','message'=> trans('chatter::alert.danger.reason.trouble')]);
+        }
+    }
+
+
+    /**
+     * Update the Response.
+     *
+     * @param \Illuminate\Http\Request $request
+     *
+     * @return [json] success message
+     */
+    public function updateResponse(Request $request)
+    {
+        $id = $request->post_id;
+        $stripped_tags_body = ['body' => strip_tags($request->body)];
+        $validator = Validator::make($stripped_tags_body, [
+            'body' => 'required|min:10',
+        ],[
+            'body.required' => trans('chatter::alert.danger.reason.content_required'),
+            'body.min' => trans('chatter::alert.danger.reason.content_min'),
+        ]);
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
+
+        $post = Models::post()->find($id);
+        if (!Auth::guest() && (Auth::user()->id == $post->user_id)) {
+            if ($post->markdown) {
+                $post->body = strip_tags($request->body);
+            } else {
+                $post->body = Purifier::clean($request->body);
+            }
+            $post->save();
+
+            $discussion = Models::discussion()->find($post->chatter_discussion_id);
+
+            $category = Models::category()->find($discussion->chatter_category_id);
+            if (!isset($category->slug)) {
+                $category = Models::category()->first();
+            }
+
+            return response()->json(['status' => 'success','message'=>trans('chatter::alert.success.reason.updated_post')]);
+
+        } else {
+
+            return response()->json(['status' => 'failure','message'=> trans('chatter::alert.danger.reason.update_post')]);
+        }
+    }
+
+    /**
+     * Delete Respnse.
+     *
+     * @param string $id
+     * @param  \Illuminate\Http\Request
+     *
+     * @return [json] success message
+     */
+    public function deleteResponse(Request $request)
+    {
+        $id = $request->post_id;
+
+        $post = Models::post()->with('discussion')->findOrFail($id);
+
+        if ($request->user()->id !== (int) $post->user_id) {
+
+            return response()->json(['status' => 'failure','message'=> trans('chatter::alert.danger.reason.destroy_post')]);
+        }
+
+        if ($post->discussion->posts()->oldest()->first()->id === $post->id) {
+            if(config('chatter.soft_deletes')) {
+                $post->discussion->posts()->delete();
+                $post->discussion()->delete();
+            } else {
+                $post->discussion->posts()->forceDelete();
+                $post->discussion()->forceDelete();
+            }
+
+            return response()->json(['status' => 'success','message'=> trans('chatter::alert.success.reason.destroy_post')]);
+        }
+
+        $post->delete();
+
+        return response()->json(['status' => 'success','message'=> trans('chatter::alert.success.reason.destroy_from_discussion')]);
+    }
+
+
 
 
     private function notEnoughTimeBetweenDiscussion()
@@ -1116,6 +1269,13 @@ class ApiController extends Controller
         return false;
     }
 
+    private function sendEmailNotifications($discussion)
+    {
+        $users = $discussion->users->except(Auth::user()->id);
+        foreach ($users as $user) {
+            \Mail::to($user)->queue(new ChatterDiscussionUpdated($discussion));
+        }
+    }
 
 
 }
