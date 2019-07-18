@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Traits\FileUploadTrait;
 use App\Mail\Frontend\Contact\SendContact;
+use App\Mail\OfflineOrderMail;
 use App\Models\Auth\User;
 use App\Models\Blog;
+use App\Models\BlogComment;
 use App\Models\Bundle;
+use App\Models\Category;
 use App\Models\Certificate;
 use App\Models\Config;
 use App\Models\Contact;
@@ -13,22 +17,32 @@ use App\Models\Course;
 use App\Models\Faq;
 use App\Models\Lesson;
 use App\Models\Media;
+use App\Models\Order;
 use App\Models\Reason;
 use App\Models\Review;
 use App\Models\Sponsor;
 use App\Models\System\Session;
+use App\Models\Tag;
 use App\Models\Testimonial;
 use App\Models\VideoProgress;
 use Arcanedev\NoCaptcha\Rules\CaptchaRule;
 use Carbon\Carbon;
+use DevDojo\Chatter\Events\ChatterBeforeNewDiscussion;
 use Harimayco\Menu\Models\MenuItems;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Cart;
+use DevDojo\Chatter\Events\ChatterAfterNewDiscussion;
+use Event;
+use DevDojo\Chatter\Models\Models;
+use DevDojo\Chatter\Helpers\ChatterHelper as Helper;
+use Illuminate\Support\Facades\Validator;
+
 
 class ApiController extends Controller
 {
+    use FileUploadTrait;
     /**
      * Get the Signup Form
      *
@@ -395,7 +409,7 @@ class ApiController extends Controller
     {
         $continue_course = NULL;
         $course_timeline = NULL;
-        $course = Course::withoutGlobalScope('filter')->with('teachers','category')->where('id', '=', $request->course_id)->with('publishedLessons')->first();
+        $course = Course::withoutGlobalScope('filter')->with('teachers', 'category')->where('id', '=', $request->course_id)->with('publishedLessons')->first();
         if ($course == null) {
             return response()->json(['status' => 'failure', 'result' => NULL]);
         }
@@ -423,20 +437,20 @@ class ApiController extends Controller
             }
         }
 
-        if($course->courseTimeline){
+        if ($course->courseTimeline) {
 
-            $timeline =$course->courseTimeline()->orderBy('sequence')->get();
-            foreach ($timeline as $item){
+            $timeline = $course->courseTimeline()->orderBy('sequence')->get();
+            foreach ($timeline as $item) {
                 $completed = false;
-                if(in_array($item->model_id,$completed_lessons)){
+                if (in_array($item->model_id, $completed_lessons)) {
                     $completed = true;
                 }
                 $type = 'lesson';
                 $description = "";
-                if($item->model_type == 'App\Models\Test'){
+                if ($item->model_type == 'App\Models\Test') {
                     $type = 'test';
                     $description = $item->model->description;
-                }else{
+                } else {
                     $description = $item->model->short_text;
                 }
                 $course_timeline[] = [
@@ -470,17 +484,18 @@ class ApiController extends Controller
      *
      * @return [json] Success message
      */
-    public function submitReview(Request $request){
+    public function submitReview(Request $request)
+    {
         $reviewable_id = $request->item_id;
-        if($request->type == 'course'){
+        if ($request->type == 'course') {
             $reviewable_type = Course::class;
             $item = Course::find($request->item_id);
 
-        }else{
+        } else {
             $reviewable_type = Bundle::class;
             $item = Bundle::find($request->item_id);
         }
-        if($item != null){
+        if ($item != null) {
             $review = new Review();
             $review->user_id = auth()->user()->id;
             $review->reviewable_id = $reviewable_id;
@@ -498,7 +513,8 @@ class ApiController extends Controller
      *
      * @return [json] Success message
      */
-    public function updateReview(Request $request){
+    public function updateReview(Request $request)
+    {
         $review = Review::where('id', '=', $request->review_id)->where('user_id', '=', auth()->user()->id)->first();
         if ($review != null) {
             $review->rating = $request->rating;
@@ -515,11 +531,12 @@ class ApiController extends Controller
      *
      * @return [json] Success message
      */
-    public function getLesson(Request $request){
-        $lesson = Lesson::where('published','=',1)
-            ->where('id','=',$request->lesson_id)
+    public function getLesson(Request $request)
+    {
+        $lesson = Lesson::where('published', '=', 1)
+            ->where('id', '=', $request->lesson_id)
             ->first();
-        if($lesson != null){
+        if ($lesson != null) {
             $course = $lesson->course;
             $previous_lesson = $lesson->course->courseTimeline()->where('sequence', '<', $lesson->courseTimeline->sequence)
                 ->orderBy('sequence', 'desc')
@@ -528,22 +545,22 @@ class ApiController extends Controller
                 ->orderBy('sequence', 'asc')
                 ->first();
 
-           $is_certified = $lesson->course->isUserCertified();
-           $course_progress = $lesson->course->progress();
+            $is_certified = $lesson->course->isUserCertified();
+            $course_progress = $lesson->course->progress();
 
-          $downloadable_media = $lesson->downloadable_media;
-          $video = $lesson->mediaVideo;
-          $pdf = $lesson->mediaPDF;
-          $audio = $lesson->mediaAudio;
-          $lesson_media =[
-              'downloadable_media' => $downloadable_media,
-              'video' => $video,
-              'pdf' => $pdf,
-              'audio' => $audio,
-          ];
+            $downloadable_media = $lesson->downloadable_media;
+            $video = $lesson->mediaVideo;
+            $pdf = $lesson->mediaPDF;
+            $audio = $lesson->mediaAudio;
+            $lesson_media = [
+                'downloadable_media' => $downloadable_media,
+                'video' => $video,
+                'pdf' => $pdf,
+                'audio' => $audio,
+            ];
 
 
-            return response()->json(['status' => 'success','result'=>['lesson' => $lesson,'lesson_media' => $lesson_media,'previous_lesson' => $previous_lesson, 'next_lesson' => $next_lesson,'is_certified' => $is_certified, 'course_progress' => $course_progress, 'course' => $course]]);
+            return response()->json(['status' => 'success', 'result' => ['lesson' => $lesson, 'lesson_media' => $lesson_media, 'previous_lesson' => $previous_lesson, 'next_lesson' => $next_lesson, 'is_certified' => $is_certified, 'course_progress' => $course_progress, 'course' => $course]]);
         }
         return response()->json(['status' => 'failure']);
     }
@@ -558,7 +575,7 @@ class ApiController extends Controller
     {
         $user = auth()->user();
         $video = Media::find($request->media_id);
-        if($video == null){
+        if ($video == null) {
             return response()->json(['status' => 'failure']);
         }
         $video_progress = VideoProgress::where('user_id', '=', $user->id)
@@ -574,7 +591,6 @@ class ApiController extends Controller
         $video_progress->save();
         return response()->json(['status' => 'success']);
     }
-
 
 
     /**
@@ -646,15 +662,16 @@ class ApiController extends Controller
      *
      * @return [json] Bundle Object
      */
-    public function getSingleBundle(Request $request){
-        $result['bundle'] = Bundle::where('published','=',1)
-            ->where('id','=',$request->bundle_id)
+    public function getSingleBundle(Request $request)
+    {
+        $result['bundle'] = Bundle::where('published', '=', 1)
+            ->where('id', '=', $request->bundle_id)
             ->first();
-        if($result['bundle'] == null){
+        if ($result['bundle'] == null) {
             return response()->json(['status' => 'failure', 'message' => 'Invalid Request']);
         }
         $result['courses'] = $result['bundle']->courses;
-        return response()->json(['status' => 'success','result' => $result]);
+        return response()->json(['status' => 'success', 'result' => $result]);
     }
 
 
@@ -705,8 +722,8 @@ class ApiController extends Controller
     public function removeFromCart(Request $request)
     {
 
-        foreach (Cart::session(auth()->user()->id)->getContent() as $cartItem){
-            if(($cartItem->attributes->type == $request->type) && ($cartItem->attributes->product_id == $request->item_id)){
+        foreach (Cart::session(auth()->user()->id)->getContent() as $cartItem) {
+            if (($cartItem->attributes->type == $request->type) && ($cartItem->attributes->product_id == $request->item_id)) {
                 Cart::session(auth()->user()->id)->remove($request->item_id);
             }
         }
@@ -719,11 +736,12 @@ class ApiController extends Controller
      *
      * @return [json] Get Cart data
      */
-    public function getCartData(Request $request){
+    public function getCartData(Request $request)
+    {
         $course_ids = [];
         $bundle_ids = [];
 
-        if(Cart::session(auth()->user()->id)->getContent()){
+        if (Cart::session(auth()->user()->id)->getContent()) {
             foreach (Cart::session(auth()->user()->id)->getContent() as $item) {
                 if ($item->attributes->type == 'bundle') {
                     $bundle_ids[] = $item->id;
@@ -736,7 +754,7 @@ class ApiController extends Controller
             $total = Cart::session(auth()->user()->id)->getTotal();
 
 
-            return response()->json(['status' => 'success', 'result' => ['courses' => $courses, 'bundles'=> $bundles,'total' => $total]]);
+            return response()->json(['status' => 'success', 'result' => ['courses' => $courses, 'bundles' => $bundles, 'total' => $total]]);
         }
         return response()->json(['status' => 'failure']);
     }
@@ -746,10 +764,358 @@ class ApiController extends Controller
      *
      * @return [json] Success Message
      */
-    public function clearCart(){
+    public function clearCart()
+    {
         Cart::session(auth()->user()->id)->clear();
         return response()->json(['status' => 'success']);
     }
+
+
+    /**
+     * Payment Status
+     *
+     * @return [json] Success Message
+     */
+    public function paymentStatus(Request $request)
+    {
+        $counter = 0;
+        $items = [];
+        $order = $this->makeOrder();
+        $order->payment_type = $request->type;
+        $order->status = ($request->status == 'success') ? 1 : 0;
+        $order->save();
+        if ((int)$request->type == 3) {
+            foreach (Cart::session(auth()->user()->id)->getContent() as $key => $cartItem) {
+                $counter++;
+                array_push($items, ['number' => $counter, 'name' => $cartItem->name, 'price' => $cartItem->price]);
+            }
+
+            $content['items'] = $items;
+            $content['total'] = Cart::session(auth()->user()->id)->getTotal();
+            $content['reference_no'] = $order->reference_no;
+
+            try {
+                \Mail::to(auth()->user()->email)->send(new OfflineOrderMail($content));
+            } catch (\Exception $e) {
+                \Log::info($e->getMessage() . ' for order ' . $order->id);
+            }
+
+            Cart::session(auth()->user()->id)->clear();
+        } else {
+            foreach ($order->items as $orderItem) {
+                //Bundle Entries
+                if ($orderItem->item_type == Bundle::class) {
+                    foreach ($orderItem->item->courses as $course) {
+                        $course->students()->attach($order->user_id);
+                    }
+                }
+                $orderItem->item->students()->attach($order->user_id);
+            }
+
+            //Generating Invoice
+            generateInvoice($order);
+        }
+
+        return response()->json(['status' => 'success']);
+    }
+
+
+    /**
+     * Create Order
+     *
+     * @return [json] Order
+     */
+    private function makeOrder()
+    {
+        $order = new Order();
+        $order->user_id = auth()->user()->id;
+        $order->reference_no = str_random(8);
+        $order->amount = Cart::session(auth()->user()->id)->getTotal();
+        $order->status = 1;
+        $order->payment_type = 3;
+        $order->save();
+        //Getting and Adding items
+        foreach (Cart::session(auth()->user()->id)->getContent() as $cartItem) {
+            if ($cartItem->attributes->type == 'bundle') {
+                $type = Bundle::class;
+            } else {
+                $type = Course::class;
+            }
+            $order->items()->create([
+                'item_id' => $cartItem->id,
+                'item_type' => $type,
+                'price' => $cartItem->price
+            ]);
+        }
+
+        return $order;
+    }
+
+
+    /**
+     * Create Order
+     *
+     * @return [json] Order
+     */
+    public function getBlog(Request $request)
+    {
+
+        if ($request->blog_id != null) {
+            $blog_id = $request->blog_id;
+            $blog = Blog::with('comments', 'category', 'author')->find($blog_id);
+            // get previous user id
+            $previous_id = Blog::where('id', '<', $blog_id)->max('id');
+            $previous = Blog::find($previous_id);
+
+            // get next user id
+            $next_id = Blog::where('id', '>', $blog_id)->min('id');
+            $next = Blog::find($next_id);
+
+            return response()->json(['status' => 'success', 'blog' => $blog, 'next' => $next_id, 'previous', $previous_id]);
+        }
+
+
+        $blog = Blog::has('category')->with('comments')->OrderBy('created_at', 'desc')->paginate(10);
+        return response()->json(['status' => 'success', 'blog' => $blog]);
+
+    }
+
+
+    /**
+     * Blog By Category
+     *
+     * @return [json] Blog List
+     */
+    public function getBlogByCategory(Request $request)
+    {
+        $category = Category::find((int)$request->category_id);
+        if ($category != null) {
+            $blog = $category->blogs()->paginate(10);
+            return response()->json(['status' => 'success', 'result' => $blog]);
+        }
+        return response()->json(['status' => 'failure']);
+
+    }
+
+
+    /**
+     * Blog By Tag
+     *
+     * @return [json] Blog List
+     */
+    public function getBlogByTag(Request $request)
+    {
+        $tag = Tag::find((int)$request->tag_id);
+        if ($tag != "") {
+            $blog = $tag->blogs()->paginate(10);
+            return response()->json(['status' => 'success', 'result' => $blog]);
+        }
+        return response()->json(['status' => 'failure']);
+    }
+
+
+    /**
+     * Blog Store Comment
+     *
+     * @return [json] Success Message
+     */
+    public function addBlogComment(Request $request)
+    {
+        $this->validate($request, [
+            'comment' => 'required|min:3',
+        ]);
+        $blog = Blog::find($request->blog_id);
+        if ($blog != null) {
+            $blogcooment = new BlogComment($request->all());
+            $blogcooment->name = auth()->user()->full_name;
+            $blogcooment->email = auth()->user()->email;
+            $blogcooment->comment = $request->comment;
+            $blogcooment->blog_id = $blog->id;
+            $blogcooment->user_id = auth()->user()->id;
+            $blogcooment->save();
+            return response()->json(['status' => 'success']);
+
+        }
+
+        return response()->json(['status' => 'failure']);
+    }
+
+
+    /**
+     * Blog Delete Comment
+     *
+     * @return [json] Success Message
+     */
+    public function deleteBlogComment(Request $request)
+    {
+        $comment = BlogComment::find((int)$request->comment_id);
+        if (auth()->user()->id == $comment->user_id) {
+            $comment->delete();
+            return response()->json(['status' => 'success']);
+        }
+        return response()->json(['status' => 'failure']);
+    }
+
+
+    /**
+     * Forums home
+     *
+     * @return [json] forum object
+     */
+
+    public function getForum(Request $request)
+    {
+
+        $pagination_results = config('chatter.paginate.num_of_results');
+
+        $discussions = Models::discussion()->with('user')->with('post')->with('postsCount')->with('category')->orderBy(config('chatter.order_by.discussions.order'), config('chatter.order_by.discussions.by'));
+        if (isset($slug)) {
+            $category = Models::category()->where('slug', '=', $slug)->first();
+
+            if (isset($category->id)) {
+                $current_category_id = $category->id;
+                $discussions = $discussions->where('chatter_category_id', '=', $category->id);
+            } else {
+                $current_category_id = null;
+            }
+        }
+
+        $discussions = $discussions->paginate($pagination_results);
+
+        $categories = Models::category()->get();
+
+        $result = [
+            'discussions' => $discussions,
+            'categories' => $categories,
+        ];
+
+        return response()->json(['status' => 'success', 'result' => $result]);
+
+    }
+
+    /**
+     * Create Discussion
+     *
+     * @return [json] success message
+     */
+
+    public function createDiscussion(Request $request){
+        $request->request->add(['body_content' => strip_tags($request->body)]);
+
+        $validator = Validator::make($request->all(), [
+            'title'               => 'required|min:5|max:255',
+            'body_content'        => 'required|min:10',
+            'chatter_category_id' => 'required',
+        ],[
+            'title.required' =>  trans('chatter::alert.danger.reason.title_required'),
+            'title.min'     => [
+                'string'  => trans('chatter::alert.danger.reason.title_min'),
+            ],
+            'title.max' => [
+                'string'  => trans('chatter::alert.danger.reason.title_max'),
+            ],
+            'body_content.required' => trans('chatter::alert.danger.reason.content_required'),
+            'body_content.min' => trans('chatter::alert.danger.reason.content_min'),
+            'chatter_category_id.required' => trans('chatter::alert.danger.reason.category_required'),
+        ]);
+
+
+        Event::fire(new ChatterBeforeNewDiscussion($request,$validator));
+        if (function_exists('chatter_before_new_discussion')) {
+            chatter_before_new_discussion($request,$validator);
+        }
+
+        $user_id = Auth::user()->id;
+
+        if (config('chatter.security.limit_time_between_posts')) {
+            if ($this->notEnoughTimeBetweenDiscussion()) {
+                $minutes = trans_choice('chatter::messages.words.minutes', config('chatter.security.time_between_posts'));
+
+                return response()->json(['status' => 'failure','result' => trans('chatter::alert.danger.reason.prevent_spam', [
+                    'minutes' => $minutes,
+                ])]);
+            }
+        }
+
+        // *** Let's gaurantee that we always have a generic slug *** //
+        $slug = str_slug($request->title, '-');
+
+        $discussion_exists = Models::discussion()->where('slug', '=', $slug)->withTrashed()->first();
+        $incrementer = 1;
+        $new_slug = $slug;
+        while (isset($discussion_exists->id)) {
+            $new_slug = $slug.'-'.$incrementer;
+            $discussion_exists = Models::discussion()->where('slug', '=', $new_slug)->withTrashed()->first();
+            $incrementer += 1;
+        }
+
+        if ($slug != $new_slug) {
+            $slug = $new_slug;
+        }
+
+        $new_discussion = [
+            'title'               => $request->title,
+            'chatter_category_id' => $request->chatter_category_id,
+            'user_id'             => $user_id,
+            'slug'                => $slug,
+            'color'               => '#0c0919',
+        ];
+
+        $category = Models::category()->find($request->chatter_category_id);
+        if (!isset($category->slug)) {
+            $category = Models::category()->first();
+        }
+
+        $discussion = Models::discussion()->create($new_discussion);
+
+        $new_post = [
+            'chatter_discussion_id' => $discussion->id,
+            'user_id'               => $user_id,
+            'body'                  => $request->body,
+        ];
+
+        if (config('chatter.editor') == 'simplemde'):
+            $new_post['markdown'] = 1;
+        endif;
+
+        // add the user to automatically be notified when new posts are submitted
+        $discussion->users()->attach($user_id);
+
+        $post = Models::post()->create($new_post);
+
+        if ($post->id) {
+            Event::fire(new ChatterAfterNewDiscussion($request, $discussion, $post));
+            if (function_exists('chatter_after_new_discussion')) {
+                chatter_after_new_discussion($request);
+            }
+
+            return response()->json(['status' => 'success']);
+
+        } else {
+            return response()->json(['status' => 'failure', 'result' => 'Not found']);
+
+
+        }
+    }
+
+
+
+
+    private function notEnoughTimeBetweenDiscussion()
+    {
+        $user = Auth::user();
+
+        $past = Carbon::now()->subMinutes(config('chatter.security.time_between_posts'));
+
+        $last_discussion = Models::discussion()->where('user_id', '=', $user->id)->where('created_at', '>=', $past)->first();
+
+        if (isset($last_discussion)) {
+            return true;
+        }
+
+        return false;
+    }
+
 
 
 }

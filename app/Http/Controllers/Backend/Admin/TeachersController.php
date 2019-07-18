@@ -118,7 +118,6 @@ class TeachersController extends Controller
     public function store(StoreTeachersRequest $request)
     {
         $request = $this->saveFiles($request);
-
         $user = User::create($request->all());
         $user->confirmed = 1;
         $user->save();
@@ -154,7 +153,8 @@ class TeachersController extends Controller
         $teacher = User::findOrFail($id);
         $teacher->update($request->except('email'));
         if($request->image != null){
-            $teacher->avatar_location = $request->image;
+
+            $teacher->avatar_location = 'uploads/'.$request->image;
             $teacher->save();
 
         }

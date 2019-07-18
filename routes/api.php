@@ -58,4 +58,12 @@ Route::group(['middleware' => 'auth:api'],function (){
     Route::post('remove-from-cart','ApiController@removeFromCart');
     Route::post('get-cart-data','ApiController@getCartData');
     Route::post('clear-cart','ApiController@clearCart');
+    Route::post('payment-status','ApiController@paymentStatus');
+    Route::post('get-blog','ApiController@getBlog');
+    Route::post('blog-by-category','ApiController@getBlogByCategory');
+    Route::post('blog-by-tag','ApiController@getBlogByTag');
+    Route::post('add-blog-comment','ApiController@addBlogComment');
+    Route::post('delete-blog-comment','ApiController@deleteBlogComment');
+    Route::post('forum','ApiController@getForum');
+    Route::post('create-discussion','ApiController@createDiscussion');
 });
