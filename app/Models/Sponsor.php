@@ -23,7 +23,10 @@ class Sponsor extends Model
 
     public function getImageAttribute()
     {
-        return url('storage/uploads/'.$this->logo);
+        if ($this->logo != null) {
+            return url('storage/uploads/'.$this->logo);
+        }
+        return NULL;
     }
 
 }

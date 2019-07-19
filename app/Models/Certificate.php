@@ -19,6 +19,9 @@ class Certificate extends Model
     }
 
     public function getCertificateLinkAttribute(){
-        return url('storage/certificates/'.$this->url);
+        if ($this->url != null) {
+            return url('storage/certificates/'.$this->url);
+        }
+        return NULL;
     }
 }

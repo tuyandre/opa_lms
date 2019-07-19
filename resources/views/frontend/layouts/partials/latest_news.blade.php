@@ -63,9 +63,9 @@
                         @if(count($trending_courses) > 0)
                             @foreach($trending_courses as  $item)
                                 <div class="latest-news-area">
-                                    @if($item->image != null)
+                                    @if($item->course_image != null)
                                         <div class="latest-news-thumbnile relative-position"
-                                             style="background-image: url('{{asset("storage/uploads/".$item->image)}}');">
+                                             style="background-image: url('{{asset("storage/uploads/".$item->course_image)}}');">
                                             <div class="hover-search">
                                                 {{--<i class="fas fa-search"></i>--}}
                                             </div>
@@ -115,7 +115,7 @@
                                 <div class="latest-news-area">
                                     @if($item->image != null)
                                         <div class="latest-news-thumbnile relative-position"
-                                             style="background-image: url('{{asset("storage/uploads/".$item->image)}}');">
+                                             style="background-image: url('{{asset("storage/uploads/".$item->course_image)}}');">
                                             <div class="hover-search">
                                                 {{--<i class="fas fa-search"></i>--}}
                                             </div>

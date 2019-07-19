@@ -68,6 +68,7 @@ class Lesson extends Model
         if ($this->attributes['lesson_image'] != NULL) {
             return url('storage/uploads' / $this->lesson_image);
         }
+        return NULL;
     }
 
     public function getLessonReadtimeAttribute(){

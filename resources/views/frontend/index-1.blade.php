@@ -107,7 +107,7 @@
 
 
     @if($sections->popular_courses->status == 1)
-        @include('frontend.layouts.partials.popular_courses')
+        {{--@include('frontend.layouts.partials.popular_courses')--}}
     @endif
 
     @if(($sections->reasons->status != 0) || ($sections->testimonial->status != 0))
@@ -212,7 +212,7 @@
     @if($sections->featured_courses->status == 1)
         <!-- Start of best course
         ============================================= -->
-        @include('frontend.layouts.partials.browse_courses')
+        {{--@include('frontend.layouts.partials.browse_courses')--}}
         <!-- End of best course
             ============================================= -->
     @endif

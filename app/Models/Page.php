@@ -10,7 +10,9 @@ use Illuminate\Support\Facades\File;
 class Page extends Model
 {
     use SoftDeletes;
+    protected $appends = ['page_image'];
     protected $guarded = [];
+
 
     protected static function boot()
     {
@@ -27,7 +29,16 @@ class Page extends Model
     }
 
 
-    public function user(){
+    public function getPageImageAttribute()
+    {
+        if ($this->image != null) {
+            return url('storage/uploads/' . $this->image);
+        }
+        return NULL;
+    }
+
+    public function user()
+    {
         return $this->belongsTo(User::class);
     }
 }

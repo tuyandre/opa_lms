@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Traits\FileUploadTrait;
+use App\Http\Requests\Frontend\User\UpdatePasswordRequest;
+use App\Http\Requests\Frontend\User\UpdateProfileRequest;
 use App\Mail\Frontend\Contact\SendContact;
 use App\Mail\OfflineOrderMail;
+use App\Models\Auth\Traits\SendUserPasswordReset;
 use App\Models\Auth\User;
 use App\Models\Blog;
 use App\Models\BlogComment;
@@ -18,6 +21,7 @@ use App\Models\Faq;
 use App\Models\Lesson;
 use App\Models\Media;
 use App\Models\Order;
+use App\Models\Page;
 use App\Models\Reason;
 use App\Models\Review;
 use App\Models\Sponsor;
@@ -25,6 +29,7 @@ use App\Models\System\Session;
 use App\Models\Tag;
 use App\Models\Testimonial;
 use App\Models\VideoProgress;
+use App\Repositories\Frontend\Auth\UserRepository;
 use Arcanedev\NoCaptcha\Rules\CaptchaRule;
 use Carbon\Carbon;
 use DevDojo\Chatter\Events\ChatterAfterNewResponse;
@@ -32,6 +37,7 @@ use DevDojo\Chatter\Events\ChatterBeforeNewDiscussion;
 use DevDojo\Chatter\Events\ChatterBeforeNewResponse;
 use DevDojo\Chatter\Mail\ChatterDiscussionUpdated;
 use Harimayco\Menu\Models\MenuItems;
+use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
@@ -40,14 +46,40 @@ use DevDojo\Chatter\Events\ChatterAfterNewDiscussion;
 use Event;
 use DevDojo\Chatter\Models\Models;
 use DevDojo\Chatter\Helpers\ChatterHelper as Helper;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Validator;
 use Purifier;
 use Messenger;
+use Newsletter;
 
 
 class ApiController extends Controller
 {
     use FileUploadTrait;
+    use SendsPasswordResetEmails;
+
+
+    public function __construct(UserRepository $userRepository)
+    {
+        $this->userRepository = $userRepository;
+    }
+
+
+    public function __invoke(Request $request)
+    {
+        $this->validateEmail($request);
+        // We will send the password reset link to this user. Once we have attempted
+        // to send the link, we will examine the response then see the message we
+        // need to show to the user. Finally, we'll send out a proper response.
+        $response = $this->broker()->sendResetLink(
+            $request->only('email')
+        );
+        return $response == Password::RESET_LINK_SENT
+            ? response()->json(['status' => 'success', 'message' => 'Reset link sent to your email.'], 201)
+            : response()->json(['status' => 'failure', 'message' => 'Unable to send reset link. No Email found.'], 401);
+    }
+
 
     /**
      * Get the Signup Form
@@ -1327,10 +1359,11 @@ class ApiController extends Controller
      *
      * @return [json] Success Message
      */
-    public function replyMessage(Request $request){
+    public function replyMessage(Request $request)
+    {
 
         $thread = auth()->user()->threads()
-            ->where('message_threads.id','=',$request->thread_id)
+            ->where('message_threads.id', '=', $request->thread_id)
             ->first();
         $message = Messenger::from(auth()->user())->to($thread)->message($request->message)->send();
         return response()->json(['status' => 'success', 'thread' => $message->thread_id]);
@@ -1344,11 +1377,12 @@ class ApiController extends Controller
      *
      * @return [json] Success Message
      */
-    public function getUnreadMessages(Request $request){
+    public function getUnreadMessages(Request $request)
+    {
         $unreadMessageCount = auth()->user()->unreadMessagesCount;
         $unreadThreads = [];
-        foreach(auth()->user()->threads as $item){
-            if($item->unreadMessagesCount > 0){
+        foreach (auth()->user()->threads as $item) {
+            if ($item->unreadMessagesCount > 0) {
                 $data = [
                     'thread_id' => $item->id,
                     'message' => str_limit($item->lastMessage->body, 35),
@@ -1358,7 +1392,7 @@ class ApiController extends Controller
                 $unreadThreads[] = $data;
             }
         }
-        return response()->json(['status' => 'success','unreadMessageCount' =>$unreadMessageCount,'threads' => $unreadThreads]);
+        return response()->json(['status' => 'success', 'unreadMessageCount' => $unreadMessageCount, 'threads' => $unreadThreads]);
     }
 
 
@@ -1373,9 +1407,8 @@ class ApiController extends Controller
     {
         $certificates = auth()->user()->certificates;
 
-        return response()->json(['status' => 'success','result'=>$certificates]);
+        return response()->json(['status' => 'success', 'result' => $certificates]);
     }
-
 
 
     /**
@@ -1390,10 +1423,172 @@ class ApiController extends Controller
         $purchased_courses = auth()->user()->purchasedCourses();
         $purchased_bundles = auth()->user()->purchasedBundles();
 
-        return response()->json(['status' => 'success','result'=>['courses' => $purchased_courses,'bundles' => $purchased_bundles]]);
+        return response()->json(['status' => 'success', 'result' => ['courses' => $purchased_courses, 'bundles' => $purchased_bundles]]);
     }
 
 
+    /**
+     * Get My Account
+     *
+     * @param  \Illuminate\Http\Request
+     *
+     * @return [json] Loggedin user object
+     */
+    public function getMyAccount()
+    {
+        $user = auth()->user();
+        return response()->json(['status' => 'success', 'result' => $user]);
+    }
+
+
+    /**
+     * Update My Account
+     *
+     * @param  \Illuminate\Http\Request
+     *
+     * @return [json] Update account
+     */
+    public function updateMyAccount(Request $request)
+    {
+        $fieldsList = [];
+        if (config('registration_fields') != NULL) {
+            $fields = json_decode(config('registration_fields'));
+
+            foreach ($fields as $field) {
+                $fieldsList[] = '' . $field->name;
+            }
+        }
+        $output = $this->userRepository->update(
+            $request->user()->id,
+            $request->only('first_name', 'last_name', 'dob', 'phone', 'gender', 'address', 'city', 'pincode', 'state', 'country', 'avatar_type', 'avatar_location'),
+            $request->has('avatar_location') ? $request->file('avatar_location') : false
+        );
+
+        // E-mail address was updated, user has to reconfirm
+        if (is_array($output) && $output['email_changed']) {
+            auth()->logout();
+
+            return response()->json(['status' => 'success', 'message' => __('strings.frontend.user.email_changed_notice')]);
+        }
+
+        return response()->json(['status' => 'success', 'message' => __('strings.frontend.user.profile_updated')]);
+
+    }
+
+    /**
+     * Update Password
+     *
+     * @param  \Illuminate\Http\Request
+     *
+     * @return [json] Update password
+     */
+    public function updatePassword(Request $request)
+    {
+        $user = auth()->user();
+
+        if (Hash::check($request->old_password, $user->password)) {
+            $user->update(['password' => $request->password]);
+        }
+        return response()->json(['status' => 'success', 'message' => __('strings.frontend.user.password_updated')]);
+
+    }
+
+
+    /**
+     * Update Pages (About-us)
+     *
+     * @param  \Illuminate\Http\Request
+     *
+     * @return [json] Update password
+     */
+    public function getPage()
+    {
+        $page = Page::where('slug', '=', request('page'))
+            ->where('published', '=', 1)->first();
+        if ($page != "") {
+            return response()->json(['status' => 'success', 'result' => $page]);
+        }
+        return response()->json(['status' => 'failure', 'result' => NULL]);
+
+    }
+
+
+    public function subscribeNewsletter(Request $request)
+    {
+        if (config('mail_provider') != NULL && config('mail_provider') == "mailchimp") {
+            try {
+                if (!Newsletter::isSubscribed($request->email)) {
+                    if (config('mailchimp_double_opt_in')) {
+                        Newsletter::subscribePending($request->email);
+                        $message = "We've sent you an email, Check your mailbox for further procedure.";
+                    } else {
+                        Newsletter::subscribe($request->email);
+                        $message = "You've subscribed successfully";
+                    }
+                    return response()->json(['status' => 'success', 'message' => $message]);
+                } else {
+                    $message = "Email already exist in subscription list";
+                    return response()->json(['status' => 'failure', 'message' => $message]);
+
+                }
+            } catch (\Exception $e) {
+                \Log::info($e->getMessage());
+                $message = "Something went wrong, Please try again Later";
+                return response()->json(['status' => 'failure', 'message' => $message]);
+            }
+
+        } elseif (config('mail_provider') != NULL && config('mail_provider') == "sendgrid") {
+            try {
+                $apiKey = config('sendgrid_api_key');
+                $sg = new \SendGrid($apiKey);
+                $query_params = json_decode('{"page": 1, "page_size": 1}');
+                $response = $sg->client->contactdb()->recipients()->get(null, $query_params);
+                if ($response->statusCode() == 200) {
+                    $users = json_decode($response->body());
+                    $emails = [];
+                    foreach ($users->recipients as $user) {
+                        array_push($emails, $user->email);
+                    }
+                    if (in_array($request->email, $emails)) {
+                        $message = "Email already exist in subscription list";
+                        return response()->json(['status' => 'failure', 'message' => $message]);
+                    } else {
+                        $request_body = json_decode(
+                            '[{
+                             "email": "' . $request->email . '",
+                             "first_name": "",
+                             "last_name": ""
+                              }]'
+                        );
+                        $response = $sg->client->contactdb()->recipients()->post($request_body);
+                        if ($response->statusCode() != 201 || (json_decode($response->body())->new_count == 0)) {
+
+                            $message = "Email already exist in subscription list";
+                            return response()->json(['status' => 'failure', 'message' => $message]);
+                        } else {
+                            $recipient_id = json_decode($response->body())->persisted_recipients[0];
+                            $list_id = config('sendgrid_list');
+                            $response = $sg->client->contactdb()->lists()->_($list_id)->recipients()->_($recipient_id)->post();
+                            if ($response->statusCode() == 201) {
+                                session()->flash('alert', "You've subscribed successfully");
+                            } else {
+                                $message = "Check your email and try again";
+                                return response()->json(['status' => 'failure', 'message' => $message]);
+                            }
+
+                        }
+                    }
+                }
+            } catch (\Exception $e) {
+                \Log::info($e->getMessage());
+                $message = "Something went wrong, Please try again Later";
+                return response()->json(['status' => 'failure', 'message' => $message]);
+            }
+        }
+        return response()->json(['status' => 'failure', 'message' => 'Please setup mail provider in Admin dashboard on server']);
+
+
+    }
 
 
     private function notEnoughTimeBetweenDiscussion()

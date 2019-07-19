@@ -76,4 +76,10 @@ Route::group(['middleware' => 'auth:api'],function (){
     Route::post('search-messages','ApiController@searchMessages');
     Route::post('my-certificates','ApiController@getMyCertificates');
     Route::post('my-purchases','ApiController@getMyPurchases');
+    Route::post('my-account','ApiController@getMyAccount');
+    Route::post('update-account','ApiController@updateMyAccount');
+    Route::post('update-password','ApiController@updatePassword');
+    Route::post('get-page','ApiController@getPage');
+    Route::post('subscribe-newsletter','ApiController@subscribeNewsletter');
 });
+Route::post('send-reset-link','ApiController');
