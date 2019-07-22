@@ -80,8 +80,9 @@
                             <div id="accordion" class="panel-group">
                                 @if(count($lessons)  > 0)
                                     @foreach($lessons as $key=> $lesson)
-                                        @php $key++ @endphp
-                                        @if($lesson->model)
+                                        @if($lesson->model && $lesson->model->published == 1)
+                                            {{--@php $key++ @endphp--}}
+
                                             <div class="panel position-relative">
                                                 @if(auth()->check())
                                                     @if(in_array($lesson->model->id,$completed_lessons))
@@ -434,7 +435,7 @@
                         <div class="couse-feature ul-li-block">
                             <ul>
                                 <li> @lang('labels.frontend.course.chapters')
-                                    <span> {{$course->courseTimeline->count()}} </span></li>
+                                    <span> {{$course->chapterCount()}} </span></li>
                                 {{--<li>Language <span>English</span></li>--}}
                                 <li> @lang('labels.frontend.course.category') <span><a
                                                 href="{{route('courses.category',['category'=>$course->category->slug])}}"

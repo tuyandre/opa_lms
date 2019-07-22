@@ -317,8 +317,8 @@
                             <span class="float-none">@lang('labels.frontend.course.course_timeline')</span>
                             <ul class="course-timeline-list">
                                 @foreach($lesson->course->courseTimeline()->orderBy('sequence')->get() as $key=>$item)
-                                    @if($item->model)
-                                        @php $key++; @endphp
+                                    @if($item->model && $item->model->published == 1)
+                                        {{--@php $key++; @endphp--}}
                                         <li class="@if($lesson->id == $item->model->id) active @endif ">
                                             <a @if(in_array($item->model->id,$completed_lessons))href="{{route('lessons.show',['id' => $lesson->course->id,'slug'=>$item->model->slug])}}"@endif>
                                                 {{$item->model->title}}
@@ -337,7 +337,7 @@
                         <div class="couse-feature ul-li-block">
                             <ul>
                                 <li>@lang('labels.frontend.course.chapters')
-                                    <span> {{$lesson->course->courseTimeline->count()}} </span></li>
+                                    <span> {{$lesson->course->chapterCount()}} </span></li>
                                 <li>@lang('labels.frontend.course.category') <span><a
                                                 href="{{route('courses.category',['category'=>$lesson->course->category->slug])}}"
                                                 target="_blank">{{$lesson->course->category->name}}</a> </span></li>

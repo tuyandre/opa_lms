@@ -44,10 +44,10 @@ class Course extends Model
         }
 
         static::deleting(function ($course) { // before delete() method call this
-            if($course->isForceDeleting()){
-                if(File::exists(public_path('/storage/uploads/'.$course->course_image))) {
-                    File::delete(public_path('/storage/uploads/'.$course->course_image));
-                    File::delete(public_path('/storage/uploads/thumb/'.$course->course_image));
+            if ($course->isForceDeleting()) {
+                if (File::exists(public_path('/storage/uploads/' . $course->course_image))) {
+                    File::delete(public_path('/storage/uploads/' . $course->course_image));
+                    File::delete(public_path('/storage/uploads/thumb/' . $course->course_image));
                 }
             }
         });
@@ -156,7 +156,6 @@ class Course extends Model
 
     public function courseTimeline()
     {
-//        return $this->hasMany(CourseTimeline::class);
         return $this->hasMany(CourseTimeline::class);
     }
 
@@ -183,25 +182,37 @@ class Course extends Model
         }
     }
 
-    public function isUserCertified(){
+    public function isUserCertified()
+    {
         $status = false;
-        $certified = auth()->user()->certificates()->where('course_id','=',$this->id)->first();
-        if($certified != null){
-            $status= true;
+        $certified = auth()->user()->certificates()->where('course_id', '=', $this->id)->first();
+        if ($certified != null) {
+            $status = true;
         }
         return $status;
     }
 
     public function item()
     {
-        return $this->morphMany(OrderItem::class,'item');
+        return $this->morphMany(OrderItem::class, 'item');
     }
 
-    public function bundles(){
-        return $this->belongsToMany(Bundle::class,'bundle_courses');
+    public function bundles()
+    {
+        return $this->belongsToMany(Bundle::class, 'bundle_courses');
     }
 
-
+    public function chapterCount()
+    {
+        $timeline = $this->courseTimeline;
+        $chapters = 0;
+        foreach ($timeline as $item) {
+            if ($item->model->published == 1) {
+                $chapters++;
+            }
+        }
+        return $chapters;
+    }
 
 
 }
