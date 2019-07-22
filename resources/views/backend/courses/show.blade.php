@@ -130,6 +130,7 @@
                         <ul class="sorter d-inline-block">
 
                             @foreach($courseTimeline as $key=>$item)
+                                @if($item->model->published == 1)
 
                                 <li>
                             <span data-id="{{$item->id}}" data-sequence="{{$item->sequence}}">
@@ -148,6 +149,7 @@
                            </span>
 
                                 </li>
+                                @endif
                             @endforeach
                         </ul>
                         <a href="{{ route('admin.courses.index') }}"
