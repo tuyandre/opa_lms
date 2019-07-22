@@ -1614,5 +1614,10 @@ class ApiController extends Controller
         }
     }
 
+    public function getConfigs(){
+        $currency =  getCurrency(config('app.currency'));
+        return response()->json(['status' => 'success','result'=> $currency]);
+    }
+
 
 }

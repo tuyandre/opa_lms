@@ -83,3 +83,4 @@ Route::group(['middleware' => 'auth:api'],function (){
     Route::post('subscribe-newsletter','ApiController@subscribeNewsletter');
 });
 Route::post('send-reset-link','ApiController');
+Route::post('configs','ApiController@getConfigs');
