@@ -166,6 +166,7 @@ class BundlesController extends Controller
      */
     public function store(StoreBundlesRequest $request)
     {
+
         if (!Gate::allows('bundle_create')) {
             return abort(401);
         }
@@ -177,6 +178,11 @@ class BundlesController extends Controller
             $bundle->slug = str_slug($request->title);
             $bundle->save();
         }
+        if((int)$request->price == 0){
+            $bundle->price = NULL;
+            $bundle->save();
+        }
+
         $bundle->user_id = auth()->user()->id;
         $bundle->save();
 
@@ -227,6 +233,12 @@ class BundlesController extends Controller
         $bundle->update($request->all());
         if (($request->slug == "") || $request->slug == null) {
             $bundle->slug = str_slug($request->title);
+            $bundle->save();
+        }
+
+
+        if((int)$request->price == 0){
+            $bundle->price = NULL;
             $bundle->save();
         }
 

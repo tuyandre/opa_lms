@@ -35,6 +35,18 @@ Route::group(['namespace' => 'Backend', 'prefix' => 'user', 'as' => 'admin.', 'm
     include_route_files(__DIR__ . '/backend/');
 });
 
+Route::group(['namespace' => 'Backend', 'prefix' => 'user', 'as' => 'admin.', 'middleware' => 'auth'], function () {
+
+//==== Messages Routes =====//
+    Route::get('messages', ['uses' => 'MessagesController@index', 'as' => 'messages']);
+    Route::post('messages/unread', ['uses' => 'MessagesController@getUnreadMessages', 'as' => 'messages.unread']);
+    Route::post('messages/send', ['uses' => 'MessagesController@send', 'as' => 'messages.send']);
+    Route::post('messages/reply', ['uses' => 'MessagesController@reply', 'as' => 'messages.reply']);
+});
+
+
+
+
 Route::get('certificates', 'CertificateController@getCertificates')->name('certificates.index');
 Route::post('certificates/generate', 'CertificateController@generateCertificate')->name('certificates.generate');
 
@@ -112,6 +124,7 @@ Route::group(['middleware' => 'auth'], function () {
         return view('frontend.cart.status');
     })->name('status');
     Route::post('cart/offline-payment', ['uses' => 'CartController@offlinePayment', 'as' => 'cart.offline.payment']);
+    Route::post('cart/getnow',['uses'=>'CartController@getNow','as' =>'cart.getnow']);
 });
 
 //============= Menu  Manager Routes ===============//

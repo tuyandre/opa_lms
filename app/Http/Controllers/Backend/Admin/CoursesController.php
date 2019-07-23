@@ -194,12 +194,18 @@ class CoursesController extends Controller
         }
         $request->all();
 
+
         $request = $this->saveFiles($request);
         $course = Course::create($request->all());
         if (($request->slug == "") || $request->slug == null) {
             $course->slug = str_slug($request->title);
             $course->save();
         }
+        if ((int)$request->price == 0) {
+            $course->price = NULL;
+            $course->save();
+        }
+
 
         $teachers = \Auth::user()->isAdmin() ? array_filter((array)$request->input('teachers')) : [\Auth::user()->id];
         $course->teachers()->sync($teachers);
@@ -251,6 +257,11 @@ class CoursesController extends Controller
             $course->slug = str_slug($request->title);
             $course->save();
         }
+        if ((int)$request->price == 0) {
+            $course->price = NULL;
+            $course->save();
+        }
+
         $teachers = \Auth::user()->isAdmin() ? array_filter((array)$request->input('teachers')) : [\Auth::user()->id];
         $course->teachers()->sync($teachers);
 

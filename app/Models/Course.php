@@ -66,7 +66,7 @@ class Course extends Model
 
     public function getPriceAttribute()
     {
-        if (($this->attributes['price'] == null) || $this->attributes['free'] == 1 ) {
+        if (($this->attributes['price'] == null)) {
             return round(0.00);
         }
         return $this->attributes['price'];

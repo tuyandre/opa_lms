@@ -14,7 +14,7 @@ class AddFreeColumnInBundles extends Migration
     public function up()
     {
         Schema::table('bundles', function (Blueprint $table) {
-            $table->string('free')->nullable()->after('published');
+            $table->tinyInteger('free')->default(0)->nullable()->after('published');
         });
     }
 

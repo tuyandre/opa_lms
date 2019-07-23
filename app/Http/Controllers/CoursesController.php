@@ -87,7 +87,7 @@ class CoursesController extends Controller
 
             $completed_lessons = \Auth::user()->chapters()->where('course_id', $course->id)->get()->pluck('model_id')->toArray();
             $continue_course  = $course->courseTimeline()->orderby('sequence','asc')->whereNotIn('model_id',$completed_lessons)->first();
-            if($continue_course == ""){
+            if($continue_course == null){
                 $continue_course = $course->courseTimeline()->orderby('sequence','asc')->first();
             }
 

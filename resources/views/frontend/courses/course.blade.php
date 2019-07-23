@@ -79,9 +79,10 @@
                         <div class="affiliate-market-accordion">
                             <div id="accordion" class="panel-group">
                                 @if(count($lessons)  > 0)
+                                    @php $count = 0; @endphp
                                     @foreach($lessons as $key=> $lesson)
                                         @if($lesson->model && $lesson->model->published == 1)
-                                            {{--@php $key++ @endphp--}}
+                                            @php $count++ @endphp
 
                                             <div class="panel position-relative">
                                                 @if(auth()->check())
@@ -94,9 +95,9 @@
                                                 <div class="panel-title" id="headingOne">
                                                     <div class="ac-head">
                                                         <button class="btn btn-link collapsed" data-toggle="collapse"
-                                                                data-target="#collapse{{$key}}" aria-expanded="false"
-                                                                aria-controls="collapse{{$key}}">
-                                                            <span>{{ sprintf("%02d", $key)}}</span>
+                                                                data-target="#collapse{{$count}}" aria-expanded="false"
+                                                                aria-controls="collapse{{$count}}">
+                                                            <span>{{ sprintf("%02d", $count)}}</span>
                                                             {{$lesson->model->title}}
                                                         </button>
                                                         @if($lesson->model_type == 'App\Models\Test')
@@ -106,7 +107,7 @@
                                                         @endif
                                                     </div>
                                                 </div>
-                                                <div id="collapse{{$key}}" class="collapse" aria-labelledby="headingOne"
+                                                <div id="collapse{{$count}}" class="collapse" aria-labelledby="headingOne"
                                                      data-parent="#accordion">
                                                     <div class="panel-body">
                                                         @if($lesson->model_type == 'App\Models\Test')
@@ -366,15 +367,26 @@
                     <div class="side-bar">
                         <div class="course-side-bar-widget">
 
-                            @if (!$purchased_course)
-                                <h3>@lang('labels.frontend.course.price')
-                                    <span>{{$appCurrency['symbol'].' '.$course->price}}</span></h3>
+
+                        @if (!$purchased_course)
+                                <h3>
+                                     @if($course->free != null)
+                                        <span> {{trans('labels.backend.courses.fields.free')}}</span>
+                                        @else
+                                        @lang('labels.frontend.course.price')<span>   {{$appCurrency['symbol'].' '.$course->price}}</span>
+                                        @endif</h3>
 
                                 @if(auth()->check() && (auth()->user()->hasRole('student')) && (Cart::session(auth()->user()->id)->get( $course->id)))
                                     <button class="btn genius-btn btn-block text-center my-2 text-uppercase  btn-success text-white bold-font"
                                             type="submit">@lang('labels.frontend.course.added_to_cart')
                                     </button>
                                 @elseif(!auth()->check())
+                                    @if($course->free == 1)
+                                        <a id="openLoginModal"
+                                           class="genius-btn btn-block text-white  gradient-bg text-center text-uppercase  bold-font"
+                                           data-target="#myModal" href="#">@lang('labels.frontend.course.get_now') <i
+                                                    class="fas fa-caret-right"></i></a>
+                                    @else
                                     <a id="openLoginModal"
                                        class="genius-btn btn-block text-white  gradient-bg text-center text-uppercase  bold-font"
                                        data-target="#myModal" href="#">@lang('labels.frontend.course.buy_now') <i
@@ -384,24 +396,39 @@
                                        class="genius-btn btn-block my-2 bg-dark text-center text-white text-uppercase "
                                        data-target="#myModal" href="#">@lang('labels.frontend.course.add_to_cart') <i
                                                 class="fa fa-shopping-bag"></i></a>
+                                    @endif
                                 @elseif(auth()->check() && (auth()->user()->hasRole('student')))
-                                    <form action="{{ route('cart.checkout') }}" method="POST">
-                                        @csrf
-                                        <input type="hidden" name="course_id" value="{{ $course->id }}"/>
-                                        <input type="hidden" name="amount" value="{{ $course->price}}"/>
-                                        <button class="genius-btn btn-block text-white  gradient-bg text-center text-uppercase  bold-font"
-                                                href="#">@lang('labels.frontend.course.buy_now') <i
-                                                    class="fas fa-caret-right"></i></button>
-                                    </form>
-                                    <form action="{{ route('cart.addToCart') }}" method="POST">
-                                        @csrf
-                                        <input type="hidden" name="course_id" value="{{ $course->id }}"/>
-                                        <input type="hidden" name="amount" value="{{ $course->price}}"/>
-                                        <button type="submit"
-                                                class="genius-btn btn-block my-2 bg-dark text-center text-white text-uppercase ">
-                                            @lang('labels.frontend.course.add_to_cart') <i
-                                                    class="fa fa-shopping-bag"></i></button>
-                                    </form>
+
+                                    @if($course->free == 1)
+                                        <form action="{{ route('cart.getnow') }}" method="POST">
+                                            @csrf
+                                            <input type="hidden" name="course_id" value="{{ $course->id }}"/>
+                                            <input type="hidden" name="amount" value="{{($course->free == 1) ? 0 : $course->price}}"/>
+                                            <button class="genius-btn btn-block text-white  gradient-bg text-center text-uppercase  bold-font"
+                                                    href="#">@lang('labels.frontend.course.get_now') <i
+                                                        class="fas fa-caret-right"></i></button>
+                                        </form>
+                                    @else
+                                        <form action="{{ route('cart.checkout') }}" method="POST">
+                                            @csrf
+                                            <input type="hidden" name="course_id" value="{{ $course->id }}"/>
+                                            <input type="hidden" name="amount" value="{{($course->free == 1) ? 0 : $course->price}}"/>
+                                            <button class="genius-btn btn-block text-white  gradient-bg text-center text-uppercase  bold-font"
+                                                    href="#">@lang('labels.frontend.course.buy_now') <i
+                                                        class="fas fa-caret-right"></i></button>
+                                        </form>
+                                        <form action="{{ route('cart.addToCart') }}" method="POST">
+                                            @csrf
+                                            <input type="hidden" name="course_id" value="{{ $course->id }}"/>
+                                            <input type="hidden" name="amount" value="{{($course->free == 1) ? 0 : $course->price}}"/>
+                                            <button type="submit"
+                                                    class="genius-btn btn-block my-2 bg-dark text-center text-white text-uppercase ">
+                                                @lang('labels.frontend.course.add_to_cart') <i
+                                                        class="fa fa-shopping-bag"></i></button>
+                                        </form>
+                                    @endif
+
+
                                 @else
                                     <h6 class="alert alert-danger"> @lang('labels.frontend.course.buy_note')</h6>
                                 @endif

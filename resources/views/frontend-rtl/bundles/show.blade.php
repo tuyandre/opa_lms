@@ -289,42 +289,65 @@
                     <div class="side-bar">
                         <div class="course-side-bar-widget">
                             @if (!$purchased_bundle)
-                                <h3>@lang('labels.frontend.course.price')
-                                    <span>{{$appCurrency['symbol'].' '.$bundle->price}}</span></h3>
+                                <h3>
+                                    @if($bundle->free != null)
+                                        <span> {{trans('labels.backend.courses.fields.free')}}</span>
+                                    @else
+                                        @lang('labels.frontend.course.price')<span>   {{$appCurrency['symbol'].' '.$bundle->price}}</span>
+                                    @endif
+                                </h3>
 
                                 @if(auth()->check() && (auth()->user()->hasRole('student')) && (Cart::session(auth()->user()->id)->get( $bundle->id)))
                                     <button class="btn genius-btn btn-block text-center my-2 text-uppercase  btn-success text-white bold-font"
                                             type="submit">@lang('labels.frontend.course.added_to_cart')
                                     </button>
                                 @elseif(!auth()->check())
-                                    <a id="openLoginModal"
-                                       class="genius-btn btn-block text-white  gradient-bg text-center text-uppercase  bold-font"
-                                       data-target="#myModal" href="#">@lang('labels.frontend.course.buy_now') <i
-                                                class="fas fa-caret-right"></i></a>
+                                    @if($bundle->free == 1)
+                                        <a id="openLoginModal"
+                                           class="genius-btn btn-block text-white  gradient-bg text-center text-uppercase  bold-font"
+                                           data-target="#myModal" href="#">@lang('labels.frontend.course.get_now') <i
+                                                    class="fas fa-caret-right"></i></a>
+                                    @else
+                                        <a id="openLoginModal"
+                                           class="genius-btn btn-block text-white  gradient-bg text-center text-uppercase  bold-font"
+                                           data-target="#myModal" href="#">@lang('labels.frontend.course.buy_now') <i
+                                                    class="fas fa-caret-right"></i></a>
 
-                                    <a id="openLoginModal"
-                                       class="genius-btn btn-block my-2 bg-dark text-center text-white text-uppercase "
-                                       data-target="#myModal" href="#">@lang('labels.frontend.course.add_to_cart') <i
-                                                class="fa fa-shopping-bag"></i></a>
+                                        <a id="openLoginModal"
+                                           class="genius-btn btn-block my-2 bg-dark text-center text-white text-uppercase "
+                                           data-target="#myModal" href="#">@lang('labels.frontend.course.add_to_cart') <i
+                                                    class="fa fa-shopping-bag"></i></a>
+                                    @endif
                                 @elseif(auth()->check() && (auth()->user()->hasRole('student')))
-                                    <form action="{{ route('cart.checkout') }}" method="POST">
-                                        @csrf
-                                        <input type="hidden" name="bundle_id" value="{{ $bundle->id }}"/>
-                                        <input type="hidden" name="amount" value="{{ $bundle->price}}"/>
-                                        <button class="genius-btn btn-block text-white  gradient-bg text-center text-uppercase  bold-font"
-                                                href="#">@lang('labels.frontend.course.buy_now') <i
-                                                    class="fas fa-caret-right"></i></button>
-                                    </form>
-                                    <form action="{{ route('cart.addToCart') }}" method="POST">
-                                        @csrf
-                                        <input type="hidden" name="bundle_id" value="{{ $bundle->id }}"/>
-                                        <input type="hidden" name="amount" value="{{ $bundle->price}}"/>
-                                        <button type="submit"
-                                                class="genius-btn btn-block my-2 bg-dark text-center text-white text-uppercase ">
-                                            @lang('labels.frontend.course.add_to_cart') <i
-                                                    class="fa fa-shopping-bag"></i>
-                                        </button>
-                                    </form>
+                                    @if($bundle->free == 1)
+                                        <form action="{{ route('cart.getnow') }}" method="POST">
+                                            @csrf
+                                            <input type="hidden" name="bundle_id" value="{{ $bundle->id }}"/>
+                                            <input type="hidden" name="amount" value="{{($bundle->free == 1) ? 0 : $bundle->price}}"/>
+                                            <button class="genius-btn btn-block text-white  gradient-bg text-center text-uppercase  bold-font"
+                                                    href="#">@lang('labels.frontend.course.get_now') <i
+                                                        class="fas fa-caret-right"></i></button>
+                                        </form>
+                                    @else
+                                        <form action="{{ route('cart.checkout') }}" method="POST">
+                                            @csrf
+                                            <input type="hidden" name="bundle_id" value="{{ $bundle->id }}"/>
+                                            <input type="hidden" name="amount" value="{{ $bundle->price}}"/>
+                                            <button class="genius-btn btn-block text-white  gradient-bg text-center text-uppercase  bold-font"
+                                                    href="#">@lang('labels.frontend.course.buy_now') <i
+                                                        class="fas fa-caret-right"></i></button>
+                                        </form>
+                                        <form action="{{ route('cart.addToCart') }}" method="POST">
+                                            @csrf
+                                            <input type="hidden" name="bundle_id" value="{{ $bundle->id }}"/>
+                                            <input type="hidden" name="amount" value="{{ $bundle->price}}"/>
+                                            <button type="submit"
+                                                    class="genius-btn btn-block my-2 bg-dark text-center text-white text-uppercase ">
+                                                @lang('labels.frontend.course.add_to_cart') <i
+                                                        class="fa fa-shopping-bag"></i>
+                                            </button>
+                                        </form>
+                                    @endif
                                 @else
                                     <h6 class="alert alert-danger"> @lang('labels.frontend.course.buy_note')</h6>
                                 @endif
@@ -341,6 +364,7 @@
                                     </div>
                                 </div>
                             @endif
+
                         </div>
 
                         @if($recent_news->count() > 0)

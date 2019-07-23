@@ -14,7 +14,7 @@ class AddFreeColumnInCourses extends Migration
     public function up()
     {
         Schema::table('courses', function (Blueprint $table) {
-            $table->string('free')->nullable()->after('published');
+            $table->tinyInteger('free')->default(0)->nullable()->after('published');
         });
     }
 

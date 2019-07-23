@@ -346,8 +346,47 @@ class CartController extends Controller
             return Redirect::route('cart');
         }
 
+    }
+
+
+
+    public function getNow(Request $request){
+        $order = new Order();
+        $order->user_id = auth()->user()->id;
+        $order->reference_no = str_random(8);
+        $order->amount = 0;
+        $order->status = 1;
+        $order->payment_type = 0;
+        $order->save();
+        //Getting and Adding items
+        if($request->course_id){
+            $type = Course::class;
+            $id = $request->course_id;
+        }else{
+            $type = Bundle::class;
+            $id = $request->bundle_id;
+
+        }
+        $order->items()->create([
+            'item_id' => $id,
+            'item_type' => $type,
+            'price' => 0
+        ]);
+
+        foreach ($order->items as $orderItem) {
+            //Bundle Entries
+            if($orderItem->item_type == Bundle::class){
+                foreach ($orderItem->item->courses as $course){
+                    $course->students()->attach($order->user_id);
+                }
+            }
+            $orderItem->item->students()->attach($order->user_id);
+        }
+        Session::flash('success', trans('labels.frontend.cart.purchase_successful'));
+        return back();
 
     }
+
 
     private function makeOrder()
     {

@@ -110,9 +110,9 @@
                     </div>
 
                     <div class="checkbox d-inline mr-4">
-                        {!! Form::hidden('price', 0) !!}
-                        {!! Form::checkbox('price', 1, old('price'), []) !!}
-                        {!! Form::label('price',  trans('labels.backend.bundles.fields.free'), ['class' => 'checkbox control-label font-weight-bold']) !!}
+                        {!! Form::hidden('free', 0) !!}
+                        {!! Form::checkbox('free', 1, old('free'), []) !!}
+                        {!! Form::label('free',  trans('labels.backend.bundles.fields.free'), ['class' => 'checkbox control-label font-weight-bold']) !!}
                     </div>
 
 
