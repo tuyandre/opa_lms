@@ -34,6 +34,7 @@ class LessonsController extends Controller
 
     public function show($course_id, $lesson_slug)
     {
+        $test_result = "";
         $completed_lessons = "";
         $lesson = Lesson::where('slug', $lesson_slug)->where('course_id', $course_id)->where('published', '=', 1)->first();
 
@@ -67,8 +68,6 @@ class LessonsController extends Controller
             ->orderBy('sequence', 'asc')
             ->first();
         $lessons = $lesson->course->courseTimeline()->orderby('sequence', 'asc')->get();
-
-
 
 
 
