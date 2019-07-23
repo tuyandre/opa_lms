@@ -103,6 +103,13 @@
                         {!! Form::label('popular',  trans('labels.backend.courses.fields.popular'), ['class' => 'checkbox control-label font-weight-bold']) !!}
                     </div>
 
+                    <div class="checkbox d-inline mr-3">
+                        {!! Form::hidden('free', 0) !!}
+                        {!! Form::checkbox('free', 1, false, []) !!}
+                        {!! Form::label('free',  trans('labels.backend.courses.fields.free'), ['class' => 'checkbox control-label font-weight-bold']) !!}
+                    </div>
+
+
                 </div>
 
             </div>

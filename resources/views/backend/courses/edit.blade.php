@@ -110,6 +110,11 @@
                         {!! Form::checkbox('popular', 1, old('popular'), []) !!}
                         {!! Form::label('popular',  trans('labels.backend.courses.fields.popular'), ['class' => 'checkbox control-label font-weight-bold']) !!}
                     </div>
+                    <div class="checkbox d-inline mr-4">
+                        {!! Form::hidden('free', 0) !!}
+                        {!! Form::checkbox('free', 1, old('free'), []) !!}
+                        {!! Form::label('free',  trans('labels.backend.courses.fields.free'), ['class' => 'checkbox control-label font-weight-bold']) !!}
+                    </div>
 
                 </div>
             </div>
@@ -128,6 +133,7 @@
                     {!! Form::label('meta_keywords',trans('labels.backend.courses.fields.meta_keywords'), ['class' => 'control-label']) !!}
                     {!! Form::textarea('meta_keywords', old('meta_keywords'), ['class' => 'form-control', 'placeholder' => trans('labels.backend.courses.fields.meta_keywords')]) !!}
                 </div>
+
             </div>
 
             <div class="row">

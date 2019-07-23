@@ -81,7 +81,6 @@ class CoursesController extends Controller
             $courses = Course::ofTeacher()
                 ->whereHas('category')
                 ->orderBy('created_at', 'desc')->get();
-
         }
 
 
@@ -143,16 +142,22 @@ class CoursesController extends Controller
             })
             ->editColumn('status', function ($q) {
                 $text = "";
-                $text = ($q->published == 1) ? "<p class='text-white mb-1 font-weight-bold text-center bg-dark p-1 mr-1' >".trans('labels.backend.courses.fields.published')."</p>" : "";
-                $text .= ($q->featured == 1) ? "<p class='text-white mb-1 font-weight-bold text-center bg-warning p-1 mr-1' >".trans('labels.backend.courses.fields.featured')."</p>" : "";
-                $text .= ($q->trending == 1) ? "<p class='text-white mb-1 font-weight-bold text-center bg-success p-1 mr-1' >".trans('labels.backend.courses.fields.trending')."</p>" : "";
-                $text .= ($q->popular == 1) ? "<p class='text-white mb-1 font-weight-bold text-center bg-primary p-1 mr-1' >".trans('labels.backend.courses.fields.popular')."</p>" : "";
+                $text = ($q->published == 1) ? "<p class='text-white mb-1 font-weight-bold text-center bg-dark p-1 mr-1' >" . trans('labels.backend.courses.fields.published') . "</p>" : "";
+                $text .= ($q->featured == 1) ? "<p class='text-white mb-1 font-weight-bold text-center bg-warning p-1 mr-1' >" . trans('labels.backend.courses.fields.featured') . "</p>" : "";
+                $text .= ($q->trending == 1) ? "<p class='text-white mb-1 font-weight-bold text-center bg-success p-1 mr-1' >" . trans('labels.backend.courses.fields.trending') . "</p>" : "";
+                $text .= ($q->popular == 1) ? "<p class='text-white mb-1 font-weight-bold text-center bg-primary p-1 mr-1' >" . trans('labels.backend.courses.fields.popular') . "</p>" : "";
                 return $text;
+            })
+            ->editColumn('price', function ($q) {
+                if ($q->free == 1) {
+                    return trans('labels.backend.courses.fields.free');
+                }
+                return $q->price;
             })
             ->addColumn('category', function ($q) {
                 return $q->category->name;
             })
-            ->rawColumns(['teachers', 'lessons', 'course_image', 'actions','status'])
+            ->rawColumns(['teachers', 'lessons', 'course_image', 'actions', 'status'])
             ->make();
     }
 
@@ -195,6 +200,7 @@ class CoursesController extends Controller
             $course->slug = str_slug($request->title);
             $course->save();
         }
+
         $teachers = \Auth::user()->isAdmin() ? array_filter((array)$request->input('teachers')) : [\Auth::user()->id];
         $course->teachers()->sync($teachers);
 
@@ -358,7 +364,7 @@ class CoursesController extends Controller
 
         foreach ($request->list as $item) {
             $courseTimeline = CourseTimeline::find($item['id']);
-            $courseTimeline->sequence= $item['sequence'];
+            $courseTimeline->sequence = $item['sequence'];
             $courseTimeline->save();
         }
 
@@ -378,9 +384,9 @@ class CoursesController extends Controller
         }
 
         $course = Course::findOrFail($id);
-        if($course->published == 1){
+        if ($course->published == 1) {
             $course->published = 0;
-        }else{
+        } else {
             $course->published = 1;
         }
         $course->save();

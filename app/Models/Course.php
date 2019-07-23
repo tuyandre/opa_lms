@@ -26,7 +26,7 @@ class Course extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['category_id', 'title', 'slug', 'description', 'price', 'course_image', 'start_date', 'published', 'featured', 'trending', 'popular', 'meta_title', 'meta_description', 'meta_keywords'];
+    protected $fillable = ['category_id', 'title', 'slug', 'description', 'price', 'course_image', 'start_date', 'published', 'free','featured', 'trending', 'popular', 'meta_title', 'meta_description', 'meta_keywords'];
 
     protected $appends = ['image'];
 
@@ -62,6 +62,14 @@ class Course extends Model
             return url('storage/uploads/'.$this->course_image);
         }
         return NULL;
+    }
+
+    public function getPriceAttribute()
+    {
+        if (($this->attributes['price'] == null) || $this->attributes['free'] == 1 ) {
+            return round(0.00);
+        }
+        return $this->attributes['price'];
     }
 
 

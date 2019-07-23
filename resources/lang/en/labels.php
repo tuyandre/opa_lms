@@ -10,6 +10,7 @@ return array(
                         array(
                             'published' => 'Published',
                             'featured' => 'Featured',
+                            'free' => 'Free',
                             'trending' => 'Trending',
                             'popular' => 'Popular',
                             'teachers' => 'Teachers',
@@ -858,6 +859,7 @@ return array(
                             'published' => 'Published',
                             'featured' => 'Featured',
                             'trending' => 'Trending',
+                            'free' => 'Free',
                             'popular' => 'Popular',
                             'teachers' => 'Teachers',
                             'category' => 'Category',

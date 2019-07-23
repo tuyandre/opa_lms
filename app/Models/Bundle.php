@@ -13,7 +13,7 @@ class Bundle extends Model
     use SoftDeletes;
 
 
-    protected $fillable = ['category_id', 'title', 'slug', 'description', 'price', 'course_image', 'start_date', 'published', 'featured', 'trending', 'popular', 'meta_title', 'meta_description', 'meta_keywords','user_id'];
+    protected $fillable = ['category_id', 'title', 'slug', 'description', 'price', 'course_image', 'start_date', 'published','free', 'featured', 'trending', 'popular', 'meta_title', 'meta_description', 'meta_keywords','user_id'];
 
     protected $appends = ['image'];
 
@@ -38,6 +38,16 @@ class Bundle extends Model
         }
         return $query;
     }
+
+
+    public function getPriceAttribute()
+    {
+        if (($this->attributes['price'] == null) || $this->attributes['free'] == 1 ) {
+            return round(0.00);
+        }
+        return $this->attributes['price'];
+    }
+
 
     public function courses()
     {

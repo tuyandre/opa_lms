@@ -100,7 +100,11 @@
                                                         </div>
                                                         @endif
                                                         <div class="course-price text-center gradient-bg">
-                                                            <span>{{$appCurrency['symbol'].' '.$course->price}}</span>
+                                                            @if($course->free != null)
+                                                                <span>{{trans('labels.backend.courses.fields.free')}}</span>
+                                                            @else
+                                                                <span> {{$appCurrency['symbol'].' '.$course->price}}</span>
+                                                            @endif
                                                         </div>
                                                         <div class="course-rate ul-li">
                                                             <ul>
@@ -163,7 +167,13 @@
                                                             </h3>
                                                             <div class="course-meta">
                                                                 <span class="course-category bold-font"><a
-                                                                            href="{{ route('courses.show', [$course->slug]) }}">{{$appCurrency['symbol'].' '.$course->price}}</a></span>
+                                                                            href="{{ route('courses.show', [$course->slug]) }}">
+                                                                         @if($course->free != null)
+                                                                            {{trans('labels.backend.courses.fields.free')}}
+                                                                        @else
+                                                                            {{$appCurrency['symbol'].' '.$course->price}}
+                                                                        @endif
+                                                                    </a></span>
 
                                                                 <div class="course-rate ul-li">
                                                                     <ul>

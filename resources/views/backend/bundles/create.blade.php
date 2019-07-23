@@ -100,6 +100,11 @@
                         {!! Form::checkbox('popular', 1, false, []) !!}
                         {!! Form::label('popular',  trans('labels.backend.bundles.fields.popular'), ['class' => 'checkbox control-label font-weight-bold']) !!}
                     </div>
+                    <div class="checkbox d-inline mr-3">
+                        {!! Form::hidden('price', 0) !!}
+                        {!! Form::checkbox('price', 1, false, []) !!}
+                        {!! Form::label('price',  trans('labels.backend.bundles.fields.price'), ['class' => 'checkbox control-label font-weight-bold']) !!}
+                    </div>
 
                 </div>
 

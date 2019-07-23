@@ -110,13 +110,6 @@ class BundlesController extends Controller
                     $view .= $delete;
                 }
 
-                if ($has_delete) {
-                    $delete = view('backend.datatable.action-delete')
-                        ->with(['route' => route('admin.bundles.destroy', ['bundles' => $q->id])])
-                        ->render();
-                    $view .= $delete;
-                }
-
                 return $view;
 
             })
@@ -133,6 +126,12 @@ class BundlesController extends Controller
                 $text .= ($q->trending == 1) ? "<p class='text-white mb-1 font-weight-bold text-center bg-success p-1 mr-1' >" . trans('labels.backend.bundles.fields.trending') . "</p>" : "";
                 $text .= ($q->popular == 1) ? "<p class='text-white mb-1 font-weight-bold text-center bg-primary p-1 mr-1' >" . trans('labels.backend.bundles.fields.popular') . "</p>" : "";
                 return $text;
+            })
+            ->editColumn('price', function ($q) {
+                if ($q->free == 1) {
+                    return trans('labels.backend.courses.fields.free');
+                }
+                return $q->price;
             })
             ->addColumn('category', function ($q) {
                 return $q->category->name;
