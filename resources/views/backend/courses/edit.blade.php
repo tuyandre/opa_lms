@@ -71,8 +71,8 @@
                     {!! Form::hidden('course_image_max_width', 4000) !!}
                     {!! Form::hidden('course_image_max_height', 4000) !!}
                     @if ($course->course_image)
-                        <a href="{{ asset('uploads/'.$course->course_image) }}" target="_blank"><img
-                                    src="{{ asset('uploads/thumb/'.$course->course_image) }}" class="mt-1"></a>
+                        <a href="{{ asset('storage/uploads/'.$course->course_image) }}" target="_blank"><img
+                                    src="{{ asset('storage/uploads/thumb/'.$course->course_image) }}" class="mt-1"></a>
                     @endif
                 </div>
                 <div class="col-12 col-lg-4 form-group">
