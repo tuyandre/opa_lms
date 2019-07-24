@@ -67,6 +67,7 @@ class CoursesController extends Controller
 
     public function show($course_slug)
     {
+        $continue_course=NULL;
         $recent_news = Blog::orderBy('created_at', 'desc')->take(2)->get();
         $course = Course::withoutGlobalScope('filter')->where('slug', $course_slug)->with('publishedLessons')->firstOrFail();
         $purchased_course = \Auth::check() && $course->students()->where('user_id', \Auth::id())->count() > 0 ;
