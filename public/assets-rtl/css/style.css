@@ -5851,3 +5851,21 @@ ul.product-tab li.active:after {
     transform: rotate(45deg);
     background-color: #ff5a00;
 }
+
+
+.trend-badge-3 {
+    top: -23px;
+    left: -42px;
+    color: #fff;
+    font-size: 15px;
+    font-weight: 700;
+    position: absolute;
+    padding: 30px 35px 5px;
+    -webkit-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+    background-color: #2bda30;
+    z-index: 3;
+}
+.trend-badge-3 i{
+    display: block;
+}

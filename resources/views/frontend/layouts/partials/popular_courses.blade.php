@@ -14,7 +14,11 @@
                         <div class="course-pic relative-position mb25" @if($item->course_image != "")  style="background-image: url({{asset('storage/uploads/'.$item->course_image)}})" @endif>
 
                             <div class="course-price text-center gradient-bg">
-                                <span> {{$appCurrency['symbol'].' '.$item->price}}</span>
+                                @if($item->free == 1)
+                                    <span> {{trans('labels.backend.courses.fields.free')}}</span>
+                                @else
+                                    @lang('labels.frontend.course.price')<span>   {{$appCurrency['symbol'].' '.$item->price}}</span>
+                                @endif
                             </div>
                             <div class="course-details-btn">
                                 <a class="text-uppercase" href="{{ route('courses.show', [$item->slug]) }}">@lang('labels.frontend.layouts.partials.course_detail') <i
@@ -45,6 +49,7 @@
                                                 class="trend-badge text-uppercase bold-font"><i
                                                     class="fas fa-bolt"></i> @lang('labels.frontend.badges.trending')</span>
                                     @endif
+
                                 </h3>
                             </div>
                             <div class="course-viewer ul-li">

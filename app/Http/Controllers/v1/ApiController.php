@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\v1;
 
+use App\Http\Controllers\Controller;
 use App\Http\Controllers\Traits\FileUploadTrait;
 use App\Http\Requests\Frontend\User\UpdatePasswordRequest;
 use App\Http\Requests\Frontend\User\UpdateProfileRequest;
@@ -184,7 +185,7 @@ class ApiController extends Controller
      */
     public function logout(Request $request)
     {
-        $request->user()->token()->revoke();
+        auth()->user()->token()->revoke();
         return response()->json([
             'message' => 'Successfully logged out'
         ]);
@@ -749,6 +750,49 @@ class ApiController extends Controller
                     ]);
         }
         return response()->json(['status' => 'success']);
+    }
+
+
+    /**
+     * Get Free Course / Bundle
+     *
+     * @return [json] Success Message
+     */
+    public function getNow(Request $request){
+        $order = new Order();
+        $order->user_id = auth()->user()->id;
+        $order->reference_no = str_random(8);
+        $order->amount = 0;
+        $order->status = 1;
+        $order->payment_type = 0;
+        $order->save();
+        //Getting and Adding items
+        if($request->course_id){
+            $type = Course::class;
+            $id = $request->course_id;
+        }else{
+            $type = Bundle::class;
+            $id = $request->bundle_id;
+
+        }
+        $order->items()->create([
+            'item_id' => $id,
+            'item_type' => $type,
+            'price' => 0
+        ]);
+
+        foreach ($order->items as $orderItem) {
+            //Bundle Entries
+            if($orderItem->item_type == Bundle::class){
+                foreach ($orderItem->item->courses as $course){
+                    $course->students()->attach($order->user_id);
+                }
+            }
+            $orderItem->item->students()->attach($order->user_id);
+        }
+
+        return response()->json(['status' => 'success']);
+
     }
 
 

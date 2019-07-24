@@ -56,6 +56,7 @@
                                         <span class="trend-badge text-uppercase bold-font"><i
                                                     class="fas fa-bolt"></i> @lang('labels.frontend.badges.trending')</span>
                                     @endif
+
                                 </h3>
                             </div>
                             <div class="course-details-content">
@@ -90,6 +91,12 @@
                                                                     <span>@lang('labels.frontend.badges.trending')</span>
                                                                 </div>
                                                             @endif
+                                                                @if($course->free == 1)
+                                                                    <div class="trend-badge-3 text-center text-uppercase">
+                                                                        <i class="fas fa-bolt"></i>
+                                                                        <span>@lang('labels.backend.courses.fields.free')</span>
+                                                                    </div>
+                                                                @endif
 
                                                             <div class="course-rate ul-li">
                                                                 <ul>
@@ -290,7 +297,7 @@
                         <div class="course-side-bar-widget">
                             @if (!$purchased_bundle)
                                 <h3>
-                                    @if($bundle->free != null)
+                                    @if($bundle->free == 1)
                                         <span> {{trans('labels.backend.courses.fields.free')}}</span>
                                     @else
                                         @lang('labels.frontend.course.price')<span>   {{$appCurrency['symbol'].' '.$bundle->price}}</span>
@@ -415,6 +422,12 @@
                                                     <span>@lang('labels.frontend.badges.trending')</span>
                                                 </div>
                                             @endif
+                                                @if($global_featured_course->free == 1)
+                                                    <div class="trend-badge-3 text-center text-uppercase">
+                                                        <i class="fas fa-bolt"></i>
+                                                        <span>@lang('labels.backend.courses.fields.free')</span>
+                                                    </div>
+                                                @endif
                                         </div>
                                         <div class="best-course-text" style="left: 0;right: 0;">
                                             <div class="course-title mb20 headline relative-position">

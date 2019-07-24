@@ -18,8 +18,19 @@
                                             <span>@lang('labels.frontend.badges.trending')</span>
                                         </div>
                                     @endif
+                                        @if($item->free == 1)
+                                            <div class="trend-badge-3 text-center text-uppercase">
+                                                <i class="fas fa-bolt"></i>
+                                                <span>@lang('labels.backend.courses.fields.free')</span>
+                                            </div>
+                                        @endif
                                     <div class="course-price text-center gradient-bg">
-                                        <span>{{$appCurrency['symbol'].' '.$item->price}}</span>
+                                        @if($item->free == 1)
+                                            <span> {{trans('labels.backend.courses.fields.free')}}</span>
+                                        @else
+                                            @lang('labels.frontend.course.price')<span>   {{$appCurrency['symbol'].' '.$item->price}}</span>
+                                        @endif
+
                                     </div>
                                     <div class="course-rate ul-li">
                                         <ul>
