@@ -70,7 +70,7 @@
                     {!! Form::hidden('course_image_max_height', 4000) !!}
                     @if ($bundle->course_image)
                         <a href="{{ asset('storage/uploads/'.$bundle->course_image) }}" target="_blank"><img
-                                    src="{{ asset('storage/uploads/thumb/'.$bundle->course_image) }}" class="mt-1"></a>
+                                    height="50px" src="{{ asset('storage/uploads/'.$bundle->course_image) }}" class="mt-1"></a>
                     @endif
                 </div>
                 <div class="col-12 col-lg-4 form-group">
