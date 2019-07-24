@@ -56,6 +56,7 @@ Route::group(['prefix' => 'v1','namespace'=>'v1'],function (){
         Route::post('update-review','ApiController@updateReview');
         Route::post('single-lesson','ApiController@getLesson');
         Route::post('video-progress','ApiController@videoProgress');
+        Route::post('course-progress','ApiController@courseProgress');
         Route::post('generate-certificate','ApiController@generateCertificate');
         Route::post('single-bundle','ApiController@getSingleBundle');
         Route::post('add-to-cart','ApiController@addToCart');

@@ -166,7 +166,7 @@ class LessonsController extends Controller
         if (\Auth::check()) {
             $lesson = Lesson::find($request->model_id);
             if ($lesson != null) {
-                if ($lesson->chapterStudents()->where('user_id', \Auth::id())->count() == 0) {
+                if ($lesson->chapterStudents()->where('user_id', \Auth::id())->get()->count() == 0) {
                     $lesson->chapterStudents()->create([
                         'model_type' => $request->model_type,
                         'model_id' => $request->model_id,

@@ -28,6 +28,7 @@ use App\Models\Review;
 use App\Models\Sponsor;
 use App\Models\System\Session;
 use App\Models\Tag;
+use App\Models\Test;
 use App\Models\Testimonial;
 use App\Models\VideoProgress;
 use App\Repositories\Frontend\Auth\UserRepository;
@@ -606,6 +607,35 @@ class ApiController extends Controller
 
 
     /**
+     * Complete Lesson
+     *
+     * @return [json] Success message
+     */
+    public function courseProgress(Request $request)
+    {
+
+        if ($request->model_type == 'test') {
+            $model_type = Test::class;
+            $chapter = Test::find((int)$request->model_id);
+        } else {
+            $model_type = Lesson::class;
+            $chapter = Lesson::find((int)$request->model_id);
+        }
+        if ($chapter != null) {
+            if ($chapter->chapterStudents()->where('user_id', \Auth::id())->get()->count() == 0) {
+                $chapter->chapterStudents()->create([
+                    'model_type' => $model_type,
+                    'model_id' => $request->model_id,
+                    'user_id' => auth()->user()->id,
+                    'course_id' => $chapter->course->id
+                ]);
+                return response()->json(['status' => 'success']);
+            }
+        }
+        return response()->json(['status' => 'failure']);
+    }
+
+    /**
      * Save video progress for Lesson
      *
      * @return [json] Success message
@@ -758,7 +788,8 @@ class ApiController extends Controller
      *
      * @return [json] Success Message
      */
-    public function getNow(Request $request){
+    public function getNow(Request $request)
+    {
         $order = new Order();
         $order->user_id = auth()->user()->id;
         $order->reference_no = str_random(8);
@@ -767,10 +798,10 @@ class ApiController extends Controller
         $order->payment_type = 0;
         $order->save();
         //Getting and Adding items
-        if($request->course_id){
+        if ($request->course_id) {
             $type = Course::class;
             $id = $request->course_id;
-        }else{
+        } else {
             $type = Bundle::class;
             $id = $request->bundle_id;
 
@@ -783,8 +814,8 @@ class ApiController extends Controller
 
         foreach ($order->items as $orderItem) {
             //Bundle Entries
-            if($orderItem->item_type == Bundle::class){
-                foreach ($orderItem->item->courses as $course){
+            if ($orderItem->item_type == Bundle::class) {
+                foreach ($orderItem->item->courses as $course) {
                     $course->students()->attach($order->user_id);
                 }
             }
@@ -1658,9 +1689,10 @@ class ApiController extends Controller
         }
     }
 
-    public function getConfigs(){
-        $currency =  getCurrency(config('app.currency'));
-        return response()->json(['status' => 'success','result'=> $currency]);
+    public function getConfigs()
+    {
+        $currency = getCurrency(config('app.currency'));
+        return response()->json(['status' => 'success', 'result' => $currency]);
     }
 
 
