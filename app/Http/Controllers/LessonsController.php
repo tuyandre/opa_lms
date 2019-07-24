@@ -120,7 +120,7 @@ class LessonsController extends Controller
         $test_result->answers()->createMany($answers);
 
 
-        if ($test->chapterStudents()->where('user_id', \Auth::id())->count() == 0) {
+        if ($test->chapterStudents()->where('user_id', \Auth::id())->get()->count() == 0) {
             $test->chapterStudents()->create([
                 'model_type' => $test->model_type,
                 'model_id' => $test->id,
