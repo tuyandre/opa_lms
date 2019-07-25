@@ -19,7 +19,8 @@ class MenuController extends Controller
 {
     public function index(Request $request)
     {
-
+        $menu = Null;
+        $menu_data = Null;
         if ($request->menu) {
             $menu = Menus::find($request->menu);
             $menu_data = json_decode($menu->value);
