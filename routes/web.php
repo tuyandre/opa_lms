@@ -11,6 +11,18 @@ use App\Http\Controllers\Frontend\HomeController;
 // Switch between the included languages
 Route::get('lang/{lang}', [LanguageController::class, 'swap']);
 
+Route::get('test',function (){
+    $menu = [
+        'nav-menu'=>[
+            'blog' => 'Blog',
+            'about-us' => 'About Us'
+        ]
+    ];
+    file_put_contents(base_path('resources/lang/en/custom-menu.php'),print_r($menu, true));
+    dd('Saved');
+});
+
+
 /*
  * Frontend Routes
  * Namespaces indicate folder structure
