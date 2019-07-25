@@ -149,7 +149,7 @@ class CartController extends Controller
         $courses = new Collection(Course::find($course_ids));
         $bundles = Bundle::find($bundle_ids);
         $courses = $bundles->merge($courses);
-        return view($this->path . '.cart.checkout', compact('courses', 'total'));
+        return view($this->path . '.cart.checkout', compact('courses'));
     }
 
     public function clear(Request $request)

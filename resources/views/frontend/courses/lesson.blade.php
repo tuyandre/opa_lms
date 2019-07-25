@@ -391,7 +391,7 @@
         }
 
 
-                @if($lesson->mediaVideo && $lesson->mediaVideo->type != 'embed')
+        @if($lesson->mediaVideo && $lesson->mediaVideo->type != 'embed')
         var current_progress = 0;
 
 
@@ -420,10 +420,17 @@
         player.on('ready', event => {
             player.currentTime = parseInt(current_progress);
             duration = event.detail.plyr.duration;
+
+
+            if (!storedDuration || (parseInt(storedDuration) === 0)) {
+                Cookies.set("duration_" + "{{auth()->user()->id}}" + "_" + "{{$lesson->id}}" + "_" + "{{$lesson->course->id}}", duration);
+            }
+
         });
-        if (!storedDuration) {
-            Cookies.set("duration_" + "{{auth()->user()->id}}" + "_" + "{{$lesson->id}}" + "_" + "{{$lesson->course->id}}", player.duration);
-        }
+
+        {{--if (!storedDuration || (parseInt(storedDuration) === 0)) {--}}
+            {{--Cookies.set("duration_" + "{{auth()->user()->id}}" + "_" + "{{$lesson->id}}" + "_" + "{{$lesson->course->id}}", player.duration);--}}
+        {{--}--}}
 
 
         setInterval(function () {
@@ -472,7 +479,6 @@
 
         var readTime, totalQuestions, testTime;
         user_lesson = Cookies.get("user_lesson_" + "{{auth()->user()->id}}" + "_" + "{{$lesson->id}}" + "_" + "{{$lesson->course->id}}");
-        console.log(user_lesson)
 
         @if ($test_exists )
             totalQuestions = '{{count($lesson->questions)}}'
@@ -483,7 +489,7 @@
 
                 @if(!$lesson->isCompleted())
             storedDuration = Cookies.get("duration_" + "{{auth()->user()->id}}" + "_" + "{{$lesson->id}}" + "_" + "{{$lesson->course->id}}");
-        storedLesson = Cookies.get("lesson_" + "{{auth()->user()->id}}" + "_" + "{{$lesson->id}}" + "_" + "{{$lesson->course->id}}");
+        storedLesson = Cookies.get("lesson" + "{{auth()->user()->id}}" + "_" + "{{$lesson->id}}" + "_" + "{{$lesson->course->id}}");
 
 
         var totalLessonTime = readTime + (parseInt(storedDuration) ? parseInt(storedDuration) : 0);
@@ -494,22 +500,19 @@
                 counter = 1;
             }
         } else {
-            console.log(storedCounter)
             if ((storedCounter != 0) && storedCounter < totalLessonTime) {
                 counter = storedCounter;
             } else {
                 counter = totalLessonTime;
             }
         }
-
-
         var interval = setInterval(function () {
             counter--;
             // Display 'counter' wherever you want to display it.
             if (counter >= 0) {
                 // Display a next button box
                 $('#nextButton').html("<a class='btn btn-block bg-danger font-weight-bold text-white' href='#'>@lang('labels.frontend.course.next') (in " + counter + " seconds)</a>")
-                Cookies.set("storedCounter_" + "{{auth()->user()->id}}" + "_" + "{{$lesson->id}}" + "_" + "{{$lesson->course->id}}", counter);
+                Cookies.set("duration_" + "{{auth()->user()->id}}" + "_" + "{{$lesson->id}}" + "_" + "{{$lesson->course->id}}", counter);
 
             }
             if (counter === 0) {
