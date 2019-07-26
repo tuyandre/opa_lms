@@ -477,7 +477,6 @@ return array (
       'management' => 'General Settings',
       'app_name' => 'App Name',
       'app_url' => 'App URL',
-      'troubleshoot' => 'Troubleshoot',
       'lesson_note' => 'Enable / Disable if user will be able to skip before timer is over.',
       'font_color' => 'Font Color',
       'static' => 'Static',
@@ -575,6 +574,7 @@ return array (
           'city' => 'City',
         ),
       ),
+      'troubleshoot' => 'Troubleshoot',
     ),
     'logo' => 
     array (

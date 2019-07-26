@@ -225,6 +225,7 @@ return array (
         'teachers' => 'Enseignants',
         'title' => 'Titre',
         'trending' => 'Tendances',
+        'free' => 'Libre',
       ),
       'add_categories' => 'Ajouter des catégories',
       'add_teachers' => 'Ajouter des professeurs',
@@ -522,6 +523,9 @@ return array (
         'stripe_note' => 'Permet les paiements sur le site avec les cartes de débit / crédit',
         'title' => 'Configuration du paiement',
         'select_currency' => 'Sélectionnez la devise',
+        'bluesnap' => 'Méthode de paiement Bluesnap',
+        'bluesnap_note' => 'Formulaire de carte Bluesnap pour le paiement',
+        'how_to_bluesnap' => 'Comment obtenir les informations d\'identification de l\'API Bluesnap?',
       ),
       'requires_approval' => 'Nécessite une approbation',
       'sections_note' => 'Une fois que vous cliquez sur mettre à jour, vous verrez la liste des sections à activer / désactiver.',
@@ -571,6 +575,7 @@ return array (
         'title' => 'Paramètres d\'inscription de l\'utilisateur',
       ),
       'lesson_note' => 'Activer / Désactiver si l\'utilisateur peut sauter avant la fin du temps',
+      'troubleshoot' => 'Dépanner',
     ),
     'hero_slider' => 
     array (
@@ -903,6 +908,7 @@ return array (
         'title' => 'Titre',
         'trending' => 'Tendances',
         'courses' => 'Cours',
+        'free' => 'Libre',
       ),
       'add_categories' => 'Ajouter des catégories',
       'add_teachers' => 'Ajouter des professeurs',
@@ -1089,6 +1095,7 @@ return array (
       'product_added' => 'Produit ajouté au panier avec succès',
       'try_again' => 'Erreur! Veuillez réessayer.',
       'unknown_error' => 'Une erreur inconnue s\'est produite',
+      'purchase_successful' => 'Toutes nos félicitations! Vous avez acheté ce cours.',
     ),
     'course' => 
     array (
@@ -1154,6 +1161,7 @@ return array (
       'available_in_bundles' => 'Aussi disponible en paquets',
       'complete_test' => 'S\'il vous plaît compléter le test',
       'looking_for' => 'À la recherche de?',
+      'get_now' => 'Maintenant obtenir',
     ),
     'faq' => 
     array (

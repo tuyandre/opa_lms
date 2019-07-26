@@ -193,6 +193,7 @@ return array (
         'teachers' => 'معلمون',
         'title' => 'عنوان',
         'trending' => 'الشائع',
+        'free' => 'حر',
       ),
       'add_categories' => 'إضافة فئات',
       'add_teachers' => 'إضافة المعلمين',
@@ -607,6 +608,9 @@ return array (
         'stripe_note' => 'تمكن المدفوعات في الموقع مع بطاقات الخصم / الائتمان',
         'title' => 'تكوين الدفع',
         'select_currency' => 'اختر العملة',
+        'bluesnap' => 'Bluesnap طريقة الدفع',
+        'bluesnap_note' => 'نموذج بطاقة Bluesnap للدفع',
+        'how_to_bluesnap' => 'كيفية الحصول على بيانات اعتماد Bluesnap API؟',
       ),
       'requires_approval' => 'يتطلب موافقة',
       'retest_note' => 'تمكين / تعطيل إذا كان المستخدم سيكون قادرا على إعادة اختبار للامتحان نفسه',
@@ -641,6 +645,7 @@ return array (
         'title' => 'إعدادات تسجيل المستخدم',
       ),
       'lesson_note' => 'تمكين / تعطيل إذا كان المستخدم سيكون قادرا على تخطي قبل انتهاء الموقت.',
+      'troubleshoot' => 'استكشاف',
     ),
     'invoices' => 
     array (
@@ -872,6 +877,7 @@ return array (
         'title' => 'عنوان',
         'trending' => 'الشائع',
         'courses' => 'الدورات',
+        'free' => 'حر',
       ),
       'add_categories' => 'إضافة فئات',
       'add_teachers' => 'إضافة المعلمين',
@@ -1032,6 +1038,7 @@ return array (
       'product_added' => 'تم اضافة المنتج الى السلة بنجاح',
       'try_again' => 'خطأ! حاول مرة اخرى.',
       'unknown_error' => 'حدث خطأ غير معروف',
+      'purchase_successful' => 'تهانينا! لقد اشتريت هذه الدورة.',
     ),
     'contact' => 
     array (
@@ -1111,6 +1118,7 @@ return array (
       'available_in_bundles' => 'متاح أيضا في حزم',
       'complete_test' => 'يرجى إكمال الاختبار',
       'looking_for' => 'البحث عن؟',
+      'get_now' => 'احصل الان',
     ),
     'faq' => 
     array (

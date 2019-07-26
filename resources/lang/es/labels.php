@@ -225,6 +225,7 @@ return array (
         'teachers' => 'Maestros',
         'title' => 'Título',
         'trending' => 'Tendencias',
+        'free' => 'Gratis',
       ),
       'add_categories' => 'Añadir categorías',
       'add_teachers' => 'Añadir profesores',
@@ -522,6 +523,9 @@ return array (
         'stripe_note' => 'Permite pagos en sitio con tarjetas de débito / crédito.',
         'title' => 'Configuración de pago',
         'select_currency' => 'Seleccione el tipo de moneda',
+        'bluesnap' => 'Método de pago de Bluesnap',
+        'bluesnap_note' => 'Formulario de tarjeta Bluesnap para pago',
+        'how_to_bluesnap' => '¿Cómo obtener las credenciales de la API de Bluesnap?',
       ),
       'requires_approval' => 'Requiere Aprobación',
       'sections_note' => 'Una vez que haga clic en actualizar, verá la lista de secciones para activar / desactivar.',
@@ -571,6 +575,7 @@ return array (
         'title' => 'Configuración de registro de usuario',
       ),
       'lesson_note' => 'Habilitar / Deshabilitar si el usuario podrá omitir antes de que finalice el temporizador.',
+      'troubleshoot' => 'Solucionar problemas',
     ),
     'hero_slider' => 
     array (
@@ -902,6 +907,7 @@ return array (
         'title' => 'Título',
         'trending' => 'Tendencias',
         'courses' => 'Los cursos',
+        'free' => 'Gratis',
       ),
       'add_categories' => 'Añadir categorías',
       'add_teachers' => 'Añadir profesores',
@@ -1088,6 +1094,7 @@ return array (
       'product_added' => 'Producto añadido al carrito con éxito.',
       'try_again' => '¡Error! Inténtalo de nuevo.',
       'unknown_error' => 'Ocurrió un error desconocido',
+      'purchase_successful' => '¡Felicidades! Has comprado este curso.',
     ),
     'course' => 
     array (
@@ -1153,6 +1160,7 @@ return array (
       'available_in_bundles' => 'También disponible en paquetes',
       'complete_test' => 'Por favor complete la prueba',
       'looking_for' => '¿Buscando?',
+      'get_now' => 'Obtener ahora',
     ),
     'faq' => 
     array (
