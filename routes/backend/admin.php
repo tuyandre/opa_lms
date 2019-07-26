@@ -193,7 +193,7 @@ Route::post('reasons_mass_destroy', ['uses' => 'Admin\ReasonController@massDestr
 Route::get('reasons/status/{id}', 'Admin\ReasonController@status')->name('reasons.status');
 
 
-Route::get('menu-manager', 'MenuController@index')->name('menu-manager');
+Route::get('menu-manager', ['uses'=>'MenuController@index','middleware'=>['auth','role:administrator']])->name('menu-manager');
 
 
 //====== Contacts Routes =====//
@@ -236,3 +236,6 @@ Route::get('backup','BackupController@index')->name('backup');
 Route::get('generate-backup','BackupController@generateBackup')->name('generate-backup');
 
 Route::post('backup','BackupController@storeBackup')->name('backup.store');
+
+//===Trouble shoot ====//
+Route::get('troubleshoot','Admin\ConfigController@troubleshoot')->name('troubleshoot');

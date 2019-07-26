@@ -520,7 +520,7 @@ if (config('nav_menu') != 0) {
                     url: '{{route('hcustomitem')}}',
                     type: 'POST',
                     success: function (response) {
-//                        window.location = "";
+                        window.location = "";
                     },
                     complete: function () {
                         $("#spincustomu").hide();

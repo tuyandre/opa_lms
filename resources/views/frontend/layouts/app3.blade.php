@@ -151,7 +151,7 @@
                                                 @if(is_array($menu['id']) && $menu['id'] == $menu['parent'])
                                                     @if(count($menu->subs) > 0)
                                                         <li class="menu-item-has-children ul-li-block">
-                                                            <a href="#!">{{$menu->label}}</a>
+                                                            <a href="#!">{{trans('custom-menu.'.$menu_name.'.'.str_slug($menu->label))}}</a>
                                                             <ul class="sub-menu">
                                                                 @foreach($menu->subs as $item)
                                                                     @include('frontend.layouts.partials.dropdown', $item)
@@ -163,7 +163,7 @@
                                                     <li class="nav-item">
                                                         <a href="{{asset($menu->link)}}"
                                                            class="nav-link {{ active_class(Active::checkRoute('frontend.user.dashboard')) }}"
-                                                           id="menu-{{$menu->id}}">{{ $menu->label }}</a>
+                                                           id="menu-{{$menu->id}}">{{trans('custom-menu.'.$menu_name.'.'.str_slug($menu->label))}}</a>
                                                     </li>
                                                 @endif
                                             @endforeach
@@ -210,7 +210,7 @@
                                                 @if($menu['id'] == $menu['parent'])
                                                     @if(count($menu->subs) > 0)
                                                         <li class="">
-                                                            <a href="#!">{{$menu->label}}</a>
+                                                            <a href="#!">{{trans('custom-menu.'.$menu_name.'.'.str_slug($menu->label))}}</a>
                                                             <ul class="">
                                                                 @foreach($menu->subs as $item)
                                                                     @include('frontend.layouts.partials.dropdown', $item)
@@ -222,7 +222,7 @@
                                                     <li class="">
                                                         <a href="{{asset($menu->link)}}"
                                                            class="nav-link {{ active_class(Active::checkRoute('frontend.user.dashboard')) }}"
-                                                           id="menu-{{$menu->id}}">{{ $menu->label }}</a>
+                                                           id="menu-{{$menu->id}}">{{trans('custom-menu.'.$menu_name.'.'.str_slug($menu->label))}}</a>
                                                     </li>
                                                 @endif
                                             @endforeach

@@ -7,6 +7,7 @@ use App\Http\Controllers\Traits\FileUploadTrait;
 use App\Locale;
 use App\Models\Config;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class ConfigController extends Controller
 {
@@ -193,11 +194,28 @@ class ConfigController extends Controller
             } else {
                 return ['status' => 'success', 'body' => $response->body()];
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             \Log::info($e->getMessage());
             return ['status' => 'error', 'message' => 'Something went wrong. Please check key'];
-        };
+        }
 
+    }
+
+
+    public function troubleshoot()
+    {
+        ini_set('memory_limit', '-1');
+        ini_set('max_execution_time', 1000);
+
+        \Illuminate\Support\Facades\Artisan::call('cache:clear');
+        \Illuminate\Support\Facades\Artisan::call('config:cache');
+        \Illuminate\Support\Facades\Artisan::call('route:clear');
+        \Illuminate\Support\Facades\Artisan::call('view:clear');
+
+        shell_exec('cd '.base_path().'/public');
+        shell_exec('rm storage');
+        \File::link(storage_path('app/public'), public_path('storage'));
+        return back();
     }
 
 }

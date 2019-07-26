@@ -1,4 +1,5 @@
- @if($errors->any())
+
+@if($errors->any())
     <div class="alert alert-danger" role="alert">
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
@@ -13,7 +14,6 @@
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
-
         @if(is_array(json_decode(session()->get('flash_success'), true)))
             {{ implode('', session()->get('flash_success')->all(':message<br/>')) }}
         @else

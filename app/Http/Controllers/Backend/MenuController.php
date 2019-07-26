@@ -14,6 +14,7 @@ use App\Http\Controllers\Controller;
 use Harimayco\Menu\Facades\Menu;
 use App\Http\Requests;
 use Harimayco\Menu\Models\Menus;
+use Illuminate\Support\Facades\Artisan;
 
 class MenuController extends Controller
 {
@@ -180,7 +181,7 @@ class MenuController extends Controller
             $menuitem = MenuItems::find(request()->input("id"));
             $menuitem->label = request()->input("label");
             $menuitem->link = request()->input("url");
-            $menuitem->class = request()->input("clases");
+            $menuitem->class = request()->input("class");
             $menuitem->save();
         }
     }
@@ -200,7 +201,7 @@ class MenuController extends Controller
 
     public function generatemenucontrol(Request $request)
     {
-
+        $main = NULL;
         $menu = Menus::find(request()->input("idmenu"));
         $menu_bag_data = MenuItems::where('menu', '=', $menu)->get();
         $menu->name = request()->input("menuname");
@@ -224,6 +225,21 @@ class MenuController extends Controller
                 $menuitem->depth = $value["depth"];
                 $menuitem->save();
             }
+        }
+       $menuItems= MenuItems::where('menu','=',$menu->id)->get();
+        if($menuItems != null){
+            $allMenu = [];
+            foreach ($menuItems as $item){
+                $allMenu[str_slug($item['label'])] = $item['label'];
+            }
+          $main[str_slug($menu->name)] = $allMenu;
+
+        }
+        if($menu != NULL){
+            $file = fopen(public_path('../resources/lang/en/custom-menu.php'),'a');
+            fwrite($file, 'return '.var_export($main,true).';');
+
+            Artisan::call('menu:import');
         }
         return json_encode(array("resp" => 1));
 

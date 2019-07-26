@@ -338,6 +338,9 @@
                                 </div><!--col-->
                             </div><!--form-group-->
                         </div>
+                        <div class="col-12 text-right">
+                            <a href="{{route('admin.troubleshoot')}}" class="btn btn-lg btn-warning">{{__('labels.backend.general_settings.troubleshoot')}}</a>
+                        </div>
                     </div>
                 </div>
 
@@ -843,6 +846,7 @@
                                 </div>
                             </div>
                         </div>
+
 
                     </div>
                 </div>
