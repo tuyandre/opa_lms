@@ -241,7 +241,6 @@ class MenuController extends Controller
                         ftruncate($file, 0);
                     }
                     fwrite($file, '<?php return ' . var_export($main, true) . ';');
-
                     Artisan::call('menu:import');
                 }
             }
