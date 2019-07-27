@@ -1,13 +1,14 @@
-<?php
-
-return array (
+<?php return array (
   'nav-menu' => 
   array (
     'blog' => 'Blog',
-    'about-us' => 'About Us',
     'courses' => 'Courses',
     'bundles' => 'Bundles',
     'forums' => 'Forums',
     'contact' => 'Contact',
+    'about-us' => 'About Us',
+  ),
+  'dummy' => 
+  array (
   ),
 );
