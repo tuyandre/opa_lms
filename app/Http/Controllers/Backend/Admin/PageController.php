@@ -225,7 +225,7 @@ class PageController extends Controller
             return abort(401);
         }
         $page = Page::where('id', '=', $id)->first();
-        return view('backend.pages.edit', compact('page', 'category', 'tags'));
+        return view('backend.pages.edit', compact('page'));
 
     }
 
