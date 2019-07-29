@@ -47,6 +47,7 @@ class MenuSeeder extends Seeder
         foreach ($menus as $key => $item) {
             $key++;
             $menuItem = \Harimayco\Menu\Models\MenuItems::where('link', '=', $item['url'])
+                ->where('label','=',$item['name'])
                 ->where('menu', '=', $nav_menu->id)->first();
             if ($menuItem == "") {
                 $menuItem = new \Harimayco\Menu\Models\MenuItems();
@@ -57,6 +58,9 @@ class MenuSeeder extends Seeder
                 $menuItem->menu = $nav_menu->id;
                 $menuItem->depth = 0;
                 $menuItem->save();
+                $menuItem->parent = $menuItem->id;
+                $menuItem->save();
+
             }
         }
 

@@ -8,7 +8,4 @@
     'contact' => 'Contact',
     'about-us' => 'About Us',
   ),
-  'dummy' => 
-  array (
-  ),
 );

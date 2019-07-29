@@ -18,6 +18,10 @@ class MenuImportSeeder extends Seeder
                 if ($menuItems != null) {
                     $allMenu = [];
                     foreach ($menuItems as $item) {
+                        if($item->parent == 0){
+                            $item->parent = $item->id;
+                            $item->save();
+                        }
                         $allMenu[str_slug($item['label'])] = $item['label'];
                     }
                     $main[str_slug($menu->name)] = $allMenu;
