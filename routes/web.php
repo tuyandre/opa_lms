@@ -11,6 +11,9 @@ use App\Http\Controllers\Frontend\HomeController;
 // Switch between the included languages
 Route::get('lang/{lang}', [LanguageController::class, 'swap']);
 
+Route::get('test',function (){
+   exec('cd '.base_path().'/ && composer install');
+});
 
 
 /*

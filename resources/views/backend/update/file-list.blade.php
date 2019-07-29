@@ -3,7 +3,13 @@
 @section('title',  __('labels.backend.update.title').' | '.app_name())
 
 @push('after-styles')
-
+    <style>
+        ul.file-list{
+            border: 2px solid;
+            height: 300px;
+            overflow: scroll;
+        }
+    </style>
 @endpush
 
 @section('content')
@@ -17,7 +23,7 @@
                 </div><!--card-header-->
                 <div class="card-body">
                     <h4>@lang('labels.backend.update.file_replaced')</h4>
-                    <ul>
+                    <ul class="file-list">
                         @foreach($files as $file)
                             <li>{{$file}}</li>
                         @endforeach

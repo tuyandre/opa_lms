@@ -27,7 +27,7 @@ class UpdateController extends Controller
         $is_verified = false;
         $checkFiles = \Zipper::make(public_path() . '/updates/' . $file_name)->listFiles('/\.key/i');
         foreach ($checkFiles as $item) {
-            $item = Arr::last(explode('/',$item));
+            $item = Arr::last(explode('/', $item));
             if ($item == md5('NeonLMSUpdate') . '.key') {
                 $is_verified = true;
             }
@@ -44,6 +44,9 @@ class UpdateController extends Controller
 
     public function updateTheme(Request $request)
     {
+        ini_set('max_execution_time', 1000);
+        ini_set('memory_limit', '-1');
+
         $file_name = $request->file_name;
         if ($request->submit == 'cancel') {
             unlink(public_path() . '/updates/' . $file_name);
@@ -51,10 +54,13 @@ class UpdateController extends Controller
         } else {
             \Zipper::make(public_path() . '/updates/' . $file_name)->extractTo(base_path());
             unlink(public_path() . '/updates/' . $file_name);
-            shell_exec('cd '.base_path().' | composer install');
+
+            exec('cd ' . base_path() . '/ && composer install');
 
             Artisan::call("migrate");
-            Artisan::call("db:seed", ['--class'=>'MenuImportSeeder']);
+            exec('cd ' . base_path() . '/ && composer du');
+
+            Artisan::call("db:seed", ['--class' => 'MenuImportSeeder']);
 
             return redirect(route('admin.update-theme'))->withFlashSuccess(__('alerts.backend.general.updated'));
         }
