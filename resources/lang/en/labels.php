@@ -647,6 +647,41 @@ return array (
       'sequence_note' => 'Drag and change sequence of a Slide',
       'save_sequence' => 'Save Sequence',
     ),
+    'tax' => array(
+        'title' => 'Tax',
+        'create' => 'Create Tax',
+        'edit' => 'Edit Tax',
+        'view' => 'View Tax',
+        'on' => 'On',
+        'off' => 'Off',
+        'fields' =>
+        array (
+            'name' => 'Name',
+            'rate' => 'Rate',
+            'status' => 'Status'
+        ),
+    ),
+      'coupons' => array(
+          'title' => 'Coupons',
+          'create' => 'Create Coupon',
+          'edit' => 'Edit Coupon',
+          'view' => 'View Coupon',
+          'on' => 'On',
+          'off' => 'Off',
+          'flat_rate' => 'Flat Rate',
+          'discount_rate' => 'Discount Rate',
+          'fields' =>
+              array (
+                  'name' => 'Name',
+                  'code' => 'Code',
+                  'type' => 'Type',
+                  'amount' => 'Amount',
+                  'expires_at' => 'Expires At',
+                  'per_user_limit' => 'Per User Limit',
+                  'total' => 'Total',
+                  'status' => 'Status'
+              ),
+      ),
     'sponsors' => 
     array (
       'title' => 'Sponsors',

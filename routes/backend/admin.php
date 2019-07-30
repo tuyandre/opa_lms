@@ -214,6 +214,16 @@ Route::get('get-bundle-reports-data', ['uses' => 'ReportController@getBundleData
 Route::get('get-students-reports-data', ['uses' => 'ReportController@getStudentsData', 'as' => 'reports.get_students_data']);
 
 
+//====== Tax Routes =====//
+Route::resource('tax', 'TaxController');
+Route::get('tax/status/{id}', 'TaxController@status')->name('tax.status', 'id');
+
+//====== Coupon Routes =====//
+Route::resource('coupons', 'CouponController');
+Route::get('coupons/status/{id}', 'CouponController@status')->name('coupons.status', 'id');
+
+
+
 //==== Remove Locale FIle ====//
 Route::post('delete-locale', function () {
     \Barryvdh\TranslationManager\Models\Translation::where('locale', request('locale'))->delete();

@@ -21,5 +21,9 @@ class Order extends Model
         return $this->hasOne(Invoice::class);
     }
 
+    public function coupon(){
+        return $this->belongsTo(Coupon::class);
+    }
+
 
 }

@@ -151,6 +151,14 @@ return array (
         'students' => 'Students',
         'sales' => 'Sales',
       ),
+        'coupons' =>
+            array (
+                'title' => 'Coupons',
+            ),
+        'tax' =>
+            array (
+                'title' => 'Tax',
+            ),
     ),
     'access' => 
     array (
