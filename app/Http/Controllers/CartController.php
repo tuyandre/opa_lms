@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Mail\OfflineOrderMail;
 use App\Models\Bundle;
+use App\Models\Coupon;
 use App\Models\Course;
 use App\Models\Order;
 use Illuminate\Http\Request;
@@ -385,6 +386,11 @@ class CartController extends Controller
         Session::flash('success', trans('labels.frontend.cart.purchase_successful'));
         return back();
 
+    }
+
+    public function getOffers(){
+        $coupons = Coupon::where('status','=',1)->get();
+        return view('frontend.cart.offers',compact('coupons'));
     }
 
 

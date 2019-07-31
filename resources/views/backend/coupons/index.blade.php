@@ -52,8 +52,8 @@
                                 <th>@lang('labels.backend.coupons.fields.type')</th>
                                 <th>@lang('labels.backend.coupons.fields.amount')</th>
                                 <th>@lang('labels.backend.coupons.fields.expires_at')</th>
-                                <th>@lang('labels.backend.coupons.fields.per_user_limit')</th>
-                                <th>@lang('labels.backend.coupons.fields.total')</th>
+                                {{--<th>@lang('labels.backend.coupons.fields.per_user_limit')</th>--}}
+                                {{--<th>@lang('labels.backend.coupons.fields.total')</th>--}}
                                 <th>@lang('labels.backend.coupons.fields.status')</th>
                                 @if( request('show_deleted') == 1 )
                                     <th>&nbsp; @lang('strings.backend.general.actions')</th>
@@ -77,20 +77,24 @@
                                         {{$item->code}}
                                     </td>
                                     <td>
-                                        {{$item->type}}
+                                        @if($item->type == 1)
+                                            @lang('labels.backend.coupons.discount_rate') (in %)
+                                        @else
+                                            @lang('labels.backend.coupons.flat_rate') ( in {{config('app.currency')}})
+                                        @endif
                                     </td>
                                     <td>
                                         {{$item->amount}}
                                     </td>
                                     <td>
-                                        {{$item->expires_at}}
+                                        {{\Illuminate\Support\Carbon::parse($item->expires_at)->format('d M Y')}}
                                     </td>
-                                    <td>
-                                        {{$item->per_user_limit}}
-                                    </td>
-                                    <td>
-                                        {{$item->total}}
-                                    </td>
+                                    {{--<td>--}}
+                                        {{--{{$item->per_user_limit}}--}}
+                                    {{--</td>--}}
+                                    {{--<td>--}}
+                                        {{--{{$item->total}}--}}
+                                    {{--</td>--}}
                                     <td>
                                         @if($item->status == 1)
                                             @lang('labels.backend.coupons.on')
@@ -112,6 +116,8 @@
                                             </a>
 
                                         @endif
+                                            <a href="{{route('admin.coupons.show',['id'=>$item->id]) }}"
+                                               class="btn btn-xs btn-primary mb-1"><i class="icon-eye"></i></a>
 
 
                                         <a href="{{route('admin.coupons.edit',['id'=>$item->id]) }}"
@@ -162,21 +168,20 @@
                     {
                         extend: 'csv',
                         exportOptions: {
-                            columns: [ 0,1, 2,3]
+                            columns: [ 0,1,2,3,4,5,6]
                         }
                     },
                     {
                         extend: 'pdf',
                         exportOptions: {
-                            columns: [ 0,1, 2, 3]
+                            columns: [ 0,1,2,3,4,5,6]
                         }
                     },
                     'colvis'
                 ],
 
                 columnDefs: [
-                    {"width": "10%", "targets": 0},
-                    {"width": "15%", "targets": 4},
+                    {"width": "5%", "targets": 0},
                     {"className": "text-center", "targets": [0]}
                 ],
                 language:{

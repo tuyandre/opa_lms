@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Models\Coupon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Validation\Rule;
 
 class CouponController extends Controller
 {
@@ -40,16 +41,24 @@ class CouponController extends Controller
     {
         $this->validate($request, [
             'name' => 'required',
+            'code' => 'required|unique:coupons',
             'type' => 'required',
             'amount' => 'required',
         ]);
 
-        $tax = Coupon::where('name','=',$request->name)->first();
-        if($tax == null){
-            $tax = new Coupon();
-            $tax->name = $request->name;
-            $tax->amount = $request->amount;
-            $tax->save();
+        $coupon = Coupon::where('name','=',$request->name)->first();
+        if($coupon == null){
+            $coupon = new Coupon();
+            $coupon->name = $request->name;
+            $coupon->description = $request->description;
+            $coupon->code = $request->code;
+            $coupon->type = $request->type;
+            $coupon->amount = $request->amount;
+            $coupon->expires_at = $request->expires_at;
+            $coupon->min_price = $request->min_price;
+            $coupon->per_user_limit = $request->per_user_limit;
+            $coupon->total = $request->total;
+            $coupon->save();
         }
 
         return redirect()->route('admin.coupons.index')->withFlashSuccess(trans('alerts.backend.general.created'));
@@ -63,7 +72,8 @@ class CouponController extends Controller
      */
     public function show($id)
     {
-        //
+        $coupon = Coupon::findOrFail($id);
+        return view('backend.coupons.show',compact('coupon'));
     }
 
     /**
@@ -74,7 +84,7 @@ class CouponController extends Controller
      */
     public function edit($id)
     {
-        $tax = Coupon::findOrFail($id);
+        $coupon = Coupon::findOrFail($id);
         return view('backend.coupons.edit',compact('coupon'));
     }
 
@@ -89,14 +99,23 @@ class CouponController extends Controller
     {
         $this->validate($request, [
             'name' => 'required',
-            'rate' => 'required',
+            'code' => 'required|unique:coupons,code,'.$id,
+            'type' => 'required',
+            'amount' => 'required',
         ]);
 
-        $tax = Coupon::findOrFail($id);
-        if($tax != null){
-            $tax->name = $request->name;
-            $tax->rate = $request->rate;
-            $tax->save();
+        $coupon = Coupon::findOrFail($id);
+        if($coupon != null){
+            $coupon->name = $request->name;
+            $coupon->description = $request->description;
+            $coupon->code = $request->code;
+            $coupon->type = $request->type;
+            $coupon->amount = $request->amount;
+            $coupon->expires_at = $request->expires_at;
+            $coupon->min_price = $request->min_price;
+            $coupon->per_user_limit = $request->per_user_limit;
+            $coupon->total = $request->total;
+            $coupon->save();
             return redirect()->route('admin.coupons.index')->withFlashSuccess(trans('alerts.backend.general.updated'));
         }
         return abort(404);
@@ -112,8 +131,8 @@ class CouponController extends Controller
      */
     public function destroy($id)
     {
-        $tax = Coupon::findOrFail($id);
-        $tax->delete();
+        $coupon = Coupon::findOrFail($id);
+        $coupon->delete();
         return back()->withFlashSuccess(trans('alerts.backend.general.deleted'));
 
     }
@@ -121,13 +140,13 @@ class CouponController extends Controller
 
     public function status($id)
     {
-        $tax = Coupon::findOrFail($id);
-        if ($tax->status == 1) {
-            $tax->status = 0;
+        $coupon = Coupon::findOrFail($id);
+        if ($coupon->status == 1) {
+            $coupon->status = 0;
         } else {
-            $tax->status = 1;
+            $coupon->status = 1;
         }
-        $tax->save();
+        $coupon->save();
 
         return back()->withFlashSuccess(trans('alerts.backend.general.updated'));
     }

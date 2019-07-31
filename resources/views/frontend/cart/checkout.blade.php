@@ -13,7 +13,6 @@
 
     <script src='https://js.stripe.com/v2/' type='text/javascript'></script>
 @endpush
-<!-- TODO:: Checkout payment for Whole cart vs Buy Now and Set Payments APIS via backend--->
 @section('content')
 
     <!-- Start of breadcrumb section
@@ -354,7 +353,6 @@
     </section>
     <!-- End  of Checkout content
         ============================================= -->
-
 
 @endsection
 

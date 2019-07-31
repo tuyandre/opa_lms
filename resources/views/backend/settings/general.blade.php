@@ -337,6 +337,20 @@
                                     <small><i> {{__('labels.backend.general_settings.lesson_note')}}</i></small>
                                 </div><!--col-->
                             </div><!--form-group-->
+                            <div class="form-group row">
+                                {{ html()->label(__('validation.attributes.backend.settings.general_settings.show_offers'))->class('col-md-2 form-control-label')->for('show_offers') }}
+                                <div class="col-md-10">
+                                    <div class="checkbox">
+                                        {{ html()->label(
+                                                html()->checkbox('show_offers', config('show_offers') ? true : false,1)->id('retest')
+                                                      ->class('switch-input')->value(1)
+                                                . '<span class="switch-label"></span><span class="switch-handle"></span>')
+                                            ->class('switch switch-sm switch-3d switch-primary')
+                                        }}
+                                    </div>
+                                    <small><i> {{__('labels.backend.general_settings.show_offers_note')}}</i></small>
+                                </div><!--col-->
+                            </div><!--form-group-->
                         </div>
                         <div class="col-12 text-right">
                             <a href="{{route('admin.troubleshoot')}}" class="btn btn-lg btn-warning">{{__('labels.backend.general_settings.troubleshoot')}}</a>

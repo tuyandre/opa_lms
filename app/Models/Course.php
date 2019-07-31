@@ -30,6 +30,7 @@ class Course extends Model
 
     protected $appends = ['image'];
 
+
     protected static function boot()
     {
         parent::boot();

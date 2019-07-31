@@ -150,7 +150,7 @@ Route::get('certificate-verification','Backend\CertificateController@getVerifica
 Route::post('certificate-verification','Backend\CertificateController@verifyCertificate')->name('frontend.certificates.verify');
 Route::get('certificates/download', ['uses' => 'Backend\CertificateController@download', 'as' => 'certificates.download']);
 
-
+Route::get('offers',['uses' => 'CartController@getOffers', 'as' => 'frontend.offers']);
 
 Route::group(['namespace' => 'Frontend', 'as' => 'frontend.'], function () {
     Route::get('/{page?}', [HomeController::class, 'index'])->name('index');
