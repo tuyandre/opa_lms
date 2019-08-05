@@ -39,13 +39,14 @@
                     @endphp
                     <h4 style="font-weight: bold;">{{env('APP_NAME')}}</h4>
 
-                @if($contact_data["primary_address"]["status"] == 1)
+                    @if($contact_data["primary_address"]["status"] == 1)
                         <span>Address: {{$contact_data["primary_address"]["value"]}} </span><br>
                     @endif
 
                     @if($contact_data["primary_phone"]["status"] == 1)
                         {{--{{dd($contact_data["primary_phone"]["value"])}}--}}
-                        <span style="font-family: Helvetica, Arial, sans-serif;">Contact No.: {{ $contact_data["primary_phone"]["value"]}}</span><br>
+                        <span style="font-family: Helvetica, Arial, sans-serif;">Contact No.: {{ $contact_data["primary_phone"]["value"]}}</span>
+                        <br>
                     @endif
 
                     @if($contact_data["primary_email"]["status"] == 1)
@@ -61,7 +62,7 @@
         <h4>Customer Details:</h4>
         <div class="panel panel-default" style="padding: 15px;padding-top: 0px">
             {!! $invoice->customer_details->count() == 0 ? '<i>No customer details</i><br />' : '' !!}
-            <h4  style="font-weight: bold; font-family: DejaVu Sans;"> {{ $invoice->customer_details->get('name') }}</h4>
+            <h4 style="font-weight: bold; font-family: DejaVu Sans;"> {{ $invoice->customer_details->get('name') }}</h4>
             <span>Email :</span> {{ $invoice->customer_details->get('email') }}
         </div>
     </div>
@@ -85,18 +86,48 @@
                 <td>{{$key}}</td>
                 <td>{{ $item->get('id') }}</td>
                 <td style=" font-family: DejaVu Sans;">{{ $item->get('name') }}</td>
-                <td>{{ $item->get('totalPrice') }} {{ $invoice->formatCurrency()->symbol }}</td>
+                <td class="text-right">{{ $item->get('totalPrice') }} {{ $invoice->formatCurrency()->symbol }}</td>
             </tr>
         @endforeach
         </tbody>
     </table>
     <div style="clear:both; position:relative;">
 
-        <div style="float: right;">
-            <h4>Total: <b>{{ $invoice->totalPriceFormatted() }} {{ $invoice->formatCurrency()->symbol }}</b></h4>
+        {{--<div style="float: right;">--}}
+        {{--<h4>Total: <b>{{ $invoice->totalPriceFormatted() }} {{ $invoice->formatCurrency()->symbol }}</b></h4>--}}
 
+        {{--</div>--}}
+        <div style="margin-left: 300pt;">
+            <h4>Total:</h4>
+            <table class="table table-bordered">
+                <tbody>
+                <tr>
+                    <td><b>Subtotal</b></td>
+                    <td class="text-right">{{ $invoice->subTotalPriceFormatted() }} {{ $invoice->formatCurrency()->symbol }}</td>
+                </tr>
+                @if($invoice->discount != null)
+                    <tr>
+                        <td><b> - Discount</b></td>
+                        <td class="text-right">{{$invoice->discount }} {{ $invoice->formatCurrency()->symbol }}</td>
+                    </tr>
+                @endif
+                @if($invoice->taxData != null)
+                    @foreach($invoice->taxData as $tax)
+                        <tr>
+                            <td>
+                                + {{$tax['name']}}
+                            </td>
+                            <td class="text-right">{{$tax['amount'] }} {{ $invoice->formatCurrency()->symbol }}</td>
+                        </tr>
+                    @endforeach
+                @endif
+                <tr>
+                    <td><b>TOTAL</b></td>
+                    <td class="text-right"><b>{{ $invoice->total }} {{ $invoice->formatCurrency()->symbol }}</b></td>
+                </tr>
+                </tbody>
+            </table>
         </div>
-
     </div>
 </div>
 

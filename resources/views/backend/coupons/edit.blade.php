@@ -136,19 +136,6 @@
                 </div><!--col-->
             </div>
 
-            <div class="row form-group">
-                {{ html()->label(__('labels.backend.coupons.fields.total'))->class('col-md-2 form-control-label')->for('total') }}
-
-                <div class="col-md-10">
-                    {{ html()->input('number','total')
-                    ->placeholder(__('labels.backend.coupons.fields.total'))
-                        ->class('form-control')
-                    }}
-                    <p class="mb-0">@lang('labels.backend.coupons.total_note')</p>
-
-                </div><!--col-->
-            </div>
-
 
             <div class="form-group row justify-content-center">
                 <div class="col-4">

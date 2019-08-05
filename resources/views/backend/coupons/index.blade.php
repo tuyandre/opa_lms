@@ -87,7 +87,11 @@
                                         {{$item->amount}}
                                     </td>
                                     <td>
-                                        {{\Illuminate\Support\Carbon::parse($item->expires_at)->format('d M Y')}}
+                                        @if($item->expires_at)
+                                            {{\Illuminate\Support\Carbon::parse($item->expires_at)->format('d M Y')}}
+                                        @else
+                                            @lang('labels.backend.coupons.unlimited')
+                                        @endif
                                     </td>
                                     {{--<td>--}}
                                         {{--{{$item->per_user_limit}}--}}

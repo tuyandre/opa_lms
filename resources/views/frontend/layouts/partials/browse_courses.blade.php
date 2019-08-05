@@ -28,7 +28,7 @@
                                         @if($item->free == 1)
                                             <span> {{trans('labels.backend.courses.fields.free')}}</span>
                                         @else
-                                            @lang('labels.frontend.course.price')<span>   {{$appCurrency['symbol'].' '.$item->price}}</span>
+                                            <span>   {{$appCurrency['symbol'].' '.$item->price}}</span>
                                         @endif
 
                                     </div>

@@ -278,7 +278,6 @@ if (!function_exists('section_filter')) {
 
 if (!function_exists('generateInvoice')) {
 
-
     function generateInvoice($order)
     {
         $invoice = ConsoleTVs\Invoices\Classes\Invoice::make();

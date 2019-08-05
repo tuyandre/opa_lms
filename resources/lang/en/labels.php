@@ -491,7 +491,7 @@ return array(
                     'layout_type' => 'Layout Type',
                     'theme_layout' => 'Theme Layout',
                     'layout_note' => 'This will change frontend theme layout',
-                    'show_offers_note' => 'Enable / Disable if Coupon offers to b displayed on Course, Bundle and Checkout page',
+                    'show_offers_note' => 'Enable / Disable if Coupon offers page link to be displayed in bottom footer',
 
                     'newsletter' =>
                         array(
@@ -672,6 +672,7 @@ return array(
                 'description' => 'Description',
                 'courses' => 'Courses',
                 'bundles' => 'Bundles',
+                'unlimited' => 'Unlimited',
                 'on' => 'On',
                 'off' => 'Off',
                 'flat_rate' => 'Flat Rate',
@@ -1051,8 +1052,18 @@ return array(
                     'mm' => 'MM',
                     'yy' => 'YY',
                     'pay_now' => 'Pay Now',
+                    'sub_total' => 'Sub Total',
+                    'apply' => 'Apply',
+                    'items' => 'items',
+                    'item' => 'item',
+                    'offers' => 'Offers',
+                    'empty_input' => 'Write coupon code before applying',
+                    'invalid_coupon' => 'Invalid Coupon!',
                     'stripe_error_message' => 'Please correct the errors and try again.',
                     'paypal' => 'PayPal',
+                    'amount' => 'Amount',
+                    'total_payable' => 'Total Payable',
+                    'price' => 'Price',
                     'pay_securely_paypal' => 'Pay securely with PayPal',
                     'offline_payment' => 'Offline Payment',
                     'offline_payment_note' => 'In this payment method our executives will contact you and give you instructions regarding payment and course purchase.',
@@ -1091,6 +1102,11 @@ return array(
             'offers' => array(
                 'title' => 'Offers',
                 'no_offers' => 'No Offers',
+                'unlimited' => 'Unlimited',
+                'validity' => 'Validity',
+                'minimum_order_amount' => 'Minimum Order Amount',
+                'usage' => 'Usage',
+                'per_user' => 'Per User',
             ),
             'contact' =>
                 array(

@@ -53,7 +53,11 @@
                         <tr>
                             <th>@lang('labels.backend.coupons.fields.expires_at')</th>
                             <td>
-                                {{\Illuminate\Support\Carbon::parse($coupon->expires_at)->format('d M Y')}}
+                                @if($coupon->expires_at)
+                                    {{\Illuminate\Support\Carbon::parse($coupon->expires_at)->format('d M Y')}}
+                                @else
+                                    @lang('labels.backend.coupons.unlimited')
+                                @endif
                             </td>
                         </tr>
                         <tr>
@@ -78,17 +82,11 @@
                                 {{$coupon->per_user_limit}}
                             </td>
                         </tr>
-                        <tr>
-                            <th>@lang('labels.backend.coupons.fields.total')</th>
-                            <td>
-                                {{$coupon->total}}
-                            </td>
-                        </tr>
                     </table>
                 </div>
             </div><!-- Nav tabs -->
 
-            <a href="{{ route('admin.orders.index') }}" class="btn btn-default border">@lang('strings.backend.general.app_back_to_list')</a>
+            <a href="{{ route('admin.coupons.index') }}" class="btn btn-default border">@lang('strings.backend.general.app_back_to_list')</a>
         </div>
     </div>
 @stop

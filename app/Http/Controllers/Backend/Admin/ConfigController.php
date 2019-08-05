@@ -90,6 +90,9 @@ class ConfigController extends Controller
         if ($request->get('lesson_timer') == null) {
             $requests['lesson_timer'] = 0;
         }
+        if ($request->get('show_offers') == null) {
+            $requests['show_offers'] = 0;
+        }
         foreach ($requests->all() as $key => $value) {
             if ($key != '_token') {
                 $key = str_replace('__', '.', $key);

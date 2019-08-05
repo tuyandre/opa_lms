@@ -57,7 +57,6 @@ class CouponController extends Controller
             $coupon->expires_at = $request->expires_at;
             $coupon->min_price = $request->min_price;
             $coupon->per_user_limit = $request->per_user_limit;
-            $coupon->total = $request->total;
             $coupon->save();
         }
 
@@ -114,7 +113,6 @@ class CouponController extends Controller
             $coupon->expires_at = $request->expires_at;
             $coupon->min_price = $request->min_price;
             $coupon->per_user_limit = $request->per_user_limit;
-            $coupon->total = $request->total;
             $coupon->save();
             return redirect()->route('admin.coupons.index')->withFlashSuccess(trans('alerts.backend.general.updated'));
         }

@@ -23,7 +23,6 @@ class CreateCouponsTable extends Migration
             $table->float('min_price')->default(0)->comment('Minimum price to allow coupons');
             $table->string('expires_at')->nullable();
             $table->integer('per_user_limit')->default(1)->comment('0 - Unlimited');
-            $table->integer('total')->nullable()->comment('Total Coupons to be generated');
             $table->tinyInteger('status')->default(0)->comment('0 - Disabled, 1 - Enabled, 2 - Expired');
             $table->timestamps();
         });

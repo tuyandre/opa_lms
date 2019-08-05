@@ -4,6 +4,7 @@
 @push('after-styles')
     <style>
         .coupon .kanan {
+            display: grid;
             border-left: 1px dashed #ddd;
             width: 70% !important;
             position:relative;
@@ -105,10 +106,13 @@
                                             <div class="d-block w-100">
                                                 <h3 class="lead font-weight-bold">{{$coupon->name}} </h3>
                                                 <p class="text-muted mb-0">{{$coupon->description}}</p>
-                                                <p class="mb-0">Usage : Per User {{$coupon->per_user_limit}}</p>
+                                                <p class="mb-0">@lang('labels.frontend.offers.usage') : @lang('labels.frontend.offers.per_user') {{$coupon->per_user_limit}}</p>
+                                                @if($coupon->min_price && $coupon->min_price > 0)
+                                                <p class="mb-0">@lang('labels.frontend.offers.minimum_order_amount') {{$coupon->min_price.''.$appCurrency['symbol']}}</p>
+                                                @endif
                                             </div>
                                         </div>
-                                        <div class="kanan">
+                                        <div class="kanan d-grid">
                                             <div class="info m-3 d-flex text-center align-self-center">
                                                 <div class="w-100">
                                                      <span class="badge badge-success"> @if($coupon->type == 1)
@@ -117,10 +121,16 @@
                                                              @lang('labels.backend.coupons.flat_rate')}})
                                                          @endif</span>
                                                     <div class="block">
-                                                        <span>Validity : {{ (\Illuminate\Support\Carbon::parse($coupon->expires_at)->diff(\Illuminate\Support\Carbon::now())->days < 1) ? 'today' : \Illuminate\Support\Carbon::parse($coupon->expires_at)->diffInDays(\Illuminate\Support\Carbon::now())}} Days</span>
+                                                        <span>@lang('labels.frontend.offers.validity') :
+                                                            @if($coupon->expires_at)
+                                                                {{  (\Illuminate\Support\Carbon::parse($coupon->expires_at)->diff(\Illuminate\Support\Carbon::now())->days < 1) ? 'today' : \Illuminate\Support\Carbon::parse($coupon->expires_at)->diffInDays(\Illuminate\Support\Carbon::now())}} Days
+                                                            @else
+                                                                @lang('labels.frontend.offers.unlimited')
+                                                            @endif
+
+                                                           </span>
                                                     </div>
                                                     <h4 class="text-bold">{{$coupon->code}}</h4>
-
                                                 </div>
                                             </div>
                                         </div>

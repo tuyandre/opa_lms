@@ -54,8 +54,6 @@ class MyImportManager extends Manager
                         }
                     }
                 }
-
-
             }
         }
 
@@ -74,7 +72,6 @@ class MyImportManager extends Manager
                 }
             }
         }
-
         return $counter;
     }
 
