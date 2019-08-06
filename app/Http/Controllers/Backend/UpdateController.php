@@ -60,7 +60,7 @@ class UpdateController extends Controller
             Artisan::call("migrate");
             exec('cd ' . base_path() . '/ && composer du');
 
-            Artisan::call("db:seed", ['--class' => 'MenuImportSeeder']);
+            //Artisan::call("db:seed", ['--class' => 'MenuImportSeeder']);
             Artisan::call("db:seed", ['--class' => 'V215Seeder']);
 
             return redirect(route('admin.update-theme'))->withFlashSuccess(__('alerts.backend.general.updated'));

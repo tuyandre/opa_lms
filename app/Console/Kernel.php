@@ -3,6 +3,7 @@
 namespace App\Console;
 
 use App\Console\Commands\Backup;
+use App\Console\Commands\GenerateSitemap;
 use App\Console\Commands\RefreshSite;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
@@ -39,6 +40,20 @@ class Kernel extends ConsoleKernel
 
         }elseif(config('backup_schedule') == 3){
             $schedule->command(Backup::class)->monthly();
+        }
+
+
+        if(config('sitemap.schedule') == 1){
+
+            $schedule->command(GenerateSitemap::class)->daily();
+
+        }elseif(config('sitemap.schedule') == 2){
+
+            $schedule->command(GenerateSitemap::class)->weekly();
+
+        }elseif(config('sitemap.schedule') == 3){
+
+            $schedule->command(GenerateSitemap::class)->monthly();
 
         }
     }
