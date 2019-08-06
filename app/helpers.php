@@ -280,7 +280,7 @@ if (!function_exists('generateInvoice')) {
 
     function generateInvoice($order)
     {
-        $invoice = ConsoleTVs\Invoices\Classes\Invoice::make();
+        $invoice = new \App\Http\Controllers\Traits\InvoiceGenerator();
         $invoice->number($order->id);
 
         foreach ($order->items as $item) {
@@ -291,6 +291,25 @@ if (!function_exists('generateInvoice')) {
             $invoice->addItem($title, $price, $qty, $id);
         }
 //        $invoice->number($order->id);
+        $total = $order->items->sum('price');
+        $coupon = \App\Models\Coupon::find($order->coupon_id);
+        if($coupon != null){
+            $discount =  $order->items->sum('price') * $coupon->amount/100;
+            $invoice->addDiscountData($discount);
+            $total = $total - $discount;
+        }
+        $taxes = \App\Models\Tax::where('status','=',1)->get();
+        $rateSum = \App\Models\Tax::where('status','=',1)->sum('rate');
+        if($taxes != null){
+            $taxData = [];
+            foreach ($taxes as $tax){
+
+                $taxData [] = ['name'=>$tax->name,'amount' => $total * $tax->rate/100];
+            }
+            $invoice->addTaxData($taxData);
+            $total =  $total + ($total * $rateSum/100);
+        }
+        $invoice->addTotal($total);
         $user = \App\Models\Auth\User::find($order->user_id);
 
         $invoice->customer([

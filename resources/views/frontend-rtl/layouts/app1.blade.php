@@ -38,7 +38,7 @@
         {{--<link rel="stylesheet" href="{{ asset('css/frontend-rtl.css') }}">--}}
 
         <link rel="stylesheet" href="{{asset('assets-rtl/css/responsive.css')}}">
-        {{--<link rel="stylesheet" href="{{ mix('css/frontend.css') }}">--}}
+        {{--<link rel="stylesheet" href="{{ asset('css/frontend.css') }}">--}}
         <link rel="stylesheet" href="{{asset('assets/css/colors/switch.css')}}">
 
         <link href="{{asset('assets/css/colors/color-2.css')}}" rel="alternate stylesheet" type="text/css"

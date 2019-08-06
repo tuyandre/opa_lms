@@ -525,8 +525,10 @@ class CartController extends Controller
 
     private function makeOrder()
     {
-       $couponName = Cart::session(auth()->user()->id)->getConditionsByType('coupon')->first()->getName();
-       $coupon = Coupon::where('code','=',$couponName)->first();
+       $coupon = Cart::session(auth()->user()->id)->getConditionsByType('coupon')->first();
+       if($coupon != null){
+           $coupon = Coupon::where('code','=',$coupon->getName())->first();
+       }
 
         $order = new Order();
         $order->user_id = auth()->user()->id;

@@ -29,7 +29,7 @@
         <link rel="stylesheet" href="{{asset('assets/css/progess.css')}}">
         <link rel="stylesheet" href="{{asset('assets/css/animate.min.css')}}">
         {{--<link rel="stylesheet" href="{{asset('assets/css/style.css')}}">--}}
-        <link rel="stylesheet" href="{{ mix('css/frontend.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/frontend.css') }}">
 
         <link rel="stylesheet" href="{{asset('assets/css/responsive.css')}}">
 

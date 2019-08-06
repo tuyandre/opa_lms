@@ -28,6 +28,9 @@ return array (
         'general' => 'General',
         'social-login' => 'Social Login',
       ),
+      'sitemap' => array(
+          'title' => 'Sitemap'
+      ),
       'debug-site' => 
       array (
         'title' => 'Debug Site',

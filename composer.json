@@ -33,6 +33,7 @@
         "laravel/socialite": "^4.1",
         "laravel/tinker": "^1.0",
         "laravelcollective/html": "^5.4.0",
+        "laravelium/sitemap": "^3.0",
         "league/flysystem-aws-s3-v3": "^1.0",
         "maatwebsite/excel": "^3.1",
         "mtownsend/read-time": "^1.1",

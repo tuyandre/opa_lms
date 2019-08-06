@@ -19,19 +19,19 @@ class InvoiceGenerator extends Invoice
 
     public function addTaxData($taxData)
     {
-        $this->taxData = $taxData;
+        $this->taxData = number_format($taxData,2);
         return $this;
     }
 
     public function addDiscountData($coupon)
     {
-        $this->discount = $coupon;
+        $this->discount = number_format($coupon,2);
         return $this;
     }
 
     public function addTotal($total)
     {
-        $this->total = $total;
+        $this->total =   number_format($total,2);
         return $this;
     }
 

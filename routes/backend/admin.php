@@ -249,3 +249,7 @@ Route::post('backup','BackupController@storeBackup')->name('backup.store');
 
 //===Trouble shoot ====//
 Route::get('troubleshoot','Admin\ConfigController@troubleshoot')->name('troubleshoot');
+
+//==== Sitemap Routes =====//
+Route::get('sitemap','SitemapController@getIndex')->name('sitemap.index');
+Route::post('sitemap','SitemapController@generateSitemap')->name('sitemap.generate');

@@ -12,52 +12,9 @@ use App\Http\Controllers\Frontend\HomeController;
 Route::get('lang/{lang}', [LanguageController::class, 'swap']);
 
 
-
-Route::get('test',function (){
-    $invoice = new \App\Http\Controllers\Traits\InvoiceGenerator();
-    $invoice->number(123);
-
-    $order = \App\Models\Order::find(9);
-    $total = $order->items->sum('price');
+Route::get('/sitemap-' .str_slug(config('app.name')) . '/{file?}', 'SitemapController@index');
 
 
-    foreach ($order->items as $item) {
-        $title = $item->item->title;
-        $price = $item->item->price;
-        $qty = 1;
-        $id = 'prod-'.$item->item->id;
-        $invoice->addItem($title, $price, $qty, $id);
-    }
-
-    $coupon = \App\Models\Coupon::find($order->coupon_id);
-    if($coupon != null){
-        $discount =  $order->items->sum('price') * $coupon->amount/100;
-        $invoice->addDiscountData($discount);
-        $total = $total - $discount;
-    }
-    $taxes = \App\Models\Tax::where('status','=',1)->get();
-    $rateSum = \App\Models\Tax::where('status','=',1)->sum('rate');
-    if($taxes != null){
-        $taxData = [];
-        foreach ($taxes as $tax){
-
-            $taxData [] = ['name'=>$tax->name,'amount' => $total * $tax->rate/100];
-        }
-        $invoice->addTaxData($taxData);
-        $total =  $total + ($total * $rateSum/100);
-     }
-     $invoice->addTotal($total);
-    $user = \App\Models\Auth\User::find($order->user_id);
-
-    $invoice->customer([
-        'name' => $user->full_name,
-        'id' => $user->id,
-        'email' => $user->email
-    ])
-//        ->save('public/invoices/invoice-'.$order->id.'.pdf');
-//                ->download('invoice-'.$order->id.'.pdf');
-                ->show('invoice-'.$order->id.'.pdf');
-});
 
 
 
@@ -195,6 +152,7 @@ Route::group(['namespace' => 'Backend', 'prefix' => 'admin', 'middleware' => con
 Route::get('certificate-verification','Backend\CertificateController@getVerificationForm')->name('frontend.certificates.getVerificationForm');
 Route::post('certificate-verification','Backend\CertificateController@verifyCertificate')->name('frontend.certificates.verify');
 Route::get('certificates/download', ['uses' => 'Backend\CertificateController@download', 'as' => 'certificates.download']);
+
 
 if(config('show_offers') == 1){
     Route::get('offers',['uses' => 'CartController@getOffers', 'as' => 'frontend.offers']);

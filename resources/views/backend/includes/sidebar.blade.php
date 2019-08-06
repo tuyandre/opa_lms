@@ -129,7 +129,7 @@
 
 
             @if ($logged_in_user->isAdmin() || $logged_in_user->hasAnyPermission(['blog_access','page_access','reason_access']))
-                <li class="nav-item nav-dropdown {{ active_class(Active::checkUriPattern(['user/contact','user/sponsors*','user/testimonials*','user/faqs*','user/footer*','user/blogs']), 'open') }}">
+                <li class="nav-item nav-dropdown {{ active_class(Active::checkUriPattern(['user/contact','user/sponsors*','user/testimonials*','user/faqs*','user/footer*','user/blogs','user/sitemap*']), 'open') }}">
                     <a class="nav-link nav-dropdown-toggle {{ active_class(Active::checkUriPattern('admin/*')) }}"
                        href="#">
                         <i class="nav-icon icon-note"></i> @lang('menus.backend.sidebar.site-management.title')
@@ -209,6 +209,12 @@
                                     <span class="title">@lang('menus.backend.sidebar.footer.title')</span>
                                 </a>
                             </li>
+                                <li class="nav-item ">
+                                    <a class="nav-link {{ $request->segment(2) == 'sitemap' ? 'active' : '' }}"
+                                       href="{{ route('admin.sitemap.index') }}">
+                                        <span class="title">@lang('menus.backend.sidebar.sitemap.title')</span>
+                                    </a>
+                                </li>
                         @endif
 
                     </ul>

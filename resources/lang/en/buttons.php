@@ -9,6 +9,7 @@ return array (
       'delete' => 'Delete',
       'view' => 'View',
       'create' => 'Create',
+      'generate' => 'Generate',
       'update' => 'Update',
     ),
     'cancel' => 'Cancel',

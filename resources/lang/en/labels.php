@@ -65,6 +65,13 @@ return array(
                     'edit' => 'Edit Test',
                     'view' => 'View Tests',
                 ),
+            'sitemap' => array(
+                'title' => 'Sitemap',
+                'records_per_file' => 'Records Per File',
+                'records_note' => 'Number of records per file.',
+                'generated' => 'Sitemap generated successfully.',
+                'sitemap_note' => 'This sitemap tool will generate sitemap for published Course, Bundles and Blog.'
+            ),
             'orders' =>
                 array(
                     'fields' =>
