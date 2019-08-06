@@ -198,7 +198,6 @@ return [
         Illuminate\View\ViewServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
 
-
         /*
          * Package Service Providers that aren't auto-discover...
          */
@@ -223,9 +222,6 @@ return [
         Chumper\Zipper\ZipperServiceProvider::class,
         BC\Laravel\DropboxDriver\ServiceProvider::class,
         Mtownsend\ReadTime\Providers\ReadTimeServiceProvider::class,
-
-
-
 
 
         /*
