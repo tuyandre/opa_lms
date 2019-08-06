@@ -12,18 +12,30 @@ class SitemapController extends Controller
         return view('backend.sitemap.index');
     }
 
-    public function generateSitemap(Request $request){
+    public function saveSitemapConfig(Request $request){
 
-        ini_set('memory_limit', '-1');
-        $chunk = (request('chunk') ? request('chunk') : 500);
-        $chunk = (int)$chunk;
-        $entry = Config::where('key','=','sitemap.chunk')->first();
-        if($entry == null){
-            $entry = new Config();
+        $this->validate($request, [
+            'sitemap__schedule' => 'required',
+        ]);
+        if ($request->get('sitemap__chunk') == null) {
+            $request['sitemap__chunk'] = 100;
         }
-        $entry->key = 'sitemap.chunk';
-        $entry->value = $chunk;
-        $entry->save();
+
+        foreach ($request->all() as $key => $value) {
+            if ($key != '_token') {
+                $key = str_replace('__', '.', $key);
+                $config = \App\Models\Config::firstOrCreate(['key' => $key]);
+                $config->value = $value;
+                $config->save();
+            }
+        }
+        return back()->withFlashSuccess(__('alerts.backend.general.updated'));
+
+    }
+
+    public function generateSitemap(){
+        ini_set('memory_limit', '-1');
+        $chunk = (config('sitemap.chunk') ? config('sitemap.chunk') : 100);
         \Illuminate\Support\Facades\Artisan::call('generate:sitemap', ['--chunk' => $chunk]);
         return back()->withFlashSuccess(trans('labels.backend.sitemap.generated'));
     }

@@ -252,4 +252,5 @@ Route::get('troubleshoot','Admin\ConfigController@troubleshoot')->name('troubles
 
 //==== Sitemap Routes =====//
 Route::get('sitemap','SitemapController@getIndex')->name('sitemap.index');
-Route::post('sitemap','SitemapController@generateSitemap')->name('sitemap.generate');
+Route::post('sitemap','SitemapController@saveSitemapConfig')->name('sitemap.config');
+Route::get('sitemap/generate','SitemapController@generateSitemap')->name('sitemap.generate');

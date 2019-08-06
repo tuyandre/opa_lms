@@ -43,7 +43,7 @@ class User extends Authenticatable implements MessageableInterface
         UserScope,
         Uuid,
         Messageable;
-      // use HasApiTokens;
+      use HasApiTokens;
 
     /**
      * The attributes that are mass assignable.

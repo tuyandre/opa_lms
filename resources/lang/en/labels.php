@@ -70,6 +70,10 @@ return array(
                 'records_per_file' => 'Records Per File',
                 'records_note' => 'Number of records per file.',
                 'generated' => 'Sitemap generated successfully.',
+                'generate' => 'Generate',
+                'daily' => 'Daily',
+                'weekly' => 'Weekly',
+                'monthly' => 'Monthly',
                 'sitemap_note' => 'This sitemap tool will generate sitemap for published Course, Bundles and Blog.'
             ),
             'orders' =>
