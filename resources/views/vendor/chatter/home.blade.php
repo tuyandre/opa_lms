@@ -1,9 +1,15 @@
 @php
-    $path = 'frontend';
-   if (config('app.display_type') == 'rtl') {
-       $path = 'frontend-rtl';
-   }
-        @endphp
+    if(session()->has('display_type')){
+                if(session('display_type') == 'rtl'){
+                    $path = 'frontend-rtl';
+                }else{
+                    $path = 'frontend';
+                }
+            }else if(config('app.display_type') == 'rtl'){
+                $path = 'frontend-rtl';
+            }
+
+@endphp
 @extends($path.'.layouts.app'.config('theme_layout'))
 
 @section(Config::get('chatter.yields.head'))
@@ -36,16 +42,16 @@
             <div class="blakish-overlay"></div>
             <div class="container">
                 <div class="page-breadcrumb-content text-center">
-                   <!-- <?php $headline_logo = Config::get('chatter.headline_logo'); ?>
-                    @if( isset( $headline_logo ) && !empty( $headline_logo ) )
-                        <img src="{{ Config::get('chatter.headline_logo') }}">
+                <!-- <?php $headline_logo = Config::get('chatter.headline_logo'); ?>
+                @if( isset( $headline_logo ) && !empty( $headline_logo ) )
+                    <img src="{{ Config::get('chatter.headline_logo') }}">
                     @else
-                        <h1>@lang('chatter::intro.headline')</h1>
+                    <h1>@lang('chatter::intro.headline')</h1>
                         <p>@lang('chatter::intro.description')</p>
                     @endif
-                       -->
+                        -->
 
-                       <h1>Welcome to {{env('APP_NAME')}} Forums</h1>
+                    <h1>Welcome to {{env('APP_NAME')}} Forums</h1>
                 </div>
             </div>
         </section>

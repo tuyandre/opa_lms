@@ -1,10 +1,16 @@
 @php
-	$path = 'frontend';
-   if (config('app.display_type') == 'rtl') {
-       $path = 'frontend-rtl';
-   }
+	if(session()->has('display_type')){
+             if(session('display_type') == 'rtl'){
+                 $path = 'frontend-rtl';
+             }else{
+                 $path = 'frontend';
+             }
+         }else if(config('app.display_type') == 'rtl'){
+             $path = 'frontend-rtl';
+         }
 @endphp
-@extends($path.'.layouts.app'.config('theme_layout'))@section(Config::get('chatter.yields.head'))
+@extends($path.'.layouts.app'.config('theme_layout'))
+@section(Config::get('chatter.yields.head'))
     @if(Config::get('chatter.sidebar_in_discussion_view'))
         <link href="{{ url('/vendor/devdojo/chatter/assets/vendor/spectrum/spectrum.css') }}" rel="stylesheet">
     @endif

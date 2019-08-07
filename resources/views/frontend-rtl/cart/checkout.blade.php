@@ -9,11 +9,31 @@
         .course-rate li {
             color: #ffc926!important;
         }
+        #applyCoupon {
+            box-shadow: none !important;
+            color: #fff !important;
+            font-weight: bold;
+        }
+
+        #coupon.warning {
+            border: 1px solid red;
+        }
+
+        .purchase-list .in-total {
+            font-size: 18px;
+        }
+
+        #coupon-error {
+            color: red;
+        }
+        .in-total:not(:first-child):not(:last-child){
+            font-size: 15px;
+        }
+
     </style>
     <script src='https://js.stripe.com/v2/' type='text/javascript'></script>
 
 @endpush
-<!-- TODO:: Checkout payment for Whole cart vs Buy Now and Set Payments APIS via backend--->
 @section('content')
 
     <!-- Start of breadcrumb section
@@ -93,7 +113,7 @@
                                                 </td>
                                                 <td>
                                                     <div class="course-type-list">
-                                                        <span>{{$course->category->name}}</span>
+                                                        <span>{{class_basename($course)}}</span>
                                                     </div>
                                                 </td>
                                                 <td>{{($course->start_date != "") ? $course->start_date : 'N/A'}}</td>
@@ -366,7 +386,60 @@
             $(document).on('click', 'input[type="radio"]:checked', function () {
                 $('#accordion .check-out-form').addClass('disabled')
                 $(this).closest('.payment-method').find('.check-out-form').removeClass('disabled')
+            });
+
+            $(document).on('click', '#applyCoupon', function () {
+                var coupon = $('#coupon');
+                if (!coupon.val() || (coupon.val() == "")) {
+                    coupon.addClass('warning');
+                    $('#coupon-error').html("<small>{{trans('labels.frontend.cart.empty_input')}}</small>").removeClass('d-none')
+                    setTimeout(function () {
+                        $('#coupon-error').empty().addClass('d-none')
+                        coupon.removeClass('warning');
+
+                    }, 5000);
+                } else {
+                    $('#coupon-error').empty().addClass('d-none')
+                    $.ajax({
+                        method: 'POST',
+                        url: "{{route('cart.applyCoupon')}}",
+                        data: {
+                            _token: '{{csrf_token()}}',
+                            coupon: coupon.val()
+                        }
+                    }).done(function (response) {
+                        if (response.status === 'fail') {
+                            coupon.addClass('warning');
+                            $('#coupon-error').removeClass('d-none').html("<small>" + response.message + "</small>");
+                            setTimeout(function () {
+                                $('#coupon-error').empty().addClass('d-none');
+                                coupon.removeClass('warning');
+
+                            }, 5000);
+                        } else {
+                            $('.purchase-list').empty().html(response.html)
+                            $('#applyCoupon').removeClass('btn-dark').addClass('btn-success')
+                            $('#coupon-error').empty().addClass('d-none');
+                            coupon.removeClass('warning');
+                        }
+                    });
+
+                }
+            });
+
+
+            $(document).on('click','#removeCoupon',function () {
+                $.ajax({
+                    method: 'POST',
+                    url: "{{route('cart.removeCoupon')}}",
+                    data: {
+                        _token: '{{csrf_token()}}',
+                    }
+                }).done(function (response) {
+                    $('.purchase-list').empty().html(response.html)
+                });
             })
+
         })
     </script>
 @endpush
