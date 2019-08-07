@@ -576,6 +576,7 @@ return array (
       ),
       'lesson_note' => 'Habilitar / Deshabilitar si el usuario podrá omitir antes de que finalice el temporizador.',
       'troubleshoot' => 'Solucionar problemas',
+      'show_offers_note' => 'Habilitar / deshabilitar si el cupón ofrece un enlace a la página que se mostrará en el pie de página',
     ),
     'hero_slider' => 
     array (
@@ -951,6 +952,66 @@ return array (
       'total_earnings' => 'Ganancias Totales',
       'total_sales' => 'Ventas totales',
     ),
+    'coupons' => 
+    array (
+      'amount_note' => 'Si se selecciona <b> Tasa de descuento </b>, ingrese la tasa de porcentaje. Si se selecciona <b> Tarifa plana </b>, ingrese una cantidad particular que se deducirá.',
+      'bundles' => 'manojos',
+      'courses' => 'Cursos',
+      'create' => 'Crear cupón',
+      'description' => 'Descripción',
+      'discount_rate' => 'Tasa de descuento',
+      'edit' => 'Editar cupón',
+      'fields' => 
+      array (
+        'amount' => 'Cantidad',
+        'code' => 'Código',
+        'description' => 'Descripción',
+        'expires_at' => 'Caduca a las',
+        'for' => 'por',
+        'min_price' => 'Precio mínimo de pedido',
+        'name' => 'Nombre',
+        'per_user_limit' => 'Por límite de usuario',
+        'status' => 'Estado',
+        'total' => 'Total',
+        'type' => 'Tipo',
+      ),
+      'flat_rate' => 'Tarifa plana',
+      'off' => 'Apagada',
+      'on' => 'En',
+      'per_user_limit_note' => 'Especifique cuántas veces un solo usuario puede usar este cupón. Por defecto una vez uso.',
+      'title' => 'Cupones',
+      'total_note' => 'Número de cupones a emitir',
+      'type_note' => '<b> Tasa de descuento (%): </b> Si selecciona esto, aplicará la tasa en% a la compra total. Ex. Precio = $ 100 y la tasa de descuento es del 10%, luego se deducirá el 10% de 100 $. <br> <b> Tarifa plana: </b> Si selecciona esto, se deducirá una cantidad particular de la compra total. Ex. Precio = 100 $ y la tarifa plana es de 25 $, luego se deducirán 25 $ de 100 $.',
+      'unlimited' => 'Ilimitada',
+      'view' => 'Ver cupones',
+    ),
+    'sitemap' => 
+    array (
+      'daily' => 'Diaria',
+      'generate' => 'Generar',
+      'generated' => 'Mapa del sitio generado con éxito.',
+      'monthly' => 'Mensual',
+      'records_note' => 'Número de registros por archivo.',
+      'records_per_file' => 'Registros por archivo',
+      'sitemap_note' => 'Esta herramienta de mapa del sitio generará un mapa del sitio para cursos, paquetes y blogs publicados.',
+      'title' => 'Mapa del sitio',
+      'weekly' => 'Semanal',
+    ),
+    'tax' => 
+    array (
+      'create' => 'Crear impuesto',
+      'edit' => 'Editar impuesto',
+      'fields' => 
+      array (
+        'name' => 'Nombre',
+        'rate' => 'Tarifa',
+        'status' => 'Estado',
+      ),
+      'off' => 'Apagada',
+      'on' => 'En',
+      'title' => 'Impuesto',
+      'view' => 'Ver impuesto',
+    ),
   ),
   'frontend' => 
   array (
@@ -1095,6 +1156,16 @@ return array (
       'try_again' => '¡Error! Inténtalo de nuevo.',
       'unknown_error' => 'Ocurrió un error desconocido',
       'purchase_successful' => '¡Felicidades! Has comprado este curso.',
+      'amount' => 'Cantidad',
+      'apply' => 'Aplicar',
+      'empty_input' => 'Escriba el código de cupón antes de aplicar',
+      'invalid_coupon' => 'Cupón inválido!',
+      'item' => 'ít',
+      'items' => 'artículos',
+      'offers' => 'Ofertas',
+      'price' => 'Precio',
+      'sub_total' => 'Subtotal',
+      'total_payable' => 'Total a pagar',
     ),
     'course' => 
     array (
@@ -1227,6 +1298,7 @@ return array (
         'why_choose' => 'Razón por la que elegir',
         'certificate_verification' => 'Verificación del certificado',
         'more_faqs' => 'Más preguntas frecuentes',
+        'offers' => 'Ofertas',
       ),
     ),
     'modal' => 
@@ -1254,6 +1326,16 @@ return array (
       'popular_courses' => 'Cursos populares',
       'popular_categories' => 'Categorías Populares',
       'featured_courses' => 'Cursos destacados',
+    ),
+    'offers' => 
+    array (
+      'minimum_order_amount' => 'Cantidad mínima de pedido',
+      'no_offers' => 'No hay ofertas',
+      'per_user' => 'Por usuario',
+      'title' => 'Ofertas',
+      'unlimited' => 'Ilimitada',
+      'usage' => 'Uso',
+      'validity' => 'Validez',
     ),
   ),
   'lang' => 

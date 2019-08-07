@@ -190,6 +190,7 @@ return array (
           'captcha_status' => 'Estado Captcha',
           'retest_status' => 'Volver a probar',
           'google_analytics' => 'Código de Google Analytics',
+          'lesson_timer' => 'Temporizador de Lección',
         ),
         'social_settings' => 
         array (

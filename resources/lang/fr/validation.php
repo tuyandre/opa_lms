@@ -191,6 +191,7 @@ return array (
           'captcha_status' => 'Statut Captcha',
           'retest_status' => 'Re-tester',
           'google_analytics' => 'Code Google Analytics',
+          'lesson_timer' => 'Leçon Minuterie',
         ),
         'social_settings' => 
         array (

@@ -84,6 +84,7 @@ return array (
           'requires_approval' => 'يتطلب موافقة',
           'retest_status' => 'إعادة الاختبار',
           'theme_layout' => 'تخطيط الموضوع',
+          'lesson_timer' => 'الدرس الموقت',
         ),
         'social_settings' => 
         array (

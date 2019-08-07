@@ -40,6 +40,7 @@ return array (
       'edit' => 'تصحيح',
       'update' => 'تحديث',
       'view' => 'رأي',
+      'generate' => 'توفير',
     ),
     'save' => 'حفظ',
     'view' => 'رأي',

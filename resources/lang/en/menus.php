@@ -28,9 +28,6 @@ return array (
         'general' => 'General',
         'social-login' => 'Social Login',
       ),
-      'sitemap' => array(
-          'title' => 'Sitemap'
-      ),
       'debug-site' => 
       array (
         'title' => 'Debug Site',
@@ -154,14 +151,18 @@ return array (
         'students' => 'Students',
         'sales' => 'Sales',
       ),
-        'coupons' =>
-            array (
-                'title' => 'Coupons',
-            ),
-        'tax' =>
-            array (
-                'title' => 'Tax',
-            ),
+      'coupons' => 
+      array (
+        'title' => 'Coupons',
+      ),
+      'tax' => 
+      array (
+        'title' => 'Tax',
+      ),
+      'sitemap' => 
+      array (
+        'title' => 'Sitemap',
+      ),
     ),
     'access' => 
     array (

@@ -180,6 +180,18 @@ return array (
         'students' => 'Estudiantes',
         'title' => 'Informes',
       ),
+      'coupons' => 
+      array (
+        'title' => 'Cupones',
+      ),
+      'sitemap' => 
+      array (
+        'title' => 'Mapa del sitio',
+      ),
+      'tax' => 
+      array (
+        'title' => 'Impuesto',
+      ),
     ),
   ),
   'language-picker' => 

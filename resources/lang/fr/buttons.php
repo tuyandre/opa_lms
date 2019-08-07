@@ -40,6 +40,7 @@ return array (
       'edit' => 'modifier',
       'update' => 'Mettre à jour',
       'view' => 'Vue',
+      'generate' => 'produire',
     ),
     'save' => 'sauvegarder',
     'view' => 'Vue',
