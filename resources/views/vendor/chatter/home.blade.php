@@ -1,4 +1,6 @@
 @php
+    $path = 'frontend';
+
     if(session()->has('display_type')){
                 if(session('display_type') == 'rtl'){
                     $path = 'frontend-rtl';

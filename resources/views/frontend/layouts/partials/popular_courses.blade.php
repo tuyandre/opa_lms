@@ -13,6 +13,7 @@
                     <div class="course-item-pic-text ">
                         <div class="course-pic relative-position mb25" @if($item->course_image != "")  style="background-image: url({{asset('storage/uploads/'.$item->course_image)}})" @endif>
 
+
                             <div class="course-price text-center gradient-bg">
                                 @if($item->free == 1)
                                     <span> {{trans('labels.backend.courses.fields.free')}}</span>

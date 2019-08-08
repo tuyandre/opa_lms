@@ -55,13 +55,17 @@ class UpdateController extends Controller
             \Zipper::make(public_path() . '/updates/' . $file_name)->extractTo(base_path());
             unlink(public_path() . '/updates/' . $file_name);
 
+
             exec('cd ' . base_path() . '/ && composer install');
 
             Artisan::call("migrate");
+
             exec('cd ' . base_path() . '/ && composer du');
 
             //Artisan::call("db:seed", ['--class' => 'MenuImportSeeder']);
             Artisan::call("db:seed", ['--class' => 'V215Seeder']);
+            unlink(base_path() . '/bootstrap/cache/packages.php');
+            unlink(base_path() . '/bootstrap/cache/services.php');
 
             return redirect(route('admin.update-theme'))->withFlashSuccess(__('alerts.backend.general.updated'));
         }
