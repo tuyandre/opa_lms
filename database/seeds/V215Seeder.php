@@ -15,7 +15,7 @@ class V215Seeder extends Seeder
 
         $configData = \App\Models\Config::where('key','=','sitemap.chunk')->first();
         if($configData == null){
-            $configData = new Config();
+            $configData = new \App\Models\Config();
         }
         $configData->key = 'sitemap.chunk';
         $configData->value = 100;
@@ -23,7 +23,7 @@ class V215Seeder extends Seeder
 
         $configData = \App\Models\Config::where('key','=','sitemap.schedule')->first();
         if($configData == null){
-            $configData = new Config();
+            $configData = new \App\Models\Config();
         }
         $configData->key = 'sitemap.schedule';
         $configData->value = 3;
@@ -31,7 +31,7 @@ class V215Seeder extends Seeder
 
         $configData = \App\Models\Config::where('key','=','show_offers')->first();
         if($configData == null){
-            $configData = new Config();
+            $configData = new \App\Models\Config();
         }
         $configData->key = 'show_offers';
         $configData->value = 0;
