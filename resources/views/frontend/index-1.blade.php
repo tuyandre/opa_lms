@@ -107,7 +107,7 @@
 
 
     @if($sections->popular_courses->status == 1)
-        {{--@include('frontend.layouts.partials.popular_courses')--}}
+        @include('frontend.layouts.partials.popular_courses')
     @endif
 
     @if(($sections->reasons->status != 0) || ($sections->testimonial->status != 0))

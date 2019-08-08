@@ -95,11 +95,12 @@
                                                             </h3>
                                                             <div class="course-meta">
                                                                 <span class="course-category bold-font"><a
-                                                                            href="#">  @if($course->free == 1)
-                                                                            {{trans('labels.backend.courses.fields.free')}}
+                                                                            href="#">@if($course->free == 1)
+                                                                            <span>{{trans('labels.backend.bundles.fields.free')}}</span>
                                                                         @else
-                                                                             {{$appCurrency['symbol'].' '.$course->price}}
+                                                                            <span> {{$appCurrency['symbol'].' '.$course->price}}</span>
                                                                         @endif</a></span>
+                                                                <span class="bold-font">{{$course->category->name}}</span>
                                                                 <div class="course-rate ul-li">
                                                                     <ul>
                                                                         @for($i=1; $i<=(int)$course->rating; $i++)
@@ -312,22 +313,15 @@
                         <div class="side-bar-widget first-widget">
                             <h2 class="widget-title text-capitalize">@lang('labels.frontend.cart.order_detail')</h2>
                             <div class="sub-total-item">
-                                @if(count($courses) > 0)
+                               @if(count($courses) > 0)
                                     <div class="purchase-list py-3 ul-li-block">
-                                        <div class="in-total text-uppercase">@lang('labels.frontend.cart.total') :
-                                            <span>
-                                                @if(isset($total))
-                                                    {{$appCurrency['symbol'].' '.$total}}
-                                                @else
-                                                    {{$appCurrency['symbol'].' '.Cart::session(auth()->user()->id)->getTotal()}}
-
-                                                @endif
-                                            </span></div>
+                                        @include('frontend.cart.partials.order-stats')
                                     </div>
                                 @else
                                     <div class="purchase-list mt15 ul-li-block">
 
-                                        <div class="in-total text-uppercase">@lang('labels.frontend.cart.total') <span>{{$appCurrency['symbol']}} 0.00</span></div>
+                                        <div class="in-total text-uppercase">@lang('labels.frontend.cart.total') <span>{{$appCurrency['symbol']}}
+                                                0.00</span></div>
                                     </div>
 
                                 @endif

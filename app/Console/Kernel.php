@@ -20,38 +20,40 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         Backup::class,
-        RefreshSite::class
+        RefreshSite::class,
+        GenerateSitemap::class
+
     ];
 
     /**
      * Define the application's command schedule.
      *
-     * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
+     * @param  \Illuminate\Console\Scheduling\Schedule $schedule
      * @return void
      */
     protected function schedule(Schedule $schedule)
     {
         $schedule->command(RefreshSite::class)->hourly();
 
-        if(config('backup_schedule') == 1){
+        if (config('backup_schedule') == 1) {
             $schedule->command(Backup::class)->daily();
-        }elseif(config('backup_schedule') == 2){
+        } elseif (config('backup_schedule') == 2) {
             $schedule->command(Backup::class)->weekly();
 
-        }elseif(config('backup_schedule') == 3){
+        } elseif (config('backup_schedule') == 3) {
             $schedule->command(Backup::class)->monthly();
         }
 
 
-        if(config('sitemap.schedule') == 1){
+        if (config('sitemap.schedule') == 1) {
 
             $schedule->command(GenerateSitemap::class)->daily();
 
-        }elseif(config('sitemap.schedule') == 2){
+        } elseif (config('sitemap.schedule') == 2) {
 
             $schedule->command(GenerateSitemap::class)->weekly();
 
-        }elseif(config('sitemap.schedule') == 3){
+        } elseif (config('sitemap.schedule') == 3) {
 
             $schedule->command(GenerateSitemap::class)->monthly();
 
@@ -65,7 +67,7 @@ class Kernel extends ConsoleKernel
      */
     protected function commands()
     {
-        $this->load(__DIR__.'/Commands');
+        $this->load(__DIR__ . '/Commands');
 
         require base_path('routes/console.php');
     }

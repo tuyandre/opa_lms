@@ -984,7 +984,7 @@ class ApiController extends Controller
             $next_id = Blog::where('id', '>', $blog_id)->min('id');
             $next = Blog::find($next_id);
 
-            return response()->json(['status' => 'success', 'blog' => $blog, 'next' => $next_id, 'previous', $previous_id]);
+            return response()->json(['status' => 'success', 'blog' => $blog, 'next' => $next_id, 'previous'=> $previous_id]);
         }
 
 

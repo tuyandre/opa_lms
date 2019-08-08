@@ -19,7 +19,7 @@ class InvoiceGenerator extends Invoice
 
     public function addTaxData($taxData)
     {
-        $this->taxData = number_format($taxData,2);
+        $this->taxData = $taxData;
         return $this;
     }
 
