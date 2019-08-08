@@ -8,6 +8,7 @@ use App\Models\Coupon;
 use App\Models\Course;
 use App\Models\Order;
 use App\Models\Tax;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Cart;
 use Illuminate\Support\Collection;
@@ -459,7 +460,13 @@ class CartController extends Controller
                     $isCouponValid = true;
                 }
             }
-
+            if($coupon->expires_at != null){
+                if(Carbon::parse($coupon->expires_at) >= Carbon::now()){
+                    $isCouponValid = true;
+                }else{
+                    $isCouponValid = false;
+                }
+            }
 
 
             if($isCouponValid == true){
