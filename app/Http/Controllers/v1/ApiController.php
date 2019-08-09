@@ -17,6 +17,7 @@ use App\Models\Category;
 use App\Models\Certificate;
 use App\Models\Config;
 use App\Models\Contact;
+use App\Models\Coupon;
 use App\Models\Course;
 use App\Models\Faq;
 use App\Models\Lesson;
@@ -28,6 +29,7 @@ use App\Models\Review;
 use App\Models\Sponsor;
 use App\Models\System\Session;
 use App\Models\Tag;
+use App\Models\Tax;
 use App\Models\Test;
 use App\Models\Testimonial;
 use App\Models\VideoProgress;
@@ -853,6 +855,7 @@ class ApiController extends Controller
     {
         $course_ids = [];
         $bundle_ids = [];
+        $couponArray = [];
 
         if (Cart::session(auth()->user()->id)->getContent()) {
             foreach (Cart::session(auth()->user()->id)->getContent() as $item) {
@@ -864,10 +867,39 @@ class ApiController extends Controller
             }
             $courses = Course::find($course_ids);
             $bundles = Bundle::find($bundle_ids);
+            $bundlesData = Bundle::find($bundle_ids);
+
+            $coursesData = $bundlesData->merge($courses);
+            $total = $coursesData->sum('price');
+            $subtotal = $total;
+
+
+            if (Cart::getConditionsByType('coupon') != null) {
+                $coupon = Cart::getConditionsByType('coupon')->first();
+                $couponData = Coupon::where('code', '=', $coupon->getName())->first();
+                $couponArray = [
+                    'name' => $couponData->name,
+                    'code' => $couponData->code,
+                    'type' => ($couponData->type == 1) ? trans('labels.backend.coupons.discount_rate') : trans('labels.backend.coupons.flat_rate'),
+                    'value' => $coupon->getValue(),
+                    'amount' => number_format($coupon->getCalculatedValue($total), 2)
+                ];
+            }
+
+            $taxes = Tax::where('status','=',1)->get();
+            $taxData = [];
+            if($taxes != null){
+                foreach ($taxes as $tax){
+                    $total = Cart::session(auth()->user()->id)->getTotal();
+                    $taxData[] = ['name'=> '+'.$tax->rate.'% '.$tax->name,'amount'=> $total*$tax->rate/100 ];
+                }
+            }
+
+
             $total = Cart::session(auth()->user()->id)->getTotal();
 
 
-            return response()->json(['status' => 'success', 'result' => ['courses' => $courses, 'bundles' => $bundles, 'total' => $total]]);
+            return response()->json(['status' => 'success', 'result' => ['courses' => $courses, 'bundles' => $bundles, 'coupon' => $couponArray, 'tax' => $taxData,'subtotal' => $subtotal,'total' => $total]]);
         }
         return response()->json(['status' => 'failure']);
     }
@@ -984,7 +1016,7 @@ class ApiController extends Controller
             $next_id = Blog::where('id', '>', $blog_id)->min('id');
             $next = Blog::find($next_id);
 
-            return response()->json(['status' => 'success', 'blog' => $blog, 'next' => $next_id, 'previous'=> $previous_id]);
+            return response()->json(['status' => 'success', 'blog' => $blog, 'next' => $next_id, 'previous' => $previous_id]);
         }
 
 
@@ -1588,6 +1620,14 @@ class ApiController extends Controller
     }
 
 
+    /**
+     * Subscribe newsletter
+     *
+     * @param  \Illuminate\Http\Request
+     *
+     * @return [json] response
+     */
+
     public function subscribeNewsletter(Request $request)
     {
         if (config('mail_provider') != NULL && config('mail_provider') == "mailchimp") {
@@ -1666,6 +1706,106 @@ class ApiController extends Controller
     }
 
 
+    /**
+     * Get Offers
+     *
+     * @param  \Illuminate\Http\Request
+     *
+     * @return [json] response
+     */
+    public function getOffers()
+    {
+        $coupons = Coupon::where('status', '=', 1)->get();
+        return ['status' => 'success', 'coupons' => $coupons];
+    }
+
+
+    /**
+     * Apply Coupon
+     *
+     * @param  \Illuminate\Http\Request
+     *
+     * @return [json] response
+     */
+    public function applyCoupon(Request $request)
+    {
+        Cart::session(auth()->user()->id)->removeConditionsByType('coupon');
+
+        $coupon = $request->coupon;
+        $coupon = Coupon::where('code', '=', $coupon)
+            ->where('status', '=', 1)
+            ->first();
+        if ($coupon != null) {
+            Cart::session(auth()->user()->id)->clearCartConditions();
+            Cart::session(auth()->user()->id)->removeConditionsByType('coupon');
+            Cart::session(auth()->user()->id)->removeConditionsByType('tax');
+
+            $ids = Cart::session(auth()->user()->id)->getContent()->keys();
+            $course_ids = [];
+            $bundle_ids = [];
+            foreach (Cart::session(auth()->user()->id)->getContent() as $item) {
+                if ($item->attributes->type == 'bundle') {
+                    $bundle_ids[] = $item->id;
+                } else {
+                    $course_ids[] = $item->id;
+                }
+            }
+            $courses = new Collection(Course::find($course_ids));
+            $bundles = Bundle::find($bundle_ids);
+            $courses = $bundles->merge($courses);
+
+            $total = $courses->sum('price');
+            $isCouponValid = false;
+
+            if ($coupon->per_user_limit > $coupon->useByUser()) {
+                $isCouponValid = true;
+                if (($coupon->min_price != null) && ($coupon->min_price > 0)) {
+                    if ($total >= $coupon->min_price) {
+                        $isCouponValid = true;
+                    }
+                } else {
+                    $isCouponValid = true;
+                }
+            }
+            if ($coupon->expires_at != null) {
+                if (Carbon::parse($coupon->expires_at) >= Carbon::now()) {
+                    $isCouponValid = true;
+                } else {
+                    $isCouponValid = false;
+                }
+            }
+
+
+            if ($isCouponValid == true) {
+                $type = null;
+                if ($coupon->type == 1) {
+                    $type = '-' . $coupon->amount . '%';
+                } else {
+                    $type = '-' . $coupon->amount;
+                }
+
+                $condition = new \Darryldecode\Cart\CartCondition(array(
+                    'name' => $coupon->code,
+                    'type' => 'coupon',
+                    'target' => 'total', // this condition will be applied to cart's subtotal when getSubTotal() is called.
+                    'value' => $type,
+                    'order' => 1
+                ));
+
+                Cart::session(auth()->user()->id)->condition($condition);
+                //Apply Tax
+                $taxData = $this->applyTax('subtotal');
+
+
+                return ['status' => 'success'];
+            }
+
+
+        }
+        return ['status' => 'failure', 'message' => trans('labels.frontend.cart.invalid_coupon')];
+    }
+
+
     private function notEnoughTimeBetweenDiscussion()
     {
         $user = Auth::user();
@@ -1693,6 +1833,30 @@ class ApiController extends Controller
     {
         $currency = getCurrency(config('app.currency'));
         return response()->json(['status' => 'success', 'result' => $currency]);
+    }
+
+    private function applyTax($target)
+    {
+        //Apply Conditions on Cart
+        $taxes = Tax::where('status', '=', 1)->get();
+        Cart::session(auth()->user()->id)->removeConditionsByType('tax');
+        if ($taxes != null) {
+            $taxData = [];
+            foreach ($taxes as $tax) {
+                $total = Cart::getTotal();
+                $taxData[] = ['name' => '+' . $tax->rate . '% ' . $tax->name, 'amount' => $total * $tax->rate / 100];
+            }
+
+            $condition = new \Darryldecode\Cart\CartCondition(array(
+                'name' => 'Tax',
+                'type' => 'tax',
+                'target' => 'total', // this condition will be applied to cart's subtotal when getSubTotal() is called.
+                'value' => $taxes->sum('rate') . '%',
+                'order' => 2
+            ));
+            Cart::session(auth()->user()->id)->condition($condition);
+            return $taxData;
+        }
     }
 
 

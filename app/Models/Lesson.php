@@ -66,7 +66,7 @@ class Lesson extends Model
     public function getImageAttribute()
     {
         if ($this->attributes['lesson_image'] != NULL) {
-            return url('storage/uploads' / $this->lesson_image);
+            return url('storage/uploads/'.$this->lesson_image);
         }
         return NULL;
     }

@@ -443,7 +443,7 @@
             });
 
             saveProgress(video_id, duration, parseInt(progress));
-        }, 5000);
+        }, 10000);
 
 
         function saveProgress(id, duration, progress) {
@@ -457,7 +457,7 @@
                     'progress': parseInt(progress)
                 },
                 success: function (result) {
-                    if (duration === progress) {
+                    if (progress === duration) {
                         location.reload();
                     }
                 }

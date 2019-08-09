@@ -499,7 +499,6 @@ class CartController extends Controller
     }
 
 
-
     public function removeCoupon(Request $request){
 
         Cart::session(auth()->user()->id)->clearCartConditions();
@@ -593,7 +592,7 @@ class CartController extends Controller
         if ($taxes != null) {
             $taxData = [];
             foreach ($taxes as $tax){
-                $total = Cart::getTotal();
+                $total = Cart::session(auth()->user()->id)->getTotal();
                 $taxData[] = ['name'=> '+'.$tax->rate.'% '.$tax->name,'amount'=> $total*$tax->rate/100 ];
             }
 

@@ -31,17 +31,13 @@
         </div>
         <div class="card-body">
             <div class="row">
-                <div class="col-12 col-lg-4 form-group">
+                <div class="col-12 col-lg-6 form-group">
                     {!! Form::label('course_id', trans('labels.backend.tests.fields.course'), ['class' => 'control-label']) !!}
                     {!! Form::select('course_id', $courses, old('course_id'), ['class' => 'form-control select2']) !!}
 
                 </div>
-                <div class="col-12 col-lg-4  form-group">
-                    {!! Form::label('lesson_id', trans('labels.backend.tests.fields.lesson'), ['class' => 'control-label']) !!}
-                    {!! Form::select('lesson_id', $lessons, old('lesson_id'), ['class' => 'form-control select2']) !!}
 
-                </div>
-                <div class="col-12 col-lg-4  form-group">
+                <div class="col-12 col-lg-6  form-group">
                     {!! Form::label('title',trans('labels.backend.tests.fields.title'), ['class' => 'control-label']) !!}
                     {!! Form::text('title', old('title'), ['class' => 'form-control', 'placeholder' => trans('labels.backend.tests.fields.title')]) !!}
 
