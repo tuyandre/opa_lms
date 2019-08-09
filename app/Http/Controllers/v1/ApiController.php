@@ -781,6 +781,7 @@ class ApiController extends Controller
                         'teachers' => $teachers
                     ]);
         }
+        $this->applyTax('total');
         return response()->json(['status' => 'success']);
     }
 
@@ -856,8 +857,7 @@ class ApiController extends Controller
         $course_ids = [];
         $bundle_ids = [];
         $couponArray = [];
-
-        if (Cart::session(auth()->user()->id)->getContent()) {
+        if (count(Cart::session(auth()->user()->id)->getContent()) > 0) {
             foreach (Cart::session(auth()->user()->id)->getContent() as $item) {
                 if ($item->attributes->type == 'bundle') {
                     $bundle_ids[] = $item->id;
@@ -873,8 +873,7 @@ class ApiController extends Controller
             $total = $coursesData->sum('price');
             $subtotal = $total;
 
-
-            if (Cart::getConditionsByType('coupon') != null) {
+            if (count(Cart::getConditionsByType('coupon')) > 0) {
                 $coupon = Cart::getConditionsByType('coupon')->first();
                 $couponData = Coupon::where('code', '=', $coupon->getName())->first();
                 $couponArray = [
@@ -891,10 +890,10 @@ class ApiController extends Controller
             if($taxes != null){
                 foreach ($taxes as $tax){
                     $total = Cart::session(auth()->user()->id)->getTotal();
-                    $taxData[] = ['name'=> '+'.$tax->rate.'% '.$tax->name,'amount'=> $total*$tax->rate/100 ];
+                    $amount = number_format( $total*$tax->rate/100,2);
+                    $taxData[] = ['name'=> '+'.$tax->rate.'% '.$tax->name,'amount'=> $amount];
                 }
             }
-
 
             $total = Cart::session(auth()->user()->id)->getTotal();
 
@@ -972,11 +971,16 @@ class ApiController extends Controller
      */
     private function makeOrder()
     {
+        $coupon = Cart::session(auth()->user()->id)->getConditionsByType('coupon')->first();
+        if($coupon != null){
+            $coupon = Coupon::where('code','=',$coupon->getName())->first();
+        }
         $order = new Order();
         $order->user_id = auth()->user()->id;
         $order->reference_no = str_random(8);
         $order->amount = Cart::session(auth()->user()->id)->getTotal();
         $order->status = 1;
+        $order->coupon_id = ($coupon == null) ? 0 : $coupon->id;
         $order->payment_type = 3;
         $order->save();
         //Getting and Adding items
@@ -992,6 +996,7 @@ class ApiController extends Controller
                 'price' => $cartItem->price
             ]);
         }
+        Cart::session(auth()->user()->id)->removeConditionsByType('coupon');
 
         return $order;
     }
@@ -1806,6 +1811,33 @@ class ApiController extends Controller
     }
 
 
+
+    public function removeCoupon(Request $request){
+
+        Cart::session(auth()->user()->id)->clearCartConditions();
+        Cart::session(auth()->user()->id)->removeConditionsByType('coupon');
+        Cart::session(auth()->user()->id)->removeConditionsByType('tax');
+
+        $course_ids = [];
+        $bundle_ids = [];
+        foreach (Cart::session(auth()->user()->id)->getContent() as $item) {
+            if ($item->attributes->type == 'bundle') {
+                $bundle_ids[] = $item->id;
+            } else {
+                $course_ids[] = $item->id;
+            }
+        }
+        $courses = new Collection(Course::find($course_ids));
+        $bundles = Bundle::find($bundle_ids);
+        $courses = $bundles->merge($courses);
+
+        //Apply Tax
+        $this->applyTax('subtotal');
+
+        return ['status' => 'success'];
+
+    }
+
     private function notEnoughTimeBetweenDiscussion()
     {
         $user = Auth::user();
@@ -1844,7 +1876,8 @@ class ApiController extends Controller
             $taxData = [];
             foreach ($taxes as $tax) {
                 $total = Cart::getTotal();
-                $taxData[] = ['name' => '+' . $tax->rate . '% ' . $tax->name, 'amount' => $total * $tax->rate / 100];
+                $amount = number_format($total * $tax->rate / 100,1) ;
+                $taxData[] = ['name' => '+' . $tax->rate . '% ' . $tax->name, 'amount' => $amount];
             }
 
             $condition = new \Darryldecode\Cart\CartCondition(array(
