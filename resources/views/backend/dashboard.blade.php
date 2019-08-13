@@ -48,9 +48,74 @@
                 <div class="card-body">
                     <div class="row">
                         @if(auth()->user()->hasRole('student'))
+
+
+                            @if(count($pending_orders) > 0)
+                                <div class="col-12">
+                                    <h4>@lang('labels.backend.dashboard.pending_orders')</h4>
+                                </div>
+                                <div class="col-12 text-center">
+
+                                    <table class="table table table-bordered table-striped">
+                                        <thead>
+                                        <tr>
+
+                                            <th>@lang('labels.general.sr_no')</th>
+                                            <th>@lang('labels.backend.orders.fields.reference_no')</th>
+                                            <th>@lang('labels.backend.orders.fields.items')</th>
+                                            <th>@lang('labels.backend.orders.fields.amount')
+                                                <small>(in {{$appCurrency['symbol']}})</small>
+                                            </th>
+                                            <th>@lang('labels.backend.orders.fields.payment_status.title')</th>
+                                            <th>@lang('labels.backend.orders.fields.date')</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        @foreach($pending_orders as $key=>$item)
+                                            @php $key++ @endphp
+                                            <tr>
+                                                <td>
+                                                    {{$key}}
+                                                </td>
+                                                <td>
+                                                    {{$item->reference_no}}
+                                                </td>
+                                                <td>
+                                                    @foreach($item->items as $key=>$subitem)
+                                                        @php $key++ @endphp
+                                                        @if($subitem->item != null)
+                                                            {{$key.'. '.$subitem->item->title}} <br>
+                                                        @endif
+                                                    @endforeach
+                                                </td>
+                                                <td>
+                                                    {{$item->amount}}
+                                                </td>
+                                                <td>
+                                                    @if($item->status == 0)
+                                                        @lang('labels.backend.dashboard.pending')
+                                                    @elseif($item->status == 1)
+                                                        @lang('labels.backend.dashboard.success')
+                                                    @elseif($item->status == 2)
+                                                        @lang('labels.backend.dashboard.failed')
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    {{$item->created_at->format('d-m-Y h:i:s')}}
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                            @endif
+
                             <div class="col-12">
                                 <h4>@lang('labels.backend.dashboard.my_courses')</h4>
                             </div>
+
+
                             @if(count($purchased_courses) > 0)
                                 @foreach($purchased_courses as $item)
 

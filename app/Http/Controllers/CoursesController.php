@@ -69,8 +69,11 @@ class CoursesController extends Controller
     {
         $continue_course=NULL;
         $recent_news = Blog::orderBy('created_at', 'desc')->take(2)->get();
-        $course = Course::withoutGlobalScope('filter')->where('slug', $course_slug)->with('publishedLessons')->firstOrFail();
-        $purchased_course = \Auth::check() && $course->students()->where('user_id', \Auth::id())->count() > 0 ;
+        $course = Course::withoutGlobalScope('filter')->where('slug', $course_slug)->with('publishedLessons')->first();
+        $purchased_course = \Auth::check() && $course->students()->where('user_id', \Auth::id())->count() > 0;
+        if(($course->published == 0) && ($purchased_course == false)){
+            abort(404);
+        }
         $course_rating = 0;
         $total_ratings = 0;
         $completed_lessons = "";

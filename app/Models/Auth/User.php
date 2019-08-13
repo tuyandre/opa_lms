@@ -163,6 +163,13 @@ class User extends Authenticatable implements MessageableInterface
         return $this->hasMany(Certificate::class);
     }
 
+    public function pendingOrders(){
+        $orders = Order::where('status','=',0)
+            ->where('user_id','=',$this->id)
+            ->get();
+
+        return $orders;
+    }
 
     public function purchasedCourses(){
         $orders = Order::where('status','=',1)
@@ -171,8 +178,7 @@ class User extends Authenticatable implements MessageableInterface
         $courses_id = OrderItem::whereIn('order_id',$orders)
             ->where('item_type','=',"App\Models\Course")
             ->pluck('item_id');
-        $courses = Course::where('published','=',1)
-            ->whereIn('id',$courses_id)
+        $courses = Course::whereIn('id',$courses_id)
             ->get();
         return $courses;
     }
@@ -184,8 +190,7 @@ class User extends Authenticatable implements MessageableInterface
         $bundles_id = OrderItem::whereIn('order_id',$orders)
             ->where('item_type','=',"App\Models\Bundle")
             ->pluck('item_id');
-        $bundles = Bundle::where('published','=',1)
-            ->whereIn('id',$bundles_id)
+        $bundles = Bundle::whereIn('id',$bundles_id)
             ->get();
 
         return $bundles;

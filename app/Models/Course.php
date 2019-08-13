@@ -26,7 +26,7 @@ class Course extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['category_id', 'title', 'slug', 'description', 'price', 'course_image', 'start_date', 'published', 'free','featured', 'trending', 'popular', 'meta_title', 'meta_description', 'meta_keywords'];
+    protected $fillable = ['category_id', 'title', 'slug', 'description', 'price', 'course_image','course_video', 'start_date', 'published', 'free','featured', 'trending', 'popular', 'meta_title', 'meta_description', 'meta_keywords'];
 
     protected $appends = ['image'];
 
@@ -222,6 +222,15 @@ class Course extends Model
         }
         return $chapters;
     }
+
+    public function mediaVideo()
+    {
+        $types = ['youtube', 'vimeo', 'upload', 'embed'];
+        return $this->morphOne(Media::class, 'model')
+            ->whereIn('type', $types);
+
+    }
+
 
 
 }

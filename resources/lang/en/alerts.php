@@ -10,6 +10,8 @@ return array (
       'updated' => 'Updated successfully.',
       'deleted' => 'Deleted successfully.',
       'restored' => 'Restored successfully.',
+      'delete_warning' => 'You can not delete course. Students are already enrolled. Unpublish the course instead',
+      'delete_warning_bundle' => 'You can not delete Bundle. Students are already enrolled. Unpublish the Bundle instead',
       'cancelled' => 'Update Cancelled.',
       'unverified' => 'Unverified Update files.',
       'backup_warning' => 'Please fill necessary details for backup',

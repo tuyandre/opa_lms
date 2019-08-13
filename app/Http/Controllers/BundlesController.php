@@ -61,8 +61,11 @@ class BundlesController extends Controller
     public function show($bundle_slug)
     {
         $recent_news = Blog::orderBy('created_at', 'desc')->take(2)->get();
-        $bundle = Bundle::withoutGlobalScope('filter')->where('slug', $bundle_slug)->firstOrFail();
+        $bundle = Bundle::withoutGlobalScope('filter')->where('slug', $bundle_slug)->first();
         $purchased_bundle = \Auth::check() && $bundle->students()->where('user_id', \Auth::id())->count() > 0;
+        if(($bundle->published == 0) && ($purchased_bundle == false)){
+            abort(404);
+        }
         $bundle_rating = 0;
         $total_ratings = 0;
         $is_reviewed = false;

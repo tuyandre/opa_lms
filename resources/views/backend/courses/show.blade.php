@@ -69,7 +69,7 @@
                                     <a target="_blank"
                                        href="{{ route('courses.show', [$course->slug]) }}">{{ $course->title }}</a>
                                 @else
-                                    { $course->title }}
+                                    {{ $course->title }}
                                 @endif
                             </td>
                         </tr>

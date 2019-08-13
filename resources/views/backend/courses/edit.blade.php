@@ -85,7 +85,40 @@
                     @endif
                 </div>
             </div>
-            <div class="row">
+                <div class="row">
+                    <div class="col-md-12 form-group">
+                        {!! Form::label('add_video', trans('labels.backend.lessons.fields.add_video'), ['class' => 'control-label']) !!}
+                        {!! Form::select('media_type', ['youtube' => 'Youtube','vimeo' => 'Vimeo','upload' => 'Upload','embed' => 'Embed'],($course->mediavideo) ? $course->mediavideo->type : null,['class' => 'form-control', 'placeholder' => 'Select One','id'=>'media_type' ]) !!}
+
+
+                        {!! Form::text('video', ($course->mediavideo) ? $course->mediavideo->url : null, ['class' => 'form-control mt-3 d-none', 'placeholder' => trans('labels.backend.lessons.enter_video_url'),'id'=>'video'  ]) !!}
+
+                        {!! Form::file('video_file', ['class' => 'form-control mt-3 d-none', 'placeholder' => trans('labels.backend.lessons.enter_video_url'),'id'=>'video_file','accept' =>'video/mp4'  ]) !!}
+                        <input type="hidden" name="old_video_file"
+                               value="{{($course->mediavideo && $course->mediavideo->type == 'upload') ? $course->mediavideo->url  : ""}}">
+                        @if($course->mediavideo != null)
+                            <div class="form-group">
+                            <a href="#" data-media-id="{{$course->mediaVideo->id}}"
+                               class="btn btn-xs btn-danger my-3 delete remove-file">@lang('labels.backend.lessons.remove')</a>
+                            </div>
+                        @endif
+
+
+
+                        @if($course->mediavideo && ($course->mediavideo->type == 'upload'))
+                            <video width="300" class="mt-2 d-none video-player" controls>
+                                <source src="{{($course->mediavideo && $course->mediavideo->type == 'upload') ? $course->mediavideo->url  : ""}}"
+                                        type="video/mp4">
+                                Your browser does not support HTML5 video.
+                            </video>
+
+                        @endif
+
+                        @lang('labels.backend.lessons.video_guide')
+                    </div>
+                </div>
+
+                <div class="row">
                 <div class="col-12 form-group">
                     <div class="checkbox d-inline mr-4">
                         {!! Form::hidden('published', 0) !!}
@@ -171,7 +204,65 @@
                     $this.val("");
                 }
             })
+        });
+
+        $(document).ready(function () {
+            $(document).on('click', '.delete', function (e) {
+                e.preventDefault();
+                var parent = $(this).parent('.form-group');
+                var confirmation = confirm('{{trans('strings.backend.general.are_you_sure')}}')
+                if (confirmation) {
+                    var media_id = $(this).data('media-id');
+                    $.post('{{route('admin.media.destroy')}}', {media_id: media_id, _token: '{{csrf_token()}}'},
+                        function (data, status) {
+                            if (data.success) {
+                                parent.remove();
+                                $('#video').val('').addClass('d-none').attr('required', false);
+                                $('#video_file').attr('required', false);
+                                $('#media_type').val('');
+                            } else {
+                                alert('Something Went Wrong')
+                            }
+                        });
+                }
+            })
+        });
+
+
+        @if($course->mediavideo)
+        @if($course->mediavideo->type !=  'upload')
+        $('#video').removeClass('d-none').attr('required', true);
+        $('#video_file').addClass('d-none').attr('required', false);
+        $('.video-player').addClass('d-none');
+        @elseif($course->mediavideo->type == 'upload')
+        $('#video').addClass('d-none').attr('required', false);
+        $('#video_file').removeClass('d-none').attr('required', false);
+        $('.video-player').removeClass('d-none');
+        @else
+        $('.video-player').addClass('d-none');
+        $('#video_file').addClass('d-none').attr('required', false);
+        $('#video').addClass('d-none').attr('required', false);
+        @endif
+        @endif
+
+        $(document).on('change', '#media_type', function () {
+            if ($(this).val()) {
+                if ($(this).val() != 'upload') {
+                    $('#video').removeClass('d-none').attr('required', true);
+                    $('#video_file').addClass('d-none').attr('required', false);
+                    $('.video-player').addClass('d-none')
+                } else if ($(this).val() == 'upload') {
+                    $('#video').addClass('d-none').attr('required', false);
+                    $('#video_file').removeClass('d-none').attr('required', true);
+                    $('.video-player').removeClass('d-none')
+                }
+            } else {
+                $('#video_file').addClass('d-none').attr('required', false);
+                $('#video').addClass('d-none').attr('required', false)
+            }
         })
+
+
 
     </script>
 

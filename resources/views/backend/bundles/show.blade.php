@@ -48,7 +48,8 @@
     <div class="card">
 
         <div class="card-header">
-            <h3 class="page-title mb-0">@lang('labels.backend.bundles.title')</h3>
+            <h3 class="page-title float-left mb-0">@lang('labels.backend.bundles.title')</h3>
+            <a href="{{route('admin.bundles.index')}}" class="btn btn-primary float-right">@lang('labels.general.back')</a>
         </div>
         <div class="card-body">
             <div class="row">

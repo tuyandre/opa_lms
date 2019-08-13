@@ -77,7 +77,23 @@
 
                 </div>
             </div>
-            <div class="row">
+                <div class="row">
+                    <div class="col-md-12 form-group">
+                        {!! Form::label('add_video', trans('labels.backend.lessons.fields.add_video'), ['class' => 'control-label']) !!}
+
+                        {!! Form::select('media_type', ['youtube' => 'Youtube','vimeo' => 'Vimeo','upload' => 'Upload','embed' => 'Embed'],null,['class' => 'form-control', 'placeholder' => 'Select One','id'=>'media_type' ]) !!}
+
+                        {!! Form::text('video', old('video'), ['class' => 'form-control mt-3 d-none', 'placeholder' => trans('labels.backend.lessons.enter_video_url'),'id'=>'video'  ]) !!}
+
+
+                        {!! Form::file('video_file', ['class' => 'form-control mt-3 d-none', 'placeholder' => trans('labels.backend.lessons.enter_video_url'),'id'=>'video_file'  ]) !!}
+
+                        @lang('labels.backend.lessons.video_guide')
+
+                    </div>
+                </div>
+
+                <div class="row">
                 <div class="col-12 form-group">
                     <div class="checkbox d-inline mr-3">
                         {!! Form::hidden('published', 0) !!}
@@ -172,6 +188,23 @@
                 }
             })
         })
+
+
+        $(document).on('change', '#media_type', function () {
+            if ($(this).val()) {
+                if ($(this).val() != 'upload') {
+                    $('#video').removeClass('d-none').attr('required', true)
+                    $('#video_file').addClass('d-none').attr('required', false)
+                } else if ($(this).val() == 'upload') {
+                    $('#video').addClass('d-none').attr('required', false)
+                    $('#video_file').removeClass('d-none').attr('required', true)
+                }
+            } else {
+                $('#video_file').addClass('d-none').attr('required', false)
+                $('#video').addClass('d-none').attr('required', false)
+            }
+        })
+
 
     </script>
 

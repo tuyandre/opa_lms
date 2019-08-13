@@ -49,7 +49,7 @@ Route::post('bundles_mass_destroy', ['uses' => 'Admin\BundlesController@massDest
 Route::post('bundles_restore/{id}', ['uses' => 'Admin\BundlesController@restore', 'as' => 'bundles.restore']);
 Route::delete('bundles_perma_del/{id}', ['uses' => 'Admin\BundlesController@perma_del', 'as' => 'bundles.perma_del']);
 Route::post('bundle-save-sequence', ['uses' => 'Admin\BundlesController@saveSequence', 'as' => 'bundles.saveSequence']);
-Route::get('bundle-publish',['uses' => 'Admin\BundlesController@publish' , 'as' => 'bundles.publish']);
+Route::get('bundle-publish/{id}',['uses' => 'Admin\BundlesController@publish' , 'as' => 'bundles.publish']);
 
 
 

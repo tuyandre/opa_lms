@@ -11,6 +11,8 @@
         }
 
     </style>
+    <link rel="stylesheet" href="https://cdn.plyr.io/3.5.3/plyr.css"/>
+
 @endpush
 
 @section('content')
@@ -63,9 +65,42 @@
                                 <p>
                                     {!! $bundle->description !!}
                                 </p>
+                                @if(count($bundle->courses)  > 0)
+                                    <div class="my-4">
+                                        @foreach($bundle->courses as $course)
+                                            @if($course->mediaVideo && $course->mediavideo->count() > 0)
+                                                <div class="course-single-text">
+                                                    @if($course->mediavideo != null)
+                                                        <h3 class="text-dark">{{$course->title}}</h3>
+                                                        <div class="course-details-content mt-3">
+                                                            <div class="video-container mb-5" data-id="{{$course->mediavideo->id}}">
+                                                                @if($course->mediavideo->type == 'youtube')
+
+
+                                                                    <div id="player" class="js-player" data-plyr-provider="youtube"
+                                                                         data-plyr-embed-id="{{$course->mediavideo->file_name}}"></div>
+                                                                @elseif($course->mediavideo->type == 'vimeo')
+                                                                    <div id="player" class="js-player" data-plyr-provider="vimeo"
+                                                                         data-plyr-embed-id="{{$course->mediavideo->file_name}}"></div>
+                                                                @elseif($course->mediavideo->type == 'upload')
+                                                                    <video poster="" id="player" class="js-player" playsinline controls>
+                                                                        <source src="{{$course->mediavideo->url}}" type="video/mp4"/>
+                                                                    </video>
+                                                                @elseif($course->mediavideo->type == 'embed')
+                                                                    {!! $course->mediavideo->url !!}
+                                                                @endif
+                                                            </div>
+                                                        </div>
+                                                    @endif
+                                                </div>
+                                            @endif
+                                        @endforeach
+                                    </div>
+                                @endif
                             </div>
 
-                            @if(count($bundle->courses)  > 0)
+
+                        @if(count($bundle->courses)  > 0)
 
                                 <div class="course-details-category ul-li">
                                     <span class="float-none">@lang('labels.frontend.course.courses')</span>
@@ -456,7 +491,11 @@
 @endsection
 
 @push('after-scripts')
+    <script src="https://cdn.plyr.io/3.5.3/plyr.polyfilled.js"></script>
+
     <script>
+        const player = new Plyr('#player');
+
         $(document).on('change', 'input[name="stars"]', function () {
             $('#rating').val($(this).val());
         })

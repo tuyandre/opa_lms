@@ -109,7 +109,14 @@ class BundlesController extends Controller
                         ->render();
                     $view .= $delete;
                 }
+                if($q->published == 1){
+                    $type = 'action-unpublish';
+                }else{
+                    $type = 'action-publish';
+                }
 
+                $view .= view('backend.datatable.'.$type)
+                    ->with(['route' => route('admin.bundles.publish', ['bundle' => $q->id])])->render();
                 return $view;
 
             })
@@ -279,7 +286,11 @@ class BundlesController extends Controller
             return abort(401);
         }
         $bundle = Bundle::findOrFail($id);
-        $bundle->delete();
+        if ($bundle->students->count() >= 1) {
+            return redirect()->route('admin.bundles.index')->withFlashDanger(trans('alerts.backend.general.delete_warning_bundle'));
+        } else {
+            $bundle->delete();
+        }
 
         return redirect()->route('admin.bundles.index')->withFlashSuccess(trans('alerts.backend.general.deleted'));
     }

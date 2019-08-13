@@ -6,6 +6,7 @@ use App\Models\Auth\User;
 use App\Models\Category;
 use App\Models\Course;
 use App\Models\CourseTimeline;
+use App\Models\Media;
 use function foo\func;
 use Illuminate\Support\Facades\File;
 use Illuminate\Http\Request;
@@ -120,8 +121,13 @@ class CoursesController extends Controller
                         ->render();
                     $view .= $delete;
                 }
+                if($q->published == 1){
+                    $type = 'action-unpublish';
+                }else{
+                    $type = 'action-publish';
+                }
 
-                $view .= view('backend.datatable.action-publish')
+                $view .= view('backend.datatable.'.$type)
                     ->with(['route' => route('admin.courses.publish', ['course' => $q->id])])->render();
                 return $view;
 
@@ -192,11 +198,69 @@ class CoursesController extends Controller
         if (!Gate::allows('course_create')) {
             return abort(401);
         }
+
         $request->all();
 
-
         $request = $this->saveFiles($request);
+
         $course = Course::create($request->all());
+
+        //Saving  videos
+        if ($request->media_type != "") {
+            $model_type = Course::class;
+            $model_id = $course->id;
+            $size = 0;
+            $media = '';
+            $url = '';
+            $video_id = '';
+            $name = $course->title . ' - video';
+
+            if (($request->media_type == 'youtube') || ($request->media_type == 'vimeo')) {
+                $video = $request->video;
+                $url = $video;
+                $video_id = array_last(explode('/', $request->video));
+                $media = Media::where('url', $video_id)
+                    ->where('type', '=', $request->media_type)
+                    ->where('model_type', '=', 'App\Models\Course')
+                    ->where('model_id', '=', $course->id)
+                    ->first();
+                $size = 0;
+
+            } elseif ($request->media_type == 'upload') {
+                if (\Illuminate\Support\Facades\Request::hasFile('video_file')) {
+                    $file = \Illuminate\Support\Facades\Request::file('video_file');
+                    $filename = time() . '-' . $file->getClientOriginalName();
+                    $size = $file->getSize() / 1024;
+                    $path = public_path() . '/storage/uploads/';
+                    $file->move($path, $filename);
+
+                    $video_id = $filename;
+                    $url = asset('storage/uploads/' . $filename);
+
+                    $media = Media::where('type', '=', $request->media_type)
+                        ->where('model_type', '=', 'App\Models\Lesson')
+                        ->where('model_id', '=', $course->id)
+                        ->first();
+                }
+            } else if ($request->media_type == 'embed') {
+                $url = $request->video;
+                $filename = $course->title . ' - video';
+            }
+
+            if ($media == null) {
+                $media = new Media();
+                $media->model_type = $model_type;
+                $media->model_id = $model_id;
+                $media->name = $name;
+                $media->url = $url;
+                $media->type = $request->media_type;
+                $media->file_name = $video_id;
+                $media->size = 0;
+                $media->save();
+            }
+        }
+
+
         if (($request->slug == "") || $request->slug == null) {
             $course->slug = str_slug($request->title);
             $course->save();
@@ -249,8 +313,75 @@ class CoursesController extends Controller
         if (!Gate::allows('course_edit')) {
             return abort(401);
         }
-        $request = $this->saveFiles($request);
         $course = Course::findOrFail($id);
+        $request = $this->saveFiles($request);
+
+        //Saving  videos
+        if ($request->media_type != "") {
+            $model_type = Course::class;
+            $model_id = $course->id;
+            $size = 0;
+            $media = '';
+            $url = '';
+            $video_id = '';
+            $name = $course->title . ' - video';
+            $media = $course->mediavideo;
+            if ($media == "") {
+                $media = new  Media();
+            }
+            if ($request->media_type != 'upload') {
+                if (($request->media_type == 'youtube') || ($request->media_type == 'vimeo')) {
+                    $video = $request->video;
+                    $url = $video;
+                    $video_id = array_last(explode('/', $request->video));
+                    $size = 0;
+
+                } else if ($request->media_type == 'embed') {
+                    $url = $request->video;
+                    $filename = $course->title . ' - video';
+                }
+                $media->model_type = $model_type;
+                $media->model_id = $model_id;
+                $media->name = $name;
+                $media->url = $url;
+                $media->type = $request->media_type;
+                $media->file_name = $video_id;
+                $media->size = 0;
+                $media->save();
+            }
+
+            if ($request->media_type == 'upload') {
+                if (\Illuminate\Support\Facades\Request::hasFile('video_file')) {
+                    $file = \Illuminate\Support\Facades\Request::file('video_file');
+                    $filename = time() . '-' . $file->getClientOriginalName();
+                    $size = $file->getSize() / 1024;
+                    $path = public_path() . '/storage/uploads/';
+                    $file->move($path, $filename);
+
+                    $video_id = $filename;
+                    $url = asset('storage/uploads/' . $filename);
+
+                    $media = Media::where('type', '=', $request->media_type)
+                        ->where('model_type', '=', 'App\Models\Course')
+                        ->where('model_id', '=', $course->id)
+                        ->first();
+
+                    if ($media == null) {
+                        $media = new Media();
+                    }
+                    $media->model_type = $model_type;
+                    $media->model_id = $model_id;
+                    $media->name = $name;
+                    $media->url = $url;
+                    $media->type = $request->media_type;
+                    $media->file_name = $video_id;
+                    $media->size = 0;
+                    $media->save();
+
+                }
+            }
+        }
+
 
         $course->update($request->all());
         if (($request->slug == "") || $request->slug == null) {
@@ -303,7 +434,12 @@ class CoursesController extends Controller
             return abort(401);
         }
         $course = Course::findOrFail($id);
-        $course->delete();
+        if ($course->students->count() >= 1) {
+            return redirect()->route('admin.courses.index')->withFlashDanger(trans('alerts.backend.general.delete_warning'));
+        } else {
+            $course->delete();
+        }
+
 
         return redirect()->route('admin.courses.index')->withFlashSuccess(trans('alerts.backend.general.deleted'));
     }

@@ -414,7 +414,7 @@
         const player2 = new Plyr('#audioPlayer');
 
         const player = new Plyr('#player');
-        duration = 0;
+        duration = 10;
         var progress = 0;
         var video_id = $('#player').parents('.video-container').data('id');
         player.on('ready', event => {
