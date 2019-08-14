@@ -59,6 +59,9 @@
         </style>
         @stack('after-styles')
         @yield('css')
+        @if(config('onesignal_status') == 1)
+            {!! config('onesignal_data') !!}
+        @endif
 
     @if(config('google_analytics_id') != "")
 

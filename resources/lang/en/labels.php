@@ -542,9 +542,12 @@ return array (
         'title' => 'General',
       ),
       'captcha' => 'Whether the registration - login captcha is on or off',
+      'onesignal_note' => 'Enable / Disble OneSignal configuration for Website.',
       'captcha_note' => 'How to get Google reCaptcha credentials?',
       'retest_note' => 'Enable / Disable if user will be able to give retest for same exam',
-      'language_settings' => 
+      'how_to_onesignal' => 'How to create app in OneSignal?',
+      'setup_onesignal' => 'How to set up OneSignal?',
+      'language_settings' =>
       array (
         'title' => 'Language Settings',
         'default_language' => 'Default Language',

@@ -147,6 +147,8 @@ return array (
           'layout_type' => 'Layout Type',
           'retest_status' => 'Re-Test',
           'show_offers' => 'Show Offers Page',
+            'one_signal_push_notification' => 'OneSignal Setup',
+            'onesignal_code' => 'Paste OneSignal script code here',
         ),
       ),
     ),

@@ -337,6 +337,7 @@
                                     <small><i> {{__('labels.backend.general_settings.lesson_note')}}</i></small>
                                 </div><!--col-->
                             </div><!--form-group-->
+
                             <div class="form-group row">
                                 {{ html()->label(__('validation.attributes.backend.settings.general_settings.show_offers'))->class('col-md-2 form-control-label')->for('show_offers') }}
                                 <div class="col-md-10">
@@ -351,8 +352,46 @@
                                     <small><i> {{__('labels.backend.general_settings.show_offers_note')}}</i></small>
                                 </div><!--col-->
                             </div><!--form-group-->
+
+                            <div class="form-group row">
+                                {{ html()->label(__('validation.attributes.backend.settings.general_settings.one_signal_push_notification'))->class('col-md-2 form-control-label')->for('onesignal_status') }}
+                                <div class="col-md-10">
+                                    <div class="checkbox">
+                                        {{ html()->label(
+                                                html()->checkbox('onesignal_status', config('onesignal_status') ? true : false,1)->id('onesignal_status')
+                                                      ->class('switch-input')->value(1)
+                                                . '<span class="switch-label"></span><span class="switch-handle"></span>')
+
+                                            ->class('switch switch-sm switch-3d switch-primary')
+                                        }}
+                                    </div>
+                                    <span class="float-right">
+                                        <a target="_blank" class="font-weight-bold font-italic"
+                                           href="https://documentation.onesignal.com/docs/web-push-quickstart">{{__('labels.backend.general_settings.how_to_onesignal')}}</a><br>
+                                         <a target="_blank" class="font-weight-bold font-italic"
+                                            href="https://documentation.onesignal.com/docs/web-push-custom-code-setup#section--span-class-step-step-3-span-upload-onesignal-sdk">{{__('labels.backend.general_settings.setup_onesignal')}}</a>
+                                    </span>
+                                    <small><i>{{__('labels.backend.general_settings.onesignal_note')}}</i></small>
+                                    <div id="onesignal-configuration"
+                                         class="@if(config('onesignal_status') == 0 || config('onesignal_status') == false) d-none @endif">
+                                        <br>
+
+                                        <div class="form-group row">
+
+                                            <div class="col-md-12">
+                                                {{ html()->textarea('onesignal_data')
+                                                     ->class('form-control')
+                                                     ->placeholder(__('validation.attributes.backend.settings.general_settings.onesignal_code'))
+                                                     ->value(config('onesignal_data'))
+                                                     }}
+                                            </div><!--col-->
+                                        </div><!--form-group-->
+                                    </div>
+
+                                </div><!--col-->
+                            </div><!--form-group-->
                         </div>
-                        <div class="col-12 text-right">
+                        <div class="col-12 text-left">
                             <a href="{{route('admin.troubleshoot')}}" class="btn btn-lg btn-warning">{{__('labels.backend.general_settings.troubleshoot')}}</a>
                         </div>
                     </div>
@@ -970,6 +1009,18 @@
                 } else {
                     $('#captcha-credentials').addClass('d-none');
                     $('#captcha-credentials').find('input').attr('required', false);
+                }
+            });
+
+            //============== One Signal status =============//
+            $(document).on('click', '#onesignal_status', function (e) {
+//              e.preventDefault();
+                if ($('#onesignal-configuration').hasClass('d-none')) {
+                    console.log('here')
+                    $('#onesignal_status').attr('checked', 'checked');
+                    $('#onesignal-configuration').removeClass('d-none').find('textarea').attr('required', true);
+                } else {
+                    $('#onesignal-configuration').addClass('d-none').find('textarea').attr('required', false);
                 }
             });
 

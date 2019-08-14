@@ -56,6 +56,10 @@
         @yield('css')
         @stack('after-styles')
 
+        @if(config('onesignal_status') == 1)
+            {!! config('onesignal_data') !!}
+        @endif
+
         @if(config('google_analytics_id') != "")
     <!-- Global site tag (gtag.js) - Google Analytics -->
         <script async src="https://www.googletagmanager.com/gtag/js?id={{config('google_analytics_id')}}"></script>

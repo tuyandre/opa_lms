@@ -93,7 +93,8 @@ class ConfigSeeder extends Seeder
             'lesson_timer' => 0,
             'show_offers' => 1,
             'access.captcha.registration' => 0,
-            'sitemap.chunk' => 500
+            'sitemap.chunk' => 500,
+            'one_signal' => 0
         ];
 
         foreach ($data as $key => $value) {
