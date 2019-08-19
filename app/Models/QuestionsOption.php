@@ -16,7 +16,7 @@ class QuestionsOption extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['option_text', 'correct', 'question_id'];
+    protected $fillable = ['option_text', 'correct','explanation', 'question_id'];
     
 
     /**

@@ -85,6 +85,18 @@
             </div>
             <div class="row">
                 <div class="col-12 form-group">
+                    {!! Form::label('explanation_' . $question, trans('labels.backend.questions.fields.option_explanation'), ['class' => 'control-label']) !!}
+                    {!! Form::textarea('explanation_' . $question, old('explanation_'.$question), ['class' => 'form-control ', 'rows' => 3]) !!}
+                    <p class="help-block"></p>
+                    @if($errors->has('explanation_' . $question))
+                        <p class="help-block">
+                            {{ $errors->first('explanation_' . $question) }}
+                        </p>
+                    @endif
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 form-group">
                     {!! Form::label('correct_' . $question, trans('labels.backend.questions.fields.correct'), ['class' => 'control-label']) !!}
                     {!! Form::hidden('correct_' . $question, 0) !!}
                     {!! Form::checkbox('correct_' . $question, 1, false, []) !!}

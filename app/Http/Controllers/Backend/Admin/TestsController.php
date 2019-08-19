@@ -33,7 +33,7 @@ class TestsController extends Controller
         } else {
             $tests = Test::all();
         }
-        $courses = $courses = Course::ofTeacher()->pluck('title','id')->prepend('Please select', '');
+        $courses = Course::ofTeacher()->pluck('title','id')->prepend('Please select', '');
 
         return view('backend.tests.index', compact('tests','courses'));
     }

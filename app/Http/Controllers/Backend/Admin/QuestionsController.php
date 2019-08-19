@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backend\Admin;
 
 use App\Models\Question;
 use App\Models\QuestionsOption;
+use App\Models\Test;
 use function foo\func;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
@@ -25,7 +26,6 @@ class QuestionsController extends Controller
     public function index()
     {
 
-
         if (!Gate::allows('question_access')) {
             return abort(401);
         }
@@ -36,10 +36,12 @@ class QuestionsController extends Controller
             }
             $questions = Question::onlyTrashed()->get();
         } else {
-            $questions = Question::all();
+            $questions = Question::orderBy('created_at', 'desc')->get();
         }
 
-        return view('backend.questions.index', compact('questions'));
+        $tests = Test::where('published','=',1)->pluck('title','id')->prepend('Please select', '');
+
+        return view('backend.questions.index', compact('questions','tests'));
     }
 
 
@@ -55,12 +57,17 @@ class QuestionsController extends Controller
         $has_edit = false;
 
         /*TODO:: Show All questions if Admin, Show related if  Teacher*/
-
         $questions = Question::orderBy('created_at', 'desc');
+
+        if ($request->test_id != "") {
+            $test_id = $request->test_id;
+            $questions = Question::whereHas('tests',function ($q) use ($test_id){
+                $q->where('test_id',$test_id);
+            })->orderBy('created_at', 'desc')->get();
+        }
+
         if (!auth()->user()->role('administrator')) {
             $questions->where('user_id', '=', auth()->user()->id);
-        } else {
-            $questions->get();
         }
 
         if ($request->show_deleted == 1) {
@@ -149,10 +156,12 @@ class QuestionsController extends Controller
 
         for ($q = 1; $q <= 4; $q++) {
             $option = $request->input('option_text_' . $q, '');
+            $explanation = $request->input('explanation_' . $q, '');
             if ($option != '') {
                 QuestionsOption::create([
                     'question_id' => $question->id,
                     'option_text' => $option,
+                    'explanation' => $explanation,
                     'correct' => $request->input('correct_' . $q)
                 ]);
             }
@@ -198,6 +207,7 @@ class QuestionsController extends Controller
 
         for ($q = 1; $q <= 4; $q++) {
             $option = $request->input('option_text_' . $q, '');
+            $explanation = $request->input('explanation_' . $q, '');
             $option_id = $request->input('option_id_' . $q, '');
             $correct = ($request->input('correct_' . $q) == 1) ? 1 : 0;
             if ($option != '') {
@@ -205,6 +215,7 @@ class QuestionsController extends Controller
                 if ($option_data) {
                     $option_data->question_id = $question->id;
                     $option_data->option_text = $option;
+                    $option_data->explanation = $explanation;
                     $option_data->correct = $correct;
                     $option_data->save();
                 }

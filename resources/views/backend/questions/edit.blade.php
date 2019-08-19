@@ -109,6 +109,19 @@
                 </div>
                 <div class="row">
                     <div class="col-12 form-group">
+                        {!! Form::label('explanation_' . $option->id, trans('labels.backend.questions.fields.option_explanation').'*', ['class' => 'control-label']) !!}
+                        {!! Form::textarea('explanation_' . $key, $option->explanation, ['class' => 'form-control ', 'rows' => 3]) !!}
+                        <p class="help-block"></p>
+                        @if($errors->has('explanation_' . $option->id))
+                            <p class="help-block">
+                                {{ $errors->first('explanation_' . $option->id) }}
+                            </p>
+                        @endif
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12 form-group">
                         {!! Form::label('correct_' . $key, trans('labels.backend.questions.fields.correct'), ['class' => 'control-label']) !!}
                         {!! Form::hidden('correct_' . $option->id, 0) !!}
                         {!! Form::hidden('option_id_'.$key,  $option->id ) !!}

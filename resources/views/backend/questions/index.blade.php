@@ -16,6 +16,12 @@
             @endcan
         </div>
         <div class="card-body table-responsive">
+            <div class="row">
+                <div class="col-12 col-lg-6 form-group">
+                    {!! Form::label('test_id', trans('labels.backend.questions.test'), ['class' => 'control-label']) !!}
+                    {!! Form::select('test_id', $tests,  (request('test_id')) ? request('test_id') : old('test_id'), ['class' => 'form-control js-example-placeholder-single select2 ', 'id' => 'test_id']) !!}
+                </div>
+            </div>
             <div class="d-block">
                 <ul class="list-inline">
                     <li class="list-inline-item"><a href="{{ route('admin.questions.index') }}"
@@ -121,6 +127,11 @@
                         csv : '{{trans("datatable.csv")}}',
                     }
                 }
+            });
+
+            $(document).on('change', '#test_id', function (e) {
+                var course_id = $(this).val();
+                window.location.href = "{{route('admin.questions.index')}}" + "?test_id=" + course_id
             });
             @can('question_delete')
             @if(request('show_deleted') != 1)

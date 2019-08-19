@@ -504,8 +504,10 @@ class ApiController extends Controller
                 ];
             }
         }
+        $mediaVideo = (!$course->mediaVideo) ? null : $course->mediaVideo->toArray();
         $result = [
             'course' => $course,
+            'course_video' => $mediaVideo,
             'purchased_course' => $purchased_course,
             'course_rating' => $course_rating,
             'total_ratings' => $total_ratings,
