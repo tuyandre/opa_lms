@@ -11,6 +11,7 @@ class MediaController extends Controller
     public function destroy(Request $request){
         $media_id =  $request->media_id;
         $media = Media::find($media_id);
+
         if($media){
             //Delete Related data
             $filename = $media->file_name;

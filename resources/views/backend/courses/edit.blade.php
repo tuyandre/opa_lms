@@ -199,7 +199,7 @@
         $(document).on('change', 'input[type="file"]', function () {
             var $this = $(this);
             $(this.files).each(function (key, value) {
-                if (value.size > 5000000) {
+                if (value.size > 50000000) {
                     alert('"' + value.name + '"' + 'exceeds limit of maximum file upload size')
                     $this.val("");
                 }
@@ -220,6 +220,12 @@
                                 $('#video').val('').addClass('d-none').attr('required', false);
                                 $('#video_file').attr('required', false);
                                 $('#media_type').val('');
+                                @if($course->mediavideo && $course->mediavideo->type ==  'upload')
+                                $('.video-player').addClass('d-none');
+                                $('.video-player').empty();
+                                @endif
+
+
                             } else {
                                 alert('Something Went Wrong')
                             }

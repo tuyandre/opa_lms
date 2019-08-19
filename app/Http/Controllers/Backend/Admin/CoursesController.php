@@ -317,7 +317,10 @@ class CoursesController extends Controller
         $request = $this->saveFiles($request);
 
         //Saving  videos
-        if ($request->media_type != "") {
+        if ($request->media_type != "" || $request->media_type  != null) {
+            if($course->mediavideo){
+                $course->mediavideo->delete();
+            }
             $model_type = Course::class;
             $model_id = $course->id;
             $size = 0;
@@ -351,15 +354,8 @@ class CoursesController extends Controller
             }
 
             if ($request->media_type == 'upload') {
-                if (\Illuminate\Support\Facades\Request::hasFile('video_file')) {
-                    $file = \Illuminate\Support\Facades\Request::file('video_file');
-                    $filename = time() . '-' . $file->getClientOriginalName();
-                    $size = $file->getSize() / 1024;
-                    $path = public_path() . '/storage/uploads/';
-                    $file->move($path, $filename);
 
-                    $video_id = $filename;
-                    $url = asset('storage/uploads/' . $filename);
+                if ($request->video_file != null) {
 
                     $media = Media::where('type', '=', $request->media_type)
                         ->where('model_type', '=', 'App\Models\Course')
@@ -372,9 +368,9 @@ class CoursesController extends Controller
                     $media->model_type = $model_type;
                     $media->model_id = $model_id;
                     $media->name = $name;
-                    $media->url = $url;
+                    $media->url = url('storage/uploads/'.$request->video_file);
                     $media->type = $request->media_type;
-                    $media->file_name = $video_id;
+                    $media->file_name = $request->video_file;
                     $media->size = 0;
                     $media->save();
 

@@ -3,7 +3,7 @@
 
 @section('content')
 
-    {!! Form::open(['method' => 'POST', 'route' => ['admin.courses.store'], 'files' => true,]) !!}
+    {!! Form::open(['method' => 'POST', 'route' => ['admin.courses.store'], 'files' => true]) !!}
 
     <div class="card">
         <div class="card-header">
