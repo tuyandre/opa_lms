@@ -71,7 +71,9 @@
                     {!! Form::hidden('course_image_max_width', 4000) !!}
                     {!! Form::hidden('course_image_max_height', 4000) !!}
                     @if ($course->course_image)
-                        <a href="{{ asset('storage/uploads/'.$course->course_image) }}" target="_blank"><img  height="50px" src="{{ asset('storage/uploads/'.$course->course_image) }}" class="mt-1"></a>
+                        <a href="{{ asset('storage/uploads/'.$course->course_image) }}" target="_blank"><img
+                                    height="50px" src="{{ asset('storage/uploads/'.$course->course_image) }}"
+                                    class="mt-1"></a>
                     @endif
                 </div>
                 <div class="col-12 col-lg-4 form-group">
@@ -85,40 +87,40 @@
                     @endif
                 </div>
             </div>
-                <div class="row">
-                    <div class="col-md-12 form-group">
-                        {!! Form::label('add_video', trans('labels.backend.lessons.fields.add_video'), ['class' => 'control-label']) !!}
-                        {!! Form::select('media_type', ['youtube' => 'Youtube','vimeo' => 'Vimeo','upload' => 'Upload','embed' => 'Embed'],($course->mediavideo) ? $course->mediavideo->type : null,['class' => 'form-control', 'placeholder' => 'Select One','id'=>'media_type' ]) !!}
+            <div class="row">
+                <div class="col-md-12 form-group">
+                    {!! Form::label('add_video', trans('labels.backend.lessons.fields.add_video'), ['class' => 'control-label']) !!}
+                    {!! Form::select('media_type', ['youtube' => 'Youtube','vimeo' => 'Vimeo','upload' => 'Upload','embed' => 'Embed'],($course->mediavideo) ? $course->mediavideo->type : null,['class' => 'form-control', 'placeholder' => 'Select One','id'=>'media_type' ]) !!}
 
 
-                        {!! Form::text('video', ($course->mediavideo) ? $course->mediavideo->url : null, ['class' => 'form-control mt-3 d-none', 'placeholder' => trans('labels.backend.lessons.enter_video_url'),'id'=>'video'  ]) !!}
+                    {!! Form::text('video', ($course->mediavideo) ? $course->mediavideo->url : null, ['class' => 'form-control mt-3 d-none', 'placeholder' => trans('labels.backend.lessons.enter_video_url'),'id'=>'video'  ]) !!}
 
-                        {!! Form::file('video_file', ['class' => 'form-control mt-3 d-none', 'placeholder' => trans('labels.backend.lessons.enter_video_url'),'id'=>'video_file','accept' =>'video/mp4'  ]) !!}
-                        <input type="hidden" name="old_video_file"
-                               value="{{($course->mediavideo && $course->mediavideo->type == 'upload') ? $course->mediavideo->url  : ""}}">
-                        @if($course->mediavideo != null)
-                            <div class="form-group">
+                    {!! Form::file('video_file', ['class' => 'form-control mt-3 d-none', 'placeholder' => trans('labels.backend.lessons.enter_video_url'),'id'=>'video_file','accept' =>'video/mp4'  ]) !!}
+                    <input type="hidden" name="old_video_file"
+                           value="{{($course->mediavideo && $course->mediavideo->type == 'upload') ? $course->mediavideo->url  : ""}}">
+                    @if($course->mediavideo != null)
+                        <div class="form-group">
                             <a href="#" data-media-id="{{$course->mediaVideo->id}}"
                                class="btn btn-xs btn-danger my-3 delete remove-file">@lang('labels.backend.lessons.remove')</a>
-                            </div>
-                        @endif
+                        </div>
+                    @endif
 
 
 
-                        @if($course->mediavideo && ($course->mediavideo->type == 'upload'))
-                            <video width="300" class="mt-2 d-none video-player" controls>
-                                <source src="{{($course->mediavideo && $course->mediavideo->type == 'upload') ? $course->mediavideo->url  : ""}}"
-                                        type="video/mp4">
-                                Your browser does not support HTML5 video.
-                            </video>
+                    @if($course->mediavideo && ($course->mediavideo->type == 'upload'))
+                        <video width="300" class="mt-2 d-none video-player" controls>
+                            <source src="{{($course->mediavideo && $course->mediavideo->type == 'upload') ? $course->mediavideo->url  : ""}}"
+                                    type="video/mp4">
+                            Your browser does not support HTML5 video.
+                        </video>
 
-                        @endif
+                    @endif
 
-                        @lang('labels.backend.lessons.video_guide')
-                    </div>
+                    @lang('labels.backend.lessons.video_guide')
                 </div>
+            </div>
 
-                <div class="row">
+            <div class="row">
                 <div class="col-12 form-group">
                     <div class="checkbox d-inline mr-4">
                         {!! Form::hidden('published', 0) !!}
@@ -267,7 +269,6 @@
                 $('#video').addClass('d-none').attr('required', false)
             }
         })
-
 
 
     </script>

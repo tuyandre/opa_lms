@@ -1142,6 +1142,8 @@ return array (
     array (
       'ratings' => 'Ratings',
       'stars' => 'Stars',
+      'not_attempted' => 'Not Attempted',
+      'explanation' => 'Explanation',
       'by' => 'By',
       'no_reviews_yet' => 'No reviews yet.',
       'add_to_cart' => 'Add To Cart',

@@ -59,6 +59,16 @@ class Question extends Model
         return $this->hasMany('App\Models\QuestionsOption');
     }
 
+    public function isAttempted($result_id){
+        $result = TestsResultsAnswer::where('tests_result_id', '=', $result_id)
+            ->where('question_id', '=', $this->id)
+            ->first();
+        if($result != null){
+            return true;
+        }
+        return false;
+    }
+
     public function tests()
     {
         return $this->belongsToMany(Test::class, 'question_test');

@@ -152,6 +152,8 @@ class QuestionsController extends Controller
         }
         $request = $this->saveFiles($request);
         $question = Question::create($request->all());
+        $question->user_id = auth()->user()->id;
+        $question->save();
         $question->tests()->sync(array_filter((array)$request->input('tests')));
 
         for ($q = 1; $q <= 4; $q++) {
@@ -203,6 +205,8 @@ class QuestionsController extends Controller
         $request = $this->saveFiles($request);
         $question = Question::findOrFail($id);
         $question->update($request->all());
+        $question->user_id = auth()->user()->id;
+        $question->save();
         $question->tests()->sync(array_filter((array)$request->input('tests')));
 
         for ($q = 1; $q <= 4; $q++) {

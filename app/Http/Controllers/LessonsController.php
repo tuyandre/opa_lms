@@ -115,7 +115,7 @@ class LessonsController extends Controller
         $test_result = TestsResult::create([
             'test_id' => $test->id,
             'user_id' => \Auth::id(),
-            'test_result' => $test_score
+            'test_result' => $test_score,
         ]);
         $test_result->answers()->createMany($answers);
 
@@ -130,7 +130,7 @@ class LessonsController extends Controller
         }
 
 
-        return back()->with('message', 'Test score: ' . $test_score);
+        return back()->with(['message'=>'Test score: ' . $test_score,'result'=>$test_result]);
     }
 
     public function retest(Request $request)
