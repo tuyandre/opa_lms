@@ -98,6 +98,18 @@
                                             height="50px"/></a>@endif</td>
                         </tr>
                         <tr>
+                            <th>@lang('labels.backend.lessons.fields.media_video')</th>
+                            <td>
+                                @if($course->mediaVideo !=  null )
+                                    <p class="form-group mb-0">
+                                        <a href="{{$course->mediaVideo->url}}" target="_blank">{{$course->mediaVideo->url}}</a>
+                                    </p>
+                                @else
+                                    <p>No Videos</p>
+                                @endif
+                            </td>
+                        </tr>
+                        <tr>
                             <th>@lang('labels.backend.courses.fields.start_date')</th>
                             <td>{{ $course->start_date }}</td>
                         </tr>

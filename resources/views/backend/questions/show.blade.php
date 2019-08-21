@@ -50,6 +50,7 @@
                         <tr>
                             <th>@lang('labels.backend.questions_options.fields.option_text')</th>
                             <th>@lang('labels.backend.questions_options.fields.correct')</th>
+                            <th>@lang('labels.backend.questions.fields.option_explanation')</th>
 
                         </tr>
                         </thead>
@@ -61,6 +62,7 @@
 
                                     <td>{!! $questions_option->option_text !!}</td>
                                     <td>{{ Form::checkbox("correct", 1, $questions_option->correct == 1 ? true : false, ["disabled"]) }}</td>
+                                    <td>{{ $questions_option->explanation }}</td>
                                 </tr>
                             @endforeach
                         @else
@@ -76,7 +78,6 @@
                         <thead>
                         <tr>
                             <th>@lang('labels.backend.tests.fields.course')</th>
-                            <th>@lang('labels.backend.tests.fields.lesson')</th>
                             <th>@lang('labels.backend.tests.fields.title')</th>
                             <th>@lang('labels.backend.tests.fields.questions')</th>
                             <th>@lang('labels.backend.tests.fields.published')</th>
@@ -93,7 +94,6 @@
                             @foreach ($tests as $test)
                                 <tr data-entry-id="{{ $test->id }}">
                                     <td>{{ ($test->course) ? $test->course->title : '' }}</td>
-                                    <td>{{ ($test->lesson) ? $test->lesson->title : '' }}</td>
                                     <td>{{ $test->title }}</td>
                                     <td>
                                         @foreach ($test->questions as $singleQuestions)

@@ -9,16 +9,13 @@
         </div>
         <div class="card-body">
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-12">
                     <table class="table table-bordered table-striped">
                         <tr>
                             <th>@lang('labels.backend.tests.fields.course')</th>
                             <td>{{ ($test->course) ? $test->course->title : 'N/A' }}</td>
                         </tr>
-                        <tr>
-                            <th>@lang('labels.backend.tests.fields.lesson')</th>
-                            <td>{{ ($test->lesson) ? $test->lesson->title : 'N/A' }}</td>
-                        </tr>
+
                         <tr>
                             <th>@lang('labels.backend.tests.fields.title')</th>
                             <td>{{ $test->title }}</td>
@@ -30,9 +27,11 @@
                         <tr>
                             <th>@lang('labels.backend.tests.fields.questions')</th>
                             <td>
+                                <ol class="pl-3 mb-0">
                                 @foreach ($test->questions as $singleQuestions)
-                                    <span class="label label-info label-many">{{ $singleQuestions->question }}</span>
+                                    <li class="label label-info label-many">{{ $singleQuestions->question }}</li>
                                 @endforeach
+                                </ol>
                             </td>
                         </tr>
                         <tr>
