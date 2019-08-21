@@ -34,6 +34,8 @@ return array (
       'restored' => 'Restaurado con éxito.',
       'unverified' => 'Archivos de actualización no verificados.',
       'updated' => 'Actualizado con éxito.',
+      'delete_warning' => 'No puedes eliminar el curso. Los estudiantes ya están matriculados. Anular la publicación del curso',
+      'delete_warning_bundle' => 'No puedes eliminar Bundle. Los estudiantes ya están matriculados. Anular la publicación del paquete',
     ),
   ),
   'frontend' => 

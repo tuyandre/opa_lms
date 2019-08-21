@@ -192,6 +192,9 @@ return array (
           'retest_status' => 'Re-tester',
           'google_analytics' => 'Code Google Analytics',
           'lesson_timer' => 'Leçon Minuterie',
+          'one_signal_push_notification' => 'Configuration OneSignal',
+          'onesignal_code' => 'Collez le code de script OneSignal ici',
+          'show_offers' => 'Afficher les offres',
         ),
         'social_settings' => 
         array (

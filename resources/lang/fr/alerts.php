@@ -34,6 +34,8 @@ return array (
       'restored' => 'Restauré avec succès.',
       'unverified' => 'Fichiers de mise à jour non vérifiés.',
       'updated' => 'Mis à jour avec succés.',
+      'delete_warning' => 'Vous ne pouvez pas supprimer de cours. Les étudiants sont déjà inscrits. Dé-publier le cours à la place',
+      'delete_warning_bundle' => 'Vous ne pouvez pas supprimer Bundle. Les étudiants sont déjà inscrits. Annuler la publication du paquet',
     ),
   ),
   'frontend' => 

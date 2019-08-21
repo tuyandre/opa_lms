@@ -191,6 +191,9 @@ return array (
           'retest_status' => 'Volver a probar',
           'google_analytics' => 'Código de Google Analytics',
           'lesson_timer' => 'Temporizador de Lección',
+          'one_signal_push_notification' => 'Configuración OneSignal',
+          'onesignal_code' => 'Pegue el código de secuencia de comandos de OneSignal aquí',
+          'show_offers' => 'Mostrar página de ofertas',
         ),
         'social_settings' => 
         array (

@@ -352,6 +352,10 @@ return array (
       'my_courses' => 'Mis cursos',
       'course_and_bundles' => 'Curso y Paquetes',
       'your_courses_and_bundles' => 'Tus cursos y paquetes',
+      'pending' => 'Pendiente',
+      'pending_orders' => 'Ordenes pendientes',
+      'success' => 'Éxito',
+      'failed' => 'Ha fallado',
     ),
     'faqs' => 
     array (
@@ -577,6 +581,9 @@ return array (
       'lesson_note' => 'Habilitar / Deshabilitar si el usuario podrá omitir antes de que finalice el temporizador.',
       'troubleshoot' => 'Solucionar problemas',
       'show_offers_note' => 'Habilitar / deshabilitar si el cupón ofrece un enlace a la página que se mostrará en el pie de página',
+      'how_to_onesignal' => '¿Cómo crear una aplicación en OneSignal?',
+      'onesignal_note' => 'Habilitar / deshabilitar la configuración de OneSignal para el sitio web.',
+      'setup_onesignal' => '¿Cómo configurar OneSignal?',
     ),
     'hero_slider' => 
     array (
@@ -707,9 +714,11 @@ return array (
         'score' => 'Puntuación',
         'tests' => 'Pruebas',
         'title' => 'Título',
+        'option_explanation' => 'Opción Explicación',
       ),
       'title' => 'Preguntas',
       'view' => 'Ver preguntas',
+      'test' => 'Prueba',
     ),
     'questions_options' => 
     array (
@@ -1232,6 +1241,8 @@ return array (
       'complete_test' => 'Por favor complete la prueba',
       'looking_for' => '¿Buscando?',
       'get_now' => 'Obtener ahora',
+      'explanation' => 'Explicación',
+      'not_attempted' => 'No intentado',
     ),
     'faq' => 
     array (

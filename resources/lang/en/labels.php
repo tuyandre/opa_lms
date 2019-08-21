@@ -341,17 +341,17 @@ return array (
         'score' => 'Score',
         'tests' => 'Tests',
         'option_text' => 'Option Text',
-        'option_explanation' => 'Option Explanation',
         'correct' => 'Correct',
         'course' => 'Course',
         'lesson' => 'Lesson',
         'title' => 'Title',
+        'option_explanation' => 'Option Explanation',
       ),
-      'test' => 'Test',
       'title' => 'Questions',
       'create' => 'Create Question',
       'edit' => 'Edit Question',
       'view' => 'View Questions',
+      'test' => 'Test',
     ),
     'reasons' => 
     array (
@@ -544,12 +544,9 @@ return array (
         'title' => 'General',
       ),
       'captcha' => 'Whether the registration - login captcha is on or off',
-      'onesignal_note' => 'Enable / Disble OneSignal configuration for Website.',
       'captcha_note' => 'How to get Google reCaptcha credentials?',
       'retest_note' => 'Enable / Disable if user will be able to give retest for same exam',
-      'how_to_onesignal' => 'How to create app in OneSignal?',
-      'setup_onesignal' => 'How to set up OneSignal?',
-      'language_settings' =>
+      'language_settings' => 
       array (
         'title' => 'Language Settings',
         'default_language' => 'Default Language',
@@ -581,6 +578,9 @@ return array (
         ),
       ),
       'troubleshoot' => 'Troubleshoot',
+      'onesignal_note' => 'Enable / Disble OneSignal configuration for Website.',
+      'how_to_onesignal' => 'How to create app in OneSignal?',
+      'setup_onesignal' => 'How to set up OneSignal?',
     ),
     'logo' => 
     array (
@@ -750,10 +750,6 @@ return array (
       'title' => 'Dashboard',
       'students' => 'Students',
       'trending' => 'Trending',
-      'pending_orders' => 'Pending Orders',
-      'pending' => 'Pending',
-      'success' => 'Success',
-      'failed' => 'Failed',
       'teachers' => 'Teachers',
       'completed' => 'Completed',
       'no_data' => 'No data available',
@@ -781,6 +777,10 @@ return array (
       'my_courses' => 'My Courses',
       'your_courses_and_bundles' => 'Your Courses and Bundles',
       'course_and_bundles' => 'Course and Bundles',
+      'pending_orders' => 'Pending Orders',
+      'pending' => 'Pending',
+      'success' => 'Success',
+      'failed' => 'Failed',
     ),
     'questions_options' => 
     array (
@@ -1142,8 +1142,6 @@ return array (
     array (
       'ratings' => 'Ratings',
       'stars' => 'Stars',
-      'not_attempted' => 'Not Attempted',
-      'explanation' => 'Explanation',
       'by' => 'By',
       'no_reviews_yet' => 'No reviews yet.',
       'add_to_cart' => 'Add To Cart',
@@ -1205,6 +1203,8 @@ return array (
       'available_in_bundles' => 'Also available in Bundles',
       'complete_test' => 'Please Complete Test',
       'looking_for' => 'Looking For?',
+      'not_attempted' => 'Not Attempted',
+      'explanation' => 'Explanation',
     ),
     'home' => 
     array (

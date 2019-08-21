@@ -352,6 +352,10 @@ return array (
       'my_courses' => 'Mes cours',
       'course_and_bundles' => 'Cours et forfaits',
       'your_courses_and_bundles' => 'Vos cours et forfaits',
+      'pending' => 'en attendant',
+      'pending_orders' => 'Les ordres en attente',
+      'success' => 'Succès',
+      'failed' => 'Échoué',
     ),
     'faqs' => 
     array (
@@ -577,6 +581,9 @@ return array (
       'lesson_note' => 'Activer / Désactiver si l\'utilisateur peut sauter avant la fin du temps',
       'troubleshoot' => 'Dépanner',
       'show_offers_note' => 'Activer / Désactiver si Coupon propose d’afficher le lien de page en bas de page',
+      'how_to_onesignal' => 'Comment créer une application dans OneSignal?',
+      'onesignal_note' => 'Activer / désactiver la configuration OneSignal pour le site Web.',
+      'setup_onesignal' => 'Comment configurer OneSignal?',
     ),
     'hero_slider' => 
     array (
@@ -707,9 +714,11 @@ return array (
         'score' => 'But',
         'tests' => 'Des tests',
         'title' => 'Titre',
+        'option_explanation' => 'Option Explication',
       ),
       'title' => 'Des questions',
       'view' => 'Voir les questions',
+      'test' => 'Tester',
     ),
     'questions_options' => 
     array (
@@ -1233,6 +1242,8 @@ return array (
       'complete_test' => 'S\'il vous plaît compléter le test',
       'looking_for' => 'À la recherche de?',
       'get_now' => 'Maintenant obtenir',
+      'explanation' => 'Explication',
+      'not_attempted' => 'Pas tenté',
     ),
     'faq' => 
     array (

@@ -438,6 +438,10 @@ return array (
       'my_courses' => 'دوراتي',
       'course_and_bundles' => 'بالطبع وحزم',
       'your_courses_and_bundles' => 'الدورات الخاصة بك والحزم',
+      'pending' => 'قيد الانتظار',
+      'pending_orders' => 'أوامر معلقة',
+      'success' => 'نجاح',
+      'failed' => 'فشل',
     ),
     'general_settings' => 
     array (
@@ -647,6 +651,9 @@ return array (
       'lesson_note' => 'تمكين / تعطيل إذا كان المستخدم سيكون قادرا على تخطي قبل انتهاء الموقت.',
       'troubleshoot' => 'استكشاف',
       'show_offers_note' => 'تمكين / تعطيل إذا عرضت الكوبون رابط الصفحة ليتم عرضها في أسفل الصفحة',
+      'how_to_onesignal' => 'كيفية إنشاء التطبيق في OneSignal؟',
+      'onesignal_note' => 'تمكين / تعطيل تكوين OneSignal لموقع الويب.',
+      'setup_onesignal' => 'كيفية إعداد OneSignal؟',
     ),
     'invoices' => 
     array (
@@ -732,9 +739,11 @@ return array (
         'score' => 'أحرز هدفا',
         'tests' => 'اختبارات',
         'title' => 'عنوان',
+        'option_explanation' => 'شرح الخيار',
       ),
       'title' => 'الأسئلة',
       'view' => 'عرض الأسئلة',
+      'test' => 'اختبار',
     ),
     'questions_options' => 
     array (
@@ -1190,6 +1199,8 @@ return array (
       'complete_test' => 'يرجى إكمال الاختبار',
       'looking_for' => 'البحث عن؟',
       'get_now' => 'احصل الان',
+      'explanation' => 'تفسير',
+      'not_attempted' => 'لم تحاول',
     ),
     'faq' => 
     array (
