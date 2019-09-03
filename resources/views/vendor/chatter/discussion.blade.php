@@ -48,7 +48,7 @@
 @section('content')
 
 <div id="chatter" class="discussion">
-		<section id="chatter_header"  style="background:{{ ($discussion->color) ? $discussion->color : 'inherit	' }}!important;">
+		<section id="chatter_header"  style="background:{{ ($discussion->color) ? $discussion->color : 'black	' }}!important;">
 			<div class="container breadcrumb-section  relative-position" style="background: inherit" >
 				<div class="page-breadcrumb-content text-center px-3">
 					<a class="back_btn" href="/{{ Config::get('chatter.routes.home') }}"><i class="chatter-back"></i></a>

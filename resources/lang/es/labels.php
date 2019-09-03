@@ -1021,6 +1021,23 @@ return array (
       'title' => 'Impuesto',
       'view' => 'Ver impuesto',
     ),
+    'forum_category' => 
+    array (
+      'create' => 'Crear categoría de foro',
+      'edit' => 'Editar categoría del foro',
+      'fields' => 
+      array (
+        'category' => 'Categoría',
+        'color' => 'Color',
+        'order' => 'Orden',
+        'parent_category' => 'Categoría principal',
+        'status' => 'Estado',
+      ),
+      'off' => 'Apagada',
+      'on' => 'En',
+      'title' => 'Categorías del foro',
+      'view' => 'Ver categoría del foro',
+    ),
   ),
   'frontend' => 
   array (

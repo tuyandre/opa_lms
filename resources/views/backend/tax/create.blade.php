@@ -32,7 +32,7 @@
         <div class="card-header">
             <h3 class="page-title d-inline">@lang('labels.backend.tax.create')</h3>
             <div class="float-right">
-                <a href="{{ route('admin.sliders.index') }}"
+                <a href="{{ route('admin.tax.index') }}"
                    class="btn btn-success">@lang('labels.backend.tax.view')</a>
 
             </div>

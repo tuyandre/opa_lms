@@ -192,6 +192,10 @@ return array (
       array (
         'title' => 'ضريبة',
       ),
+      'forums-category' => 
+      array (
+        'title' => 'فئات المنتديات',
+      ),
     ),
   ),
   'language-picker' => 

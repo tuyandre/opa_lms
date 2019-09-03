@@ -163,6 +163,10 @@ return array (
       array (
         'title' => 'Sitemap',
       ),
+      'forums-category' => 
+      array (
+        'title' => 'Forums Categories',
+      ),
     ),
     'access' => 
     array (

@@ -192,6 +192,10 @@ return array (
       array (
         'title' => 'Impôt',
       ),
+      'forums-category' => 
+      array (
+        'title' => 'Catégories de forums',
+      ),
     ),
   ),
   'language-picker' => 

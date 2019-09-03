@@ -1022,6 +1022,23 @@ return array (
       'title' => 'Impôt',
       'view' => 'Voir les taxes',
     ),
+    'forum_category' => 
+    array (
+      'create' => 'Créer une catégorie de forum',
+      'edit' => 'Modifier la catégorie du forum',
+      'fields' => 
+      array (
+        'category' => 'Catégorie',
+        'color' => 'Couleur',
+        'order' => 'Ordre',
+        'parent_category' => 'Catégorie Parentale',
+        'status' => 'Statut',
+      ),
+      'off' => 'De',
+      'on' => 'Sur',
+      'title' => 'Catégories de forum',
+      'view' => 'Voir la catégorie du forum',
+    ),
   ),
   'frontend' => 
   array (

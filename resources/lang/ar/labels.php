@@ -991,6 +991,23 @@ return array (
       'title' => 'ضريبة',
       'view' => 'عرض الضريبة',
     ),
+    'forum_category' => 
+    array (
+      'create' => 'إنشاء فئة المنتدى',
+      'edit' => 'تحرير فئة المنتدى',
+      'fields' => 
+      array (
+        'category' => 'الفئة',
+        'color' => 'اللون',
+        'order' => 'طلب',
+        'parent_category' => 'القسم الرئيسي',
+        'status' => 'الحالة',
+      ),
+      'off' => 'إيقاف',
+      'on' => 'على',
+      'title' => 'أقسام المنتدى',
+      'view' => 'مشاهدة قسم المنتدى',
+    ),
   ),
   'lang' => 
   array (

@@ -993,6 +993,23 @@ return array (
       'monthly' => 'Monthly',
       'sitemap_note' => 'This sitemap tool will generate sitemap for published Course, Bundles and Blog.',
     ),
+    'forum_category' => 
+    array (
+      'title' => 'Forum Categories',
+      'create' => 'Create Forum Category',
+      'edit' => 'Edit Forum Category',
+      'view' => 'View Forum Category',
+      'on' => 'On',
+      'off' => 'Off',
+      'fields' => 
+      array (
+        'parent_category' => 'Parent Category',
+        'category' => 'Category',
+        'order' => 'Order',
+        'color' => 'Color',
+        'status' => 'Status',
+      ),
+    ),
   ),
   'general' => 
   array (

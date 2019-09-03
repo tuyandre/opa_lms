@@ -186,6 +186,12 @@ Route::post('faqs_mass_destroy', ['uses' => 'Admin\FaqController@massDestroy', '
 Route::get('faqs/status/{id}', 'Admin\FaqController@status')->name('faqs.status');
 
 
+
+//===== FORUMS Routes =====//
+Route::resource('forums-category', 'Admin\ForumController');
+Route::get('forums-category/status/{id}', 'Admin\ForumController@status')->name('forums-category.status');
+
+
 //==== Reasons Routes ====//
 Route::resource('reasons', 'Admin\ReasonController');
 Route::get('get-reasons-data', ['uses' => 'Admin\ReasonController@getData', 'as' => 'reasons.get_data']);

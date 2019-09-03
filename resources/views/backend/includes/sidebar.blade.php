@@ -185,6 +185,12 @@
                                     <span class="title">@lang('menus.backend.sidebar.testimonials.title')</span>
                                 </a>
                             </li>
+                                <li class="nav-item ">
+                                    <a class="nav-link {{ $request->segment(2) == 'forums-category' ? 'active' : '' }}"
+                                       href="{{ route('admin.forums-category.index') }}">
+                                        <span class="title">@lang('menus.backend.sidebar.forums-category.title')</span>
+                                    </a>
+                                </li>
                             <li class="nav-item ">
                                 <a class="nav-link {{ $request->segment(2) == 'faqs' ? 'active' : '' }}"
                                    href="{{ route('admin.faqs.index') }}">
