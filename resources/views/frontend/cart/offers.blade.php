@@ -118,7 +118,7 @@
                                                      <span class="badge badge-success"> @if($coupon->type == 1)
                                                              @lang('labels.backend.coupons.discount_rate')
                                                          @else
-                                                             @lang('labels.backend.coupons.flat_rate')}})
+                                                             @lang('labels.backend.coupons.flat_rate'))
                                                          @endif</span>
                                                     <div class="block">
                                                         <span>@lang('labels.frontend.offers.validity') :
