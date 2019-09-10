@@ -6,6 +6,7 @@ use App\Models\Auth\SocialAccount;
 use App\Models\Auth\User;
 use App\Repositories\Frontend\Auth\UserRepository;
 use Coderello\SocialGrant\Resolvers\SocialUserResolverInterface;
+use Exception;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Laravel\Socialite\Facades\Socialite;
 
@@ -38,9 +39,26 @@ class SocialUserResolver implements SocialUserResolverInterface
     {
         // Return the user that corresponds to provided credentials.
         // If the credentials are invalid, then return NULL.
-        $account = Socialite::driver($provider)->userFromToken($accessToken);
-        $user = $this->userRepository->findOrCreateProvider($account,$provider);
-        return $user;
+        $providerUser = null;
 
+        try {
+            $providerUser = Socialite::driver($provider)->userFromToken($accessToken);
+        } catch (Exception $exception) {}
+
+        if ($providerUser) {
+            return $this->userRepository->findOrCreateProvider($this->getProviderUser($provider), $provider);
+        }
+        return null;
+
+    }
+
+    /**
+     * @param $provider
+     *
+     * @return mixed
+     */
+    protected function getProviderUser($provider)
+    {
+        return Socialite::driver($provider)->user();
     }
 }

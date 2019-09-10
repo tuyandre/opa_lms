@@ -17,7 +17,6 @@ Route::get('/sitemap-' .str_slug(config('app.name')) . '/{file?}', 'SitemapContr
 
 
 
-
 /*
  * Frontend Routes
  * Namespaces indicate folder structure
