@@ -42,12 +42,13 @@ class SocialUserResolver implements SocialUserResolverInterface
         $providerUser = null;
 
         try {
-            $providerUser = Socialite::driver($provider)->userFromToken($accessToken);
+            $providerUser = Socialite::driver($provider)->stateless()->userFromToken($accessToken);
         } catch (Exception $exception) {}
 
         if ($providerUser) {
-            return $this->userRepository->findOrCreateProvider($this->getProviderUser($provider), $provider);
+            return  $this->userRepository->findOrCreateProvider($this->getProviderUser($provider), $provider);
         }
+
         return null;
 
     }
