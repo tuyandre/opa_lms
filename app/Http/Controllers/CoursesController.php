@@ -50,6 +50,8 @@ class CoursesController extends Controller
         }
         $purchased_courses = NULL;
         $purchased_bundles = NULL;
+        $categories = Category::where('status','=',1)->get();
+
         if (\Auth::check()) {
             $purchased_courses = Course::withoutGlobalScope('filter')->whereHas('students', function ($query) {
                 $query->where('id', \Auth::id());
@@ -62,7 +64,7 @@ class CoursesController extends Controller
             ->where('featured', '=', 1)->take(8)->get();
 
         $recent_news = Blog::orderBy('created_at', 'desc')->take(2)->get();
-        return view( $this->path.'.courses.index', compact('courses', 'purchased_courses', 'recent_news','featured_courses'));
+        return view( $this->path.'.courses.index', compact('courses', 'purchased_courses', 'recent_news','featured_courses','categories'));
     }
 
     public function show($course_slug)
@@ -111,14 +113,31 @@ class CoursesController extends Controller
 
     public function getByCategory(Request $request)
     {
-        $category = Category::where('slug', '=', $request->category)->first();
+        $category = Category::where('slug', '=', $request->category)
+            ->where('status','=',1)
+            ->first();
+        $categories = Category::where('status','=',1)->get();
+
         if ($category != "") {
             $recent_news = Blog::orderBy('created_at', 'desc')->take(2)->get();
             $featured_courses = Course::where('published', '=', 1)
                 ->where('featured', '=', 1)->take(8)->get();
 
-            $courses = $category->courses()->where('published', '=', 1)->paginate(9);
-            return view( $this->path.'.courses.index', compact('courses', 'category', 'recent_news','featured_courses'));
+            if (request('type') == 'popular') {
+                $courses = $category->courses()->withoutGlobalScope('filter')->where('published', 1)->where('popular', '=', 1)->orderBy('id', 'desc')->paginate(9);
+
+            } else if (request('type') == 'trending') {
+                $courses = $category->courses()->withoutGlobalScope('filter')->where('published', 1)->where('trending', '=', 1)->orderBy('id', 'desc')->paginate(9);
+
+            } else if (request('type') == 'featured') {
+                $courses = $category->courses()->withoutGlobalScope('filter')->where('published', 1)->where('featured', '=', 1)->orderBy('id', 'desc')->paginate(9);
+
+            } else {
+                $courses = $category->courses()->withoutGlobalScope('filter')->where('published', 1)->orderBy('id', 'desc')->paginate(9);
+            }
+
+
+            return view( $this->path.'.courses.index', compact('courses', 'category', 'recent_news','featured_courses','categories'));
         }
         return abort(404);
     }

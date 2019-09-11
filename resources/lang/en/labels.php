@@ -1167,6 +1167,7 @@ return array (
       'enrolled' => 'Enrolled',
       'chapters' => 'Chapters',
       'category' => 'Category',
+      'select_category' => 'Select Category',
       'author' => 'Author',
       'courses' => 'Courses',
       'students' => 'Students',

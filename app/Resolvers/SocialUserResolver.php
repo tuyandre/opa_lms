@@ -20,7 +20,7 @@ class SocialUserResolver implements SocialUserResolverInterface
     /**
      * SocialLoginController constructor.
      *
-     * @param UserRepository  $userRepository
+     * @param UserRepository $userRepository
      */
     public function __construct(UserRepository $userRepository)
     {
@@ -35,17 +35,25 @@ class SocialUserResolver implements SocialUserResolverInterface
      *
      * @return Authenticatable|null
      */
-    public function resolveUserByProviderCredentials(string $provider, string $accessToken): ?Authenticatable
+    public function resolveUserByProviderCredentials(string $provider, string $accessToken, string $secret = null): ?Authenticatable
     {
         // Return the user that corresponds to provided credentials.
         // If the credentials are invalid, then return NULL.
         $providerUser = null;
 
         try {
-            $providerUser = Socialite::driver($provider)->userFromToken($accessToken);
-        } catch (Exception $exception) {}
+            if($provider == 'twitter'){
+                $providerUser = Socialite::driver($provider)->userFromTokenAndSecret($accessToken,$secret);
+
+            }else{
+                $providerUser = Socialite::driver($provider)->userFromToken($accessToken);
+
+            }
+        } catch (Exception $exception) {
+        }
 
         if ($providerUser) {
+
             return $this->userRepository->findOrCreateProvider($providerUser, $provider);
 
         }

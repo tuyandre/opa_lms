@@ -234,8 +234,27 @@ class HomeController extends Controller
             ->orWhere('description', 'LIKE', '%' . $request->q . '%')
             ->where('published', '=', 1)
             ->paginate(12);
+        $categories = Category::where('status','=',1)->get();
+
+
+
         $q = $request->q;
-        return view($this->path.'.search-result.courses', compact('courses', 'q'));
+        $recent_news = Blog::orderBy('created_at', 'desc')->take(2)->get();
+
+        return view($this->path.'.search-result.courses', compact('courses', 'q','recent_news','categories'));
+    }
+
+
+    public function searchBundle(Request $request)
+    {
+        $courses = Bundle::where('title', 'LIKE', '%' . $request->q . '%')
+            ->orWhere('description', 'LIKE', '%' . $request->q . '%')
+            ->where('published', '=', 1)
+            ->paginate(12);
+        $q = $request->q;
+        $recent_news = Blog::orderBy('created_at', 'desc')->take(2)->get();
+
+        return view($this->path.'.search-result.courses', compact('courses', 'q','recent_news'));
     }
 
     public function searchBlog(Request $request)

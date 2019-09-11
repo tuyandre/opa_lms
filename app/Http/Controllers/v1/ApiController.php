@@ -1958,7 +1958,7 @@ class ApiController extends Controller
                         $data['final_total'] = ($total - $discount) + $tax_amount;
 
 
-                        return ['status' => 'success', 'result' => json_encode($data)];
+                        return ['status' => 'success', 'result' => $data];
                     } else {
                         return ['status' => 'failure', 'message' => 'Coupon is Invalid'];
                     }

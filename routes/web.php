@@ -101,6 +101,8 @@ Route::group(['middleware' => 'auth'], function () {
 });
 
 Route::get('/search', [HomeController::class, 'searchCourse'])->name('search');
+Route::get('/search-course', [HomeController::class, 'searchCourse'])->name('search-course');
+Route::get('/search-bundle', [HomeController::class, 'searchCourse'])->name('search-bundle');
 Route::get('/search-blog', [HomeController::class, 'searchBlog'])->name('blogs.search');
 
 
