@@ -37,13 +37,13 @@ class HomeController extends Controller
     {
 
         $path = 'frontend';
-        if(session()->has('display_type')){
-            if(session('display_type') == 'rtl'){
+        if (session()->has('display_type')) {
+            if (session('display_type') == 'rtl') {
                 $path = 'frontend-rtl';
-            }else{
+            } else {
                 $path = 'frontend';
             }
-        }else if(config('app.display_type') == 'rtl'){
+        } else if (config('app.display_type') == 'rtl') {
             $path = 'frontend-rtl';
         }
         $this->path = $path;
@@ -55,7 +55,7 @@ class HomeController extends Controller
             $page = Page::where('slug', '=', request('page'))
                 ->where('published', '=', 1)->first();
             if ($page != "") {
-                return view($this->path.'.pages.index', compact('page'));
+                return view($this->path . '.pages.index', compact('page'));
             }
             abort(404);
         }
@@ -99,17 +99,17 @@ class HomeController extends Controller
             $total_course = Course::where('published', '=', 1)->get()->count();
             $total_bundle = Bundle::where('published', '=', 1)->get()->count();
             $total_students = User::role('student')->get()->count();
-            $total_courses = $total_course+$total_bundle;
+            $total_courses = $total_course + $total_bundle;
             $total_teachers = User::role('teacher')->get()->count();
         }
 
-        return view($this->path.'.index-' . config('theme_layout'), compact('popular_courses', 'featured_courses', 'sponsors', 'total_students', 'total_courses', 'total_teachers', 'testimonials', 'news', 'trending_courses', 'teachers', 'faqs', 'course_categories', 'reasons', 'sections'));
+        return view($this->path . '.index-' . config('theme_layout'), compact('popular_courses', 'featured_courses', 'sponsors', 'total_students', 'total_courses', 'total_teachers', 'testimonials', 'news', 'trending_courses', 'teachers', 'faqs', 'course_categories', 'reasons', 'sections'));
     }
 
     public function getFaqs()
     {
         $faq_categories = Category::has('faqs', '>', 0)->get();
-        return view($this->path.'.faq', compact('faq_categories'));
+        return view($this->path . '.faq', compact('faq_categories'));
     }
 
     public function subscribe(Request $request)
@@ -195,18 +195,18 @@ class HomeController extends Controller
     {
         $recent_news = Blog::orderBy('created_at', 'desc')->take(2)->get();
         $teachers = User::role('teacher')->paginate(12);
-        return view( $this->path.'.teachers.index', compact('teachers', 'recent_news'));
+        return view($this->path . '.teachers.index', compact('teachers', 'recent_news'));
     }
 
     public function showTeacher(Request $request)
     {
         $recent_news = Blog::orderBy('created_at', 'desc')->take(2)->get();
         $teacher = User::role('teacher')->where('id', '=', $request->id)->first();
-        $courses= NULL;
-        if(count($teacher->courses)> 0){
+        $courses = NULL;
+        if (count($teacher->courses) > 0) {
             $courses = $teacher->courses()->paginate(12);
         }
-        return view($this->path.'.teachers.show', compact('teacher', 'recent_news','courses'));
+        return view($this->path . '.teachers.show', compact('teacher', 'recent_news', 'courses'));
     }
 
     public function getDownload(Request $request)
@@ -230,31 +230,129 @@ class HomeController extends Controller
 
     public function searchCourse(Request $request)
     {
-        $courses = Course::where('title', 'LIKE', '%' . $request->q . '%')
-            ->orWhere('description', 'LIKE', '%' . $request->q . '%')
-            ->where('published', '=', 1)
-            ->paginate(12);
-        $categories = Category::where('status','=',1)->get();
 
+        if (request('type') == 'popular') {
+            $courses = Course::withoutGlobalScope('filter')->where('published', 1)->where('popular', '=', 1)->orderBy('id', 'desc')->paginate(12);
+
+        } else if (request('type') == 'trending') {
+            $courses = Course::withoutGlobalScope('filter')->where('published', 1)->where('trending', '=', 1)->orderBy('id', 'desc')->paginate(12);
+
+        } else if (request('type') == 'featured') {
+            $courses = Course::withoutGlobalScope('filter')->where('published', 1)->where('featured', '=', 1)->orderBy('id', 'desc')->paginate(12);
+
+        } else {
+            $courses = Course::withoutGlobalScope('filter')->where('published', 1)->orderBy('id', 'desc')->paginate(12);
+        }
+
+
+        if ($request->category != null) {
+            $category = Category::find((int)$request->category);
+            $ids = $category->courses->pluck('id')->toArray();
+            $types = ['popular', 'trending', 'featured'];
+            if ($category) {
+
+                if (in_array(request('type'), $types)) {
+                    $type = request('type');
+                    $courses = $category->courses()->where(function ($query) use ($request) {
+                        $query->where('title', 'LIKE', '%' . $request->q . '%');
+                        $query->orWhere('description', 'LIKE', '%' . $request->q . '%');
+                    })
+                        ->whereIn('id', $ids)
+                        ->where('published', '=', 1)
+                        ->where($type, '=', 1)
+                        ->paginate(12);
+                } else {
+                    $courses = $category->courses()
+                        ->where(function ($query) use ($request) {
+                            $query->where('title', 'LIKE', '%' . $request->q . '%');
+                            $query->orWhere('description', 'LIKE', '%' . $request->q . '%');
+                        })
+                        ->where('published', '=', 1)
+                        ->whereIn('id', $ids)
+                        ->paginate(12);
+                }
+
+            }
+
+        } else {
+            $courses = Course::where('title', 'LIKE', '%' . $request->q . '%')
+                ->orWhere('description', 'LIKE', '%' . $request->q . '%')
+                ->where('published', '=', 1)
+                ->paginate(12);
+
+        }
+
+        $categories = Category::where('status', '=', 1)->get();
 
 
         $q = $request->q;
         $recent_news = Blog::orderBy('created_at', 'desc')->take(2)->get();
 
-        return view($this->path.'.search-result.courses', compact('courses', 'q','recent_news','categories'));
+        return view($this->path . '.search-result.courses', compact('courses', 'q', 'recent_news', 'categories'));
     }
 
 
     public function searchBundle(Request $request)
     {
-        $courses = Bundle::where('title', 'LIKE', '%' . $request->q . '%')
-            ->orWhere('description', 'LIKE', '%' . $request->q . '%')
-            ->where('published', '=', 1)
-            ->paginate(12);
+
+        if (request('type') == 'popular') {
+            $bundles = Bundle::withoutGlobalScope('filter')->where('published', 1)->where('popular', '=', 1)->orderBy('id', 'desc')->paginate(12);
+
+        } else if (request('type') == 'trending') {
+            $bundles = Bundle::withoutGlobalScope('filter')->where('published', 1)->where('trending', '=', 1)->orderBy('id', 'desc')->paginate(12);
+
+        } else if (request('type') == 'featured') {
+            $bundles = Bundle::withoutGlobalScope('filter')->where('published', 1)->where('featured', '=', 1)->orderBy('id', 'desc')->paginate(12);
+
+        } else {
+            $bundles = Bundle::withoutGlobalScope('filter')->where('published', 1)->orderBy('id', 'desc')->paginate(12);
+        }
+
+
+        if ($request->category != null) {
+            $category = Category::find((int)$request->category);
+            $ids = $category->bundles->pluck('id')->toArray();
+            $types = ['popular', 'trending', 'featured'];
+            if ($category) {
+
+                if (in_array(request('type'), $types)) {
+                    $type = request('type');
+                    $bundles = $category->bundles()->where(function ($query) use ($request) {
+                        $query->where('title', 'LIKE', '%' . $request->q . '%');
+                        $query->orWhere('description', 'LIKE', '%' . $request->q . '%');
+                    })
+                        ->whereIn('id', $ids)
+                        ->where('published', '=', 1)
+                        ->where($type, '=', 1)
+                        ->paginate(12);
+                } else {
+                    $bundles = $category->bundles()
+                        ->where(function ($query) use ($request) {
+                            $query->where('title', 'LIKE', '%' . $request->q . '%');
+                            $query->orWhere('description', 'LIKE', '%' . $request->q . '%');
+                        })
+                        ->where('published', '=', 1)
+                        ->whereIn('id', $ids)
+                        ->paginate(12);
+                }
+
+            }
+
+        } else {
+            $bundles = Bundle::where('title', 'LIKE', '%' . $request->q . '%')
+                ->orWhere('description', 'LIKE', '%' . $request->q . '%')
+                ->where('published', '=', 1)
+                ->paginate(12);
+
+        }
+
+        $categories = Category::where('status', '=', 1)->get();
+
+
         $q = $request->q;
         $recent_news = Blog::orderBy('created_at', 'desc')->take(2)->get();
 
-        return view($this->path.'.search-result.courses', compact('courses', 'q','recent_news'));
+        return view($this->path . '.search-result.bundles', compact('bundles', 'q', 'recent_news', 'categories'));
     }
 
     public function searchBlog(Request $request)
@@ -266,7 +364,7 @@ class HomeController extends Controller
 
 
         $q = $request->q;
-        return view($this->path.'.search-result.blogs', compact('blogs', 'q', 'categories', 'popular_tags'));
+        return view($this->path . '.search-result.blogs', compact('blogs', 'q', 'categories', 'popular_tags'));
     }
 }
 

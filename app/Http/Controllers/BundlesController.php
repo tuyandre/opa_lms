@@ -42,6 +42,8 @@ class BundlesController extends Controller
         } else {
             $bundles = Bundle::withoutGlobalScope('filter')->where('published', 1)->orderBy('id', 'desc')->paginate(9);
         }
+        $categories = Category::where('status','=',1)->get();
+
         $purchased_bundles = NULL;
         if (\Auth::check()) {
             $purchased_bundles = Bundle::withoutGlobalScope('filter')->whereHas('students', function ($query) {
@@ -55,7 +57,7 @@ class BundlesController extends Controller
             ->where('featured', '=', 1)->take(8)->get();
 
         $recent_news = Blog::orderBy('created_at', 'desc')->take(2)->get();
-        return view( $this->path.'.bundles.index', compact('bundles', 'purchased_bundles', 'recent_news','featured_courses'));
+        return view( $this->path.'.bundles.index', compact('bundles', 'purchased_bundles', 'recent_news','featured_courses','categories'));
     }
 
     public function show($bundle_slug)

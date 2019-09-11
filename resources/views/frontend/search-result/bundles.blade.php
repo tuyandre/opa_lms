@@ -31,10 +31,6 @@
             display: inline;
             text-align: center;
         }
-
-        .best-course-pic-text .best-course-text {
-            padding: 20px;
-        }
     </style>
 @endpush
 @section('content')
@@ -46,9 +42,7 @@
         <div class="container">
             <div class="page-breadcrumb-content text-center">
                 <div class="page-breadcrumb-title">
-                    <h2 class="breadcrumb-head black bold">
-                        <span>@if(isset($category)) {{$category->name}} @else @lang('labels.frontend.course.bundles') @endif </span>
-                    </h2>
+                    <h2 class="breadcrumb-head black bold">  {{($q) ? ".$q." : '' }} <span>{{trans('labels.frontend.course.bundles')}}</span></h2>
                 </div>
             </div>
         </div>
@@ -71,12 +65,12 @@
                     @endif
                     <div class="short-filter-tab">
                         <div class="shorting-filter w-50 d-inline float-left mr-3">
-                            <span>@lang('labels.frontend.course.sort_by')</span>
+                            <span>@lang('labels.frontend.search_result.sort_by')</span>
                             <select id="sortBy" class="form-control d-inline w-50">
-                                <option value="">@lang('labels.frontend.course.none')</option>
-                                <option value="popular">@lang('labels.frontend.course.popular')</option>
-                                <option value="trending">@lang('labels.frontend.course.trending')</option>
-                                <option value="featured">@lang('labels.frontend.course.featured')</option>
+                                <option value="">@lang('labels.frontend.search_result.none')</option>
+                                <option value="popular">@lang('labels.frontend.search_result.popular')</option>
+                                <option value="trending">@lang('labels.frontend.search_result.trending')</option>
+                                <option value="featured">@lang('labels.frontend.search_result.featured')</option>
                             </select>
                         </div>
 
@@ -94,90 +88,86 @@
                             <div id="tab1" class="tab-content-1 pt35">
                                 <div class="best-course-area best-course-v2">
                                     <div class="row">
-                                        @if(count($bundles) > 0 )
-                                        @foreach($bundles as $bundle)
+                                        @if(count($bundles) > 0)
+                                            @foreach($bundles as $bundle)
 
-                                            <div class="col-md-4">
-                                                <div class="best-course-pic-text relative-position">
-                                                    <div class="best-course-pic relative-position"
-                                                         @if($bundle->course_image != "") style="background-image: url('{{asset('storage/uploads/'.$bundle->course_image)}}')" @endif>
+                                                <div class="col-md-4">
+                                                    <div class="best-course-pic-text relative-position">
+                                                        <div class="best-course-pic relative-position"
+                                                             @if($bundle->course_image != "")style="background-image: url('{{asset('storage/uploads/'.$bundle->course_image)}}')" @endif>
 
-                                                        @if($bundle->trending == 1)
-                                                            <div class="trend-badge-2 text-center text-uppercase">
-                                                                <i class="fas fa-bolt"></i>
-                                                                <span>@lang('labels.frontend.badges.trending')</span>
-                                                            </div>
-                                                        @endif
+                                                            @if($bundle->trending == 1)
+                                                                <div class="trend-badge-2 text-center text-uppercase">
+                                                                    <i class="fas fa-bolt"></i>
+                                                                    <span>@lang('labels.frontend.badges.trending')</span>
+                                                                </div>
+                                                            @endif
                                                             @if($bundle->free == 1)
                                                                 <div class="trend-badge-3 text-center text-uppercase">
                                                                     <i class="fas fa-bolt"></i>
                                                                     <span>@lang('labels.backend.courses.fields.free')</span>
                                                                 </div>
                                                             @endif
-                                                        <div class="course-price text-center gradient-bg">
-
-                                                            @if($bundle->free == 1)
-                                                                <span>{{trans('labels.backend.bundles.fields.free')}}</span>
-                                                            @else
-                                                                <span> {{$appCurrency['symbol'].' '.$bundle->price}}</span>
-                                                            @endif
-                                                        </div>
-                                                        <div class="course-rate ul-li">
-                                                            <ul>
-                                                                @for($i=1; $i<=(int)$bundle->rating; $i++)
-                                                                    <li><i class="fas fa-star"></i></li>
-                                                                @endfor
-                                                            </ul>
-                                                        </div>
-                                                        <div class="course-details-btn">
-                                                            <a href="{{ route('bundles.show', [$bundle->slug]) }}">@lang('labels.frontend.course.bundle_detail')
-                                                                <i class="fas fa-arrow-right"></i></a>
-                                                        </div>
-                                                        <div class="blakish-overlay"></div>
-                                                    </div>
-                                                    <div class="best-course-text">
-                                                        <div class="course-title mb20 headline relative-position">
-                                                            <h3>
-                                                                <a href="{{ route('bundles.show', [$bundle->slug]) }}">{{$bundle->title}}</a>
-                                                            </h3>
-                                                        </div>
-                                                        <div class="course-meta">
-                                                            <span class="course-category"><a
-                                                                        href="{{route('courses.category',['category'=>$bundle->category->slug])}}">{{$bundle->category->name}}</a></span>
-                                                            <span class="course-author"><a href="#">{{ $bundle->students()->count() }}
-                                                                    @lang('labels.frontend.course.students')</a></span>
-                                                            <span class="course-author mr-0">{{ $bundle->courses()->count() }}
-
-                                                                @if($bundle->courses()->count() > 1 )
-                                                                    @lang('labels.frontend.course.courses')
+                                                            <div class="course-price text-center gradient-bg">
+                                                                @if($bundle->free == 1)
+                                                                    <span> {{trans('labels.backend.courses.fields.free')}}</span>
                                                                 @else
-                                                                    @lang('labels.frontend.course.course')
-                                                                @endif   </span>
+                                                                    <span>   {{$appCurrency['symbol'].' '.$bundle->price}}</span>
+                                                                @endif
+                                                            </div>
+                                                            <div class="course-rate ul-li">
+                                                                <ul>
+                                                                    @for($i=1; $i<=(int)$bundle->rating; $i++)
+                                                                        <li><i class="fas fa-star"></i></li>
+                                                                    @endfor
+                                                                </ul>
+                                                            </div>
+                                                            <div class="course-details-btn">
+                                                                <a class="text-uppercase"
+                                                                   href="{{ route('courses.show', [$bundle->slug]) }}">@lang('labels.frontend.search_result.course_detail')
+                                                                    <i class="fas fa-arrow-right"></i></a>
+                                                            </div>
+                                                            <div class="blakish-overlay"></div>
+                                                        </div>
+                                                        <div class="best-course-text">
+                                                            <div class="course-title mb20 headline relative-position">
+                                                                <h3>
+                                                                    <a href="{{ route('courses.show', [$bundle->slug]) }}">{{$bundle->title}}</a>
+                                                                </h3>
+                                                            </div>
+                                                            <div class="course-meta">
+                                                                <span class="course-category"><a
+                                                                            href="{{route('courses.category',['category'=>$bundle->category->slug])}}">{{$bundle->category->name}}</a></span>
+                                                                <span class="course-author"><a href="#">{{ $bundle->students()->count() }}
+                                                                        @lang('labels.frontend.search_result.students')</a></span>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                    @endforeach
+                                            @endforeach
                                         @else
                                             <div class="col-12">
-                                            <h4>@lang('labels.general.no_data_available')</h4>
+                                                <h4>@lang('labels.general.no_data_available')</h4>
                                             </div>
-                                        @endif
+                                    @endif
+
 
                                     <!-- /course -->
+
+
                                     </div>
                                 </div>
                             </div><!-- /tab-1 -->
 
                             <div id="tab2" class="tab-content-1">
                                 <div class="course-list-view">
-                                    <table>
-                                        <tr class="list-head">
-                                            <th>@lang('labels.frontend.course.course_name')</th>
-                                            <th>@lang('labels.frontend.course.course_type')</th>
-                                            <th>@lang('labels.frontend.course.starts')</th>
-                                        </tr>
-                                        @if(count($bundles) > 0 )
+                                    @if(count($bundles) > 0)
+                                        <table>
+                                            <tr class="list-head text-uppercase">
+                                                <th>@lang('labels.frontend.search_result.course_name')</th>
+                                                <th>@lang('labels.frontend.search_result.course_type')</th>
+                                                <th>@lang('labels.frontend.search_result.starts')</th>
+                                            </tr>
                                             @foreach($bundles as $bundle)
 
                                                 <tr>
@@ -188,18 +178,15 @@
                                                             </div>
                                                             <div class="course-list-text">
                                                                 <h3>
-                                                                    <a href="{{ route('bundles.show', [$bundle->slug]) }}">{{$bundle->title}}</a>
+                                                                    <a href="{{ route('courses.show', [$bundle->slug]) }}">{{$bundle->title}}</a>
                                                                 </h3>
                                                                 <div class="course-meta">
                                                                 <span class="course-category bold-font"><a
-                                                                            href="{{ route('bundles.show', [$bundle->slug]) }}">
-
-                                                                         @if($bundle->free == 1)
-                                                                            {{trans('labels.backend.bundles.fields.free')}}
+                                                                            href="{{ route('courses.show', [$bundle->slug]) }}">@if($bundle->free == 1)
+                                                                            {{trans('labels.backend.courses.fields.free')}}
                                                                         @else
                                                                             {{$appCurrency['symbol'].' '.$bundle->price}}
-                                                                        @endif
-                                                                    </a></span>
+                                                                        @endif</a></span>
 
                                                                     <div class="course-rate ul-li">
                                                                         <ul>
@@ -220,18 +207,12 @@
                                                     <td>{{\Carbon\Carbon::parse($bundle->start_date)->format('d M Y')}}</td>
                                                 </tr>
                                             @endforeach
-                                        @else
-                                            <tr>
-                                                <td colspan="3">
-                                                    <h4>@lang('labels.general.no_data_available')</h4>
 
-                                                </td>
-                                            </tr>
+                                        </table>
 
-                                        @endif
-
-
-                                    </table>
+                                    @else
+                                        <h4>@lang('labels.general.no_data_available')</h4>
+                                    @endif
                                 </div>
                             </div><!-- /tab-2 -->
                         </div>
@@ -239,25 +220,23 @@
                             {{ $bundles->links() }}
                         </div>
                     </div>
-
-
                 </div>
-
+                {{--@include('frontend.layouts.partials.right-sidebar')--}}
                 <div class="col-md-3">
                     <div class="side-bar">
 
                         <div class="side-bar-widget  first-widget">
-                            <h2 class="widget-title text-capitalize">@lang('labels.frontend.course.find_your_bundle')</h2>
+                            <h2 class="widget-title text-capitalize">@lang('labels.frontend.course.find_your_course')</h2>
                             <div class="listing-filter-form pb30">
                                 <form action="{{route('search-bundle')}}" method="get">
-
                                     <div class="filter-search mb20">
                                         <label class="text-uppercase">@lang('labels.frontend.course.category')</label>
                                         <select name="category" class="form-control listing-filter-form select">
                                             <option value="">@lang('labels.frontend.course.select_category')</option>
                                             @if(count($categories) > 0)
                                                 @foreach($categories as $category)
-                                                    <option value="{{$category->id}}">{{$category->name}}</option>
+                                                    <option @if(request('category') && request('category') == $category->id) selected
+                                                            @endif value="{{$category->id}}">{{$category->name}}</option>
 
                                                 @endforeach
                                             @endif
@@ -268,7 +247,8 @@
 
                                     <div class="filter-search mb20">
                                         <label>@lang('labels.frontend.course.full_text')</label>
-                                        <input type="text" class="" name="q" placeholder="{{trans('labels.frontend.course.looking_for')}}">
+                                        <input type="text" class="" value="{{(request('q') ? request('q') : old('q'))}}"
+                                               name="q" placeholder="{{trans('labels.frontend.course.looking_for')}}">
                                     </div>
                                     <button class="genius-btn gradient-bg text-center text-uppercase btn-block text-white font-weight-bold"
                                             type="submit">@lang('labels.frontend.course.find_courses') <i
@@ -326,12 +306,12 @@
                                                     <span>@lang('labels.frontend.badges.trending')</span>
                                                 </div>
                                             @endif
-                                                @if($global_featured_course->free == 1)
-                                                    <div class="trend-badge-3 text-center text-uppercase">
-                                                        <i class="fas fa-bolt"></i>
-                                                        <span>@lang('labels.backend.courses.fields.free')</span>
-                                                    </div>
-                                                @endif
+                                            @if($global_featured_course->free == 1)
+                                                <div class="trend-badge-3 text-center text-uppercase">
+                                                    <i class="fas fa-bolt"></i>
+                                                    <span>@lang('labels.backend.courses.fields.free')</span>
+                                                </div>
+                                            @endif
 
                                         </div>
                                         <div class="best-course-text" style="left: 0;right: 0;">
@@ -352,17 +332,14 @@
                         @endif
                     </div>
                 </div>
+
+
             </div>
         </div>
     </section>
     <!-- End of course section
         ============================================= -->
 
-    <!-- Start of best course
-   =============================================  -->
-    @include('frontend.layouts.partials.browse_courses')
-    <!-- End of best course
-            ============================================= -->
 
 
 @endsection
@@ -372,9 +349,25 @@
         $(document).ready(function () {
             $(document).on('change', '#sortBy', function () {
                 if ($(this).val() != "") {
-                    location.href = '{{url()->current()}}?type=' + $(this).val();
+                    var url;
+                    @if(request('type'))
+                        url = '{{url()->full()}}';
+
+                    url = url.replace('type=' + '{{request('type')}}', 'type=' + $(this).val());
+                    url = url.replace(/&amp;/g, '&');
+                    location.href = url.replace('&amp;', '&');
+                    @else
+                        url = '{{url()->full()}}&type=' + $(this).val();
+                    url = url.replace(/&amp;/g, '&');
+
+                    location.href = url;
+                    @endif
                 } else {
-                    location.href = '{{route('courses.all')}}';
+                    url = '{{url()->full()}}';
+                    url = url.replace('type=' + '{{request('type')}}', '');
+                    url = url.replace(/&amp;/g, '&');
+
+                    location.href = url;
                 }
             })
 

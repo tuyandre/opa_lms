@@ -1164,6 +1164,7 @@ return array (
       'add_to_cart' => 'Add To Cart',
       'buy_note' => 'Only Students Can Buy Course',
       'continue_course' => 'Continue Course',
+      'find_your_bundle' => '<span>Find</span> your Bundle',
       'enrolled' => 'Enrolled',
       'chapters' => 'Chapters',
       'category' => 'Category',

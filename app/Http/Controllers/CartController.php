@@ -370,7 +370,7 @@ class CartController extends Controller
             \Session::flash('failure', trans('labels.frontend.cart.payment_failed'));
             $order->status = 2;
             $order->save();
-            return Redirect::route('cart');
+            return Redirect::route('status');
         }
 
     }

@@ -16,6 +16,10 @@ class Category extends Model
         return $this->hasMany(Course::class);
     }
 
+    public function bundles(){
+        return $this->hasMany(Bundle::class);
+    }
+
     public function blogs(){
         return $this->hasMany(Blog::class);
     }

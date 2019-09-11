@@ -158,7 +158,7 @@ class TeachersController extends Controller
      */
     public function update(UpdateTeachersRequest $request, $id)
     {
-        $request = $this->saveFiles($request);
+        //$request = $this->saveFiles($request);
 
         $teacher = User::findOrFail($id);
         $teacher->update($request->except('email'));
