@@ -225,13 +225,31 @@
                         <div class="side-bar-widget  first-widget">
                             <h2 class="widget-title text-capitalize">@lang('labels.frontend.course.find_your_course')</h2>
                             <div class="listing-filter-form pb30">
-                                <form action="{{route('search')}}" method="get">
+                                <form action="{{route('search-course')}}" method="get">
+                                    <div class="filter-search mb20">
+                                        <label class="text-uppercase">@lang('labels.frontend.course.category')</label>
+                                        <select name="category" class="form-control listing-filter-form select">
+                                            <option value="">@lang('labels.frontend.course.select_category')</option>
+                                            @if(count($categories) > 0)
+                                                @foreach($categories as $category)
+                                                    <option @if(request('category') && request('category') == $category->id) selected
+                                                            @endif value="{{$category->id}}">{{$category->name}}</option>
+
+                                                @endforeach
+                                            @endif
+
+                                        </select>
+                                    </div>
+
 
                                     <div class="filter-search mb20">
                                         <label>@lang('labels.frontend.course.full_text')</label>
-                                        <input type="text" class="" name="q" placeholder="{{trans('labels.frontend.course.looking_for')}}">
+                                        <input type="text" class="" value="{{(request('q') ? request('q') : old('q'))}}"
+                                               name="q" placeholder="{{trans('labels.frontend.course.looking_for')}}">
                                     </div>
-                                        <button class="genius-btn gradient-bg text-center text-uppercase btn-block text-white font-weight-bold" type="submit">@lang('labels.frontend.course.find_courses') <i class="fas fa-caret-right"></i></button>
+                                    <button class="genius-btn gradient-bg text-center text-uppercase btn-block text-white font-weight-bold"
+                                            type="submit">@lang('labels.frontend.course.find_courses') <i
+                                                class="fas fa-caret-right"></i></button>
                                 </form>
 
                             </div>

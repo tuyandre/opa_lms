@@ -1261,6 +1261,8 @@ return array (
       'get_now' => 'Maintenant obtenir',
       'explanation' => 'Explication',
       'not_attempted' => 'Pas tenté',
+      'find_your_bundle' => '<span> Trouvez </span> votre paquet',
+      'select_category' => 'Choisir une catégorie',
     ),
     'faq' => 
     array (

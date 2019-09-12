@@ -1218,6 +1218,8 @@ return array (
       'get_now' => 'احصل الان',
       'explanation' => 'تفسير',
       'not_attempted' => 'لم تحاول',
+      'find_your_bundle' => '<span> ابحث عن </span> الحزمة الخاصة بك',
+      'select_category' => 'اختر الفئة',
     ),
     'faq' => 
     array (

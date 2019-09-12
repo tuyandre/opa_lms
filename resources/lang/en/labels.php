@@ -1164,11 +1164,9 @@ return array (
       'add_to_cart' => 'Add To Cart',
       'buy_note' => 'Only Students Can Buy Course',
       'continue_course' => 'Continue Course',
-      'find_your_bundle' => '<span>Find</span> your Bundle',
       'enrolled' => 'Enrolled',
       'chapters' => 'Chapters',
       'category' => 'Category',
-      'select_category' => 'Select Category',
       'author' => 'Author',
       'courses' => 'Courses',
       'students' => 'Students',
@@ -1224,6 +1222,8 @@ return array (
       'looking_for' => 'Looking For?',
       'not_attempted' => 'Not Attempted',
       'explanation' => 'Explanation',
+      'find_your_bundle' => '<span>Find</span> your Bundle',
+      'select_category' => 'Select Category',
     ),
     'home' => 
     array (

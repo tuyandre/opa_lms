@@ -1260,6 +1260,8 @@ return array (
       'get_now' => 'Obtener ahora',
       'explanation' => 'Explicación',
       'not_attempted' => 'No intentado',
+      'find_your_bundle' => '<span> Encuentra </span> tu paquete',
+      'select_category' => 'selecciona una categoría',
     ),
     'faq' => 
     array (
