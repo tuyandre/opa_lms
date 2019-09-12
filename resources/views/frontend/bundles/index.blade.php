@@ -374,7 +374,7 @@
                 if ($(this).val() != "") {
                     location.href = '{{url()->current()}}?type=' + $(this).val();
                 } else {
-                    location.href = '{{route('courses.all')}}';
+                    location.href = '{{route('bundles.all')}}';
                 }
             })
 

@@ -143,9 +143,7 @@ class TeachersController extends Controller
      */
     public function edit($id)
     {
-
         $teacher = User::findOrFail($id);
-
         return view('backend.teachers.edit', compact('teacher'));
     }
 

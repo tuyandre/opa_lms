@@ -927,8 +927,8 @@ class ApiController extends Controller
     {
         $counter = 0;
         $items = [];
-        $order = Order::where('id','=',$request->order_id)->where('status','=',0)->first();
-        if($order){
+        $order = Order::where('id', '=', $request->order_id)->where('status', '=', 0)->first();
+        if ($order) {
             $order->payment_type = $request->payment_type;
             $order->status = ($request->status == 'success') ? 1 : 0;
             $order->remarks = $request->remarks;
@@ -966,8 +966,8 @@ class ApiController extends Controller
             }
 
             return response()->json(['status' => 'success']);
-        }else{
-            return response()->json(['status' => 'failure','message' => 'No order found']);
+        } else {
+            return response()->json(['status' => 'failure', 'message' => 'No order found']);
 
         }
 
@@ -1010,12 +1010,13 @@ class ApiController extends Controller
 
         return $order;
     }
+
     private function makeOrder($data)
     {
         $coupon = $data['coupon_data'];
         if ($coupon != false) {
             $coupon_id = $coupon['id'];
-        }else{
+        } else {
             $coupon_id = 0;
         }
         $order = new Order();
@@ -1978,7 +1979,8 @@ class ApiController extends Controller
     }
 
 
-    public function orderConfirmation(Request $request){
+    public function orderConfirmation(Request $request)
+    {
         $data = [];
         $items = [];
         $total = 0;
@@ -2040,7 +2042,7 @@ class ApiController extends Controller
                     ->first();
 
                 $type = null;
-                if($coupon){
+                if ($coupon) {
                     if ($coupon->type == 1) {
                         $discount = $total * $coupon->amount / 100;
 
@@ -2054,21 +2056,21 @@ class ApiController extends Controller
                     $discount = $data['coupon_data']['total_coupon_discount'];
 
 
-                }else{
+                } else {
                     $data['coupon_data'] = false;
                 }
 
 
                 $data['subtotal'] = (float)number_format($total, 2);
-                $total  = $total - $discount;
+                $total = $total - $discount;
 
                 //Apply Tax
                 $data['tax_data'] = $this->applyTax($total);
-                if($data['tax_data'] != 0){
+                if ($data['tax_data'] != 0) {
                     $tax_amount = $data['tax_data']['total_tax'];
                 }
 
-                $data['final_total'] = $total  + $tax_amount;
+                $data['final_total'] = $total + $tax_amount;
 
                 $order = $this->makeOrder($data);
                 $data['order'] = $order;
@@ -2145,14 +2147,20 @@ class ApiController extends Controller
         $taxes = Tax::where('status', '=', 1)->get();
         if (count($taxes) > 0) {
             $taxData = [];
+            $taxDetails = [];
             $amounts = [];
             foreach ($taxes as $tax) {
                 $amount = (float)number_format($total * $tax->rate / 100, 2);
                 $amounts[] = $amount;
-                $taxData[] = ['name' => $tax->rate . '% ' . $tax->name, 'amount' => $amount];
+                $taxMeta = [
+                    'name' => $tax->rate . '% ' . $tax->name,
+                    'amount' => $amount
+                ];
+                array_push($taxDetails, $taxMeta);
             }
-            $taxData['total_tax'] = array_sum($amounts);
+            $taxData['taxes'] = $taxDetails;
 
+            $taxData['total_tax'] = array_sum($amounts);
 
             return $taxData;
         }
