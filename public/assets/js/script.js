@@ -134,7 +134,7 @@ Author:         HTMLMATE Team
                     responsiveClass: true,
                     nav: true,
                     dots: true,
-                    autoplay: false,
+                    autoplay: true,
                     navText: ["<i class='fas fa-chevron-left'></i>", "<i class='fas fa-chevron-right'></i>"],
                     smartSpeed: 1000,
                     responsive: {

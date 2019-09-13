@@ -14,7 +14,7 @@ Author:         HTMLMATE Team
 
 	var Genius = {
 		init: function() {
-			this.Basic.init();  
+			this.Basic.init();
 		},
 
 		Basic: {
@@ -283,7 +283,7 @@ videoPopup: function (){
 		preloader: false,
 		fixedContentPos: false
 	});
-	
+
 },
 /* End of popup
 ================================================*/
@@ -371,34 +371,34 @@ faqTAB: function (){
 
 	/* if in tab mode */
 	$("ul.product-tab li").on("click", function() {
-		
+
 		$(".tab-content-1").hide();
-		var activeTab = $(this).attr("rel"); 
-		$("#"+activeTab).fadeIn();    
-		
+		var activeTab = $(this).attr("rel");
+		$("#"+activeTab).fadeIn();
+
 		$("ul.product-tab li").removeClass("active");
 		$(this).addClass("active");
 
 		$(".tab_drawer_heading").removeClass("d_active");
 		$(".tab_drawer_heading[rel^='"+activeTab+"']").addClass("d_active");
-		
+
 	});
 	/* if in drawer mode */
 	$(".tab_drawer_heading").on("click", function() {
-		
+
 		$(".tab-content-1").hide();
-		var d_activeTab = $(this).attr("rel"); 
+		var d_activeTab = $(this).attr("rel");
 		$("#"+d_activeTab).fadeIn();
-		
+
 		$(".tab_drawer_heading").removeClass("d_active");
 		$(this).addClass("d_active");
-		
+
 		$("ul.product-tab li").removeClass("active");
 		$("ul.product-tab li[rel^='"+d_activeTab+"']").addClass("active");
 	});
-	
-	
-  /* Extra class "tab_last" 
+
+
+  /* Extra class "tab_last"
      to add border to right side
      of last tab */
      $('ul.product-tab li').last().addClass("tab_last");
@@ -410,7 +410,7 @@ faqTAB: function (){
 /* Start  Contact Map section
 ================================================*/
 contactMAP: function (){
-	function isMobile() { 
+	function isMobile() {
 		return ('ontouchstart' in document.documentElement);
 	}
 
@@ -524,7 +524,7 @@ contactMAP: function (){
 		});
 	}
 	init_gmap();
-	
+
 },
 
 /* End Contact Map section
@@ -891,10 +891,10 @@ animationItem: function (){
 			});
 		});
 	}
-	
+
 	ckScrollInit($('.animation'));
 	ckScrollInit($('.staggered-animation'), $('.staggered-animation-wrap'));
-	
+
 
 },
 
@@ -957,7 +957,7 @@ countDown:  function (){
        countdownMinutes.innerHTML = minutes;
        countdownSeconds.innerHTML = seconds;
    }, 1000);
-     
+
  };
 },
 
