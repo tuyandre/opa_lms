@@ -338,7 +338,7 @@ class CartController extends Controller
         Session::forget('paypal_payment_id');
         if (empty(Input::get('PayerID')) || empty(Input::get('token'))) {
             \Session::put('failure', trans('labels.frontend.cart.payment_failed'));
-            return Redirect::route('cart');
+            return Redirect::route('status');
         }
         $payment = Payment::get($payment_id, $this->_api_context);
         $order = $this->makeOrder();
