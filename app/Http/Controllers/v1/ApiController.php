@@ -927,7 +927,7 @@ class ApiController extends Controller
     {
         $counter = 0;
         $items = [];
-        $order = Order::where('id', '=', $request->order_id)->where('status', '=', 0)->first();
+        $order = Order::where('id', '=', (int)$request->order_id)->where('status', '=', 0)->first();
         if ($order) {
             $order->payment_type = $request->payment_type;
             $order->status = ($request->status == 'success') ? 1 : 0;
