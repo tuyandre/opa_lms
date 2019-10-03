@@ -449,8 +449,7 @@ class CartController extends Controller
 
             $total = $courses->sum('price');
             $isCouponValid = false;
-
-            if($coupon->per_user_limit > $coupon->useByUser()){
+            if( $coupon->useByUser() < $coupon->per_user_limit ){
                 $isCouponValid = true;
                 if(($coupon->min_price != null) && ($coupon->min_price > 0)){
                     if($total >= $coupon->min_price){
@@ -459,15 +458,15 @@ class CartController extends Controller
                 }else{
                     $isCouponValid = true;
                 }
-            }
-            if($coupon->expires_at != null){
-                if(Carbon::parse($coupon->expires_at) >= Carbon::now()){
-                    $isCouponValid = true;
-                }else{
-                    $isCouponValid = false;
+                if($coupon->expires_at != null){
+                    if(Carbon::parse($coupon->expires_at) >= Carbon::now()){
+                        $isCouponValid = true;
+                    }else{
+                        $isCouponValid = false;
+                    }
                 }
-            }
 
+            }
 
             if($isCouponValid == true){
                 $type = null;
