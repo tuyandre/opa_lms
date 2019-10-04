@@ -51,6 +51,7 @@ use Event;
 use DevDojo\Chatter\Models\Models;
 use DevDojo\Chatter\Helpers\ChatterHelper as Helper;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Validator;
 use Purifier;
@@ -437,9 +438,13 @@ class ApiController extends Controller
         $contact->message = $request->message;
         $contact->save();
 
-        \Mail::send(new SendContact($request));
+        $result = Mail::send(new SendContact($request));
+        if($result){
+            return response()->json(['status' => 'success']);
+        }else{
+            return response()->json(['status' => 'failure']);
+        }
 
-        return response()->json(['status' => 'success']);
     }
 
     /**
