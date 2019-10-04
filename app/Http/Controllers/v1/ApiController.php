@@ -438,12 +438,9 @@ class ApiController extends Controller
         $contact->message = $request->message;
         $contact->save();
 
-        $result = Mail::send(new SendContact($request));
-        if($result){
-            return response()->json(['status' => 'success']);
-        }else{
-            return response()->json(['status' => 'failure']);
-        }
+        Mail::send(new SendContact($request));
+        return response()->json(['status' => 'success']);
+
 
     }
 
@@ -1458,7 +1455,7 @@ class ApiController extends Controller
     {
         $thread = "";
 
-        $teachers = User::role('teacher')->get()->pluck('name', 'id');
+        $teachers = User::role('teacher')->select('id','first_name','last_name')->get();
 
         auth()->user()->load('threads.messages.sender');
 
@@ -1506,6 +1503,7 @@ class ApiController extends Controller
     {
         $recipients = $request->data['recipients'];
         $message = $request->data['message'];
+
 
         $message = Messenger::from(auth()->user())->to($recipients)->message($message)->send();
         return response()->json(['status' => 'success', 'thread' => $message->thread_id]);
