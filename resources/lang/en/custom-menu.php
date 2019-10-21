@@ -1,7 +1,7 @@
 <?php return array (
   'nav-menu' => 
   array (
-    'blog' => 'Blog',
+    'news' => 'News',
     'courses' => 'Courses',
     'bundles' => 'Bundles',
     'forums' => 'Forums',

@@ -37,6 +37,7 @@
         "league/flysystem-aws-s3-v3": "^1.0",
         "maatwebsite/excel": "^3.1",
         "mtownsend/read-time": "^1.1",
+        "paragonie/certainty": "^2",
         "paypal/rest-api-sdk-php": "^1.14",
         "sendgrid/sendgrid": "~7",
         "spatie/laravel-backup": "6.0.6",

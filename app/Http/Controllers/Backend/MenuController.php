@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Backend;
 
-use App\Config;
+use App\Models\Config;
 use App\Item;
 use App\ItemMeta;
 use App\Models\Category;
@@ -236,7 +236,7 @@ class MenuController extends Controller
                         $allMenu[str_slug($item['label'])] = $item['label'];
                     }
                     $main[str_slug($menu->name)] = $allMenu;
-                    $file = fopen(public_path('../resources/lang/en/custom-menu.php'), 'a');
+                    $file = fopen(public_path('../resources/lang/en/custom-menu.php'), 'w');
                     if ($file !== false) {
                         ftruncate($file, 0);
                     }

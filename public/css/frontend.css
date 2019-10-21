@@ -6183,3 +6183,21 @@ ul.product-tab li.active:after {
   display: none;
 }
 
+
+/*#slide .owl-dots .owl-dot {*/
+  /*height: 20px!important;*/
+  /*width: 20px!important;*/
+  /*-webkit-border-radius: 20px;*/
+  /*-moz-border-radius: 20px;*/
+  /*border:2px solid white;*/
+  /*background-color: transparent;*/
+  /*border-radius: 20px;*/
+/*}*/
+/*#slide .owl-dots .owl-dot.active {*/
+  /*height: 20px !important;*/
+  /*width: 20px !important;*/
+  /*-webkit-border-radius: 20px;*/
+  /*-moz-border-radius: 20px;*/
+  /*border-radius: 20px;*/
+  /*background-color: #fff;*/
+/*}*/
