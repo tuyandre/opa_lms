@@ -148,7 +148,6 @@ class AppServiceProvider extends ServiceProvider
 
             if (Schema::hasTable('locales')) {
                 $locales = Locale::pluck('short_name as locale')->toArray();
-
             }
             $view->with(compact('locales','appCurrency'));
 

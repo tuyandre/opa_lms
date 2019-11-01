@@ -33,6 +33,7 @@ return [
         'es'    => ['es', 'es_ES', false],
         'fr'    => ['fr', 'fr_FR', false],
         'ar'    => ['ar', 'ar_AR', false],
+        'pr'    => ['pr', 'pr_PR', false],
 
 
     ],
