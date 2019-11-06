@@ -102,7 +102,8 @@
                             <td>
                                 @if($course->mediaVideo !=  null )
                                     <p class="form-group mb-0">
-                                        <a href="{{$course->mediaVideo->url}}" target="_blank">{{$course->mediaVideo->url}}</a>
+                                        <a href="{{$course->mediaVideo->url}}"
+                                           target="_blank">{{$course->mediaVideo->url}}</a>
                                     </p>
                                 @else
                                     <p>No Videos</p>
@@ -143,25 +144,26 @@
                         <ul class="sorter d-inline-block">
 
                             @foreach($courseTimeline as $key=>$item)
-                                @if($item->model->published == 1)
 
-                                <li>
-                            <span data-id="{{$item->id}}" data-sequence="{{$item->sequence}}">
-                              @if($item->model_type == 'App\Models\Test')
-                                    <p class="d-inline-block mb-0 btn btn-primary">
-                                        @lang('labels.backend.courses.test')
-                                    </p>
-                                @elseif($item->model_type == 'App\Models\Lesson')
-                                    <p class="d-inline-block mb-0 btn btn-success">
+                                @if(isset($item->model) && $item->model->published == 1)
+
+                                    <li>
+                                        <span data-id="{{$item->id}}" data-sequence="{{$item->sequence}}">
+                                    @if($item->model_type == 'App\Models\Test')
+                                        <p class="d-inline-block mb-0 btn btn-primary">
+                                            @lang('labels.backend.courses.test')
+                                         </p>
+                                    @elseif($item->model_type == 'App\Models\Lesson')
+                                      <p class="d-inline-block mb-0 btn btn-success">
                                         @lang('labels.backend.courses.lesson')
-                                    </p>
-                                @endif
-                                @if($item->model)
-                                <p class="title d-inline ml-2">{{$item->model->title}}</p>
-                                @endif
-                           </span>
+                                     </p>
+                                     @endif
+                                    @if($item->model)
+                                    <p class="title d-inline ml-2">{{$item->model->title}}</p>
+                                    @endif
+                                     </span>
 
-                                </li>
+                                    </li>
                                 @endif
                             @endforeach
                         </ul>

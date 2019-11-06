@@ -216,7 +216,7 @@ class Course extends Model
         $timeline = $this->courseTimeline;
         $chapters = 0;
         foreach ($timeline as $item) {
-            if ($item->model->published == 1) {
+            if (isset($item->model) && ($item->model->published == 1)) {
                 $chapters++;
             }
         }
