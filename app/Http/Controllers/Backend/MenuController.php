@@ -53,7 +53,7 @@ class MenuController extends Controller
             $new_menu->key = str_slug($menu_name);
             $new_menu->value = $new_menu_data;
             $new_menu->save();
-            $add_data = ["id" => $new_menu->id, "name" => $menu_name];
+            $add_data = ["id" => $new_menu->id, "name" => str_slug($menu_name)];
         } else {
             foreach ($menus as $item) {
                 if (str_slug($menu_name) == str_slug($item->name)) {
@@ -64,7 +64,7 @@ class MenuController extends Controller
                     $new_menu->key = str_slug($menu_name);
                     $new_menu->value = $new_menu_data;
                     $new_menu->save();
-                    $add_data = ["id" => $new_menu->id, "name" => $menu_name];
+                    $add_data = ["id" => $new_menu->id, "name" => str_slug($menu_name)];
                 }
             }
         }
@@ -86,7 +86,7 @@ class MenuController extends Controller
         if ($menu) {
             $menu_data = json_decode($menu->value);
             if (str_slug($menu_data->menu_name) != str_slug($request->menu_name)) {
-                $menu_data->menu_name = $request->menu_name;
+                $menu_data->menu_name = str_slug($request->menu_name);
                 $menu->value = json_encode($menu_data);
                 $menu->save();
                 return redirect(route('admin.menu-manager') . '?menu=' . $menu->id)->with('')->withFlashSuccess(__('alerts.backend.menu-manager.updated'));
@@ -139,7 +139,7 @@ class MenuController extends Controller
     public function createnewmenu()
     {
         $menu = new Menus();
-        $menu->name = request()->input("menuname");
+        $menu->name = str_slug(request()->input("menuname"));
         $menu->save();
         return json_encode(array("resp" => $menu->id));
     }
@@ -204,7 +204,7 @@ class MenuController extends Controller
         $main = NULL;
         $menu = Menus::find(request()->input("idmenu"));
         $menu_bag_data = MenuItems::where('menu', '=', $menu)->get();
-        $menu->name = request()->input("menuname");
+        $menu->name = str_slug(request()->input("menuname"));
         $menu->save();
         $value = 0;
         if (request('meta')[0]['nav_menu'] == 'true') {

@@ -1,16 +1,16 @@
-<?php
-
-return array (
+<?php return array (
   'nav-menu' => 
   array (
-    'blog' => 'Blog',
+    'news' => 'News',
     'courses' => 'Courses',
     'bundles' => 'Bundles',
     'forums' => 'Forums',
     'contact' => 'Contact',
     'about-us' => 'About Us',
-    'dummy-menu' => 'Dummy menu',
-    'news-resources' => 'News & Resources',
-    'news' => 'News',
+  ),
+  'dummy-menu' => 
+  array (
+    'about-us' => 'About Us',
+    'privacy-policy' => 'Privacy Policy',
   ),
 );

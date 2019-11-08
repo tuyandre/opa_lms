@@ -133,6 +133,7 @@ Author:         HTMLMATE Team
                     margin: 0,
                     responsiveClass: true,
                     nav: true,
+                    loop:true,
                     dots: true,
                     autoplay: false,
                     navText: ["<i class='fas fa-chevron-left'></i>", "<i class='fas fa-chevron-right'></i>"],
