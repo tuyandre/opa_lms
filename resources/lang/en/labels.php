@@ -581,6 +581,28 @@ return array (
       'onesignal_note' => 'Enable / Disble OneSignal configuration for Website.',
       'how_to_onesignal' => 'How to create app in OneSignal?',
       'setup_onesignal' => 'How to set up OneSignal?',
+      'api_clients' => 
+      array (
+        'title' => 'API Clients',
+        'generate' => 'Generate',
+        'note' => '<span class="text-danger font-weight-bold">Note :</span> This section will be helpful for API purpose. You can generate <b>Client ID</b> and <b>Client Secret</b> to use in your Android app or Postman to test the API.<br> You need to customise parameters and URL according to your requirement.',
+        'developer_manual' => 'Developer Manual',
+        'fields' =>
+        array (
+          'name' => 'Name',
+          'id' => 'ID',
+          'secret' => 'Secret',
+          'status' => 'Status',
+          'action' => 'Action',
+        ),
+        'revoked' => 'Revoked',
+        'revoke' => 'Revoke',
+        'live' => 'Live',
+        'enable' => 'Enable',
+        'api_client_name' => 'API Client Name',
+        'something_went_wrong' => 'Something Went Wrong',
+        'please_input_api_client_name' => 'Please input API client name',
+      ),
     ),
     'logo' => 
     array (

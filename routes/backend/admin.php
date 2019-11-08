@@ -259,7 +259,16 @@ Route::post('backup','BackupController@storeBackup')->name('backup.store');
 //===Trouble shoot ====//
 Route::get('troubleshoot','Admin\ConfigController@troubleshoot')->name('troubleshoot');
 
+//==== API Clients Routes ====//
+Route::prefix('api-client')->group(function(){
+    Route::get('all', 'Admin\ApiClientController@all')->name('api-client.all');
+    Route::post('generate', 'Admin\ApiClientController@generate')->name('api-client.generate');
+    Route::post('status', 'Admin\ApiClientController@status')->name('api-client.status');
+});
+
+
 //==== Sitemap Routes =====//
 Route::get('sitemap','SitemapController@getIndex')->name('sitemap.index');
 Route::post('sitemap','SitemapController@saveSitemapConfig')->name('sitemap.config');
 Route::get('sitemap/generate','SitemapController@generateSitemap')->name('sitemap.generate');
+

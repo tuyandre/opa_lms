@@ -584,6 +584,26 @@ return array (
       'how_to_onesignal' => '¿Cómo crear una aplicación en OneSignal?',
       'onesignal_note' => 'Habilitar / deshabilitar la configuración de OneSignal para el sitio web.',
       'setup_onesignal' => '¿Cómo configurar OneSignal?',
+      'api_clients' => 
+      array (
+        'api_client_name' => 'Nombre del cliente API',
+        'enable' => 'Habilitar',
+        'fields' => 
+        array (
+          'action' => 'acción',
+          'id' => 'CARNÉ DE IDENTIDAD',
+          'name' => 'Nombre',
+          'secret' => 'Secreta',
+          'status' => 'Estado',
+        ),
+        'generate' => 'Generar',
+        'live' => 'En Vivo',
+        'please_input_api_client_name' => 'Ingrese el nombre del cliente API',
+        'revoke' => 'Revocar',
+        'revoked' => 'Revocada',
+        'something_went_wrong' => 'Algo salió mal',
+        'title' => 'Clientes API',
+      ),
     ),
     'hero_slider' => 
     array (

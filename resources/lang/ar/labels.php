@@ -654,6 +654,26 @@ return array (
       'how_to_onesignal' => 'كيفية إنشاء التطبيق في OneSignal؟',
       'onesignal_note' => 'تمكين / تعطيل تكوين OneSignal لموقع الويب.',
       'setup_onesignal' => 'كيفية إعداد OneSignal؟',
+      'api_clients' => 
+      array (
+        'api_client_name' => 'اسم عميل API',
+        'enable' => 'ممكن',
+        'fields' => 
+        array (
+          'action' => 'عمل',
+          'id' => 'هوية شخصية',
+          'name' => 'اسم',
+          'secret' => 'سر',
+          'status' => 'الحالة',
+        ),
+        'generate' => 'توليد',
+        'live' => 'حي',
+        'please_input_api_client_name' => 'الرجاء إدخال اسم عميل API',
+        'revoke' => 'إبطال',
+        'revoked' => 'إلغاء - فسخ',
+        'something_went_wrong' => 'هناك خطأ ما',
+        'title' => 'عملاء API',
+      ),
     ),
     'invoices' => 
     array (

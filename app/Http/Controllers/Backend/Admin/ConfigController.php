@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\Traits\FileUploadTrait;
 use App\Locale;
 use App\Models\Config;
+use App\Models\OauthClient;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 
@@ -24,7 +25,8 @@ class ConfigController extends Controller
         $footer_data = json_decode($footer_data->value);
         $sections = json_decode($sections->value);
         $app_locales = Locale::get();
-        return view('backend.settings.general', compact('sections', 'footer_data','app_locales'));
+        $api_clients = OauthClient::paginate(10);
+        return view('backend.settings.general', compact('sections', 'footer_data','app_locales','api_clients'));
     }
 
     public function saveGeneralSettings(Request $request)

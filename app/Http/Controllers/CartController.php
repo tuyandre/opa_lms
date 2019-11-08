@@ -375,7 +375,6 @@ class CartController extends Controller
 
     }
 
-
     public function getNow(Request $request)
     {
         $order = new Order();
@@ -497,7 +496,6 @@ class CartController extends Controller
         return ['status' => 'fail', 'message' => trans('labels.frontend.cart.invalid_coupon')];
     }
 
-
     public function removeCoupon(Request $request){
 
         Cart::session(auth()->user()->id)->clearCartConditions();
@@ -526,7 +524,6 @@ class CartController extends Controller
         return ['status' => 'success', 'html' => $html];
 
     }
-
 
     private function makeOrder()
     {
