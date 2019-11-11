@@ -33,7 +33,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command(RefreshSite::class)->hourly();
+        $schedule->command(RefreshSite::class)->everyFifteenMinutes();
 
         if (config('backup_schedule') == 1) {
             $schedule->command(Backup::class)->daily();
