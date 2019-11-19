@@ -918,7 +918,7 @@
                         <div class="col-lg-4 col-12">
                                 <fieldset>
                                     <div class="input-group">
-                                        <input type="text"  id="api_client_name" class="form-control" placeholder="{{__('labels.backend.general_settings.api_clients.api_client_name')}}" required>
+                                        <input type="text"  id="api_client_name" class="form-control" placeholder="{{__('labels.backend.general_settings.api_clients.api_client_name')}}" >
                                         <div class="input-group-append" id="button-addon2">
                                             <button class="btn btn-primary generate-client" type="button">{{__('labels.backend.general_settings.api_clients.generate')}}</button>
                                         </div>
