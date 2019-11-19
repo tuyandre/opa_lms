@@ -2033,9 +2033,7 @@ class ApiController extends Controller
             }
             $data['data'] = $items;
 
-            $total = (float)number_format($total, 2);
-
-            if ((float)$request->total == $total) {
+            if ((float)$request->total == floatval($total)) {
 
                 $coupon = $request->coupon;
                 $discount = 0;
@@ -2064,7 +2062,7 @@ class ApiController extends Controller
                 }
 
 
-                $data['subtotal'] = (float)number_format($total, 2);
+                $data['subtotal'] = (float)$total;
                 $total = $total - $discount;
 
                 //Apply Tax
@@ -2153,22 +2151,19 @@ class ApiController extends Controller
             $taxDetails = [];
             $amounts = [];
             foreach ($taxes as $tax) {
-                $amount = (float)number_format($total * $tax->rate / 100, 2);
+                $amount = $total * ((float)$tax->rate / 100);
                 $amounts[] = $amount;
                 $taxMeta = [
-                    'name' => $tax->rate . '% ' . $tax->name,
-                    'amount' => $amount
+                    'name' => (float)$tax->rate . '% ' . $tax->name,
+                    'amount' => (float)$amount
                 ];
                 array_push($taxDetails, $taxMeta);
             }
             $taxData['taxes'] = $taxDetails;
-
             $taxData['total_tax'] = array_sum($amounts);
 
             return $taxData;
         }
         return false;
     }
-
-
 }
