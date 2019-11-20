@@ -9,6 +9,13 @@
         .content img {
             margin: 10px;
         }
+        .about-page-section{
+            padding-left: 20px;
+            font-size: 20px;
+            color: #333333;
+            font-weight: 300;
+            margin-bottom: 25px;
+        }
     </style>
 @endpush
 
