@@ -209,5 +209,13 @@ class User extends Authenticatable implements MessageableInterface
         return $purchases;
     }
 
+    public function findForPassport($user)
+    {
+        $user = $this->where('email', $user)->first();
+        if($user->hasRole('student')){
+            return $user;
+        }
+    }
+
 
 }
