@@ -61,12 +61,9 @@ class ContactController extends Controller
         $contact->message = $request->message;
         $contact->save();
 
-        $result = Mail::send(new SendContact($request));
-        if($result){
-            Session::flash('alert','Contact mail sent successfully!');
-        }else{
-            Session::flash('alert','Something went wrong!');
-        }
+        Mail::send(new SendContact($request));
+        Session::flash('alert','Response received successfully!');
+
 
 
         return redirect()->back();

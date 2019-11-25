@@ -60,19 +60,23 @@ class LessonsController extends Controller
                 ]);
             }
         }
-        $course_lessons = $lesson->course->lessons->pluck('id');
 
+        $course_lessons = $lesson->course->lessons->pluck('id')->toArray();
+        $course_tests = ($lesson->course->tests ) ? $lesson->course->tests->pluck('id')->toArray() : [];
+        $course_lessons = array_merge($course_lessons,$course_tests);
 
         $previous_lesson = $lesson->course->courseTimeline()
             ->where('sequence', '<', $lesson->courseTimeline->sequence)
             ->whereIn('model_id',$course_lessons)
             ->orderBy('sequence', 'desc')
             ->first();
+
         $next_lesson = $lesson->course->courseTimeline()
             ->whereIn('model_id',$course_lessons)
             ->where('sequence', '>', $lesson->courseTimeline->sequence)
             ->orderBy('sequence', 'asc')
             ->first();
+
         $lessons = $lesson->course->courseTimeline()
             ->whereIn('model_id',$course_lessons)
             ->orderby('sequence', 'asc')

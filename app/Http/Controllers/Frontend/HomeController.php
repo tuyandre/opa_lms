@@ -247,32 +247,35 @@ class HomeController extends Controller
 
         if ($request->category != null) {
             $category = Category::find((int)$request->category);
-            $ids = $category->courses->pluck('id')->toArray();
-            $types = ['popular', 'trending', 'featured'];
-            if ($category) {
+            if($category){
+                $ids = $category->courses->pluck('id')->toArray();
+                $types = ['popular', 'trending', 'featured'];
+                if ($category) {
 
-                if (in_array(request('type'), $types)) {
-                    $type = request('type');
-                    $courses = $category->courses()->where(function ($query) use ($request) {
-                        $query->where('title', 'LIKE', '%' . $request->q . '%');
-                        $query->orWhere('description', 'LIKE', '%' . $request->q . '%');
-                    })
-                        ->whereIn('id', $ids)
-                        ->where('published', '=', 1)
-                        ->where($type, '=', 1)
-                        ->paginate(12);
-                } else {
-                    $courses = $category->courses()
-                        ->where(function ($query) use ($request) {
+                    if (in_array(request('type'), $types)) {
+                        $type = request('type');
+                        $courses = $category->courses()->where(function ($query) use ($request) {
                             $query->where('title', 'LIKE', '%' . $request->q . '%');
                             $query->orWhere('description', 'LIKE', '%' . $request->q . '%');
                         })
-                        ->where('published', '=', 1)
-                        ->whereIn('id', $ids)
-                        ->paginate(12);
-                }
+                            ->whereIn('id', $ids)
+                            ->where('published', '=', 1)
+                            ->where($type, '=', 1)
+                            ->paginate(12);
+                    } else {
+                        $courses = $category->courses()
+                            ->where(function ($query) use ($request) {
+                                $query->where('title', 'LIKE', '%' . $request->q . '%');
+                                $query->orWhere('description', 'LIKE', '%' . $request->q . '%');
+                            })
+                            ->where('published', '=', 1)
+                            ->whereIn('id', $ids)
+                            ->paginate(12);
+                    }
 
+                }
             }
+
 
         } else {
             $courses = Course::where('title', 'LIKE', '%' . $request->q . '%')
