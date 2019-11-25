@@ -9,7 +9,7 @@
         .content img {
             margin: 10px;
         }
-        .about-page-section{
+        .about-page-section ul{
             padding-left: 20px;
             font-size: 20px;
             color: #333333;

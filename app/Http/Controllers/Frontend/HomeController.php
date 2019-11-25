@@ -115,7 +115,7 @@ class HomeController extends Controller
     public function subscribe(Request $request)
     {
         $this->validate($request, [
-            'email' => 'required'
+            'subs_email' => 'required'
         ]);
 
         if (config('mail_provider') != "" && config('mail_provider') == "mailchimp") {
@@ -187,7 +187,11 @@ class HomeController extends Controller
                 session()->flash('alert', "Something went wrong, Please try again Later");
                 return back();
             }
+        }else{
+            session()->flash('alert', "Please configure Newsletter from Admin");
+            return back();
         }
+
 
     }
 
