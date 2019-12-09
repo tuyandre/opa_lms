@@ -43,7 +43,7 @@
                     </a>
                 </li>
             @endcan
-            @if($logged_in_user->hasRole('teacher') || $logged_in_user->isAdmin())
+            @if($logged_in_user->hasRole('teacher') || $logged_in_user->isAdmin() || $logged_in_user->hasAnyPermission(['course_access','lesson_access','test_access','question_access','bundle_access']))
 
                 <li class="nav-item nav-dropdown {{ active_class(Active::checkUriPattern(['user/courses*','user/lessons*','user/tests*','user/questions*']), 'open') }}">
                     <a class="nav-link nav-dropdown-toggle {{ active_class(Active::checkUriPattern('admin/*')) }}"
@@ -103,26 +103,28 @@
                         </a>
                     </li>
                 @endcan
-                <li class="nav-item nav-dropdown {{ active_class(Active::checkUriPattern(['user/reports*']), 'open') }}">
-                    <a class="nav-link nav-dropdown-toggle {{ active_class(Active::checkUriPattern('admin/*')) }}"
-                       href="#">
-                        <i class="nav-icon icon-pie-chart"></i>@lang('menus.backend.sidebar.reports.title')
+                @if($logged_in_user->hasRole('teacher') || $logged_in_user->isAdmin())
+                    <li class="nav-item nav-dropdown {{ active_class(Active::checkUriPattern(['user/reports*']), 'open') }}">
+                        <a class="nav-link nav-dropdown-toggle {{ active_class(Active::checkUriPattern('admin/*')) }}"
+                           href="#">
+                            <i class="nav-icon icon-pie-chart"></i>@lang('menus.backend.sidebar.reports.title')
 
-                    </a>
-                    <ul class="nav-dropdown-items">
-                        <li class="nav-item ">
-                            <a class="nav-link {{ $request->segment(1) == 'sales' ? 'active' : '' }}"
-                               href="{{ route('admin.reports.sales') }}">
-                                @lang('menus.backend.sidebar.reports.sales')
-                            </a>
-                        </li>
-                        <li class="nav-item ">
-                            <a class="nav-link {{ $request->segment(1) == 'students' ? 'active' : '' }}"
-                               href="{{ route('admin.reports.students') }}">@lang('menus.backend.sidebar.reports.students')
-                            </a>
-                        </li>
-                    </ul>
-                </li>
+                        </a>
+                        <ul class="nav-dropdown-items">
+                            <li class="nav-item ">
+                                <a class="nav-link {{ $request->segment(1) == 'sales' ? 'active' : '' }}"
+                                   href="{{ route('admin.reports.sales') }}">
+                                    @lang('menus.backend.sidebar.reports.sales')
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link {{ $request->segment(1) == 'students' ? 'active' : '' }}"
+                                   href="{{ route('admin.reports.students') }}">@lang('menus.backend.sidebar.reports.students')
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                @endif
             @endif
 
 
@@ -185,12 +187,12 @@
                                     <span class="title">@lang('menus.backend.sidebar.testimonials.title')</span>
                                 </a>
                             </li>
-                                <li class="nav-item ">
-                                    <a class="nav-link {{ $request->segment(2) == 'forums-category' ? 'active' : '' }}"
-                                       href="{{ route('admin.forums-category.index') }}">
-                                        <span class="title">@lang('menus.backend.sidebar.forums-category.title')</span>
-                                    </a>
-                                </li>
+                            <li class="nav-item ">
+                                <a class="nav-link {{ $request->segment(2) == 'forums-category' ? 'active' : '' }}"
+                                   href="{{ route('admin.forums-category.index') }}">
+                                    <span class="title">@lang('menus.backend.sidebar.forums-category.title')</span>
+                                </a>
+                            </li>
                             <li class="nav-item ">
                                 <a class="nav-link {{ $request->segment(2) == 'faqs' ? 'active' : '' }}"
                                    href="{{ route('admin.faqs.index') }}">
@@ -215,12 +217,12 @@
                                     <span class="title">@lang('menus.backend.sidebar.footer.title')</span>
                                 </a>
                             </li>
-                                <li class="nav-item ">
-                                    <a class="nav-link {{ $request->segment(2) == 'sitemap' ? 'active' : '' }}"
-                                       href="{{ route('admin.sitemap.index') }}">
-                                        <span class="title">@lang('menus.backend.sidebar.sitemap.title')</span>
-                                    </a>
-                                </li>
+                            <li class="nav-item ">
+                                <a class="nav-link {{ $request->segment(2) == 'sitemap' ? 'active' : '' }}"
+                                   href="{{ route('admin.sitemap.index') }}">
+                                    <span class="title">@lang('menus.backend.sidebar.sitemap.title')</span>
+                                </a>
+                            </li>
                         @endif
 
                     </ul>
