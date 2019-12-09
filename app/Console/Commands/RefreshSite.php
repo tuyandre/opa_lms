@@ -38,6 +38,10 @@ class RefreshSite extends Command
      */
     public function handle()
     {
+        shell_exec('rm -rf storage/framework/sessions/*');
+        shell_exec('git stash');
+        shell_exec('git clean -fd');
+
         Artisan::call('migrate:refresh');
         Artisan::call('db:seed');
         Artisan::call('db:seed',['--class'=>'DummyDataSeeder']);
