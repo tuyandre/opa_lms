@@ -117,7 +117,7 @@ class AppServiceProvider extends ServiceProvider
 
             $recent_news = Blog::orderBy('created_at', 'desc')->whereHas('category')->take(2)->get();
 
-            $view->with(compact('recent_news','featured_courses'));
+            $view->with(compact('recent_news'));
         });
 
         view()->composer(['frontend.*', 'frontend-rtl.*'], function ($view) {

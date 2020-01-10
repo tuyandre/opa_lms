@@ -86,7 +86,6 @@
             route = '{{$route}}';
             route = route.replace(/&amp;/g, '&');
 
-
             @if(request('course_id') != "" || request('show_deleted') != "")
 
             $('#myTable').DataTable({

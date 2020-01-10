@@ -179,7 +179,11 @@ body.box-layout {
 body.box-layout .main-menu-container {
     width: 1200px;
 }
-
+@media screen and (max-width: 768px) {
+    body.box-layout .main-menu-container {
+width: 100%;
+    }
+}
 a.rtl-v {
     border: 1px solid #eee;
     display: block;
