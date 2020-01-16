@@ -194,9 +194,11 @@ return array (
         'select_icon' => 'Sélectionnez l\'icône',
         'slug' => 'Limace',
         'status' => 'Statut',
+        'blog' => 'Blog',
       ),
       'title' => 'Les catégories',
       'view' => 'Voir les catégories',
+      'not_allowed' => 'Interdit! La catégorie contient des données.',
     ),
     'courses' => 
     array (
@@ -603,6 +605,8 @@ return array (
         'revoked' => 'Révoqué',
         'something_went_wrong' => 'Quelque chose s\'est mal passé',
         'title' => 'Clients API',
+        'developer_manual' => 'Manuel du développeur',
+        'note' => '<span class = "text-danger font-weight-bold"> Remarque: </span> Cette section sera utile pour l\'API. Vous pouvez générer <b> ID client </b> et <b> Secret client </b> à utiliser dans votre application Android ou Postman pour tester l\'API. <br> Vous devez personnaliser les paramètres et l\'URL en fonction de vos besoins.',
       ),
     ),
     'hero_slider' => 

@@ -162,9 +162,11 @@ return array (
         'select_icon' => 'اختر أيقونة',
         'slug' => 'سبيكة',
         'status' => 'الحالة',
+        'blog' => 'مدونة',
       ),
       'title' => 'الاقسام',
       'view' => 'عرض الفئات',
+      'not_allowed' => 'غير مسموح! الفئة تحتوي على البيانات.',
     ),
     'courses' => 
     array (
@@ -673,6 +675,8 @@ return array (
         'revoked' => 'إلغاء - فسخ',
         'something_went_wrong' => 'هناك خطأ ما',
         'title' => 'عملاء API',
+        'developer_manual' => 'دليل المطور',
+        'note' => '<span class = "text-risk font-weight-bold"> ملاحظة: </span> سيكون هذا القسم مفيدًا لهدف API. يمكنك إنشاء <b> معرف العميل </b> و <b> عميل السرية </b> لاستخدامه في تطبيق Android أو ساعي البريد لاختبار واجهة برمجة التطبيقات. <br> تحتاج إلى تخصيص المعلمات وعنوان URL وفقًا لمتطلباتك.',
       ),
     ),
     'invoices' => 

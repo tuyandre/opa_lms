@@ -194,9 +194,11 @@ return array (
         'select_icon' => 'Select Icon',
         'slug' => 'Babosa',
         'status' => 'Estado',
+        'blog' => 'Blog',
       ),
       'title' => 'Categorías',
       'view' => 'Ver Categorías',
+      'not_allowed' => '¡No permitido! La categoría contiene datos.',
     ),
     'courses' => 
     array (
@@ -603,6 +605,8 @@ return array (
         'revoked' => 'Revocada',
         'something_went_wrong' => 'Algo salió mal',
         'title' => 'Clientes API',
+        'developer_manual' => 'Manual para desarrolladores',
+        'note' => '<span class = "text-danger font-weight-bold"> Nota: </span> Esta sección será útil para fines de API. Puede generar <b> ID de cliente </b> y <b> Secreto de cliente </b> para usar en su aplicación de Android o Postman para probar la API. <br> Debe personalizar los parámetros y la URL de acuerdo con sus requisitos.',
       ),
     ),
     'hero_slider' => 

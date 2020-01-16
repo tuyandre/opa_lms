@@ -288,11 +288,13 @@ return array (
         'slug' => 'Slug',
         'courses' => 'Courses',
         'status' => 'Status',
+        'blog' => 'Blog',
       ),
       'title' => 'Categories',
       'create' => 'Create Category',
       'edit' => 'Edit Category',
       'view' => 'View Categories',
+      'not_allowed' => 'Not allowed! Category contains data.',
     ),
     'faqs' => 
     array (
@@ -587,7 +589,7 @@ return array (
         'generate' => 'Generate',
         'note' => '<span class="text-danger font-weight-bold">Note :</span> This section will be helpful for API purpose. You can generate <b>Client ID</b> and <b>Client Secret</b> to use in your Android app or Postman to test the API.<br> You need to customise parameters and URL according to your requirement.',
         'developer_manual' => 'Developer Manual',
-        'fields' =>
+        'fields' => 
         array (
           'name' => 'Name',
           'id' => 'ID',

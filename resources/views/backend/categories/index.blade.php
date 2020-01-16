@@ -7,11 +7,11 @@
     <div class="card">
         <div class="card-header">
 
-                <h3 class="page-title d-inline">@lang('labels.backend.categories.title')</h3>
-                <div class="float-right">
-                    <a href="{{ route('admin.categories.create') }}"
-                       class="btn btn-success">@lang('strings.backend.general.app_add_new')</a>
-                </div>
+            <h3 class="page-title d-inline">@lang('labels.backend.categories.title')</h3>
+            <div class="float-right">
+                <a href="{{ route('admin.categories.create') }}"
+                   class="btn btn-success">@lang('strings.backend.general.app_add_new')</a>
+            </div>
 
         </div>
         <div class="card-body">
@@ -51,6 +51,7 @@
                                 <th>@lang('labels.backend.categories.fields.slug')</th>
                                 <th>@lang('labels.backend.categories.fields.icon')</th>
                                 <th>@lang('labels.backend.categories.fields.courses')</th>
+                                <th>@lang('labels.backend.categories.fields.blog')</th>
                                 @if( request('show_deleted') == 1 )
                                     <th>&nbsp; @lang('strings.backend.general.actions')</th>
                                 @else
@@ -90,14 +91,14 @@
                     {
                         extend: 'csv',
                         exportOptions: {
-                            columns: [ 1, 2, 3, 5 ]
+                            columns: [1, 2, 3, 5]
 
                         }
                     },
                     {
                         extend: 'pdf',
                         exportOptions: {
-                            columns: [ 1, 2, 3, 5 ]
+                            columns: [1, 2, 3, 5]
                         }
                     },
                     'colvis'
@@ -112,7 +113,7 @@
                         }, "orderable": false, "searchable": false, "name": "id"
                     },
                         @endif
-                      @endcan
+                        @endcan
                     {
                         data: "DT_RowIndex", name: 'DT_RowIndex'
                     },
@@ -120,6 +121,7 @@
                     {data: "slug", name: 'slug'},
                     {data: "icon", name: 'icon'},
                     {data: "courses", name: "courses"},
+                    {data: "blogs", name: "blogs"},
                     {data: "actions", name: "actions"}
                 ],
                 @if(request('show_deleted') != 1)
@@ -132,12 +134,12 @@
                 createdRow: function (row, data, dataIndex) {
                     $(row).attr('data-entry-id', data.id);
                 },
-                language:{
-                    url : "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/{{$locale_full_name}}.json",
-                    buttons :{
-                        colvis : '{{trans("datatable.colvis")}}',
-                        pdf : '{{trans("datatable.pdf")}}',
-                        csv : '{{trans("datatable.csv")}}',
+                language: {
+                    url: "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/{{$locale_full_name}}.json",
+                    buttons: {
+                        colvis: '{{trans("datatable.colvis")}}',
+                        pdf: '{{trans("datatable.pdf")}}',
+                        csv: '{{trans("datatable.csv")}}',
                     }
                 }
             });
@@ -146,6 +148,23 @@
             $('.actions').html('<a href="' + '{{ route('admin.categories.mass_destroy') }}' + '" class="btn btn-xs btn-danger js-delete-selected" style="margin-top:0.755em;margin-left: 20px;">Delete selected</a>');
             @endif
             @endcan
+
+
+            $(document).on('click', '.delete_warning', function () {
+                const link = $(this);
+                const cancel = (link.attr('data-trans-button-cancel')) ? link.attr('data-trans-button-cancel') : 'Cancel';
+
+                const title = (link.attr('data-trans-title')) ? link.attr('data-trans-title') : '{{ trans('labels.categories.not_allowed') }}';
+
+                swal({
+                    title: title,
+                    icon: 'error',
+                    showCancelButton: true,
+                    cancelButtonText: cancel,
+                    type: 'info'
+                })
+            });
+
 
         });
 

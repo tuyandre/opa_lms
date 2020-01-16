@@ -78,6 +78,8 @@ class CategoriesController extends Controller
                 $view = "";
                 $edit = "";
                 $delete = "";
+                $allow_delete = false;
+
                 if ($request->show_deleted == 1) {
                     return view('backend.datatable.action-trashed')->with(['route_label' => 'admin.categories', 'label' => 'category', 'value' => $q->id]);
                 }
@@ -93,8 +95,12 @@ class CategoriesController extends Controller
                 }
 
                 if ($has_delete) {
+                    $data = $q->courses->count() + $q->blogs->count();
+                    if($data == 0){
+                        $allow_delete = true;
+                    }
                     $delete = view('backend.datatable.action-delete')
-                        ->with(['route' => route('admin.categories.destroy', ['category' => $q->id])])
+                        ->with(['route' => route('admin.categories.destroy', ['category' => $q->id]),'allow_delete'=> $allow_delete])
                         ->render();
                     $view .= $delete;
                 }
@@ -114,6 +120,9 @@ class CategoriesController extends Controller
             })
             ->editColumn('courses', function ($q) {
                 return $q->courses->count();
+            })
+            ->editColumn('blogs', function ($q) {
+                return $q->blogs->count();
             })
             ->editColumn('status', function ($q) {
                 return ($q->status == 1) ? "Enabled" : "Disabled";

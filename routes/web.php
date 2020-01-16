@@ -163,3 +163,16 @@ Route::group(['namespace' => 'Frontend', 'as' => 'frontend.'], function () {
     Route::get('/{page?}', [HomeController::class, 'index'])->name('index');
 });
 
+
+//Route to clean up demo site
+Route::get('reset-demo',function (){
+    ini_set('memory_limit', '-1');
+    ini_set('max_execution_time', 1000);
+    try{
+        \Illuminate\Support\Facades\Artisan::call('refresh:site');
+        return 'Refresh successful!';
+    }catch (\Exception $e){
+        return $e->getMessage();
+    }
+
+});
