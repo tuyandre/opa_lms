@@ -252,7 +252,7 @@ class PageController extends Controller
         $message = $request->get('content');
         libxml_use_internal_errors(true);
         $dom = new \DOMDocument();
-        $dom->loadHtml(mb_convert_encoding($message,  'HTML-ENTITIES', 'UTF-8'), LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+        $dom->loadHtml(mb_convert_encoding($message,  'HTML-ENTITIES', 'UTF-8'));
         $images = $dom->getElementsByTagName('img');
         // foreach <img> in the submited message
         foreach ($images as $img) {

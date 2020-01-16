@@ -375,11 +375,12 @@
                 if(confirm('Are you sure you want to delete Locale?')){
                     e.preventDefault();
                     var form = $(this).parents('.form-remove-locale')
+                    form.find('input[name="delete_locale"]').val($(this).val());
 
                     $.ajax({
-                        url:'{{route('admin.delete-locale')}}',
+                        url:'{{route('admin.delete-locale-folder')}}',
                         type:'POST',
-                        data:{'locale':$(this).val(),_token:'{{csrf_token()}}'},
+                        data:{'delete_locale':$(this).val(),_token:'{{csrf_token()}}'},
                         success:function () {
                             form.submit();
                         }
@@ -536,14 +537,16 @@
                                 @lang('labels.backend.translations.current_supported_locales'):
                             </p>
                             <form class="form-remove-locale" method="POST" role="form"
-                                  action="{{action('\Barryvdh\TranslationManager\Controller@postRemoveLocale')}}">
+                                  action="{{route('admin.delete-locale-folder')}}">
                                 <input type="hidden" name=
                                 "_token" value="{{csrf_token()}}">
                                 <ul class="list-locales">
+                                    <input type="hidden" name="delete_locale" value="">
                                     @foreach($locales as $locale)
                                         <li>
                                             <div class="form-group">
-                                                <button  type="submit"  value="{{$locale}}" name="remove-locale[{{$locale}}]"
+
+                                                <button  type="submit"  value="{{$locale}}" name="remove_locale[{{$locale}}]"
                                                         class="btn btn-danger submit-btn btn-xs" data-disable-with="...">
                                                     &times;
                                                 </button>
@@ -555,7 +558,7 @@
 
                             </form>
                             <form class="form-add-locale" method="POST" role="form"
-                                  action="{{action('\Barryvdh\TranslationManager\Controller@postAddLocale')}}">
+                                  action="{{action('Backend\LangController@postAddLocale')}}">
                                 <input type="hidden" name="_token" value="{{csrf_token()}}">
                                 <div class="form-group">
                                     <p>

@@ -272,3 +272,7 @@ Route::get('sitemap','SitemapController@getIndex')->name('sitemap.index');
 Route::post('sitemap','SitemapController@saveSitemapConfig')->name('sitemap.config');
 Route::get('sitemap/generate','SitemapController@generateSitemap')->name('sitemap.generate');
 
+
+Route::post('translations/locales/add', 'LangController@postAddLocale');
+Route::post('translations/locales/remove', 'LangController@postRemoveLocaleFolder')->name('delete-locale-folder');
+

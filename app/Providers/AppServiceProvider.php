@@ -8,6 +8,7 @@ use App\Models\Blog;
 use App\Models\Config;
 use App\Models\Course;
 use App\Models\Slider;
+use Barryvdh\TranslationManager\Manager;
 use Barryvdh\TranslationManager\Models\Translation;
 use Carbon\Carbon;
 use Harimayco\Menu\Facades\Menu;
@@ -30,6 +31,8 @@ class AppServiceProvider extends ServiceProvider
     public $bindings = [
         SocialUserResolverInterface::class => SocialUserResolver::class,
     ];
+
+
 
 
     /**
@@ -137,12 +140,7 @@ class AppServiceProvider extends ServiceProvider
         });
 
         view()->composer(['frontend.*', 'backend.*', 'frontend-rtl.*','vendor.invoices.*'], function ($view) {
-//
-//            if (Schema::hasTable('ltm_translations')) {
-//                $locales = Translation::groupBy('locale')->pluck('locale')->toArray();
-//
-//            }
-//            $view->with(compact('locales'));
+
 
             $appCurrency = getCurrency(config('app.currency'));
 

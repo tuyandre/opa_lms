@@ -3,8 +3,12 @@
 namespace App\Http\Middleware;
 
 use App\Locale;
+use Barryvdh\TranslationManager\Manager;
+use Barryvdh\TranslationManager\Models\Translation;
 use Closure;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Storage;
 
 /**
  * Class LocaleMiddleware.
@@ -19,6 +23,13 @@ class LocaleMiddleware
      *
      * @return mixed
      */
+    public function __construct(Manager $manager)
+    {
+        $this->manager = $manager;
+    }
+
+
+
     public function handle($request, Closure $next)
     {
         /*
@@ -26,7 +37,12 @@ class LocaleMiddleware
          */
         if (config('locale.status')) {
             $locales = Locale::get();
-            $locales_list = $locales->pluck('short_name')->toArray();
+
+            $locales_list = null;
+            if (Schema::hasTable('locales')) {
+                $locales_list = $this->manager->getLocales();
+
+            }
             if (session()->has('locale') && in_array(session()->get('locale'),$locales_list)) {
 
                 /*
