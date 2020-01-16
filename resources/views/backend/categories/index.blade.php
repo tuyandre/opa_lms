@@ -154,7 +154,7 @@
                 const link = $(this);
                 const cancel = (link.attr('data-trans-button-cancel')) ? link.attr('data-trans-button-cancel') : 'Cancel';
 
-                const title = (link.attr('data-trans-title')) ? link.attr('data-trans-title') : '{{ trans('labels.categories.not_allowed') }}';
+                const title = (link.attr('data-trans-title')) ? link.attr('data-trans-title') : "{{ trans('labels.backend.categories.not_allowed') }}";
 
                 swal({
                     title: title,
