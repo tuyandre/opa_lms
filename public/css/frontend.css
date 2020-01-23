@@ -389,6 +389,9 @@ h6 {
   position: relative;
   margin-bottom: 50px;
 }
+.side-bar-widget select.form-control:not([size]):not([multiple]) {
+  min-height: 50px;
+}
 
 .widget-title:after {
   position: absolute;
