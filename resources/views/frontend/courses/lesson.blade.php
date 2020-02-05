@@ -449,6 +449,18 @@
 
 
     <script>
+        @if($lesson->mediaPDF)
+        $(function () {
+            $("#myPDF").pdf({
+                source: "{{asset('storage/uploads/'.$lesson->mediaPDF->name)}}",
+                loadingHeight: 800,
+                loadingWidth: 800,
+                loadingHTML: ""
+            });
+
+        });
+          @endif
+
         var storedDuration = 0;
         var storedLesson;
         storedDuration = Cookies.get("duration_" + "{{auth()->user()->id}}" + "_" + "{{$lesson->id}}" + "_" + "{{$lesson->course->id}}");
@@ -468,17 +480,7 @@
             current_progress = "{{$lesson->mediaVideo->getProgress(auth()->user()->id)->progress}}";
         @endif
 
-        @if($lesson->mediaPDF)
-        $(function () {
-            $("#myPDF").pdf({
-                source: "{{asset('storage/uploads/'.$lesson->mediaPDF->name)}}",
-                loadingHeight: 800,
-                loadingWidth: 800,
-                loadingHTML: ""
-            });
 
-        });
-                @endif
 
         const player2 = new Plyr('#audioPlayer');
 

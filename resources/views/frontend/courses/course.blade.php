@@ -496,10 +496,10 @@
                         </div>
                         <div class="couse-feature ul-li-block">
                             <ul>
-                                <li> @lang('labels.frontend.course.chapters')
-                                    <span> {{$course->chapterCount()}} </span></li>
+                                <li > @lang('labels.frontend.course.chapters')
+                                    <span>  {{$course->chapterCount()}} </span></li>
                                 {{--<li>Language <span>English</span></li>--}}
-                                <li> @lang('labels.frontend.course.category') <span><a
+                                <li class="d-inline-block w-100">@lang('labels.frontend.course.category')<span class="text-right"><a
                                                 href="{{route('courses.category',['category'=>$course->category->slug])}}"
                                                 target="_blank">{{$course->category->name}}</a> </span></li>
                                 <li> @lang('labels.frontend.course.author') <span>
