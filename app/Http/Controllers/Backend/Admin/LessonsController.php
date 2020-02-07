@@ -362,7 +362,7 @@ class LessonsController extends Controller
             $sequence = $sequence + 1;
         }
 
-        if (($lesson->published != 1) && ((int)$request->published == 1)) {
+        if ((int)$request->published == 1) {
             $timeline = CourseTimeline::where('model_type', '=', Lesson::class)
                 ->where('model_id', '=', $lesson->id)
                 ->where('course_id', $request->course_id)->first();

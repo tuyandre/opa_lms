@@ -36,7 +36,8 @@
             {{--<link rel="stylesheet"--}}
             {{--href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker.standalone.min.css"/>--}}
             {{-- See https://laravel.com/docs/5.5/blade#stacks for usage --}}
-            <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+
+
 
 
             @stack('before-styles')
