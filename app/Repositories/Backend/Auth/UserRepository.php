@@ -58,6 +58,7 @@ class UserRepository extends BaseRepository
             ->paginate($paged);
     }
 
+
     /**
      * @param int    $paged
      * @param string $orderBy

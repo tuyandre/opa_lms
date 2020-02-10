@@ -39,8 +39,52 @@ class UserController extends Controller
      */
     public function index(ManageUserRequest $request)
     {
+        if (!\Gate::allows('user_access')) {
+            return abort(401);
+        }
+
+
         return view('backend.auth.user.index')
             ->withUsers($this->userRepository->getActivePaginated(25, 'id', 'asc'));
+    }
+
+    /**
+     * Display a listing of Courses via ajax DataTable.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getData(\Request $request)
+    {
+
+
+        $users = User::with('roles', 'permissions', 'providers')
+            ->orderBy('created_at', 'desc');
+
+        return \DataTables::of($users)
+            ->addIndexColumn()
+            ->addColumn('confirmed_label', function ($q)  {
+                return $q->confirmed_label;
+            })
+            ->addColumn('roles_label', function ($q)  {
+                return ($q->roles_label) ?? 'N/A';
+            })
+            ->addColumn('permissions_label', function ($q)  {
+                return ($q->permission_label) ?? 'N/A';
+            })
+            ->addColumn('social_buttons', function ($q)  {
+                return ($q->social_buttons) ?? 'N/A';
+            })
+            ->addColumn('updated_at', function ($q)  {
+                return $q->updated_at->diffForHumans();
+            })
+            ->addColumn('last_updated', function ($q)  {
+                return $q->updated_at->diffForHumans();
+            })
+            ->addColumn('actions', function ($q)  {
+                return $q->action_buttons;
+            })
+            ->rawColumns(['confirmed_label','roles_label','permissions_label','social_buttons','actions'])
+            ->make();
     }
 
     /**
