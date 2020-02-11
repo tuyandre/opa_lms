@@ -4,6 +4,7 @@ use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\Auth\User\AccountController;
 use App\Http\Controllers\Backend\Auth\User\ProfileController;
 use \App\Http\Controllers\Backend\Auth\User\UpdatePasswordController;
+use \App\Http\Controllers\Backend\Auth\User\UserPasswordController;
 
 /*
  * All route names are prefixed with 'admin.'.
@@ -95,7 +96,7 @@ Route::post('media/remove', ['uses' => 'Admin\MediaController@destroy', 'as' => 
 //===== User Account Routes =====//
 Route::group(['middleware' => ['auth', 'password_expires']], function () {
     Route::get('account', [AccountController::class, 'index'])->name('account');
-    Route::patch('account', [UpdatePasswordController::class, 'update'])->name('account.post');
+    Route::patch('account/{user?}', [UserPasswordController::class, 'update'])->name('account.post');
     Route::patch('profile/update', [ProfileController::class, 'update'])->name('profile.update');
 });
 

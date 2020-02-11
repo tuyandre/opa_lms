@@ -1,4 +1,4 @@
-{{ html()->modelForm($logged_in_user, 'PATCH', route('admin.profile.update'))->class('form-horizontal')->attribute('enctype', 'multipart/form-data')->open() }}
+{{ html()->modelForm($user, 'PATCH', route('admin.profile.update'))->class('form-horizontal')->attribute('enctype', 'multipart/form-data')->open() }}
 <div class="row">
     <div class="col">
         <div class="form-group">
@@ -6,15 +6,15 @@
 
             <div>
                 <input type="radio" name="avatar_type"
-                       value="gravatar" {{ $logged_in_user->avatar_type == 'gravatar' ? 'checked' : '' }} /> {{__('validation.attributes.frontend.gravatar')}}
+                       value="gravatar" {{ $user->avatar_type == 'gravatar' ? 'checked' : '' }} /> {{__('validation.attributes.frontend.gravatar')}}
                 &nbsp;&nbsp;
                 <input type="radio" name="avatar_type"
-                       value="storage" {{ $logged_in_user->avatar_type == 'storage' ? 'checked' : '' }} /> {{__('validation.attributes.frontend.upload')}}
+                       value="storage" {{ $user->avatar_type == 'storage' ? 'checked' : '' }} /> {{__('validation.attributes.frontend.upload')}}
 
-                @foreach($logged_in_user->providers as $provider)
+                @foreach($user->providers as $provider)
                     @if(strlen($provider->avatar))
                         <input type="radio" name="avatar_type"
-                               value="{{ $provider->provider }}" {{ $logged_in_user->avatar_type == $provider->provider ? 'checked' : '' }} /> {{ ucfirst($provider->provider) }}
+                               value="{{ $provider->provider }}" {{ $user->avatar_type == $provider->provider ? 'checked' : '' }} /> {{ ucfirst($provider->provider) }}
                     @endif
                 @endforeach
             </div>
@@ -56,7 +56,7 @@
     </div><!--col-->
 </div><!--row-->
 
-@if ($logged_in_user->canChangeEmail())
+@if ($user->canChangeEmail())
     <div class="row">
         <div class="col">
             <div class="alert alert-info">
@@ -89,29 +89,29 @@
                     @if(in_array($item->type,$inputs))
                         {{ html()->label(__('labels.backend.general_settings.user_registration_settings.fields.'.$item->name))->for('last_name') }}
 
-                        <input type="{{$item->type}}" class="form-control mb-0" value="{{$logged_in_user[$item->name]}}"
+                        <input type="{{$item->type}}" class="form-control mb-0" value="{{$user[$item->name]}}"
                                name="{{$item->name}}"
                                placeholder="{{__('labels.backend.general_settings.user_registration_settings.fields.'.$item->name)}}">
                     @elseif($item->type == 'gender')
                         <label class="radio-inline mr-3 mb-0">
-                            <input type="radio" @if($logged_in_user[$item->name] == 'male') checked
+                            <input type="radio" @if($user[$item->name] == 'male') checked
                                    @endif name="{{$item->name}}"
                                    value="male"> {{__('validation.attributes.frontend.male')}}
                         </label>
                         <label class="radio-inline mr-3 mb-0">
-                            <input type="radio" @if($logged_in_user[$item->name] == 'female') checked
+                            <input type="radio" @if($user[$item->name] == 'female') checked
                                    @endif  name="{{$item->name}}"
                                    value="female"> {{__('validation.attributes.frontend.female')}}
                         </label>
                         <label class="radio-inline mr-3 mb-0">
-                            <input type="radio" @if($logged_in_user[$item->name] == 'other') checked
+                            <input type="radio" @if($user[$item->name] == 'other') checked
                                    @endif  name="{{$item->name}}"
                                    value="other"> {{__('validation.attributes.frontend.other')}}
                         </label>
                     @elseif($item->type == 'textarea')
                         <textarea name="{{$item->name}}"
                                   placeholder="{{__('labels.backend.general_settings.user_registration_settings.fields.'.$item->name)}}"
-                                  class="form-control mb-0">{{$logged_in_user[$item->name]}}</textarea>
+                                  class="form-control mb-0">{{$user[$item->name]}}</textarea>
                     @endif
                 </div>
             </div>

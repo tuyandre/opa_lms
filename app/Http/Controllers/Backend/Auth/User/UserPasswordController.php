@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Repositories\Backend\Auth\UserRepository;
 use App\Http\Requests\Backend\Auth\User\ManageUserRequest;
 use App\Http\Requests\Backend\Auth\User\UpdateUserPasswordRequest;
+use App\Http\Requests\Frontend\User\UpdatePasswordRequest;
 
 /**
  * Class UserPasswordController.
@@ -34,6 +35,7 @@ class UserPasswordController extends Controller
      */
     public function edit(ManageUserRequest $request, User $user)
     {
+
         return view('backend.account.index')
             ->withUser($user);
     }
@@ -45,10 +47,9 @@ class UserPasswordController extends Controller
      * @return mixed
      * @throws \App\Exceptions\GeneralException
      */
-    public function update(UpdateUserPasswordRequest $request, User $user)
+    public function update(UpdatePasswordRequest $request, User $user)
     {
         $this->userRepository->updatePassword($user, $request->only('password'));
-
-        return redirect()->route('admin.account')->withFlashSuccess(__('alerts.backend.users.updated_password'));
+        return redirect()->back()->withFlashSuccess(__('alerts.backend.users.updated_password'));
     }
 }

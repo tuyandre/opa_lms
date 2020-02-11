@@ -1,4 +1,4 @@
-{{ html()->form('PATCH', route('admin.account.post'))->class('form-horizontal')->open() }}
+{{ html()->form('PATCH', route('admin.account.post',$user))->class('form-horizontal')->open() }}
     <div class="row">
         <div class="col">
             <div class="form-group">
