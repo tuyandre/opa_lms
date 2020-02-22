@@ -107,6 +107,13 @@
                                     <button type="submit"
                                             value="Submit">@lang('labels.frontend.modal.login_now')</button>
                                 </div>
+                                  <a class="go-register float-left text-info mt-2"
+                                       href="{{ route('frontend.auth.password.reset') }}">
+                                       @lang('labels.frontend.passwords.forgot_password')
+                                </a>
+                                <a href="#" class="go-register float-left text-info mt-2">
+                                    @lang('labels.frontend.modal.new_user_note')
+                                </a>
                             </form>
 
                             <div id="socialLinks" class="text-center">
@@ -209,6 +216,16 @@
                                                 value="Submit">@lang('labels.frontend.modal.register_now')</button>
                                     </div>
                                 </div>
+
+                                <a href="#"
+                                   class="go-register float-left text-info mt-2">
+                                   @lang('labels.frontend.modal.already_user_note')
+                                </a>
+
+                                <a href="{{ route('frontend.auth.teacher.register') }}"
+                                   class="fgo-register float-left text-info mt-2">
+                                   @lang('labels.teacher.teacher_register')
+                                </a>
                             </form>
                         </div>
                     </div>
@@ -219,7 +236,12 @@
 @endif
 
 @push('after-scripts')
-    @if(config('access.captcha.registration'))
+    @if (session('openModel'))
+        <script>
+            $('#myModal').modal('show');
+        </script>
+@endif
+        @if(config('access.captcha.registration'))
         {!! Captcha::script() !!}
     @endif
 

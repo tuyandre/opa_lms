@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\General\EarningHelper;
 use App\Mail\OfflineOrderMail;
 use App\Models\Bundle;
 use App\Models\Coupon;
@@ -206,6 +207,7 @@ class CartController extends Controller
             $order->status = 1;
             $order->payment_type = 1;
             $order->save();
+            (new EarningHelper)->insert($order);
             foreach ($order->items as $orderItem) {
                 //Bundle Entries
                 if ($orderItem->item_type == Bundle::class) {
@@ -352,6 +354,7 @@ class CartController extends Controller
             \Session::flash('success', trans('labels.frontend.cart.payment_done'));
             $order->status = 1;
             $order->save();
+            (new EarningHelper)->insert($order);
             foreach ($order->items as $orderItem) {
                 //Bundle Entries
                 if ($orderItem->item_type == Bundle::class) {

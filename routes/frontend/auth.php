@@ -8,6 +8,7 @@ use App\Http\Controllers\Frontend\Auth\ConfirmAccountController;
 use App\Http\Controllers\Frontend\Auth\ForgotPasswordController;
 use App\Http\Controllers\Frontend\Auth\UpdatePasswordController;
 use App\Http\Controllers\Frontend\Auth\PasswordExpiredController;
+use App\Http\Controllers\Frontend\Auth\TeacherRegisterController;
 
 /*
  * Frontend Access Controllers
@@ -69,5 +70,10 @@ Route::group(['namespace' => 'Auth', 'as' => 'auth.'], function () {
 
         Route::get('password/reset/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset.form');
         Route::post('password/reset', [ResetPasswordController::class, 'reset'])->name('password.reset');
+
+        // New Register Teacher Routes
+        Route::get('teacher/register',[TeacherRegisterController::class, 'showTeacherRegistrationForm'])->name('teacher.register');
+        Route::post('teacher/register', [TeacherRegisterController::class, 'register'])->name('teacher.register.post');
+
     });
 });

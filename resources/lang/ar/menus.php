@@ -196,6 +196,14 @@ return array (
       array (
         'title' => 'فئات المنتديات',
       ),
+        'payments' =>
+            array(
+                'title' => 'المدفوعات',
+            ),
+        'payments_requests' =>
+            array(
+                'title' => 'طلب الدفع',
+            ),
     ),
   ),
   'language-picker' => 

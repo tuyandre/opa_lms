@@ -154,4 +154,17 @@ class SliderController extends Controller
         }
         return 'success';
     }
+
+    /**
+     * Update slider status
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     **/
+    public function updateStatus()
+    {
+        $slide = Slider::findOrFail(request('id'));
+        $slide->status = $slide->status == 1? 0 : 1;
+        $slide->save();
+    }
 }

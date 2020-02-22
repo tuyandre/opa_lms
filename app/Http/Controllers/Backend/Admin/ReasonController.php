@@ -110,9 +110,11 @@ class ReasonController extends Controller
                 }
             })
             ->editColumn('status', function ($q) {
-                return ($q->status == 1) ? "Enabled" : "Disabled";
+                $html = html()->label(html()->checkbox('')->id($q->id)
+                ->checked(($q->status == 1) ? true : false)->class('switch-input')->attribute('data-id', $q->id)->value(($q->status == 1) ? 1 : 0).'<span class="switch-label"></span><span class="switch-handle"></span>')->class('switch switch-lg switch-3d switch-primary');
+                return $html;
             })
-            ->rawColumns(['actions', 'icon'])
+            ->rawColumns(['actions', 'icon', 'status'])
             ->make();
     }
 
@@ -261,5 +263,18 @@ class ReasonController extends Controller
         $reason->save();
 
         return back()->withFlashSuccess(trans('alerts.backend.general.updated'));
+    }
+
+    /**
+     * Update reason status
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     **/
+    public function updateStatus()
+    {
+        $reason = Reason::findOrFail(request('id'));
+        $reason->status = $reason->status == 1? 0 : 1;
+        $reason->save();
     }
 }

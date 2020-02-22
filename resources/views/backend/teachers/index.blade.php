@@ -1,7 +1,8 @@
 @extends('backend.layouts.app')
 @section('title', __('labels.backend.teachers.title').' | '.app_name())
-
-
+@push('after-styles')
+    <link rel="stylesheet" href="{{asset('assets/css/colors/switch.css')}}">
+@endpush
 @section('content')
 
     <div class="card">
@@ -141,6 +142,20 @@
             $('.actions').html('<a href="' + '{{ route('admin.teachers.mass_destroy') }}' + '" class="btn btn-xs btn-danger js-delete-selected" style="margin-top:0.755em;margin-left: 20px;">Delete selected</a>');
             @endif
         });
+        $(document).on('click', '.switch-input', function (e) {
+            var id = $(this).data('id');
+            $.ajax({
+                type: "POST",
+                url: "{{ route('admin.teachers.status') }}",
+                data: {
+                    _token:'{{ csrf_token() }}',
+                    id: id,
+                },
+            }).done(function() {
+                var table = $('#myTable').DataTable();
+                table.ajax.reload();
+            });
+        })
 
     </script>
 

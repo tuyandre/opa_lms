@@ -75,26 +75,17 @@
                                         {{ $item->sequence }}
                                     </td>
                                     <td>
-                                        @if($item->status == 1)
+                                        {{
+                                            html()->label(html()->checkbox('')->id($item->id)
+                ->checked(($item->status == 1) ? true : false)->class('switch-input')->attribute('data-id', $item->id)->value(($item->status == 1) ? 1 : 0).'<span class="switch-label"></span><span class="switch-handle"></span>')->class('switch switch-lg switch-3d switch-primary')
+                                        }}
+                                        {{-- @if($item->status == 1)
                                             @lang('labels.backend.hero_slider.on')
                                         @else
                                             @lang('labels.backend.hero_slider.off')
-                                        @endif
+                                        @endif --}}
                                     </td>
                                     <td>
-                                        @if($item->status == 1)
-                                            <a href="{{route('admin.sliders.status',['id'=>$item->id])}}"
-                                               class="btn mb-1 btn-danger">
-                                                <i class="fa fa-power-off"></i>
-                                            </a>
-
-                                        @else
-                                            <a href={{route('admin.sliders.status',['id'=>$item->id])}}""
-                                               class="btn mb-1 btn-success">
-                                                <i class="fa fa-power-off"></i>
-                                            </a>
-
-                                        @endif
 
 
                                         <a href="{{route('admin.sliders.edit',['id'=>$item->id]) }}"
@@ -229,6 +220,20 @@
                     list: list
                 }
             }).done(function () {
+                location.reload();
+            });
+        })
+
+        $(document).on('click', '.switch-input', function (e) {
+            var id = $(this).data('id');
+            $.ajax({
+                type: "POST",
+                url: "{{ route('admin.sliders.status') }}",
+                data: {
+                    _token:'{{ csrf_token() }}',
+                    id: id,
+                },
+            }).done(function() {
                 location.reload();
             });
         })

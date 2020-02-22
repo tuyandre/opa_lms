@@ -129,7 +129,8 @@ return array (
         'change_password' => 'Change Password',
         'change_password_for' => 'Change Password for :user',
         'create' => 'Create User',
-        'table' => 
+        'select_role' => 'Select Role',
+        'table' =>
         array (
           'abilities' => 'Abilities',
           'total' => 'user total|users total',
@@ -481,6 +482,7 @@ return array (
       'management' => 'General Settings',
       'app_name' => 'App Name',
       'app_url' => 'App URL',
+      'teacher_commission_rate' => 'Teacher Commission Rate',
       'lesson_note' => 'Enable / Disable if user will be able to skip before timer is over.',
       'font_color' => 'Font Color',
       'static' => 'Static',
@@ -1017,7 +1019,7 @@ return array (
       'monthly' => 'Monthly',
       'sitemap_note' => 'This sitemap tool will generate sitemap for published Course, Bundles and Blog.',
     ),
-    'forum_category' => 
+    'forum_category' =>
     array (
       'title' => 'Forum Categories',
       'create' => 'Create Forum Category',
@@ -1025,7 +1027,7 @@ return array (
       'view' => 'View Forum Category',
       'on' => 'On',
       'off' => 'Off',
-      'fields' => 
+      'fields' =>
       array (
         'parent_category' => 'Parent Category',
         'category' => 'Category',
@@ -1034,6 +1036,40 @@ return array (
         'status' => 'Status',
       ),
     ),
+      'payments' =>
+          array(
+              'title' => 'Payments',
+              'total_earnings' => 'Total Earnings',
+              'total_withdrawals' => 'Total Withdrawals',
+              'total_withdrawal_pending' => 'Total Withdrawal Pending',
+              'total_balance' => 'Total Balance',
+              'earnings' => 'Earnings',
+              'withdrawals' => 'Withdrawals',
+              'add_withdrawal_request' => 'Add Withdrawal Request',
+              'approve' => 'Approve',
+              'reject' => 'Reject',
+              'payment_type' =>
+                  array(
+                      'bank' => 'Bank',
+                      'paypal' => 'Paypal',
+                      'offline' => 'Offline'
+                  ),
+              'status'=>
+                  array(
+                      'pending' => 'Pending',
+                      'approved' => 'Approved',
+                      'rejected' => 'Rejected',
+                  ),
+              'fields' =>
+                  array(
+                      'amount' => 'Amount',
+                      'payment_type' => 'Payment Type',
+                      'status' => 'Status',
+                      'remarks' => 'Remarks',
+                      'date' => 'Date',
+                      'teacher_name' => 'Teacher Name',
+                  ),
+          ),
   ),
   'general' => 
   array (
@@ -1402,5 +1438,24 @@ return array (
     'sp' => 'Spanish',
     'fr' => 'French',
     'ar' => 'Arabic',
+  ),
+  'teacher' =>
+  array(
+    'teacher_register' => 'Teacher Register? New Here',
+    'teacher_register_box_title' => 'Teacher Register',
+    'facebook_link' => 'Facebook Link',
+    'twitter_link' => 'Twitter Link',
+    'linkedin_link' => 'Linkedin Link',
+    'payment_details' => 'Payment Details',
+    'bank' => 'Bank',
+    'paypal' => 'Paypal',
+    'paypal_email' => 'Paypal Email',
+    'bank_details' =>
+    array(
+    'name' => 'Bank Name',
+    'ifsc_code' => 'IFSC Code',
+    'account' => 'Account Number',
+    'holder_name' => 'Account Name'
+    ),
   ),
 );

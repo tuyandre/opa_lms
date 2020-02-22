@@ -7,6 +7,7 @@ use App\Http\Controllers\Traits\FileUploadTrait;
 use App\Http\Requests\Admin\StoreTeachersRequest;
 use App\Http\Requests\Admin\UpdateTeachersRequest;
 use App\Models\Auth\User;
+use App\Models\TeacherProfile;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Gate;
@@ -70,10 +71,11 @@ class TeachersController extends Controller
                 if ($request->show_deleted == 1) {
                     return view('backend.datatable.action-trashed')->with(['route_label' => 'admin.teachers', 'label' => 'teacher', 'value' => $q->id]);
                 }
-//                if ($has_view) {
-//                    $view = view('backend.datatable.action-view')
-//                        ->with(['route' => route('admin.teachers.show', ['teacher' => $q->id])])->render();
-//                }
+
+                if ($has_view) {
+                    $view = view('backend.datatable.action-view')
+                        ->with(['route' => route('admin.teachers.show', ['teacher' => $q->id])])->render();
+                }
 
                 if ($has_edit) {
                     $edit = view('backend.datatable.action-edit')
@@ -95,9 +97,12 @@ class TeachersController extends Controller
 
             })
             ->editColumn('status', function ($q) {
-                return ($q->active == 1) ? "Enabled" : "Disabled";
+                $html = html()->label(html()->checkbox('')->id($q->id)
+                ->checked(($q->active == 1) ? true : false)->class('switch-input')->attribute('data-id', $q->id)->value(($q->active == 1) ? 1 : 0).'<span class="switch-label"></span><span class="switch-handle"></span>')->class('switch switch-lg switch-3d switch-primary');
+                return $html;
+                // return ($q->active == 1) ? "Enabled" : "Disabled";
             })
-            ->rawColumns(['actions', 'image'])
+            ->rawColumns(['actions', 'image', 'status'])
             ->make();
     }
 
@@ -121,15 +126,33 @@ class TeachersController extends Controller
     {
 //        $request = $this->saveFiles($request);
 
-        $user = User::create($request->all());
-        $user->confirmed = 1;
-        $user->avatar_type = 'storage';
+        $teacher = User::create($request->all());
+        $teacher->confirmed = 1;
         if ($request->image) {
-            $user->avatar_location = $request->image->store('/avatars', 'public');
+            $teacher->avatar_type = 'storage';
+            $teacher->avatar_location = $request->image->store('/avatars', 'public');
         }
-        $user->save();
+        $teacher->active = isset($request->active)?1:0;
+        $teacher->save();
+        $teacher->assignRole('teacher');
 
-        $user->assignRole('teacher');
+        $payment_details = [
+            'bank_name'         => request()->payment_method == 'bank'?request()->bank_name:'',
+            'ifsc_code'         => request()->payment_method == 'bank'?request()->ifsc_code:'',
+            'account_number'    => request()->payment_method == 'bank'?request()->account_number:'',
+            'account_name'      => request()->payment_method == 'bank'?request()->account_name:'',
+            'paypal_email'      => request()->payment_method == 'paypal'?request()->paypal_email:'',
+        ];
+        $data = [
+            'user_id'           => $teacher->id,
+            'facebook_link'     => request()->facebook_link,
+            'twitter_link'      => request()->twitter_link,
+            'linkedin_link'     => request()->linkedin_link,
+            'payment_method'    => request()->payment_method,
+            'payment_details'   => json_encode($payment_details),
+        ];
+        TeacherProfile::create($data);
+
 
         return redirect()->route('admin.teachers.index')->withFlashSuccess(trans('alerts.backend.general.created'));
     }
@@ -156,21 +179,34 @@ class TeachersController extends Controller
      */
     public function update(UpdateTeachersRequest $request, $id)
     {
-        //$request = $this->saveFiles($request);
+        $request = $this->saveFiles($request);
 
         $teacher = User::findOrFail($id);
         $teacher->update($request->except('email'));
-        $teacher->avatar_type = 'storage';
-        if ($request->image) {
+        if ($request->has('image')) {
+            $teacher->avatar_type = 'storage';
             $teacher->avatar_location = $request->image->store('/avatars', 'public');
-        } else {
-            // No image being passed
-            // If there is no existing image
-            if (!strlen(auth()->user()->avatar_location)) {
-                throw new GeneralException('You must supply a profile image.');
-            }
         }
+        $teacher->active = isset($request->active)?1:0;
         $teacher->save();
+
+        $payment_details = [
+            'bank_name'         => request()->payment_method == 'bank'?request()->bank_name:'',
+            'ifsc_code'         => request()->payment_method == 'bank'?request()->ifsc_code:'',
+            'account_number'    => request()->payment_method == 'bank'?request()->account_number:'',
+            'account_name'      => request()->payment_method == 'bank'?request()->account_name:'',
+            'paypal_email'      => request()->payment_method == 'paypal'?request()->paypal_email:'',
+        ];
+        $data = [
+            // 'user_id'           => $user->id,
+            'facebook_link'     => request()->facebook_link,
+            'twitter_link'      => request()->twitter_link,
+            'linkedin_link'     => request()->linkedin_link,
+            'payment_method'    => request()->payment_method,
+            'payment_details'   => json_encode($payment_details),
+        ];
+        $teacher->teacherProfile->update($data);
+
 
         return redirect()->route('admin.teachers.index')->withFlashSuccess(trans('alerts.backend.general.updated'));
     }
@@ -250,5 +286,19 @@ class TeachersController extends Controller
         $teacher->forceDelete();
 
         return redirect()->route('admin.teachers.index')->withFlashSuccess(trans('alerts.backend.general.deleted'));
+    }
+
+
+    /**
+     * Update teacher status
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     **/
+    public function updateStatus()
+    {
+        $teacher = User::find(request('id'));
+        $teacher->active = $teacher->active == 1? 0 : 1;
+        $teacher->save();
     }
 }

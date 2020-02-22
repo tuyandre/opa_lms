@@ -8,6 +8,7 @@
         <div class="card-header">
             <h3 class="page-title mb-0 float-left">@lang('labels.backend.orders.title')</h3>
             @if($order->invoice != "")
+                @if(Auth::user()->isAdmin())
                 <div class="float-right">
                     <a class="btn btn-success" target="_blank" href="{{asset('storage/invoices/'.$order->invoice->url)}}">
                         @lang('labels.backend.orders.view_invoice')
@@ -16,6 +17,7 @@
                         @lang('labels.backend.orders.download_invoice')
                     </a>
                 </div>
+                @endif
             @endif
         </div>
         <div class="card-body">
@@ -95,8 +97,11 @@
                     </table>
                 </div>
             </div><!-- Nav tabs -->
-
+            @if(Auth::user()->isAdmin())
             <a href="{{ route('admin.orders.index') }}" class="btn btn-default border">@lang('strings.backend.general.app_back_to_list')</a>
+            @else
+            <a href="{{ route('admin.payments') }}" class="btn btn-default border">@lang('strings.backend.general.app_back_to_list')</a>
+            @endif
         </div>
     </div>
 @stop

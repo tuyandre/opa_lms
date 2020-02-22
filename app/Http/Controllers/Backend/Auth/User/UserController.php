@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Backend\Auth\User;
 
+use App\Models\Auth\Role;
 use App\Models\Auth\User;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Events\Backend\Auth\User\UserDeleted;
 use App\Repositories\Backend\Auth\RoleRepository;
@@ -42,9 +44,10 @@ class UserController extends Controller
         if (!\Gate::allows('user_access')) {
             return abort(401);
         }
+        $roles = Role::select('id','name')->get();
 
 
-        return view('backend.auth.user.index')
+        return view('backend.auth.user.index',compact('roles'))
             ->withUsers($this->userRepository->getActivePaginated(25, 'id', 'asc'));
     }
 
@@ -53,12 +56,15 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function getData(\Request $request)
+    public function getData(Request $request)
     {
-
-
-        $users = User::with('roles', 'permissions', 'providers')
-            ->orderBy('created_at', 'desc');
+        if($request->role &&  $request->role != ""){
+            $users = User::role($request->role)->with('roles', 'permissions', 'providers')
+                ->orderBy('users.created_at', 'desc');
+        }else{
+            $users = User::with('roles', 'permissions', 'providers')
+                ->orderBy('users.created_at', 'desc');
+        }
 
         return \DataTables::of($users)
             ->addIndexColumn()
@@ -75,6 +81,8 @@ class UserController extends Controller
                 return ($q->social_buttons) ?? 'N/A';
             })
             ->addColumn('updated_at', function ($q)  {
+                \Log::info($q);
+
                 return $q->updated_at->diffForHumans();
             })
             ->addColumn('last_updated', function ($q)  {

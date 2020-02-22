@@ -22,6 +22,8 @@ Route::group(['middleware' => 'role:administrator'], function () {
     Route::post('teachers_mass_destroy', ['uses' => 'Admin\TeachersController@massDestroy', 'as' => 'teachers.mass_destroy']);
     Route::post('teachers_restore/{id}', ['uses' => 'Admin\TeachersController@restore', 'as' => 'teachers.restore']);
     Route::delete('teachers_perma_del/{id}', ['uses' => 'Admin\TeachersController@perma_del', 'as' => 'teachers.perma_del']);
+    Route::post('teacher/status', ['uses' => 'Admin\TeachersController@updateStatus', 'as' => 'teachers.status']);
+
 });
 
 
@@ -142,6 +144,7 @@ Route::get('invoices', ['uses' => 'Admin\InvoiceController@getIndex', 'as' => 'i
 Route::resource('sliders', 'Admin\SliderController');
 Route::get('sliders/status/{id}', 'Admin\SliderController@status')->name('sliders.status', 'id');
 Route::post('sliders/save-sequence', ['uses' => 'Admin\SliderController@saveSequence', 'as' => 'sliders.saveSequence']);
+Route::post('sliders/status', ['uses' => 'Admin\SliderController@updateStatus', 'as' => 'sliders.status']);
 
 
 //===== Sponsors Routes =====//
@@ -149,14 +152,14 @@ Route::resource('sponsors', 'Admin\SponsorController');
 Route::get('get-sponsors-data', ['uses' => 'Admin\SponsorController@getData', 'as' => 'sponsors.get_data']);
 Route::post('sponsors_mass_destroy', ['uses' => 'Admin\SponsorController@massDestroy', 'as' => 'sponsors.mass_destroy']);
 Route::get('sponsors/status/{id}', 'Admin\SponsorController@status')->name('sponsors.status', 'id');
-
+Route::post('sponsors/status', ['uses' => 'Admin\SponsorController@updateStatus', 'as' => 'sponsors.status']);
 
 //===== Testimonials Routes =====//
 Route::resource('testimonials', 'Admin\TestimonialController');
 Route::get('get-testimonials-data', ['uses' => 'Admin\TestimonialController@getData', 'as' => 'testimonials.get_data']);
 Route::post('testimonials_mass_destroy', ['uses' => 'Admin\TestimonialController@massDestroy', 'as' => 'testimonials.mass_destroy']);
 Route::get('testimonials/status/{id}', 'Admin\TestimonialController@status')->name('testimonials.status', 'id');
-
+Route::post('testimonials/status', ['uses' => 'Admin\TestimonialController@updateStatus', 'as' => 'testimonials.status']);
 
 //======= Blog Routes =====//
 Route::group(['prefix' => 'blog'], function () {
@@ -187,7 +190,7 @@ Route::resource('faqs', 'Admin\FaqController');
 Route::get('get-faqs-data', ['uses' => 'Admin\FaqController@getData', 'as' => 'faqs.get_data']);
 Route::post('faqs_mass_destroy', ['uses' => 'Admin\FaqController@massDestroy', 'as' => 'faqs.mass_destroy']);
 Route::get('faqs/status/{id}', 'Admin\FaqController@status')->name('faqs.status');
-
+Route::post('faqs/status', ['uses' => 'Admin\FaqController@updateStatus', 'as' => 'faqs.status']);
 
 
 //===== FORUMS Routes =====//
@@ -195,12 +198,13 @@ Route::resource('forums-category', 'Admin\ForumController');
 Route::get('forums-category/status/{id}', 'Admin\ForumController@status')->name('forums-category.status');
 
 
+
 //==== Reasons Routes ====//
 Route::resource('reasons', 'Admin\ReasonController');
 Route::get('get-reasons-data', ['uses' => 'Admin\ReasonController@getData', 'as' => 'reasons.get_data']);
 Route::post('reasons_mass_destroy', ['uses' => 'Admin\ReasonController@massDestroy', 'as' => 'reasons.mass_destroy']);
 Route::get('reasons/status/{id}', 'Admin\ReasonController@status')->name('reasons.status');
-
+Route::post('reasons/status', ['uses' => 'Admin\ReasonController@updateStatus', 'as' => 'reasons.status']);
 
 Route::get('menu-manager', ['uses'=>'MenuController@index','middleware'=>['auth','role:administrator']])->name('menu-manager');
 
@@ -226,11 +230,12 @@ Route::get('get-students-reports-data', ['uses' => 'ReportController@getStudents
 //====== Tax Routes =====//
 Route::resource('tax', 'TaxController');
 Route::get('tax/status/{id}', 'TaxController@status')->name('tax.status', 'id');
+Route::post('tax/status', 'TaxController@updateStatus')->name('tax.status');
 
 //====== Coupon Routes =====//
 Route::resource('coupons', 'CouponController');
 Route::get('coupons/status/{id}', 'CouponController@status')->name('coupons.status', 'id');
-
+Route::post('coupons/status', 'CouponController@updateStatus')->name('coupons.status');
 
 
 //==== Remove Locale FIle ====//
@@ -272,7 +277,12 @@ Route::get('sitemap','SitemapController@getIndex')->name('sitemap.index');
 Route::post('sitemap','SitemapController@saveSitemapConfig')->name('sitemap.config');
 Route::get('sitemap/generate','SitemapController@generateSitemap')->name('sitemap.generate');
 
-
-Route::post('translations/locales/add', 'LangController@postAddLocale');
-Route::post('translations/locales/remove', 'LangController@postRemoveLocaleFolder')->name('delete-locale-folder');
-
+//====== Wallet  =====//
+Route::get('payments', ['uses' => 'PaymentController@index','as' => 'payments']);
+Route::get('get-earning-data', ['uses' => 'PaymentController@getEarningData', 'as' => 'payments.get_earning_data']);
+Route::get('get-withdrawal-data', ['uses' => 'PaymentController@getwithdrawalData', 'as' => 'payments.get_withdrawal_data']);
+Route::get('payments/withdraw-request', ['uses' => 'PaymentController@createRequest', 'as' => 'payments.withdraw_request']);
+Route::post('payments/withdraw-store', ['uses' => 'PaymentController@storeRequest', 'as' => 'payments.withdraw_store']);
+Route::get('payments-requests', ['uses' => 'PaymentController@paymentRequest', 'as' => 'payments.requests']);
+Route::get('get-payment-request-data',['uses' => 'PaymentController@getPaymentRequestData', 'as' => 'payments.get_payment_request_data']);
+Route::post('payments-request-update', ['uses' => 'PaymentController@paymentsRequestUpdate', 'as' => 'payments.payments_request_update']);

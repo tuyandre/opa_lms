@@ -28,6 +28,8 @@ class DatabaseSeeder extends Seeder
         $this->call(ConfigSeeder::class);
         $this->call(SliderSeeder::class);
         $this->call(MenuSeeder::class);
+        $this->call(CommissionRateSeeder::class);
+        $this->call(TeacherProfileSeeder::class);
         artisan::call('translations:import');
         artisan::call('storage:link');
         Model::reguard();

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Backend\Admin;
 
+use App\Helpers\General\EarningHelper;
 use App\Models\Bundle;
 use App\Models\Course;
 use App\Models\Order;
@@ -55,11 +56,13 @@ class OrderController extends Controller
                     $view .= $complete_order;
                 }
 
-                $delete = view('backend.datatable.action-delete')
+                if ($q->status == 0) {
+                    $delete = view('backend.datatable.action-delete')
                     ->with(['route' => route('admin.orders.destroy', ['order' => $q->id])])
                     ->render();
 
-                $view .= $delete;
+                    $view .= $delete;
+                }
 
                 return $view;
 
@@ -109,6 +112,8 @@ class OrderController extends Controller
         $order = Order::findOrfail($request->order);
         $order->status = 1;
         $order->save();
+
+        (new EarningHelper)->insert($order);
 
         //Generating Invoice
         generateInvoice($order);

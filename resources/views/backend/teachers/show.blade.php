@@ -1,52 +1,96 @@
 @extends('backend.layouts.app')
 
 @section('title', __('labels.backend.teachers.title').' | '.app_name())
-
-@section('breadcrumb-links')
-    @include('backend.auth.user.includes.breadcrumb-links')
-@endsection
-
+@push('after-styles')
+<style>
+    table th {
+        width: 20%;
+    }
+</style>
+@endpush
 @section('content')
-<div class="card">
-    <div class="card-body">
-        <div class="row">
-            <div class="col-sm-5">
-                <h4 class="card-title mb-0">
-                    @lang('labels.backend.access.users.management')
-                    <small class="text-muted">@lang('labels.backend.access.users.view')</small>
-                </h4>
-            </div><!--col-->
-        </div><!--row-->
 
-        <div class="row mt-4 mb-4">
-            <div class="col">
-                <ul class="nav nav-tabs" role="tablist">
-                    <li class="nav-item">
-                        <a class="nav-link active" data-toggle="tab" href="#overview" role="tab" aria-controls="overview" aria-expanded="true"><i class="fas fa-user"></i> @lang('labels.backend.access.users.tabs.titles.overview')</a>
-                    </li>
-                </ul>
+    <div class="card">
 
-                <div class="tab-content">
-                    <div class="tab-pane active" id="overview" role="tabpanel" aria-expanded="true">
-                        @include('backend.auth.user.show.tabs.overview')
-                    </div><!--tab-->
-                </div><!--tab-content-->
-            </div><!--col-->
-        </div><!--row-->
-    </div><!--card-body-->
+        <div class="card-header">
+            <h3 class="page-title d-inline mb-0">@lang('labels.backend.teachers.title')</h3>
+            <div class="float-right">
+                <a href="{{ route('admin.teachers.index') }}"
+                   class="btn btn-success">@lang('labels.backend.teachers.view')</a>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-12">
+                    <table class="table table-bordered table-striped">
+                        <tr>
+                            <th>@lang('labels.backend.access.users.tabs.content.overview.avatar')</th>
+                            <td><img src="{{ $teacher->picture }}" class="user-profile-image" /></td>
+                        </tr>
 
-    <div class="card-footer">
-        <div class="row">
-            <div class="col">
-                <small class="float-right text-muted">
-                    <strong>@lang('labels.backend.access.users.tabs.content.overview.created_at'):</strong> {{ timezone()->convertToLocal($user->created_at) }} ({{ $user->created_at->diffForHumans() }}),
-                    <strong>@lang('labels.backend.access.users.tabs.content.overview.last_updated'):</strong> {{ timezone()->convertToLocal($user->updated_at) }} ({{ $user->updated_at->diffForHumans() }})
-                    @if($user->trashed())
-                        <strong>@lang('labels.backend.access.users.tabs.content.overview.deleted_at'):</strong> {{ timezone()->convertToLocal($user->deleted_at) }} ({{ $user->deleted_at->diffForHumans() }})
-                    @endif
-                </small>
-            </div><!--col-->
-        </div><!--row-->
-    </div><!--card-footer-->
-</div><!--card-->
-@endsection
+                        <tr>
+                            <th>@lang('labels.backend.access.users.tabs.content.overview.name')</th>
+                            <td>{{ $teacher->name }}</td>
+                        </tr>
+
+                        <tr>
+                            <th>@lang('labels.backend.access.users.tabs.content.overview.email')</th>
+                            <td>{{ $teacher->email }}</td>
+                        </tr>
+                        <tr>
+                            <th>@lang('labels.backend.access.users.tabs.content.overview.status')</th>
+                            <td>{!! $teacher->status_label !!}</td>
+                        </tr>
+                        <tr>
+                            <th>@lang('labels.backend.general_settings.user_registration_settings.fields.gender')</th>
+                            <td>{!! $teacher->gender !!}</td>
+                        </tr>
+                        @php
+                            $teacherProfile = $teacher->teacherProfile?:'';
+                            $payment_details = $teacher->teacherProfile?json_decode($teacher->teacherProfile->payment_details):new stdClass();
+                        @endphp
+                        <tr>
+                            <th>@lang('labels.teacher.facebook_link')</th>
+                            <td>{!! $teacherProfile->facebook_link !!}</td>
+                        </tr>
+                        <tr>
+                            <th>@lang('labels.teacher.twitter_link')</th>
+                            <td>{!! $teacherProfile->twitter_link !!}</td>
+                        </tr>
+                        <tr>
+                            <th>@lang('labels.teacher.linkedin_link')</th>
+                            <td>{!! $teacherProfile->linkedin_link !!}</td>
+                        </tr>
+                        <tr>
+                            <th>@lang('labels.teacher.payment_details')</th>
+                            <td>{!! $teacherProfile->payment_method !!}</td>
+                        </tr>
+                        @if($teacherProfile->payment_method == 'bank')
+                        <tr>
+                            <th>@lang('labels.teacher.bank_details.name')</th>
+                            <td>{!! $payment_details->bank_name !!}</td>
+                        </tr>
+                        <tr>
+                            <th>@lang('labels.teacher.bank_details.ifsc_code')</th>
+                            <td>{!! $payment_details->ifsc_code !!}</td>
+                        </tr>
+                        <tr>
+                            <th>@lang('labels.teacher.bank_details.account')</th>
+                            <td>{!! $payment_details->account_number !!}</td>
+                        </tr>
+                        <tr>
+                            <th>@lang('labels.teacher.bank_details.holder_name')</th>
+                            <td>{!! $payment_details->account_name !!}</td>
+                        </tr>
+                        @else
+                        <tr>
+                            <th>@lang('labels.teacher.paypal_email')</th>
+                            <td>{!! $payment_details->paypal_email !!}</td>
+                        </tr>
+                        @endif
+                    </table>
+                </div>
+            </div><!-- Nav tabs -->
+        </div>
+    </div>
+@stop
