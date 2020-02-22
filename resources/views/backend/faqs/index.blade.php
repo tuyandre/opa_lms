@@ -112,5 +112,20 @@
 
         });
 
+        $(document).on('click', '.switch-input', function (e) {
+            var id = $(this).data('id');
+            $.ajax({
+                type: "POST",
+                url: "{{ route('admin.faqs.status') }}",
+                data: {
+                    _token:'{{ csrf_token() }}',
+                    id: id,
+                },
+            }).done(function() {
+                var table = $('#myTable').DataTable();
+		        table.ajax.reload();
+            });
+        })
+
     </script>
 @endpush

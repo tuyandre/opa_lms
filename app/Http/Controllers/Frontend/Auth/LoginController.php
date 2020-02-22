@@ -81,6 +81,8 @@ class LoginController extends Controller
                     }
                     return response(['success' => true,'redirect' => $redirect], Response::HTTP_OK);
                 }else{
+                    \Illuminate\Support\Facades\Auth::logout();
+
                     return
                         response([
                             'success' => false,

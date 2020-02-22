@@ -44,13 +44,6 @@ class FaqController extends Controller
                 $edit = "";
                 $delete = "";
 
-                $status = "";
-                if ($q->status == 1) {
-                    $status = "<a href='" . route('admin.faqs.status', ['id' => $q->id]) . "' class='btn mb-1 mr-1 btn-danger'> <i class='fa fa-power-off'></i></a>";
-                } else {
-                    $status = "<a href='" . route('admin.faqs.status', ['id' => $q->id]) . "' class='btn mb-1 mr-1 btn-success'> <i class='fa fa-power-off'></i></a>";
-                }
-                $view .= $status;
                 $edit = view('backend.datatable.action-edit')
                     ->with(['route' => route('admin.faqs.edit', ['faqs_option' => $q->id])])
                     ->render();
@@ -64,12 +57,14 @@ class FaqController extends Controller
 
             })
             ->editColumn('status', function ($q) {
-                return ($q->status == 1) ? "Enabled" : "Disabled";
+                $html = html()->label(html()->checkbox('')->id($q->id)
+                ->checked(($q->status == 1) ? true : false)->class('switch-input')->attribute('data-id', $q->id)->value(($q->status == 1) ? 1 : 0).'<span class="switch-label"></span><span class="switch-handle"></span>')->class('switch switch-lg switch-3d switch-primary');
+                return $html;
             })
             ->addColumn('category',function ($q){
                 return $q->category->name;
             })
-            ->rawColumns( ['actions'])
+            ->rawColumns( ['actions','status'])
             ->make();
     }
 
@@ -178,6 +173,19 @@ class FaqController extends Controller
         $faq->save();
 
         return back()->withFlashSuccess(trans('alerts.backend.general.updated'));
+    }
+
+    /**
+     * Update faq status
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     **/
+    public function updateStatus()
+    {
+        $faq = Faq::findOrFail(request('id'));
+        $faq->status = $faq->status == 1? 0 : 1;
+        $faq->save();
     }
 
 }

@@ -1,4 +1,4 @@
-{{ html()->modelForm($user, 'PATCH', route('admin.profile.update'))->class('form-horizontal')->attribute('enctype', 'multipart/form-data')->open() }}
+{{ html()->modelForm($logged_in_user, 'PATCH', route('admin.profile.update'))->class('form-horizontal')->attribute('enctype', 'multipart/form-data')->open() }}
 <div class="row">
     <div class="col">
         <div class="form-group">
@@ -6,15 +6,15 @@
 
             <div>
                 <input type="radio" name="avatar_type"
-                       value="gravatar" {{ $user->avatar_type == 'gravatar' ? 'checked' : '' }} /> {{__('validation.attributes.frontend.gravatar')}}
+                       value="gravatar" {{ $logged_in_user->avatar_type == 'gravatar' ? 'checked' : '' }} /> {{__('validation.attributes.frontend.gravatar')}}
                 &nbsp;&nbsp;
                 <input type="radio" name="avatar_type"
-                       value="storage" {{ $user->avatar_type == 'storage' ? 'checked' : '' }} /> {{__('validation.attributes.frontend.upload')}}
+                       value="storage" {{ $logged_in_user->avatar_type == 'storage' ? 'checked' : '' }} /> {{__('validation.attributes.frontend.upload')}}
 
-                @foreach($user->providers as $provider)
+                @foreach($logged_in_user->providers as $provider)
                     @if(strlen($provider->avatar))
                         <input type="radio" name="avatar_type"
-                               value="{{ $provider->provider }}" {{ $user->avatar_type == $provider->provider ? 'checked' : '' }} /> {{ ucfirst($provider->provider) }}
+                               value="{{ $provider->provider }}" {{ $logged_in_user->avatar_type == $provider->provider ? 'checked' : '' }} /> {{ ucfirst($provider->provider) }}
                     @endif
                 @endforeach
             </div>
@@ -55,8 +55,162 @@
         </div><!--form-group-->
     </div><!--col-->
 </div><!--row-->
+@if($logged_in_user->hasRole('teacher'))
+    @php
+        $teacherProfile = $logged_in_user->teacherProfile?:'';
+        $payment_details = $logged_in_user->teacherProfile?json_decode($logged_in_user->teacherProfile->payment_details):new stdClass();
+    @endphp
+    <div class="row">
+        <div class="col">
+            <div class="form-group">
+                {{ html()->label(__('labels.backend.general_settings.user_registration_settings.fields.gender'))->for('gender') }}
+                <div class="">
+                    <label class="radio-inline mr-3 mb-0">
+                        <input type="radio" name="gender" value="male" {{ $logged_in_user->gender == 'male'?'checked':'' }}> {{__('validation.attributes.frontend.male')}}
+                    </label>
+                    <label class="radio-inline mr-3 mb-0">
+                        <input type="radio" name="gender" value="female" {{ $logged_in_user->gender == 'female'?'checked':'' }}> {{__('validation.attributes.frontend.female')}}
+                    </label>
+                    <label class="radio-inline mr-3 mb-0">
+                        <input type="radio" name="gender" value="other" {{ $logged_in_user->gender == 'other'?'checked':'' }}> {{__('validation.attributes.frontend.other')}}
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="form-group">
+                {{ html()->label(__('labels.teacher.facebook_link'))->for('facebook_link') }}
 
-@if ($user->canChangeEmail())
+                {{ html()->text('facebook_link')
+                    ->class('form-control')
+                    ->value($teacherProfile->facebook_link)
+                    ->placeholder(__('labels.teacher.facebook_link'))
+                }}
+            </div><!--form-group-->
+        </div><!--col-->
+    </div><!--row-->
+
+    <div class="row">
+        <div class="col">
+            <div class="form-group">
+                {{ html()->label(__('labels.teacher.twitter_link'))->for('twitter_link') }}
+
+                {{ html()->text('twitter_link')
+                    ->class('form-control')
+                    ->value($teacherProfile->twitter_link)
+                    ->placeholder(__('labels.teacher.twitter_link'))
+                }}
+            </div><!--form-group-->
+        </div><!--col-->
+    </div><!--row-->
+
+    <div class="row">
+        <div class="col">
+            <div class="form-group">
+                {{ html()->label(__('labels.teacher.twitter_link'))->for('linkedin_link') }}
+
+                {{ html()->text('linkedin_link')
+                    ->class('form-control')
+                    ->value($teacherProfile->linkedin_link)
+                    ->placeholder(__('labels.teacher.linkedin_link'))
+                }}
+            </div><!--form-group-->
+        </div><!--col-->
+    </div><!--row-->
+
+    <div class="row">
+        <div class="col">
+            <div class="form-group">
+                {{ html()->label(__('labels.teacher.payment_details'))->for('payment_details') }}
+                <select class="form-control" name="payment_method" id="payment_method" required>
+                    <option value="bank" {{ $teacherProfile->payment_method == 'bank'?'selected':'' }}>{{ trans('labels.teacher.bank') }}</option>
+                    <option value="paypal" {{ $teacherProfile->payment_method == 'paypal'?'selected':'' }}>{{ trans('labels.teacher.paypal') }}</option>
+                </select>
+            </div><!--form-group-->
+        </div><!--col-->
+    </div><!--row-->
+    <div class="bank_details" style="display:{{ $logged_in_user->teacherProfile->payment_method == 'bank'?'':'none' }}">
+
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    {{ html()->label(__('labels.teacher.bank_details.name'))->for('bank_name') }}
+
+                    {{ html()->text('bank_name')
+                        ->class('form-control')
+                        ->value($payment_details->bank_name)
+                        ->placeholder(__('labels.teacher.bank_details.name'))
+                    }}
+                </div><!--form-group-->
+            </div><!--col-->
+        </div><!--row-->
+
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    {{ html()->label(__('labels.teacher.bank_details.ifsc_code'))->for('ifsc_code') }}
+
+                    {{ html()->text('ifsc_code')
+                        ->class('form-control')
+                        ->value($payment_details->ifsc_code)
+                        ->placeholder(__('labels.teacher.bank_details.ifsc_code'))
+                    }}
+                </div><!--form-group-->
+            </div><!--col-->
+        </div><!--row-->
+
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    {{ html()->label(__('labels.teacher.bank_details.account'))->for('account_number') }}
+
+                    {{ html()->text('account_number')
+                        ->class('form-control')
+                        ->value($payment_details->account_number)
+                        ->placeholder(__('labels.teacher.bank_details.account'))
+                    }}
+                </div><!--form-group-->
+            </div><!--col-->
+        </div><!--row-->
+
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    {{ html()->label(__('labels.teacher.bank_details.holder_name'))->for('account_name') }}
+
+                    {{ html()->text('account_name')
+                        ->class('form-control')
+                        ->value($payment_details->account_name)
+                        ->placeholder(__('labels.teacher.bank_details.holder_name'))
+                    }}
+                </div><!--form-group-->
+            </div><!--col-->
+        </div><!--row-->
+
+    </div>
+
+    <div class="paypal_details" style="display:{{ $logged_in_user->teacherProfile->payment_method == 'paypal'?'':'none' }}">
+
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    {{ html()->label(__('labels.teacher.paypal_email'))->for('paypal_email') }}
+
+                    {{ html()->text('paypal_email')
+                        ->class('form-control')
+                        ->value($payment_details->paypal_email)
+                        ->placeholder(__('labels.teacher.paypal_email'))
+                    }}
+                </div><!--form-group-->
+            </div><!--col-->
+        </div><!--row-->
+
+    </div>
+
+@endif
+@if ($logged_in_user->canChangeEmail())
     <div class="row">
         <div class="col">
             <div class="alert alert-info">
@@ -89,29 +243,29 @@
                     @if(in_array($item->type,$inputs))
                         {{ html()->label(__('labels.backend.general_settings.user_registration_settings.fields.'.$item->name))->for('last_name') }}
 
-                        <input type="{{$item->type}}" class="form-control mb-0" value="{{$user[$item->name]}}"
+                        <input type="{{$item->type}}" class="form-control mb-0" value="{{$logged_in_user[$item->name]}}"
                                name="{{$item->name}}"
                                placeholder="{{__('labels.backend.general_settings.user_registration_settings.fields.'.$item->name)}}">
                     @elseif($item->type == 'gender')
                         <label class="radio-inline mr-3 mb-0">
-                            <input type="radio" @if($user[$item->name] == 'male') checked
+                            <input type="radio" @if($logged_in_user[$item->name] == 'male') checked
                                    @endif name="{{$item->name}}"
                                    value="male"> {{__('validation.attributes.frontend.male')}}
                         </label>
                         <label class="radio-inline mr-3 mb-0">
-                            <input type="radio" @if($user[$item->name] == 'female') checked
+                            <input type="radio" @if($logged_in_user[$item->name] == 'female') checked
                                    @endif  name="{{$item->name}}"
                                    value="female"> {{__('validation.attributes.frontend.female')}}
                         </label>
                         <label class="radio-inline mr-3 mb-0">
-                            <input type="radio" @if($user[$item->name] == 'other') checked
+                            <input type="radio" @if($logged_in_user[$item->name] == 'other') checked
                                    @endif  name="{{$item->name}}"
                                    value="other"> {{__('validation.attributes.frontend.other')}}
                         </label>
                     @elseif($item->type == 'textarea')
                         <textarea name="{{$item->name}}"
                                   placeholder="{{__('labels.backend.general_settings.user_registration_settings.fields.'.$item->name)}}"
-                                  class="form-control mb-0">{{$user[$item->name]}}</textarea>
+                                  class="form-control mb-0">{{$logged_in_user[$item->name]}}</textarea>
                     @endif
                 </div>
             </div>
@@ -146,6 +300,15 @@
                     avatar_location.hide();
                 }
             });
+        });
+        $(document).on('change', '#payment_method', function(){
+            if($(this).val() === 'bank'){
+                $('.paypal_details').hide();
+                $('.bank_details').show();
+            }else{
+                $('.paypal_details').show();
+                $('.bank_details').hide();
+            }
         });
     </script>
 @endpush

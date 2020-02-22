@@ -10,20 +10,32 @@
     <div class="card">
         <div class="card-body">
             <div class="row">
-                <div class="col-sm-5">
+                <div class="col-sm-7">
                     <h4 class="card-title mb-0">
                         {{ __('labels.backend.access.users.management') }}
                         <small class="text-muted">{{ __('labels.backend.access.users.active') }}</small>
                     </h4>
                 </div><!--col-->
 
-                <div class="col-sm-7">
+                <div class="col-sm-5">
+                    <select name="roles" id="roles" class="form-control d-inline w-75">
+
+                        <option value="">{{ __('labels.backend.access.users.select_role') }}</option>
+
+                        @foreach($roles as $role)
+
+                            <option value="{{ $role->id }}">{{ $role->name }}</option>
+
+                        @endforeach
+
+                    </select>
                     @include('backend.auth.user.includes.header-buttons')
                 </div><!--col-->
             </div><!--row-->
 
             <div class="row mt-4">
                 <div class="col">
+
                     <div class="table-responsive">
                         <table id="myTable" class="table table-bordered table-striped">
                             <thead>
@@ -41,37 +53,13 @@
                             </tr>
                             </thead>
                             <tbody>
-                            {{--@foreach($users as $user)--}}
-                            {{--<tr>--}}
-                            {{--<td>{{ $user->last_name }}</td>--}}
-                            {{--<td>{{ $user->first_name }}</td>--}}
-                            {{--<td>{{ $user->email }}</td>--}}
-                            {{--<td>{!! $user->confirmed_label !!}</td>--}}
-                            {{--<td>{!! $user->roles_label !!}</td>--}}
-                            {{--<td>{!! $user->permissions_label !!}</td>--}}
-                            {{--<td>{!! $user->social_buttons !!}</td>--}}
-                            {{--<td>{{ $user->updated_at->diffForHumans() }}</td>--}}
-                            {{--<td>{!! $user->action_buttons !!}</td>--}}
-                            {{--</tr>--}}
-                            {{--@endforeach--}}
+
                             </tbody>
                         </table>
                     </div>
                 </div><!--col-->
             </div><!--row-->
-            <div class="row">
-                {{--<div class="col-7">--}}
-                {{--<div class="float-left">--}}
-                {{--{!! $users->total() !!} {{ trans_choice('labels.backend.access.users.table.total', $users->total()) }}--}}
-                {{--</div>--}}
-                {{--</div><!--col-->--}}
 
-                {{--<div class="col-5">--}}
-                {{--<div class="float-right">--}}
-                {{--{!! $users->render() !!}--}}
-                {{--</div>--}}
-                {{--</div><!--col-->--}}
-            </div><!--row-->
         </div><!--card-body-->
     </div><!--card-->
 @endsection
@@ -83,7 +71,7 @@
         $(document).ready(function () {
             var route = '{{route('admin.auth.user.getData')}}';
 
-            $('#myTable').DataTable({
+            var myTable = $('#myTable').DataTable({
                 processing: true,
                 serverSide: true,
                 iDisplayLength: 10,
@@ -104,7 +92,12 @@
                     },
                     'colvis'
                 ],
-                ajax: route,
+                ajax: {
+                    url: route,
+                    data: function (d) {
+                        d.role = $('#roles').val();
+                    }
+                },
                 columns: [
                     {data: "DT_RowIndex", name: 'DT_RowIndex', "orderable": false, "searchable": false},
                     {data: "first_name", name: 'first_name'},
@@ -113,9 +106,9 @@
                     {data: "confirmed_label", name: "confirmed_label"},
                     {data: "roles_label", name: "roles.name"},
                     {data: "permissions_label", name: "permissions.name"},
-                    {data: "social_buttons", name: "social_accounts.provider","searchable": false},
+                    {data: "social_buttons", name: "social_accounts.provider", "searchable": false},
                     {data: "last_updated", name: "last_updated"},
-                    {data: "actions", name: "actions","searchable": false}
+                    {data: "actions", name: "actions", "searchable": false}
                 ],
 
 
@@ -130,6 +123,12 @@
                         csv: '{{trans("datatable.csv")}}',
                     }
                 }
+            });
+
+
+            $(document).on('change', '#roles', function (e) {
+                myTable.draw();
+                e.preventDefault();
             });
         });
 

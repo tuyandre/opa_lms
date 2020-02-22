@@ -130,4 +130,17 @@ class TaxController extends Controller
 
         return back()->withFlashSuccess(trans('alerts.backend.general.updated'));
     }
+
+    /**
+     * Update tax status
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     **/
+    public function updateStatus()
+    {
+        $tax = Tax::findOrFail(request('id'));
+        $tax->status = $tax->status == 1? 0 : 1;
+        $tax->save();
+    }
 }

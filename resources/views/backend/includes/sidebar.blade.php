@@ -306,6 +306,13 @@
                         <span class="title">@lang('menus.backend.sidebar.tax.title')</span>
                     </a>
                 </li>
+                <li class="nav-item ">
+                    <a class="nav-link {{ $request->segment(1) == 'contact-requests' ? 'active' : '' }}"
+                       href="{{ route('admin.payments.requests') }}">
+                        <i class="nav-icon icon-people"></i>
+                        <span class="title">@lang('menus.backend.sidebar.payments_requests.title')</span>
+                    </a>
+                </li>
             @endif
             <li class="nav-item ">
                 <a class="nav-link {{ $request->segment(1) == 'account' ? 'active' : '' }}"
@@ -421,6 +428,16 @@
                         <span class="title">@lang('menus.backend.sidebar.update.title')</span>
                     </a>
                 </li>
+            @endif
+
+            @if ($logged_in_user->hasRole('teacher'))
+            <li class="nav-item ">
+                <a class="nav-link {{ $request->segment(2) == 'payments' ? 'active' : '' }}"
+                    href="{{ route('admin.payments') }}">
+                    <i class="nav-icon icon-wallet"></i>
+                    <span class="title">@lang('menus.backend.sidebar.payments.title')</span>
+                </a>
+            </li>
             @endif
 
         </ul>

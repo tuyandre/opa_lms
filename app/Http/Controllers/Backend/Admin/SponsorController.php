@@ -51,13 +51,6 @@ class SponsorController extends Controller
                 $view = "";
                 $edit = "";
                 $delete = "";
-                $status = "";
-                if($q->status == 1){
-                    $status = "<a href='".route('admin.sponsors.status',['id'=>$q->id])."' class='btn mb-1 mr-1 btn-danger'> <i class='fa fa-power-off'></i></a>";
-                }else{
-                    $status = "<a href='".route('admin.sponsors.status',['id'=>$q->id])."' class='btn mb-1 mr-1 btn-success'> <i class='fa fa-power-off'></i></a>";
-                }
-                    $view .= $status;
 
                     $edit = view('backend.datatable.action-edit')
                         ->with(['route' => route('admin.sponsors.edit', ['category' => $q->id])])
@@ -78,11 +71,12 @@ class SponsorController extends Controller
                 }
                 return 'N/A';
             })
-
             ->editColumn('status', function ($q) {
-                return ($q->status == 1) ? "Enabled" : "Disabled";
+                $html = html()->label(html()->checkbox('')->id($q->id)
+                ->checked(($q->status == 1) ? true : false)->class('switch-input')->attribute('data-id', $q->id)->value(($q->status == 1) ? 1 : 0).'<span class="switch-label"></span><span class="switch-handle"></span>')->class('switch switch-lg switch-3d switch-primary');
+                return $html;
             })
-            ->rawColumns(['actions','logo'])
+            ->rawColumns(['actions','logo','status'])
             ->make();
     }
 
@@ -191,5 +185,17 @@ class SponsorController extends Controller
         return back()->withFlashSuccess(trans('alerts.backend.general.updated'));
     }
 
+    /**
+     * Update sponsor status
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     **/
+    public function updateStatus()
+    {
+        $sponsor = Sponsor::findOrFail(request('id'));
+        $sponsor->status = $sponsor->status == 1? 0 : 1;
+        $sponsor->save();
+    }
 
 }

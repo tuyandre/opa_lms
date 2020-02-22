@@ -1,9 +1,11 @@
 <?php
-namespace App\Http\Requests\Admin;
 
+namespace App\Http\Requests\Frontend\Auth;
+
+use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateTeachersRequest extends FormRequest
+class TeacherRegisterRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,21 +25,22 @@ class UpdateTeachersRequest extends FormRequest
     public function rules()
     {
         return [
-            'first_name' => 'required',
-            'last_name' => 'required',
-//            'email' => 'required|email|unique:users,email,'.$this->route('teachers'),
+            'first_name'           => ['required', 'string', 'max:191'],
+            'last_name'           => ['required', 'string', 'max:191'],
+            'email'               => ['required', 'string', 'email', 'max:191', Rule::unique('users')],
+            'password'            => ['required', 'string', 'min:6', 'confirmed'],
             'gender'              => ['required', 'in:male,female,other'],
-            'image'               => ['image'],
             'facebook_link'       => ['nullable', 'url'],
             'twitter_link'        => ['nullable', 'url'],
             'linkedin_link'       => ['nullable', 'url'],
-            'payment_method'      => ['required'],
+            'payment_method'        => ['required'],
             'bank_name'           => ['required_if:payment_method,bank'],
             'ifsc_code'           => ['required_if:payment_method,bank'],
             'account_number'      => ['required_if:payment_method,bank'],
             'account_name'        => ['required_if:payment_method,bank'],
             'paypal_email'        => ['required_if:payment_method,paypal'],
 
+            // 'g-recaptcha-response' => ['required_if:captcha_status,true', new CaptchaRule()],
         ];
     }
 }

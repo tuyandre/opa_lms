@@ -24,6 +24,9 @@ use App\Models\Auth\Traits\SendUserPasswordReset;
 use App\Models\Auth\Traits\Attribute\UserAttribute;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Models\Auth\Traits\Relationship\UserRelationship;
+use App\Models\Earning;
+use App\Models\TeacherProfile;
+use App\Models\Withdraw;
 use Gerardojbaez\Messenger\Contracts\MessageableInterface;
 use Gerardojbaez\Messenger\Traits\Messageable;
 
@@ -217,5 +220,25 @@ class User extends Authenticatable implements MessageableInterface
         }
     }
 
+    /**
+     * Get the teacher profile that owns the user.
+     */
+    public function teacherProfile(){
+        return $this->hasOne(TeacherProfile::class);
+    }
+
+    /**
+    * Get the earning owns the teacher.
+    */
+    public function earnings(){
+        return $this->hasMany(Earning::class, 'user_id', 'id');
+    }
+
+    /**
+    * Get the withdraw owns the teacher.
+    */
+    public function withdraws(){
+        return $this->hasMany(Withdraw::class, 'user_id', 'id');
+    }
 
 }

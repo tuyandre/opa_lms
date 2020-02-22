@@ -1,7 +1,9 @@
 @extends('backend.layouts.app')
 
 @section('title', __('labels.backend.reasons.title').' | '.app_name())
-
+@push('after-styles')
+    <link rel="stylesheet" href="{{asset('assets/css/colors/switch.css')}}">
+@endpush
 
 @section('content')
 
@@ -146,13 +148,23 @@
                     }
                 }
             });
-            @can('category_access')
-            @if(request('show_deleted') != 1)
-            $('.actions').html('<a href="' + '{{ route('admin.reasons.mass_destroy') }}' + '" class="btn btn-xs btn-danger js-delete-selected" style="margin-top:0.755em;margin-left: 20px;">Delete selected</a>');
-            @endif
-            @endcan
 
         });
+
+        $(document).on('click', '.switch-input', function (e) {
+            var id = $(this).data('id');
+            $.ajax({
+                type: "POST",
+                url: "{{ route('admin.reasons.status') }}",
+                data: {
+                    _token:'{{ csrf_token() }}',
+                    id: id,
+                },
+            }).done(function() {
+                var table = $('#myTable').DataTable();
+		        table.ajax.reload();
+            });
+        })
 
     </script>
 

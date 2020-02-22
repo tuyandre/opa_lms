@@ -1063,6 +1063,40 @@ return array (
       'title' => 'Catégories de forum',
       'view' => 'Voir la catégorie du forum',
     ),
+      'payments' =>
+          array(
+              'title' => 'Paiements',
+              'total_earnings' => 'Total des gains',
+              'total_withdrawals' => 'total des retraits',
+              'total_withdrawal_pending' => 'Retrait total en attente',
+              'total_balance' => 'solde total',
+              'earnings' => 'gains',
+              'withdrawals' => 'retraits',
+              'add_withdrawal_request' => 'Ajouter une demande de retrait',
+              'approve' => 'approuver',
+              'reject' => 'rejeter',
+              'payment_type' =>
+                  array(
+                      'bank' => 'banque',
+                      'paypal' => 'Pay Pal',
+                      'offline' => 'hors ligne'
+                  ),
+              'status'=>
+                  array(
+                      'pending' => 'en attente',
+                      'approved' => 'approuvée',
+                      'rejected' => 'rejetée',
+                  ),
+              'fields' =>
+                  array(
+                      'amount' => 'le montant',
+                      'payment_type' => 'Type de paiement',
+                      'status' => 'Statut',
+                      'remarks' => 'Remarques',
+                      'date' => 'Rendez-vous amoureux',
+                      'teacher_name' => 'nom de l`enseignant',
+                  ),
+          ),
   ),
   'frontend' => 
   array (
@@ -1400,4 +1434,23 @@ return array (
     'en' => 'Anglais',
     'ar' => 'arabe',
   ),
+    'teacher' =>
+        array(
+            'teacher_register' => 'Registre des enseignants? Nouveau ici',
+            'teacher_register_box_title' => 'Registre des enseignants',
+            'facebook_link' => 'Lien Facebook',
+            'twitter_link' => 'Lien Twitter',
+            'linkedin_link' => 'Lien Linkedin',
+            'payment_details' => 'Détails de paiement',
+            'bank' => 'Banque',
+            'paypal' => 'Pay Pal',
+            'paypal_email' => 'Email Paypal',
+            'bank_details' =>
+                array(
+                    'name' => 'Bank Name',
+                    'ifsc_code' => 'Code IFSC',
+                    'account_number' => 'Numéro de compte',
+                    'holder_name' => 'Nom du compte'
+                ),
+        ),
 );

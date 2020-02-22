@@ -43,13 +43,6 @@ class TestimonialController extends Controller
                 $edit = "";
                 $delete = "";
 
-                $status = "";
-                if ($q->status == 1) {
-                    $status = "<a href='" . route('admin.testimonials.status', ['id' => $q->id]) . "' class='btn mb-1 mr-1 btn-danger'> <i class='fa fa-power-off'></i></a>";
-                } else {
-                    $status = "<a href='" . route('admin.testimonials.status', ['id' => $q->id]) . "' class='btn mb-1 mr-1 btn-success'> <i class='fa fa-power-off'></i></a>";
-                }
-                $view .= $status;
                 $edit = view('backend.datatable.action-edit')
                     ->with(['route' => route('admin.testimonials.edit', ['testimonials_option' => $q->id])])
                     ->render();
@@ -63,9 +56,11 @@ class TestimonialController extends Controller
 
             })
             ->editColumn('status', function ($q) {
-                return ($q->status == 1) ? "Enabled" : "Disabled";
+                $html = html()->label(html()->checkbox('')->id($q->id)
+                ->checked(($q->status == 1) ? true : false)->class('switch-input')->attribute('data-id', $q->id)->value(($q->status == 1) ? 1 : 0).'<span class="switch-label"></span><span class="switch-handle"></span>')->class('switch switch-lg switch-3d switch-primary');
+                return $html;
             })
-            ->rawColumns( ['actions'])
+            ->rawColumns( ['actions','status'])
             ->make();
     }
 
@@ -88,7 +83,7 @@ class TestimonialController extends Controller
     public function store(StoreTestimonialsRequest $request)
     {
         Testimonial::create($request->all());
-        
+
         return redirect()->route('admin.testimonials.index')->withFlashSuccess(trans('alerts.backend.general.created'));
     }
 
@@ -101,7 +96,7 @@ class TestimonialController extends Controller
      */
     public function edit($id)
     {
-       
+
         $testimonial = Testimonial::findOrFail($id);
 
         return view('backend.testimonials.edit', compact('testimonial', 'tests'));
@@ -169,5 +164,16 @@ class TestimonialController extends Controller
         return back()->withFlashSuccess(trans('alerts.backend.general.updated'));
     }
 
-
+    /**
+     * Update testimonial status
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     **/
+    public function updateStatus()
+    {
+        $testimonial = Testimonial::findOrFail(request('id'));
+        $testimonial->status = $testimonial->status == 1? 0 : 1;
+        $testimonial->save();
+    }
 }

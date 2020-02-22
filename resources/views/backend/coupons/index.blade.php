@@ -100,27 +100,13 @@
                                         {{--{{$item->total}}--}}
                                     {{--</td>--}}
                                     <td>
-                                        @if($item->status == 1)
-                                            @lang('labels.backend.coupons.on')
-                                        @else
-                                            @lang('labels.backend.coupons.off')
-                                        @endif
+                                        {{
+                                            html()->label(html()->checkbox('')->id($item->id)
+                ->checked(($item->status == 1) ? true : false)->class('switch-input')->attribute('data-id', $item->id)->value(($item->status == 1) ? 1 : 0).'<span class="switch-label"></span><span class="switch-handle"></span>')->class('switch switch-lg switch-3d switch-primary')
+                                        }}
                                     </td>
                                     <td>
-                                        @if($item->status == 1)
-                                            <a href="{{route('admin.coupons.status',['id'=>$item->id])}}"
-                                               class="btn mb-1 btn-danger">
-                                                <i class="fa fa-power-off"></i>
-                                            </a>
-
-                                        @else
-                                            <a href="{{route('admin.coupons.status',['id'=>$item->id])}}"
-                                               class="btn mb-1 btn-success">
-                                                <i class="fa fa-power-off"></i>
-                                            </a>
-
-                                        @endif
-                                            <a href="{{route('admin.coupons.show',['id'=>$item->id]) }}"
+                                        <a href="{{route('admin.coupons.show',['id'=>$item->id]) }}"
                                                class="btn btn-xs btn-primary mb-1"><i class="icon-eye"></i></a>
 
 
@@ -199,6 +185,20 @@
 
             });
         });
+
+        $(document).on('click', '.switch-input', function (e) {
+            var id = $(this).data('id');
+            $.ajax({
+                type: "POST",
+                url: "{{ route('admin.coupons.status') }}",
+                data: {
+                    _token:'{{ csrf_token() }}',
+                    id: id,
+                },
+            }).done(function() {
+               location.reload();
+            });
+        })
 
     </script>
 @endpush

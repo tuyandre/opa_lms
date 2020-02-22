@@ -73,7 +73,6 @@
 
 @push('after-scripts')
     <script>
-
         $(document).ready(function () {
             var route = '{{route('admin.categories.get_data')}}';
 
@@ -167,7 +166,5 @@
 
 
         });
-
     </script>
-
 @endpush

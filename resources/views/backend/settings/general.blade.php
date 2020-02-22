@@ -395,6 +395,17 @@
 
                                 </div><!--col-->
                             </div><!--form-group-->
+                            <div class="form-group row">
+                                {{ html()->label(__('labels.backend.general_settings.teacher_commission_rate'))->class('col-md-2 form-control-label')->for('commission_rate') }}
+
+                                <div class="col-md-10">
+                                    {{ html()->text('commission_rate')
+                                        ->class('form-control')
+                                        ->placeholder(__('labels.backend.general_settings.teacher_commission_rate'))
+                                        ->value(config('commission_rate'))
+                                        }}
+                                </div><!--col-->
+                            </div><!--form-group-->
                         </div>
                         <div class="col-12 text-left">
                             <a href="{{route('admin.troubleshoot')}}" class="btn btn-lg btn-warning">{{__('labels.backend.general_settings.troubleshoot')}}</a>
