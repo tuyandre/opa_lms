@@ -22,7 +22,8 @@ return array (
     'forums' => 'Forums',
     'user' => 
     array (
-      'account' => 'My Account',
+      'account' => 'Account',
+      'edit_account' => 'Edit Account',
       'administration' => 'Administration',
       'change_password' => 'Change Password',
       'my_information' => 'My Information',

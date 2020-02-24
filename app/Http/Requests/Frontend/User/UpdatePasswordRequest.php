@@ -6,6 +6,7 @@ use App\Rules\Auth\ChangePassword;
 use App\Rules\Auth\UnusedPassword;
 use Illuminate\Foundation\Http\FormRequest;
 use DivineOmega\LaravelPasswordExposedValidationRule\PasswordExposed;
+use Illuminate\Validation\Rule;
 
 /**
  * Class UpdatePasswordRequest.
@@ -29,8 +30,9 @@ class UpdatePasswordRequest extends FormRequest
      */
     public function rules()
     {
+
         return [
-            'old_password' => ['required'],
+            'old_password' => [Rule::requiredIf(!auth()->user()->isAdmin())],
             'password'     => [
                 'required',
                 'confirmed',

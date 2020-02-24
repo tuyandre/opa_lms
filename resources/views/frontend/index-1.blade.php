@@ -10,10 +10,11 @@
         /*.address-details.ul-li-block{*/
         /*line-height: 60px;*/
         /*}*/
-        .teacher-img-content .teacher-social-name{
+        .teacher-img-content .teacher-social-name {
             max-width: 67px;
         }
-        .my-alert{
+
+        .my-alert {
             position: absolute;
             z-index: 10;
             left: 0;
@@ -23,6 +24,7 @@
             margin: auto;
             display: inline-block;
         }
+
     </style>
 @endpush
 
@@ -31,10 +33,10 @@
     <!-- Start of slider section
             ============================================= -->
     @if(session()->has('alert'))
-    <div class="alert alert-light alert-dismissible fade my-alert show">
-        <button type="button" class="close" data-dismiss="alert">&times;</button>
-        <strong>{{session('alert')}}</strong>
-    </div>
+        <div class="alert alert-light alert-dismissible fade my-alert show">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <strong>{{session('alert')}}</strong>
+        </div>
     @endif
     @include('frontend.layouts.partials.slider')
 
@@ -49,10 +51,26 @@
                 </div>
                 <div class="search-course mb30 relative-position ">
                     <form action="{{route('search')}}" method="get">
-                        <input class="course" name="q" type="text"
-                               placeholder="@lang('labels.frontend.home.search_course_placeholder')">
-                        <div class="nws-button text-center  gradient-bg text-capitalize">
-                            <button type="submit" value="Submit">@lang('labels.frontend.home.search_course')</button>
+
+                        <div class="input-group search-group">
+                            <input class="course" name="q" type="text"
+                                   placeholder="@lang('labels.frontend.home.search_course_placeholder')">
+                            <select name="category" class="select form-control">
+                                @if(count($categories) > 0 )
+                                    <option value="">@lang('labels.frontend.course.select_category')</option>
+                                    @foreach($categories as $item)
+                                        <option value="{{$item->id}}">{{$item->name}}</option>
+
+                                    @endforeach
+                                @else
+                                    <option>>@lang('labels.frontend.home.no_data_available')</option>
+                                @endif
+
+                            </select>
+                            <div class="nws-button position-relative text-center  gradient-bg text-capitalize">
+                                <button type="submit"
+                                        value="Submit">@lang('labels.frontend.home.search_course')</button>
+                            </div>
                         </div>
                     </form>
                 </div>
@@ -239,8 +257,11 @@
                                             <div class="teacher-cntent">
                                                 <div class="teacher-social-name ul-li-block">
                                                     <ul>
-                                                        <li><a href="{{'mailto:'.$item->email}}"><i class="fa fa-envelope"></i></a></li>
-                                                        <li><a href="{{route('admin.messages',['teacher_id'=>$item->id])}}"><i class="fa fa-comments"></i></a></li>
+                                                        <li><a href="{{'mailto:'.$item->email}}"><i
+                                                                        class="fa fa-envelope"></i></a></li>
+                                                        <li>
+                                                            <a href="{{route('admin.messages',['teacher_id'=>$item->id])}}"><i
+                                                                        class="fa fa-comments"></i></a></li>
                                                     </ul>
                                                     <div class="teacher-name">
                                                         <span>{{$item->full_name}}</span>
@@ -265,7 +286,8 @@
                         </div>
 
                         <div class="genius-btn gradient-bg text-center text-uppercase ul-li-block bold-font ">
-                            <a href="{{route('teachers.index')}}">@lang('labels.frontend.home.all_teachers')<i class="fas fa-caret-right"></i></a>
+                            <a href="{{route('teachers.index')}}">@lang('labels.frontend.home.all_teachers')<i
+                                        class="fas fa-caret-right"></i></a>
                         </div>
                     </div>
                 </div>

@@ -1103,7 +1103,8 @@ return array (
     'sr_no' => 'Sr No.',
     'read_more' => 'Read More',
   ),
-  'frontend' => 
+  'frontend' =>
+
   array (
     'auth' => 
     array (
@@ -1287,6 +1288,7 @@ return array (
     ),
     'home' => 
     array (
+        'no_data_available' => 'No data available',
       'title' => 'Home',
       'search_course_placeholder' => 'Type what do you want to learn today?',
       'popular_teachers' => '<span>Popular</span> Teachers',

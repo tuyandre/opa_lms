@@ -53,10 +53,26 @@
                 </div>
                 <div class="search-course mb30 relative-position ">
                     <form action="{{route('search')}}" method="get">
-                        <input class="course" name="q" type="text"
-                               placeholder="@lang('labels.frontend.home.search_course_placeholder')">
-                        <div class="nws-button text-center  gradient-bg text-capitalize">
-                            <button type="submit" value="Submit">@lang('labels.frontend.home.search_course')</button>
+
+                        <div class="input-group search-group">
+                            <input class="course" name="q" type="text"
+                                   placeholder="@lang('labels.frontend.home.search_course_placeholder')">
+                            <select name="category" class="select form-control">
+                                @if(count($categories) > 0 )
+                                    <option value="">@lang('labels.frontend.course.select_category')</option>
+                                    @foreach($categories as $item)
+                                        <option value="{{$item->id}}">{{$item->name}}</option>
+
+                                    @endforeach
+                                @else
+                                    <option>>@lang('labels.frontend.home.no_data_available')</option>
+                                @endif
+
+                            </select>
+                            <div class="nws-button position-relative text-center  gradient-bg text-capitalize">
+                                <button type="submit"
+                                        value="Submit">@lang('labels.frontend.home.search_course')</button>
+                            </div>
                         </div>
                     </form>
                 </div>

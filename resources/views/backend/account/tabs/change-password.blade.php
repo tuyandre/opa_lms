@@ -1,5 +1,7 @@
 {{ html()->form('PATCH', route('admin.account.post',$user))->class('form-horizontal')->open() }}
-    <div class="row">
+
+@if(!$logged_in_user->isAdmin())
+<div class="row">
         <div class="col">
             <div class="form-group">
                 {{ html()->label(__('validation.attributes.frontend.old_password'))->for('old_password') }}
@@ -12,15 +14,16 @@
             </div><!--form-group-->
         </div><!--col-->
     </div><!--row-->
+@endif
 
     <div class="row">
         <div class="col">
             <div class="form-group">
-                {{ html()->label(__('validation.attributes.frontend.password'))->for('password') }}
+                {{ html()->label(__('validation.attributes.frontend.new_password'))->for('password') }}
 
                 {{ html()->password('password')
                     ->class('form-control')
-                    ->placeholder(__('validation.attributes.frontend.password'))
+                    ->placeholder(__('validation.attributes.frontend.new_password'))
                     ->required() }}
             </div><!--form-group-->
         </div><!--col-->

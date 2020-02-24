@@ -21902,6 +21902,16 @@ function addDeleteForms() {
     }).attr('href', '#').attr('style', 'cursor:pointer;').attr('onclick', '$(this).find("form").submit();');
 }
 
+function addWarningForms() {
+    $('[data-method]').append(function () {
+        if (!$(this).find('form').length > 0) {
+            return "\n<form action='" + $(this).attr('href') + "' method='POST' name='delete_item' style='display:none'>\n" + "<input type='hidden' name='_method' value='" + $(this).attr('data-method') + "'>\n" + "<input type='hidden' name='_token' value='" + $('meta[name="csrf-token"]').attr('content') + "'>\n" + '</form>\n';
+        } else {
+            return '';
+        }
+    }).attr('href', '#').attr('style', 'cursor:pointer;').attr('onclick', '$(this).find("form").submit();');
+}
+
 /**
  * Place any jQuery/helper plugins in here.
  */

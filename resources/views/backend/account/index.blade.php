@@ -5,7 +5,7 @@
         <div class="col col-sm-12 align-self-center">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="mb-0">@lang('navs.frontend.user.account')</h3>
+                    <h3 class="mb-0">@lang('navs.frontend.user.edit_account')</h3>
                 </div>
 
                 <div class="card-body">

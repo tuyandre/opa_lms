@@ -1230,10 +1230,6 @@ button.alt-menu-btn.float-left {
   -webkit-transform: translateY(-50%);
           transform: translateY(-50%);
 }
-.slider-bg-5 .slider-text {
-  max-width: 1170px;
-  margin: 0 auto;
-}
 
 .slider-text .section-title {
   width: 70%;
