@@ -547,7 +547,7 @@
                                             <div class="form-group">
 
                                                 <button  type="submit"  value="{{$locale}}" name="remove_locale[{{$locale}}]"
-                                                        class="btn btn-danger submit-btn btn-xs" data-disable-with="...">
+                                                         class="btn btn-danger submit-btn btn-xs" data-disable-with="...">
                                                     &times;
                                                 </button>
                                                 {{$locale}}

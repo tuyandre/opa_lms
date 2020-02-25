@@ -93,7 +93,7 @@
             <div class="row">
                 <div class="col-12 form-group">
                     {!! Form::label('content', trans('labels.backend.blogs.fields.content'), ['class' => 'control-label']) !!}
-                    {!! Form::textarea('content', old('content'), ['class' => 'form-control editor', 'placeholder' => '']) !!}
+                    {!! Form::textarea('content', old('content'), ['class' => 'form-control editor', 'placeholder' => '','id'=>'editor']) !!}
                 </div>
             </div>
 
@@ -139,48 +139,22 @@
 @push('after-scripts')
     <script src="{{asset('plugins/bootstrap-tagsinput/bootstrap-tagsinput.js')}}"></script>
 
-    <script src="//cdn.ckeditor.com/4.5.4/full/ckeditor.js"></script>
+    <script type="text/javascript" src="{{asset('/vendor/unisharp/laravel-ckeditor/ckeditor.js')}}"></script>
+    <script type="text/javascript" src="{{asset('/vendor/unisharp/laravel-ckeditor/adapters/jquery.js')}}"></script>
+    <script src="{{asset('/vendor/laravel-filemanager/js/lfm.js')}}"></script>
     <script>
         $('.editor').each(function () {
+
             CKEDITOR.replace($(this).attr('id'), {
                 filebrowserImageBrowseUrl: '/laravel-filemanager?type=Images',
                 filebrowserImageUploadUrl: '/laravel-filemanager/upload?type=Images&_token={{csrf_token()}}',
                 filebrowserBrowseUrl: '/laravel-filemanager?type=Files',
                 filebrowserUploadUrl: '/laravel-filemanager/upload?type=Files&_token={{csrf_token()}}',
-                toolbarGroups: [{
-                    "name": "basicstyles",
-                    "groups": ["basicstyles"]
-                },
-                    {
-                        "name": "links",
-                        "groups": ["links"]
-                    },
-                    {
-                        "name": "paragraph",
-                        "groups": ["list", "blocks"]
-                    },
-                    {
-                        "name": "document",
-                        "groups": ["mode"]
-                    },
-                    {
-                        "name": "insert",
-                        "groups": ["insert"]
-                    },
-                    {
-                        "name": "styles",
-                        "groups": ["styles"]
-                    },
-                    {
-                        "name": "about",
-                        "groups": ["about"]
-                    }
-                ],
-                // Remove the redundant buttons from toolbar groups defined above.
-                removeButtons: 'Underline,Strike,Subscript,Superscript,Anchor,Styles,Specialchar'
-            });
-        });
 
+                extraPlugins: 'smiley,lineutils,widget,codesnippet,prism',
+            });
+
+        });
         $(document).ready(function () {
             $(document).on('click', '.delete', function (e) {
                 e.preventDefault();
