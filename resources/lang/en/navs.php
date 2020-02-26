@@ -22,12 +22,12 @@ return array (
     'forums' => 'Forums',
     'user' => 
     array (
-      'account' => 'Account',
-      'edit_account' => 'Edit Account',
+      'account' => 'My Account',
       'administration' => 'Administration',
       'change_password' => 'Change Password',
       'my_information' => 'My Information',
       'profile' => 'Profile',
+      'edit_account' => 'Edit Account',
     ),
   ),
 );

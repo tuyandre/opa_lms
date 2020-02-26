@@ -114,6 +114,7 @@ return array (
         ),
         'view' => 'Voir un utilisateur',
         'user_actions' => 'Actions de l\'utilisateur',
+        'select_role' => 'Sélectionnez un rôle',
       ),
     ),
     'backup' => 
@@ -608,6 +609,7 @@ return array (
         'developer_manual' => 'Manuel du développeur',
         'note' => '<span class = "text-danger font-weight-bold"> Remarque: </span> Cette section sera utile pour l\'API. Vous pouvez générer <b> ID client </b> et <b> Secret client </b> à utiliser dans votre application Android ou Postman pour tester l\'API. <br> Vous devez personnaliser les paramètres et l\'URL en fonction de vos besoins.',
       ),
+      'teacher_commission_rate' => 'Taux de commission des enseignants',
     ),
     'hero_slider' => 
     array (
@@ -1063,40 +1065,40 @@ return array (
       'title' => 'Catégories de forum',
       'view' => 'Voir la catégorie du forum',
     ),
-      'payments' =>
-          array(
-              'title' => 'Paiements',
-              'total_earnings' => 'Total des gains',
-              'total_withdrawals' => 'total des retraits',
-              'total_withdrawal_pending' => 'Retrait total en attente',
-              'total_balance' => 'solde total',
-              'earnings' => 'gains',
-              'withdrawals' => 'retraits',
-              'add_withdrawal_request' => 'Ajouter une demande de retrait',
-              'approve' => 'approuver',
-              'reject' => 'rejeter',
-              'payment_type' =>
-                  array(
-                      'bank' => 'banque',
-                      'paypal' => 'Pay Pal',
-                      'offline' => 'hors ligne'
-                  ),
-              'status'=>
-                  array(
-                      'pending' => 'en attente',
-                      'approved' => 'approuvée',
-                      'rejected' => 'rejetée',
-                  ),
-              'fields' =>
-                  array(
-                      'amount' => 'le montant',
-                      'payment_type' => 'Type de paiement',
-                      'status' => 'Statut',
-                      'remarks' => 'Remarques',
-                      'date' => 'Rendez-vous amoureux',
-                      'teacher_name' => 'nom de l`enseignant',
-                  ),
-          ),
+    'payments' => 
+    array (
+      'title' => 'Paiements',
+      'total_earnings' => 'Total des gains',
+      'total_withdrawals' => 'total des retraits',
+      'total_withdrawal_pending' => 'Retrait total en attente',
+      'total_balance' => 'solde total',
+      'earnings' => 'gains',
+      'withdrawals' => 'retraits',
+      'add_withdrawal_request' => 'Ajouter une demande de retrait',
+      'approve' => 'approuver',
+      'reject' => 'rejeter',
+      'payment_type' => 
+      array (
+        'bank' => 'banque',
+        'paypal' => 'Pay Pal',
+        'offline' => 'hors ligne',
+      ),
+      'status' => 
+      array (
+        'pending' => 'en attente',
+        'approved' => 'approuvée',
+        'rejected' => 'rejetée',
+      ),
+      'fields' => 
+      array (
+        'amount' => 'le montant',
+        'payment_type' => 'Type de paiement',
+        'status' => 'Statut',
+        'remarks' => 'Remarques',
+        'date' => 'Rendez-vous amoureux',
+        'teacher_name' => 'nom de l`enseignant',
+      ),
+    ),
   ),
   'frontend' => 
   array (
@@ -1343,6 +1345,7 @@ return array (
       'teachers' => 'Enseignants',
       'title' => 'Accueil',
       'what_they_say_about_us' => 'Ce qu\'ils disent de nous',
+      'no_data_available' => 'Pas de données disponibles',
     ),
     'layouts' => 
     array (
@@ -1434,23 +1437,24 @@ return array (
     'en' => 'Anglais',
     'ar' => 'arabe',
   ),
-    'teacher' =>
-        array(
-            'teacher_register' => 'Registre des enseignants? Nouveau ici',
-            'teacher_register_box_title' => 'Registre des enseignants',
-            'facebook_link' => 'Lien Facebook',
-            'twitter_link' => 'Lien Twitter',
-            'linkedin_link' => 'Lien Linkedin',
-            'payment_details' => 'Détails de paiement',
-            'bank' => 'Banque',
-            'paypal' => 'Pay Pal',
-            'paypal_email' => 'Email Paypal',
-            'bank_details' =>
-                array(
-                    'name' => 'Bank Name',
-                    'ifsc_code' => 'Code IFSC',
-                    'account_number' => 'Numéro de compte',
-                    'holder_name' => 'Nom du compte'
-                ),
-        ),
+  'teacher' => 
+  array (
+    'teacher_register' => 'Registre des enseignants? Nouveau ici',
+    'teacher_register_box_title' => 'Registre des enseignants',
+    'facebook_link' => 'Lien Facebook',
+    'twitter_link' => 'Lien Twitter',
+    'linkedin_link' => 'Lien Linkedin',
+    'payment_details' => 'Détails de paiement',
+    'bank' => 'Banque',
+    'paypal' => 'Pay Pal',
+    'paypal_email' => 'Email Paypal',
+    'bank_details' => 
+    array (
+      'name' => 'Bank Name',
+      'ifsc_code' => 'Code IFSC',
+      'account_number' => 'Numéro de compte',
+      'holder_name' => 'Nom du compte',
+      'account' => 'Numéro de compte',
+    ),
+  ),
 );

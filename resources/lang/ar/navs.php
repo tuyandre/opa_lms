@@ -17,6 +17,7 @@ return array (
       'change_password' => 'غير كلمة السر',
       'my_information' => 'معلوماتي',
       'profile' => 'الملف الشخصي',
+      'edit_account' => 'تحرير الحساب',
     ),
   ),
   'general' => 

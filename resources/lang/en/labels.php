@@ -129,8 +129,7 @@ return array (
         'change_password' => 'Change Password',
         'change_password_for' => 'Change Password for :user',
         'create' => 'Create User',
-        'select_role' => 'Select Role',
-        'table' =>
+        'table' => 
         array (
           'abilities' => 'Abilities',
           'total' => 'user total|users total',
@@ -186,6 +185,7 @@ return array (
         'no_permissions' => 'No Permissions',
         'no_roles' => 'No Roles to set.',
         'permissions' => 'Permissions',
+        'select_role' => 'Select Role',
       ),
       'roles' => 
       array (
@@ -1019,7 +1019,7 @@ return array (
       'monthly' => 'Monthly',
       'sitemap_note' => 'This sitemap tool will generate sitemap for published Course, Bundles and Blog.',
     ),
-    'forum_category' =>
+    'forum_category' => 
     array (
       'title' => 'Forum Categories',
       'create' => 'Create Forum Category',
@@ -1027,7 +1027,7 @@ return array (
       'view' => 'View Forum Category',
       'on' => 'On',
       'off' => 'Off',
-      'fields' =>
+      'fields' => 
       array (
         'parent_category' => 'Parent Category',
         'category' => 'Category',
@@ -1036,40 +1036,40 @@ return array (
         'status' => 'Status',
       ),
     ),
-      'payments' =>
-          array(
-              'title' => 'Payments',
-              'total_earnings' => 'Total Earnings',
-              'total_withdrawals' => 'Total Withdrawals',
-              'total_withdrawal_pending' => 'Total Withdrawal Pending',
-              'total_balance' => 'Total Balance',
-              'earnings' => 'Earnings',
-              'withdrawals' => 'Withdrawals',
-              'add_withdrawal_request' => 'Add Withdrawal Request',
-              'approve' => 'Approve',
-              'reject' => 'Reject',
-              'payment_type' =>
-                  array(
-                      'bank' => 'Bank',
-                      'paypal' => 'Paypal',
-                      'offline' => 'Offline'
-                  ),
-              'status'=>
-                  array(
-                      'pending' => 'Pending',
-                      'approved' => 'Approved',
-                      'rejected' => 'Rejected',
-                  ),
-              'fields' =>
-                  array(
-                      'amount' => 'Amount',
-                      'payment_type' => 'Payment Type',
-                      'status' => 'Status',
-                      'remarks' => 'Remarks',
-                      'date' => 'Date',
-                      'teacher_name' => 'Teacher Name',
-                  ),
-          ),
+    'payments' => 
+    array (
+      'title' => 'Payments',
+      'total_earnings' => 'Total Earnings',
+      'total_withdrawals' => 'Total Withdrawals',
+      'total_withdrawal_pending' => 'Total Withdrawal Pending',
+      'total_balance' => 'Total Balance',
+      'earnings' => 'Earnings',
+      'withdrawals' => 'Withdrawals',
+      'add_withdrawal_request' => 'Add Withdrawal Request',
+      'approve' => 'Approve',
+      'reject' => 'Reject',
+      'payment_type' => 
+      array (
+        'bank' => 'Bank',
+        'paypal' => 'Paypal',
+        'offline' => 'Offline',
+      ),
+      'status' => 
+      array (
+        'pending' => 'Pending',
+        'approved' => 'Approved',
+        'rejected' => 'Rejected',
+      ),
+      'fields' => 
+      array (
+        'amount' => 'Amount',
+        'payment_type' => 'Payment Type',
+        'status' => 'Status',
+        'remarks' => 'Remarks',
+        'date' => 'Date',
+        'teacher_name' => 'Teacher Name',
+      ),
+    ),
   ),
   'general' => 
   array (
@@ -1103,8 +1103,7 @@ return array (
     'sr_no' => 'Sr No.',
     'read_more' => 'Read More',
   ),
-  'frontend' =>
-
+  'frontend' => 
   array (
     'auth' => 
     array (
@@ -1288,7 +1287,6 @@ return array (
     ),
     'home' => 
     array (
-        'no_data_available' => 'No data available',
       'title' => 'Home',
       'search_course_placeholder' => 'Type what do you want to learn today?',
       'popular_teachers' => '<span>Popular</span> Teachers',
@@ -1301,6 +1299,7 @@ return array (
       'our_professionals' => 'Our Professionals',
       'all_teachers' => 'All Teachers',
       'what_they_say_about_us' => 'What they say about us',
+      'no_data_available' => 'No data available',
     ),
     'layouts' => 
     array (
@@ -1441,8 +1440,8 @@ return array (
     'fr' => 'French',
     'ar' => 'Arabic',
   ),
-  'teacher' =>
-  array(
+  'teacher' => 
+  array (
     'teacher_register' => 'Teacher Register? New Here',
     'teacher_register_box_title' => 'Teacher Register',
     'facebook_link' => 'Facebook Link',
@@ -1452,12 +1451,13 @@ return array (
     'bank' => 'Bank',
     'paypal' => 'Paypal',
     'paypal_email' => 'Paypal Email',
-    'bank_details' =>
-    array(
-    'name' => 'Bank Name',
-    'ifsc_code' => 'IFSC Code',
-    'account' => 'Account Number',
-    'holder_name' => 'Account Name'
+    'bank_details' => 
+    array (
+      'name' => 'Bank Name',
+      'ifsc_code' => 'IFSC Code',
+      'account' => 'Account Number',
+      'holder_name' => 'Account Name',
+      'account_number' => 'Account Number',
     ),
   ),
 );

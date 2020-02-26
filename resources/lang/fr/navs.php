@@ -25,6 +25,7 @@ return array (
       'change_password' => 'Changer le mot de passe',
       'my_information' => 'Mon information',
       'profile' => 'Profil',
+      'edit_account' => 'Modifier le compte',
     ),
     'forums' => 'Les forums',
     'courses' => 'Cours',
