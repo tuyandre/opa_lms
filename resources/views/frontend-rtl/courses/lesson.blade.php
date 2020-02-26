@@ -457,6 +457,17 @@
 
 
     <script>
+        @if($lesson->mediaPDF)
+        $(function () {
+            $("#myPDF").pdf({
+                source: "{{asset('storage/uploads/'.$lesson->mediaPDF->name)}}",
+                loadingHeight: 800,
+                loadingWidth: 800,
+                loadingHTML: ""
+            });
+
+        });
+                @endif
         var storedDuration = 0;
         var storedLesson;
         storedDuration = Cookies.get("duration_" + "{{auth()->user()->id}}" + "_" + "{{$lesson->id}}" + "_" + "{{$lesson->course->id}}");
@@ -514,7 +525,7 @@
             });
 
             saveProgress(video_id, duration, parseInt(progress));
-        }, 3000);
+        }, 10000);
 
 
         function saveProgress(id, duration, progress) {
@@ -528,7 +539,7 @@
                     'progress': parseInt(progress)
                 },
                 success: function (result) {
-                    if (duration === progress) {
+                    if (progress === duration) {
                         location.reload();
                     }
                 }
@@ -583,7 +594,7 @@
             if (counter >= 0) {
                 // Display a next button box
                 $('#nextButton').html("<a class='btn btn-block bg-danger font-weight-bold text-white' href='#'>@lang('labels.frontend.course.next') (in " + counter + " seconds)</a>")
-                Cookies.set("storedCounter_" + "{{auth()->user()->id}}" + "_" + "{{$lesson->id}}" + "_" + "{{$lesson->course->id}}", counter);
+                Cookies.set("duration_" + "{{auth()->user()->id}}" + "_" + "{{$lesson->id}}" + "_" + "{{$lesson->course->id}}", counter);
 
             }
             if (counter === 0) {
