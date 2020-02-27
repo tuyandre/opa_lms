@@ -514,7 +514,7 @@
             });
 
             saveProgress(video_id, duration, parseInt(progress));
-        }, 10000);
+        }, 3000);
 
 
         function saveProgress(id, duration, progress) {
