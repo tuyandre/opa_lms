@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\v1;
 
+use App\Helpers\General\EarningHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Traits\FileUploadTrait;
 use App\Http\Requests\Frontend\User\UpdatePasswordRequest;
@@ -936,6 +937,9 @@ class ApiController extends Controller
             $order->remarks = $request->remarks;
             $order->transaction_id = $request->transaction_id;
             $order->save();
+            if($order->status == 1){
+                (new EarningHelper())->insert($order);
+            }
             if ((int)$request->payment_type == 3) {
                 foreach ($order->items as $key => $cartItem) {
                     $counter++;
