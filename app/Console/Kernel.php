@@ -5,6 +5,8 @@ namespace App\Console;
 use App\Console\Commands\Backup;
 use App\Console\Commands\GenerateSitemap;
 use App\Console\Commands\RefreshSite;
+use App\Console\Commands\TeacherProfileFix;
+use App\Models\TeacherProfile;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -21,7 +23,8 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         Backup::class,
         RefreshSite::class,
-        GenerateSitemap::class
+        GenerateSitemap::class,
+        TeacherProfileFix::class
 
     ];
 

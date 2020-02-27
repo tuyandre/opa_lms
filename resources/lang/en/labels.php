@@ -607,6 +607,11 @@ return array (
         'something_went_wrong' => 'Something Went Wrong',
         'please_input_api_client_name' => 'Please input API client name',
       ),
+      'list_update_note' => 'Once you click on update, you will see list of sections to on/off.',
+      'wide' => 'Wide',
+      'box' => 'Box',
+      'layout_type_note' => 'This will change frontend theme layout type',
+      'layout_label' => 'Layout',
     ),
     'logo' => 
     array (

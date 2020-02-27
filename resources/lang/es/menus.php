@@ -196,14 +196,14 @@ return array (
       array (
         'title' => 'Categorías de foros',
       ),
-        'payments' =>
-            array(
-                'title' => 'pagos',
-            ),
-        'payments_requests' =>
-            array(
-                'title' => 'solicitud de pago',
-            ),
+      'payments' => 
+      array (
+        'title' => 'pagos',
+      ),
+      'payments_requests' => 
+      array (
+        'title' => 'solicitud de pago',
+      ),
     ),
   ),
   'language-picker' => 

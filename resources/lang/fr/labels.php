@@ -610,6 +610,11 @@ return array (
         'note' => '<span class = "text-danger font-weight-bold"> Remarque: </span> Cette section sera utile pour l\'API. Vous pouvez générer <b> ID client </b> et <b> Secret client </b> à utiliser dans votre application Android ou Postman pour tester l\'API. <br> Vous devez personnaliser les paramètres et l\'URL en fonction de vos besoins.',
       ),
       'teacher_commission_rate' => 'Taux de commission des enseignants',
+      'box' => 'Boîte',
+      'layout_label' => 'Disposition',
+      'layout_type_note' => 'Cela changera le type de disposition du thème frontal',
+      'list_update_note' => 'Une fois que vous avez cliqué sur la mise à jour, vous verrez la liste des sections à activer / désactiver.',
+      'wide' => 'Large',
     ),
     'hero_slider' => 
     array (

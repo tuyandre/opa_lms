@@ -399,8 +399,9 @@
                                 {{ html()->label(__('labels.backend.general_settings.teacher_commission_rate'))->class('col-md-2 form-control-label')->for('commission_rate') }}
 
                                 <div class="col-md-10">
-                                    {{ html()->text('commission_rate')
+                                    {{ html()->input('number','commission_rate')
                                         ->class('form-control')
+                                        ->attributes(['pattern' => '[0-9]'])
                                         ->placeholder(__('labels.backend.general_settings.teacher_commission_rate'))
                                         ->value(config('commission_rate'))
                                         }}
@@ -500,27 +501,25 @@
 
                                 <div class="col-md-10">
                                     <select class="form-control" id="layout_type" name="layout_type">
-                                        <option selected value="wide-layout">Wide</option>
-                                        <option value="box-layout">Box</option>
+                                        <option selected value="wide-layout">{{__('labels.backend.general_settings.wide')}}</option>
+                                        <option value="box-layout">{{__('labels.backend.general_settings.box')}}</option>
                                     </select>
-                                    <span class="help-text font-italic">This will change frontend theme layout type</span>
+                                    <span class="help-text font-italic">{{__('labels.backend.general_settings.layout_type_note')}}</span>
 
                                 </div><!--col-->
                             </div><!--form-group-->
 
                             <div class="form-group row">
                                 {{ html()->label(__('labels.backend.general_settings.theme_layout'))->class('col-md-2 form-control-label')->for('theme_layout') }}
-
                                 <div class="col-md-10">
                                     <select class="form-control" id="theme_layout" name="theme_layout">
-                                        <option selected value="1">Layout 1</option>
-                                        <option value="2">Layout 2</option>
-                                        <option value="3">Layout 3</option>
-                                        <option value="4">Layout 4</option>
+                                        <option selected value="1">{{__('labels.backend.general_settings.layout_label')}} 1</option>
+                                        <option value="2">{{__('labels.backend.general_settings.layout_label')}} 2</option>
+                                        <option value="3">{{__('labels.backend.general_settings.layout_label')}} 3</option>
+                                        <option value="4">{{__('labels.backend.general_settings.layout_label')}} 4</option>
                                     </select>
                                     <span class="help-text font-italic">{{__('labels.backend.general_settings.layout_note')}}</span>
-                                    <p id="sections_note" class="d-none font-weight-bold">Once you click on update, you
-                                        will see list of sections to on/off.</p>
+                                    <p id="sections_note" class="d-none font-weight-bold"> {{__('labels.backend.general_settings.list_update_note')}}</p>
 
                                 </div><!--col-->
                             </div><!--form-group-->
@@ -870,48 +869,48 @@
                         <div class="col-lg-3 border-left col-12">
                             <div class="form-group input-list">
                                 <div class="checkbox">
-                                    <label><input type="checkbox" checked disabled value=""> First Name</label>
+                                    <label><input type="checkbox" checked disabled value=""> {{__('labels.backend.general_settings.user_registration_settings.fields.first_name')}}</label>
                                 </div>
                                 <div class="checkbox">
-                                    <label><input type="checkbox" checked disabled value=""> Last Name</label>
+                                    <label><input type="checkbox" checked disabled value=""> {{__('labels.backend.general_settings.user_registration_settings.fields.last_name')}}</label>
                                 </div>
                                 <div class="checkbox">
-                                    <label><input type="checkbox" checked disabled value=""> Email</label>
+                                    <label><input type="checkbox" checked disabled value=""> {{__('labels.backend.general_settings.user_registration_settings.fields.email')}}</label>
                                 </div>
                                 <div class="checkbox">
-                                    <label><input type="checkbox" checked disabled value=""> Password</label>
+                                    <label><input type="checkbox" checked disabled value=""> {{__('labels.backend.general_settings.user_registration_settings.fields.password')}}</label>
                                 </div>
                                 <div class="checkbox">
                                     <label><input class="option" type="checkbox" data-name="phone" data-type="number"
-                                                  value=""> Phone</label>
+                                                  value=""> {{__('labels.backend.general_settings.user_registration_settings.fields.phone')}}</label>
                                 </div>
                                 <div class="checkbox">
                                     <label><input class="option" type="checkbox" data-name="dob" data-type="date"
-                                                  value=""> Date of Birth</label>
+                                                  value=""> {{__('labels.backend.general_settings.user_registration_settings.fields.dob')}}</label>
                                 </div>
                                 <div class="checkbox">
                                     <label><input class="option" type="checkbox" data-name="gender" data-type="radio"
-                                                  value=""> Gender</label>
+                                                  value=""> {{__('labels.backend.general_settings.user_registration_settings.fields.gender')}}</label>
                                 </div>
                                 <div class="checkbox">
                                     <label><input class="option" type="checkbox" data-name="address"
-                                                  data-type="textarea" value=""> Address</label>
+                                                  data-type="textarea" value=""> {{__('labels.backend.general_settings.user_registration_settings.fields.address')}}</label>
                                 </div>
                                 <div class="checkbox">
                                     <label><input class="option" type="checkbox" data-name="city" data-type="text"
-                                                  value=""> City</label>
+                                                  value=""> {{__('labels.backend.general_settings.user_registration_settings.fields.city')}}</label>
                                 </div>
                                 <div class="checkbox">
                                     <label><input class="option" type="checkbox" data-name="pincode" data-type="text"
-                                                  value=""> Pincode</label>
+                                                  value=""> {{__('labels.backend.general_settings.user_registration_settings.fields.pincode')}}</label>
                                 </div>
                                 <div class="checkbox">
                                     <label><input class="option" type="checkbox" data-name="state" data-type="text"
-                                                  value=""> State</label>
+                                                  value=""> {{__('labels.backend.general_settings.user_registration_settings.fields.state')}}</label>
                                 </div>
                                 <div class="checkbox">
                                     <label><input class="option" type="checkbox" data-name="country" data-type="text"
-                                                  value=""> Country</label>
+                                                  value=""> {{__('labels.backend.general_settings.user_registration_settings.fields.country')}}</label>
                                 </div>
                             </div>
                         </div>
@@ -1310,9 +1309,9 @@
                     "</div>";
             } else if (type == 'radio') {
                 html = "<div class='form-group radiogroup'>" +
-                    "<label class='radio-inline mr-3'><input type='radio' data-name='optradio'> Male</label>" +
-                    "<label class='radio-inline mr-3'><input type='radio' data-name='optradio'> Female</label>" +
-                    "<label class='radio-inline mr-3'><input type='radio' data-name='optradio'> Other</label>" +
+                    "<label class='radio-inline mr-3'><input type='radio' data-name='optradio'> {{__('labels.backend.general_settings.user_registration_settings.fields.male')}} </label>" +
+                    "<label class='radio-inline mr-3'><input type='radio' data-name='optradio'> {{__('labels.backend.general_settings.user_registration_settings.fields.female')}}</label>" +
+                    "<label class='radio-inline mr-3'><input type='radio' data-name='optradio'> {{__('labels.backend.general_settings.user_registration_settings.fields.other')}}</label>" +
                     "</div>";
             } else if (type == 'textarea') {
                 html = "<div class='form-group'>" +

@@ -59,13 +59,16 @@ class UpdateController extends Controller
             exec('cd ' . base_path() . '/ && composer install');
 
             Artisan::call("migrate");
+            Artisan::call("fix:teacher-profile");
 
             exec('cd ' . base_path() . '/ && composer du');
+
 
             //Artisan::call("db:seed", ['--class' => 'MenuImportSeeder']);
             //Artisan::call("db:seed", ['--class' => 'V215Seeder']);
             unlink(base_path() . '/bootstrap/cache/packages.php');
             unlink(base_path() . '/bootstrap/cache/services.php');
+
 
             return redirect(route('admin.update-theme'))->withFlashSuccess(__('alerts.backend.general.updated'));
         }

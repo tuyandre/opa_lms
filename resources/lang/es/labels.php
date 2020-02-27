@@ -610,6 +610,11 @@ return array (
         'note' => '<span class = "text-danger font-weight-bold"> Nota: </span> Esta sección será útil para fines de API. Puede generar <b> ID de cliente </b> y <b> Secreto de cliente </b> para usar en su aplicación de Android o Postman para probar la API. <br> Debe personalizar los parámetros y la URL de acuerdo con sus requisitos.',
       ),
       'teacher_commission_rate' => 'Tasa de comisión docente',
+      'box' => 'Caja',
+      'layout_label' => 'Diseño',
+      'layout_type_note' => 'Esto cambiará el tipo de diseño del tema de la interfaz',
+      'list_update_note' => 'Una vez que haga clic en actualizar, verá una lista de secciones para activar / desactivar.',
+      'wide' => 'Amplio',
     ),
     'hero_slider' => 
     array (

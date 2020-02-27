@@ -17,8 +17,8 @@ class CreateWithdrawsTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('user_id');
             $table->decimal('amount', 8, 2);
-            $table->tinyInteger('payment_type')->nullable()->comment('0=Bank, 1=Paypal');
-            $table->tinyInteger('status')->default(0);
+            $table->tinyInteger('payment_type')->nullable()->comment('0=Bank, 1=Paypal,2=offline');
+            $table->tinyInteger('status')->default(0)->comment('0=pending,1=accepted,2=rejected');
             $table->text('remarks')->nullable();
             $table->timestamps();
             $table->softDeletes();

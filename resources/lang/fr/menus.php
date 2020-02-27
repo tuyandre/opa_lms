@@ -196,14 +196,14 @@ return array (
       array (
         'title' => 'Catégories de forums',
       ),
-        'payments' =>
-            array(
-                'title' => 'Paiements',
-            ),
-        'payments_requests' =>
-            array(
-                'title' => 'demande de paiement',
-            ),
+      'payments' => 
+      array (
+        'title' => 'Paiements',
+      ),
+      'payments_requests' => 
+      array (
+        'title' => 'demande de paiement',
+      ),
     ),
   ),
   'language-picker' => 

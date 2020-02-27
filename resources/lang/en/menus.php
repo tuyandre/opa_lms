@@ -167,14 +167,14 @@ return array (
       array (
         'title' => 'Forums Categories',
       ),
-        'payments' =>
-            array(
-                'title' => 'Payments',
-            ),
-        'payments_requests' =>
-            array(
-                'title' => 'Payment Requests',
-            ),
+      'payments' => 
+      array (
+        'title' => 'Payments',
+      ),
+      'payments_requests' => 
+      array (
+        'title' => 'Payment Requests',
+      ),
     ),
     'access' => 
     array (
