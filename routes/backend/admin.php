@@ -25,6 +25,12 @@ Route::group(['middleware' => 'role:administrator'], function () {
     Route::delete('teachers_perma_del/{id}', ['uses' => 'Admin\TeachersController@perma_del', 'as' => 'teachers.perma_del']);
     Route::post('teacher/status', ['uses' => 'Admin\TeachersController@updateStatus', 'as' => 'teachers.status']);
 
+
+//===== FORUMS Routes =====//
+    Route::resource('forums-category', 'Admin\ForumController');
+    Route::get('forums-category/status/{id}', 'Admin\ForumController@status')->name('forums-category.status');
+
+
 });
 
 
@@ -193,10 +199,6 @@ Route::post('faqs_mass_destroy', ['uses' => 'Admin\FaqController@massDestroy', '
 Route::get('faqs/status/{id}', 'Admin\FaqController@status')->name('faqs.status');
 Route::post('faqs/status', ['uses' => 'Admin\FaqController@updateStatus', 'as' => 'faqs.status']);
 
-
-//===== FORUMS Routes =====//
-Route::resource('forums-category', 'Admin\ForumController');
-Route::get('forums-category/status/{id}', 'Admin\ForumController@status')->name('forums-category.status');
 
 
 

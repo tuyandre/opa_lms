@@ -512,8 +512,9 @@
                     progress = parseInt(event.detail.plyr.currentTime);
                 }
             });
-
-            saveProgress(video_id, duration, parseInt(progress));
+            if(duration !== 0 || parseInt(progress) !== 0 ) {
+                saveProgress(video_id, duration, parseInt(progress));
+            }
         }, 3000);
 
 
