@@ -26,6 +26,9 @@
             border: none;
 
         }
+     .listing-filter-form select{
+            height:50px!important;
+        }
 
         ul.pagination {
             display: inline;

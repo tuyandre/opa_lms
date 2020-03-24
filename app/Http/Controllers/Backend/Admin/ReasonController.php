@@ -26,16 +26,6 @@ class ReasonController extends Controller
             return abort(401);
         }
 
-
-        if (request('show_deleted') == 1) {
-            if (!Gate::allows('reason_delete')) {
-                return abort(401);
-            }
-            $reasons = Reason::onlyTrashed()->get();
-        } else {
-            $reasons = Reason::all();
-        }
-
         return view('backend.reasons.index', compact('reasons'));
     }
 
@@ -51,15 +41,8 @@ class ReasonController extends Controller
         $has_edit = false;
         $reasons = "";
 
+        $reasons = Reason::orderBy('created_at', 'desc')->get();
 
-        if (request('show_deleted') == 1) {
-            if (!Gate::allows('reason_delete')) {
-                return abort(401);
-            }
-            $reasons = Reason::onlyTrashed()->orderBy('created_at', 'desc')->get();
-        } else {
-            $reasons = Reason::orderBy('created_at', 'desc')->get();
-        }
 
         if (auth()->user()->can('reason_view')) {
             $has_view = true;

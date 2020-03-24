@@ -279,8 +279,8 @@
     <script>
         //=========Preset contact data ==========//
        @if(config('contact_data'))
-        var contact_data = "{{config('contact_data')}}";
-        contact_data = JSON.parse(contact_data.replace(/&quot;/g, '"'));
+            var contact_data = {!! config('contact_data') !!};
+
 
         $(contact_data).each(function (key, element) {
             if (element.name == 'location_on_map') {
@@ -300,7 +300,7 @@
 
 
         $(document).on('submit', '#general-settings-form', function (e) {
-            //                e.preventDefault();
+//                            e.preventDefault();
             //============Saving Contact Details=====//
             var dataJson = {};
             var inputs = $('#contact').find('input[type="text"],textarea,input[type="email"]');

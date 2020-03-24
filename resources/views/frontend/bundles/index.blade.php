@@ -31,6 +31,9 @@
             display: inline;
             text-align: center;
         }
+        .listing-filter-form select{
+            height:50px!important;
+        }
 
         .best-course-pic-text .best-course-text {
             padding: 20px;

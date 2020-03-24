@@ -27,11 +27,11 @@
                                     <a href="{{ route('admin.reasons.index') }}"
                                        style="{{ request('show_deleted') == 1 ? '' : 'font-weight: 700' }}">{{trans('labels.general.all')}}</a>
                                 </li>
-                                |
-                                <li class="list-inline-item">
-                                    <a href="{{ route('admin.reasons.index') }}?show_deleted=1"
-                                       style="{{ request('show_deleted') == 1 ? 'font-weight: 700' : '' }}">{{trans('labels.general.trash')}}</a>
-                                </li>
+                                {{--|--}}
+                                {{--<li class="list-inline-item">--}}
+                                    {{--<a href="{{ route('admin.reasons.index') }}?show_deleted=1"--}}
+                                       {{--style="{{ request('show_deleted') == 1 ? 'font-weight: 700' : '' }}">{{trans('labels.general.trash')}}</a>--}}
+                                {{--</li>--}}
                             </ul>
                         </div>
 

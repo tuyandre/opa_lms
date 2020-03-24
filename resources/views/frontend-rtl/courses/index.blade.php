@@ -28,6 +28,9 @@
             display: inline;
             text-align: center;
         }
+        .listing-filter-form select{
+            height:50px!important;
+        }
     </style>
 @endpush
 @section('content')
