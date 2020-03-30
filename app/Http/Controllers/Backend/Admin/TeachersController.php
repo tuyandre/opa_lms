@@ -283,6 +283,7 @@ class TeachersController extends Controller
     {
 
         $teacher = User::onlyTrashed()->findOrFail($id);
+        $teacher->teacherProfile->delete();
         $teacher->forceDelete();
 
         return redirect()->route('admin.teachers.index')->withFlashSuccess(trans('alerts.backend.general.deleted'));

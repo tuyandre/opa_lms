@@ -110,7 +110,7 @@
         <script src="https://cdn.datatables.net/buttons/1.2.4/js/buttons.colVis.min.js"></script>
         <script src="https://cdn.datatables.net/select/1.2.0/js/dataTables.select.min.js"></script>
         <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
-        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        {{--<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>--}}
 
 
         <script src="{{asset('js/select2.full.min.js')}}" type="text/javascript"></script>

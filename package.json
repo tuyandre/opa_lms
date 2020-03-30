@@ -53,6 +53,7 @@
     }
   },
   "dependencies": {
+    "jquery-ui-dist": "^1.12.1",
     "npm": "^6.6.0"
   }
 }

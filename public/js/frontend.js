@@ -17159,6 +17159,7 @@ module.exports = function(module) {
 
 
 
+// import 'jquery-ui-dist/jquery-ui.min'; // Required for BS4
  // Required for BS4
 
 

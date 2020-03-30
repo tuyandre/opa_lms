@@ -21806,6 +21806,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
+// import 'jquery-ui-dist/jquery-ui.min'; // Required for BS4
  // Required for BS4
 
 
@@ -21893,16 +21894,6 @@ if (token) {
  * Good because you don't have to dirty your HTML with delete forms everywhere.
  */
 function addDeleteForms() {
-    $('[data-method]').append(function () {
-        if (!$(this).find('form').length > 0) {
-            return "\n<form action='" + $(this).attr('href') + "' method='POST' name='delete_item' style='display:none'>\n" + "<input type='hidden' name='_method' value='" + $(this).attr('data-method') + "'>\n" + "<input type='hidden' name='_token' value='" + $('meta[name="csrf-token"]').attr('content') + "'>\n" + '</form>\n';
-        } else {
-            return '';
-        }
-    }).attr('href', '#').attr('style', 'cursor:pointer;').attr('onclick', '$(this).find("form").submit();');
-}
-
-function addWarningForms() {
     $('[data-method]').append(function () {
         if (!$(this).find('form').length > 0) {
             return "\n<form action='" + $(this).attr('href') + "' method='POST' name='delete_item' style='display:none'>\n" + "<input type='hidden' name='_method' value='" + $(this).attr('data-method') + "'>\n" + "<input type='hidden' name='_token' value='" + $('meta[name="csrf-token"]').attr('content') + "'>\n" + '</form>\n';

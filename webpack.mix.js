@@ -24,6 +24,7 @@ mix.sass('resources/sass/frontend/app.scss', 'css/frontend.css')
     ], 'js/backend.js')
     .extract([
         'jquery',
+        'jquery-ui-dist/jquery-ui',
         'bootstrap',
         'popper.js/dist/umd/popper',
         'axios',
