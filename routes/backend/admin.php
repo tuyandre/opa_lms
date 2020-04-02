@@ -17,7 +17,7 @@ Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard'
 
 Route::group(['middleware' => 'role:administrator'], function () {
 
-//===== Teachers Routes =====//
+    //===== Teachers Routes =====//
     Route::resource('teachers', 'Admin\TeachersController');
     Route::get('get-teachers-data', ['uses' => 'Admin\TeachersController@getData', 'as' => 'teachers.get_data']);
     Route::post('teachers_mass_destroy', ['uses' => 'Admin\TeachersController@massDestroy', 'as' => 'teachers.mass_destroy']);
@@ -26,13 +26,152 @@ Route::group(['middleware' => 'role:administrator'], function () {
     Route::post('teacher/status', ['uses' => 'Admin\TeachersController@updateStatus', 'as' => 'teachers.status']);
 
 
-//===== FORUMS Routes =====//
+    //===== FORUMS Routes =====//
     Route::resource('forums-category', 'Admin\ForumController');
     Route::get('forums-category/status/{id}', 'Admin\ForumController@status')->name('forums-category.status');
 
 
+    //===== Orders Routes =====//
+    Route::resource('orders', 'Admin\OrderController');
+    Route::get('get-orders-data', ['uses' => 'Admin\OrderController@getData', 'as' => 'orders.get_data']);
+    Route::post('orders_mass_destroy', ['uses' => 'Admin\OrderController@massDestroy', 'as' => 'orders.mass_destroy']);
+    Route::post('orders/complete', ['uses' => 'Admin\OrderController@complete', 'as' => 'orders.complete']);
+    Route::delete('orders_perma_del/{id}', ['uses' => 'Admin\OrderController@perma_del', 'as' => 'orders.perma_del']);
+
+
+    //===== Settings Routes =====//
+    Route::get('settings/general', ['uses' => 'Admin\ConfigController@getGeneralSettings', 'as' => 'general-settings']);
+
+    Route::post('settings/general', ['uses' => 'Admin\ConfigController@saveGeneralSettings'])->name('general-settings');
+
+    Route::get('settings/social', ['uses' => 'Admin\ConfigController@getSocialSettings'])->name('social-settings');
+
+    Route::post('settings/social', ['uses' => 'Admin\ConfigController@saveSocialSettings'])->name('social-settings');
+
+    Route::get('contact', ['uses' => 'Admin\ConfigController@getContact'])->name('contact-settings');
+
+    Route::get('footer', ['uses' => 'Admin\ConfigController@getFooter'])->name('footer-settings');
+
+    Route::get('newsletter', ['uses' => 'Admin\ConfigController@getNewsletterConfig'])->name('newsletter-settings');
+
+    Route::post('newsletter/sendgrid-lists', ['uses' => 'Admin\ConfigController@getSendGridLists'])->name('newsletter.getSendGridLists');
+
+
+    //===== Slider Routes =====/
+    Route::resource('sliders', 'Admin\SliderController');
+    Route::get('sliders/status/{id}', 'Admin\SliderController@status')->name('sliders.status', 'id');
+    Route::post('sliders/save-sequence', ['uses' => 'Admin\SliderController@saveSequence', 'as' => 'sliders.saveSequence']);
+    Route::post('sliders/status', ['uses' => 'Admin\SliderController@updateStatus', 'as' => 'sliders.status']);
+
+
+    //===== Sponsors Routes =====//
+    Route::resource('sponsors', 'Admin\SponsorController');
+    Route::get('get-sponsors-data', ['uses' => 'Admin\SponsorController@getData', 'as' => 'sponsors.get_data']);
+    Route::post('sponsors_mass_destroy', ['uses' => 'Admin\SponsorController@massDestroy', 'as' => 'sponsors.mass_destroy']);
+    Route::get('sponsors/status/{id}', 'Admin\SponsorController@status')->name('sponsors.status', 'id');
+    Route::post('sponsors/status', ['uses' => 'Admin\SponsorController@updateStatus', 'as' => 'sponsors.status']);
+
+    //===== Testimonials Routes =====//
+    Route::resource('testimonials', 'Admin\TestimonialController');
+    Route::get('get-testimonials-data', ['uses' => 'Admin\TestimonialController@getData', 'as' => 'testimonials.get_data']);
+    Route::post('testimonials_mass_destroy', ['uses' => 'Admin\TestimonialController@massDestroy', 'as' => 'testimonials.mass_destroy']);
+    Route::get('testimonials/status/{id}', 'Admin\TestimonialController@status')->name('testimonials.status', 'id');
+    Route::post('testimonials/status', ['uses' => 'Admin\TestimonialController@updateStatus', 'as' => 'testimonials.status']);
+
+
+    //===== FAQs Routes =====//
+    Route::resource('faqs', 'Admin\FaqController');
+    Route::get('get-faqs-data', ['uses' => 'Admin\FaqController@getData', 'as' => 'faqs.get_data']);
+    Route::post('faqs_mass_destroy', ['uses' => 'Admin\FaqController@massDestroy', 'as' => 'faqs.mass_destroy']);
+    Route::get('faqs/status/{id}', 'Admin\FaqController@status')->name('faqs.status');
+    Route::post('faqs/status', ['uses' => 'Admin\FaqController@updateStatus', 'as' => 'faqs.status']);
+
+
+    //====== Contacts Routes =====//
+    Route::resource('contact-requests', 'ContactController');
+    Route::get('get-contact-requests-data', ['uses' => 'ContactController@getData', 'as' => 'contact_requests.get_data']);
+
+
+    //====== Tax Routes =====//
+    Route::resource('tax', 'TaxController');
+    Route::get('tax/status/{id}', 'TaxController@status')->name('tax.status', 'id');
+    Route::post('tax/status', 'TaxController@updateStatus')->name('tax.status');
+
+
+    //====== Coupon Routes =====//
+    Route::resource('coupons', 'CouponController');
+    Route::get('coupons/status/{id}', 'CouponController@status')->name('coupons.status', 'id');
+    Route::post('coupons/status', 'CouponController@updateStatus')->name('coupons.status');
+
+
+    //==== Remove Locale FIle ====//
+    Route::post('delete-locale', function () {
+        \Barryvdh\TranslationManager\Models\Translation::where('locale', request('locale'))->delete();
+
+        \Illuminate\Support\Facades\File::deleteDirectory(public_path('../resources/lang/' . request('locale')));
+    })->name('delete-locale');
+
+
+    //==== Update Theme Routes ====//
+    Route::get('update-theme', 'UpdateController@index')->name('update-theme');
+    Route::post('update-theme', 'UpdateController@updateTheme')->name('update-files');
+    Route::post('list-files', 'UpdateController@listFiles')->name('list-files');
+    Route::get('backup', 'BackupController@index')->name('backup');
+    Route::get('generate-backup', 'BackupController@generateBackup')->name('generate-backup');
+
+    Route::post('backup', 'BackupController@storeBackup')->name('backup.store');
+
+
+    //===Trouble shoot ====//
+    Route::get('troubleshoot', 'Admin\ConfigController@troubleshoot')->name('troubleshoot');
+
+
+    //==== API Clients Routes ====//
+    Route::prefix('api-client')->group(function () {
+        Route::get('all', 'Admin\ApiClientController@all')->name('api-client.all');
+        Route::post('generate', 'Admin\ApiClientController@generate')->name('api-client.generate');
+        Route::post('status', 'Admin\ApiClientController@status')->name('api-client.status');
+    });
+
+
+    //==== Sitemap Routes =====//
+    Route::get('sitemap', 'SitemapController@getIndex')->name('sitemap.index');
+    Route::post('sitemap', 'SitemapController@saveSitemapConfig')->name('sitemap.config');
+    Route::get('sitemap/generate', 'SitemapController@generateSitemap')->name('sitemap.generate');
+
+
+    Route::post('translations/locales/add', 'LangController@postAddLocale');
+    Route::post('translations/locales/remove', 'LangController@postRemoveLocaleFolder')->name('delete-locale-folder');
+
 });
 
+
+//Common - Shared Routes for Teacher and Administrator
+Route::group(['middleware' => 'role:administrator|teacher'], function () {
+
+    //====== Reports Routes =====//
+    Route::get('report/sales', ['uses' => 'ReportController@getSalesReport', 'as' => 'reports.sales']);
+    Route::get('report/students', ['uses' => 'ReportController@getStudentsReport', 'as' => 'reports.students']);
+
+    Route::get('get-course-reports-data', ['uses' => 'ReportController@getCourseData', 'as' => 'reports.get_course_data']);
+    Route::get('get-bundle-reports-data', ['uses' => 'ReportController@getBundleData', 'as' => 'reports.get_bundle_data']);
+    Route::get('get-students-reports-data', ['uses' => 'ReportController@getStudentsData', 'as' => 'reports.get_students_data']);
+
+
+    //====== Wallet  =====//
+    Route::get('payments', ['uses' => 'PaymentController@index', 'as' => 'payments']);
+    Route::get('get-earning-data', ['uses' => 'PaymentController@getEarningData', 'as' => 'payments.get_earning_data']);
+    Route::get('get-withdrawal-data', ['uses' => 'PaymentController@getwithdrawalData', 'as' => 'payments.get_withdrawal_data']);
+    Route::get('payments/withdraw-request', ['uses' => 'PaymentController@createRequest', 'as' => 'payments.withdraw_request']);
+    Route::post('payments/withdraw-store', ['uses' => 'PaymentController@storeRequest', 'as' => 'payments.withdraw_store']);
+    Route::get('payments-requests', ['uses' => 'PaymentController@paymentRequest', 'as' => 'payments.requests']);
+    Route::get('get-payment-request-data', ['uses' => 'PaymentController@getPaymentRequestData', 'as' => 'payments.get_payment_request_data']);
+    Route::post('payments-request-update', ['uses' => 'PaymentController@paymentsRequestUpdate', 'as' => 'payments.payments_request_update']);
+
+
+    Route::get('menu-manager', ['uses' => 'MenuController@index'])->name('menu-manager');
+
+});
 
 
 //===== Categories Routes =====//
@@ -50,8 +189,7 @@ Route::post('courses_mass_destroy', ['uses' => 'Admin\CoursesController@massDest
 Route::post('courses_restore/{id}', ['uses' => 'Admin\CoursesController@restore', 'as' => 'courses.restore']);
 Route::delete('courses_perma_del/{id}', ['uses' => 'Admin\CoursesController@perma_del', 'as' => 'courses.perma_del']);
 Route::post('course-save-sequence', ['uses' => 'Admin\CoursesController@saveSequence', 'as' => 'courses.saveSequence']);
-Route::get('course-publish/{id}',['uses' => 'Admin\CoursesController@publish' , 'as' => 'courses.publish']);
-
+Route::get('course-publish/{id}', ['uses' => 'Admin\CoursesController@publish', 'as' => 'courses.publish']);
 
 
 //===== Bundles Routes =====//
@@ -61,8 +199,7 @@ Route::post('bundles_mass_destroy', ['uses' => 'Admin\BundlesController@massDest
 Route::post('bundles_restore/{id}', ['uses' => 'Admin\BundlesController@restore', 'as' => 'bundles.restore']);
 Route::delete('bundles_perma_del/{id}', ['uses' => 'Admin\BundlesController@perma_del', 'as' => 'bundles.perma_del']);
 Route::post('bundle-save-sequence', ['uses' => 'Admin\BundlesController@saveSequence', 'as' => 'bundles.saveSequence']);
-Route::get('bundle-publish/{id}',['uses' => 'Admin\BundlesController@publish' , 'as' => 'bundles.publish']);
-
+Route::get('bundle-publish/{id}', ['uses' => 'Admin\BundlesController@publish', 'as' => 'bundles.publish']);
 
 
 //===== Lessons Routes =====//
@@ -109,6 +246,22 @@ Route::group(['middleware' => ['auth', 'password_expires']], function () {
 });
 
 
+Route::group(['middleware' => 'role:teacher'], function () {
+//====== Review Routes =====//
+    Route::resource('reviews', 'ReviewController');
+    Route::get('get-reviews-data', ['uses' => 'ReviewController@getData', 'as' => 'reviews.get_data']);
+});
+
+
+Route::group(['middleware' => 'role:student'], function () {
+
+//==== Certificates ====//
+    Route::get('certificates', 'CertificateController@getCertificates')->name('certificates.index');
+    Route::post('certificates/generate', 'CertificateController@generateCertificate')->name('certificates.generate');
+    Route::get('certificates/download', ['uses' => 'CertificateController@download', 'as' => 'certificates.download']);
+});
+
+
 //==== Messages Routes =====//
 Route::get('messages', ['uses' => 'MessagesController@index', 'as' => 'messages']);
 Route::post('messages/unread', ['uses' => 'MessagesController@getUnreadMessages', 'as' => 'messages.unread']);
@@ -116,57 +269,10 @@ Route::post('messages/send', ['uses' => 'MessagesController@send', 'as' => 'mess
 Route::post('messages/reply', ['uses' => 'MessagesController@reply', 'as' => 'messages.reply']);
 
 
-//===== Orders Routes =====//
-Route::resource('orders', 'Admin\OrderController');
-Route::get('get-orders-data', ['uses' => 'Admin\OrderController@getData', 'as' => 'orders.get_data']);
-Route::post('orders_mass_destroy', ['uses' => 'Admin\OrderController@massDestroy', 'as' => 'orders.mass_destroy']);
-Route::post('orders/complete', ['uses' => 'Admin\OrderController@complete', 'as' => 'orders.complete']);
-Route::delete('orders_perma_del/{id}', ['uses' => 'Admin\OrderController@perma_del', 'as' => 'orders.perma_del']);
-
-
 //=== Invoice Routes =====//
 Route::get('invoice/download', ['uses' => 'Admin\InvoiceController@getInvoice', 'as' => 'invoice.download']);
 Route::get('invoices', ['uses' => 'Admin\InvoiceController@getIndex', 'as' => 'invoices.index']);
 
-
-
-//Route::group(['middleware' => 'role:admin'], function () {
-
-//===== Settings Routes =====//
-    Route::get('settings/general', ['uses' => 'Admin\ConfigController@getGeneralSettings', 'as' => 'general-settings']);
-    Route::post('settings/general', ['uses' => 'Admin\ConfigController@saveGeneralSettings'])->name('general-settings');
-    Route::get('settings/social', ['uses' => 'Admin\ConfigController@getSocialSettings'])->name('social-settings');
-    Route::post('settings/social', ['uses' => 'Admin\ConfigController@saveSocialSettings'])->name('social-settings');
-
-    Route::get('contact', ['uses' => 'Admin\ConfigController@getContact'])->name('contact-settings');
-    Route::get('footer', ['uses' => 'Admin\ConfigController@getFooter'])->name('footer-settings');
-    Route::get('newsletter', ['uses' => 'Admin\ConfigController@getNewsletterConfig'])->name('newsletter-settings');
-    Route::post('newsletter/sendgrid-lists', ['uses' => 'Admin\ConfigController@getSendGridLists'])->name('newsletter.getSendGridLists');
-
-//});
-
-
-
-//===== Slider Routes =====/
-Route::resource('sliders', 'Admin\SliderController');
-Route::get('sliders/status/{id}', 'Admin\SliderController@status')->name('sliders.status', 'id');
-Route::post('sliders/save-sequence', ['uses' => 'Admin\SliderController@saveSequence', 'as' => 'sliders.saveSequence']);
-Route::post('sliders/status', ['uses' => 'Admin\SliderController@updateStatus', 'as' => 'sliders.status']);
-
-
-//===== Sponsors Routes =====//
-Route::resource('sponsors', 'Admin\SponsorController');
-Route::get('get-sponsors-data', ['uses' => 'Admin\SponsorController@getData', 'as' => 'sponsors.get_data']);
-Route::post('sponsors_mass_destroy', ['uses' => 'Admin\SponsorController@massDestroy', 'as' => 'sponsors.mass_destroy']);
-Route::get('sponsors/status/{id}', 'Admin\SponsorController@status')->name('sponsors.status', 'id');
-Route::post('sponsors/status', ['uses' => 'Admin\SponsorController@updateStatus', 'as' => 'sponsors.status']);
-
-//===== Testimonials Routes =====//
-Route::resource('testimonials', 'Admin\TestimonialController');
-Route::get('get-testimonials-data', ['uses' => 'Admin\TestimonialController@getData', 'as' => 'testimonials.get_data']);
-Route::post('testimonials_mass_destroy', ['uses' => 'Admin\TestimonialController@massDestroy', 'as' => 'testimonials.mass_destroy']);
-Route::get('testimonials/status/{id}', 'Admin\TestimonialController@status')->name('testimonials.status', 'id');
-Route::post('testimonials/status', ['uses' => 'Admin\TestimonialController@updateStatus', 'as' => 'testimonials.status']);
 
 //======= Blog Routes =====//
 Route::group(['prefix' => 'blog'], function () {
@@ -192,16 +298,6 @@ Route::post('pages_restore/{id}', ['uses' => 'Admin\PageController@restore', 'as
 Route::delete('pages_perma_del/{id}', ['uses' => 'Admin\PageController@perma_del', 'as' => 'pages.perma_del']);
 
 
-//===== FAQs Routes =====//
-Route::resource('faqs', 'Admin\FaqController');
-Route::get('get-faqs-data', ['uses' => 'Admin\FaqController@getData', 'as' => 'faqs.get_data']);
-Route::post('faqs_mass_destroy', ['uses' => 'Admin\FaqController@massDestroy', 'as' => 'faqs.mass_destroy']);
-Route::get('faqs/status/{id}', 'Admin\FaqController@status')->name('faqs.status');
-Route::post('faqs/status', ['uses' => 'Admin\FaqController@updateStatus', 'as' => 'faqs.status']);
-
-
-
-
 //==== Reasons Routes ====//
 Route::resource('reasons', 'Admin\ReasonController');
 Route::get('get-reasons-data', ['uses' => 'Admin\ReasonController@getData', 'as' => 'reasons.get_data']);
@@ -209,88 +305,4 @@ Route::post('reasons_mass_destroy', ['uses' => 'Admin\ReasonController@massDestr
 Route::get('reasons/status/{id}', 'Admin\ReasonController@status')->name('reasons.status');
 Route::post('reasons/status', ['uses' => 'Admin\ReasonController@updateStatus', 'as' => 'reasons.status']);
 
-Route::get('menu-manager', ['uses'=>'MenuController@index','middleware'=>['auth','role:administrator']])->name('menu-manager');
 
-
-//====== Contacts Routes =====//
-Route::resource('contact-requests', 'ContactController');
-Route::get('get-contact-requests-data', ['uses' => 'ContactController@getData', 'as' => 'contact_requests.get_data']);
-
-//====== Review Routes =====//
-Route::resource('reviews', 'ReviewController');
-Route::get('get-reviews-data', ['uses' => 'ReviewController@getData', 'as' => 'reviews.get_data']);
-
-
-//====== Reports Routes =====//
-Route::get('report/sales', ['uses' => 'ReportController@getSalesReport','as' => 'reports.sales']);
-Route::get('report/students', ['uses' => 'ReportController@getStudentsReport','as' => 'reports.students']);
-
-Route::get('get-course-reports-data', ['uses' => 'ReportController@getCourseData', 'as' => 'reports.get_course_data']);
-Route::get('get-bundle-reports-data', ['uses' => 'ReportController@getBundleData', 'as' => 'reports.get_bundle_data']);
-Route::get('get-students-reports-data', ['uses' => 'ReportController@getStudentsData', 'as' => 'reports.get_students_data']);
-
-
-//====== Tax Routes =====//
-Route::resource('tax', 'TaxController');
-Route::get('tax/status/{id}', 'TaxController@status')->name('tax.status', 'id');
-Route::post('tax/status', 'TaxController@updateStatus')->name('tax.status');
-
-//====== Coupon Routes =====//
-Route::resource('coupons', 'CouponController');
-Route::get('coupons/status/{id}', 'CouponController@status')->name('coupons.status', 'id');
-Route::post('coupons/status', 'CouponController@updateStatus')->name('coupons.status');
-
-
-//==== Remove Locale FIle ====//
-Route::post('delete-locale', function () {
-    \Barryvdh\TranslationManager\Models\Translation::where('locale', request('locale'))->delete();
-
-    \Illuminate\Support\Facades\File::deleteDirectory(public_path('../resources/lang/' . request('locale')));
-})->name('delete-locale');
-
-
-//==== Certificates ====//
-Route::get('certificates', 'CertificateController@getCertificates')->name('certificates.index');
-Route::post('certificates/generate', 'CertificateController@generateCertificate')->name('certificates.generate');
-Route::get('certificates/download', ['uses' => 'CertificateController@download', 'as' => 'certificates.download']);
-
-
-//==== Update Theme Routes ====//
-Route::get('update-theme','UpdateController@index')->name('update-theme');
-Route::post('update-theme','UpdateController@updateTheme')->name('update-files');
-Route::post('list-files','UpdateController@listFiles')->name('list-files');
-Route::get('backup','BackupController@index')->name('backup');
-Route::get('generate-backup','BackupController@generateBackup')->name('generate-backup');
-
-Route::post('backup','BackupController@storeBackup')->name('backup.store');
-
-//===Trouble shoot ====//
-Route::get('troubleshoot','Admin\ConfigController@troubleshoot')->name('troubleshoot');
-
-//==== API Clients Routes ====//
-Route::prefix('api-client')->group(function(){
-    Route::get('all', 'Admin\ApiClientController@all')->name('api-client.all');
-    Route::post('generate', 'Admin\ApiClientController@generate')->name('api-client.generate');
-    Route::post('status', 'Admin\ApiClientController@status')->name('api-client.status');
-});
-
-
-//==== Sitemap Routes =====//
-Route::get('sitemap','SitemapController@getIndex')->name('sitemap.index');
-Route::post('sitemap','SitemapController@saveSitemapConfig')->name('sitemap.config');
-Route::get('sitemap/generate','SitemapController@generateSitemap')->name('sitemap.generate');
-
-
-Route::post('translations/locales/add', 'LangController@postAddLocale');
-Route::post('translations/locales/remove', 'LangController@postRemoveLocaleFolder')->name('delete-locale-folder');
-
-
-//====== Wallet  =====//
-Route::get('payments', ['uses' => 'PaymentController@index','as' => 'payments']);
-Route::get('get-earning-data', ['uses' => 'PaymentController@getEarningData', 'as' => 'payments.get_earning_data']);
-Route::get('get-withdrawal-data', ['uses' => 'PaymentController@getwithdrawalData', 'as' => 'payments.get_withdrawal_data']);
-Route::get('payments/withdraw-request', ['uses' => 'PaymentController@createRequest', 'as' => 'payments.withdraw_request']);
-Route::post('payments/withdraw-store', ['uses' => 'PaymentController@storeRequest', 'as' => 'payments.withdraw_store']);
-Route::get('payments-requests', ['uses' => 'PaymentController@paymentRequest', 'as' => 'payments.requests']);
-Route::get('get-payment-request-data',['uses' => 'PaymentController@getPaymentRequestData', 'as' => 'payments.get_payment_request_data']);
-Route::post('payments-request-update', ['uses' => 'PaymentController@paymentsRequestUpdate', 'as' => 'payments.payments_request_update']);

@@ -3,6 +3,7 @@
 namespace App\Console;
 
 use App\Console\Commands\Backup;
+use App\Console\Commands\FixPermissions;
 use App\Console\Commands\GenerateSitemap;
 use App\Console\Commands\RefreshSite;
 use App\Console\Commands\TeacherProfileFix;
@@ -24,8 +25,8 @@ class Kernel extends ConsoleKernel
         Backup::class,
         RefreshSite::class,
         GenerateSitemap::class,
-        TeacherProfileFix::class
-
+        TeacherProfileFix::class,
+        FixPermissions::class
     ];
 
     /**
