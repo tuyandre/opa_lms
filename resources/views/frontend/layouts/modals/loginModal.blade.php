@@ -46,6 +46,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
 
+
                 <!-- Modal Header -->
                 <div class="modal-header backgroud-style">
 
@@ -67,7 +68,7 @@
                         <div class="tab-pane container active" id="login">
 
                             <span class="error-response text-danger"></span>
-                            <span class="success-response text-success"></span>
+                            <span class="success-response text-success">{{(session()->get('flash_success'))}}</span>
                             <form class="contact_form" id="loginForm" action="{{route('frontend.auth.login.post')}}"
                                   method="POST" enctype="multipart/form-data">
                                 <a href="#" class="go-register float-left text-info pl-0">
@@ -271,6 +272,8 @@
                     e.preventDefault();
 
                     var $this = $(this);
+                    $('.success-response').empty();
+                    $('.error-response').empty();
 
                     $.ajax({
                         type: $this.attr('method'),
@@ -281,6 +284,7 @@
                             $('#login-email-error').empty();
                             $('#login-password-error').empty();
                             $('#login-captcha-error').empty();
+
                             if (response.errors) {
                                 if (response.errors.email) {
                                     $('#login-email-error').html(response.errors.email[0]);
@@ -353,14 +357,12 @@
                                 $('#register').removeClass('active').addClass('fade')
                                 $('.error-response').empty();
                                 $('#login').addClass('active').removeClass('fade')
-                                $('.success-response').html("@lang('labels.frontend.modal.registration_message')");
+                                $('.success-response').empty().html("@lang('labels.frontend.modal.registration_message')");
                             }
                         }
                     });
                 });
             });
-
-
 
         });
     </script>

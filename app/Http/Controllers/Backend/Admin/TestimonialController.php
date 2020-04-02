@@ -99,7 +99,7 @@ class TestimonialController extends Controller
 
         $testimonial = Testimonial::findOrFail($id);
 
-        return view('backend.testimonials.edit', compact('testimonial', 'tests'));
+        return view('backend.testimonials.edit', compact('testimonial'));
     }
 
     /**
