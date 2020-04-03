@@ -26,7 +26,6 @@ class Kernel extends ConsoleKernel
         RefreshSite::class,
         GenerateSitemap::class,
         TeacherProfileFix::class,
-        FixPermissions::class
     ];
 
     /**

@@ -59,13 +59,12 @@ class UpdateController extends Controller
             exec('cd ' . base_path() . '/ && composer install');
 
             Artisan::call("migrate");
-            Artisan::call("fix:permissions");
 
             exec('cd ' . base_path() . '/ && composer du');
 
 
             //Artisan::call("db:seed", ['--class' => 'MenuImportSeeder']);
-            //Artisan::call("db:seed", ['--class' => 'V215Seeder']);
+            Artisan::call("db:seed", ['--class' => 'PermissionFixSeeder']);
             unlink(base_path() . '/bootstrap/cache/packages.php');
             unlink(base_path() . '/bootstrap/cache/services.php');
 

@@ -98,9 +98,9 @@ class ApiController extends Controller
         if (config('registration_fields') != NULL) {
             $fields = json_decode(config('registration_fields'), true);
         }
-        if (config('access.captcha.registration') > 0) {
-            $fields[] = ['name' => 'g-recaptcha-response', 'type' => 'captcha'];
-        }
+//        if (config('access.captcha.registration') > 0) {
+//            $fields[] = ['name' => 'g-recaptcha-response', 'type' => 'captcha'];
+//        }
         return response()->json(['status' => 'success', 'fields' => $fields]);
     }
 
@@ -110,9 +110,9 @@ class ApiController extends Controller
             'first_name' => 'required|string',
             'last_name' => 'required|string',
             'email' => 'required|string|email|unique:users',
-            'g-recaptcha-response' => (config('access.captcha.registration') ? ['required', new CaptchaRule()] : ''),
+//            'g-recaptcha-response' => (config('access.captcha.registration') ? ['required', new CaptchaRule()] : ''),
         ], [
-            'g-recaptcha-response.required' => __('validation.attributes.frontend.captcha'),
+//            'g-recaptcha-response.required' => __('validation.attributes.frontend.captcha'),
         ]);
 
         if (!$validation) {

@@ -4,15 +4,31 @@
 @section('meta_description', '')
 @section('meta_keywords','')
 
-@push('after-styles')
-<style>
-    #genius-teacher-2{
-
-    }
-</style>
-@endpush
+@section('css')
+    <style>
+        .my-alert{
+            top: 40%;
+            position: absolute;
+            right: 0;
+            z-index: 1000;
+            left: 0;
+            margin: auto;
+            width: 40%;
+        }
+        @media only screen and  (max-width: 768px) {
+            .my-alert{
+                width: 100%;
+            }
+        }
+    </style>
+@endsection
 @section('content')
-
+    @if(session()->has('alert'))
+        <div class="alert alert-light alert-dismissible fade my-alert show">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <strong>{{session('alert')}}</strong>
+        </div>
+    @endif
 
     <!-- Start of slider section
     ============================================= -->
