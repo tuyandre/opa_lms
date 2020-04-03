@@ -59,7 +59,7 @@ class UpdateController extends Controller
             exec('cd ' . base_path() . '/ && composer install');
 
             Artisan::call("migrate");
-            Artisan::call("fix:teacher-profile");
+            Artisan::call("fix:permissions");
 
             exec('cd ' . base_path() . '/ && composer du');
 
