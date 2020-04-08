@@ -21,6 +21,7 @@ class CreateTeacherProfilesTable extends Migration
             $table->text('linkedin_link')->nullable();
             $table->string('payment_method')->comment('paypal,bank');
             $table->text('payment_details');
+            $table->text('description')->nullable();
             $table->timestamps();
             $table->softDeletes();
             $table->foreign('user_id')->references('id')->on('users');

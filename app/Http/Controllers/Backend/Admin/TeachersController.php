@@ -150,6 +150,7 @@ class TeachersController extends Controller
             'linkedin_link'     => request()->linkedin_link,
             'payment_method'    => request()->payment_method,
             'payment_details'   => json_encode($payment_details),
+            'description'       => request()->description,
         ];
         TeacherProfile::create($data);
 
@@ -204,6 +205,7 @@ class TeachersController extends Controller
             'linkedin_link'     => request()->linkedin_link,
             'payment_method'    => request()->payment_method,
             'payment_details'   => json_encode($payment_details),
+            'description'       => request()->description,
         ];
         $teacher->teacherProfile->update($data);
 

@@ -219,6 +219,18 @@
                                 </div><!--row-->
                             </div>
 
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-group">
+                                        {{ html()->label(__('labels.teacher.description')) }}
+
+                                        {{ html()->textarea('description')
+                                            ->class('form-control')
+                                            ->placeholder(__('labels.teacher.description')) }}
+                                    </div><!--form-group-->
+                                </div><!--col-->
+                            </div><!--row-->
+
 
                             <div class="row">
                                 <div class="col">

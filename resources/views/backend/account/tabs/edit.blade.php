@@ -208,6 +208,19 @@
         </div><!--row-->
 
     </div>
+    <div class="row">
+        <div class="col">
+            <div class="form-group">
+                {{ html()->label(__('labels.teacher.description'))->for('description') }}
+
+                {{ html()->textarea('description')
+                    ->class('form-control')
+                    ->value($teacherProfile->description)
+                    ->placeholder(__('labels.teacher.description'))
+                }}
+            </div><!--form-group-->
+        </div><!--col-->
+    </div><!--row-->
 
 @endif
 @if ($logged_in_user->canChangeEmail())

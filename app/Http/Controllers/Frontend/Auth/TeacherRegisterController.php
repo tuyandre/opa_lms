@@ -51,6 +51,7 @@ class TeacherRegisterController extends Controller
             'linkedin_link' => request()->linkedin_link,
             'payment_method' => request()->payment_method,
             'payment_details' => json_encode($payment_details),
+            'description'       => request()->description,
         ];
         TeacherProfile::create($data);
         return redirect()->route('frontend.index')->withFlashSuccess(trans('labels.frontend.modal.registration_message'))->with(['openModel' => true]);

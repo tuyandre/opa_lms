@@ -324,7 +324,7 @@ class ApiController extends Controller
      */
     public function getTeachers(Request $request)
     {
-        $teachers = User::role('teacher')->paginate(10);
+        $teachers = User::role('teacher')->with('teacherProfile')->paginate(10);
         if ($teachers == null) {
             return response()->json(['status' => 'failure', 'result' => null]);
         }
@@ -344,7 +344,8 @@ class ApiController extends Controller
         }
         $courses = $teacher->courses->take(5);
         $bundles = $teacher->bundles->take(5);
-        return response()->json(['status' => 'success', 'result' => ['teacher' => $teacher, 'courses' => $courses, 'bundles' => $bundles]]);
+        $profile = $teacher->teacherProfile->first();
+        return response()->json(['status' => 'success', 'result' => ['teacher' => $teacher, 'courses' => $courses, 'bundles' => $bundles, 'profile' => $profile]]);
     }
 
     /**

@@ -1462,5 +1462,6 @@ return array (
       'holder_name' => 'أسم الحساب',
       'account_number' => 'رقم حساب',
     ),
+    'description' => 'وصف',
   ),
 );

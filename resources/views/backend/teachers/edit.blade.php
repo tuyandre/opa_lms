@@ -191,6 +191,17 @@
                     </div>
 
                     <div class="form-group row">
+                        {{ html()->label(__('labels.teacher.description'))->class('col-md-2 form-control-label')->for('description') }}
+
+                        <div class="col-md-10">
+                            {{ html()->textarea('description')
+                                    ->class('form-control')
+                                    ->value($teacherProfile->description)
+                                    ->placeholder(__('labels.teacher.description')) }}
+                        </div><!--col-->
+                    </div>
+
+                    <div class="form-group row">
                         {{ html()->label(__('labels.backend.teachers.fields.status'))->class('col-md-2 form-control-label')->for('active') }}
                         <div class="col-md-10">
                             {{ html()->label(html()->checkbox('')->name('active')

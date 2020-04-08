@@ -1460,5 +1460,6 @@ return array (
       'holder_name' => 'Nombre de la cuenta',
       'account_number' => 'Número de cuenta',
     ),
+    'description' => 'Descripción',
   ),
 );

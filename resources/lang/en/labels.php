@@ -1464,5 +1464,6 @@ return array (
       'holder_name' => 'Account Name',
       'account_number' => 'Account Number',
     ),
+    'description' => 'Description',
   ),
 );
