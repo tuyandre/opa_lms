@@ -117,7 +117,9 @@ class LessonsController extends Controller
                 'correct' => $correct
             ];
             if ($correct) {
-                $test_score += $question->score;
+                if($question->score) {
+                    $test_score += $question->score;
+                }
             }
             /*
              * Save the answer

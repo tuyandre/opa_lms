@@ -110,7 +110,7 @@ class QuestionsController extends Controller
 
                 if ($has_delete) {
                     $delete = view('backend.datatable.action-delete')
-                        ->with(['route' => route('admin.questions.destroy', ['questions_option' => $q->id])])
+                        ->with(['route' => route('admin.questions.destroy', ['questions_option' => $q->id, 'test_id' => $request->test_id??''])])
                         ->render();
                     $view .= $delete;
                 }
@@ -265,6 +265,11 @@ class QuestionsController extends Controller
             return abort(401);
         }
         $question = Question::findOrFail($id);
+        if(request()->get('test_id'))
+            \DB::table('question_test')->where('question_id', $id)->where('test_id', request()->get('test_id'))->delete();
+        else
+            \DB::table('question_test')->where('question_id', $id)->delete();
+
         $question->delete();
 
         return redirect()->route('admin.questions.index')->withFlashSuccess(trans('alerts.backend.general.deleted'));
