@@ -26,7 +26,7 @@ class ReasonController extends Controller
             return abort(401);
         }
 
-        return view('backend.reasons.index', compact('reasons'));
+        return view('backend.reasons.index');
     }
 
     /**
@@ -111,7 +111,7 @@ class ReasonController extends Controller
         if (!Gate::allows('reason_create')) {
             return abort(401);
         }
-        return view('backend.reasons.create', compact('courses', 'lessons'));
+        return view('backend.reasons.create');
     }
 
     /**
@@ -148,14 +148,9 @@ class ReasonController extends Controller
         if (!Gate::allows('reason_edit')) {
             return abort(401);
         }
-        $courses = \App\Models\Course::ofTeacher()->get();
-        $courses_ids = $courses->pluck('id');
-        $courses = $courses->pluck('title', 'id')->prepend('Please select', '');
-        $lessons = \App\Models\Lesson::whereIn('course_id', $courses_ids)->get()->pluck('title', 'id')->prepend('Please select', '');
-
         $reason = Reason::findOrFail($id);
 
-        return view('backend.reasons.edit', compact('reason', 'courses', 'lessons'));
+        return view('backend.reasons.edit', compact('reason'));
     }
 
     /**
