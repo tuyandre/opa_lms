@@ -1447,7 +1447,7 @@ return array (
   ),
   'teacher' => 
   array (
-    'teacher_register' => 'Teacher Register? New Here',
+    'teacher_register' => 'Register as Teacher? Click Here',
     'teacher_register_box_title' => 'Teacher Register',
     'facebook_link' => 'Facebook Link',
     'twitter_link' => 'Twitter Link',

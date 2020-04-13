@@ -1445,7 +1445,7 @@ return array (
   ),
   'teacher' => 
   array (
-    'teacher_register' => 'سجل المعلم؟ جديد هنا',
+    'teacher_register' => 'سجل كمعلم؟ انقر هنا',
     'teacher_register_box_title' => 'سجل المعلم',
     'facebook_link' => 'فيسبوك لينك',
     'twitter_link' => 'رابط تويتر',
