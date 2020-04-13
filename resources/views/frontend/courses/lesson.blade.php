@@ -200,7 +200,7 @@
                                     @foreach ($lesson->questions as $question)
 
                                         <h4 class="mb-0">{{ $loop->iteration }}
-                                            . {{ $question->question }} @if(!$question->isAttempted($test_result->id))
+                                            . {!! $question->question !!}   @if(!$question->isAttempted($test_result->id))
                                                 <small class="badge badge-danger"> @lang('labels.frontend.course.not_attempted')</small> @endif
                                         </h4>
                                         <br/>
@@ -232,7 +232,7 @@
                                         <form action="{{ route('lessons.test', [$lesson->slug]) }}" method="post">
                                             {{ csrf_field() }}
                                             @foreach ($lesson->questions as $question)
-                                                <h4 class="mb-0">{{ $loop->iteration }}. {{ $question->question }}</h4>
+                                                <h4 class="mb-0">{{ $loop->iteration }}. {!! $question->question !!}  </h4>
                                                 <br/>
                                                 @foreach ($question->options as $option)
                                                     <div class="radio">
@@ -459,7 +459,7 @@
             });
 
         });
-          @endif
+                @endif
 
         var storedDuration = 0;
         var storedLesson;
@@ -478,7 +478,7 @@
 
         @if($lesson->mediaVideo->getProgress(auth()->user()->id) != "")
             current_progress = "{{$lesson->mediaVideo->getProgress(auth()->user()->id)->progress}}";
-        @endif
+                @endif
 
 
 

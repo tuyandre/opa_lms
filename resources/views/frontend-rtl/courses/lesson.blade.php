@@ -195,45 +195,45 @@
                                         </button>
                                     </form>
                                 @endif
-                                    @if(count($lesson->questions) > 0  )
-                                        <hr>
+                                @if(count($lesson->questions) > 0  )
+                                    <hr>
 
-                                        @foreach ($lesson->questions as $question)
+                                    @foreach ($lesson->questions as $question)
 
-                                            <h4 class="mb-0">{{ $loop->iteration }}
-                                                . {{ $question->question }} @if(!$question->isAttempted($test_result->id))
-                                                    <small class="badge badge-danger"> @lang('labels.frontend.course.not_attempted')</small> @endif
-                                            </h4>
-                                            <br/>
-                                            <ul class="options-list pl-4">
-                                                @foreach ($question->options as $option)
+                                        <h4 class="mb-0">{{ $loop->iteration }}
+                                            . {!! $question->question !!} @if(!$question->isAttempted($test_result->id))
+                                                <small class="badge badge-danger"> @lang('labels.frontend.course.not_attempted')</small> @endif
+                                        </h4>
+                                        <br/>
+                                        <ul class="options-list pl-4">
+                                            @foreach ($question->options as $option)
 
-                                                    <li class="@if(($option->answered($test_result->id) != null && $option->answered($test_result->id) == 1) || ($option->correct == true)) correct @elseif($option->answered($test_result->id) != null && $option->answered($test_result->id) == 2) incorrect  @endif"> {{ $option->option_text }}
+                                                <li class="@if(($option->answered($test_result->id) != null && $option->answered($test_result->id) == 1) || ($option->correct == true)) correct @elseif($option->answered($test_result->id) != null && $option->answered($test_result->id) == 2) incorrect  @endif"> {{ $option->option_text }}
 
-                                                        @if($option->correct == 1 && $option->explanation != null)
-                                                            <p class="text-dark">
-                                                                <b>@lang('labels.frontend.course.explanation')</b><br>
-                                                                {{$option->explanation}}
-                                                            </p>
-                                                        @endif
-                                                    </li>
+                                                    @if($option->correct == 1 && $option->explanation != null)
+                                                        <p class="text-dark">
+                                                            <b>@lang('labels.frontend.course.explanation')</b><br>
+                                                            {{$option->explanation}}
+                                                        </p>
+                                                    @endif
+                                                </li>
 
-                                                @endforeach
-                                            </ul>
-                                            <br/>
-                                        @endforeach
+                                            @endforeach
+                                        </ul>
+                                        <br/>
+                                    @endforeach
 
-                                    @else
-                                        <h3>@lang('labels.general.no_data_available')</h3>
+                                @else
+                                    <h3>@lang('labels.general.no_data_available')</h3>
 
-                                    @endif
+                                @endif
                             @else
                                 <div class="test-form">
                                     @if(count($lesson->questions) > 0  )
                                         <form action="{{ route('lessons.test', [$lesson->slug]) }}" method="post">
                                             {{ csrf_field() }}
                                             @foreach ($lesson->questions as $question)
-                                                <h4 class="mb-0">{{ $loop->iteration }}. {{ $question->question }}</h4>
+                                                <h4 class="mb-0">{{ $loop->iteration }}. {!! $question->question !!}</h4>
                                                 <br/>
                                                 @foreach ($question->options as $option)
                                                     <div class="radio">
