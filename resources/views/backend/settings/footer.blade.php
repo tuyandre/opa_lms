@@ -302,13 +302,12 @@
             @if(config('footer_data'))
             var footer_data = "{{config('footer_data')}}";
 
-            footer_data = JSON.parse(footer_data.replace(/&quot;/g, '"'));
-
+            footer_data = JSON.parse(footer_data.replace(/&quot;/g, '"').replace(/\n/g,"<br>"));
             var footer = $('#footer');
             var status;
 
             //== Preset Short description
-            footer.find('#short_description').val(footer_data.short_description.text);
+            footer.find('#short_description').val(footer_data.short_description.text.replace(/<br>/g,"\n").replace(/amp;/g,""));
             status = (footer_data.short_description.status === 1);
             footer.find('#short_description').parents('.form-group').find('.status').attr('checked', status);
 
