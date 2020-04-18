@@ -148,4 +148,11 @@ class CouponController extends Controller
 
         return back()->withFlashSuccess(trans('alerts.backend.general.updated'));
     }
+
+    public function updateStatus()
+    {
+        $coupon = Coupon::find(request('id'));
+        $coupon->status = $coupon->status == 1? 0 : 1;
+        $coupon->save();
+    }
 }
