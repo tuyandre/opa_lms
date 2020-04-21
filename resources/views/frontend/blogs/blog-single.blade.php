@@ -147,7 +147,7 @@
                                 </div>
                             @else
                                 <a id="openLoginModal" class="btn nws-button gradient-bg text-white"
-                                   data-target="#myModal"> @lang('labels.frontend.blog.login_to_post_a_comment')</a>
+                                   data-target="#myModal"> @lang('labels.frontend.blog.login_to_post_comment')</a>
                             @endif
                         </div>
                         @if($blog->comments->count() > 0)
