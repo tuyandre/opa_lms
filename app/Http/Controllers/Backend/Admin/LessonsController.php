@@ -415,6 +415,7 @@ class LessonsController extends Controller
             return abort(401);
         }
         $lesson = Lesson::findOrFail($id);
+        $lesson->chapterStudents()->where('course_id', $lesson->course_id)->forceDelete();
         $lesson->delete();
 
         return back()->withFlashSuccess(__('alerts.backend.general.deleted'));

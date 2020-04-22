@@ -285,6 +285,7 @@ class TestsController extends Controller
             return abort(401);
         }
         $test = Test::findOrFail($id);
+        $test->chapterStudents()->where('course_id', $test->course_id)->forceDelete();
         $test->delete();
 
         return back()->withFlashSuccess(trans('alerts.backend.general.deleted'));

@@ -183,9 +183,11 @@ class Course extends Model
 
     public function progress()
     {
-        $completed_lessons = \Auth::user()->chapters()->where('course_id', $this->id)->get()->pluck('model_id')->toArray();
-        if (count($completed_lessons) > 0) {
-            return intval(count($completed_lessons) / $this->courseTimeline->count() * 100);
+        $main_chapter_timeline = $this->lessons()->pluck('id')->merge($this->tests()->pluck('id'));
+
+        $completed_lessons = auth()->user()->chapters()->where('course_id', $this->id)->pluck('model_id');
+        if ($completed_lessons->count() > 0) {
+            return intval($completed_lessons->count() / $main_chapter_timeline->count() * 100);
         } else {
             return 0;
         }
