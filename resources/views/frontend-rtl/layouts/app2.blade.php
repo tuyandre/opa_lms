@@ -30,9 +30,10 @@
         <link rel="stylesheet" href="{{asset('assets-rtl/css/animate.min.css')}}">
         <link rel="stylesheet" href="{{asset('assets-rtl/css/slider.css')}}">
 
-        <link rel="stylesheet" href="{{asset('assets-rtl/css/style.css')}}">
 
-        <link rel="stylesheet" href="{{ asset('css/frontend-rtl.css') }}">
+
+        {{--<link rel="stylesheet" href="{{ asset('css/frontend-rtl.css') }}">--}}
+        <link rel="stylesheet" href="{{asset('assets-rtl/css/style.css')}}">
         <link rel="stylesheet" href="{{asset('assets-rtl/css/responsive.css')}}">
 
         <link rel="stylesheet" href="{{asset('assets/css/colors/switch.css')}}">
