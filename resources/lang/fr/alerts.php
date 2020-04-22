@@ -48,5 +48,7 @@ return array (
     array (
       'completed' => 'Toutes nos félicitations! Vous avez terminé le cours avec succès. Commander votre certificat dans le tableau de bord',
     ),
+      'duplicate_course' => 'est déjà acheté.',
+      'duplicate_bundle' => 'est déjà acheté en bundle.',
   ),
 );

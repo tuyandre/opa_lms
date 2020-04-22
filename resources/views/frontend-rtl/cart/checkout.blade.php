@@ -61,6 +61,12 @@
                 <h2>@lang('labels.frontend.cart.complete_your_purchases')</h2>
             </div>
             <div class="checkout-content">
+                @if(session()->has('danger'))
+                    <div class="alert alert-dismissable alert-danger fade show">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        {!! session('danger')  !!}
+                    </div>
+                @endif
                 <div class="row">
                     <div class="col-md-9">
                         <div class="order-item mb30 course-page-section">

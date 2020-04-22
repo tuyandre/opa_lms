@@ -8,6 +8,7 @@ use App\Models\Bundle;
 use App\Models\Coupon;
 use App\Models\Course;
 use App\Models\Order;
+use App\Models\OrderItem;
 use App\Models\Tax;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -196,7 +197,9 @@ class CartController extends Controller
 
     public function stripePayment(Request $request)
     {
-
+        if($this->checkDuplicate()) {
+            return $this->checkDuplicate();
+        }
         //Making Order
         $order = $this->makeOrder();
 
@@ -233,6 +236,9 @@ class CartController extends Controller
 
     public function paypalPayment(Request $request)
     {
+        if($this->checkDuplicate()) {
+            return $this->checkDuplicate();
+        }
         $payer = new Payer();
         $payer->setPaymentMethod('paypal');
         $items = [];
@@ -304,6 +310,9 @@ class CartController extends Controller
 
     public function offlinePayment(Request $request)
     {
+        if($this->checkDuplicate()) {
+            return $this->checkDuplicate();
+        }
         //Making Order
         $order = $this->makeOrder();
         $order->payment_type = 3;
@@ -558,6 +567,37 @@ class CartController extends Controller
         }
         Cart::session(auth()->user()->id)->removeConditionsByType('coupon');
         return $order;
+    }
+
+    private function checkDuplicate(){
+        $is_duplicate = false;
+        $message = '';
+        $orders = Order::where('user_id','=',auth()->user()->id)->pluck('id');
+        $order_items = OrderItem::whereIn('order_id',$orders)->get(['item_id','item_type']);
+        foreach (Cart::session(auth()->user()->id)->getContent() as $cartItem) {
+            if($cartItem->attributes->type == 'course'){
+                foreach($order_items->where('item_type', 'App\Models\Course') as $item){
+                    if($item->item_id == $cartItem->id){
+                        $is_duplicate = true;
+                        $message .= $cartItem->name.' '.__('alerts.frontend.duplicate_course') .'</br>';
+                    }
+                }
+            }
+            if($cartItem->attributes->type == 'bundle'){
+                foreach($order_items->where('item_type', 'App\Models\Bundle') as $item){
+                    if($item->item_id == $cartItem->id){
+                        $is_duplicate = true;
+                        $message .= $cartItem->name.''.__('alerts.frontend.duplicate_bundle') .'</br>';
+                    }
+                }
+            }
+        }
+
+        if($is_duplicate){
+            return redirect()->back()->withdanger($message);
+        }
+        return false;
+
     }
 
     private function createStripeCharge($request)

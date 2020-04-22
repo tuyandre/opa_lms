@@ -48,5 +48,7 @@ return array (
     array (
       'completed' => 'Congratulations! You\'ve successfully completed course. Checkout your certificate in dashboard',
     ),
+      'duplicate_course' => 'is already course purchased.',
+      'duplicate_bundle' => 'is already bundle purchased.',
   ),
 );
