@@ -3,10 +3,8 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
-use App\Models\System\Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Artisan;
 
 class UpdateController extends Controller
@@ -59,12 +57,11 @@ class UpdateController extends Controller
             exec('cd ' . base_path() . '/ && composer install');
 
             Artisan::call("migrate");
+            Artisan::call("fix:lesson-test-course");
 
             exec('cd ' . base_path() . '/ && composer du');
 
 
-            //Artisan::call("db:seed", ['--class' => 'MenuImportSeeder']);
-            Artisan::call("db:seed", ['--class' => 'PermissionFixSeeder']);
             unlink(base_path() . '/bootstrap/cache/packages.php');
             unlink(base_path() . '/bootstrap/cache/services.php');
 

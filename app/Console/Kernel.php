@@ -5,6 +5,7 @@ namespace App\Console;
 use App\Console\Commands\Backup;
 use App\Console\Commands\FixPermissions;
 use App\Console\Commands\GenerateSitemap;
+use App\Console\Commands\LessonTestChaterStudentsFix;
 use App\Console\Commands\RefreshSite;
 use App\Console\Commands\TeacherProfileFix;
 use App\Models\TeacherProfile;
@@ -26,6 +27,7 @@ class Kernel extends ConsoleKernel
         RefreshSite::class,
         GenerateSitemap::class,
         TeacherProfileFix::class,
+        LessonTestChaterStudentsFix::class,
     ];
 
     /**
