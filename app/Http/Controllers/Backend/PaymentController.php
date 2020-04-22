@@ -39,7 +39,7 @@ class PaymentController extends Controller
                 return $q->course->title;
             })
             ->addColumn('amount', function ($q){
-                return number_format($q->amount,2);
+                return number_format($q->order->amount,2);
             })
             ->addColumn('user', function ($q){
                 return $q->order->user->name;
