@@ -15,28 +15,29 @@ class ReportController extends Controller
     public function getSalesReport()
     {
 
-        $courses = Course::ofTeacher()->where('published','=',1)->pluck('id');
-        $bundles = Bundle::ofTeacher()->where('published','=',1)->pluck('id');
+        $courses = Course::ofTeacher()->pluck('id');
+        $bundles = Bundle::ofTeacher()->pluck('id');
 
-        $bundle_earnings = OrderItem::whereHas('order',function ($q){
-            $q->where('status','=',1);
-        })->where('item_type','=',Bundle::class)
-            ->whereIn('item_id',$bundles);
+
+        $bundle_earnings = Order::with('items')->whereHas('items',function ($q) use ($bundles){
+            $q->where('item_type','=',Bundle::class)
+                ->whereIn('item_id',$bundles);
+        })->where('status','=',1);
+
 
         $bundle_sales = $bundle_earnings->count();
-        $bundle_earnings = $bundle_earnings->sum('price');
+        $bundle_earnings = $bundle_earnings->sum('amount');
 
-        $course_earnings = OrderItem::whereHas('order',function ($q){
-            $q->where('status','=',1);
-        })->where('item_type','=',Course::class)
-            ->whereIn('item_id',$courses);
+        $course_earnings = Order::with('items')->whereHas('items',function ($q) use ($courses){
+            $q->where('item_type','=',Course::class)
+                ->whereIn('item_id',$courses);
+        })->where('status','=',1);
 
         $course_sales = $course_earnings->count();
-        $course_earnings = $course_earnings->sum('price');
+        $course_earnings = $course_earnings->sum('amount');
 
         $total_earnings = $course_earnings+$bundle_earnings;
         $total_sales = $course_sales+$bundle_sales;
-
 
         return view('backend.reports.sales',compact('total_earnings','total_sales'));
     }
@@ -49,14 +50,15 @@ class ReportController extends Controller
     public function getCourseData(Request $request)
     {
 
-        $courses = Course::ofTeacher()->where('published','=',1)->pluck('id');
+        $courses = Course::ofTeacher()->pluck('id');
 
         $course_orders = OrderItem::whereHas('order',function ($q){
             $q->where('status','=',1);
         })->where('item_type','=',Course::class)
             ->whereIn('item_id',$courses)
             ->join('courses', 'order_items.item_id', '=', 'courses.id')
-            ->select('item_id', DB::raw('count(*) as orders, sum(order_items.price) as earnings, courses.title as name, courses.slug'))
+            ->join('orders', 'orders.id', '=', 'order_items.order_id')
+            ->select('item_id', DB::raw('count(*) as orders, sum(orders.amount) as earnings, courses.title as name, courses.slug'))
             ->groupBy('item_id')
             ->get();
 
@@ -74,14 +76,15 @@ class ReportController extends Controller
 
     public function getBundleData(Request $request)
     {
-        $bundles = Bundle::ofTeacher()->has('students','>',0)->withCount('students')->get();
+        $bundles = Bundle::ofTeacher()->has('students','>',0)->withCount('students')->pluck('id');
 
         $bundle_orders = OrderItem::whereHas('order',function ($q){
             $q->where('status','=',1);
         })->where('item_type','=',Bundle::class)
             ->whereIn('item_id',$bundles)
             ->join('bundles', 'order_items.item_id', '=', 'bundles.id')
-            ->select('item_id', DB::raw('count(*) as orders, sum(order_items.price) as earnings, bundles.title as name, bundles.slug'))
+            ->join('orders', 'orders.id', '=', 'order_items.order_id')
+            ->select('item_id', DB::raw('count(*) as orders, sum(orders.amount) as earnings, bundles.title as name, bundles.slug'))
             ->groupBy('item_id')
             ->get();
 
