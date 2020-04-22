@@ -291,7 +291,7 @@
                                         <div class="form-group row">
                                             {{ html()->label(__('validation.attributes.backend.settings.general_settings.captcha_site_key'))->class('col-md-2 form-control-label')->for('captcha_site_key') }}
                                             <div class="col-md-10">
-                                                {{ html()->text('no-captcha.sitekey')
+                                                {{ html()->text('no-captcha__sitekey')
                                                      ->class('form-control')
                                                      ->placeholder(__('validation.attributes.backend.settings.general_settings.captcha_site_key'))
                                                      ->value(config('no-captcha.sitekey'))
@@ -301,7 +301,7 @@
                                         <div class="form-group row">
                                             {{ html()->label(__('validation.attributes.backend.settings.general_settings.captcha_site_secret'))->class('col-md-2 form-control-label')->for('captcha_site_secret') }}
                                             <div class="col-md-10">
-                                                {{ html()->text('no-captcha.secret')
+                                                {{ html()->text('no-captcha__secret')
                                                      ->class('form-control')
                                                      ->placeholder(__('validation.attributes.backend.settings.general_settings.captcha_site_secret'))
                                                      ->value(config('no-captcha.secret'))
