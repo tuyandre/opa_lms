@@ -58,7 +58,7 @@
 @if($logged_in_user->hasRole('teacher'))
     @php
         $teacherProfile = $logged_in_user->teacherProfile?:'';
-        $payment_details = $logged_in_user->teacherProfile?json_decode($logged_in_user->teacherProfile->payment_details):new stdClass();
+        $payment_details = $logged_in_user->teacherProfile?json_decode($logged_in_user->teacherProfile->payment_details):optional();
     @endphp
     <div class="row">
         <div class="col">
@@ -140,7 +140,7 @@
 
                     {{ html()->text('bank_name')
                         ->class('form-control')
-                        ->value($payment_details->bank_name)
+                        ->value($payment_details?$payment_details->bank_name:'')
                         ->placeholder(__('labels.teacher.bank_details.name'))
                     }}
                 </div><!--form-group-->
@@ -154,7 +154,7 @@
 
                     {{ html()->text('ifsc_code')
                         ->class('form-control')
-                        ->value($payment_details->ifsc_code)
+                        ->value($payment_details?$payment_details->ifsc_code:'')
                         ->placeholder(__('labels.teacher.bank_details.ifsc_code'))
                     }}
                 </div><!--form-group-->
@@ -168,7 +168,7 @@
 
                     {{ html()->text('account_number')
                         ->class('form-control')
-                        ->value($payment_details->account_number)
+                        ->value($payment_details?$payment_details->account_number:'')
                         ->placeholder(__('labels.teacher.bank_details.account'))
                     }}
                 </div><!--form-group-->
@@ -182,7 +182,7 @@
 
                     {{ html()->text('account_name')
                         ->class('form-control')
-                        ->value($payment_details->account_name)
+                        ->value($payment_details?$payment_details->account_name:'')
                         ->placeholder(__('labels.teacher.bank_details.holder_name'))
                     }}
                 </div><!--form-group-->
@@ -200,7 +200,7 @@
 
                     {{ html()->text('paypal_email')
                         ->class('form-control')
-                        ->value($payment_details->paypal_email)
+                        ->value($payment_details?$payment_details->paypal_email:'')
                         ->placeholder(__('labels.teacher.paypal_email'))
                     }}
                 </div><!--form-group-->

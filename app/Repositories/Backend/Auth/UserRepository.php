@@ -3,6 +3,7 @@
 namespace App\Repositories\Backend\Auth;
 
 use App\Models\Auth\User;
+use Hash;
 use Illuminate\Support\Facades\DB;
 use App\Exceptions\GeneralException;
 use App\Repositories\BaseRepository;
@@ -126,6 +127,10 @@ class UserRepository extends BaseRepository
                 $user->syncRoles($data['roles']);
                 $user->syncPermissions($data['permissions']);
 
+                if(in_array('teacher',$data['roles'])){
+                    $user->teacherProfile()->create();
+                }
+
                 //Send confirmation email if requested and account approval is off
                 if (isset($data['confirmation_email']) && $user->confirmed == 0 && ! config('access.users.requires_approval')) {
                     $user->notify(new UserNeedsConfirmation($user->confirmation_code));
@@ -168,6 +173,13 @@ class UserRepository extends BaseRepository
                 $user->syncRoles($data['roles']);
                 $user->syncPermissions($data['permissions']);
 
+                if(in_array('teacher',$data['roles'])){
+                    $user->teacherProfile()->create();
+                }else{
+                    if($user->teacherProfile->id){
+                        $user->teacherProfile()->delete();
+                    }
+                }
                 event(new UserUpdated($user));
 
                 return $user;
