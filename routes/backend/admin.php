@@ -15,6 +15,9 @@ Route::redirect('/', '/user/dashboard', 301);
 Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
 
+Route::group(['middleware' => 'role:teacher|administrator'], function () {
+    Route::resource('orders', 'Admin\OrderController');
+});
 Route::group(['middleware' => 'role:administrator'], function () {
 
     //===== Teachers Routes =====//
@@ -32,7 +35,6 @@ Route::group(['middleware' => 'role:administrator'], function () {
 
 
     //===== Orders Routes =====//
-    Route::resource('orders', 'Admin\OrderController');
     Route::get('get-orders-data', ['uses' => 'Admin\OrderController@getData', 'as' => 'orders.get_data']);
     Route::post('orders_mass_destroy', ['uses' => 'Admin\OrderController@massDestroy', 'as' => 'orders.mass_destroy']);
     Route::post('orders/complete', ['uses' => 'Admin\OrderController@complete', 'as' => 'orders.complete']);
