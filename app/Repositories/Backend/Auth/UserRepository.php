@@ -186,13 +186,17 @@ class UserRepository extends BaseRepository
      */
     public function updatePassword(User $user, $input) : User
     {
-        if ($user->update(['password' => $input['password']])) {
+        if (isset($input['old_password']) && Hash::check($input['old_password'], $user->password)) {
+            $user->update(['password' => $input['password']]);
             event(new UserPasswordChanged($user));
-
+            return $user;
+        }
+        if (!isset($input['old_password']) && $user->update(['password' => $input['password']])) {
+            event(new UserPasswordChanged($user));
             return $user;
         }
 
-        throw new GeneralException(__('exceptions.backend.access.users.update_password_error'));
+        throw new GeneralException(__('exceptions.frontend.auth.password.change_mismatch'));
     }
 
     /**

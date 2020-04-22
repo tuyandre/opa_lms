@@ -1,6 +1,6 @@
-{{ html()->form('PATCH', route('admin.account.post',$user))->class('form-horizontal')->open() }}
+{{ html()->form('PATCH', route('admin.account.post',$user->email))->class('form-horizontal')->open() }}
 
-@if(!$logged_in_user->isAdmin())
+@if(!Route::is('admin.auth.user.change-password', $user) && Route::is('admin.account'))
 <div class="row">
         <div class="col">
             <div class="form-group">

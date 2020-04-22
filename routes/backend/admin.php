@@ -241,7 +241,7 @@ Route::post('media/remove', ['uses' => 'Admin\MediaController@destroy', 'as' => 
 //===== User Account Routes =====//
 Route::group(['middleware' => ['auth', 'password_expires']], function () {
     Route::get('account', [AccountController::class, 'index'])->name('account');
-    Route::patch('account/{user?}', [UserPasswordController::class, 'update'])->name('account.post');
+    Route::patch('account/{email?}', [UserPasswordController::class, 'update'])->name('account.post');
     Route::patch('profile/update', [ProfileController::class, 'update'])->name('profile.update');
 });
 

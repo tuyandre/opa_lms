@@ -42,14 +42,20 @@ class UserPasswordController extends Controller
 
     /**
      * @param UpdateUserPasswordRequest $request
-     * @param User                      $user
+     * @param string                      $email
      *
      * @return mixed
      * @throws \App\Exceptions\GeneralException
      */
-    public function update(UpdatePasswordRequest $request, User $user)
+    public function update(UpdatePasswordRequest $request, $email)
     {
-        $this->userRepository->updatePassword($user, $request->only('password'));
-        return redirect()->back()->withFlashSuccess(__('alerts.backend.users.updated_password'));
+        $user = User::where('email', $email)->first();
+        if($user) {
+            $this->userRepository->updatePassword($user, $request->validated());
+            return redirect()->back()->withFlashSuccess(__('alerts.backend.users.updated_password'));
+        }
+        else{
+            return redirect()->back()->withFlashDanger(__('exceptions.backend.access.users.update_password_error'));
+        }
     }
 }
