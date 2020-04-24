@@ -1,4 +1,4 @@
-@extends('frontend.layouts.app'.config('theme_layout'))
+@extends('frontend'.(session()->get('display_type') == "rtl"?"-rtl":"").'.layouts.app'.config('theme_layout'))
 
 @section('title', app_name() . ' | ' . __('labels.teacher.teacher_register_box_title'))
 

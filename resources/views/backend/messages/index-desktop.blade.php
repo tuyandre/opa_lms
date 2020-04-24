@@ -1,6 +1,14 @@
 @inject('request', 'Illuminate\Http\Request')
 @extends('backend.layouts.app')
 @push('after-styles')
+    @if(session()->get('display_type') && session()->get('display_type') == "rtl")
+        <style>
+            .message-box .msg_send_btn{
+                right: unset !important;
+                left: 0 !important;
+            }
+        </style>
+    @endif
     <style>
         textarea {
             resize: none;

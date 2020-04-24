@@ -1255,7 +1255,7 @@ return array (
       'no_reviews_yet' => 'لا توجد تعليقات حتى الآن.',
       'none' => 'لا شيء',
       'popular' => 'جمع',
-      'prev' => 'PREV',
+      'prev' => 'السابق',
       'price' => 'السعر',
       'progress' => 'تقدم',
       'ratings' => 'تصنيفات',

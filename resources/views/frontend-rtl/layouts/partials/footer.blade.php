@@ -28,7 +28,7 @@
                                         $section_data = section_filter($footer_data->section1)
                                     @endphp
 
-                                    @include('frontend.layouts.partials.footer_section',['section_data' => $section_data])
+                                    @include('frontend-rtl.layouts.partials.footer_section',['section_data' => $section_data])
                                 @endif
 
                                 @if($footer_data->section2->status == 1)
@@ -36,7 +36,7 @@
                                         $section_data = section_filter($footer_data->section2)
                                     @endphp
 
-                                    @include('frontend.layouts.partials.footer_section',['section_data' => $section_data])
+                                    @include('frontend-rtl.layouts.partials.footer_section',['section_data' => $section_data])
                                 @endif
 
                                 @if($footer_data->section3->status == 1)
@@ -44,7 +44,7 @@
                                         $section_data = section_filter($footer_data->section3)
                                     @endphp
 
-                                    @include('frontend.layouts.partials.footer_section',['section_data' => $section_data])
+                                    @include('frontend-rtl.layouts.partials.footer_section',['section_data' => $section_data])
                                 @endif
                             </div>
                         </div>
