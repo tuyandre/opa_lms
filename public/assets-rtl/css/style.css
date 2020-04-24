@@ -1541,40 +1541,6 @@ button.alt-menu-btn.float-left {
     border-radius: 5px;
 }
 
-#search-course .search-group input {
-    width: 60%;
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-}
-#search-course .search-group select {
-    width: 20%;
-    height: 60px!important;
-    background-color: #f9f9f9;
-    border: none;
-    border-radius: 0!important;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    font-size: 15px;
-    color: inherit;
-    background-position: 90% 50%;
-    background-repeat: no-repeat;
-    background-image: url('data:image/svg+xml;utf8,<?xml version="1.0" encoding="utf-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="12"  version="1"><path  d="M4 8L0 4h8z"/></svg>');
-    padding: .5em;
-    padding-right: 1.5em;
-}
-#search-course .nws-button {
-    width: 20%;
-}
-search-course .nws-button, .subs-form .nws-button {
-    top: 0;
-    right: 0;
-    height: 60px;
-    width: 195px;
-    line-height: 60px;
-    position: absolute;
-    border-top-right-radius: 5px;
-    border-bottom-right-radius: 5px;
-}
 .search-course .nws-button,
 .subs-form .nws-button {
     top: 0;
@@ -5904,4 +5870,58 @@ ul.product-tab li.active:after {
 }
 .trend-badge-3 i{
     display: block;
+}
+#search-course .search-group input{
+    width: 60%;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+#search-course .search-group input{
+    width: 60%;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+#search-course .search-group select{
+    width: 20%;
+    height: 60px!important;
+    background-color: #f9f9f9;
+    border:none;
+    border-radius: 0!important;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    font-size: 15px;
+    color: inherit;
+    background-position: 10% 50%;
+    background-repeat: no-repeat;
+    background-image: url('data:image/svg+xml;utf8,<?xml version="1.0" encoding="utf-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="12"  version="1"><path  d="M4 8L0 4h8z"/></svg>');
+    padding: .5em;
+    padding-right: 1.5em
+}
+#search-course .search-group select:focus{
+    background-color: #f9f9f9;
+
+}
+#search-course .nws-button {
+    width: 20%;
+}
+
+@media screen and (max-width: 768px) {
+    #search-course .search-group select{
+        width: 35%;
+        font-size: 12px;
+        height: 40px!important;
+    }
+    #search-course .search-group input{
+        width: 65%;
+    }
+    #search-course .nws-button {
+        width: 50%;
+        margin: auto;
+    }
+    #search-course .nws-button button{
+        height: 100%;
+    }
+
 }
