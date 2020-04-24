@@ -39,12 +39,12 @@ class LessonTestChaterStudentsFix extends Command
      */
     public function handle()
     {
-        $lessons = Lesson::get();
+        $lessons = Lesson::onlyTrashed()->get();
         foreach ($lessons as $lesson){
             $lesson->chapterStudents()->where('course_id', $lesson->course_id)->forceDelete();
         }
 
-        $tests = Test::get();
+        $tests = Test::onlyTrashed()->get();
         foreach ($tests as $test){
             $tests->chapterStudents()->where('course_id', $test->course_id)->forceDelete();
         }
