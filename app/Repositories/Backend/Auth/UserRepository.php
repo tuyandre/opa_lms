@@ -176,7 +176,7 @@ class UserRepository extends BaseRepository
                 if(in_array('teacher',$data['roles'])){
                     $user->teacherProfile()->create();
                 }else{
-                    if($user->teacherProfile->id){
+                    if($user->teacherProfile){
                         $user->teacherProfile()->delete();
                     }
                 }
