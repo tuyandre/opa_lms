@@ -8,17 +8,17 @@
         <div class="card-header">
             <h3 class="page-title d-inline">@lang('labels.backend.payments.title')</h3>
             <div class="float-right">
-                    <a href="{{ route('admin.payments.withdraw_request') }}"
-                       class="btn btn-success">@lang('labels.backend.payments.add_withdrawal_request')</a>
+                <a href="{{ route('admin.payments.withdraw_request') }}"
+                   class="btn btn-success">@lang('labels.backend.payments.add_withdrawal_request')</a>
 
-                </div>
+            </div>
         </div>
         <div class="card-body">
             <div class="row">
                 <div class="col-12 col-lg-3">
                     <div class="card text-white bg-primary text-center">
                         <div class="card-body">
-                            <h2 class="">{{$appCurrency['symbol'].' '.$total_earnings}}</h2>
+                            <h2 class="">{{$appCurrency['symbol'].' '.number_format($total_earnings,2)}}</h2>
                             <h5>@lang('labels.backend.payments.total_earnings')</h5>
                         </div>
                     </div>
@@ -26,7 +26,7 @@
                 <div class="col-12 col-lg-3">
                     <div class="card text-white bg-primary text-center">
                         <div class="card-body">
-                            <h2 class="">{{$appCurrency['symbol'].' '.$total_withdrawal}}</h2>
+                            <h2 class="">{{$appCurrency['symbol'].' '.number_format($total_withdrawal,2)}}</h2>
                             <h5>@lang('labels.backend.payments.total_withdrawals')</h5>
                         </div>
                     </div>
@@ -34,7 +34,7 @@
                 <div class="col-12 col-lg-3">
                     <div class="card text-white bg-primary text-center">
                         <div class="card-body">
-                            <h2 class="">{{$appCurrency['symbol'].' '.$total_withdrawal_pending }}</h2>
+                            <h2 class="">{{$appCurrency['symbol'].' '.number_format($total_withdrawal_pending,2) }}</h2>
                             <h5>@lang('labels.backend.payments.total_withdrawal_pending')</h5>
                         </div>
                     </div>
@@ -42,7 +42,7 @@
                 <div class="col-12 col-lg-3">
                     <div class="card text-white bg-primary text-center">
                         <div class="card-body">
-                            <h2 class="">{{$appCurrency['symbol'].' '.$total_balance}}</h2>
+                            <h2 class="">{{$appCurrency['symbol'].' '.number_format($total_balance,2) }}</h2>
                             <h5>@lang('labels.backend.payments.total_balance')</h5>
                         </div>
                     </div>

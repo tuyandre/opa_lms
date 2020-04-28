@@ -17,7 +17,7 @@ class EarningHelper
      *  Earning for teacher
      * @param App\Models\Order $order
      * @return null
-    **/
+     **/
     public function insert($order)
     {
         $orderItems = $order->items;
@@ -58,7 +58,7 @@ class EarningHelper
      * Remove earning for teacher
      * @param App\Models\Order $order
      * @return null
-    **/
+     **/
 
     public function remove($order){
         if($order->status == 1){
@@ -80,50 +80,48 @@ class EarningHelper
     /**
      * Total earning for teacher
      * @return number
-    **/
+     **/
 
     public function totalEarning($id = null){
         if($id){
             $user = User::find($id);
             return $user->earnings->sum('amount');
         }
-        return number_format(Auth::user()->earnings->sum('amount'),2);
+        return Auth::user()->earnings->sum('amount');
     }
 
     /**
      * Total earning for teacher
      * @return number
-    **/
+     **/
 
     public function totalWithdrawal($id = null){
         if($id){
             $user = User::find($id);
             return $user->withdraws->where('status', '=', 1)->sum('amount');
         }
-        return number_format(Auth::user()->withdraws->where('status', '=', 1)->sum('amount'),2);
+        return Auth::user()->withdraws->where('status', '=', 1)->sum('amount');
     }
 
     /**
      * Total withdrawal pending for teacher
      * @return number
-    **/
+     **/
 
     public function totalWithdrawalPending($id = null){
         if($id){
             $user = User::find($id);
             return $user->withdraws->where('status', '=', 0)->sum('amount');
         }
-        return number_format(Auth::user()->withdraws->where('status', '=', 0)->sum('amount'),2);
+        return Auth::user()->withdraws->where('status', '=', 0)->sum('amount');
     }
 
-     /**
+    /**
      * Total balance teacher
      * @return number
-    **/
+     **/
 
     public function totalBalance($id= null){
-        return number_format($this->totalEarning($id) - ($this->totalWithdrawal($id) + $this->totalWithdrawalPending($id)),2);
+        return $this->totalEarning($id) - ($this->totalWithdrawal($id) + $this->totalWithdrawalPending($id));
     }
-
-
 }
