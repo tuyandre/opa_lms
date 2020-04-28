@@ -281,7 +281,7 @@
 
         @yield('content')
         @include('cookieConsent::index')
-        @include('frontend.layouts.partials.footer')
+        @include('frontend-rtl.layouts.partials.footer')
 
     </div><!-- #app -->
 

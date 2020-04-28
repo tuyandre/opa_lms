@@ -285,7 +285,7 @@
             </div>
 
             <div class="genius-btn gradient-bg text-center text-uppercase ul-li-block bold-font">
-                <a href="{{route('teachers.index')}}">@lang('labels.frontend.home.all_teachers') <i class="fas fa-caret-right"></i></a>
+                <a href="{{route('teachers.index')}}">@lang('labels.frontend.home.all_teachers') <i class="fas fa-caret-left"></i></a>
             </div>
         </div>
     </section>

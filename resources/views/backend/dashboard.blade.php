@@ -159,9 +159,9 @@
 
                                                     <div class="progress my-2">
                                                         <div class="progress-bar"
-                                                             style="width:{{$item->progress() }}%">{{ $item->progress()  }}
-                                                            %
+                                                             style="width:{{$item->progress() }}%">
                                                             @lang('labels.backend.dashboard.completed')
+                                                            {{ $item->progress()  }} %
                                                         </div>
                                                     </div>
                                                     @if($item->progress() == 100)
