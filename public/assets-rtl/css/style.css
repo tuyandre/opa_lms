@@ -2303,17 +2303,17 @@ button.alt-menu-btn.float-left {
     position: relative;
 }
 
-.testimonial-slide .student-name-designation span:before {
+.testimonial-slide .student-name-designation span:after {
     top: 4px;
     width: 1px;
     content: '';
     height: 10px;
-    left: -14px;
+    right: -14px;
     position: absolute;
     background-color: #17d0cf;
 }
 
-.testimonial-slide .student-name-designation span:last-child::before {
+.testimonial-slide .student-name-designation span:last-child::after {
     display: none;
 }
 
