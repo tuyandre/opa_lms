@@ -50,23 +50,30 @@ class UpdateController extends Controller
             unlink(public_path() . '/updates/' . $file_name);
             return redirect(route('admin.update-theme'))->withFlashDanger(__('alerts.backend.general.cancelled'));
         } else {
-            \Zipper::make(public_path() . '/updates/' . $file_name)->extractTo(base_path());
-            unlink(public_path() . '/updates/' . $file_name);
+
+            try{
+                \Zipper::make(public_path() . '/updates/' . $file_name)->extractTo(base_path());
+                unlink(public_path() . '/updates/' . $file_name);
 
 
-            exec('cd ' . base_path() . '/ && composer install');
+                exec('cd ' . base_path() . '/ && composer install');
 
-            Artisan::call("migrate");
-            Artisan::call("fix:lesson-test-course");
+                Artisan::call("migrate");
+                Artisan::call("fix:lesson-test-course");
 
-            exec('cd ' . base_path() . '/ && composer du');
-
-
-            unlink(base_path() . '/bootstrap/cache/packages.php');
-            unlink(base_path() . '/bootstrap/cache/services.php');
+                exec('cd ' . base_path() . '/ && composer du');
 
 
-            return redirect(route('admin.update-theme'))->withFlashSuccess(__('alerts.backend.general.updated'));
+                unlink(base_path() . '/bootstrap/cache/packages.php');
+                unlink(base_path() . '/bootstrap/cache/services.php');
+
+
+                return redirect(route('admin.update-theme'))->withFlashSuccess(__('alerts.backend.general.updated'));
+            }catch (\Exception $e){
+                return redirect(route('admin.update-theme'))->withFlashSuccess('Error updating script. '.$e->getMessage());
+            }
+
+
         }
     }
 }
