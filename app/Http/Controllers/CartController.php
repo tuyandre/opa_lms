@@ -565,7 +565,7 @@ class CartController extends Controller
                 'price' => $cartItem->price
             ]);
         }
-        Cart::session(auth()->user()->id)->removeConditionsByType('coupon');
+//        Cart::session(auth()->user()->id)->removeConditionsByType('coupon');
         return $order;
     }
 
