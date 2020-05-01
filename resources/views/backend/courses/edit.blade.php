@@ -21,7 +21,7 @@
 
                     <div class="col-10 form-group">
                         {!! Form::label('teachers',trans('labels.backend.courses.fields.teachers'), ['class' => 'control-label']) !!}
-                        {!! Form::select('teachers[]', $teachers, old('teachers') ? old('teachers') : $course->teachers->pluck('id')->toArray(), ['class' => 'form-control select2', 'multiple' => 'multiple']) !!}
+                        {!! Form::select('teachers[]', $teachers, old('teachers') ? old('teachers') : $course->teachers->pluck('id')->toArray(), ['class' => 'form-control select2', 'multiple' => 'multiple','required' => true]) !!}
                     </div>
                     <div class="col-2 d-flex form-group flex-column">
                         OR <a target="_blank" class="btn btn-primary mt-auto"
@@ -33,7 +33,7 @@
             <div class="row">
                 <div class="col-10 form-group">
                     {!! Form::label('category_id',trans('labels.backend.courses.fields.category'), ['class' => 'control-label']) !!}
-                    {!! Form::select('category_id', $categories, old('category_id'), ['class' => 'form-control select2 js-example-placeholder-single', 'multiple' => false]) !!}
+                    {!! Form::select('category_id', $categories, old('category_id'), ['class' => 'form-control select2 js-example-placeholder-single', 'multiple' => false, 'required' => true]) !!}
                 </div>
                 <div class="col-2 d-flex form-group flex-column">
                     OR <a target="_blank" class="btn btn-primary mt-auto"
