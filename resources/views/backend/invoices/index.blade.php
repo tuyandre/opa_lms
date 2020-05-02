@@ -64,15 +64,30 @@
                                     </td>
 
                                     <td>
-                                        <a target="_blank" href="{{asset('storage/invoices/'.$item->url)}}"
+                                        @php
+                                            $hashids = new \Hashids\Hashids('',5);
+                                                 $order_id = $hashids->encode($item->order_id);
+                                                @endphp
+
+                                        <a target="_blank" href="{{route('admin.invoices.view', ['code' => $order_id])}}"
                                            class="btn mb-1 btn-danger">
                                             @lang('labels.backend.invoices.fields.view')
                                         </a>
 
-                                        <a href="{{route('admin.invoice.download',['order'=>$item->order_id])}}"
+                                        <a href="{{route('admin.invoice.download',['order'=>$order_id])}}"
                                            class="btn mb-1 btn-success">
                                             @lang('labels.backend.invoices.fields.download')
                                         </a>
+
+                                        {{--<a target="_blank" href="{{asset('storage/invoices/'.$item->url)}}"--}}
+                                           {{--class="btn mb-1 btn-danger">--}}
+                                            {{--@lang('labels.backend.invoices.fields.view')--}}
+                                        {{--</a>--}}
+
+                                        {{--<a href="{{route('admin.invoice.download',['order'=>$item->order_id])}}"--}}
+                                           {{--class="btn mb-1 btn-success">--}}
+                                            {{--@lang('labels.backend.invoices.fields.download')--}}
+                                        {{--</a>--}}
                                     </td>
                                 </tr>
                             @endforeach
