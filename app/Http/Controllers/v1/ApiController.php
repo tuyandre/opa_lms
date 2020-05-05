@@ -617,35 +617,66 @@ class ApiController extends Controller
         return response()->json(['status' => 'failure']);
     }
 
+
+    /**
+     * Get Test
+     *
+     * @return [json] Success message
+     */
+
     public function getTest(Request $request){
         $test = Test::where('published', '=', 1)
             ->where('id', '=', $request->test_id)
             ->where('course_id', '=', $request->course_id)
             ->first();
         $questions = [];
+
+        //If Retest is being taken
+        if(isset( $request->result_id)){
+            $testResult = TestsResult::where('id', '=', $request->result_id)
+                ->where('user_id', '=', auth()->user()->id)
+                ->first();
+            $testResult->delete();
+        }
+
+
         if($test->questions && (count($test->questions) > 0)){
             foreach ($test->questions as $question){
+                $options = [];
+                if($question->options){
+                    $options = $question->options->toArray();
+                }
 
                 $question_data['question'] = $question->toArray();
+                $question_data['options'] = $options;
 
                 $questions[] = $question_data;
             }
         }
         $test_result = TestsResult::where('test_id', $test->id)
             ->where('user_id', \Auth::id())
-            ->first()->toArray();
-        $result = TestsResultsAnswer::where('id','=',$test_result['id'])->get()->toArray();
-        $result_data = ['score' => $test_result,'answers' => $result];
+            ->first();
+        $result_data = [];
+        if($test_result){
+            $test_result = $test_result->toArray();
+            $result = TestsResultsAnswer::where('id','=',$test_result['id'])->get()->toArray();
+            $result_data = ['score' => $test_result,'answers' => $result];
+
+        }
 
         $data['test'] = $test->toArray();
         $data['is_test_given'] = (!empty($test_result)) ? true : false;
         $data['test_result'] = $result_data;
-    return response()->json(['status' => 'success', 'response' => $data]);
+        return response()->json(['status' => 'success', 'response' => $data]);
 
     }
 
 
-
+    /**
+     * Save Test
+     *
+     * @return [json] Success message
+     */
     public function saveTest(Request $request){
         $test = Test::where('id', $request->test_id)->firstOrFail();
         if(!$test){
@@ -695,7 +726,7 @@ class ApiController extends Controller
 
         $result = TestsResultsAnswer::where('tests_result_id','=',$test_result->id)->get()->toArray();
 
-        return response()->json(['status' => 'success', 'score' => $test_score,'result' => $result]);
+        return response()->json(['status' => 'success','result_id' =>$test_result->id, 'score' => $test_score,'result' => $result]);
 
     }
 
