@@ -25,6 +25,8 @@ use App\Models\Lesson;
 use App\Models\Media;
 use App\Models\Order;
 use App\Models\Page;
+use App\Models\Question;
+use App\Models\QuestionsOption;
 use App\Models\Reason;
 use App\Models\Review;
 use App\Models\Sponsor;
@@ -33,6 +35,8 @@ use App\Models\Tag;
 use App\Models\Tax;
 use App\Models\Test;
 use App\Models\Testimonial;
+use App\Models\TestsResult;
+use App\Models\TestsResultsAnswer;
 use App\Models\VideoProgress;
 use App\Repositories\Frontend\Auth\UserRepository;
 use Arcanedev\NoCaptcha\Rules\CaptchaRule;
@@ -611,6 +615,88 @@ class ApiController extends Controller
             return response()->json(['status' => 'success', 'result' => ['lesson' => $lesson, 'lesson_media' => $lesson_media, 'previous_lesson' => $previous_lesson, 'next_lesson' => $next_lesson, 'is_certified' => $is_certified, 'course_progress' => $course_progress, 'course' => $course]]);
         }
         return response()->json(['status' => 'failure']);
+    }
+
+    public function getTest(Request $request){
+        $test = Test::where('published', '=', 1)
+            ->where('id', '=', $request->test_id)
+            ->where('course_id', '=', $request->course_id)
+            ->first();
+        $questions = [];
+        if($test->questions && (count($test->questions) > 0)){
+            foreach ($test->questions as $question){
+
+                $question_data['question'] = $question->toArray();
+
+                $questions[] = $question_data;
+            }
+        }
+        $test_result = TestsResult::where('test_id', $test->id)
+            ->where('user_id', \Auth::id())
+            ->first()->toArray();
+        $result = TestsResultsAnswer::where('id','=',$test_result['id'])->get()->toArray();
+        $result_data = ['score' => $test_result,'answers' => $result];
+
+        $data['test'] = $test->toArray();
+        $data['is_test_given'] = (!empty($test_result)) ? true : false;
+        $data['test_result'] = $result_data;
+    return response()->json(['status' => 'success', 'response' => $data]);
+
+    }
+
+
+
+    public function saveTest(Request $request){
+        $test = Test::where('id', $request->test_id)->firstOrFail();
+        if(!$test){
+            return response()->json(['status' => 'failure']);
+        }
+        $answers = [];
+        $test_score = 0;
+        foreach ($request->question_data as $item) {
+            $question_id = $item['question_id'];
+            $answer_id = $item['ans_id'];
+            $question = Question::find($question_id);
+            $correct = QuestionsOption::where('question_id', $question_id)
+                    ->where('id', $answer_id)
+                    ->where('correct', 1)->count() > 0;
+            $answers[] = [
+                'question_id' => $question_id,
+                'option_id' => $answer_id,
+                'correct' => $correct
+            ];
+            if ($correct) {
+                if($question->score) {
+                    $test_score += $question->score;
+                }
+            }
+            /*
+             * Save the answer
+             * Check if it is correct and then add points
+             * Save all test result and show the points
+             */
+        }
+        $test_result = TestsResult::create([
+            'test_id' => $test->id,
+            'user_id' => \Auth::id(),
+            'test_result' => $test_score,
+        ]);
+        $test_result->answers()->createMany($answers);
+
+
+        if ($test->chapterStudents()->where('user_id', \Auth::id())->get()->count() == 0) {
+            $test->chapterStudents()->create([
+                'model_type' => $test->model_type,
+                'model_id' => $test->id,
+                'user_id' => auth()->user()->id,
+                'course_id' => $test->course->id
+            ]);
+        }
+
+        $result = TestsResultsAnswer::where('tests_result_id','=',$test_result->id)->get()->toArray();
+
+        return response()->json(['status' => 'success', 'score' => $test_score,'result' => $result]);
+
     }
 
 
