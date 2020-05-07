@@ -108,9 +108,13 @@
                                 <div class="col-md-6">
                                     <div class="copy-right-menu-item float-right ul-li">
                                         <ul>
+
                                             @foreach($footer_data->bottom_footer_links->links as $item)
                                                 <li><a href="{{$item->link}}">{{$item->label}}</a></li>
                                             @endforeach
+                                                @if(config('show_offers'))
+                                                    <li><a href="{{route('frontend.offers')}}">@lang('labels.frontend.layouts.partials.offers')</a> </li>
+                                                @endif
                                             <li>
                                                 <a href="{{route('frontend.certificates.getVerificationForm')}}">@lang('labels.frontend.layouts.partials.certificate_verification')</a>
                                             </li>

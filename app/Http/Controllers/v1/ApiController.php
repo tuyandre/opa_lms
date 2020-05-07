@@ -659,9 +659,8 @@ class ApiController extends Controller
         $result_data = [];
         if($test_result){
             $test_result = $test_result->toArray();
-            $result = TestsResultsAnswer::where('id','=',$test_result['id'])->get()->toArray();
+            $result = TestsResultsAnswer::where('tests_result_id','=',$test_result['id'])->get()->toArray();
             $result_data = ['score' => $test_result,'answers' => $result];
-
         }
 
         $data['test'] = $test->toArray();
