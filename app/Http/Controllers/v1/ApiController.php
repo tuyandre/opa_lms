@@ -656,7 +656,7 @@ class ApiController extends Controller
         $test_result = TestsResult::where('test_id', $test->id)
             ->where('user_id', \Auth::id())
             ->first();
-        $result_data = [];
+        $result_data = NULL;
         if($test_result){
             $test_result = $test_result->toArray();
             $result = TestsResultsAnswer::where('tests_result_id','=',$test_result['id'])->get()->toArray();
