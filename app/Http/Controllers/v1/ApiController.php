@@ -630,13 +630,14 @@ class ApiController extends Controller
             ->where('course_id', '=', $request->course_id)
             ->first();
         $questions = [];
-
+        $is_test_given = false;
         //If Retest is being taken
         if(isset( $request->result_id)){
             $testResult = TestsResult::where('id', '=', $request->result_id)
                 ->where('user_id', '=', auth()->user()->id)
-                ->first();
-            $testResult->delete();
+                ->delete();
+            $is_test_given = false;
+
         }
 
 
@@ -653,18 +654,20 @@ class ApiController extends Controller
                 $questions[] = $question_data;
             }
         }
+
         $test_result = TestsResult::where('test_id', $test->id)
-            ->where('user_id', \Auth::id())
+            ->where('user_id', '=', auth()->user()->id)
             ->first();
         $result_data = NULL;
         if($test_result){
             $test_result = $test_result->toArray();
             $result = TestsResultsAnswer::where('tests_result_id','=',$test_result['id'])->get()->toArray();
-            $result_data = ['score' => $test_result,'answers' => $result];
+            $is_test_given = true;
+            $result_data = ['result_id' => $test_result['id'],'score' => $test_result,'answers' => $result];
         }
 
         $data['test'] = $test->toArray();
-        $data['is_test_given'] = (!empty($test_result)) ? true : false;
+        $data['is_test_given'] = $is_test_given;
         $data['test_result'] = $result_data;
         return response()->json(['status' => 'success', 'response' => $data]);
 
