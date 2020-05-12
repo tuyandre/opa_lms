@@ -71,7 +71,7 @@
             gtag('config', '{{config('google_analytics_id')}}');
         </script>
             @endif
-        @if(config('custom_css') != "")
+        @if(!empty(config('custom_css')))
             <style>
                 {!! config('custom_css')  !!}
             </style>
@@ -343,7 +343,7 @@
 
     @include('includes.partials.ga')
 
-    @if(config('custom_js') != "")
+    @if(!empty(config('custom_js')))
         <script>
             {{config('custom_js')  }}
         </script>

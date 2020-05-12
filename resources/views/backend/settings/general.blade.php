@@ -415,7 +415,7 @@
                                 <div class="col-md-10">
                                     {{ html()->textarea('custom_css')
                                         ->class('form-control')
-                                        ->placeholder(__('Ex. body{background:blue;}'))
+                                        ->placeholder(__('Ex. body{background:blue;}'))->attributes(['disabled'=>true])
                                         ->value(config('custom_css'))
                                         }}
                                 </div><!--col-->
@@ -428,7 +428,7 @@
                                     {{ html()->textarea('custom_js')
                                         ->class('form-control')
                                         ->placeholder(__("Ex. $('#Demo').on('click',function(){  alert(); })"))
-                                        ->value(config('custom_js'))
+                                        ->value(config('custom_js'))->attributes(['disabled'=>true])
                                         }}
                                 </div><!--col-->
                             </div><!--form-group-->

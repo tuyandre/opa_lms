@@ -74,6 +74,12 @@
                 gtag('config', '{{config('google_analytics_id')}}');
             </script>
         @endif
+        @if(!empty(config('custom_css')))
+            <style>
+                {!! config('custom_css')  !!}
+            </style>
+        @endif
+
     </head>
     <body class="{{config('layout_type')}}">
 
@@ -406,5 +412,10 @@
     @stack('after-scripts')
 
     @include('includes.partials.ga')
+    @if(!empty(config('custom_js')))
+        <script>
+            {{config('custom_js')  }}
+        </script>
+    @endif
     </body>
     </html>
