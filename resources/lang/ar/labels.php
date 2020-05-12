@@ -448,6 +448,8 @@ return array (
     ),
     'general_settings' => 
     array (
+        'custom_css' => 'لغة تنسيق ويب حسب الطلب',
+        'custom_js' => 'شبيبة مخصصة',
       'app_locale' => 'لغة التطبيق',
       'app_name' => 'اسم التطبيق',
       'app_timezone' => 'التطبيق المنطقة الزمنية',

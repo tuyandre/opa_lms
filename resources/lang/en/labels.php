@@ -482,6 +482,8 @@ return array (
       'management' => 'General Settings',
       'app_name' => 'App Name',
       'app_url' => 'App URL',
+      'custom_css' => 'Custom CSS',
+      'custom_js' => 'Custom JS',
       'teacher_commission_rate' => 'Teacher Commission Rate',
       'lesson_note' => 'Enable / Disable if user will be able to skip before timer is over.',
       'font_color' => 'Font Color',

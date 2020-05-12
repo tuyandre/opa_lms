@@ -396,7 +396,7 @@
                                 </div><!--col-->
                             </div><!--form-group-->
                             <div class="form-group row">
-                                {{ html()->label(__('labels.backend.general_settings.teacher_commission_rate'))->class('col-md-2 form-control-label')->for('commission_rate') }}
+                                {{ html()->label(__('labels.backend.general_settings.teacher_commission_rate'))->class('col-md-2 form-control-label mb-1')->for('commission_rate') }}
 
                                 <div class="col-md-10">
                                     {{ html()->input('number','commission_rate')
@@ -404,6 +404,31 @@
                                         ->attributes(['pattern' => '[0-9]'])
                                         ->placeholder(__('labels.backend.general_settings.teacher_commission_rate'))
                                         ->value(config('commission_rate'))
+                                        }}
+                                </div><!--col-->
+                            </div><!--form-group-->
+
+
+                            <div class="form-group row">
+                                {{ html()->label(__('labels.backend.general_settings.custom_css'))->class('col-md-2 form-control-label')->for('custom_css') }}
+
+                                <div class="col-md-10">
+                                    {{ html()->textarea('custom_css')
+                                        ->class('form-control')
+                                        ->placeholder(__('Ex. body{background:blue;}'))
+                                        ->value(config('custom_css'))
+                                        }}
+                                </div><!--col-->
+                            </div><!--form-group-->
+
+                            <div class="form-group row">
+                                {{ html()->label(__('labels.backend.general_settings.custom_js'))->class('col-md-2 form-control-label')->for('custom_js') }}
+
+                                <div class="col-md-10">
+                                    {{ html()->textarea('custom_js')
+                                        ->class('form-control')
+                                        ->placeholder(__("Ex. $('#Demo').on('click',function(){  alert(); })"))
+                                        ->value(config('custom_js'))
                                         }}
                                 </div><!--col-->
                             </div><!--form-group-->

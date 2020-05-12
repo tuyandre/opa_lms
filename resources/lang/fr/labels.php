@@ -380,6 +380,8 @@ return array (
       'app_name' => 'Nom de l\'application',
       'app_timezone' => 'Fuseau horaire App',
       'app_url' => 'URL de l\'application',
+      'custom_js' => 'JS personnalisé',
+      'custom_css' => 'CSS personnalisé',
       'change_email' => 'Changer l\'e-mail',
       'confirm_email' => 'Confirmez votre e-mail',
       'contact' => 

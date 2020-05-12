@@ -57,7 +57,7 @@
         @stack('after-styles')
 
         @if(config('onesignal_status') == 1)
-            {!! config('onesignal_data') !!}
+            {{config('onesignal_data') }}
         @endif
 
         @if(config('google_analytics_id') != "")
@@ -71,7 +71,11 @@
             gtag('config', '{{config('google_analytics_id')}}');
         </script>
             @endif
-
+        @if(config('custom_css') != "")
+            <style>
+                {!! config('custom_css')  !!}
+            </style>
+        @endif
 
     </head>
     <body class="{{config('layout_type')}}">
@@ -338,5 +342,12 @@
     @stack('after-scripts')
 
     @include('includes.partials.ga')
+
+    @if(config('custom_js') != "")
+        <script>
+            {{config('custom_js')  }}
+        </script>
+    @endif
+
     </body>
     </html>

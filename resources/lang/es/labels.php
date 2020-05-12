@@ -379,6 +379,8 @@ return array (
       'app_locale' => 'Localidad de la aplicación',
       'app_name' => 'Nombre de la aplicación',
       'app_timezone' => 'Zona horaria de la aplicación',
+        'custom_css' => 'CSS personalizado',
+        'custom_js' => 'JS personalizado',
       'app_url' => 'URL de la aplicación',
       'change_email' => 'Cambiar e-mail',
       'confirm_email' => 'Confirmar correo electrónico',
