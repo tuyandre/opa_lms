@@ -59,7 +59,7 @@ class CertificateController extends Controller
                 'date' => Carbon::now()->format('d M, Y'),
             ];
             $certificate_name = 'Certificate-' . $course->id . '-' . auth()->user()->id . '.pdf';
-            $certificate->name = auth()->user()->id;
+            $certificate->name = auth()->user()->name;
             $certificate->url = $certificate_name;
             $certificate->save();
 

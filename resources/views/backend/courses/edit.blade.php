@@ -61,7 +61,7 @@
             <div class="row">
                 <div class="col-12 col-lg-4 form-group">
                     {!! Form::label('price', trans('labels.backend.courses.fields.price').' (in '.$appCurrency["symbol"].')', ['class' => 'control-label']) !!}
-                    {!! Form::number('price', old('price'), ['class' => 'form-control', 'placeholder' => trans('labels.backend.courses.fields.price') ,'pattern' => "[0-9]"]) !!}
+                    {!! Form::number('price', old('price'), ['class' => 'form-control', 'placeholder' => trans('labels.backend.courses.fields.price') ,'step' => 'any', 'pattern' => "[0-9]"]) !!}
                 </div>
                 <div class="col-12 col-lg-4 form-group">
 
