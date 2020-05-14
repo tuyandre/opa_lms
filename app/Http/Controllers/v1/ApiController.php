@@ -863,11 +863,15 @@ class ApiController extends Controller
         $result['bundle'] = Bundle::where('published', '=', 1)
             ->where('id', '=', $request->bundle_id)
             ->first();
+
+        $purchased_bundle = \Auth::check() &&  $result['bundle']->students()->where('user_id', \Auth::id())->count() > 0;
+
+
         if ($result['bundle'] == null) {
             return response()->json(['status' => 'failure', 'message' => 'Invalid Request']);
         }
         $result['courses'] = $result['bundle']->courses;
-        return response()->json(['status' => 'success', 'result' => $result]);
+        return response()->json(['status' => 'success', 'purchased_bundle' => $purchased_bundle, 'result' => $result]);
     }
 
 

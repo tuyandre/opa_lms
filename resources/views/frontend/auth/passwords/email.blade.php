@@ -19,6 +19,15 @@
                 <div class="card border-0">
 
                     <div class="card-body">
+                        @if ($errors->any())
+                            <div class="alert alert-danger">
+                                <ul class="list-inline list-style-none mb-0">
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
 
                         @if(session('status'))
                             <div class="alert alert-success">
