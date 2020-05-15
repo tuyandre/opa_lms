@@ -1300,7 +1300,7 @@ class ApiController extends Controller
 
         $pagination_results = config('chatter.paginate.num_of_results');
 
-        $discussions = Models::discussion()->with('user')->with('post')->with('postsCount')->with('category')->orderBy(config('chatter.order_by.discussions.order'), config('chatter.order_by.discussions.by'));
+        $discussions = Models::discussion()->with('user')->with(['post','post.user'])->with('postsCount')->with('category')->orderBy(config('chatter.order_by.discussions.order'), config('chatter.order_by.discussions.by'));
         if (isset($slug)) {
             $category = Models::category()->where('slug', '=', $slug)->first();
 
