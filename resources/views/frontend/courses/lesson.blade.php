@@ -294,6 +294,11 @@
                                                 <div id="player" class="js-player" data-plyr-provider="vimeo"
                                                      data-plyr-embed-id="{{$lesson->mediavideo->file_name}}"></div>
                                             @elseif($lesson->mediavideo->type == 'upload')
+                                                @php
+                                                    $hashids = new \Hashids\Hashids('',5);
+                                                         $lesson_id = $hashids->encode($lesson->id);
+                                                @endphp
+
                                                 <video poster="" id="player" class="js-player" playsinline controls>
                                                     <source src="{{$lesson->mediavideo->url}}" type="video/mp4"/>
                                                 </video>

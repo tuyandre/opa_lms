@@ -30,6 +30,8 @@ Route::get('reset-demo',function (){
 
 
 
+
+
 /*
  * Frontend Routes
  * Namespaces indicate folder structure

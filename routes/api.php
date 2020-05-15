@@ -93,6 +93,8 @@ Route::group(['prefix' => 'v1','namespace'=>'v1'],function (){
         Route::post('apply-coupon','ApiController@applyCoupon');
         Route::post('remove-coupon','ApiController@removeCoupon');
         Route::post('order-confirmation','ApiController@orderConfirmation');
+        Route::post('single-user','ApiController@getSingleUser');
+
     });
     Route::post('send-reset-link','ApiController');
     Route::post('configs','ApiController@getConfigs');

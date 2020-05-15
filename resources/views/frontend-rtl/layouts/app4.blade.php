@@ -414,7 +414,7 @@
     @include('includes.partials.ga')
     @if(!empty(config('custom_js')))
         <script>
-            {{config('custom_js')  }}
+            {!! config('custom_js') !!}
         </script>
     @endif
     </body>

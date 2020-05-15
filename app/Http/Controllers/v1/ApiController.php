@@ -352,6 +352,15 @@ class ApiController extends Controller
         return response()->json(['status' => 'success', 'result' => ['teacher' => $teacher, 'courses' => $courses, 'bundles' => $bundles, 'profile' => $profile]]);
     }
 
+    public function getSingleUser(Request $request)
+    {
+        $user = User::find($request->user_id);
+        if ($user == null) {
+            return response()->json(['status' => 'failure', 'result' => null]);
+        }
+        return response()->json(['status' => 'success', 'result' => ['user' => $user]]);
+    }
+
     /**
      * Get Teacher Courses
      *
