@@ -823,7 +823,11 @@
                                     <small>
                                         <i> {{ __('labels.backend.general_settings.payment_settings.offline_mode_note')}}</i>
                                     </small>
+                                    {{ html()->textarea('payment_offline_instruction',config('payment_offline_instruction'))
+                                            ->class('form-control')->placeholder(__('labels.backend.general_settings.payment_settings.offline_mode_instruction'))
+                                        }}
                                 </div>
+
                             </div>
                         </div>
                     </div>

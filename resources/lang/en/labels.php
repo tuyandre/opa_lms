@@ -9,7 +9,9 @@ return array (
       'fields' => 
       array (
         'published' => 'Published',
-        'featured' => 'Featured',
+          'unpublished' => 'Not Published',
+
+          'featured' => 'Featured',
         'free' => 'Free',
         'trending' => 'Trending',
         'popular' => 'Popular',
@@ -464,6 +466,7 @@ return array (
         'paypal_note' => 'Redirects to paypal for payment',
         'offline_mode' => 'Offline Payment Method',
         'offline_mode_note' => 'User gets assistance for offline payment via admin',
+        'offline_mode_instruction' => 'Enter offline payment instructions',
         'key' => 'API Key',
         'secret' => 'API Secret',
         'client_id' => 'Client ID',
@@ -948,6 +951,7 @@ return array (
       'fields' => 
       array (
         'published' => 'Published',
+        'unpublished' => 'Not Published',
         'featured' => 'Featured',
         'trending' => 'Trending',
         'free' => 'Free',
@@ -1461,7 +1465,7 @@ return array (
     'bank_details' => 
     array (
       'name' => 'Bank Name',
-      'ifsc_code' => 'IFSC Code',
+      'bank_code' => 'Bank Code',
       'account' => 'Account Number',
       'holder_name' => 'Account Name',
       'account_number' => 'Account Number',

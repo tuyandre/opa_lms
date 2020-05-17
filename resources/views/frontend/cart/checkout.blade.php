@@ -317,6 +317,7 @@
                                                 <div class="check-out-form collapse disabled" id="collapsePaymentThree"
                                                      data-parent="#accordion">
                                                     <p> @lang('labels.frontend.cart.offline_payment_note')</p>
+                                                    <p>{{ config('payment_offline_instruction')  }}</p>
                                                     <form method="post" action="{{route('cart.offline.payment')}}">
                                                         @csrf
                                                         <button type="submit"

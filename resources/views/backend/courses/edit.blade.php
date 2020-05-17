@@ -127,6 +127,9 @@
                         {!! Form::checkbox('published', 1, old('published'), []) !!}
                         {!! Form::label('published', trans('labels.backend.courses.fields.published'), ['class' => 'checkbox control-label font-weight-bold']) !!}
                     </div>
+
+                    @if (Auth::user()->isAdmin())
+
                     <div class="checkbox d-inline mr-4">
                         {!! Form::hidden('featured', 0) !!}
                         {!! Form::checkbox('featured', 1, old('featured'), []) !!}
@@ -144,6 +147,7 @@
                         {!! Form::checkbox('popular', 1, old('popular'), []) !!}
                         {!! Form::label('popular',  trans('labels.backend.courses.fields.popular'), ['class' => 'checkbox control-label font-weight-bold']) !!}
                     </div>
+                    @endif
                     <div class="checkbox d-inline mr-4">
                         {!! Form::hidden('free', 0) !!}
                         {!! Form::checkbox('free', 1, old('free'), []) !!}

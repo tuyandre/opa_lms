@@ -26,6 +26,9 @@ return array (
       'gravatar' => 'Gravatar',
       'upload' => 'Upload',
       'captcha' => 'Captcha required',
+      'personal_information' => 'Personal Information',
+      'social_information' => 'Social Information',
+      'payment_information' => 'Payment Information',
     ),
     'backend' => 
     array (

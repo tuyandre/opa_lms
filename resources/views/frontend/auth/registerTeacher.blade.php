@@ -33,6 +33,11 @@
                             {!! csrf_field() !!}
 
                             <div class="row">
+
+                                <div class="col-12  mt-3 mb-2">
+                                    <h3>{{ __('validation.attributes.frontend.personal_information') }}</h3>
+
+                                </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         {{ html()->label(__('validation.attributes.frontend.first_name'))->for('first_name') }}
@@ -57,7 +62,7 @@
                                     </div><!--form-group-->
                                 </div><!--col-->
 
-                                <div class="col-md-6">
+                                <div class="col-md-4 col-12">
                                     <div class="form-group">
                                         {{ html()->label(__('validation.attributes.frontend.email'))->for('email') }}
 
@@ -69,7 +74,7 @@
                                     </div><!--form-group-->
                                 </div><!--col-->
 
-                                <div class="col-md-6">
+                                <div class="col-md-4 col-12">
                                     <div class="form-group">
                                         {{ html()->label(__('validation.attributes.frontend.password'))->for('password') }}
 
@@ -80,7 +85,7 @@
                                     </div><!--form-group-->
                                 </div><!--col-->
 
-                                <div class="col-md-6">
+                                <div class="col-md-4 col-12">
                                     <div class="form-group">
                                         {{ html()->label(__('validation.attributes.frontend.password_confirmation'))->for('password_confirmation') }}
 
@@ -116,7 +121,12 @@
                                     </div><!--form-group-->
                                 </div><!--col-->
 
-                                <div class="col-md-6">
+
+                                <div class="col-12  mt-3 mb-2">
+                                    <h3>{{ __('validation.attributes.frontend.social_information') }}</h3>
+                                </div>
+
+                                <div class="col-md-4 col-12 ">
                                     <div class="form-group">
                                         {{ html()->label(__('labels.teacher.facebook_link')) }}
 
@@ -125,7 +135,7 @@
                                             ->placeholder(__('labels.teacher.facebook_link')) }}
                                     </div><!--form-group-->
                                 </div><!--col-->
-                                <div class="col-md-6">
+                                <div class="col-md-4 col-12">
                                     <div class="form-group">
                                         {{ html()->label(__('labels.teacher.twitter_link')) }}
 
@@ -135,7 +145,7 @@
                                     </div><!--form-group-->
                                 </div><!--col-->
 
-                                <div class="col-md-6">
+                                <div class="col-md-4 col-12">
                                     <div class="form-group">
                                         {{ html()->label(__('labels.teacher.linkedin_link')) }}
 
@@ -149,6 +159,9 @@
 
 
                             <div class="row">
+                                <div class="col-12 mt-3 mb-2">
+                                    <h3>{{ __('validation.attributes.frontend.payment_information') }}</h3>
+                                </div>
                                 <div class="col">
                                     <div class="form-group">
                                         {{ html()->label(__('labels.teacher.payment_details')) }}
@@ -175,11 +188,11 @@
 
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            {{ html()->label(__('labels.teacher.bank_details.ifsc_code')) }}
+                                            {{ html()->label(__('labels.teacher.bank_details.bank_code')) }}
 
-                                            {{ html()->text('ifsc_code')
+                                            {{ html()->text('bank_code')
                                                 ->class('form-control')
-                                                ->placeholder(__('labels.teacher.bank_details.ifsc_code')) }}
+                                                ->placeholder(__('labels.teacher.bank_details.bank_code')) }}
                                         </div><!--form-group-->
                                     </div><!--col-->
 
@@ -234,8 +247,8 @@
 
                             <div class="row">
                                 <div class="col">
-                                    <div class="form-group mb-0 clearfix">
-                                        <button class="btn btn-info" type="submit">{{__('labels.frontend.modal.register_now')}}</button>
+                                    <div class="form-group mb-0 text-center mt-4 clearfix">
+                                        <button class="btn btn-info mx-auto btn-lg" type="submit">{{__('labels.frontend.modal.register_now')}}</button>
                                     </div><!--form-group-->
                                 </div><!--col-->
                             </div><!--row-->
