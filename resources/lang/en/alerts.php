@@ -6,6 +6,7 @@ return array (
     'general' => 
     array (
       'created' => 'Created successfully.',
+      'slug_exist' => 'Record with same slug exist, please update the slug.',
       'error' => 'Something went wrong. Try Again',
       'updated' => 'Updated successfully.',
       'deleted' => 'Deleted successfully.',

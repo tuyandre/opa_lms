@@ -150,8 +150,25 @@ class LessonsController extends Controller
             return abort(401);
         }
 
+        $slug = "";
+        if (($request->slug == "") || $request->slug == null) {
+            $slug = str_slug($request->title);
+        }else if($request->slug != null){
+            $slug = $request->slug;
+        }
+
+        $slug_lesson = Lesson::where('slug','=',$slug)->first();
+        if($slug_lesson != null){
+            return back()->withFlashDanger(__('alerts.backend.general.slug_exist'));
+        }
+
         $lesson = Lesson::create($request->except('downloadable_files', 'lesson_image')
             + ['position' => Lesson::where('course_id', $request->course_id)->max('position') + 1]);
+
+        $lesson->slug = $slug;
+        $lesson->save();
+
+
 
 
         //Saving  videos
@@ -274,12 +291,23 @@ class LessonsController extends Controller
         if (!Gate::allows('lesson_edit')) {
             return abort(401);
         }
+
+        $slug = "";
+        if (($request->slug == "") || $request->slug == null) {
+            $slug = str_slug($request->title);
+        }else if($request->slug != null){
+            $slug = $request->slug;
+        }
+
+        $slug_lesson = Lesson::where('slug','=',$slug)->where('id','!=',$id)->first();
+        if($slug_lesson != null){
+            return back()->withFlashDanger(__('alerts.backend.general.slug_exist'));
+        }
+
         $lesson = Lesson::findOrFail($id);
         $lesson->update($request->except('downloadable_files', 'lesson_image'));
-        if (($request->slug == "") || $request->slug == null) {
-            $lesson->slug = str_slug($request->title);
-            $lesson->save();
-        }
+        $lesson->slug = $slug;
+        $lesson->save();
 
         //Saving  videos
         if ($request->media_type != "") {

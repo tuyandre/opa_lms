@@ -206,7 +206,22 @@ class CoursesController extends Controller
 
         $request = $this->saveFiles($request);
 
+        $slug = "";
+        if (($request->slug == "") || $request->slug == null) {
+            $slug = str_slug($request->title);
+        }else if($request->slug != null){
+            $slug = $request->slug;
+        }
+
+        $slug_lesson = Course::where('slug','=',$slug)->first();
+        if($slug_lesson != null){
+            return back()->withFlashDanger(__('alerts.backend.general.slug_exist'));
+        }
+
+
         $course = Course::create($request->all());
+        $course->slug = $slug;
+        $course->save();
 
         //Saving  videos
         if ($request->media_type != "") {
@@ -264,10 +279,8 @@ class CoursesController extends Controller
         }
 
 
-        if (($request->slug == "") || $request->slug == null) {
-            $course->slug = str_slug($request->title);
-            $course->save();
-        }
+
+
         if ((int)$request->price == 0) {
             $course->price = NULL;
             $course->save();
@@ -317,6 +330,21 @@ class CoursesController extends Controller
             return abort(401);
         }
         $course = Course::findOrFail($id);
+
+        $slug = "";
+        if (($request->slug == "") || $request->slug == null) {
+            $slug = str_slug($request->title);
+        }else if($request->slug != null){
+            $slug = $request->slug;
+        }
+
+        $slug_lesson = Course::where('slug','=',$slug)->where('id','!=',$course->id)->first();
+        if($slug_lesson != null){
+            return back()->withFlashDanger(__('alerts.backend.general.slug_exist'));
+        }
+
+
+
         $request = $this->saveFiles($request);
 
         //Saving  videos
