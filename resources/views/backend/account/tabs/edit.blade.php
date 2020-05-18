@@ -150,12 +150,12 @@
         <div class="row">
             <div class="col">
                 <div class="form-group">
-                    {{ html()->label(__('labels.teacher.bank_details.ifsc_code'))->for('ifsc_code') }}
+                    {{ html()->label(__('labels.teacher.bank_details.bank_code'))->for('ifsc_code') }}
 
                     {{ html()->text('ifsc_code')
                         ->class('form-control')
                         ->value($payment_details?$payment_details->ifsc_code:'')
-                        ->placeholder(__('labels.teacher.bank_details.ifsc_code'))
+                        ->placeholder(__('labels.teacher.bank_details.bank_code'))
                     }}
                 </div><!--form-group-->
             </div><!--col-->

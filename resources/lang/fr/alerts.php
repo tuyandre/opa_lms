@@ -36,6 +36,8 @@ return array (
       'updated' => 'Mis à jour avec succés.',
       'delete_warning' => 'Vous ne pouvez pas supprimer de cours. Les étudiants sont déjà inscrits. Dé-publier le cours à la place',
       'delete_warning_bundle' => 'Vous ne pouvez pas supprimer Bundle. Les étudiants sont déjà inscrits. Annuler la publication du paquet',
+      'slug_exist' => 'L\'enregistrement avec le même slug existe, veuillez mettre à jour le slug.',
+      'teacher_delete_warning' => 'Vous ne pouvez pas supprimer l\'enseignant. Les cours sont déjà ajoutés. Modifiez le statut à la place',
     ),
   ),
   'frontend' => 
@@ -48,7 +50,7 @@ return array (
     array (
       'completed' => 'Toutes nos félicitations! Vous avez terminé le cours avec succès. Commander votre certificat dans le tableau de bord',
     ),
-      'duplicate_course' => 'est déjà acheté.',
-      'duplicate_bundle' => 'est déjà acheté en bundle.',
+    'duplicate_course' => 'est déjà acheté.',
+    'duplicate_bundle' => 'est déjà acheté en bundle.',
   ),
 );

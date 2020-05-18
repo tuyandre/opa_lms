@@ -229,6 +229,7 @@ return array (
         'title' => 'Titre',
         'trending' => 'Tendances',
         'free' => 'Libre',
+        'unpublished' => 'Non publié',
       ),
       'add_categories' => 'Ajouter des catégories',
       'add_teachers' => 'Ajouter des professeurs',
@@ -535,6 +536,7 @@ return array (
         'bluesnap' => 'Méthode de paiement Bluesnap',
         'bluesnap_note' => 'Formulaire de carte Bluesnap pour le paiement',
         'how_to_bluesnap' => 'Comment obtenir les informations d\'identification de l\'API Bluesnap?',
+        'offline_mode_instruction' => 'Entrez les instructions de paiement hors ligne',
       ),
       'requires_approval' => 'Nécessite une approbation',
       'sections_note' => 'Une fois que vous cliquez sur mettre à jour, vous verrez la liste des sections à activer / désactiver.',
@@ -952,6 +954,7 @@ return array (
         'trending' => 'Tendances',
         'courses' => 'Cours',
         'free' => 'Libre',
+        'unpublished' => 'Non publié',
       ),
       'add_categories' => 'Ajouter des catégories',
       'add_teachers' => 'Ajouter des professeurs',
@@ -1446,7 +1449,7 @@ return array (
   ),
   'teacher' => 
   array (
-    'teacher_register' => "S'inscrire en tant que professeur? Cliquez ici",
+    'teacher_register' => 'S\'inscrire en tant que professeur? Cliquez ici',
     'teacher_register_box_title' => 'Registre des enseignants',
     'facebook_link' => 'Lien Facebook',
     'twitter_link' => 'Lien Twitter',
@@ -1462,7 +1465,8 @@ return array (
       'account_number' => 'Numéro de compte',
       'holder_name' => 'Nom du compte',
       'account' => 'Numéro de compte',
+      'bank_code' => 'Code bancaire',
     ),
-  'description' => 'La description',
+    'description' => 'La description',
   ),
 );

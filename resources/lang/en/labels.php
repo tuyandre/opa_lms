@@ -9,9 +9,8 @@ return array (
       'fields' => 
       array (
         'published' => 'Published',
-          'unpublished' => 'Not Published',
-
-          'featured' => 'Featured',
+        'unpublished' => 'Not Published',
+        'featured' => 'Featured',
         'free' => 'Free',
         'trending' => 'Trending',
         'popular' => 'Popular',
@@ -1469,6 +1468,7 @@ return array (
       'account' => 'Account Number',
       'holder_name' => 'Account Name',
       'account_number' => 'Account Number',
+      'ifsc_code' => 'IFSC Code',
     ),
     'description' => 'Description',
   ),

@@ -48,7 +48,7 @@
                     <td>{!! $payment_details->bank_name !!}</td>
                 </tr>
                 <tr>
-                    <th>@lang('labels.teacher.bank_details.ifsc_code')</th>
+                    <th>@lang('labels.teacher.bank_details.bank_code')</th>
                     <td>{!! $payment_details->ifsc_code !!}</td>
                 </tr>
                 <tr>

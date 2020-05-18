@@ -265,6 +265,9 @@ return array (
       'female' => 'Femelle',
       'male' => 'Mâle',
       'other' => 'Autre',
+      'payment_information' => 'Informations de paiement',
+      'personal_information' => 'Informations personnelles',
+      'social_information' => 'Informations sociales',
     ),
   ),
 );
