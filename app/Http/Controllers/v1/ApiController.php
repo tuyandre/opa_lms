@@ -522,6 +522,11 @@ class ApiController extends Controller
             }
         }
         $mediaVideo = (!$course->mediaVideo) ? null : $course->mediaVideo->toArray();
+        if($mediaVideo && $mediaVideo['type'] == 'embed'){
+            preg_match('/src="([^"]+)"/', $mediaVideo['url'], $match);
+            $url = $match[1];
+            $mediaVideo['file_name'] = $url;
+        }
         $result = [
             'course' => $course,
             'course_video' => $mediaVideo,
@@ -610,7 +615,15 @@ class ApiController extends Controller
             $course_progress = $lesson->course->progress();
 
             $downloadable_media = $lesson->downloadable_media;
-            $video = $lesson->mediaVideo;
+
+            $mediaVideo = (!$lesson->mediaVideo) ? null : $lesson->mediaVideo->toArray();
+            if($mediaVideo && $mediaVideo['type'] == 'embed'){
+                preg_match('/src="([^"]+)"/', $mediaVideo['url'], $match);
+                $url = $match[1];
+                $mediaVideo['file_name'] = $url;
+            }
+
+            $video = $mediaVideo;
             $pdf = $lesson->mediaPDF;
             $audio = $lesson->mediaAudio;
             $lesson_media = [
