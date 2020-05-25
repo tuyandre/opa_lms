@@ -133,7 +133,7 @@
                 filebrowserBrowseUrl: '/laravel-filemanager?type=Files',
                 filebrowserUploadUrl: '/laravel-filemanager/upload?type=Files&_token={{csrf_token()}}',
 
-                extraPlugins: 'smiley,lineutils,widget,codesnippet,prism',
+                extraPlugins: 'smiley,lineutils,widget,codesnippet,prism,flash',
             });
 
         });
