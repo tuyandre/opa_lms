@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\URL;
+use Omnipay\Omnipay;
 use PayPal\Api\Amount;
 use PayPal\Api\Item;
 use PayPal\Api\ItemList;
@@ -203,10 +204,21 @@ class CartController extends Controller
         //Making Order
         $order = $this->makeOrder();
 
-        //Charging Customer
-        $status = $this->createStripeCharge($request);
+        $gateway = Omnipay::create('Stripe');
+        $gateway->setApiKey(config('services.stripe.secret'));
+        $token = $request->reservation['stripe_token'];
 
-        if ($status == 'success') {
+        $amount = Cart::session(auth()->user()->id)->getTotal();
+        $currency = $this->currency['short_code'];
+        $response = $gateway->purchase([
+            'amount' => $amount,
+            'currency' => $currency,
+            'token' => $token,
+            'confirm' => true,
+            'description' => auth()->user()->name
+        ])->send();
+
+        if ($response->isSuccessful()) {
             $order->status = 1;
             $order->payment_type = 1;
             $order->save();
@@ -225,11 +237,14 @@ class CartController extends Controller
             generateInvoice($order);
 
             Cart::session(auth()->user()->id)->clear();
+            Session::flash('success', trans('labels.frontend.cart.payment_done'));
             return redirect()->route('status');
 
         } else {
             $order->status = 2;
             $order->save();
+            \Log::info($response->getMessage() . ' for id = ' . auth()->user()->id);
+            Session::flash('failure', trans('labels.frontend.cart.try_again'));
             return redirect()->route('cart.index');
         }
     }
@@ -598,29 +613,6 @@ class CartController extends Controller
         }
         return false;
 
-    }
-
-    private function createStripeCharge($request)
-    {
-        $status = "";
-        Stripe::setApiKey(config('services.stripe.secret'));
-        $amount = Cart::session(auth()->user()->id)->getTotal();
-        $currency = $this->currency['short_code'];
-        try {
-            Charge::create(array(
-                "amount" => $amount * 100,
-                "currency" => strtolower($currency),
-                "source" => $request->reservation['stripe_token'], // obtained with Stripe.js
-                "description" => auth()->user()->name
-            ));
-            $status = "success";
-            Session::flash('success', trans('labels.frontend.cart.payment_done'));
-        } catch (\Exception $e) {
-            \Log::info($e->getMessage() . ' for id = ' . auth()->user()->id);
-            Session::flash('failure', trans('labels.frontend.cart.try_again'));
-            $status = "failure";
-        }
-        return $status;
     }
 
     private function applyTax($target)
