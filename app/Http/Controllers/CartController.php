@@ -11,28 +11,12 @@ use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Tax;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 use Cart;
+use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\URL;
 use Omnipay\Omnipay;
-use PayPal\Api\Amount;
-use PayPal\Api\Item;
-use PayPal\Api\ItemList;
-use PayPal\Api\Payer;
-use PayPal\Api\Payment;
-use PayPal\Api\PaymentExecution;
-use PayPal\Api\RedirectUrls;
-use PayPal\Api\Transaction;
-use PayPal\Auth\OAuthTokenCredential;
-use PayPal\Rest\ApiContext;
-use PHPUnit\Framework\Constraint\Count;
-use Stripe\Charge;
-use Stripe\Customer;
-use Stripe\Stripe;
 
 class CartController extends Controller
 {
@@ -42,14 +26,6 @@ class CartController extends Controller
 
     public function __construct()
     {
-        /** PayPal api context **/
-        $paypal_conf = \Config::get('paypal');
-        $this->_api_context = new ApiContext(new OAuthTokenCredential(
-                $paypal_conf['client_id'],
-                $paypal_conf['secret'])
-        );
-        $this->_api_context->setConfig($paypal_conf['settings']);
-
         $path = 'frontend';
         if (session()->has('display_type')) {
             if (session('display_type') == 'rtl') {
@@ -87,7 +63,7 @@ class CartController extends Controller
         $taxData = $this->applyTax('total');
 
 
-        return view($this->path . '.cart.checkout', compact('courses', 'bundles','total','taxData'));
+        return view($this->path . '.cart.checkout', compact('courses', 'bundles', 'total', 'taxData'));
     }
 
     public function addToCart(Request $request)
@@ -172,7 +148,7 @@ class CartController extends Controller
         $taxData = $this->applyTax('total');
 
 
-        return view($this->path . '.cart.checkout', compact('courses','total','taxData'));
+        return view($this->path . '.cart.checkout', compact('courses', 'total', 'taxData'));
     }
 
     public function clear(Request $request)
@@ -186,7 +162,7 @@ class CartController extends Controller
         Cart::session(auth()->user()->id)->removeConditionsByType('coupon');
 
 
-        if(Cart::session(auth()->user()->id)->getContent()->count() < 2){
+        if (Cart::session(auth()->user()->id)->getContent()->count() < 2) {
             Cart::session(auth()->user()->id)->clearCartConditions();
             Cart::session(auth()->user()->id)->removeConditionsByType('tax');
             Cart::session(auth()->user()->id)->removeConditionsByType('coupon');
@@ -198,7 +174,7 @@ class CartController extends Controller
 
     public function stripePayment(Request $request)
     {
-        if($this->checkDuplicate()) {
+        if ($this->checkDuplicate()) {
             return $this->checkDuplicate();
         }
         //Making Order
@@ -287,7 +263,7 @@ class CartController extends Controller
 
     public function offlinePayment(Request $request)
     {
-        if($this->checkDuplicate()) {
+        if ($this->checkDuplicate()) {
             return $this->checkDuplicate();
         }
         //Making Order
@@ -429,31 +405,31 @@ class CartController extends Controller
 
             $total = $courses->sum('price');
             $isCouponValid = false;
-            if( $coupon->useByUser() < $coupon->per_user_limit ){
+            if ($coupon->useByUser() < $coupon->per_user_limit) {
                 $isCouponValid = true;
-                if(($coupon->min_price != null) && ($coupon->min_price > 0)){
-                    if($total >= $coupon->min_price){
+                if (($coupon->min_price != null) && ($coupon->min_price > 0)) {
+                    if ($total >= $coupon->min_price) {
                         $isCouponValid = true;
                     }
-                }else{
+                } else {
                     $isCouponValid = true;
                 }
-                if($coupon->expires_at != null){
-                    if(Carbon::parse($coupon->expires_at) >= Carbon::now()){
+                if ($coupon->expires_at != null) {
+                    if (Carbon::parse($coupon->expires_at) >= Carbon::now()) {
                         $isCouponValid = true;
-                    }else{
+                    } else {
                         $isCouponValid = false;
                     }
                 }
 
             }
 
-            if($isCouponValid == true){
+            if ($isCouponValid == true) {
                 $type = null;
-                if($coupon->type == 1){
-                    $type = '-'.$coupon->amount.'%';
-                }else{
-                    $type = '-'.$coupon->amount;
+                if ($coupon->type == 1) {
+                    $type = '-' . $coupon->amount . '%';
+                } else {
+                    $type = '-' . $coupon->amount;
                 }
 
                 $condition = new \Darryldecode\Cart\CartCondition(array(
@@ -468,7 +444,7 @@ class CartController extends Controller
                 //Apply Tax
                 $taxData = $this->applyTax('subtotal');
 
-                $html = view('frontend.cart.partials.order-stats',compact('total','taxData'))->render();
+                $html = view('frontend.cart.partials.order-stats', compact('total', 'taxData'))->render();
                 return ['status' => 'success', 'html' => $html];
             }
 
@@ -477,7 +453,8 @@ class CartController extends Controller
         return ['status' => 'fail', 'message' => trans('labels.frontend.cart.invalid_coupon')];
     }
 
-    public function removeCoupon(Request $request){
+    public function removeCoupon(Request $request)
+    {
 
         Cart::session(auth()->user()->id)->clearCartConditions();
         Cart::session(auth()->user()->id)->removeConditionsByType('coupon');
@@ -501,17 +478,17 @@ class CartController extends Controller
         //Apply Tax
         $taxData = $this->applyTax('subtotal');
 
-        $html = view('frontend.cart.partials.order-stats',compact('total','taxData'))->render();
+        $html = view('frontend.cart.partials.order-stats', compact('total', 'taxData'))->render();
         return ['status' => 'success', 'html' => $html];
 
     }
 
     private function makeOrder()
     {
-       $coupon = Cart::session(auth()->user()->id)->getConditionsByType('coupon')->first();
-       if($coupon != null){
-           $coupon = Coupon::where('code','=',$coupon->getName())->first();
-       }
+        $coupon = Cart::session(auth()->user()->id)->getConditionsByType('coupon')->first();
+        if ($coupon != null) {
+            $coupon = Coupon::where('code', '=', $coupon->getName())->first();
+        }
 
         $order = new Order();
         $order->user_id = auth()->user()->id;
@@ -538,31 +515,32 @@ class CartController extends Controller
         return $order;
     }
 
-    private function checkDuplicate(){
+    private function checkDuplicate()
+    {
         $is_duplicate = false;
         $message = '';
-        $orders = Order::where('user_id','=',auth()->user()->id)->pluck('id');
-        $order_items = OrderItem::whereIn('order_id',$orders)->get(['item_id','item_type']);
+        $orders = Order::where('user_id', '=', auth()->user()->id)->pluck('id');
+        $order_items = OrderItem::whereIn('order_id', $orders)->get(['item_id', 'item_type']);
         foreach (Cart::session(auth()->user()->id)->getContent() as $cartItem) {
-            if($cartItem->attributes->type == 'course'){
-                foreach($order_items->where('item_type', 'App\Models\Course') as $item){
-                    if($item->item_id == $cartItem->id){
+            if ($cartItem->attributes->type == 'course') {
+                foreach ($order_items->where('item_type', 'App\Models\Course') as $item) {
+                    if ($item->item_id == $cartItem->id) {
                         $is_duplicate = true;
-                        $message .= $cartItem->name.' '.__('alerts.frontend.duplicate_course') .'</br>';
+                        $message .= $cartItem->name . ' ' . __('alerts.frontend.duplicate_course') . '</br>';
                     }
                 }
             }
-            if($cartItem->attributes->type == 'bundle'){
-                foreach($order_items->where('item_type', 'App\Models\Bundle') as $item){
-                    if($item->item_id == $cartItem->id){
+            if ($cartItem->attributes->type == 'bundle') {
+                foreach ($order_items->where('item_type', 'App\Models\Bundle') as $item) {
+                    if ($item->item_id == $cartItem->id) {
                         $is_duplicate = true;
-                        $message .= $cartItem->name.''.__('alerts.frontend.duplicate_bundle') .'</br>';
+                        $message .= $cartItem->name . '' . __('alerts.frontend.duplicate_bundle') . '</br>';
                     }
                 }
             }
         }
 
-        if($is_duplicate){
+        if ($is_duplicate) {
             return redirect()->back()->withdanger($message);
         }
         return false;
@@ -576,16 +554,16 @@ class CartController extends Controller
         Cart::session(auth()->user()->id)->removeConditionsByType('tax');
         if ($taxes != null) {
             $taxData = [];
-            foreach ($taxes as $tax){
+            foreach ($taxes as $tax) {
                 $total = Cart::session(auth()->user()->id)->getTotal();
-                $taxData[] = ['name'=> '+'.$tax->rate.'% '.$tax->name,'amount'=> $total*$tax->rate/100 ];
+                $taxData[] = ['name' => '+' . $tax->rate . '% ' . $tax->name, 'amount' => $total * $tax->rate / 100];
             }
 
             $condition = new \Darryldecode\Cart\CartCondition(array(
                 'name' => 'Tax',
                 'type' => 'tax',
                 'target' => 'total', // this condition will be applied to cart's subtotal when getSubTotal() is called.
-                'value' => $taxes->sum('rate') .'%',
+                'value' => $taxes->sum('rate') . '%',
                 'order' => 2
             ));
             Cart::session(auth()->user()->id)->condition($condition);
