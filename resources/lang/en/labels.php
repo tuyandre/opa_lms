@@ -551,7 +551,7 @@ return array (
       array (
         'title' => 'General',
       ),
-      'captcha' => 'Whether the registration - login captcha is on or off',
+      'captcha' => 'Whether the registration - login - contact captcha is on or off',
       'captcha_note' => 'How to get Google reCaptcha credentials?',
       'retest_note' => 'Enable / Disable if user will be able to give retest for same exam',
       'language_settings' => 

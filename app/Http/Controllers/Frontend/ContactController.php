@@ -4,10 +4,13 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Contact;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\Frontend\Contact\SendContact;
 use App\Http\Requests\Frontend\Contact\SendContactRequest;
 use Illuminate\Support\Facades\Session;
+use Arcanedev\NoCaptcha\Rules\CaptchaRule;
+
 
 /**
  * Class ContactController.
@@ -46,12 +49,15 @@ class ContactController extends Controller
      *
      * @return mixed
      */
-    public function send(SendContactRequest $request)
+    public function send(Request $request)
     {
         $this->validate($request,[
             'name' => 'required',
             'email' => 'required|email',
-            'message' => 'required'
+            'message' => 'required',
+            'g-recaptcha-response' => (config('access.captcha.registration') ? ['required',new CaptchaRule] : ''),
+        ],[
+            'g-recaptcha-response.required' => __('validation.attributes.frontend.captcha')
         ]);
 
         $contact = new Contact();

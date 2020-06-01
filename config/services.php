@@ -90,7 +90,7 @@ return [
          */
         'scopes' => [
             'https://www.googleapis.com/auth/plus.me',
-            'https://www.googleapis.com/auth/plus.profile.emails.read',
+            'https://www.googleapis.com/auth/plus.profile.emails.read.openid',
         ],
 
         'with' => [],

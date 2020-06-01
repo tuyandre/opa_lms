@@ -546,7 +546,7 @@ return array (
       'total_courses' => 'Introduzca el total de cursos. Ej: 1K, 1000 etc.',
       'total_students' => 'Ingrese el total de estudiantes. Ej: 1K, 1Million, 1000 etc.',
       'total_teachers' => 'Introduzca Total de Maestros. Ej: 1K, 1000 etc.',
-      'captcha' => 'Si el registro - login captcha está activado o desactivado',
+      'captcha' => 'Si el registro - inicio de sesión - captcha de contacto está activado o desactivado',
       'captcha_note' => '¿Cómo obtener credenciales reCaptcha de Google?',
       'captcha_site_key' => 'Captcha Key',
       'captcha_site_secret' => 'Captcha Secret',

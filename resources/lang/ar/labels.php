@@ -455,7 +455,7 @@ return array (
       'app_name' => 'اسم التطبيق',
       'app_timezone' => 'التطبيق المنطقة الزمنية',
       'app_url' => 'عنوان URL للتطبيق',
-      'captcha' => 'ما إذا كان التسجيل - تسجيل الدخول captcha أو إيقاف تشغيله',
+      'captcha' => 'سواء كان التسجيل - تسجيل الدخول - اتصال captcha قيد التشغيل أو إيقاف التشغيل',
       'captcha_note' => 'كيفية الحصول على بيانات اعتماد Google reCaptcha؟',
       'captcha_site_key' => 'مفتاح التحقق',
       'captcha_site_secret' => 'كلمة التحقق السرية',

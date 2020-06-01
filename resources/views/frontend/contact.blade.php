@@ -110,9 +110,22 @@
                         </div>
                     </div>
                     <textarea name="message" placeholder="@lang('labels.frontend.contact.message')"></textarea>
-                    @if($errors->has('message'))
+
+                @if($errors->has('message'))
                         <span class="help-block text-danger">{{$errors->first('message')}}</span>
                     @endif
+
+                    @if(config('access.captcha.registration'))
+                        <div class="contact-info mt-5 text-center">
+                            {!! Captcha::display() !!}
+                            {{ html()->hidden('captcha_status', 'true')->id('captcha_status') }}
+                            @if($errors->has('g-recaptcha-response'))
+                                <p class="help-block text-danger mx0auto">{{$errors->first('g-recaptcha-response')}}</p>
+                            @endif
+                        </div><!--col-->
+                    @endif
+
+
                     <div class="nws-button text-center  gradient-bg text-uppercase">
                         <button class="text-uppercase" type="submit" value="Submit">@lang('labels.frontend.contact.send_email') <i class="fas fa-caret-right"></i></button>
                     </div>
