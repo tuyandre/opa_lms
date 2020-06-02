@@ -106,6 +106,10 @@ class LessonsController extends Controller
         $test = Test::where('slug', $lesson_slug)->firstOrFail();
         $answers = [];
         $test_score = 0;
+        if(!$request->get('questions')){
+
+            return back()->with(['flash_warning'=>'No options selected']);
+        }
         foreach ($request->get('questions') as $question_id => $answer_id) {
             $question = Question::find($question_id);
             $correct = QuestionsOption::where('question_id', $question_id)
