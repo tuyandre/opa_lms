@@ -9,6 +9,9 @@
         .leanth-course.go {
             right: 0;
         }
+        .video-container iframe{
+            max-width: 100%;
+        }
 
     </style>
     <link rel="stylesheet" href="https://cdn.plyr.io/3.5.3/plyr.css"/>

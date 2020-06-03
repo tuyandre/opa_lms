@@ -25,31 +25,39 @@ class EarningHelper
             if($items->item_type == 'App\Models\Bundle'){
                 $coursesPrice = $items->item->courses->sum('price');
                 foreach ($items->item->courses as $courses) {
-                    $teacherId = implode('',$courses->teachers->pluck('id')->toArray());
                     $commissionForTeacher = (($items->item->price/$coursesPrice) * config('commission_rate') * $courses->price)/100;
-                    $data = [
-                        'user_id' => $teacherId,
-                        'order_id' => $order->id,
-                        'course_id' => $courses->id,
-                        'course_price' => $courses->price,
-                        'amount' => $commissionForTeacher,
-                        'rate' => config('commission_rate'),
-                    ];
-                    Earning::create($data);
+                    $teacherIds = $courses->teachers->pluck('id')->toArray();
+                    if($teacherIds) {
+                        foreach ($teacherIds as $teacherId) {
+                            $data = [
+                                'user_id' => $teacherId,
+                                'order_id' => $order->id,
+                                'course_id' => $courses->id,
+                                'course_price' => $courses->price,
+                                'amount' => $commissionForTeacher,
+                                'rate' => config('commission_rate'),
+                            ];
+                            Earning::create($data);
+                        }
+                    }
                 }
             }
             if($items->item_type == 'App\Models\Course'){
-                $teacherId = implode('',$items->item->teachers->pluck('id')->toArray());
                 $commissionForTeacher = (config('commission_rate') * $items->item->price)/100;
-                $data = [
-                    'user_id' => $teacherId,
-                    'order_id' => $order->id,
-                    'course_id' => $items->item->id,
-                    'course_price' => $items->item->price,
-                    'amount' => $commissionForTeacher,
-                    'rate' => config('commission_rate'),
-                ];
-                Earning::create($data);
+                $teacherIds = $items->item->teachers->pluck('id')->toArray();
+                if($teacherIds) {
+                    foreach ($teacherIds as $teacherId) {
+                        $data = [
+                            'user_id' => $teacherId,
+                            'order_id' => $order->id,
+                            'course_id' => $items->item->id,
+                            'course_price' => $items->item->price,
+                            'amount' => $commissionForTeacher,
+                            'rate' => config('commission_rate'),
+                        ];
+                        Earning::create($data);
+                    }
+                }
             }
         }
     }

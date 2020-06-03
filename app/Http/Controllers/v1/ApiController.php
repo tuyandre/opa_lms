@@ -414,7 +414,7 @@ class ApiController extends Controller
      */
     public function getWhyUs()
     {
-        $reasons = Reason::where('status', '=', 1)->paginate(10);
+        $reasons = Reason::where('status', '=', 1)->get();
         return response()->json(['status' => 'success', 'result' => $reasons]);
 
     }
