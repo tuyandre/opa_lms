@@ -54,6 +54,8 @@ class UpdateController extends Controller
             try{
                 \Zipper::make(public_path() . '/updates/' . $file_name)->extractTo(base_path());
                 unlink(public_path() . '/updates/' . $file_name);
+//                array_map('unlink', glob("stripe/*"));
+//                array_map('unlink', glob("paypal/*"));
 
 
                 exec('cd ' . base_path() . '/ && composer install');
@@ -67,6 +69,15 @@ class UpdateController extends Controller
                 unlink(base_path() . '/bootstrap/cache/packages.php');
                 unlink(base_path() . '/bootstrap/cache/services.php');
 
+                $dir = base_path('vendor/paypal');
+                $this->unlinkAllFiles($dir);
+
+                $dir = base_path('vendor/stripe');
+                $this->unlinkAllFiles($dir);
+
+                $dir = base_path('__MACOSX');
+                $this->unlinkAllFiles($dir);
+
 
                 return redirect(route('admin.update-theme'))->withFlashSuccess(__('alerts.backend.general.updated'));
             }catch (\Exception $e){
@@ -75,5 +86,34 @@ class UpdateController extends Controller
 
 
         }
+    }
+
+
+    public function unlinkAllFiles($str)
+    {
+        // Check for files
+        if (is_file($str)) {
+
+            // If it is file then remove by
+            // using unlink function
+            return unlink($str);
+        } // If it is a directory.
+        elseif (is_dir($str)) {
+
+            // Get the list of the files in this
+            // directory
+            $scan = glob(rtrim($str, '/') . '/*');
+
+            // Loop through the list of files
+            foreach ($scan as $index => $path) {
+
+                // Call recursive function
+                $this->unlinkAllFiles($path);
+            }
+
+            // Remove the directory itself
+            return @rmdir($str);
+        }
+        return true;
     }
 }

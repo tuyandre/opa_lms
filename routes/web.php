@@ -8,6 +8,8 @@ use App\Http\Controllers\Frontend\HomeController;
  * Routes that are used between both frontend and backend.
  */
 
+
+
 // Switch between the included languages
 Route::get('lang/{lang}', [LanguageController::class, 'swap']);
 

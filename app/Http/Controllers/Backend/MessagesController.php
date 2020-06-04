@@ -15,7 +15,9 @@ class MessagesController extends Controller
         $thread="";
 
 
-        $teachers = User::role('teacher')->get()->pluck('name', 'id');
+        $teachers = User::role('teacher')->get()
+            ->where('id','!=',auth()->user()->id)
+            ->pluck('name', 'id');
 
         auth()->user()->load('threads.messages.sender');
 
