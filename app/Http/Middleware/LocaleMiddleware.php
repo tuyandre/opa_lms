@@ -2,7 +2,7 @@
 
 namespace App\Http\Middleware;
 
-use App\Models\Locale;
+use App\Locale;
 use Barryvdh\TranslationManager\Manager;
 use Barryvdh\TranslationManager\Models\Translation;
 use Closure;

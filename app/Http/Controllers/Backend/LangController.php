@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Backend;
 use Barryvdh\TranslationManager\Controller as Controller;
-use App\Models\Locale;
+use App\Locale;
 use Illuminate\Http\Request;
 
 class LangController extends Controller
