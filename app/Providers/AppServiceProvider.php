@@ -3,7 +3,7 @@
 namespace App\Providers;
 
 use App\Helpers\Frontend\Auth\Socialite;
-use App\Locale;
+use App\Models\Locale;
 use App\Models\Blog;
 use App\Models\Config;
 use App\Models\Course;
@@ -155,7 +155,7 @@ class AppServiceProvider extends ServiceProvider
         view()->composer(['backend.*'], function ($view) {
 
             $locale_full_name = 'English';
-            $locale =  \App\Locale::where('short_name','=',config('app.locale'))->first();
+            $locale =  \App\Models\Locale::where('short_name','=',config('app.locale'))->first();
             if($locale){
                 $locale_full_name = $locale->name;
             }

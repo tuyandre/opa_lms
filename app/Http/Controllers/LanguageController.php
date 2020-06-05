@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Locale;
+use App\Models\Locale;
 use Illuminate\Support\Facades\App;
 
 /**

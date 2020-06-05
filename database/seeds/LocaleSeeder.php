@@ -44,7 +44,7 @@ class LocaleSeeder extends Seeder
         ];
 
         foreach ($locales as $item) {
-            \App\Locale::firstOrCreate([
+            \App\Models\Locale::firstOrCreate([
                 'name' => $item['name'],
                 'short_name' => $item['short_name'],
                 'display_type' => $item['display_type'],
