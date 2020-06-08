@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Backend\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Traits\FileUploadTrait;
-use App\Locale;
+use App\Models\Locale;
 use App\Models\Config;
 use App\Models\OauthClient;
 use Illuminate\Http\Request;
