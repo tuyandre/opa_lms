@@ -1323,7 +1323,7 @@ return array (
       'finish_course' => 'Cours de finition',
       'course' => 'Cours',
       'bundle_detail' => 'Détails du paquet',
-      'bundle_reviews' => 'Offre groupée <span> Commentaires: </ span>',
+      'bundle_reviews' => 'Offre groupée <span> Commentaires: </span>',
       'bundles' => 'Liasses',
       'available_in_bundles' => 'Aussi disponible en paquets',
       'complete_test' => 'S\'il vous plaît compléter le test',
