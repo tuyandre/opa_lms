@@ -237,7 +237,7 @@
 
                         <div class="logo-area">
                             <a href="{{url('/')}}">
-                                <img src="{{asset('assets/img/logo/logo.png')}}" alt="Logo_not_found">
+                                <img src="{{asset("storage/logos/".config('logo_w_image'))}}" alt="Logo_not_found">
                             </a>
                         </div>
 

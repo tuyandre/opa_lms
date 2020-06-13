@@ -139,7 +139,7 @@ class AppServiceProvider extends ServiceProvider
             $view->with(compact('global_featured_course','featured_courses'));
         });
 
-        view()->composer(['frontend.*', 'backend.*', 'frontend-rtl.*','vendor.invoices.*'], function ($view) {
+        view()->composer(['frontend.*', 'backend.*', 'frontend-rtl.*','vendor.invoices.*','emails.*'], function ($view) {
 
 
             $appCurrency = getCurrency(config('app.currency'));

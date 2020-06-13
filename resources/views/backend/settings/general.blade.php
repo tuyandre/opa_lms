@@ -269,7 +269,7 @@
                             </div><!--form-group-->
 
                             <div class="form-group row">
-                                {{ html()->label(__('validation.attributes.backend.settings.general_settings.mail__from__namea_status'))->class('col-md-2 form-control-label')->for('captcha_status') }}
+                                {{ html()->label(__('validation.attributes.backend.settings.general_settings.captcha_status'))->class('col-md-2 form-control-label')->for('captcha_status') }}
                                 <div class="col-md-10">
                                     <div class="checkbox">
                                         {{ html()->label(

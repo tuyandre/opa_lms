@@ -28,6 +28,7 @@ class OfflineOrderMail extends Mailable
      */
     public function build()
     {
+
         return $this->markdown('emails.offlineOrderMail')
             ->subject('Regarding your order on '.env('APP_NAME'))
             ->with('content',$this->content);

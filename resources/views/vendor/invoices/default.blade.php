@@ -117,7 +117,7 @@
                             <td>
                                 + {{$tax['name']}}
                             </td>
-                            <td class="text-right">{{$tax['amount'] }} {{ $invoice->formatCurrency()->symbol }}</td>
+                            <td class="text-right">{{ number_format( $tax['amount'],2) }} {{ $invoice->formatCurrency()->symbol }}</td>
                         </tr>
                     @endforeach
                 @endif

@@ -280,7 +280,7 @@ class CartController extends Controller
         }
 
         $content['items'] = $items;
-        $content['total'] = Cart::session(auth()->user()->id)->getTotal();
+        $content['total'] =  number_format(Cart::session(auth()->user()->id)->getTotal(),2);
         $content['reference_no'] = $order->reference_no;
 
         try {
@@ -556,7 +556,7 @@ class CartController extends Controller
             $taxData = [];
             foreach ($taxes as $tax) {
                 $total = Cart::session(auth()->user()->id)->getTotal();
-                $taxData[] = ['name' => '+' . $tax->rate . '% ' . $tax->name, 'amount' => $total * $tax->rate / 100];
+                $taxData[] = ['name' => '+' . $tax->rate . '% ' . $tax->name, 'amount' =>  number_format(($total * $tax->rate / 100),2)];
             }
 
             $condition = new \Darryldecode\Cart\CartCondition(array(
