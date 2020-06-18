@@ -1,4 +1,5 @@
-{{ html()->modelForm($logged_in_user, 'PATCH', route('admin.profile.update'))->class('form-horizontal')->attribute('enctype', 'multipart/form-data')->open() }}
+
+{{ html()->modelForm($user, 'PATCH', route('admin.profile.update'))->class('form-horizontal')->attribute('enctype', 'multipart/form-data')->open() }}
 <div class="row">
     <div class="col">
         <div class="form-group">
@@ -6,12 +7,12 @@
 
             <div>
                 <input type="radio" name="avatar_type"
-                       value="gravatar" {{ $logged_in_user->avatar_type == 'gravatar' ? 'checked' : '' }} /> {{__('validation.attributes.frontend.gravatar')}}
+                       value="gravatar" {{ $user->avatar_type == 'gravatar' ? 'checked' : '' }} /> {{__('validation.attributes.frontend.gravatar')}}
                 &nbsp;&nbsp;
                 <input type="radio" name="avatar_type"
-                       value="storage" {{ $logged_in_user->avatar_type == 'storage' ? 'checked' : '' }} /> {{__('validation.attributes.frontend.upload')}}
+                       value="storage" {{ $user->avatar_type == 'storage' ? 'checked' : '' }} /> {{__('validation.attributes.frontend.upload')}}
 
-                @foreach($logged_in_user->providers as $provider)
+                @foreach($user->providers as $provider)
                     @if(strlen($provider->avatar))
                         <input type="radio" name="avatar_type"
                                value="{{ $provider->provider }}" {{ $logged_in_user->avatar_type == $provider->provider ? 'checked' : '' }} /> {{ ucfirst($provider->provider) }}

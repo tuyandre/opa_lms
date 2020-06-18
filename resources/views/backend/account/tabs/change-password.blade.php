@@ -15,7 +15,6 @@
         </div><!--col-->
     </div><!--row-->
 @endif
-
     <div class="row">
         <div class="col">
             <div class="form-group">
