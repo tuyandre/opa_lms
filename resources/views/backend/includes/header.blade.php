@@ -59,7 +59,9 @@
 
         <li class="nav-item dropdown">
           <a class="nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+              @if( $logged_in_user->picture != null)
             <img src="{{ $logged_in_user->picture }}" class="img-avatar" alt="{{ $logged_in_user->email }}">
+              @endif
               <span style="right: 0;left: inherit" class="badge d-md-none d-lg-none d-none mob-notification badge-success">!</span>
             <span class="d-md-down-none">{{ $logged_in_user->full_name }}</span>
           </a>

@@ -50,6 +50,7 @@
                                 @endcan
 
                                 <th>@lang('labels.general.sr_no')</th>
+                                <th>@lang('labels.general.id')</th>
                                 <th>@lang('labels.backend.reasons.fields.title')</th>
                                 <th>@lang('labels.backend.reasons.fields.icon')</th>
                                 <th>@lang('labels.backend.reasons.fields.content')</th>
@@ -100,13 +101,13 @@
                     {
                         extend: 'csv',
                         exportOptions: {
-                            columns: [ 1, 2, 4,5]
+                            columns: [ 1, 2, 3,5]
                         }
                     },
                     {
                         extend: 'pdf',
                         exportOptions: {
-                            columns: [ 1, 2, 4,5]
+                            columns: [ 1, 2, 3,5]
                         }
                     },
                     'colvis'
@@ -120,9 +121,8 @@
                         }, "orderable": false, "searchable": false, "name": "id"
                     },
                         @endif
-                    {
-                        data: "DT_RowIndex", name: 'DT_RowIndex'
-                    },
+                    {data: "DT_RowIndex", name: 'DT_RowIndex'},
+                    {data: "id", name: 'id'},
                     {data: "title", name: 'title'},
                     {data: "icon", name: 'icon'},
                     {data: "content", name: 'content'},

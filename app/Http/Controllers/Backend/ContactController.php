@@ -17,7 +17,6 @@ class ContactController extends Controller
      */
     public function index()
     {
-        $contacts = Contact::all();
 
         return view('backend.contacts.index', compact('contacts'));
     }
@@ -30,7 +29,7 @@ class ContactController extends Controller
     public function getData(Request $request)
     {
         $contacts = "";
-        $contacts = Contact::orderBy('created_at', 'desc')->get();
+        $contacts = Contact::query()->orderBy('created_at', 'desc')->get();
 
 
         return DataTables::of($contacts)

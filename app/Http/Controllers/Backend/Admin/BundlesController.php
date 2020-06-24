@@ -34,14 +34,6 @@ class BundlesController extends Controller
             return abort(401);
         }
 
-        if (request('show_deleted') == 1) {
-            if (!Gate::allows('bundle_delete')) {
-                return abort(401);
-            }
-            $bundles = Bundle::onlyTrashed()->ofAuthor()->get();
-        } else {
-            $bundles = Bundle::ofAuthor()->get();
-        }
 
         return view('backend.bundles.index', compact('bundles'));
     }
@@ -62,13 +54,13 @@ class BundlesController extends Controller
             if (!Gate::allows('bundle_delete')) {
                 return abort(401);
             }
-            $bundles = Bundle::ofAuthor()->onlyTrashed()->orderBy('created_at', 'desc')->get();
+            $bundles = Bundle::query()->ofAuthor()->onlyTrashed()->orderBy('created_at', 'desc');
 
         } else if (request('cat_id') != "") {
             $id = request('cat_id');
-            $bundles = Bundle::ofAuthor()->where('category_id', '=', $id)->orderBy('created_at', 'desc')->get();
+            $bundles = Bundle::query()->ofAuthor()->where('category_id', '=', $id)->orderBy('created_at', 'desc');
         } else {
-            $bundles = Bundle::ofAuthor()->orderBy('created_at', 'desc')->get();
+            $bundles = Bundle::query()->ofAuthor()->orderBy('created_at', 'desc');
 
         }
 

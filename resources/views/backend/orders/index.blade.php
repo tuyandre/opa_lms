@@ -33,6 +33,7 @@
                             <input type="checkbox" class="mass" id="select-all"/>
                         </th>
                         <th>@lang('labels.general.sr_no')</th>
+                        <th>@lang('labels.general.id')</th>
                         <th>@lang('labels.backend.orders.fields.reference_no')</th>
                         <th>@lang('labels.backend.orders.fields.items')</th>
                         <th>@lang('labels.backend.orders.fields.amount') <small>(in {{$appCurrency['symbol']}})</small></th>
@@ -69,13 +70,13 @@
                     {
                         extend: 'csv',
                         exportOptions: {
-                            columns: [ 1, 2, 3, 4, 5, 6, 7 ]
+                            columns: [ 1, 2, 3, 4, 5, 6, 7,8 ]
                         }
                     },
                     {
                         extend: 'pdf',
                         exportOptions: {
-                            columns: [ 1, 2, 3, 4, 5, 6, 7 ]
+                            columns: [ 1, 2, 3, 4, 5, 6, 7,8 ]
                         }
                     },
                     'colvis'
@@ -88,6 +89,7 @@
                         }, "orderable": false, "searchable": false, "name": "id"
                     },
                     {data: "DT_RowIndex", name: 'DT_RowIndex'},
+                    {data: "id", name: 'id'},
                     {data: "reference_no", name: 'reference_no'},
                     {data: "items", name: 'items'},
                     {data: "amount", name: 'amount'},

@@ -42,6 +42,7 @@
                             <th style="text-align:center;"><input type="checkbox" class="mass" id="select-all"/></th>@endif
                     @endcan
                         <th>@lang('labels.general.sr_no')</th>
+                        <th>@lang('labels.general.id')</th>
                         <th>@lang('labels.backend.questions.fields.question')</th>
                     <th>@lang('labels.backend.questions.fields.question_image')</th>
                     <th>@lang('labels.backend.questions.fields.score')</th>
@@ -85,13 +86,13 @@
                     {
                         extend: 'csv',
                         exportOptions: {
-                            columns: [ 1, 2, 3, 4]
+                            columns: [ 1, 2, 3, 5,]
                         }
                     },
                     {
                         extend: 'pdf',
                         exportOptions: {
-                            columns: [ 1, 2, 3, 4]
+                            columns: [ 1, 2, 3, 5]
                         }
                     },
                     'colvis'
@@ -104,6 +105,7 @@
                     }, "orderable": false, "searchable":false, "name":"id" },
                         @endif
                     {data: "DT_RowIndex", name: 'DT_RowIndex'},
+                    {data: "id", name: 'id'},
                     {data: "question", name: 'question'},
                     {data: "question_image", name: 'question_image'},
                     {data: "score", name: "score"},

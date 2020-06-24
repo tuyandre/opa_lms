@@ -48,7 +48,9 @@
                                     <th style="text-align:center;"><input class="mass" type="checkbox" id="select-all"/>
                                     </th>@endif
                             @endcan
-                            <th>@lang('labels.general.sr_no')</th>
+                                <th>@lang('labels.general.sr_no')</th>
+
+                                <th>@lang('labels.general.id')</th>
                             <th>@lang('labels.backend.lessons.fields.title')</th>
                             <th>@lang('labels.backend.lessons.fields.published')</th>
                             @if( request('show_deleted') == 1 )
@@ -118,9 +120,9 @@
                         }, "orderable": false, "searchable": false, "name": "id"
                     },
                         @endif
-                    {
-                        data: "DT_RowIndex", name: 'DT_RowIndex'
-                    },
+                    {data: "DT_RowIndex", name: 'DT_RowIndex'},
+                    {data: "id", name: 'id'},
+
                     {data: "title", name: 'title'},
                     {data: "published", name: "published"},
                     {data: "actions", name: "actions"}

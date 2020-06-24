@@ -50,6 +50,7 @@
                             </th>@endif
                     @endcan
                     <th>@lang('labels.general.sr_no')</th>
+                    <th>@lang('labels.general.id')</th>
                     <th>@lang('labels.backend.tests.fields.course')</th>
                     <th>@lang('labels.backend.tests.fields.title')</th>
                     <th>@lang('labels.backend.tests.fields.questions')</th>
@@ -100,13 +101,13 @@
                     {
                         extend: 'csv',
                         exportOptions: {
-                            columns: [ 1, 2, 3, 4,5]
+                            columns: [ 1, 2, 3, 4,5,6]
                         }
                     },
                     {
                         extend: 'pdf',
                         exportOptions: {
-                            columns: [ 1, 2, 3, 4,5]
+                            columns: [ 1, 2, 3, 4,5,6]
                         }
                     },
                     'colvis'
@@ -121,6 +122,7 @@
                     },
                         @endif
                     {data: "DT_RowIndex", name: 'DT_RowIndex'},
+                    {data: "id", name: 'id'},
                     {data: "course", name: 'course'},
                     {data: "title", name: 'title'},
                     {data: "questions", name: "questions"},

@@ -31,6 +31,7 @@
                             <thead>
                             <tr>
                                 <th>@lang('labels.general.sr_no')</th>
+                                <th>@lang('labels.general.id')</th>
                                 <th>@lang('labels.backend.reports.fields.course')</th>
                                 <th>@lang('labels.backend.reports.fields.students')</th>
                                 <th>@lang('labels.backend.reports.fields.completed')</th>
@@ -79,6 +80,7 @@
                 columns: [
 
                     {data: "DT_RowIndex", name: 'DT_RowIndex', width: '8%'},
+                    {data: "id", name: 'id', width: '8%'},
                     {data: "title", name: 'course'},
                     {data: "students_count", name: 'students'},
                     {data: "completed", name: 'completed'},

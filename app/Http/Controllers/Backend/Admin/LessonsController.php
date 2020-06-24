@@ -51,14 +51,14 @@ class LessonsController extends Controller
 
 
         if ($request->course_id != "") {
-            $lessons = $lessons->where('course_id', (int)$request->course_id)->orderBy('created_at', 'desc')->get();
+            $lessons = $lessons->where('course_id', (int)$request->course_id)->orderBy('created_at', 'desc');
         }
 
         if ($request->show_deleted == 1) {
             if (!Gate::allows('lesson_delete')) {
                 return abort(401);
             }
-            $lessons = Lesson::query()->with('course')->orderBy('created_at', 'desc')->onlyTrashed()->get();
+            $lessons = Lesson::query()->with('course')->orderBy('created_at', 'desc')->onlyTrashed();
         }
 
 

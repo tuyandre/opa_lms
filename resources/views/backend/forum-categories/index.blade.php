@@ -47,6 +47,7 @@
                             <thead>
                             <tr>
                                 <th>@lang('labels.general.sr_no')</th>
+                                <th>@lang('labels.general.id')</th>
                                 <th>@lang('labels.backend.forum_category.fields.parent_category')</th>
                                 <th>@lang('labels.backend.forum_category.fields.category')</th>
                                 <th>@lang('labels.backend.forum_category.fields.order')</th>
@@ -65,6 +66,7 @@
                                     <td>
                                         {{ $key }}
                                     </td>
+                                    <td>{{$item->id}}</td>
                                     <td>
                                         @if($item->parent() != null)
                                             {{$item->parent()->name}}
@@ -133,13 +135,13 @@
                     {
                         extend: 'csv',
                         exportOptions: {
-                            columns: [ 0,1, 2,3]
+                            columns: [ 0,1, 2,3,4]
                         }
                     },
                     {
                         extend: 'pdf',
                         exportOptions: {
-                            columns: [ 0,1, 2, 3]
+                            columns: [ 0,1, 2, 3,4]
                         }
                     },
                     'colvis'

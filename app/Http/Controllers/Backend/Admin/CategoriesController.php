@@ -27,16 +27,6 @@ class CategoriesController extends Controller
             return abort(401);
         }
 
-
-        if (request('show_deleted') == 1) {
-            if (!Gate::allows('category_delete')) {
-                return abort(401);
-            }
-            $categories = Category::onlyTrashed()->get();
-        } else {
-            $categories = Category::all();
-        }
-
         return view('backend.categories.index', compact('categories'));
     }
 
@@ -57,9 +47,10 @@ class CategoriesController extends Controller
             if (!Gate::allows('category_delete')) {
                 return abort(401);
             }
-            $categories = Category::onlyTrashed()->orderBy('created_at', 'desc')->get();
+            $categories = Category::query()->onlyTrashed()
+                ->orderBy('created_at', 'desc');
         } else {
-            $categories = Category::orderBy('created_at', 'desc')->get();
+            $categories = Category::query()->orderBy('created_at', 'desc');
         }
 
         if (auth()->user()->can('category_view')) {

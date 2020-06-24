@@ -30,15 +30,6 @@ class QuestionsController extends Controller
             return abort(401);
         }
 
-        if (request('show_deleted') == 1) {
-            if (!Gate::allows('question_delete')) {
-                return abort(401);
-            }
-            $questions = Question::onlyTrashed()->get();
-        } else {
-            $questions = Question::orderBy('created_at', 'desc')->get();
-        }
-
         $tests = Test::where('published','=',1)->pluck('title','id')->prepend('Please select', '');
 
         return view('backend.questions.index', compact('questions','tests'));
@@ -61,9 +52,9 @@ class QuestionsController extends Controller
 
         if ($request->test_id != "") {
             $test_id = $request->test_id;
-            $questions = Question::whereHas('tests',function ($q) use ($test_id){
+            $questions = Question::query()->whereHas('tests',function ($q) use ($test_id){
                 $q->where('test_id',$test_id);
-            })->orderBy('created_at', 'desc')->get();
+            })->orderBy('created_at', 'desc');
         }
 
         if (!auth()->user()->role('administrator')) {

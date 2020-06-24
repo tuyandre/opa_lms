@@ -47,6 +47,7 @@
                             <thead>
                             <tr>
                                 <th>@lang('labels.general.sr_no')</th>
+                                <th>@lang('labels.general.id')</th>
                                 <th>@lang('labels.backend.coupons.fields.name')</th>
                                 <th>@lang('labels.backend.coupons.fields.code')</th>
                                 <th>@lang('labels.backend.coupons.fields.type')</th>

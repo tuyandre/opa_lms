@@ -47,6 +47,7 @@
                             <thead>
                             <tr>
                                 <th>@lang('labels.general.sr_no')</th>
+                                <th>@lang('labels.general.id')</th>
                                 <th>@lang('labels.backend.tax.fields.name')</th>
                                 <th>@lang('labels.backend.tax.fields.rate') (in %)</th>
                                 <th>@lang('labels.backend.tax.fields.status')</th>
@@ -63,6 +64,9 @@
                                 <tr>
                                     <td>
                                         {{ $key }}
+                                    </td>
+                                    <td>
+                                        {{$item->id}}
                                     </td>
                                     <td>
                                         {{$item->name}}

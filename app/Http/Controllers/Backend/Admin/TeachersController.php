@@ -25,13 +25,6 @@ class TeachersController extends Controller
     public function index()
     {
 
-        if (request('show_deleted') == 1) {
-
-            $users = User::role('teacher')->onlyTrashed()->get();
-        } else {
-            $users = User::role('teacher')->get();
-        }
-
         return view('backend.teachers.index', compact('users'));
     }
 
@@ -50,9 +43,9 @@ class TeachersController extends Controller
 
         if (request('show_deleted') == 1) {
 
-            $teachers = User::role('teacher')->onlyTrashed()->orderBy('created_at', 'desc')->get();
+            $teachers = User::query()->role('teacher')->onlyTrashed()->orderBy('created_at', 'desc');
         } else {
-            $teachers = User::role('teacher')->orderBy('created_at', 'desc')->get();
+            $teachers = User::query()->role('teacher')->orderBy('created_at', 'desc');
         }
 
         if (auth()->user()->isAdmin()) {

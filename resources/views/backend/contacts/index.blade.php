@@ -26,6 +26,7 @@
                             <tr>
 
                                 <th>@lang('labels.general.sr_no')</th>
+                                <th>@lang('labels.general.id')</th>
                                 <th>@lang('labels.backend.contacts.fields.name')</th>
                                 <th>@lang('labels.backend.contacts.fields.email')</th>
                                 <th>@lang('labels.backend.contacts.fields.phone')</th>
@@ -76,6 +77,7 @@
                 columns: [
 
                     {data: "DT_RowIndex", name: 'DT_RowIndex'},
+                    {data: "id", name: 'id'},
                     {data: "name", name: 'name'},
                     {data: "email", name: 'email'},
                     {data: "number", name: 'number'},

@@ -33,16 +33,6 @@ class CoursesController extends Controller
             return abort(401);
         }
 
-
-        if (request('show_deleted') == 1) {
-            if (!Gate::allows('course_delete')) {
-                return abort(401);
-            }
-            $courses = Course::onlyTrashed()->ofTeacher()->get();
-        } else {
-            $courses = Course::ofTeacher()->get();
-        }
-
         return view('backend.courses.index', compact('courses'));
     }
 
@@ -62,26 +52,26 @@ class CoursesController extends Controller
             if (!Gate::allows('course_delete')) {
                 return abort(401);
             }
-            $courses = Course::onlyTrashed()
+            $courses = Course::query()->onlyTrashed()
                 ->whereHas('category')
-                ->ofTeacher()->orderBy('created_at', 'desc')->get();
+                ->ofTeacher()->orderBy('created_at', 'desc');
 
         } else if (request('teacher_id') != "") {
             $id = request('teacher_id');
-            $courses = Course::ofTeacher()
+            $courses = Course::query()->ofTeacher()
                 ->whereHas('category')
                 ->whereHas('teachers', function ($q) use ($id) {
                     $q->where('course_user.user_id', '=', $id);
-                })->orderBy('created_at', 'desc')->get();
+                })->orderBy('created_at', 'desc');
         } else if (request('cat_id') != "") {
             $id = request('cat_id');
-            $courses = Course::ofTeacher()
+            $courses = Course::query()->ofTeacher()
                 ->whereHas('category')
-                ->where('category_id', '=', $id)->orderBy('created_at', 'desc')->get();
+                ->where('category_id', '=', $id)->orderBy('created_at', 'desc');
         } else {
-            $courses = Course::ofTeacher()
+            $courses = Course::query()->ofTeacher()
                 ->whereHas('category')
-                ->orderBy('created_at', 'desc')->get();
+                ->orderBy('created_at', 'desc');
         }
 
 

@@ -42,6 +42,7 @@
                                 </th>@endif
                         @endcan
                         <th>@lang('labels.general.sr_no')</th>
+                        <th>@lang('labels.general.id')</th>
                         <th>@lang('labels.backend.pages.fields.title')</th>
                         <th>@lang('labels.backend.pages.fields.status')</th>
                         <th>@lang('labels.backend.pages.fields.created')</th>
@@ -105,9 +106,8 @@
                         }, "orderable": false, "searchable": false, "name": "id"
                     },
                         @endif
-                    {
-                        data: "DT_RowIndex", name: 'DT_RowIndex'
-                    },
+                    {data: "DT_RowIndex", name: 'DT_RowIndex'},
+                    {data: "id", name: 'id'},
                     {data: "title", name: 'title'},
                     {data: "status", name: 'status'},
                     {data: "created", name: "created"},

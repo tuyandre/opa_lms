@@ -36,9 +36,9 @@ class OrderController extends Controller
     {
         if (request('offline_requests') == 1) {
 
-            $orders = Order::where('payment_type', '=', 3)->orderBy('updated_at', 'desc')->get();
+            $orders = Order::query()->where('payment_type', '=', 3)->orderBy('updated_at', 'desc');
         } else {
-            $orders = Order::orderBy('updated_at', 'desc')->get();
+            $orders = Order::query()->orderBy('updated_at', 'desc');
         }
 
         return DataTables::of($orders)

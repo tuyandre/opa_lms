@@ -70,7 +70,7 @@ return array (
     array (
       'fields' => 
       array (
-        'payment_status' => 
+          'payment_status' =>
         array (
           'pending' => 'Pending',
           'completed' => 'Completed',
@@ -1083,7 +1083,8 @@ return array (
   ),
   'general' => 
   array (
-    'active' => 'Active',
+      'id' => 'ID',
+      'active' => 'Active',
     'inactive' => 'Inactive',
     'yes' => 'Yes',
     'no' => 'No',

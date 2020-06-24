@@ -95,6 +95,7 @@
                                 @endcan
 
                                 <th>@lang('labels.general.sr_no')</th>
+                                <th>@lang('labels.general.id')</th>
                                 <th>@lang('labels.backend.sponsors.fields.name')</th>
                                 <th>@lang('labels.backend.sponsors.fields.logo')</th>
                                 <th>@lang('labels.backend.sponsors.fields.link')</th>
@@ -138,13 +139,13 @@
                     {
                         extend: 'csv',
                         exportOptions: {
-                            columns: [ 1, 2, 4,5]
+                            columns: [ 1, 2, 3,5]
                         }
                     },
                     {
                         extend: 'pdf',
                         exportOptions: {
-                            columns: [ 1, 2, 4,5]
+                            columns: [ 1, 2, 3,5]
                         }
                     },
                     'colvis'
@@ -158,9 +159,8 @@
                         }, "orderable": false, "searchable": false, "name": "id"
                     },
                         @endif
-                    {
-                        data: "DT_RowIndex", name: 'DT_RowIndex'
-                    },
+                    {data: "DT_RowIndex", name: 'DT_RowIndex'},
+                    {data: "id", name: 'id'},
                     {data: "name", name: 'name'},
                     {data: "logo", name: 'logo'},
                     {data: "link", name: "link"},

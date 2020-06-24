@@ -70,6 +70,7 @@
                                 <thead>
                                 <tr>
                                     <th>@lang('labels.general.sr_no')</th>
+                                    <th>@lang('labels.general.id')</th>
                                     <th>@lang('labels.backend.orders.fields.reference_no')</th>
                                     <th>@lang('labels.backend.certificates.fields.course_name')</th>
                                     <th>@lang('labels.backend.reports.fields.user')</th>
@@ -92,6 +93,7 @@
                                 <thead>
                                 <tr>
                                     <th>@lang('labels.general.sr_no')</th>
+                                    <th>@lang('labels.general.id')</th>
                                     <th>@lang('labels.backend.payments.fields.amount')</th>
                                     <th>@lang('labels.backend.payments.fields.payment_type')</th>
                                     <th>@lang('labels.backend.payments.fields.status')</th>
@@ -130,13 +132,13 @@
                     {
                         extend: 'csv',
                         exportOptions: {
-                            columns: ':visible',
+                            columns: [ 0,1, 2,3,4,6]
                         }
                     },
                     {
                         extend: 'pdf',
                         exportOptions: {
-                            columns: ':visible',
+                            columns: [ 0,1, 2,3,4,6]
                         }
                     },
                     'colvis'
@@ -145,6 +147,7 @@
                 columns: [
 
                     {data: "DT_RowIndex", name: 'DT_RowIndex', width: '8%'},
+                    {data: "id", name: 'id', width: '8%'},
                     {data: "reference_no", name: 'reference_no'},
                     {data: "course", name: 'course'},
                     {data: "user", name: 'user'},
@@ -191,6 +194,7 @@
                 columns: [
 
                     {data: "DT_RowIndex", name: 'DT_RowIndex', width: '8%'},
+                    {data: "id", name: 'id', width: '8%'},
                     {data: "amount", name: 'amount'},
                     {data: "payment_type", name: 'payment_type'},
                     {data: "status", name: 'status'},

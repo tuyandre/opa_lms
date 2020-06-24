@@ -47,7 +47,8 @@
                                         </th>@endif
                                 @endcan
 
-                                <th>@lang('labels.general.sr_no')</th>
+                                <th>#</th>
+                                <th>ID</th>
                                 <th>@lang('labels.backend.teachers.fields.first_name')</th>
                                 <th>@lang('labels.backend.teachers.fields.last_name')</th>
                                 <th>@lang('labels.backend.teachers.fields.email')</th>
@@ -75,13 +76,16 @@
     <script>
 
         $(document).ready(function () {
+
+
+
             var route = '{{route('admin.teachers.get_data')}}';
 
             @if(request('show_deleted') == 1)
                 route = '{{route('admin.teachers.get_data',['show_deleted' => 1])}}';
             @endif
 
-            $('#myTable').DataTable({
+           var table = $('#myTable').DataTable({
                 processing: true,
                 serverSide: true,
                 iDisplayLength: 10,
@@ -91,14 +95,13 @@
                     {
                         extend: 'csv',
                         exportOptions: {
-                            columns: [ 1, 2, 3, 4, 5 ]
-
+                            columns: [ 1, 2, 3, 4,5]
                         }
                     },
                     {
                         extend: 'pdf',
                         exportOptions: {
-                            columns: [ 1, 2, 3, 4, 5 ]
+                            columns: [ 1, 2, 3, 4,5],
                         }
                     },
                     'colvis'
@@ -113,6 +116,7 @@
                     },
                         @endif
                     {data: "DT_RowIndex", name: 'DT_RowIndex'},
+                    {data: "id", name: 'id'},
                     {data: "first_name", name: 'first_name'},
                     {data: "last_name", name: 'last_name'},
                     {data: "email", name: 'email'},
@@ -137,10 +141,14 @@
                         csv : '{{trans("datatable.csv")}}',
                     }
                 }
+
             });
             @if(auth()->user()->isAdmin())
             $('.actions').html('<a href="' + '{{ route('admin.teachers.mass_destroy') }}' + '" class="btn btn-xs btn-danger js-delete-selected" style="margin-top:0.755em;margin-left: 20px;">Delete selected</a>');
             @endif
+
+
+
         });
         $(document).on('click', '.switch-input', function (e) {
             var id = $(this).data('id');

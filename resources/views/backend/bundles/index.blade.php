@@ -46,6 +46,7 @@
 
 
                         <th>@lang('labels.general.sr_no')</th>
+                        <th>@lang('labels.general.id')</th>
 
 
                         <th>@lang('labels.backend.bundles.fields.title')</th>
@@ -96,13 +97,13 @@
                     {
                         extend: 'csv',
                         exportOptions: {
-                            columns: [1, 2, 3, 4, 5]
+                            columns: [1, 2, 3, 4, 5,6]
                         }
                     },
                     {
                         extend: 'pdf',
                         exportOptions: {
-                            columns: [1, 2, 3, 4, 5]
+                            columns: [1, 2, 3, 4, 5,6]
                         }
                     },
                     'colvis'
@@ -117,19 +118,15 @@
                     },
                         @endif
                         @if (Auth::user()->isAdmin())
-                    {
-                        data: "DT_RowIndex", name: 'DT_RowIndex'
-                    },
+                    {data: "DT_RowIndex", name: 'DT_RowIndex'},
 
                         @else
-                    {
-                        data: "DT_RowIndex", name: 'DT_RowIndex'
-                    },
+                    {data: "DT_RowIndex", name: 'DT_RowIndex'},
 
                         @endif
-                    {
-                        data: "title", name: 'title'
-                    },
+                    {data: "id", name: 'id'},
+
+                    {data: "title", name: 'title'},
                     {data: "category", name: 'category'},
                     {data: "courses", name: 'courses'},
                     {data: "price", name: "price"},

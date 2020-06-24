@@ -47,6 +47,7 @@
                                 @endcan
 
                                 <th>@lang('labels.general.sr_no')</th>
+                                <th>@lang('labels.general.id')</th>
                                 <th>@lang('labels.backend.categories.fields.name')</th>
                                 <th>@lang('labels.backend.categories.fields.slug')</th>
                                 <th>@lang('labels.backend.categories.fields.icon')</th>
@@ -90,14 +91,14 @@
                     {
                         extend: 'csv',
                         exportOptions: {
-                            columns: [1, 2, 3, 5]
+                            columns: [1, 2, 3, 4,6,7]
 
                         }
                     },
                     {
                         extend: 'pdf',
                         exportOptions: {
-                            columns: [1, 2, 3, 5]
+                            columns: [1, 2, 3, 4,6,7]
                         }
                     },
                     'colvis'
@@ -116,6 +117,7 @@
                     {
                         data: "DT_RowIndex", name: 'DT_RowIndex'
                     },
+                    {data: "id", name: 'id'},
                     {data: "name", name: 'name'},
                     {data: "slug", name: 'slug'},
                     {data: "icon", name: 'icon'},

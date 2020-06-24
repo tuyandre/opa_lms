@@ -32,6 +32,7 @@
                 <thead>
                     <tr>
                         <th>@lang('labels.general.sr_no')</th>
+                        <th>@lang('labels.general.id')</th>
                         <th>@lang('labels.backend.payments.fields.teacher_name')</th>
                         <th>@lang('labels.backend.payments.fields.amount')</th>
                         <th>@lang('labels.backend.payments.total_balance')</th>
@@ -97,13 +98,13 @@
             buttons: [{
                     extend: 'csv',
                     exportOptions: {
-                        columns: ':visible',
+                        columns: [ 0,1, 2,3,4,6]
                     }
                 },
                 {
                     extend: 'pdf',
                     exportOptions: {
-                        columns: ':visible',
+                        columns: [ 0,1, 2,3,4,6]
                     }
                 },
                 'colvis'
@@ -114,6 +115,11 @@
                 {
                     data: "DT_RowIndex",
                     name: 'DT_RowIndex',
+                    width: '8%'
+                },
+                {
+                    data: "id",
+                    name: 'id',
                     width: '8%'
                 },
                 {

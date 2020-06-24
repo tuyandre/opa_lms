@@ -44,9 +44,12 @@
 
                         @if (Auth::user()->isAdmin())
                                 <th>@lang('labels.general.sr_no')</th>
+                                <th>@lang('labels.general.id')
                                 <th>@lang('labels.backend.courses.fields.teachers')</th>
                         @else
                                 <th>@lang('labels.general.sr_no')</th>
+                                <th>@lang('labels.general.id')
+
                             @endif
 
                         <th>@lang('labels.backend.courses.fields.title')</th>
@@ -118,10 +121,12 @@
                         @endif
                         @if (Auth::user()->isAdmin())
                     {data: "DT_RowIndex", name: 'DT_RowIndex'},
+                    {data: "id", name: 'id'},
                     {data: "teachers", name: 'teachers'},
 
                     @else
                     {data: "DT_RowIndex", name: 'DT_RowIndex'},
+                    {data: "id", name: 'id'},
 
                     @endif
                     {data: "title", name: 'title'},

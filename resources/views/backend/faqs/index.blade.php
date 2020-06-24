@@ -24,6 +24,7 @@
                             <th style="text-align:center;"><input type="checkbox" class="mass" id="select-all"/></th>@endif
                     @endcan
                         <th>@lang('labels.general.sr_no')</th>
+                        <th>@lang('labels.general.id')</th>
                         <th>@lang('labels.backend.faqs.fields.category')</th>
                     <th>@lang('labels.backend.faqs.fields.question')</th>
                     <th>@lang('labels.backend.faqs.fields.answer')</th>
@@ -79,6 +80,7 @@
                     }, "orderable": false, "searchable":false, "name":"id" },
                         @endif
                     {data: "DT_RowIndex", name: 'DT_RowIndex'},
+                    {data: "id", name: 'id'},
                     {data: "category", name: 'category'},
                     {data: "question", name: 'question'},
                     {data: "answer", name: 'answer'},

@@ -25,14 +25,14 @@ class TestsController extends Controller
             return abort(401);
         }
 
-        if (request('show_deleted') == 1) {
-            if (! Gate::allows('test_delete')) {
-                return abort(401);
-            }
-            $tests = Test::onlyTrashed()->get();
-        } else {
-            $tests = Test::all();
-        }
+//        if (request('show_deleted') == 1) {
+//            if (! Gate::allows('test_delete')) {
+//                return abort(401);
+//            }
+//            $tests = Test::onlyTrashed()->get();
+//        } else {
+//            $tests = Test::all();
+//        }
         $courses = Course::ofTeacher()->pluck('title','id')->prepend('Please select', '');
 
         return view('backend.tests.index', compact('tests','courses'));
@@ -52,14 +52,14 @@ class TestsController extends Controller
 
 
         if ($request->course_id != "") {
-            $tests = Test::where('course_id','=',$request->course_id)->orderBy('created_at', 'desc')->get();
+            $tests = Test::query()->where('course_id','=',$request->course_id)->orderBy('created_at', 'desc');
         }
 
         if (request('show_deleted') == 1) {
             if (!Gate::allows('test_delete')) {
                 return abort(401);
             }
-            $tests = Test::onlyTrashed()->get();
+            $tests = Test::query()->onlyTrashed();
         }
 
 

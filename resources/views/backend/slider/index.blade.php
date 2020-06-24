@@ -47,6 +47,7 @@
                             <thead>
                             <tr>
                                 <th>@lang('labels.general.sr_no')</th>
+                                <th>@lang('labels.general.id')</th>
                                 <th>@lang('labels.backend.hero_slider.fields.name')</th>
                                 <th>@lang('labels.backend.hero_slider.fields.bg_image')</th>
                                 <th>@lang('labels.backend.hero_slider.fields.sequence')</th>
@@ -64,6 +65,9 @@
                                 <tr>
                                     <td>
                                         {{ $key }}
+                                    </td>
+                                    <td>
+                                        {{$item->id}}
                                     </td>
                                     <td>
                                         {{$item->name}}
@@ -170,13 +174,13 @@
                     {
                         extend: 'csv',
                         exportOptions: {
-                            columns: [ 0,1, 3, 4]
+                            columns: [ 0,1, 2, 4]
                         }
                     },
                     {
                         extend: 'pdf',
                         exportOptions: {
-                            columns: [ 0,1, 3, 4]
+                            columns: [ 0,1, 2, 4]
                         }
                     },
                     'colvis'

@@ -38,6 +38,7 @@
                             <thead>
                             <tr>
                                 <th>@lang('labels.general.sr_no')</th>
+                                <th>@lang('labels.general.id')</th>
                                 <th>@lang('labels.backend.reports.fields.name')</th>
                                 <th>@lang('labels.backend.reports.fields.orders')</th>
                                 <th>@lang('labels.backend.reports.fields.earnings') <span style="font-weight: lighter">(in {{$appCurrency['symbol']}})</span></th>
@@ -59,6 +60,7 @@
                             <thead>
                             <tr>
                                 <th>@lang('labels.general.sr_no')</th>
+                                <th>@lang('labels.general.id')</th>
                                 <th>@lang('labels.backend.reports.fields.name')</th>
                                 <th>@lang('labels.backend.reports.fields.orders')</th>
                                 <th>@lang('labels.backend.reports.fields.earnings') <span style="font-weight: lighter">(in {{$appCurrency['symbol']}})</span></th>
@@ -107,6 +109,7 @@
                 ajax: course_route,
                 columns: [
                     {data: "DT_RowIndex", name: 'DT_RowIndex', width: '8%'},
+                    {data: "item_id", name: 'id', width: '8%'},
                     {data: "name", name: 'name'},
                     {data: "orders", name: 'orders'},
                     {data: "earnings", name: 'earnings'},
@@ -142,6 +145,7 @@
                 ajax: bundle_route,
                 columns: [
                     {data: "DT_RowIndex", name: 'DT_RowIndex', width: '8%'},
+                    {data: "item_id", name: 'id', width: '8%'},
                     {data: "name", name: 'name'},
                     {data: "orders", name: 'orders'},
                     {data: "earnings", name: 'earnings'},
