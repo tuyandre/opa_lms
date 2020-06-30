@@ -384,6 +384,7 @@ class CartController extends Controller
         $coupon = Coupon::where('code', '=', $coupon)
             ->where('status', '=', 1)
             ->first();
+
         if ($coupon != null) {
             Cart::session(auth()->user()->id)->clearCartConditions();
             Cart::session(auth()->user()->id)->removeConditionsByType('coupon');

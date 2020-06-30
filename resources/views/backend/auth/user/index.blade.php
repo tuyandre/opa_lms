@@ -41,6 +41,7 @@
                             <thead>
                             <tr>
                                 <th>@lang('labels.general.sr_no')</th>
+                                <th>@lang('labels.general.id')</th>
                                 <th>@lang('labels.backend.access.users.table.first_name')</th>
                                 <th>@lang('labels.backend.access.users.table.last_name')</th>
                                 <th>@lang('labels.backend.access.users.table.email')</th>
@@ -100,6 +101,7 @@
                 },
                 columns: [
                     {data: "DT_RowIndex", name: 'DT_RowIndex', "orderable": false, "searchable": false},
+                    {data: "id", name: 'id', "orderable": false},
                     {data: "first_name", name: 'first_name'},
                     {data: "last_name", name: 'last_name'},
                     {data: "email", name: "email"},

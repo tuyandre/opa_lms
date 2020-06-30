@@ -109,13 +109,13 @@ class CategoriesController extends Controller
                     return 'N/A';
                 }
             })
-            ->editColumn('courses', function ($q) {
+            ->addColumn('courses', function ($q) {
                 return $q->courses->count();
             })
-            ->editColumn('blogs', function ($q) {
+            ->addColumn('blogs', function ($q) {
                 return $q->blogs->count();
             })
-            ->editColumn('status', function ($q) {
+            ->addColumn('status', function ($q) {
                 return ($q->status == 1) ? "Enabled" : "Disabled";
             })
             ->rawColumns(['actions', 'icon'])

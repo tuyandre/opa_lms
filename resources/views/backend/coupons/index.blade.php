@@ -71,6 +71,9 @@
                                         {{ $key }}
                                     </td>
                                     <td>
+                                        {{$item->id}}
+                                    </td>
+                                    <td>
                                         {{$item->name}}
                                     </td>
 

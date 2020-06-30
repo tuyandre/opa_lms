@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\View\View;
+use Illuminate\Support\Facades\View;
 use App\Resolvers\SocialUserResolver;
 use Coderello\SocialGrant\Resolvers\SocialUserResolverInterface;
 
@@ -31,8 +31,6 @@ class AppServiceProvider extends ServiceProvider
     public $bindings = [
         SocialUserResolverInterface::class => SocialUserResolver::class,
     ];
-
-
 
 
     /**
@@ -94,16 +92,14 @@ class AppServiceProvider extends ServiceProvider
         config()->set('invoices.currency', config('app.currency'));
 
 
-
-
         if (Schema::hasTable('sliders')) {
             $slides = Slider::where('status', 1)->orderBy('sequence', 'asc')->get();
-            view()->composer('*', function ($view) use ($slides) {
-                $view->with('slides', $slides);
-            });
+            View::share('slides', $slides);
+
         }
 
-        view()->composer(['frontend.layouts.*', 'frontend-rtl.layouts.*'], function ($view) {
+        if (Schema::hasTable('admin_menu_items')) {
+
             $menu_name = NULL;
             $custom_menus = MenuItems::where('menu', '=', config('nav_menu'))
                 ->orderBy('sort')
@@ -112,18 +108,28 @@ class AppServiceProvider extends ServiceProvider
             $menu_name = ($menu_name != NULL) ? $menu_name->name : NULL;
             $custom_menus = menuList($custom_menus);
             $max_depth = MenuItems::max('depth');
-            $view->with(compact('custom_menus', 'max_depth','menu_name'));
-        });
+            View::share('custom_menus', $custom_menus);
+            View::share('max_depth', $max_depth);
+            View::share('menu_name', $menu_name);
 
-        view()->composer(['frontend.layouts.partials.right-sidebar', 'frontend-rtl.layouts.partials.right-sidebar'], function ($view) {
+        }
 
+//        view()->composer(['frontend.layouts.partials.right-sidebar', 'frontend-rtl.layouts.partials.right-sidebar'], function ($view) {
+
+        if (Schema::hasTable('blogs')) {
 
             $recent_news = Blog::orderBy('created_at', 'desc')->whereHas('category')->take(2)->get();
+            View::share('recent_news', $recent_news);
 
-            $view->with(compact('recent_news'));
-        });
+        }
+//
+//            $view->with(compact('recent_news'));
+//        });
 
-        view()->composer(['frontend.*', 'frontend-rtl.*'], function ($view) {
+
+//        view()->composer(['frontend.*', 'frontend-rtl.*'], function ($view) {
+
+        if (Schema::hasTable('courses')) {
 
             $global_featured_course = Course::withoutGlobalScope('filter')
                 ->whereHas('category')
@@ -134,35 +140,42 @@ class AppServiceProvider extends ServiceProvider
                 ->whereHas('category')
                 ->where('featured', '=', 1)->take(8)->get();
 
+//            $view->with(compact('global_featured_course','featured_courses'));
+//        });
+            View::share('global_featured_course', $global_featured_course);
+            View::share('featured_courses', $featured_courses);
+        }
+//        view()->composer(['frontend.*', 'backend.*', 'frontend-rtl.*', 'vendor.invoices.*'], function ($view) {
+        if (Schema::hasTable('locales')) {
 
-
-            $view->with(compact('global_featured_course','featured_courses'));
-        });
-
-        view()->composer(['frontend.*', 'backend.*', 'frontend-rtl.*','vendor.invoices.*','emails.*'], function ($view) {
-
-
+            $locales = [];
             $appCurrency = getCurrency(config('app.currency'));
 
             if (Schema::hasTable('locales')) {
                 $locales = Locale::pluck('short_name as locale')->toArray();
             }
-            $view->with(compact('locales','appCurrency'));
+//            $view->with(compact('locales', 'appCurrency'));
 
-        });
+//        });
+            View::share('locales', $locales);
+            View::share('appCurrency', $appCurrency);
 
 
-        view()->composer(['backend.*'], function ($view) {
+
+
+//        view()->composer(['backend.*'], function ($view) {
 
             $locale_full_name = 'English';
-            $locale =  \App\Models\Locale::where('short_name','=',config('app.locale'))->first();
-            if($locale){
+            $locale = Locale::where('short_name', '=', config('app.locale'))->first();
+            if ($locale) {
                 $locale_full_name = $locale->name;
             }
 
-            $view->with(compact('locale_full_name'));
-        });
+            View::share('locale_full_name', $locale_full_name);
 
+//            $view->with(compact('locale_full_name'));
+//        });
+        }
 
 
     }

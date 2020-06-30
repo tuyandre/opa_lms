@@ -102,18 +102,18 @@ class TestsController extends Controller
                 return $view;
 
             })
-            ->editColumn('questions',function ($q){
+            ->addColumn('questions',function ($q){
                 if(count($q->questions) > 0){
                     return "<span>".count($q->questions)."</span><a class='btn btn-success float-right' href='".route('admin.questions.index',['test_id'=>$q->id])."'><i class='fa fa-arrow-circle-o-right'></i></a> ";
                 }
               return count($q->questions);
             })
 
-            ->editColumn('course',function ($q){
+            ->addColumn('course',function ($q){
                 return ($q->course) ? $q->course->title : "N/A";
             })
 
-            ->editColumn('lesson',function ($q){
+            ->addColumn('lesson',function ($q){
                 return ($q->lesson) ? $q->lesson->title : "N/A";
             })
 

@@ -118,7 +118,7 @@ class BundlesController extends Controller
             ->addColumn('courses', function ($q) {
                 return $q->courses->count();
             })
-            ->editColumn('status', function ($q) {
+            ->addColumn('status', function ($q) {
                 $text = "";
                 $text = ($q->published == 1) ? "<p class='text-white mb-1 font-weight-bold text-center bg-dark p-1 mr-1' >" . trans('labels.backend.bundles.fields.published') . "</p>" : "<p class='text-white mb-1 font-weight-bold text-center bg-primary p-1 mr-1' >" . trans('labels.backend.courses.fields.unpublished') . "</p>";
                 if (auth()->user()->isAdmin()) {

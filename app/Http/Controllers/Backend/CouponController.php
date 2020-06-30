@@ -44,6 +44,7 @@ class CouponController extends Controller
             'code' => 'required|unique:coupons',
             'type' => 'required',
             'amount' => 'required',
+            'per_user_limit' => 'required',
         ]);
 
         $coupon = Coupon::where('name','=',$request->name)->first();
@@ -56,7 +57,7 @@ class CouponController extends Controller
             $coupon->amount = $request->amount;
             $coupon->expires_at = $request->expires_at;
             $coupon->min_price = $request->min_price;
-            $coupon->per_user_limit = $request->per_user_limit;
+            $coupon->per_user_limit = $request->per_user_limit ?? 0;
             $coupon->save();
         }
 
@@ -101,6 +102,8 @@ class CouponController extends Controller
             'code' => 'required|unique:coupons,code,'.$id,
             'type' => 'required',
             'amount' => 'required',
+            'per_user_limit' => 'required',
+
         ]);
 
         $coupon = Coupon::findOrFail($id);

@@ -89,7 +89,7 @@ class TeachersController extends Controller
                 return $view;
 
             })
-            ->editColumn('status', function ($q) {
+            ->addColumn('status', function ($q) {
                 $html = html()->label(html()->checkbox('')->id($q->id)
                 ->checked(($q->active == 1) ? true : false)->class('switch-input')->attribute('data-id', $q->id)->value(($q->active == 1) ? 1 : 0).'<span class="switch-label"></span><span class="switch-handle"></span>')->class('switch switch-lg switch-3d switch-primary');
                 return $html;

@@ -122,7 +122,7 @@ class CoursesController extends Controller
                 return $view;
 
             })
-            ->editColumn('teachers', function ($q) {
+            ->addColumn('teachers', function ($q) {
                 $teachers = "";
                 foreach ($q->teachers as $singleTeachers) {
                     $teachers .= '<span class="label label-info label-many">' . $singleTeachers->name . ' </span>';
@@ -136,7 +136,7 @@ class CoursesController extends Controller
             ->editColumn('course_image', function ($q) {
                 return ($q->course_image != null) ? '<img height="50px" src="' . asset('storage/uploads/' . $q->course_image) . '">' : 'N/A';
             })
-            ->editColumn('status', function ($q) {
+            ->addColumn('status', function ($q) {
                 $text = "";
                 $text = ($q->published == 1) ? "<p class='text-white mb-1 font-weight-bold text-center bg-dark p-1 mr-1' >" . trans('labels.backend.courses.fields.published') . "</p>" : "<p class='text-white mb-1 font-weight-bold text-center bg-primary p-1 mr-1' >" . trans('labels.backend.courses.fields.unpublished') . "</p>";
                 if (auth()->user()->isAdmin()){

@@ -79,7 +79,7 @@
                         return '<input type="checkbox" class="single" name="id[]" value="'+ data.id +'" />';
                     }, "orderable": false, "searchable":false, "name":"id" },
                         @endif
-                    {data: "DT_RowIndex", name: 'DT_RowIndex'},
+                    {data: "DT_RowIndex", name: 'DT_RowIndex', searchable: false},
                     {data: "id", name: 'id'},
                     {data: "name", name: 'name'},
                     {data: "occupation", name: 'occupation'},

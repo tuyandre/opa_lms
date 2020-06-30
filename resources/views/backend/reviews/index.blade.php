@@ -67,7 +67,7 @@
                 ajax: route,
                 columns: [
 
-                    {data: "DT_RowIndex", name: 'DT_RowIndex'},
+                    {data: "DT_RowIndex", name: 'DT_RowIndex', searchable: false},
                     {data: "course", name: 'course'},
                     {data: "user", name: 'user'},
                     {data: "content", name: 'content'},
