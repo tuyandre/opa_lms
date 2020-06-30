@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend\Auth;
 
 use App\Helpers\Auth\Auth;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Exceptions\GeneralException;
 use App\Http\Controllers\Controller;
@@ -79,6 +80,10 @@ class LoginController extends Controller
                     }else{
                         $redirect = 'back';
                     }
+                    auth()->user()->update([
+                        'last_login_at' => Carbon::now()->toDateTimeString(),
+                        'last_login_ip' => $request->getClientIp()
+                    ]);
                     return response(['success' => true,'redirect' => $redirect], Response::HTTP_OK);
                 }else{
                     \Illuminate\Support\Facades\Auth::logout();
