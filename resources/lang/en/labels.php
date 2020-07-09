@@ -249,6 +249,7 @@ return array (
         'youtube_videos' => 'YouTube Videos',
         'add_pdf' => 'Add PDF',
         'add_video' => 'Add Video',
+        'add_subtitle' => 'Add Subtitle',
         'media_video' => 'Media Video',
         'media_audio' => 'Media Audio',
         'media_pdf' => 'Media PDF',

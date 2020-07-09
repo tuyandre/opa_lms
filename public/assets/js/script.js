@@ -129,11 +129,13 @@ Author:         HTMLMATE Team
             /* Start Of course slide
             ================================================*/
             mainSlide: function () {
+
+
                 $('#slider-item').owlCarousel({
                     margin: 0,
                     responsiveClass: true,
                     nav: true,
-                    loop:true,
+                    loop: $(this).children().length > 1,
                     dots: true,
                     autoplay: false,
                     navText: ["<i class='fas fa-chevron-left'></i>", "<i class='fas fa-chevron-right'></i>"],
@@ -159,6 +161,7 @@ Author:         HTMLMATE Team
 
                         }
                     },
+
                 })
             },
             /* End Of course slide

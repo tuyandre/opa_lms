@@ -237,9 +237,8 @@ class CartController extends Controller
         $mode = config('paypal.settings.mode') == 'sandbox' ? true : false;
         $gateway->setTestMode($mode);
 
-        $cartTotal = Cart::session(auth()->user()->id)->getTotal();
+        $cartTotal = number_format(Cart::session(auth()->user()->id)->getTotal());
         $currency = $this->currency['short_code'];
-
         try {
             $response = $gateway->purchase([
                 'amount' => $cartTotal,

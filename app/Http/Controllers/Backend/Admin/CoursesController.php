@@ -193,7 +193,6 @@ class CoursesController extends Controller
         }
 
         $request->all();
-
         $request = $this->saveFiles($request);
 
         $slug = "";
@@ -235,21 +234,53 @@ class CoursesController extends Controller
                 $size = 0;
 
             } elseif ($request->media_type == 'upload') {
-                if (\Illuminate\Support\Facades\Request::hasFile('video_file')) {
-                    $file = \Illuminate\Support\Facades\Request::file('video_file');
-                    $filename = time() . '-' . $file->getClientOriginalName();
-                    $size = $file->getSize() / 1024;
-                    $path = public_path() . '/storage/uploads/';
-                    $file->move($path, $filename);
+//                if (\Illuminate\Support\Facades\Request::hasFile('video_file')) {
+//                    $file = \Illuminate\Support\Facades\Request::file('video_file');
+//                    $filename = time() . '-' . $file->getClientOriginalName();
+//                    $size = $file->getSize() / 1024;
+//                    $path = public_path() . '/storage/uploads/';
+//                    $file->move($path, $filename);
+//
+//                    $video_id = $filename;
+//                    $url = asset('storage/uploads/' . $filename);
+//
+//                    $media = Media::where('type', '=', $request->media_type)
+//                        ->where('model_type', '=', 'App\Models\Course')
+//                        ->where('model_id', '=', $course->id)
+//                        ->first();
+//
+//                }
+                $video_id = $request->video_file;
+                $url = asset('storage/uploads/' . $video_id);
+                $media = Media::where('url', $video_id)
+                    ->where('type', '=', $request->media_type)
+                    ->where('model_type', '=', 'App\Models\Course')
+                    ->where('model_id', '=', $course->id)
+                    ->first();
 
-                    $video_id = $filename;
-                    $url = asset('storage/uploads/' . $filename);
+                if($request->video_subtitle && $request->video_subtitle != null){
 
-                    $media = Media::where('type', '=', $request->media_type)
-                        ->where('model_type', '=', 'App\Models\Lesson')
+                    $subtitle_id = $request->video_subtitle;
+                    $subtitle_url = asset('storage/uploads/' . $subtitle_id);
+
+                    $subtitle = Media::where('url', $subtitle_id)
+                        ->where('type', '=', 'subtitle')
+                        ->where('model_type', '=', 'App\Models\Course')
                         ->where('model_id', '=', $course->id)
                         ->first();
+                    if ($subtitle == null) {
+                        $subtitle = new Media();
+                        $subtitle->model_type = $model_type;
+                        $subtitle->model_id = $model_id;
+                        $subtitle->name = $name.' - subtitle';
+                        $subtitle->url = $subtitle_url;
+                        $subtitle->type = 'subtitle';
+                        $subtitle->file_name = $subtitle_id;
+                        $subtitle->size = 0;
+                        $subtitle->save();
+                    }
                 }
+
             } else if ($request->media_type == 'embed') {
                 $url = $request->video;
                 $filename = $course->title . ' - video';

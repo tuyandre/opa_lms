@@ -88,9 +88,19 @@
 
                         {!! Form::file('video_file', ['class' => 'form-control mt-3 d-none', 'placeholder' => trans('labels.backend.lessons.enter_video_url'),'id'=>'video_file'  ]) !!}
 
-                        @lang('labels.backend.lessons.video_guide')
+                    </div>
+                    <div class="col-md-12 form-group d-none" id="video_subtitle_box">
+
+                        {!! Form::label('add_subtitle', trans('labels.backend.lessons.fields.add_subtitle'), ['class' => 'control-label']) !!}
+
+                        {!! Form::file('video_subtitle', ['class' => 'form-control', 'placeholder' => trans('labels.backend.lessons.video_subtitle'),'id'=>'video_subtitle'  ]) !!}
 
                     </div>
+                    <div class="col-md-12 form-group">
+
+                    @lang('labels.backend.lessons.video_guide')
+                    </div>
+
                 </div>
 
                 <div class="row">
@@ -200,12 +210,16 @@
                 if ($(this).val() != 'upload') {
                     $('#video').removeClass('d-none').attr('required', true)
                     $('#video_file').addClass('d-none').attr('required', false)
+                    $('#video_subtitle_box').addClass('d-none').attr('required', false)
+
                 } else if ($(this).val() == 'upload') {
                     $('#video').addClass('d-none').attr('required', false)
                     $('#video_file').removeClass('d-none').attr('required', true)
+                    $('#video_subtitle_box').removeClass('d-none').attr('required', true)
                 }
             } else {
                 $('#video_file').addClass('d-none').attr('required', false)
+                $('#video_subtitle_box').addClass('d-none').attr('required', false)
                 $('#video').addClass('d-none').attr('required', false)
             }
         })

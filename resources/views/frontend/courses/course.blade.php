@@ -83,8 +83,11 @@
                                                     <div id="player" class="js-player" data-plyr-provider="vimeo"
                                                          data-plyr-embed-id="{{$course->mediavideo->file_name}}"></div>
                                                 @elseif($course->mediavideo->type == 'upload')
-                                                    <video poster="" id="player" class="js-player" playsinline controls>
-                                                        <source src="{{$course->mediavideo->url}}" type="video/mp4"/>
+                                                    {{--<video id="player" class="js-player" playsinline controls>--}}
+                                                        {{--<source src="{{$course->mediavideo->url}}" type="video/mp4"/>--}}
+                                                    {{--</video>--}}
+                                                    <video controls crossorigin playsinline id="player" >
+                                                        <source src="{{$course->mediavideo->url}}" type="video/mp4" size="576">
                                                     </video>
                                                 @elseif($course->mediavideo->type == 'embed')
                                                     {!! $course->mediavideo->url !!}
@@ -605,7 +608,7 @@
     <script src="https://cdn.plyr.io/3.5.3/plyr.polyfilled.js"></script>
 
     <script>
-        const player = new Plyr('#player');
+        const player = new Plyr('#player',{captions: {active: true}});
 
         $(document).on('change', 'input[name="stars"]', function () {
             $('#rating').val($(this).val());
