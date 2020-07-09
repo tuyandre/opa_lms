@@ -1366,7 +1366,7 @@ class ApiController extends Controller
         ]);
 
 
-        Event::fire(new ChatterBeforeNewDiscussion($request, $validator));
+        Event::dispatch(new ChatterBeforeNewDiscussion($request, $validator));
         if (function_exists('chatter_before_new_discussion')) {
             chatter_before_new_discussion($request, $validator);
         }
@@ -1430,7 +1430,7 @@ class ApiController extends Controller
         $post = Models::post()->create($new_post);
 
         if ($post->id) {
-            Event::fire(new ChatterAfterNewDiscussion($request, $discussion, $post));
+            Event::dispatch(new ChatterAfterNewDiscussion($request, $discussion, $post));
             if (function_exists('chatter_after_new_discussion')) {
                 chatter_after_new_discussion($request);
             }
@@ -1460,7 +1460,7 @@ class ApiController extends Controller
             'body.min' => trans('chatter::alert.danger.reason.content_min'),
         ]);
 
-        Event::fire(new ChatterBeforeNewResponse($request, $validator));
+        Event::dispatch(new ChatterBeforeNewResponse($request, $validator));
         if (function_exists('chatter_before_new_response')) {
             chatter_before_new_response($request, $validator);
         }
@@ -1489,7 +1489,7 @@ class ApiController extends Controller
             $discussion->last_reply_at = $discussion->freshTimestamp();
             $discussion->save();
 
-            Event::fire(new ChatterAfterNewResponse($request, $new_post));
+            Event::dispatch(new ChatterAfterNewResponse($request, $new_post));
             if (function_exists('chatter_after_new_response')) {
                 chatter_after_new_response($request);
             }
