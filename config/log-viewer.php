@@ -33,6 +33,16 @@ return [
     'locale'        => 'auto',
 
     /* -----------------------------------------------------------------
+     |  Theme
+     | -----------------------------------------------------------------
+     |  Supported themes :
+     |    'bootstrap-3', 'bootstrap-4'
+     |  Make your own theme by adding a folder to the views directory and specifying it here.
+     */
+
+    'theme'         => 'bootstrap-4',
+
+    /* -----------------------------------------------------------------
      |  Route settings
      | -----------------------------------------------------------------
      */
@@ -43,24 +53,17 @@ return [
         'attributes' => [
             'prefix'     => 'admin/log-viewer',
 
-            'middleware' => ['web', 'admin'],
+            'middleware' => env('ARCANEDEV_LOGVIEWER_MIDDLEWARE') ? explode(',', env('ARCANEDEV_LOGVIEWER_MIDDLEWARE')) : null,
         ],
     ],
 
     /* -----------------------------------------------------------------
      |  Log entries per page
      | -----------------------------------------------------------------
-     |  This defines how many log entries are displayed per page.
+     |  This defines how many logs & entries are displayed per page.
      */
 
     'per-page'      => 30,
-
-    /* -----------------------------------------------------------------
-     |  LogViewer's Facade
-     | -----------------------------------------------------------------
-     */
-
-    'facade'        => 'LogViewer',
 
     /* -----------------------------------------------------------------
      |  Download settings
@@ -90,7 +93,7 @@ return [
      */
 
     'icons' =>  [
-        /*
+        /**
          * Font awesome >= 4.3
          * http://fontawesome.io/icons/
          */
