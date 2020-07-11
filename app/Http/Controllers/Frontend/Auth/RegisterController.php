@@ -13,7 +13,6 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use App\Repositories\Frontend\Auth\UserRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ClosureValidationRule;
 
@@ -71,7 +70,7 @@ class RegisterController extends Controller
     public function register(Request $request)
     {
 
-        $validator = Validator::make(Input::all(), [
+        $validator = Validator::make($request->all(), [
             'first_name' => 'required|max:255',
             'last_name' => 'required|max:255',
             'email' => 'required|email|max:255|unique:users',
