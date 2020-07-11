@@ -302,7 +302,7 @@
                                                 if(isset($review)){
                                                     $route = route('bundles.review.update',['id'=>$review->id]);
                                                 }else{
-                                                    $route = route('bundles.review',['course'=>$bundle->id]);
+                                                    $route = route('bundles.review',['id'=>$bundle->id]);
                                                 }
                                             @endphp
                                             <form method="POST"
