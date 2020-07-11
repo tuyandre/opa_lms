@@ -299,4 +299,3 @@ trait UserAttribute
 		</div>';
     }
 }
-//'.$this->delete_button.'
