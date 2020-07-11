@@ -114,7 +114,7 @@
                     },
                         @endif
                         @endcan
-                    {data: "DT_RowIndex", name: 'DT_RowIndex',searchable: false},
+                    {data: "DT_RowIndex", name: 'DT_RowIndex',searchable: false, orderable: false},
                     {data: "id", name: 'id'},
                     {data: "name", name: 'name'},
                     {data: "slug", name: 'slug'},
