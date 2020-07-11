@@ -25,7 +25,7 @@ class TeachersController extends Controller
     public function index()
     {
 
-        return view('backend.teachers.index', compact('users'));
+        return view('backend.teachers.index');
     }
 
     /**

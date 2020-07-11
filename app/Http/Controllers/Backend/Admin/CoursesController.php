@@ -33,7 +33,7 @@ class CoursesController extends Controller
             return abort(401);
         }
 
-        return view('backend.courses.index', compact('courses'));
+        return view('backend.courses.index');
     }
 
     /**
@@ -118,7 +118,7 @@ class CoursesController extends Controller
                 }
 
                 $view .= view('backend.datatable.'.$type)
-                    ->with(['route' => route('admin.courses.publish', ['course' => $q->id])])->render();
+                    ->with(['route' => route('admin.courses.publish', ['id' => $q->id])])->render();
                 return $view;
 
             })

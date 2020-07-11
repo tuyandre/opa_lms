@@ -44,12 +44,12 @@ class TestimonialController extends Controller
                 $delete = "";
 
                 $edit = view('backend.datatable.action-edit')
-                    ->with(['route' => route('admin.testimonials.edit', ['testimonials_option' => $q->id])])
+                    ->with(['route' => route('admin.testimonials.edit', ['testimonial' => $q->id])])
                     ->render();
                 $view .= $edit;
 
                 $delete = view('backend.datatable.action-delete')
-                    ->with(['route' => route('admin.testimonials.destroy', ['testimonials_option' => $q->id])])
+                    ->with(['route' => route('admin.testimonials.destroy', ['testimonial' => $q->id])])
                     ->render();
                 $view .= $delete;
                 return $view;

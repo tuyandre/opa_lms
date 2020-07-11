@@ -86,7 +86,7 @@ class BlogController extends Controller
 
                 if ($has_delete) {
                     $delete = view('backend.datatable.action-delete')
-                        ->with(['route' => route('admin.blogs.destroy', ['lesson' => $q->id])])
+                        ->with(['route' => route('admin.blogs.destroy', ['blog' => $q->id])])
                         ->render();
                     $view .= $delete;
                 }

@@ -27,7 +27,7 @@ class CategoriesController extends Controller
             return abort(401);
         }
 
-        return view('backend.categories.index', compact('categories'));
+        return view('backend.categories.index');
     }
 
     /**

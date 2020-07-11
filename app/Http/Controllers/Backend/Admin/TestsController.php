@@ -25,17 +25,9 @@ class TestsController extends Controller
             return abort(401);
         }
 
-//        if (request('show_deleted') == 1) {
-//            if (! Gate::allows('test_delete')) {
-//                return abort(401);
-//            }
-//            $tests = Test::onlyTrashed()->get();
-//        } else {
-//            $tests = Test::all();
-//        }
         $courses = Course::ofTeacher()->pluck('title','id')->prepend('Please select', '');
 
-        return view('backend.tests.index', compact('tests','courses'));
+        return view('backend.tests.index', compact('courses'));
     }
 
     /**
