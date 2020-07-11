@@ -23,7 +23,7 @@ class UpdateController extends Controller
         $file_name = time() . '_' . $file->getClientOriginalName();
         $file->move(public_path() . '/updates/', $file_name);
         $is_verified = false;
-        $checkFiles = \Zipper::make(public_path() . '/updates/' . $file_name)->listFiles('/\.key/i');
+        $checkFiles = \Madzipper::make(public_path() . '/updates/' . $file_name)->listFiles('/\.key/i');
         foreach ($checkFiles as $item) {
             $item = Arr::last(explode('/', $item));
             if ($item == md5('NeonLMSUpdate') . '.key') {
@@ -31,7 +31,7 @@ class UpdateController extends Controller
             }
         }
         if ($is_verified == true) {
-            $files = \Zipper::make(public_path() . '/updates/' . $file_name)->listFiles();
+            $files = \Madzipper::make(public_path() . '/updates/' . $file_name)->listFiles();
             return view('backend.update.file-list', compact('files', 'file_name'));
         } else {
             unlink(public_path() . '/updates/' . $file_name);
@@ -52,7 +52,7 @@ class UpdateController extends Controller
         } else {
 
             try{
-                \Zipper::make(public_path() . '/updates/' . $file_name)->extractTo(base_path());
+                \Madzipper::make(public_path() . '/updates/' . $file_name)->extractTo(base_path());
                 unlink(public_path() . '/updates/' . $file_name);
 //                array_map('unlink', glob("stripe/*"));
 //                array_map('unlink', glob("paypal/*"));
