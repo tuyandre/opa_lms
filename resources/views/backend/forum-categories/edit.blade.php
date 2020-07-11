@@ -25,7 +25,7 @@
 
 @endpush
 @section('content')
-    {{ html()->modelForm($forum_category, 'PATCH', route('admin.forums-category.update', $forum_category->id))->class('form-horizontal')->acceptsFiles()->id('slider-create')->open() }}
+    {{ html()->modelForm($forum_category, 'PUT', route('admin.forums-category.update', ['forums_category' => $forum_category->id]))->class('form-horizontal')->acceptsFiles()->id('slider-create')->open() }}
     <div class="alert alert-danger d-none" role="alert">
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">×</span>
@@ -100,10 +100,10 @@
 
             <div class="form-group row justify-content-center">
                 <div class="col-4">
-                    {{ form_cancel(route('admin.tax.index'), __('buttons.general.cancel')) }}
+                    {{ form_cancel(route('admin.forums-category.index'), __('buttons.general.cancel')) }}
 
                     <button class="btn btn-success pull-right"
-                            type="submit">{{__('buttons.general.crud.create')}}</button>
+                            type="submit">{{__('buttons.general.crud.update')}}</button>
                 </div>
             </div><!--col-->
         </div>

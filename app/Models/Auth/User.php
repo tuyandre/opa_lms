@@ -27,14 +27,11 @@ use App\Models\Auth\Traits\Relationship\UserRelationship;
 use App\Models\Earning;
 use App\Models\TeacherProfile;
 use App\Models\Withdraw;
-use Gerardojbaez\Messenger\Contracts\MessageableInterface;
-use Gerardojbaez\Messenger\Traits\Messageable;
-
 
 /**
  * Class User.
  */
-class User extends Authenticatable implements MessageableInterface
+class User extends Authenticatable
 {
     use HasRoles,
         Notifiable,
@@ -44,8 +41,7 @@ class User extends Authenticatable implements MessageableInterface
         UserMethod,
         UserRelationship,
         UserScope,
-        Uuid,
-        Messageable;
+        Uuid;
       use HasApiTokens;
 
     /**

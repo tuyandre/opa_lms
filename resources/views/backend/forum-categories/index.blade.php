@@ -87,7 +87,7 @@
 
                                     <td>
 
-                                        <a href="{{route('admin.forums-category.edit',['id'=>$item->id]) }}"
+                                        <a href="{{route('admin.forums-category.edit',['forums_category'=>$item->id]) }}"
                                            class="btn btn-xs btn-info mb-1"><i class="icon-pencil"></i></a>
 
                                         <a data-method="delete" data-trans-button-cancel="Cancel"
@@ -98,7 +98,7 @@
                                                data-toggle="tooltip"
                                                data-placement="top" title=""
                                                data-original-title="Delete"></i>
-                                            <form action="{{route('admin.forums-category.destroy',['id'=>$item->id])}}"
+                                            <form action="{{route('admin.forums-category.destroy',['forums_category'=>$item->id])}}"
                                                   method="POST" name="delete_item" style="display:none">
                                                 @csrf
                                                 {{method_field('DELETE')}}
