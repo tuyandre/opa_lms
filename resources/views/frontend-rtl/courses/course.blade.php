@@ -163,7 +163,7 @@
                                                         @if(in_array($lesson->model->id,$completed_lessons))
                                                         <div>
                                                             <a class="btn btn-warning mt-3"
-                                                               href="{{route('lessons.show',['id' => $lesson->course->id,'slug'=>$lesson->model->slug])}}">
+                                                               href="{{route('lessons.show',['course_id' => $lesson->course->id,'slug'=>$lesson->model->slug])}}">
                                                                 <span class=" text-white font-weight-bold ">@lang('labels.frontend.course.go') ></span>
                                                             </a>
                                                         </div>
@@ -310,7 +310,7 @@
                                                 if(isset($review)){
                                                     $route = route('courses.review.update',['id'=>$review->id]);
                                                 }else{
-                                                    $route = route('courses.review',['course'=>$course->id]);
+                                                    $route = route('courses.review',['id'=>$course->id]);
                                                 }
                                             @endphp
                                             <form method="POST"
@@ -483,7 +483,7 @@
 
                                 @if($continue_course)
 
-                                    <a href="{{route('lessons.show',['id' => $course->id,'slug'=>$continue_course->model->slug])}}"
+                                    <a href="{{route('lessons.show',['course_id' => $course->id,'slug'=>$continue_course->model->slug])}}"
                                        class="genius-btn btn-block text-white  gradient-bg text-center text-uppercase  bold-font">
 
                                         @lang('labels.frontend.course.continue_course')

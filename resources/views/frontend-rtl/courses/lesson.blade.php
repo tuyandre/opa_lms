@@ -396,7 +396,7 @@
                                     @if($item->model && $item->model->published == 1)
                                         {{--@php $key++; @endphp--}}
                                         <li class="@if($lesson->id == $item->model->id) active @endif ">
-                                            <a @if(in_array($item->model->id,$completed_lessons))href="{{route('lessons.show',['id' => $lesson->course->id,'slug'=>$item->model->slug])}}"@endif>
+                                            <a @if(in_array($item->model->id,$completed_lessons))href="{{route('lessons.show',['course_id' => $lesson->course->id,'slug'=>$item->model->slug])}}"@endif>
                                                 {{$item->model->title}}
                                                 @if($item->model_type == 'App\Models\Test')
                                                     <p class="mb-0 text-primary">
