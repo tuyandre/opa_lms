@@ -201,7 +201,6 @@ return [
         /*
          * Package Service Providers that aren't auto-discover...
          */
-        DevDojo\Chatter\ChatterServiceProvider::class,
         UniSharp\LaravelFilemanager\LaravelFilemanagerServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
         Yajra\Datatables\DatatablesServiceProvider::class,

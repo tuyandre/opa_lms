@@ -102,17 +102,16 @@ class ForumController extends Controller
             'order' => 'required',
         ]);
 
-        $cat = ChatterCategory::where('slug', '=', str_slug($request->name))->first();
-        if ($cat != null) {
-            $cat->parent_id = $request->parent_id;
-            $cat->name = $request->name;
-            $cat->slug = str_slug($request->name);
-            $cat->order = $request->order;
-            $cat->color = $request->color;
-            $cat->save();
-        }
+        $cat = ChatterCategory::where('id', '=', $forums_category)->first();
 
-        return abort(404);
+        $cat->parent_id = $request->parent_id;
+        $cat->name = $request->name;
+        $cat->slug = str_slug($request->name);
+        $cat->order = $request->order;
+        $cat->color = $request->color;
+        $cat->save();
+
+        return redirect()->route('admin.forums-category.index')->withFlashSuccess(trans('alerts.backend.general.updated'));
     }
 
     /**
