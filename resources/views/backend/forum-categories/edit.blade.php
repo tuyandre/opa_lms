@@ -1,5 +1,5 @@
 @extends('backend.layouts.app')
-@section('title', __('labels.backend.tax.title').' | '.app_name())
+@section('title', __('labels.backend.forum_category.title').' | '.app_name())
 
 @push('after-styles')
     <style>
@@ -100,7 +100,7 @@
 
             <div class="form-group row justify-content-center">
                 <div class="col-4">
-                    {{ form_cancel(route('admin.tax.index'), __('buttons.general.cancel')) }}
+                    {{ form_cancel(route('admin.forums-category.index'), __('buttons.general.cancel')) }}
 
                     <button class="btn btn-success pull-right"
                             type="submit">{{__('buttons.general.crud.create')}}</button>
