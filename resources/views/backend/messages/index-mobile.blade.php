@@ -57,18 +57,18 @@
                         <div class="inbox_chat">
                             @if($threads->count() > 0)
                                 @foreach($threads as $item)
-                                    @if($item->lastMessage)
-                                        <a  href="{{route('admin.messages').'?thread='.$item->id}}" class="@if($item->unreadMessagesCount > 0) unread
+                                    @if($item->latestMessage)
+                                        <a  href="{{route('admin.messages').'?thread='.$item->id}}" class="@if($item->userUnreadMessagesCount(auth()->user()->id)) unread
                                             @endif">
                                             <div data-thread="{{$item->id}}"
                                                  class="chat_list @if(($thread != "") && ($thread->id == $item->id))  active_chat @endif ">
                                                 <div class="chat_people">
 
                                                     <div class="chat_ib">
-                                                        <h5>{{ $item->title }} <span
-                                                                    class="chat_date">{{ $item->lastMessage->created_at->diffForHumans() }}</span>
+                                                        <h5>{{ $item->participants()->with('user')->where('user_id','<>', auth()->user()->id)->first()->user->name }} <span
+                                                                    class="chat_date">{{ $item->messages()->orderBy('id', 'desc')->first()->created_at->diffForHumans() }}</span>
                                                         </h5>
-                                                        <p>{{ str_limit($item->lastMessage->body, 35) }}</p>
+                                                        <p>{{ str_limit($item->messages()->orderBy('id', 'desc')->first()->body, 35) }}</p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -91,7 +91,7 @@
                                              alt="" height="35px"></div>
                                     <div class="chat_ib float-left">
 
-                                        <h5 class="mb-0 d-inline float-left">{{$thread->title}}</h5>
+                                        <h5 class="mb-0 d-inline float-left">{{$thread->participants()->with('user')->where('user_id','<>', auth()->user()->id)->first()->user->name }}</h5>
                                         <p class="float-right d-inline mb-0">
                                             <a class="" href="{{route('admin.messages',['thread'=>$thread->id])}}">
                                                 <i class="icon-refresh font-weight-bold"></i>
@@ -104,7 +104,7 @@
                                 <div class="msg_history">
                                     @if(count($thread->messages) > 0 )
                                         @foreach($thread->messages as $message)
-                                            @if($message->sender_id == auth()->user()->id)
+                                            @if($message->user_id == auth()->user()->id)
                                                 <div class="outgoing_msg">
                                                     <div class="sent_msg">
                                                         <p>{{$message->body}}</p>

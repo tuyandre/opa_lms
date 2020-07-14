@@ -358,10 +358,10 @@
                                                 <tr>
                                                     <td>
                                                         <a target="_blank"
-                                                           href="{{asset('/user/messages/?thread='.$item->id)}}">{{$item->title}}</a>
+                                                           href="{{asset('/user/messages/?thread='.$item->id)}}">{{$item->participants()->with('user')->where('user_id','<>', auth()->user()->id)->first()->user->name}}</a>
                                                     </td>
-                                                    <td>{{$item->lastMessage->body}}</td>
-                                                    <td>{{$item->lastMessage->created_at->diffForHumans() }}</td>
+                                                    <td>{{$item->messages()->orderBy('id', 'desc')->first()->body}}</td>
+                                                    <td>{{$item->messages()->orderBy('id', 'desc')->first()->created_at->diffForHumans() }}</td>
                                                 </tr>
                                             @endforeach
                                         @else
