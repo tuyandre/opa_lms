@@ -27,6 +27,8 @@ use App\Models\Auth\Traits\Relationship\UserRelationship;
 use App\Models\Earning;
 use App\Models\TeacherProfile;
 use App\Models\Withdraw;
+use Lexx\ChatMessenger\Traits\Messagable;
+
 
 /**
  * Class User.
@@ -43,6 +45,9 @@ class User extends Authenticatable
         UserScope,
         Uuid;
       use HasApiTokens;
+      use Messagable{
+          UserAttribute::getNameAttribute insteadof Messagable;
+      }
 
     /**
      * The attributes that are mass assignable.
