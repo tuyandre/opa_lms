@@ -3,6 +3,7 @@
 namespace App\Console;
 
 use App\Console\Commands\Backup;
+use App\Console\Commands\ChatTableFix;
 use App\Console\Commands\FixPermissions;
 use App\Console\Commands\GenerateSitemap;
 use App\Console\Commands\LessonTestChaterStudentsFix;
@@ -28,6 +29,7 @@ class Kernel extends ConsoleKernel
         GenerateSitemap::class,
         TeacherProfileFix::class,
         LessonTestChaterStudentsFix::class,
+        ChatTableFix::class
     ];
 
     /**
