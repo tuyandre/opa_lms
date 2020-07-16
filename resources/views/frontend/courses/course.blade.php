@@ -83,11 +83,8 @@
                                                     <div id="player" class="js-player" data-plyr-provider="vimeo"
                                                          data-plyr-embed-id="{{$course->mediavideo->file_name}}"></div>
                                                 @elseif($course->mediavideo->type == 'upload')
-                                                    {{--<video id="player" class="js-player" playsinline controls>--}}
-                                                        {{--<source src="{{$course->mediavideo->url}}" type="video/mp4"/>--}}
-                                                    {{--</video>--}}
-                                                    <video controls crossorigin playsinline id="player" >
-                                                        <source src="{{$course->mediavideo->url}}" type="video/mp4" size="576">
+                                                    <video poster="" id="player" class="js-player" playsinline controls>
+                                                        <source src="{{$course->mediavideo->url}}" type="video/mp4"/>
                                                     </video>
                                                 @elseif($course->mediavideo->type == 'embed')
                                                     {!! $course->mediavideo->url !!}
@@ -99,7 +96,7 @@
                             @endif
 
 
-                        @if(count($lessons)  > 0)
+                            @if(count($lessons)  > 0)
 
                                 <div class="course-details-category ul-li">
                                     <span class="float-none">@lang('labels.frontend.course.course_timeline')</span>
@@ -352,12 +349,12 @@
                                                                     <span>@lang('labels.frontend.badges.trending')</span>
                                                                 </div>
                                                             @endif
-                                                                @if($bundle->free == 1)
-                                                                    <div class="trend-badge-3 text-center text-uppercase">
-                                                                        <i class="fas fa-bolt"></i>
-                                                                        <span>@lang('labels.backend.courses.fields.free')</span>
-                                                                    </div>
-                                                                @endif
+                                                            @if($bundle->free == 1)
+                                                                <div class="trend-badge-3 text-center text-uppercase">
+                                                                    <i class="fas fa-bolt"></i>
+                                                                    <span>@lang('labels.backend.courses.fields.free')</span>
+                                                                </div>
+                                                            @endif
 
                                                             <div class="course-rate ul-li">
                                                                 <ul>
@@ -409,13 +406,13 @@
                         <div class="course-side-bar-widget">
 
 
-                        @if (!$purchased_course)
+                            @if (!$purchased_course)
                                 <h3>
-                                     @if($course->free == 1)
+                                    @if($course->free == 1)
                                         <span> {{trans('labels.backend.courses.fields.free')}}</span>
-                                        @else
+                                    @else
                                         @lang('labels.frontend.course.price')<span>   {{$appCurrency['symbol'].' '.$course->price}}</span>
-                                        @endif</h3>
+                                    @endif</h3>
 
                                 @if(auth()->check() && (auth()->user()->hasRole('student')) && (Cart::session(auth()->user()->id)->get( $course->id)))
                                     <button class="btn genius-btn btn-block text-center my-2 text-uppercase  btn-success text-white bold-font"
@@ -428,15 +425,15 @@
                                            data-target="#myModal" href="#">@lang('labels.frontend.course.get_now') <i
                                                     class="fas fa-caret-right"></i></a>
                                     @else
-                                    <a id="openLoginModal"
-                                       class="genius-btn btn-block text-white  gradient-bg text-center text-uppercase  bold-font"
-                                       data-target="#myModal" href="#">@lang('labels.frontend.course.buy_now') <i
-                                                class="fas fa-caret-right"></i></a>
+                                        <a id="openLoginModal"
+                                           class="genius-btn btn-block text-white  gradient-bg text-center text-uppercase  bold-font"
+                                           data-target="#myModal" href="#">@lang('labels.frontend.course.buy_now') <i
+                                                    class="fas fa-caret-right"></i></a>
 
-                                    <a id="openLoginModal"
-                                       class="genius-btn btn-block my-2 bg-dark text-center text-white text-uppercase "
-                                       data-target="#myModal" href="#">@lang('labels.frontend.course.add_to_cart') <i
-                                                class="fa fa-shopping-bag"></i></a>
+                                        <a id="openLoginModal"
+                                           class="genius-btn btn-block my-2 bg-dark text-center text-white text-uppercase "
+                                           data-target="#myModal" href="#">@lang('labels.frontend.course.add_to_cart') <i
+                                                    class="fa fa-shopping-bag"></i></a>
                                     @endif
                                 @elseif(auth()->check() && (auth()->user()->hasRole('student')))
 
@@ -477,13 +474,13 @@
 
                                 @if($continue_course)
 
-                                <a href="{{route('lessons.show',['id' => $course->id,'slug'=>$continue_course->model->slug])}}"
-                                   class="genius-btn btn-block text-white  gradient-bg text-center text-uppercase  bold-font">
+                                    <a href="{{route('lessons.show',['id' => $course->id,'slug'=>$continue_course->model->slug])}}"
+                                       class="genius-btn btn-block text-white  gradient-bg text-center text-uppercase  bold-font">
 
-                                    @lang('labels.frontend.course.continue_course')
+                                        @lang('labels.frontend.course.continue_course')
 
-                                    <i class="fa fa-arow-right"></i></a>
-                                 @endif
+                                        <i class="fa fa-arow-right"></i></a>
+                                @endif
 
                             @endif
 
@@ -571,12 +568,12 @@
                                                     <span>@lang('labels.frontend.badges.trending')</span>
                                                 </div>
                                             @endif
-                                                @if($global_featured_course->free == 1)
-                                                    <div class="trend-badge-3 text-center text-uppercase">
-                                                        <i class="fas fa-bolt"></i>
-                                                        <span>@lang('labels.backend.courses.fields.free')</span>
-                                                    </div>
-                                                @endif
+                                            @if($global_featured_course->free == 1)
+                                                <div class="trend-badge-3 text-center text-uppercase">
+                                                    <i class="fas fa-bolt"></i>
+                                                    <span>@lang('labels.backend.courses.fields.free')</span>
+                                                </div>
+                                            @endif
                                         </div>
                                         <div class="best-course-text" style="left: 0;right: 0;">
                                             <div class="course-title mb20 headline relative-position">
@@ -608,7 +605,7 @@
     <script src="https://cdn.plyr.io/3.5.3/plyr.polyfilled.js"></script>
 
     <script>
-        const player = new Plyr('#player',{captions: {active: true}});
+        const player = new Plyr('#player');
 
         $(document).on('change', 'input[name="stars"]', function () {
             $('#rating').val($(this).val());
