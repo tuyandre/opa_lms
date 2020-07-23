@@ -59,10 +59,12 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Validator;
+use Lexx\ChatMessenger\Models\Message;
+use Lexx\ChatMessenger\Models\Participant;
+use Lexx\ChatMessenger\Models\Thread;
 use Purifier;
 use Messenger;
 use Newsletter;
-
 
 class ApiController extends Controller
 {
@@ -99,7 +101,7 @@ class ApiController extends Controller
     public function signupForm()
     {
         $fields = [];
-        if (config('registration_fields') != NULL) {
+        if (config('registration_fields') != null) {
             $fields = json_decode(config('registration_fields'), true);
         }
 //        if (config('access.captcha.registration') > 0) {
@@ -129,14 +131,14 @@ class ApiController extends Controller
             'password' => bcrypt($request->password)
         ]);
 
-        $user->dob = isset($request->dob) ? $request->dob : NULL;
-        $user->phone = isset($request->phone) ? $request->phone : NULL;
-        $user->gender = isset($request->gender) ? $request->gender : NULL;
-        $user->address = isset($request->address) ? $request->address : NULL;
-        $user->city = isset($request->city) ? $request->city : NULL;
-        $user->pincode = isset($request->pincode) ? $request->pincode : NULL;
-        $user->state = isset($request->state) ? $request->state : NULL;
-        $user->country = isset($request->country) ? $request->country : NULL;
+        $user->dob = isset($request->dob) ? $request->dob : null;
+        $user->phone = isset($request->phone) ? $request->phone : null;
+        $user->gender = isset($request->gender) ? $request->gender : null;
+        $user->address = isset($request->address) ? $request->address : null;
+        $user->city = isset($request->city) ? $request->city : null;
+        $user->pincode = isset($request->pincode) ? $request->pincode : null;
+        $user->state = isset($request->state) ? $request->state : null;
+        $user->country = isset($request->country) ? $request->country : null;
         $user->save();
 
         $userForRole = User::find($user->id);
@@ -168,15 +170,17 @@ class ApiController extends Controller
             'remember_me' => 'boolean'
         ]);
         $credentials = request(['email', 'password']);
-        if (!Auth::attempt($credentials))
+        if (!Auth::attempt($credentials)) {
             return response()->json([
                 'message' => 'Unauthorized'
             ], 401);
+        }
         $user = $request->user();
         $tokenResult = $user->createToken('Personal Access Token');
         $token = $tokenResult->token;
-        if ($request->remember_me)
+        if ($request->remember_me) {
             $token->expires_at = Carbon::now()->addWeeks(1);
+        }
         $token->save();
         return response()->json([
             'access_token' => $tokenResult->accessToken,
@@ -253,7 +257,6 @@ class ApiController extends Controller
         }
 
         return response()->json(['status' => 'success', 'type' => $type, 'result' => $courses]);
-
     }
 
     /**
@@ -263,35 +266,30 @@ class ApiController extends Controller
      */
     public function search(Request $request)
     {
-        $result = NULL;
+        $result = null;
         if ($request->type) {
-
             if ($request->type == 1) {
                 $result = Course::where('title', 'LIKE', '%' . $request->q . '%')
                     ->orWhere('description', 'LIKE', '%' . $request->q . '%')
                     ->where('published', '=', 1)
                     ->with('teachers')
                     ->paginate(10);
-
             } elseif ($request->type == 2) {
                 $result = Bundle::where('title', 'LIKE', '%' . $request->q . '%')
                     ->orWhere('description', 'LIKE', '%' . $request->q . '%')
                     ->where('published', '=', 1)
                     ->with('user')
                     ->paginate(10);
-
             } elseif ($request->type == 3) {
                 $result = Blog::where('title', 'LIKE', '%' . $request->q . '%')
                     ->orWhere('content', 'LIKE', '%' . $request->q . '%')
                     ->with('author')
                     ->paginate(10);
             }
-
         }
         $type = $request->type;
         $q = $request->q;
         return response()->json(['status' => 'success', 'q' => $q, 'type' => $type, 'result' => $result]);
-
     }
 
     /**
@@ -398,7 +396,6 @@ class ApiController extends Controller
      */
     public function getFaqs()
     {
-
         $faqs = Faq::whereHas('category')
             ->where('status', '=', 1)
             ->orderBy('created_at', 'desc')
@@ -416,7 +413,6 @@ class ApiController extends Controller
     {
         $reasons = Reason::where('status', '=', 1)->paginate(10);
         return response()->json(['status' => 'success', 'result' => $reasons]);
-
     }
 
     /**
@@ -455,8 +451,6 @@ class ApiController extends Controller
 
         Mail::send(new SendContact($request));
         return response()->json(['status' => 'success']);
-
-
     }
 
     /**
@@ -466,17 +460,17 @@ class ApiController extends Controller
      */
     public function getSingleCourse(Request $request)
     {
-        $continue_course = NULL;
-        $course_timeline = NULL;
+        $continue_course = null;
+        $course_timeline = null;
         $course = Course::withoutGlobalScope('filter')->with('teachers', 'category')->where('id', '=', $request->course_id)->with('publishedLessons')->first();
         if ($course == null) {
-            return response()->json(['status' => 'failure', 'result' => NULL]);
+            return response()->json(['status' => 'failure', 'result' => null]);
         }
 
         $purchased_course = \Auth::check() && $course->students()->where('user_id', \Auth::id())->count() > 0;
         $course_rating = 0;
         $total_ratings = 0;
-        $completed_lessons = NULL;
+        $completed_lessons = null;
         $is_reviewed = false;
         if (auth()->check() && $course->reviews()->where('user_id', '=', auth()->user()->id)->first()) {
             $is_reviewed = true;
@@ -491,13 +485,12 @@ class ApiController extends Controller
         if (\Auth::check()) {
             $completed_lessons = \Auth::user()->chapters()->where('course_id', $course->id)->get()->pluck('model_id')->toArray();
             $continue_course = $course->courseTimeline()->orderby('sequence', 'asc')->whereNotIn('model_id', $completed_lessons)->first();
-            if ($continue_course == NULL) {
+            if ($continue_course == null) {
                 $continue_course = $course->courseTimeline()->orderby('sequence', 'asc')->first();
             }
         }
 
         if ($course->courseTimeline) {
-
             $timeline = $course->courseTimeline()->orderBy('sequence')->get();
             foreach ($timeline as $item) {
                 $completed = false;
@@ -522,7 +515,7 @@ class ApiController extends Controller
             }
         }
         $mediaVideo = (!$course->mediaVideo) ? null : $course->mediaVideo->toArray();
-        if($mediaVideo && $mediaVideo['type'] == 'embed'){
+        if ($mediaVideo && $mediaVideo['type'] == 'embed') {
             preg_match('/src="([^"]+)"/', $mediaVideo['url'], $match);
             $url = $match[1];
             $mediaVideo['file_name'] = $url;
@@ -556,7 +549,6 @@ class ApiController extends Controller
         if ($request->type == 'course') {
             $reviewable_type = Course::class;
             $item = Course::find($request->item_id);
-
         } else {
             $reviewable_type = Bundle::class;
             $item = Bundle::find($request->item_id);
@@ -617,7 +609,7 @@ class ApiController extends Controller
             $downloadable_media = $lesson->downloadable_media;
 
             $mediaVideo = (!$lesson->mediaVideo) ? null : $lesson->mediaVideo->toArray();
-            if($mediaVideo && $mediaVideo['type'] == 'embed'){
+            if ($mediaVideo && $mediaVideo['type'] == 'embed') {
                 preg_match('/src="([^"]+)"/', $mediaVideo['url'], $match);
                 $url = $match[1];
                 $mediaVideo['file_name'] = $url;
@@ -646,7 +638,8 @@ class ApiController extends Controller
      * @return [json] Success message
      */
 
-    public function getTest(Request $request){
+    public function getTest(Request $request)
+    {
         $test = Test::where('published', '=', 1)
             ->where('id', '=', $request->test_id)
             ->where('course_id', '=', $request->course_id)
@@ -654,19 +647,18 @@ class ApiController extends Controller
         $questions = [];
         $is_test_given = false;
         //If Retest is being taken
-        if(isset( $request->result_id)){
+        if (isset($request->result_id)) {
             $testResult = TestsResult::where('id', '=', $request->result_id)
                 ->where('user_id', '=', auth()->user()->id)
                 ->delete();
             $is_test_given = false;
-
         }
 
 
-        if($test->questions && (count($test->questions) > 0)){
-            foreach ($test->questions as $question){
+        if ($test->questions && (count($test->questions) > 0)) {
+            foreach ($test->questions as $question) {
                 $options = [];
-                if($question->options){
+                if ($question->options) {
                     $options = $question->options->toArray();
                 }
 
@@ -680,10 +672,10 @@ class ApiController extends Controller
         $test_result = TestsResult::where('test_id', $test->id)
             ->where('user_id', '=', auth()->user()->id)
             ->first();
-        $result_data = NULL;
-        if($test_result){
+        $result_data = null;
+        if ($test_result) {
             $test_result = $test_result->toArray();
-            $result = TestsResultsAnswer::where('tests_result_id','=',$test_result['id'])->get()->toArray();
+            $result = TestsResultsAnswer::where('tests_result_id', '=', $test_result['id'])->get()->toArray();
             $is_test_given = true;
             $result_data = ['result_id' => $test_result['id'],'score' => $test_result,'answers' => $result];
         }
@@ -692,7 +684,6 @@ class ApiController extends Controller
         $data['is_test_given'] = $is_test_given;
         $data['test_result'] = $result_data;
         return response()->json(['status' => 'success', 'response' => $data]);
-
     }
 
 
@@ -701,9 +692,10 @@ class ApiController extends Controller
      *
      * @return [json] Success message
      */
-    public function saveTest(Request $request){
+    public function saveTest(Request $request)
+    {
         $test = Test::where('id', $request->test_id)->firstOrFail();
-        if(!$test){
+        if (!$test) {
             return response()->json(['status' => 'failure']);
         }
         $answers = [];
@@ -721,7 +713,7 @@ class ApiController extends Controller
                 'correct' => $correct
             ];
             if ($correct) {
-                if($question->score) {
+                if ($question->score) {
                     $test_score += $question->score;
                 }
             }
@@ -748,10 +740,9 @@ class ApiController extends Controller
             ]);
         }
 
-        $result = TestsResultsAnswer::where('tests_result_id','=',$test_result->id)->get()->toArray();
+        $result = TestsResultsAnswer::where('tests_result_id', '=', $test_result->id)->get()->toArray();
 
         return response()->json(['status' => 'success','result_id' =>$test_result->id, 'score' => $test_score,'result' => $result]);
-
     }
 
 
@@ -762,7 +753,6 @@ class ApiController extends Controller
      */
     public function courseProgress(Request $request)
     {
-
         if ($request->model_type == 'test') {
             $model_type = Test::class;
             $chapter = Test::find((int)$request->model_id);
@@ -872,7 +862,6 @@ class ApiController extends Controller
         }
 
         return response()->json(['status' => 'success', 'type' => $type, 'result' => $bundles]);
-
     }
 
     /**
@@ -912,7 +901,6 @@ class ApiController extends Controller
             $product = Course::findOrFail($request->item_id);
             $teachers = $product->teachers->pluck('id', 'name');
             $type = 'course';
-
         } elseif ($request->type == 'bundle') {
             $product = Bundle::findOrFail($request->item_id);
             $teachers = $product->user->name;
@@ -922,7 +910,11 @@ class ApiController extends Controller
         $cart_items = Cart::session(auth()->user()->id)->getContent()->keys()->toArray();
         if (!in_array($product->id, $cart_items)) {
             Cart::session(auth()->user()->id)
-                ->add($product->id, $product->title, $product->price, 1,
+                ->add(
+                    $product->id,
+                    $product->title,
+                    $product->price,
+                    1,
                     [
                         'user_id' => auth()->user()->id,
                         'description' => $product->description,
@@ -930,9 +922,11 @@ class ApiController extends Controller
                         'product_id' => $product->id,
                         'type' => $type,
                         'teachers' => $teachers
-                    ]);
+                    ]
+                );
         }
-        $this->applyTax('total');
+        $total = Cart::session(auth()->user()->id)->getTotal();
+        $this->applyTax($total);
 
         return response()->json(['status' => 'success']);
     }
@@ -959,7 +953,6 @@ class ApiController extends Controller
         } else {
             $type = Bundle::class;
             $id = $request->bundle_id;
-
         }
         $order->items()->create([
             'item_id' => $id,
@@ -978,7 +971,6 @@ class ApiController extends Controller
         }
 
         return response()->json(['status' => 'success']);
-
     }
 
 
@@ -989,7 +981,6 @@ class ApiController extends Controller
      */
     public function removeFromCart(Request $request)
     {
-
         foreach (Cart::session(auth()->user()->id)->getContent() as $cartItem) {
             if (($cartItem->attributes->type == $request->type) && ($cartItem->attributes->product_id == $request->item_id)) {
                 Cart::session(auth()->user()->id)->remove($request->item_id);
@@ -1083,7 +1074,7 @@ class ApiController extends Controller
             $order->remarks = $request->remarks;
             $order->transaction_id = $request->transaction_id;
             $order->save();
-            if($order->status == 1){
+            if ($order->status == 1) {
                 (new EarningHelper())->insert($order);
             }
             if ((int)$request->payment_type == 3) {
@@ -1101,7 +1092,6 @@ class ApiController extends Controller
                 } catch (\Exception $e) {
                     \Log::info($e->getMessage() . ' for order ' . $order->id);
                 }
-
             } else {
                 foreach ($order->items as $orderItem) {
                     //Bundle Entries
@@ -1120,9 +1110,7 @@ class ApiController extends Controller
             return response()->json(['status' => 'success']);
         } else {
             return response()->json(['status' => 'failure', 'message' => 'No order found']);
-
         }
-
     }
 
 
@@ -1204,7 +1192,6 @@ class ApiController extends Controller
      */
     public function getBlog(Request $request)
     {
-
         if ($request->blog_id != null) {
             $blog_id = $request->blog_id;
             $blog = Blog::with('comments', 'category', 'author')->find($blog_id);
@@ -1222,7 +1209,6 @@ class ApiController extends Controller
 
         $blog = Blog::has('category')->with('comments')->OrderBy('created_at', 'desc')->paginate(10);
         return response()->json(['status' => 'success', 'blog' => $blog]);
-
     }
 
 
@@ -1239,7 +1225,6 @@ class ApiController extends Controller
             return response()->json(['status' => 'success', 'result' => $blog]);
         }
         return response()->json(['status' => 'failure']);
-
     }
 
 
@@ -1279,7 +1264,6 @@ class ApiController extends Controller
             $blogcooment->user_id = auth()->user()->id;
             $blogcooment->save();
             return response()->json(['status' => 'success']);
-
         }
 
         return response()->json(['status' => 'failure']);
@@ -1310,7 +1294,6 @@ class ApiController extends Controller
 
     public function getForum(Request $request)
     {
-
         $pagination_results = config('chatter.paginate.num_of_results');
 
         $discussions = Models::discussion()->with('user')->with(['post','post.user'])->with('postsCount')->with('category')->orderBy(config('chatter.order_by.discussions.order'), config('chatter.order_by.discussions.by'));
@@ -1335,7 +1318,6 @@ class ApiController extends Controller
         ];
 
         return response()->json(['status' => 'success', 'result' => $result]);
-
     }
 
     /**
@@ -1436,11 +1418,8 @@ class ApiController extends Controller
             }
 
             return response()->json(['status' => 'success']);
-
         } else {
             return response()->json(['status' => 'failure', 'result' => 'Not found']);
-
-
         }
     }
 
@@ -1502,8 +1481,6 @@ class ApiController extends Controller
 
 
             return response()->json(['status' => 'success', 'message' => trans('chatter::alert.success.reason.submitted_to_post')]);
-
-
         } else {
             return response()->json(['status' => 'failure', 'message' => trans('chatter::alert.danger.reason.trouble')]);
         }
@@ -1549,9 +1526,7 @@ class ApiController extends Controller
             }
 
             return response()->json(['status' => 'success', 'message' => trans('chatter::alert.success.reason.updated_post')]);
-
         } else {
-
             return response()->json(['status' => 'failure', 'message' => trans('chatter::alert.danger.reason.update_post')]);
         }
     }
@@ -1571,7 +1546,6 @@ class ApiController extends Controller
         $post = Models::post()->with('discussion')->findOrFail($id);
 
         if ($request->user()->id !== (int)$post->user_id) {
-
             return response()->json(['status' => 'failure', 'message' => trans('chatter::alert.danger.reason.destroy_post')]);
         }
 
@@ -1605,40 +1579,36 @@ class ApiController extends Controller
     {
         $thread = "";
 
-        $teachers = User::role('teacher')->select('id','first_name','last_name')->get();
+        $teachers = User::role('teacher')->select('id', 'first_name', 'last_name')->get();
 
-        auth()->user()->load('threads.messages.sender');
+        auth()->user()->load('threads.messages.user');
 
-        $unreadThreads = [];
-        $threads = [];
-        foreach (auth()->user()->threads as $item) {
-            if ($item->unreadMessagesCount > 0) {
-                $unreadThreads[] = $item;
-            } else {
-                $threads[] = $item;
-            }
-        }
-        $threads = Collection::make(array_merge($unreadThreads, $threads));
+        $threads = auth()->user()->threads;
+
+        $threads = $threads->each(function ($item, $key) {
+            $item->messages->each(function ($item1, $key1) {
+                $item1->sender_id = $item1->user_id;
+                $item1->sender = $item1->user;
+                unset($item1->user_id);
+                unset($item1->user);
+            });
+        });
 
         if (request()->has('thread') && ($request->thread != null)) {
-
             if (request('thread')) {
                 $thread = auth()->user()->threads()
-                    ->where('message_threads.id', '=', $request->thread)
+                    ->where('chat_threads.id', '=', $request->thread)
                     ->first();
                 if ($thread == "") {
                     return response()->json(['status' => 'failure', 'Not found']);
                 }
-                //Read Thread
-                auth()->user()->markThreadAsRead($thread->id);
+                $thread->markAsRead(auth()->user()->id);
             }
         }
-
 
         return response()->json(['status' => 'success', 'threads' => $threads,
             'teachers' => $teachers,
             'thread' => $thread]);
-
     }
 
 
@@ -1652,10 +1622,25 @@ class ApiController extends Controller
     public function composeMessage(Request $request)
     {
         $recipients = $request->data['recipients'];
-        $message = $request->data['message'];
 
+        $thread = Thread::create();
+        $message = Message::create([
+            'thread_id' => $thread->id,
+            'user_id' => auth()->user()->id,
+            'body' => $request->data['message'],
+        ]);
 
-        $message = Messenger::from(auth()->user())->to($recipients)->message($message)->send();
+        $participant = Participant::firstOrCreate([
+            'thread_id' => $thread->id,
+            'user_id' => auth()->user()->id,
+        ]);
+        $participant->last_read = Carbon::now();
+        $participant->save();
+
+        if ($recipients) {
+            $thread->addParticipant($recipients);
+        }
+
         return response()->json(['status' => 'success', 'thread' => $message->thread_id]);
     }
 
@@ -1669,13 +1654,21 @@ class ApiController extends Controller
      */
     public function replyMessage(Request $request)
     {
+        $message = Message::create([
+            'thread_id' => $request->thread_id,
+            'user_id' => auth()->user()->id,
+            'body' => $request->message,
+        ]);
 
-        $thread = auth()->user()->threads()
-            ->where('message_threads.id', '=', $request->thread_id)
-            ->first();
-        $message = Messenger::from(auth()->user())->to($thread)->message($request->message)->send();
+        $participant = Participant::firstOrCreate([
+            'thread_id' => $request->thread_id,
+            'user_id' => auth()->user()->id,
+        ]);
+
+        $participant->last_read = Carbon::now();
+        $participant->save();
+
         return response()->json(['status' => 'success', 'thread' => $message->thread_id]);
-
     }
 
     /**
@@ -1687,15 +1680,15 @@ class ApiController extends Controller
      */
     public function getUnreadMessages(Request $request)
     {
-        $unreadMessageCount = auth()->user()->unreadMessagesCount;
+        $unreadMessageCount = auth()->user()->unreadMessagesCount();
         $unreadThreads = [];
         foreach (auth()->user()->threads as $item) {
-            if ($item->unreadMessagesCount > 0) {
+            if ($item->userUnreadMessagesCount(auth()->user()->id)) {
                 $data = [
                     'thread_id' => $item->id,
-                    'message' => str_limit($item->lastMessage->body, 35),
-                    'unreadMessagesCount' => $item->unreadMessagesCount,
-                    'title' => $item->title
+                    'message' => str_limit($item->messages()->orderBy('id', 'desc')->first()->body, 35),
+                    'unreadMessagesCount' => $item->userUnreadMessagesCount(auth()->user()->id),
+                    'title' => $item->participants()->with('user')->where('user_id', '<>', auth()->user()->id)->first()->user->name
                 ];
                 $unreadThreads[] = $data;
             }
@@ -1759,7 +1752,7 @@ class ApiController extends Controller
     public function updateMyAccount(Request $request)
     {
         $fieldsList = [];
-        if (config('registration_fields') != NULL) {
+        if (config('registration_fields') != null) {
             $fields = json_decode(config('registration_fields'));
 
             foreach ($fields as $field) {
@@ -1780,7 +1773,6 @@ class ApiController extends Controller
         }
 
         return response()->json(['status' => 'success', 'message' => __('strings.frontend.user.profile_updated')]);
-
     }
 
     /**
@@ -1798,7 +1790,6 @@ class ApiController extends Controller
             $user->update(['password' => $request->password]);
         }
         return response()->json(['status' => 'success', 'message' => __('strings.frontend.user.password_updated')]);
-
     }
 
 
@@ -1816,8 +1807,7 @@ class ApiController extends Controller
         if ($page != "") {
             return response()->json(['status' => 'success', 'result' => $page]);
         }
-        return response()->json(['status' => 'failure', 'result' => NULL]);
-
+        return response()->json(['status' => 'failure', 'result' => null]);
     }
 
 
@@ -1831,7 +1821,7 @@ class ApiController extends Controller
 
     public function subscribeNewsletter(Request $request)
     {
-        if (config('mail_provider') != NULL && config('mail_provider') == "mailchimp") {
+        if (config('mail_provider') != null && config('mail_provider') == "mailchimp") {
             try {
                 if (!Newsletter::isSubscribed($request->email)) {
                     if (config('mailchimp_double_opt_in')) {
@@ -1845,15 +1835,13 @@ class ApiController extends Controller
                 } else {
                     $message = "Email already exist in subscription list";
                     return response()->json(['status' => 'failure', 'message' => $message]);
-
                 }
             } catch (\Exception $e) {
                 \Log::info($e->getMessage());
                 $message = "Something went wrong, Please try again Later";
                 return response()->json(['status' => 'failure', 'message' => $message]);
             }
-
-        } elseif (config('mail_provider') != NULL && config('mail_provider') == "sendgrid") {
+        } elseif (config('mail_provider') != null && config('mail_provider') == "sendgrid") {
             try {
                 $apiKey = config('sendgrid_api_key');
                 $sg = new \SendGrid($apiKey);
@@ -1878,7 +1866,6 @@ class ApiController extends Controller
                         );
                         $response = $sg->client->contactdb()->recipients()->post($request_body);
                         if ($response->statusCode() != 201 || (json_decode($response->body())->new_count == 0)) {
-
                             $message = "Email already exist in subscription list";
                             return response()->json(['status' => 'failure', 'message' => $message]);
                         } else {
@@ -1891,7 +1878,6 @@ class ApiController extends Controller
                                 $message = "Check your email and try again";
                                 return response()->json(['status' => 'failure', 'message' => $message]);
                             }
-
                         }
                     }
                 }
@@ -1902,8 +1888,6 @@ class ApiController extends Controller
             }
         }
         return response()->json(['status' => 'failure', 'message' => 'Please setup mail provider in Admin dashboard on server']);
-
-
     }
 
 
@@ -2000,8 +1984,6 @@ class ApiController extends Controller
 
                 return ['status' => 'success'];
             }
-
-
         }
         return ['status' => 'failure', 'message' => trans('labels.frontend.cart.invalid_coupon')];
     }
@@ -2017,7 +1999,6 @@ class ApiController extends Controller
             ->first();
         $isCouponValid = false;
         if ($coupon != null) {
-
             if (count($request->data) > 0) {
                 foreach ($request->data as $item) {
                     $id = $item['id'];
@@ -2039,7 +2020,6 @@ class ApiController extends Controller
                             'status' => $status
                         ];
                         array_push($items, $bundle);
-
                     } else {
                         $status = false;
 
@@ -2050,7 +2030,6 @@ class ApiController extends Controller
                         if ($course) {
                             $status = true;
                             $total = $total + $course->price;
-
                         }
                         $course = [
                             'id' => $id,
@@ -2059,7 +2038,6 @@ class ApiController extends Controller
                             'status' => $status
                         ];
                         array_push($items, $course);
-
                     }
                 }
                 $data['data'] = $items;
@@ -2067,7 +2045,6 @@ class ApiController extends Controller
                 $total = (float)number_format($total, 2);
 
                 if ((float)$request->total == $total) {
-
                     if ($coupon->per_user_limit > $coupon->useByUser()) {
                         $isCouponValid = true;
                         if (($coupon->min_price != null) && ($coupon->min_price > 0)) {
@@ -2088,14 +2065,11 @@ class ApiController extends Controller
                     }
 
                     if ($isCouponValid == true) {
-
                         $type = null;
                         if ($coupon->type == 1) {
                             $discount = $total * $coupon->amount / 100;
-
                         } else {
                             $discount = $coupon->amount;
-
                         }
                         $data['subtotal'] = (float)number_format($total, 2);
 
@@ -2116,19 +2090,13 @@ class ApiController extends Controller
                     } else {
                         return ['status' => 'failure', 'message' => 'Coupon is Invalid'];
                     }
-
-
                 } else {
                     return ['status' => 'failure', 'message' => 'Total Mismatch', 'result' => $data];
-
                 }
             }
             return ['status' => 'failure', 'message' => 'Add Items to Cart before applying coupon'];
-
         }
         return ['status' => 'failure', 'message' => 'Please input valid coupon'];
-
-
     }
 
 
@@ -2158,7 +2126,6 @@ class ApiController extends Controller
                         'status' => $status
                     ];
                     array_push($items, $bundle);
-
                 } else {
                     $status = false;
 
@@ -2169,7 +2136,6 @@ class ApiController extends Controller
                     if ($course) {
                         $status = true;
                         $total = $total + $course->price;
-
                     }
                     $course = [
                         'id' => $id,
@@ -2178,13 +2144,11 @@ class ApiController extends Controller
                         'status' => $status
                     ];
                     array_push($items, $course);
-
                 }
             }
             $data['data'] = $items;
 
             if ((float)$request->total == floatval($total)) {
-
                 $coupon = $request->coupon;
                 $discount = 0;
                 $tax_amount = 0;
@@ -2196,17 +2160,13 @@ class ApiController extends Controller
                 if ($coupon) {
                     if ($coupon->type == 1) {
                         $discount = $total * $coupon->amount / 100;
-
                     } else {
                         $discount = $coupon->amount;
-
                     }
                     //$data['discounted_total'] = (float)number_format($total - $discount,2);
                     $data['coupon_data'] = $coupon->toArray();
                     $data['coupon_data']['total_coupon_discount'] = (float)number_format($discount, 2);
                     $discount = $data['coupon_data']['total_coupon_discount'];
-
-
                 } else {
                     $data['coupon_data'] = false;
                 }
@@ -2227,10 +2187,8 @@ class ApiController extends Controller
                 $data['order'] = $order;
 
                 return $data;
-
             } else {
                 return ['status' => 'failure', 'message' => 'Total Mismatch', 'result' => $data];
-
             }
         }
         return ['status' => 'failure', 'message' => 'Add Items to Cart before applying coupon'];
@@ -2260,7 +2218,6 @@ class ApiController extends Controller
         $this->applyTax('subtotal');
 
         return ['status' => 'success'];
-
     }
 
     private function notEnoughTimeBetweenDiscussion()
@@ -2295,6 +2252,8 @@ class ApiController extends Controller
     private function applyTax($total)
     {
         //Apply Conditions on Cart
+        $total = Cart::session(auth()->user()->id)->getTotal();
+
         $taxes = Tax::where('status', '=', 1)->get();
         if (count($taxes) > 0) {
             $taxData = [];
