@@ -65,7 +65,12 @@
                                                 <div class="chat_people">
 
                                                     <div class="chat_ib">
-                                                        <h5>{{ $item->participants()->with('user')->where('user_id','<>', auth()->user()->id)->first()->user->name }} <span
+                                                        <h5>
+                                                            {{ $item->participants()->with('user')->where('user_id','<>', auth()->user()->id)->first()->user->name }}
+                                                            @if($item->participants()->count() > 2)
+                                                                + {{ ($item->participants()->count()-2) }} @lang('labels.general.more')
+                                                            @endif
+                                                            <span
                                                                     class="chat_date">{{ $item->messages()->orderBy('id', 'desc')->first()->created_at->diffForHumans() }}</span>
                                                         </h5>
                                                         <p>{{ str_limit($item->messages()->orderBy('id', 'desc')->first()->body, 35) }}</p>
@@ -91,7 +96,12 @@
                                              alt="" height="35px"></div>
                                     <div class="chat_ib float-left">
 
-                                        <h5 class="mb-0 d-inline float-left">{{$thread->participants()->with('user')->where('user_id','<>', auth()->user()->id)->first()->user->name }}</h5>
+                                        <h5 class="mb-0 d-inline float-left">
+                                            {{$thread->participants()->with('user')->where('user_id','<>', auth()->user()->id)->first()->user->name }}
+                                            @if($thread->participants()->count() > 2)
+                                                + {{ ($thread->participants()->count()-2) }} @lang('labels.general.more')
+                                            @endif
+                                        </h5>
                                         <p class="float-right d-inline mb-0">
                                             <a class="" href="{{route('admin.messages',['thread'=>$thread->id])}}">
                                                 <i class="icon-refresh font-weight-bold"></i>
