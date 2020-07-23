@@ -29,7 +29,6 @@ use App\Models\TeacherProfile;
 use App\Models\Withdraw;
 use Lexx\ChatMessenger\Traits\Messagable;
 
-
 /**
  * Class User.
  */
@@ -44,8 +43,8 @@ class User extends Authenticatable
         UserRelationship,
         UserScope,
         Uuid;
-      use HasApiTokens;
-      use Messagable{
+    use HasApiTokens;
+    use Messagable{
           UserAttribute::getNameAttribute insteadof Messagable;
       }
 
@@ -115,7 +114,7 @@ class User extends Authenticatable
 
     public function chapters()
     {
-        return $this->hasMany(ChapterStudent::class,'user_id');
+        return $this->hasMany(ChapterStudent::class, 'user_id');
     }
 
     public function courses()
@@ -129,86 +128,94 @@ class User extends Authenticatable
     }
 
 
-    public function invoices(){
+    public function invoices()
+    {
         return $this->hasMany(Invoice::class);
     }
 
 
-    public function getImageAttribute(){
+    public function getImageAttribute()
+    {
         return $this->picture;
     }
 
 
     //Calc Watch Time
-    public function getWatchTime(){
-        $watch_time = VideoProgress::where('user_id','=',$this->id)->sum('progress');
+    public function getWatchTime()
+    {
+        $watch_time = VideoProgress::where('user_id', '=', $this->id)->sum('progress');
         return $watch_time;
-
     }
 
     //Check Participation Percentage
-    public function getParticipationPercentage(){
-        $videos = Media::featured()->where('status','!=',0)->get();
+    public function getParticipationPercentage()
+    {
+        $videos = Media::featured()->where('status', '!=', 0)->get();
         $count = $videos->count();
         $total_percentage = 0;
-        if($count > 0) {
+        if ($count > 0) {
             foreach ($videos as $video) {
                 $total_percentage = $total_percentage + $video->getProgressPercentage($this->id);
             }
             $percentage = $total_percentage /$count;
-        }else{
+        } else {
             $percentage = 0;
         }
-        return round($percentage,2);
+        return round($percentage, 2);
     }
 
     //Get Certificates
-    public function certificates(){
+    public function certificates()
+    {
         return $this->hasMany(Certificate::class);
     }
 
-    public function pendingOrders(){
-        $orders = Order::where('status','=',0)
-            ->where('user_id','=',$this->id)
+    public function pendingOrders()
+    {
+        $orders = Order::where('status', '=', 0)
+            ->where('user_id', '=', $this->id)
             ->get();
 
         return $orders;
     }
 
-    public function purchasedCourses(){
-        $orders = Order::where('status','=',1)
-            ->where('user_id','=',$this->id)
+    public function purchasedCourses()
+    {
+        $orders = Order::where('status', '=', 1)
+            ->where('user_id', '=', $this->id)
             ->pluck('id');
-        $courses_id = OrderItem::whereIn('order_id',$orders)
-            ->where('item_type','=',"App\Models\Course")
+        $courses_id = OrderItem::whereIn('order_id', $orders)
+            ->where('item_type', '=', "App\Models\Course")
             ->pluck('item_id');
-        $courses = Course::whereIn('id',$courses_id)
+        $courses = Course::whereIn('id', $courses_id)
             ->get();
         return $courses;
     }
 
-    public function purchasedBundles(){
-        $orders = Order::where('status','=',1)
-            ->where('user_id','=',$this->id)
+    public function purchasedBundles()
+    {
+        $orders = Order::where('status', '=', 1)
+            ->where('user_id', '=', $this->id)
             ->pluck('id');
-        $bundles_id = OrderItem::whereIn('order_id',$orders)
-            ->where('item_type','=',"App\Models\Bundle")
+        $bundles_id = OrderItem::whereIn('order_id', $orders)
+            ->where('item_type', '=', "App\Models\Bundle")
             ->pluck('item_id');
-        $bundles = Bundle::whereIn('id',$bundles_id)
+        $bundles = Bundle::whereIn('id', $bundles_id)
             ->get();
 
         return $bundles;
     }
 
 
-    public function purchases(){
-        $orders = Order::where('status','=',1)
-            ->where('user_id','=',$this->id)
+    public function purchases()
+    {
+        $orders = Order::where('status', '=', 1)
+            ->where('user_id', '=', $this->id)
             ->pluck('id');
-        $courses_id = OrderItem::whereIn('order_id',$orders)
+        $courses_id = OrderItem::whereIn('order_id', $orders)
             ->pluck('item_id');
-        $purchases = Course::where('published','=',1)
-            ->whereIn('id',$courses_id)
+        $purchases = Course::where('published', '=', 1)
+            ->whereIn('id', $courses_id)
             ->get();
         return $purchases;
     }
@@ -216,7 +223,7 @@ class User extends Authenticatable
     public function findForPassport($user)
     {
         $user = $this->where('email', $user)->first();
-        if($user->hasRole('student')){
+        if ($user->hasRole('student')) {
             return $user;
         }
     }
@@ -224,22 +231,34 @@ class User extends Authenticatable
     /**
      * Get the teacher profile that owns the user.
      */
-    public function teacherProfile(){
+    public function teacherProfile()
+    {
         return $this->hasOne(TeacherProfile::class);
     }
 
     /**
     * Get the earning owns the teacher.
     */
-    public function earnings(){
+    public function earnings()
+    {
         return $this->hasMany(Earning::class, 'user_id', 'id');
     }
 
     /**
     * Get the withdraw owns the teacher.
     */
-    public function withdraws(){
+    public function withdraws()
+    {
         return $this->hasMany(Withdraw::class, 'user_id', 'id');
     }
 
+    public function threads()
+    {
+        return $this->belongsToMany(
+            config('chatmessenger.thread_model'),
+            'chat_participants',
+            'user_id',
+            'thread_id'
+        )->withPivot('last_read');
+    }
 }
