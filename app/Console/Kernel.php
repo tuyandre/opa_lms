@@ -3,12 +3,14 @@
 namespace App\Console;
 
 use App\Console\Commands\Backup;
-use App\Console\Commands\FixPermissions;
 use App\Console\Commands\GenerateSitemap;
 use App\Console\Commands\LessonTestChaterStudentsFix;
+
+//================ Remove this while creating zip for Envato ==============//
 use App\Console\Commands\RefreshSite;
+//========================================================================//
+
 use App\Console\Commands\TeacherProfileFix;
-use App\Models\TeacherProfile;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -24,7 +26,11 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         Backup::class,
+
+        //================= Remove this while creating zip for Envato ==============//
         RefreshSite::class,
+        //========================================================================//
+
         GenerateSitemap::class,
         TeacherProfileFix::class,
         LessonTestChaterStudentsFix::class,
@@ -38,7 +44,10 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+        //=========== Remove this while creating zip for Envato =============//
         $schedule->command(RefreshSite::class)->everyFifteenMinutes();
+        //==================================================================//
+
 
         if (config('backup_schedule') == 1) {
             $schedule->command(Backup::class)->daily();
