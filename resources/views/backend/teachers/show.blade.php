@@ -25,7 +25,7 @@
                     <table class="table table-bordered table-striped">
                         <tr>
                             <th>@lang('labels.backend.access.users.tabs.content.overview.avatar')</th>
-                            <td><img src="{{ $teacher->picture }}" class="user-profile-image" /></td>
+                            <td><img height="100px" src="{{ $teacher->picture }}" class="user-profile-image" /></td>
                         </tr>
 
                         <tr>

@@ -43,14 +43,14 @@ class ChatTableFix extends Command
     {
         $msg_thread_table = DB::table('message_threads')->get();
 
-        if ($msg_thread_table){
+        if ($msg_thread_table) {
             foreach ($msg_thread_table as $thread) {
                 $this->line($thread->id);
                 $thread = Thread::create([
                     'starred' => 1
                 ]);
-                $msg_thread_participants_table = DB::table('message_thread_participants')->where('thread_id',$thread->id)->get();
-                foreach ($msg_thread_participants_table as $participant){
+                $msg_thread_participants_table = DB::table('message_thread_participants')->where('thread_id', $thread->id)->get();
+                foreach ($msg_thread_participants_table as $participant) {
                     Participant::create([
                         'thread_id' => $thread->id,
                         'user_id' => $participant->user_id,
@@ -58,8 +58,8 @@ class ChatTableFix extends Command
                     ]);
                 }
                 dump($msg_thread_participants_table);
-                $msg_messages_table = DB::table('messages')->where('thread_id',$thread->id)->get();
-                foreach ($msg_messages_table as $message){
+                $msg_messages_table = DB::table('messages')->where('thread_id', $thread->id)->get();
+                foreach ($msg_messages_table as $message) {
                     Message::create([
                         'thread_id' => $thread->id,
                         'user_id' => $message->sender_id,
@@ -67,14 +67,8 @@ class ChatTableFix extends Command
                         'created_at' => $message->created_at
                     ]);
                 }
-                dump($msg_messages_table);
-
-
             }
         }
-
-        dd($msg_thread_table);
-
-        return $this->line("hello world");
+        return $this->line("chat table imported");
     }
 }

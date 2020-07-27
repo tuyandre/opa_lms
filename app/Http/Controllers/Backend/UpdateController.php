@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Artisan;
+use Madnest\Madzipper\Madzipper;
 
 class UpdateController extends Controller
 {
@@ -23,7 +24,8 @@ class UpdateController extends Controller
         $file_name = time() . '_' . $file->getClientOriginalName();
         $file->move(public_path() . '/updates/', $file_name);
         $is_verified = false;
-        $checkFiles = \Madzipper::make(public_path() . '/updates/' . $file_name)->listFiles('/\.key/i');
+        $zipper = new Madzipper();
+        $checkFiles = $zipper->make(public_path() . '/updates/' . $file_name)->listFiles();
         foreach ($checkFiles as $item) {
             $item = Arr::last(explode('/', $item));
             if ($item == md5('NeonLMSUpdate') . '.key') {
@@ -31,7 +33,8 @@ class UpdateController extends Controller
             }
         }
         if ($is_verified == true) {
-            $files = \Madzipper::make(public_path() . '/updates/' . $file_name)->listFiles();
+            $zipper = new Madzipper();
+            $files = $zipper->make(public_path() . '/updates/' . $file_name)->listFiles();
             return view('backend.update.file-list', compact('files', 'file_name'));
         } else {
             unlink(public_path() . '/updates/' . $file_name);
@@ -52,13 +55,15 @@ class UpdateController extends Controller
         } else {
 
             try{
-                \Madzipper::make(public_path() . '/updates/' . $file_name)->extractTo(base_path());
+                $zipper = new Madzipper();
+                $zipper->make(public_path() . '/updates/' . $file_name)->extractTo(base_path());
                 unlink(public_path() . '/updates/' . $file_name);
 //                array_map('unlink', glob("stripe/*"));
 //                array_map('unlink', glob("paypal/*"));
 
 
                 exec('cd ' . base_path() . '/ && composer install');
+                Artisan::call("config:clear");
 
                 Artisan::call("migrate");
                 Artisan::call("fix:lesson-test-course");
@@ -88,6 +93,14 @@ class UpdateController extends Controller
         }
     }
 
+    public function deleteFiles(){
+        $dir = base_path('vendor/paypal');
+        $this->unlinkAllFiles($dir);
+
+        $dir = base_path('vendor/stripe');
+        $this->unlinkAllFiles($dir);
+
+    }
 
     public function unlinkAllFiles($str)
     {
