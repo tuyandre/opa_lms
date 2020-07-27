@@ -63,7 +63,7 @@ use Lexx\ChatMessenger\Models\Message;
 use Lexx\ChatMessenger\Models\Participant;
 use Lexx\ChatMessenger\Models\Thread;
 use Purifier;
-use Messenger;
+//use Messenger;
 use Newsletter;
 
 class ApiController extends Controller
@@ -906,7 +906,6 @@ class ApiController extends Controller
             $teachers = $product->user->name;
             $type = 'bundle';
         }
-
         $cart_items = Cart::session(auth()->user()->id)->getContent()->keys()->toArray();
         if (!in_array($product->id, $cart_items)) {
             Cart::session(auth()->user()->id)
@@ -1069,8 +1068,13 @@ class ApiController extends Controller
         $items = [];
         $order = Order::where('id', '=', (int)$request->order_id)->where('status', '=', 0)->first();
         if ($order) {
+            if((int)$request->payment_type == 3){
+                $status = 0;
+            }else{
+                $status = ($request->status == 'success') ? 1 : 0;
+            }
             $order->payment_type = $request->payment_type;
-            $order->status = ($request->status == 'success') ? 1 : 0;
+            $order->status = $status;
             $order->remarks = $request->remarks;
             $order->transaction_id = $request->transaction_id;
             $order->save();
@@ -2260,6 +2264,7 @@ class ApiController extends Controller
             $taxDetails = [];
             $amounts = [];
             foreach ($taxes as $tax) {
+
                 $amount = $total * ((float)$tax->rate / 100);
                 $amounts[] = $amount;
                 $taxMeta = [
@@ -2270,7 +2275,6 @@ class ApiController extends Controller
             }
             $taxData['taxes'] = $taxDetails;
             $taxData['total_tax'] = array_sum($amounts);
-
             return $taxData;
         }
         return false;

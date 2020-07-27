@@ -40,6 +40,11 @@
     }
 
 </style>
+<?php
+//$fields = json_decode(config('registration_fields'));
+//$inputs = ['text','number','date','gender'];
+//dd($fields);
+?>
 @if(!auth()->check())
 
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
@@ -174,7 +179,7 @@
                                                 <input type="{{$item->type}}" class="form-control mb-0" value="{{old($item->name)}}" name="{{$item->name}}"
                                                        placeholder="{{__('labels.backend.general_settings.user_registration_settings.fields.'.$item->name)}}">
                                             </div>
-                                        @elseif($item->type == 'gender')
+                                        @elseif($item->type == 'radio')
                                             <div class="contact-info mb-2">
                                                 <label class="radio-inline mr-3 mb-0">
                                                     <input type="radio" name="{{$item->name}}" value="male"> {{__('validation.attributes.frontend.male')}}

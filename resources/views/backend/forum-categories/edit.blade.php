@@ -1,5 +1,5 @@
 @extends('backend.layouts.app')
-@section('title', __('labels.backend.tax.title').' | '.app_name())
+@section('title', __('labels.backend.forum_category.title').' | '.app_name())
 
 @push('after-styles')
     <style>
@@ -38,7 +38,7 @@
             <h3 class="page-title d-inline">@lang('labels.backend.forum_category.edit')</h3>
             <div class="float-right">
                 <a href="{{ route('admin.forums-category.index') }}"
-                   class="btn btn-success">@lang('labels.backend.tax.view')</a>
+                   class="btn btn-success">@lang('labels.backend.forum_category.view')</a>
 
             </div>
         </div>
