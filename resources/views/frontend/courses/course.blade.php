@@ -475,7 +475,7 @@
                             @else
 
                                 @if($continue_course)
-                                    <a href="{{route('lessons.show',['id' => $course->id,'slug'=>$continue_course->model->slug])}}"
+                                    <a href="{{route('lessons.show',['course_id' => $course->id,'slug'=>$continue_course->model->slug])}}"
                                        class="genius-btn btn-block text-white  gradient-bg text-center text-uppercase  bold-font">
 
                                         @lang('labels.frontend.course.continue_course')
