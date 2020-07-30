@@ -42,7 +42,6 @@ class LessonsController extends Controller
      */
     public function getData(Request $request)
     {
-
         $has_view = false;
         $has_delete = false;
         $has_edit = false;
@@ -79,7 +78,7 @@ class LessonsController extends Controller
                 $edit = "";
                 $delete = "";
                 if ($request->show_deleted == 1) {
-                    return view('backend.datatable.action-trashed')->with(['route_label' => 'admin.lessons', 'label' => 'lesson', 'value' => $q->id]);
+                    return view('backend.datatable.action-trashed')->with(['route_label' => 'admin.lessons', 'label' => 'id', 'value' => $q->id]);
                 }
                 if ($has_view) {
                     $view = view('backend.datatable.action-view')
@@ -106,7 +105,6 @@ class LessonsController extends Controller
                 }
 
                 return $view;
-
             })
             ->editColumn('course', function ($q) {
                 return ($q->course) ? $q->course->title : 'N/A';
@@ -153,12 +151,12 @@ class LessonsController extends Controller
         $slug = "";
         if (($request->slug == "") || $request->slug == null) {
             $slug = str_slug($request->title);
-        }else if($request->slug != null){
+        } elseif ($request->slug != null) {
             $slug = $request->slug;
         }
 
-        $slug_lesson = Lesson::where('slug','=',$slug)->first();
-        if($slug_lesson != null){
+        $slug_lesson = Lesson::where('slug', '=', $slug)->first();
+        if ($slug_lesson != null) {
             return back()->withFlashDanger(__('alerts.backend.general.slug_exist'));
         }
 
@@ -191,7 +189,6 @@ class LessonsController extends Controller
                     ->where('model_id', '=', $lesson->id)
                     ->first();
                 $size = 0;
-
             } elseif ($request->media_type == 'upload') {
                 if (\Illuminate\Support\Facades\Request::hasFile('video_file')) {
                     $file = \Illuminate\Support\Facades\Request::file('video_file');
@@ -208,7 +205,7 @@ class LessonsController extends Controller
                         ->where('model_id', '=', $lesson->id)
                         ->first();
                 }
-            } else if ($request->media_type == 'embed') {
+            } elseif ($request->media_type == 'embed') {
                 $url = $request->video;
                 $filename = $lesson->title . ' - video';
             }
@@ -295,12 +292,12 @@ class LessonsController extends Controller
         $slug = "";
         if (($request->slug == "") || $request->slug == null) {
             $slug = str_slug($request->title);
-        }else if($request->slug != null){
+        } elseif ($request->slug != null) {
             $slug = $request->slug;
         }
 
-        $slug_lesson = Lesson::where('slug','=',$slug)->where('id','!=',$id)->first();
-        if($slug_lesson != null){
+        $slug_lesson = Lesson::where('slug', '=', $slug)->where('id', '!=', $id)->first();
+        if ($slug_lesson != null) {
             return back()->withFlashDanger(__('alerts.backend.general.slug_exist'));
         }
 
@@ -328,8 +325,7 @@ class LessonsController extends Controller
                     $url = $video;
                     $video_id = array_last(explode('/', $request->video));
                     $size = 0;
-
-                } else if ($request->media_type == 'embed') {
+                } elseif ($request->media_type == 'embed') {
                     $url = $request->video;
                     $filename = $lesson->title . ' - video';
                 }
@@ -370,13 +366,12 @@ class LessonsController extends Controller
                     $media->file_name = $video_id;
                     $media->size = 0;
                     $media->save();
-
                 }
             }
         }
-        if($request->hasFile('add_pdf')){
+        if ($request->hasFile('add_pdf')) {
             $pdf = $lesson->mediaPDF;
-            if($pdf){
+            if ($pdf) {
                 $pdf->delete();
             }
         }
@@ -499,14 +494,14 @@ class LessonsController extends Controller
         }
         $lesson = Lesson::onlyTrashed()->findOrFail($id);
 
-        if(File::exists(public_path('/storage/uploads/'.$lesson->lesson_image))) {
+        if (File::exists(public_path('/storage/uploads/'.$lesson->lesson_image))) {
             File::delete(public_path('/storage/uploads/'.$lesson->lesson_image));
             File::delete(public_path('/storage/uploads/thumb/'.$lesson->lesson_image));
         }
 
         $timelineStep = CourseTimeline::where('model_id', '=', $id)
             ->where('course_id', '=', $lesson->course->id)->first();
-        if($timelineStep){
+        if ($timelineStep) {
             $timelineStep->delete();
         }
 
