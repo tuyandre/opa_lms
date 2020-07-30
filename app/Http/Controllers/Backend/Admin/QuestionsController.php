@@ -25,12 +25,11 @@ class QuestionsController extends Controller
      */
     public function index()
     {
-
         if (!Gate::allows('question_access')) {
             return abort(401);
         }
 
-        $tests = Test::where('published','=',1)->pluck('title','id')->prepend('Please select', '');
+        $tests = Test::where('published', '=', 1)->pluck('title', 'id')->prepend('Please select', '');
 
         return view('backend.questions.index', compact('tests'));
     }
@@ -52,8 +51,8 @@ class QuestionsController extends Controller
 
         if ($request->test_id != "") {
             $test_id = $request->test_id;
-            $questions = Question::query()->whereHas('tests',function ($q) use ($test_id){
-                $q->where('test_id',$test_id);
+            $questions = Question::query()->whereHas('tests', function ($q) use ($test_id) {
+                $q->where('test_id', $test_id);
             })->orderBy('created_at', 'desc');
         }
 
@@ -86,7 +85,7 @@ class QuestionsController extends Controller
                 $edit = "";
                 $delete = "";
                 if ($request->show_deleted == 1) {
-                    return view('backend.datatable.action-trashed')->with(['route_label' => 'admin.questions', 'label' => 'question', 'value' => $q->id]);
+                    return view('backend.datatable.action-trashed')->with(['route_label' => 'admin.questions', 'label' => 'id', 'value' => $q->id]);
                 }
                 if ($has_view) {
                     $view = view('backend.datatable.action-view')
@@ -106,7 +105,6 @@ class QuestionsController extends Controller
                     $view .= $delete;
                 }
                 return $view;
-
             })
             ->editColumn('question_image', function ($q) {
                 return ($q->question_image != null) ? '<img height="50px" src="' . asset('storage/uploads/' . $q->question_image) . '">' : 'N/A';
@@ -137,7 +135,6 @@ class QuestionsController extends Controller
      */
     public function store(StoreQuestionsRequest $request)
     {
-
         if (!Gate::allows('question_create')) {
             return abort(401);
         }
@@ -233,10 +230,12 @@ class QuestionsController extends Controller
             return abort(401);
         }
         $questions_options = \App\Models\QuestionsOption::where('question_id', $id)->get();
-        $tests = \App\Models\Test::whereHas('questions',
+        $tests = \App\Models\Test::whereHas(
+            'questions',
             function ($query) use ($id) {
                 $query->where('id', $id);
-            })->get();
+            }
+        )->get();
 
         $question = Question::findOrFail($id);
 
@@ -256,10 +255,11 @@ class QuestionsController extends Controller
             return abort(401);
         }
         $question = Question::findOrFail($id);
-        if(request()->get('test_id'))
+        if (request()->get('test_id')) {
             \DB::table('question_test')->where('question_id', $id)->where('test_id', request()->get('test_id'))->delete();
-        else
+        } else {
             \DB::table('question_test')->where('question_id', $id)->delete();
+        }
 
         $question->delete();
 
