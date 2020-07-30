@@ -29,7 +29,6 @@ class BundlesController extends Controller
      */
     public function index()
     {
-
         if (!Gate::allows('bundle_access')) {
             return abort(401);
         }
@@ -55,13 +54,11 @@ class BundlesController extends Controller
                 return abort(401);
             }
             $bundles = Bundle::query()->ofAuthor()->onlyTrashed()->orderBy('created_at', 'desc');
-
-        } else if (request('cat_id') != "") {
+        } elseif (request('cat_id') != "") {
             $id = request('cat_id');
             $bundles = Bundle::query()->ofAuthor()->where('category_id', '=', $id)->orderBy('created_at', 'desc');
         } else {
             $bundles = Bundle::query()->ofAuthor()->orderBy('created_at', 'desc');
-
         }
 
 
@@ -82,7 +79,7 @@ class BundlesController extends Controller
                 $edit = "";
                 $delete = "";
                 if ($request->show_deleted == 1) {
-                    return view('backend.datatable.action-trashed')->with(['route_label' => 'admin.bundles', 'label' => 'lesson', 'value' => $q->id]);
+                    return view('backend.datatable.action-trashed')->with(['route_label' => 'admin.bundles', 'label' => 'id', 'value' => $q->id]);
                 }
                 if ($has_view) {
                     $view = view('backend.datatable.action-view')
@@ -101,16 +98,15 @@ class BundlesController extends Controller
                         ->render();
                     $view .= $delete;
                 }
-                if($q->published == 1){
+                if ($q->published == 1) {
                     $type = 'action-unpublish';
-                }else{
+                } else {
                     $type = 'action-publish';
                 }
 
                 $view .= view('backend.datatable.'.$type)
                     ->with(['route' => route('admin.bundles.publish', ['id' => $q->id])])->render();
                 return $view;
-
             })
             ->editColumn('course_image', function ($q) {
                 return ($q->course_image != null) ? '<img height="50px" src="' . asset('storage/uploads/' . $q->course_image) . '">' : 'N/A';
@@ -167,7 +163,6 @@ class BundlesController extends Controller
      */
     public function store(StoreBundlesRequest $request)
     {
-
         if (!Gate::allows('bundle_create')) {
             return abort(401);
         }
@@ -179,8 +174,8 @@ class BundlesController extends Controller
             $bundle->slug = str_slug($request->title);
             $bundle->save();
         }
-        if((int)$request->price == 0){
-            $bundle->price = NULL;
+        if ((int)$request->price == 0) {
+            $bundle->price = null;
             $bundle->save();
         }
 
@@ -238,8 +233,8 @@ class BundlesController extends Controller
         }
 
 
-        if((int)$request->price == 0){
-            $bundle->price = NULL;
+        if ((int)$request->price == 0) {
+            $bundle->price = null;
             $bundle->save();
         }
 
@@ -356,15 +351,13 @@ class BundlesController extends Controller
         }
 
         $bundle = Bundle::findOrFail($id);
-        if($bundle->published == 1){
+        if ($bundle->published == 1) {
             $bundle->published = 0;
-        }else{
+        } else {
             $bundle->published = 1;
         }
         $bundle->save();
 
         return back()->withFlashSuccess(trans('alerts.backend.general.updated'));
     }
-
-
 }

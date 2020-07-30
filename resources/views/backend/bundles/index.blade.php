@@ -118,10 +118,10 @@
                     },
                         @endif
                         @if (Auth::user()->isAdmin())
-                    {data: "DT_RowIndex", name: 'DT_RowIndex', searchable: false},
+                    {data: "DT_RowIndex", name: 'DT_RowIndex', searchable: false, orderable: false},
 
                         @else
-                    {data: "DT_RowIndex", name: 'DT_RowIndex', searchable: false},
+                    {data: "DT_RowIndex", name: 'DT_RowIndex', searchable: false, orderable: false},
 
                         @endif
                     {data: "id", name: 'id'},
