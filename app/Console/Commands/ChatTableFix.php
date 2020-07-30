@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use Lexx\ChatMessenger\Models\Message;
 use Lexx\ChatMessenger\Models\Participant;
 use Lexx\ChatMessenger\Models\Thread;
+use Illuminate\Support\Facades\Schema;
 
 class ChatTableFix extends Command
 {
@@ -69,6 +70,19 @@ class ChatTableFix extends Command
                 }
             }
         }
+
+        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
+
+        Schema::dropIfExists('message_threads');
+        Schema::dropIfExists('message_thread_participants');
+        Schema::dropIfExists('messages');
+
+
+        unlink(database_path('/migrations/2016_07_27_052049_create_messages_table.php'));
+        unlink(database_path('/migrations/2016_07_31_215110_create_message_threads_table.php'));
+        unlink(database_path('/migrations/2016_07_31_215345_create_message_thread_participants.php'));
+        DB::statement('SET FOREIGN_KEY_CHECKS = 1');
+
         return $this->line("chat table imported");
     }
 }
