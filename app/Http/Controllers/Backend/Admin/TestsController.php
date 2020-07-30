@@ -25,7 +25,7 @@ class TestsController extends Controller
             return abort(401);
         }
 
-        $courses = Course::ofTeacher()->pluck('title','id')->prepend('Please select', '');
+        $courses = Course::ofTeacher()->pluck('title', 'id')->prepend('Please select', '');
 
         return view('backend.tests.index', compact('courses'));
     }
@@ -44,7 +44,7 @@ class TestsController extends Controller
 
 
         if ($request->course_id != "") {
-            $tests = Test::query()->where('course_id','=',$request->course_id)->orderBy('created_at', 'desc');
+            $tests = Test::query()->where('course_id', '=', $request->course_id)->orderBy('created_at', 'desc');
         }
 
         if (request('show_deleted') == 1) {
@@ -72,7 +72,7 @@ class TestsController extends Controller
                 $edit = "";
                 $delete = "";
                 if ($request->show_deleted == 1) {
-                    return view('backend.datatable.action-trashed')->with(['route_label' => 'admin.tests', 'label' => 'test', 'value' => $q->id]);
+                    return view('backend.datatable.action-trashed')->with(['route_label' => 'admin.tests', 'label' => 'id', 'value' => $q->id]);
                 }
                 if ($has_view) {
                     $view = view('backend.datatable.action-view')
@@ -92,20 +92,19 @@ class TestsController extends Controller
                     $view .= $delete;
                 }
                 return $view;
-
             })
-            ->addColumn('questions',function ($q){
-                if(count($q->questions) > 0){
-                    return "<span>".count($q->questions)."</span><a class='btn btn-success float-right' href='".route('admin.questions.index',['test_id'=>$q->id])."'><i class='fa fa-arrow-circle-o-right'></i></a> ";
+            ->addColumn('questions', function ($q) {
+                if (count($q->questions) > 0) {
+                    return "<span>".count($q->questions)."</span><a class='btn btn-success float-right' href='".route('admin.questions.index', ['test_id'=>$q->id])."'><i class='fa fa-arrow-circle-o-right'></i></a> ";
                 }
-              return count($q->questions);
+                return count($q->questions);
             })
 
-            ->addColumn('course',function ($q){
+            ->addColumn('course', function ($q) {
                 return ($q->course) ? $q->course->title : "N/A";
             })
 
-            ->addColumn('lesson',function ($q){
+            ->addColumn('lesson', function ($q) {
                 return ($q->lesson) ? $q->lesson->title : "N/A";
             })
 
@@ -142,11 +141,11 @@ class TestsController extends Controller
      */
     public function store(StoreTestsRequest $request)
     {
-        $this->validate($request,[
+        $this->validate($request, [
             'course_id' => 'required',
             'title' => 'required',
             'description' => 'required'
-        ],['course_id.required' => 'The course field is required']);
+        ], ['course_id.required' => 'The course field is required']);
 
         if (! Gate::allows('test_create')) {
             return abort(401);
