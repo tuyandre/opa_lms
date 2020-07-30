@@ -24,7 +24,6 @@ class TeachersController extends Controller
      */
     public function index()
     {
-
         return view('backend.teachers.index');
     }
 
@@ -42,7 +41,6 @@ class TeachersController extends Controller
 
 
         if (request('show_deleted') == 1) {
-
             $teachers = User::query()->role('teacher')->onlyTrashed()->orderBy('created_at', 'desc');
         } else {
             $teachers = User::query()->role('teacher')->orderBy('created_at', 'desc');
@@ -62,7 +60,7 @@ class TeachersController extends Controller
                 $edit = "";
                 $delete = "";
                 if ($request->show_deleted == 1) {
-                    return view('backend.datatable.action-trashed')->with(['route_label' => 'admin.teachers', 'label' => 'teacher', 'value' => $q->id]);
+                    return view('backend.datatable.action-trashed')->with(['route_label' => 'admin.teachers', 'label' => 'id', 'value' => $q->id]);
                 }
 
                 if ($has_view) {
@@ -87,7 +85,6 @@ class TeachersController extends Controller
                 $view .= '<a class="btn btn-warning mb-1" href="' . route('admin.courses.index', ['teacher_id' => $q->id]) . '">' . trans('labels.backend.courses.title') . '</a>';
 
                 return $view;
-
             })
             ->addColumn('status', function ($q) {
                 $html = html()->label(html()->checkbox('')->id($q->id)
@@ -229,7 +226,6 @@ class TeachersController extends Controller
      */
     public function destroy($id)
     {
-
         $teacher = User::findOrFail($id);
 
         if ($teacher->courses->count() > 0) {
@@ -248,7 +244,6 @@ class TeachersController extends Controller
      */
     public function massDestroy(Request $request)
     {
-
         if ($request->input('ids')) {
             $entries = User::whereIn('id', $request->input('ids'))->get();
 
@@ -281,7 +276,6 @@ class TeachersController extends Controller
      */
     public function perma_del($id)
     {
-
         $teacher = User::onlyTrashed()->findOrFail($id);
         $teacher->teacherProfile->delete();
         $teacher->forceDelete();

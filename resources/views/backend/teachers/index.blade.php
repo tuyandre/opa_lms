@@ -115,7 +115,7 @@
                         }, "orderable": false, "searchable": false, "name": "id"
                     },
                         @endif
-                    {data: "DT_RowIndex", name: 'DT_RowIndex', searchable: false},
+                    {data: "DT_RowIndex", name: 'DT_RowIndex', searchable: false, orderable:false},
                     {data: "id", name: 'id'},
                     {data: "first_name", name: 'first_name'},
                     {data: "last_name", name: 'last_name'},
