@@ -71,7 +71,7 @@ class PageController extends Controller
                 $edit = "";
                 $delete = "";
                 if ($request->show_deleted == 1) {
-                    return view('backend.datatable.action-trashed')->with(['route_label' => 'admin.pages', 'label' => 'page', 'value' => $q->id]);
+                    return view('backend.datatable.action-trashed')->with(['route_label' => 'admin.pages', 'label' => 'id', 'value' => $q->id]);
                 }
                 if ($has_view) {
                     $view = view('backend.datatable.action-view')
