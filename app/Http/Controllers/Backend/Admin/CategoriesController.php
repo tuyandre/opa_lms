@@ -13,7 +13,6 @@ use Yajra\DataTables\DataTables;
 
 class CategoriesController extends Controller
 {
-
     use FileUploadTrait;
 
     /**
@@ -72,7 +71,7 @@ class CategoriesController extends Controller
                 $allow_delete = false;
 
                 if ($request->show_deleted == 1) {
-                    return view('backend.datatable.action-trashed')->with(['route_label' => 'admin.categories', 'label' => 'category', 'value' => $q->id]);
+                    return view('backend.datatable.action-trashed')->with(['route_label' => 'admin.categories', 'label' => 'id', 'value' => $q->id]);
                 }
 //                if ($has_view) {
 //                    $view = view('backend.datatable.action-view')
@@ -87,7 +86,7 @@ class CategoriesController extends Controller
 
                 if ($has_delete) {
                     $data = $q->courses->count() + $q->blogs->count();
-                    if($data == 0){
+                    if ($data == 0) {
                         $allow_delete = true;
                     }
                     $delete = view('backend.datatable.action-delete')
@@ -100,12 +99,11 @@ class CategoriesController extends Controller
 
 
                 return $view;
-
             })
             ->editColumn('icon', function ($q) {
                 if ($q->icon != "") {
                     return '<i style="font-size:40px;" class="'.$q->icon.'"></i>';
-                }else{
+                } else {
                     return 'N/A';
                 }
             })
@@ -155,8 +153,8 @@ class CategoriesController extends Controller
         if (!Gate::allows('category_create')) {
             return abort(401);
         }
-        $category = Category::where('slug','=',str_slug($request->name))->first();
-        if($category == null){
+        $category = Category::where('slug', '=', str_slug($request->name))->first();
+        if ($category == null) {
             $category = new  Category();
         }
         $category->name = $request->name;
