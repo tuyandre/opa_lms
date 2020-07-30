@@ -28,7 +28,6 @@ class CoursesController extends Controller
      */
     public function index()
     {
-
         if (!Gate::allows('course_access')) {
             return abort(401);
         }
@@ -55,15 +54,14 @@ class CoursesController extends Controller
             $courses = Course::query()->onlyTrashed()
                 ->whereHas('category')
                 ->ofTeacher()->orderBy('created_at', 'desc');
-
-        } else if (request('teacher_id') != "") {
+        } elseif (request('teacher_id') != "") {
             $id = request('teacher_id');
             $courses = Course::query()->ofTeacher()
                 ->whereHas('category')
                 ->whereHas('teachers', function ($q) use ($id) {
                     $q->where('course_user.user_id', '=', $id);
                 })->orderBy('created_at', 'desc');
-        } else if (request('cat_id') != "") {
+        } elseif (request('cat_id') != "") {
             $id = request('cat_id');
             $courses = Course::query()->ofTeacher()
                 ->whereHas('category')
@@ -92,7 +90,7 @@ class CoursesController extends Controller
                 $edit = "";
                 $delete = "";
                 if ($request->show_deleted == 1) {
-                    return view('backend.datatable.action-trashed')->with(['route_label' => 'admin.courses', 'label' => 'lesson', 'value' => $q->id]);
+                    return view('backend.datatable.action-trashed')->with(['route_label' => 'admin.courses', 'label' => 'id', 'value' => $q->id]);
                 }
                 if ($has_view) {
                     $view = view('backend.datatable.action-view')
@@ -111,16 +109,15 @@ class CoursesController extends Controller
                         ->render();
                     $view .= $delete;
                 }
-                if($q->published == 1){
+                if ($q->published == 1) {
                     $type = 'action-unpublish';
-                }else{
+                } else {
                     $type = 'action-publish';
                 }
 
                 $view .= view('backend.datatable.'.$type)
                     ->with(['route' => route('admin.courses.publish', ['id' => $q->id])])->render();
                 return $view;
-
             })
             ->addColumn('teachers', function ($q) {
                 $teachers = "";
@@ -139,7 +136,7 @@ class CoursesController extends Controller
             ->addColumn('status', function ($q) {
                 $text = "";
                 $text = ($q->published == 1) ? "<p class='text-white mb-1 font-weight-bold text-center bg-dark p-1 mr-1' >" . trans('labels.backend.courses.fields.published') . "</p>" : "<p class='text-white mb-1 font-weight-bold text-center bg-primary p-1 mr-1' >" . trans('labels.backend.courses.fields.unpublished') . "</p>";
-                if (auth()->user()->isAdmin()){
+                if (auth()->user()->isAdmin()) {
                     $text .= ($q->featured == 1) ? "<p class='text-white mb-1 font-weight-bold text-center bg-warning p-1 mr-1' >" . trans('labels.backend.courses.fields.featured') . "</p>" : "";
                     $text .= ($q->trending == 1) ? "<p class='text-white mb-1 font-weight-bold text-center bg-success p-1 mr-1' >" . trans('labels.backend.courses.fields.trending') . "</p>" : "";
                     $text .= ($q->popular == 1) ? "<p class='text-white mb-1 font-weight-bold text-center bg-primary p-1 mr-1' >" . trans('labels.backend.courses.fields.popular') . "</p>" : "";
@@ -198,12 +195,12 @@ class CoursesController extends Controller
         $slug = "";
         if (($request->slug == "") || $request->slug == null) {
             $slug = str_slug($request->title);
-        }else if($request->slug != null){
+        } elseif ($request->slug != null) {
             $slug = $request->slug;
         }
 
-        $slug_lesson = Course::where('slug','=',$slug)->first();
-        if($slug_lesson != null){
+        $slug_lesson = Course::where('slug', '=', $slug)->first();
+        if ($slug_lesson != null) {
             return back()->withFlashDanger(__('alerts.backend.general.slug_exist'));
         }
 
@@ -232,7 +229,6 @@ class CoursesController extends Controller
                     ->where('model_id', '=', $course->id)
                     ->first();
                 $size = 0;
-
             } elseif ($request->media_type == 'upload') {
 //                if (\Illuminate\Support\Facades\Request::hasFile('video_file')) {
 //                    $file = \Illuminate\Support\Facades\Request::file('video_file');
@@ -258,8 +254,7 @@ class CoursesController extends Controller
                     ->where('model_id', '=', $course->id)
                     ->first();
 
-                if($request->video_subtitle && $request->video_subtitle != null){
-
+                if ($request->video_subtitle && $request->video_subtitle != null) {
                     $subtitle_id = $request->video_subtitle;
                     $subtitle_url = asset('storage/uploads/' . $subtitle_id);
 
@@ -280,8 +275,7 @@ class CoursesController extends Controller
                         $subtitle->save();
                     }
                 }
-
-            } else if ($request->media_type == 'embed') {
+            } elseif ($request->media_type == 'embed') {
                 $url = $request->video;
                 $filename = $course->title . ' - video';
             }
@@ -303,7 +297,7 @@ class CoursesController extends Controller
 
 
         if ((int)$request->price == 0) {
-            $course->price = NULL;
+            $course->price = null;
             $course->save();
         }
 
@@ -355,12 +349,12 @@ class CoursesController extends Controller
         $slug = "";
         if (($request->slug == "") || $request->slug == null) {
             $slug = str_slug($request->title);
-        }else if($request->slug != null){
+        } elseif ($request->slug != null) {
             $slug = $request->slug;
         }
 
-        $slug_lesson = Course::where('slug','=',$slug)->where('id','!=',$course->id)->first();
-        if($slug_lesson != null){
+        $slug_lesson = Course::where('slug', '=', $slug)->where('id', '!=', $course->id)->first();
+        if ($slug_lesson != null) {
             return back()->withFlashDanger(__('alerts.backend.general.slug_exist'));
         }
 
@@ -370,7 +364,7 @@ class CoursesController extends Controller
 
         //Saving  videos
         if ($request->media_type != "" || $request->media_type  != null) {
-            if($course->mediavideo){
+            if ($course->mediavideo) {
                 $course->mediavideo->delete();
             }
             $model_type = Course::class;
@@ -390,8 +384,7 @@ class CoursesController extends Controller
                     $url = $video;
                     $video_id = array_last(explode('/', $request->video));
                     $size = 0;
-
-                } else if ($request->media_type == 'embed') {
+                } elseif ($request->media_type == 'embed') {
                     $url = $request->video;
                     $filename = $course->title . ' - video';
                 }
@@ -406,9 +399,7 @@ class CoursesController extends Controller
             }
 
             if ($request->media_type == 'upload') {
-
                 if ($request->video_file != null) {
-
                     $media = Media::where('type', '=', $request->media_type)
                         ->where('model_type', '=', 'App\Models\Course')
                         ->where('model_id', '=', $course->id)
@@ -425,7 +416,6 @@ class CoursesController extends Controller
                     $media->file_name = $request->video_file;
                     $media->size = 0;
                     $media->save();
-
                 }
             }
         }
@@ -437,7 +427,7 @@ class CoursesController extends Controller
             $course->save();
         }
         if ((int)$request->price == 0) {
-            $course->price = NULL;
+            $course->price = null;
             $course->save();
         }
 
