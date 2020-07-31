@@ -28,11 +28,13 @@
                         <a href="{{ route('admin.lessons.index',['course_id'=>request('course_id')]) }}"
                            style="{{ request('show_deleted') == 1 ? '' : 'font-weight: 700' }}">{{trans('labels.general.all')}}</a>
                     </li>
+                    @can('lesson_delete')
                     |
                     <li class="list-inline-item">
                         <a href="{{trashUrl(request()) }}"
                            style="{{ request('show_deleted') == 1 ? 'font-weight: 700' : '' }}">{{trans('labels.general.trash')}}</a>
                     </li>
+                    @endcan
                 </ul>
             </div>
 

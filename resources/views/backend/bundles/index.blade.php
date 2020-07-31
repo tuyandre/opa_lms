@@ -8,7 +8,7 @@
     <div class="card">
         <div class="card-header">
             <h3 class="page-title float-left mb-0">@lang('labels.backend.bundles.title')</h3>
-            @can('course_create')
+            @can('bundle_create')
                 <div class="float-right">
                     <a href="{{ route('admin.bundles.create') }}"
                        class="btn btn-success">@lang('strings.backend.general.app_add_new')</a>
@@ -24,21 +24,23 @@
                             <a href="{{ route('admin.bundles.index') }}"
                                style="{{ request('show_deleted') == 1 ? '' : 'font-weight: 700' }}">{{trans('labels.general.all')}}</a>
                         </li>
+                        @can('bundle_delete')
                         |
                         <li class="list-inline-item">
                             <a href="{{ route('admin.bundles.index') }}?show_deleted=1"
                                style="{{ request('show_deleted') == 1 ? 'font-weight: 700' : '' }}">{{trans('labels.general.trash')}}</a>
                         </li>
+                        @endcan
                     </ul>
                 </div>
 
 
                 <table id="myTable"
-                       class="table table-bordered table-striped @can('course_delete') @if ( request('show_deleted') != 1 ) dt-select @endif @endcan">
+                       class="table table-bordered table-striped @can('bundle_delete') @if ( request('show_deleted') != 1 ) dt-select @endif @endcan">
                     <thead>
                     <tr>
 
-                        @can('course_delete')
+                        @can('bundle_delete')
                             @if ( request('show_deleted') != 1 )
                                 <th style="text-align:center;"><input type="checkbox" class="mass" id="select-all"/>
                                 </th>@endif

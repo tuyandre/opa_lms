@@ -29,11 +29,13 @@
                         <a href="{{ route('admin.tests.index',['course_id'=>request('course_id')]) }}"
                            style="{{ request('show_deleted') == 1 ? '' : 'font-weight: 700' }}">{{trans('labels.general.all')}}</a>
                     </li>
+                    @can('test_delete')
                     |
                     <li class="list-inline-item">
                         <a href="{{trashUrl(request()) }}"
                            style="{{ request('show_deleted') == 1 ? 'font-weight: 700' : '' }}">{{trans('labels.general.trash')}}</a>
                     </li>
+                    @endcan
                 </ul>
             </div>
 

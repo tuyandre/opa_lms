@@ -27,10 +27,12 @@
                     <li class="list-inline-item"><a href="{{ route('admin.questions.index') }}"
                                                     style="{{ request('show_deleted') == 1 ? '' : 'font-weight: 700' }}">{{trans('labels.general.all')}}</a>
                     </li>
+                    @can('question_delete')
                     |
                     <li class="list-inline-item"><a href="{{ route('admin.questions.index') }}?show_deleted=1"
                                                     style="{{ request('show_deleted') == 1 ? 'font-weight: 700' : '' }}">{{trans('labels.general.trash')}}</a>
                     </li>
+                    @endcan
                 </ul>
             </div>
             <table id="myTable"
