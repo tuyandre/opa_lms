@@ -24,11 +24,13 @@
                                     <a href="{{ route('admin.categories.index') }}"
                                        style="{{ request('show_deleted') == 1 ? '' : 'font-weight: 700' }}">{{trans('labels.general.all')}}</a>
                                 </li>
+                                @can('category_delete')
                                 |
                                 <li class="list-inline-item">
                                     <a href="{{ route('admin.categories.index') }}?show_deleted=1"
                                        style="{{ request('show_deleted') == 1 ? 'font-weight: 700' : '' }}">{{trans('labels.general.trash')}}</a>
                                 </li>
+                                @endcan
                             </ul>
                         </div>
 
