@@ -58,6 +58,10 @@ Route::group(['middleware' => 'role:administrator'], function () {
 
     Route::post('newsletter/sendgrid-lists', ['uses' => 'Admin\ConfigController@getSendGridLists'])->name('newsletter.getSendGridLists');
 
+    Route::get('settings/zoom', ['uses' => 'Admin\ConfigController@getZoomSettings'])->name('zoom-settings');
+
+    Route::post('settings/zoom', ['uses' => 'Admin\ConfigController@saveZoomSettings'])->name('zoom-settings');
+
 
     //===== Slider Routes =====/
     Route::resource('sliders', 'Admin\SliderController');

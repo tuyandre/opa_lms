@@ -226,4 +226,38 @@ class ConfigController extends Controller
         return back();
     }
 
+    public function getZoomSettings()
+    {
+        if(!auth()->user()->isAdmin()){
+            return abort(403);
+        }
+        return view('backend.settings.zoom');
+    }
+
+    public function saveZoomSettings(Request $request)
+    {
+        $requests = $request->all();
+
+        $switchInputs = ['zoom__join_before_host','zoom__host_video','zoom__participant_video', 'zoom__mute_upon_entry', 'zoom__waiting_room'];
+
+        foreach ($switchInputs as $switchInput) {
+            if ($request->get($switchInput) == null) {
+                $requests[$switchInput] = 0;
+            }
+        }
+
+        foreach ($requests as $key => $value) {
+            if ($key != '_token') {
+                $key = str_replace('__', '.', $key);
+                $config = Config::firstOrCreate(['key' => $key]);
+                $config->value = $value;
+                $config->save();
+
+
+            }
+        }
+
+        return back()->withFlashSuccess(__('alerts.backend.general.updated'));
+    }
+
 }
