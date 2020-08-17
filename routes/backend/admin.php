@@ -312,4 +312,12 @@ Route::post('reasons_mass_destroy', ['uses' => 'Admin\ReasonController@massDestr
 Route::get('reasons/status/{id}', 'Admin\ReasonController@status')->name('reasons.status');
 Route::post('reasons/status', ['uses' => 'Admin\ReasonController@updateStatus', 'as' => 'reasons.status']);
 
+//==== Live Lessons ====//
+Route::group(['prefix'=> 'live-lessons'], function () {
+    Route::get('data', ['uses' => 'LiveLessonController@getData', 'as' => 'live-lessons.get_data']);
+    Route::post('restore/{id}', ['uses' => 'LiveLessonController@restore', 'as' => 'live-lessons.restore']);
+    Route::delete('permanent/{id}', ['uses' => 'LiveLessonController@permanent', 'as' => 'live-lessons.perma_del']);
+});
+Route::resource('live-lessons', 'LiveLessonController');
+
 

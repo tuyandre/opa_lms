@@ -173,4 +173,19 @@ class Lesson extends Model
 
     }
 
+    public function scopeOfTeacher($query)
+    {
+        if (!auth()->user()->isAdmin()) {
+            return $query->whereHas('course.teachers', function ($q) {
+                $q->where('course_user.user_id', '=', auth()->user()->id);
+            });
+        }
+        return $query;
+    }
+
+    public function liveLessonSlots()
+    {
+        return $this->hasMany(LiveLessonSlot::class);
+    }
+
 }
