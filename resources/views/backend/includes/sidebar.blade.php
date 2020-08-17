@@ -46,7 +46,7 @@
             @if((!$logged_in_user->hasRole('student')) && ($logged_in_user->hasRole('teacher') || $logged_in_user->isAdmin() || $logged_in_user->hasAnyPermission(['course_access','lesson_access','test_access','question_access','bundle_access'])))
                 {{--@if($logged_in_user->hasRole('teacher') || $logged_in_user->isAdmin() || $logged_in_user->hasAnyPermission(['course_access','lesson_access','test_access','question_access','bundle_access']))--}}
 
-                <li class="nav-item nav-dropdown {{ active_class(Active::checkUriPattern(['user/courses*','user/lessons*','user/tests*','user/questions*']), 'open') }}">
+                <li class="nav-item nav-dropdown {{ active_class(Active::checkUriPattern(['user/courses*','user/lessons*','user/tests*','user/questions*','user/live-lessons*','user/live-lesson-slots*']), 'open') }}">
                     <a class="nav-link nav-dropdown-toggle {{ active_class(Active::checkUriPattern('admin/*')) }}"
                        href="#">
                         <i class="nav-icon icon-puzzle"></i> @lang('menus.backend.sidebar.courses.management')
@@ -89,6 +89,25 @@
                                 <a class="nav-link {{ $request->segment(2) == 'questions' ? 'active' : '' }}"
                                    href="{{ route('admin.questions.index') }}">
                                     <span class="title">@lang('menus.backend.sidebar.questions.title')</span>
+                                </a>
+                            </li>
+                        @endcan
+
+
+                        @can('live_lesson_access')
+                            <li class="nav-item ">
+                                <a class="nav-link {{ $request->segment(2) == 'live-lessons' ? 'active' : '' }}"
+                                   href="{{ route('admin.live-lessons.index') }}">
+                                    <span class="title">@lang('menus.backend.sidebar.live_lessons.title')</span>
+                                </a>
+                            </li>
+                        @endcan
+
+                        @can('live_lesson_slot_access')
+                            <li class="nav-item ">
+                                <a class="nav-link {{ $request->segment(2) == 'live-lesson-slots' ? 'active' : '' }}"
+                                   href="{{ route('admin.live-lesson-slots.index') }}">
+                                    <span class="title">@lang('menus.backend.sidebar.live_lesson_slots.title')</span>
                                 </a>
                             </li>
                         @endcan
@@ -379,6 +398,12 @@
                             <a class="nav-link {{ active_class(Active::checkUriPattern('admin/log-viewer/logs*')) }}"
                                href="{{ route('admin.social-settings') }}">
                                 @lang('menus.backend.sidebar.settings.social-login')
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ active_class(Active::checkUriPattern('admin/settings/zoom-settings*')) }}"
+                               href="{{ route('admin.zoom-settings') }}">
+                                @lang('menus.backend.sidebar.settings.zoom_setting')
                             </a>
                         </li>
                     </ul>
