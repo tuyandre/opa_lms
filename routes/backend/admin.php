@@ -321,3 +321,10 @@ Route::group(['prefix'=> 'live-lessons'], function () {
 Route::resource('live-lessons', 'LiveLessonController');
 
 
+//==== Live Lessons Slot ====//
+Route::group(['prefix'=> 'live-lesson-slots'], function () {
+    Route::get('data', ['uses' => 'LiveLessonSlotController@getData', 'as' => 'live-lesson-slots.get_data']);
+    Route::post('restore/{id}', ['uses' => 'LiveLessonSlotController@restore', 'as' => 'live-lesson-slots.restore']);
+    Route::delete('permanent/{id}', ['uses' => 'LiveLessonSlotController@permanent', 'as' => 'live-lesson-slots.perma_del']);
+});
+Route::resource('live-lesson-slots', 'LiveLessonSlotController');
