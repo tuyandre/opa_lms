@@ -137,6 +137,11 @@
                                                                 <span>@lang('labels.frontend.course.test')</span>
                                                             </div>
                                                         @endif
+                                                        @if($lesson->model->live_lesson)
+                                                            <div class="leanth-course">
+                                                                <span>@lang('labels.frontend.course.live_lesson')</span>
+                                                            </div>
+                                                        @endif
                                                     </div>
                                                 </div>
                                                 <div id="collapse{{$count}}" class="collapse" aria-labelledby="headingOne"
@@ -145,8 +150,23 @@
                                                         @if($lesson->model_type == 'App\Models\Test')
                                                             {{ mb_substr($lesson->model->description,0,20).'...'}}
                                                         @else
+                                                            @if($lesson->model->live_lesson)
+                                                            {{ mb_substr($lesson->model->short_text,0,20).'...'}}
+                                                            @else
                                                             {{$lesson->model->short_text}}
+                                                            @endif
 
+                                                        @endif
+                                                        @if($lesson->model->live_lesson)
+                                                            <h4>@lang('labels.frontend.course.available_slots')</h4>
+                                                            @forelse($lesson->model->liveLessonSlots as $slot)
+                                                                <div class="card">
+                                                                    <div class="card-body">
+                                                                        @lang('labels.frontend.course.date') {{ $slot->start_at->format('d-m-Y h:i A') }}
+                                                                    </div>
+                                                                </div>
+                                                            @empty
+                                                            @endforelse
                                                         @endif
                                                         @if(auth()->check())
 

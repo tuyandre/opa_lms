@@ -265,8 +265,73 @@
                                     </h3>
                                 </div>
                                 <div class="course-details-content">
-                                    {!! $lesson->full_text !!}
+                                    @if($lesson->live_lesson)
+                                        {{ $lesson->short_text }}
+                                    @else
+                                        {{ $lesson->full_text }}
+                                    @endif
                                 </div>
+                                @if($lesson->live_lesson)
+                                    <h4 class="my-4">@lang('labels.frontend.course.available_slots')</h4>
+                                    <div class="affiliate-market-guide mb65">
+                                        <div class="affiliate-market-accordion">
+                                            <div id="accordion" class="panel-group">
+                                                @php $count = 0; @endphp
+                                                @foreach($lesson->liveLessonSlots as $lessonSlot)
+                                                    @php $count++ @endphp
+                                                    <div class="panel position-relative">
+                                                        <div class="panel-title" id="headingOne">
+                                                            <div class="ac-head">
+                                                                <button class="btn btn-link collapsed" data-toggle="collapse"
+                                                                        data-target="#collapse{{$count}}" aria-expanded="false"
+                                                                        aria-controls="collapse{{$count}}">
+                                                                    <span>{{ sprintf("%02d", $count)}}</span>
+                                                                    {{$lessonSlot->topic}}
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                        <div id="collapse{{$count}}" class="collapse" aria-labelledby="headingOne"
+                                                             data-parent="#accordion">
+                                                            <div class="panel-body">
+                                                                {!! $lessonSlot->description !!}
+                                                                <p class="my-auto"><span class="font-weight-bold">@lang('labels.frontend.course.live_lesson_meeting_date')</span> : {{ $lessonSlot->start_at->format('d-m-Y h:i A') }} <strong>({{ config('zoom.timezone') }})</strong></p>
+                                                                <p class="my-auto"><span class="font-weight-bold">@lang('labels.frontend.course.live_lesson_meeting_duration')</span> : {{ $lessonSlot->duration }}</p>
+                                                                @if($lesson->lessonSlotBooking && $lesson->lessonSlotBooking->where('user_id', auth()->user()->id)->count())
+                                                                    @if(auth()->user()->lessonSlotBookings()->where('live_lesson_slot_id',$lessonSlot->id)->first())
+                                                                        @if($lessonSlot->start_at->timezone(config('zoom.timezone'))->gt(\Carbon\Carbon::now(new DateTimeZone(config('zoom.timezone')))))
+                                                                            <p class="my-auto"><span class="font-weight-bold">@lang('labels.frontend.course.live_lesson_meeting_id')</span> : {{ $lessonSlot->meeting_id }}</p>
+                                                                            <p class="my-auto"><span class="font-weight-bold">@lang('labels.frontend.course.live_lesson_meeting_password')</span> : {{ $lessonSlot->password }}</p>
+
+                                                                            <a class="btn btn-info mt-3"
+                                                                               href="{{ $lessonSlot->join_url }}" target="_blank">
+                                                                                <span class="text-white font-weight-bold ">@lang('labels.frontend.course.live_lesson_join_url')</span>
+                                                                            </a>
+                                                                        @endif
+                                                                    @endif
+                                                                @else
+                                                                    @if($lessonSlot->lessonSlotBookings->count() >= $lessonSlot->student_limit)
+
+                                                                        <span class="btn btn-danger mt-3">
+                                                                        <span class="text-white font-weight-bold ">@lang('labels.frontend.course.full_slot')</span>
+                                                                    </span>
+                                                                    @else
+                                                                        <form method="post" action="{{route('lessons.course.book-slot')}}">
+                                                                            @csrf
+                                                                            <input type="hidden" value="{{$lessonSlot->id}}" name="live_lesson_slot_id">
+                                                                            <input type="hidden" value="{{$lesson->id}}" name="lesson_id">
+                                                                            <button class="btn btn-info mt-3"
+                                                                            >@lang('labels.frontend.course.book_slot')</button>
+                                                                        </form>
+                                                                    @endif
+                                                                @endif
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                @endforeach
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endif
                             </div>
                         @endif
 
