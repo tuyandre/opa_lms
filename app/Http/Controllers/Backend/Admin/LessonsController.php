@@ -46,7 +46,7 @@ class LessonsController extends Controller
         $has_delete = false;
         $has_edit = false;
         $lessons = "";
-        $lessons = Lesson::whereIn('course_id', Course::ofTeacher()->pluck('id'));
+        $lessons = Lesson::query()->where('live_lesson', '=', 0)->whereIn('course_id', Course::ofTeacher()->pluck('id'));
 
 
         if ($request->course_id != "") {
@@ -57,7 +57,7 @@ class LessonsController extends Controller
             if (!Gate::allows('lesson_delete')) {
                 return abort(401);
             }
-            $lessons = Lesson::query()->with('course')->orderBy('created_at', 'desc')->onlyTrashed();
+            $lessons = Lesson::query()->where('live_lesson', '=', 0)->with('course')->orderBy('created_at', 'desc')->onlyTrashed();
         }
 
 
