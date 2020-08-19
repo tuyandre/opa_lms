@@ -19,7 +19,7 @@ class CreateLiveLessonSlotsTable extends Migration
             $table->string('meeting_id');
             $table->string('topic');
             $table->text('description')->comment('agenda');
-            $table->timestamp('start_at');
+            $table->dateTime('start_at');
             $table->integer('duration')->comment('minutes');
             $table->string('password')->comment('meeting password');
             $table->integer('student_limit')->nullable();
