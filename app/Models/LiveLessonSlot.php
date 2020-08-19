@@ -30,4 +30,9 @@ class LiveLessonSlot extends Model
     {
         return $this->belongsTo(Lesson::class);
     }
+
+    public function lessonSlotBookings()
+    {
+        return $this->hasMany(LessonSlotBooking::class);
+    }
 }

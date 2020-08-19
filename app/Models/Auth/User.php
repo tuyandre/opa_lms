@@ -8,6 +8,7 @@ use App\Models\ChapterStudent;
 use App\Models\Course;
 use App\Models\Invoice;
 use App\Models\Lesson;
+use App\Models\LessonSlotBooking;
 use App\Models\Media;
 use App\Models\Order;
 use App\Models\OrderItem;
@@ -260,5 +261,10 @@ class User extends Authenticatable
             'user_id',
             'thread_id'
         )->withPivot('last_read');
+    }
+
+    public function lessonSlotBookings()
+    {
+        return $this->hasMany(LessonSlotBooking::class);
     }
 }

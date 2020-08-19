@@ -188,4 +188,9 @@ class Lesson extends Model
         return $this->hasMany(LiveLessonSlot::class);
     }
 
+    public function lessonSlotBooking()
+    {
+        return $this->hasOne(LessonSlotBooking::class);
+    }
+
 }
