@@ -51,7 +51,26 @@
                 </div>
             </div><!-- Nav tabs -->
 
-
+            @if($liveLessonSlot->lessonSlotBookings->count())
+            <h4> @lang('labels.backend.live_lesson_slots.slot_booked_student_list')</h4>
+            <div class="row">
+                <div class="col-md-12">
+                    <table class="table table-bordered">
+                        <tr>
+                            <th>@lang('labels.backend.live_lesson_slots.student_name')</th>
+                            <th>@lang('labels.backend.live_lesson_slots.student_email')</th>
+                        </tr>
+                        @forelse($liveLessonSlot->lessonSlotBookings as $booking)
+                        <tr>
+                            <td>{{ $booking->user->name }}</td>
+                            <td>{{ $booking->user->email }}</td>
+                        </tr>
+                        @empty
+                        @endforelse
+                    </table>
+                </div>
+            </div>
+            @endif
 
             <a href="{{ route('admin.live-lesson-slots.index') }}"
                class="btn btn-default border">@lang('strings.backend.general.app_back_to_list')</a>
