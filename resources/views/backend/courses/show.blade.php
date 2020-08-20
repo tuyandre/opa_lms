@@ -154,9 +154,15 @@
                                             @lang('labels.backend.courses.test')
                                          </p>
                                     @elseif($item->model_type == 'App\Models\Lesson')
-                                      <p class="d-inline-block mb-0 btn btn-success">
-                                        @lang('labels.backend.courses.lesson')
-                                     </p>
+                                        @if($item->model->live_lesson)
+                                            <p class="d-inline-block mb-0 btn btn-info">
+                                                @lang('labels.backend.live_lessons.title')
+                                            </p>
+                                        @else
+                                        <p class="d-inline-block mb-0 btn btn-success">
+                                            @lang('labels.backend.courses.lesson')
+                                        </p>
+                                        @endif
                                      @endif
                                     @if($item->model)
                                     <p class="title d-inline ml-2">{{$item->model->title}}</p>
