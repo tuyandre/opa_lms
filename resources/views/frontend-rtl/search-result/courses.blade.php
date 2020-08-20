@@ -26,6 +26,9 @@
             display: inline;
             text-align: center;
         }
+        select.form-control.listing-filter-form.select {
+            height: unset;
+        }
     </style>
 @endpush
 @section('content')
