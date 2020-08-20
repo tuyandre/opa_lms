@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use App\Mail\Backend\LiveLesson\TeacherMeetingSlotMail;
 use App\Models\Course;
 use App\Models\Lesson;
 use App\Models\LiveLesson;
 use App\Models\LiveLessonSlot;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use MacsiDigital\Zoom\Facades\Zoom;
@@ -77,11 +79,13 @@ class LiveLessonSlotController extends Controller
                     $view = view('backend.datatable.action-view')
                         ->with(['route' => route('admin.live-lesson-slots.show', ['live_lesson_slot' => $liveLessonsSlot->id])])->render();
                 }
-                if ($has_edit) {
-                    $edit = view('backend.datatable.action-edit')
-                        ->with(['route' => route('admin.live-lesson-slots.edit', ['live_lesson_slot' => $liveLessonsSlot->id])])
-                        ->render();
-                    $view .= $edit;
+                if ($liveLessonsSlot->start_at->timezone(config('zoom.timezone'))->gt(Carbon::now(new \DateTimeZone(config('zoom.timezone'))))) {
+                    if ($has_edit) {
+                        $edit = view('backend.datatable.action-edit')
+                            ->with(['route' => route('admin.live-lesson-slots.edit', ['live_lesson_slot' => $liveLessonsSlot->id])])
+                            ->render();
+                        $view .= $edit;
+                    }
                 }
 
                 if ($has_delete) {
@@ -96,8 +100,12 @@ class LiveLessonSlotController extends Controller
             ->editColumn('start_at', function ($liveLessonsSlot) {
                 return $liveLessonsSlot->start_at->format('d-m-Y h:i:s A');
             })
-            ->editColumn('start_url', function ($liveLessonsSlot){
-                return '<a href="'.$liveLessonsSlot->start_url.'" class="btn btn-success btn-block mb-1">' . trans('labels.backend.live_lesson_slots.start_url') . '</a>';
+            ->editColumn('start_url', function ($liveLessonsSlot) {
+                if ($liveLessonsSlot->start_at->timezone(config('zoom.timezone'))->lt(Carbon::now(new \DateTimeZone(config('zoom.timezone'))))) {
+                    return '<a href="#" class="btn btn-warning btn-block mb-1 text-white">'.trans('labels.backend.live_lesson_slots.closed').'</a>';
+                } else {
+                    return '<a href="' . $liveLessonsSlot->start_url . '" class="btn btn-success btn-block mb-1">' . trans('labels.backend.live_lesson_slots.start_url') . '</a>';
+                }
             })
             ->addColumn('course', function ($liveLessonsSlot){
                 return ($liveLessonsSlot->lesson->course) ? $liveLessonsSlot->lesson->course->title : 'N/A';
@@ -158,9 +166,12 @@ class LiveLessonSlotController extends Controller
             'student_limit' => $request->student_limit,
         ];
 
-        $slots = LiveLessonSlot::create($saveField);
+        $liveLessonSlot = LiveLessonSlot::create($saveField);
 
-        return redirect()->route('admin.live-lesson-slots.index', ['live_lesson_id' => $request->live_lesson_id])->withFlashSuccess(__('alerts.backend.general.created'));
+
+        $this->meetingMail($liveLessonSlot);
+
+        return redirect()->route('admin.live-lesson-slots.index', ['lesson_id' => $request->lesson_id])->withFlashSuccess(__('alerts.backend.general.created'));
 
     }
 
@@ -230,7 +241,9 @@ class LiveLessonSlotController extends Controller
 
         $liveLessonSlot->update($saveField);
 
-        return redirect()->route('admin.live-lesson-slots.index', ['live_lesson_id' => $request->live_lesson_id])->withFlashSuccess(__('alerts.backend.general.updated'));
+        $this->meetingMail($liveLessonSlot);
+
+        return redirect()->route('admin.live-lesson-slots.index', ['lesson_id' => $request->lesson_id])->withFlashSuccess(__('alerts.backend.general.updated'));
 
     }
 
@@ -283,5 +296,22 @@ class LiveLessonSlotController extends Controller
         ]);
 
         return $user->meetings()->save($meeting);
+    }
+
+    private function meetingMail($liveLessonSlot)
+    {
+        foreach ($liveLessonSlot->lesson->course->teachers as $teacher){
+            $content = [
+                'name' => $teacher->name,
+                'course' => $liveLessonSlot->lesson->course->title,
+                'lesson' => $liveLessonSlot->lesson->title,
+                'meeting_id' => $liveLessonSlot->meeting_id,
+                'password' => $liveLessonSlot->password,
+                'start_at' => $liveLessonSlot->start_at,
+                'start_url' => $liveLessonSlot->start_url
+
+            ];
+            \Mail::to($teacher->email)->send(new TeacherMeetingSlotMail($content));
+        }
     }
 }
