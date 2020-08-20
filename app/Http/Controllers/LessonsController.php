@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\Auth\Auth;
+use App\Mail\Frontend\LiveLesson\StudentMeetingSlotMail;
 use App\Models\Lesson;
+use App\Models\LessonSlotBooking;
+use App\Models\LiveLessonSlot;
 use App\Models\Media;
 use App\Models\Question;
 use App\Models\QuestionsOption;
@@ -51,13 +54,15 @@ class LessonsController extends Controller
         }
 
         if ((int)config('lesson_timer') == 0) {
-            if ($lesson->chapterStudents()->where('user_id', \Auth::id())->count() == 0) {
-                $lesson->chapterStudents()->create([
-                    'model_type' => get_class($lesson),
-                    'model_id' => $lesson->id,
-                    'user_id' => auth()->user()->id,
-                    'course_id' => $lesson->course->id
-                ]);
+            if(!$lesson->live_lesson){
+                if ($lesson->chapterStudents()->where('user_id', \Auth::id())->count() == 0) {
+                    $lesson->chapterStudents()->create([
+                        'model_type' => get_class($lesson),
+                        'model_id' => $lesson->id,
+                        'user_id' => auth()->user()->id,
+                        'course_id' => $lesson->course->id
+                    ]);
+                }
             }
         }
 
@@ -197,6 +202,31 @@ class LessonsController extends Controller
             }
         }
         return false;
+    }
+
+    public function bookSlot(Request $request)
+    {
+        $lesson_slot = LiveLessonSlot::find($request->live_lesson_slot_id);
+        $lesson = $lesson_slot->lesson;
+
+        if ((int)config('lesson_timer') == 0) {
+            if ($lesson->chapterStudents()->where('user_id', \Auth::id())->count() == 0) {
+                $lesson->chapterStudents()->create([
+                    'model_type' => get_class($lesson),
+                    'model_id' => $lesson->id,
+                    'user_id' => auth()->user()->id,
+                    'course_id' => $lesson->course->id
+                ]);
+            }
+        }
+
+        if(LessonSlotBooking::where('lesson_id', $request->lesson_id)->where('user_id', auth()->user()->id)->count() == 0){
+            LessonSlotBooking::create(
+                ['lesson_id' => $request->lesson_id, 'live_lesson_slot_id' => $request->live_lesson_slot_id, 'user_id' => auth()->user()->id]
+            );
+            \Mail::to(auth()->user()->email)->send(new StudentMeetingSlotMail($lesson_slot));
+        }
+        return back()->with(['success'=> __('alerts.frontend.course.slot_booking')]);
     }
 
 }
