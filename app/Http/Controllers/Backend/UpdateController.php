@@ -58,31 +58,20 @@ class UpdateController extends Controller
                 $zipper = new Madzipper();
                 $zipper->make(public_path() . '/updates/' . $file_name)->extractTo(base_path());
                 unlink(public_path() . '/updates/' . $file_name);
-//                array_map('unlink', glob("stripe/*"));
-//                array_map('unlink', glob("paypal/*"));
 
 
-                exec('cd ' . base_path() . '/ && composer install');
                 Artisan::call("config:clear");
                 Artisan::call("migrate");
-                Artisan::call("fix:chat-table");
-                Artisan::call("fix:lesson-test-course");
+                exec('cd ' . base_path() . '/ && composer install');
+
 
                 exec('cd ' . base_path() . '/ && composer du');
 
-
                 unlink(base_path() . '/bootstrap/cache/packages.php');
                 unlink(base_path() . '/bootstrap/cache/services.php');
+                unlink(database_path('migrations/2020_08_19_050813_add_column_provider_oauth_clients_table.php'));
 
-                $dir = base_path('vendor/paypal');
-                $this->unlinkAllFiles($dir);
-
-                $dir = base_path('vendor/stripe');
-                $this->unlinkAllFiles($dir);
-
-                $dir = base_path('__MACOSX');
-                $this->unlinkAllFiles($dir);
-
+                Artisan::call("db:seed", ['--class' => 'V51Seeder']);
 
                 return redirect(route('admin.update-theme'))->withFlashSuccess(__('alerts.backend.general.updated'));
             }catch (\Exception $e){
