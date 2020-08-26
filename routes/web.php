@@ -174,6 +174,10 @@ if(config('show_offers') == 1){
     Route::get('offers',['uses' => 'CartController@getOffers', 'as' => 'frontend.offers']);
 }
 
+Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth','role:teacher|administrator']], function () {
+    \UniSharp\LaravelFilemanager\Lfm::routes();
+});
+
 Route::group(['namespace' => 'Frontend', 'as' => 'frontend.'], function () {
     Route::get('/{page?}', [HomeController::class, 'index'])->name('index');
 });
