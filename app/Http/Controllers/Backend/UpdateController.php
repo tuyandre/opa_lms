@@ -61,7 +61,6 @@ class UpdateController extends Controller
 
 
                 Artisan::call("config:clear");
-                Artisan::call("migrate");
                 exec('cd ' . base_path() . '/ && composer install');
 
 
@@ -69,9 +68,6 @@ class UpdateController extends Controller
 
                 unlink(base_path() . '/bootstrap/cache/packages.php');
                 unlink(base_path() . '/bootstrap/cache/services.php');
-                unlink(database_path('migrations/2020_08_19_050813_add_column_provider_oauth_clients_table.php'));
-
-                Artisan::call("db:seed", ['--class' => 'V51Seeder']);
 
                 return redirect(route('admin.update-theme'))->withFlashSuccess(__('alerts.backend.general.updated'));
             }catch (\Exception $e){
