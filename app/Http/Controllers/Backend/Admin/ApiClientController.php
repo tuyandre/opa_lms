@@ -41,7 +41,7 @@ class ApiClientController extends Controller
     {
 
        $clients->create(
-            auth()->user()->id, request('api_client_name'), '',0,1
+           auth()->user()->id, request('api_client_name'), '', '',0,1
         );
         return ['status' => 'success'];
     }
