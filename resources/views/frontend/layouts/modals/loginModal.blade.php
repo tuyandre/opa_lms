@@ -102,7 +102,7 @@
 
                                 @if(config('access.captcha.registration'))
                                     <div class="contact-info mb-2 text-center">
-                                        {!! Captcha::display() !!}
+                                        {{ no_captcha()->display() }}
                                         {{ html()->hidden('captcha_status', 'true') }}
                                         <span id="login-captcha-error" class="text-danger"></span>
 
@@ -202,7 +202,7 @@
 
                                 @if(config('access.captcha.registration'))
                                     <div class="contact-info mt-3 text-center">
-                                        {!! Captcha::display() !!}
+                                        {{ no_captcha()->display() }}
                                         {{ html()->hidden('captcha_status', 'true')->id('captcha_status') }}
                                         <span id="captcha-error" class="text-danger"></span>
 
@@ -240,7 +240,8 @@
 
 
     @if(config('access.captcha.registration'))
-        {!! Captcha::script() !!}
+        {{ no_captcha()->script() }}
+
     @endif
 
     <script>
