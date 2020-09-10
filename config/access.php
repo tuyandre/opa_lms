@@ -79,6 +79,12 @@ return [
          * false is off which doesn't log password changes or check against them
          */
         'password_history' => env('PASSWORD_HISTORY', 3),
+
+
+        /*
+         * When new user register then admin can receive  mail or not
+         */
+        'registration_mail' => env('REGISTRATION_MAIL', false),
     ],
 
     /*

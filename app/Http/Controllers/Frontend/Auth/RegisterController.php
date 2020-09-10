@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\RegisterRequest;
 use App\Helpers\Frontend\Auth\Socialite;
 use App\Events\Frontend\Auth\UserRegistered;
+use App\Mail\Frontend\Auth\AdminRegistered;
 use App\Models\Auth\User;
 use Arcanedev\NoCaptcha\Rules\CaptchaRule;
 use Illuminate\Auth\Events\Registered;
@@ -118,7 +119,21 @@ class RegisterController extends Controller
         $userForRole->confirmed = 1;
         $userForRole->save();
         $userForRole->assignRole('student');
+
+        if(config('access.users.registration_mail')) {
+            $this->sendAdminMail($user);
+        }
+
         return $user;
+    }
+
+    private function sendAdminMail($user)
+    {
+        $admins = User::role('administrator')->get();
+
+        foreach ($admins as $admin){
+            \Mail::to($admin->email)->send(new AdminRegistered($user));
+        }
     }
 
 
