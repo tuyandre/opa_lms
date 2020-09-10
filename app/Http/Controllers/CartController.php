@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\General\EarningHelper;
+use App\Mail\Frontend\AdminOrederMail;
 use App\Mail\OfflineOrderMail;
+use App\Models\Auth\User;
 use App\Models\Bundle;
 use App\Models\Coupon;
 use App\Models\Course;
@@ -211,6 +213,7 @@ class CartController extends Controller
 
             //Generating Invoice
             generateInvoice($order);
+            $this->adminOrderMail($order);
 
             Cart::session(auth()->user()->id)->clear();
             Session::flash('success', trans('labels.frontend.cart.payment_done'));
@@ -284,6 +287,7 @@ class CartController extends Controller
 
         try {
             \Mail::to(auth()->user()->email)->send(new OfflineOrderMail($content));
+            $this->adminOrderMail($order);
         } catch (\Exception $e) {
             \Log::info($e->getMessage() . ' for order ' . $order->id);
         }
@@ -321,6 +325,7 @@ class CartController extends Controller
 
             //Generating Invoice
             generateInvoice($order);
+            $this->adminOrderMail($order);
             Cart::session(auth()->user()->id)->clear();
             return Redirect::route('status');
         }
@@ -571,4 +576,23 @@ class CartController extends Controller
         }
     }
 
+    private function adminOrderMail($order)
+    {
+        $content = [];
+        $items = [];
+        $counter = 0;
+        foreach (Cart::session(auth()->user()->id)->getContent() as $key => $cartItem) {
+            $counter++;
+            array_push($items, ['number' => $counter, 'name' => $cartItem->name, 'price' => $cartItem->price]);
+        }
+
+        $content['items'] = $items;
+        $content['total'] =  number_format(Cart::session(auth()->user()->id)->getTotal(),2);
+        $content['reference_no'] = $order->reference_no;
+
+        $admins = User::role('administrator')->get();
+        foreach ($admins as $admin){
+            \Mail::to($admin->email)->send(new AdminOrederMail($content, $admin));
+        }
+    }
 }
