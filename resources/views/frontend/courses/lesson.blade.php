@@ -627,12 +627,19 @@
             readTime = parseInt("{{$lesson->readTime()}}") * 60;
         @endif
 
-                @if(!$lesson->isCompleted())
+        @if(!$lesson->isCompleted())
             storedDuration = Cookies.get("duration_" + "{{auth()->user()->id}}" + "_" + "{{$lesson->id}}" + "_" + "{{$lesson->course->id}}");
-        storedLesson = Cookies.get("lesson" + "{{auth()->user()->id}}" + "_" + "{{$lesson->id}}" + "_" + "{{$lesson->course->id}}");
+
+            storedLesson = Cookies.get("lesson" + "{{auth()->user()->id}}" + "_" + "{{$lesson->id}}" + "_" + "{{$lesson->course->id}}");
+
+        if(storedDuration > 0){
+             var totalLessonTime = parseInt(storedDuration) ? parseInt(storedDuration) : 0;
+        }
+        else {
+            var totalLessonTime = readTime + (parseInt(storedDuration) ? parseInt(storedDuration) : 0);
+        }
 
 
-        var totalLessonTime = readTime + (parseInt(storedDuration) ? parseInt(storedDuration) : 0);
         var storedCounter = (Cookies.get("storedCounter_" + "{{auth()->user()->id}}" + "_" + "{{$lesson->id}}" + "_" + "{{$lesson->course->id}}")) ? Cookies.get("storedCounter_" + "{{auth()->user()->id}}" + "_" + "{{$lesson->id}}" + "_" + "{{$lesson->course->id}}") : 0;
         var counter;
         if (user_lesson) {
