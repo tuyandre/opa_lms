@@ -117,7 +117,7 @@
 
                     @if(config('access.captcha.registration'))
                         <div class="contact-info mt-5 text-center">
-                            {!! Captcha::display() !!}
+                            {{ no_captcha()->display() }}
                             {{ html()->hidden('captcha_status', 'true')->id('captcha_status') }}
                             @if($errors->has('g-recaptcha-response'))
                                 <p class="help-block text-danger mx0auto">{{$errors->first('g-recaptcha-response')}}</p>
@@ -144,4 +144,9 @@
         ============================================= -->
 
 
-@endsection    
+@endsection
+@push('after-scripts')
+    @if(config('access.captcha.registration'))
+        {{ no_captcha()->script() }}
+    @endif
+@endpush
