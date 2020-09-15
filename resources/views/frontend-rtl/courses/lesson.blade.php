@@ -266,9 +266,9 @@
                                 </div>
                                 <div class="course-details-content">
                                     @if($lesson->live_lesson)
-                                        {{ $lesson->short_text }}
+                                        <p>{{ $lesson->short_text }}</p>
                                     @else
-                                        {{ $lesson->full_text }}
+                                        <p> {!! $lesson->full_text !!} </p>
                                     @endif
                                 </div>
                                 @if($lesson->live_lesson)
