@@ -578,21 +578,23 @@ class CartController extends Controller
 
     private function adminOrderMail($order)
     {
-        $content = [];
-        $items = [];
-        $counter = 0;
-        foreach (Cart::session(auth()->user()->id)->getContent() as $key => $cartItem) {
-            $counter++;
-            array_push($items, ['number' => $counter, 'name' => $cartItem->name, 'price' => $cartItem->price]);
-        }
+        if(config('access.users.order_mail')) {
+            $content = [];
+            $items = [];
+            $counter = 0;
+            foreach (Cart::session(auth()->user()->id)->getContent() as $key => $cartItem) {
+                $counter++;
+                array_push($items, ['number' => $counter, 'name' => $cartItem->name, 'price' => $cartItem->price]);
+            }
 
-        $content['items'] = $items;
-        $content['total'] =  number_format(Cart::session(auth()->user()->id)->getTotal(),2);
-        $content['reference_no'] = $order->reference_no;
+            $content['items'] = $items;
+            $content['total'] =  number_format(Cart::session(auth()->user()->id)->getTotal(),2);
+            $content['reference_no'] = $order->reference_no;
 
-        $admins = User::role('administrator')->get();
-        foreach ($admins as $admin){
-            \Mail::to($admin->email)->send(new AdminOrederMail($content, $admin));
+            $admins = User::role('administrator')->get();
+            foreach ($admins as $admin) {
+                \Mail::to($admin->email)->send(new AdminOrederMail($content, $admin));
+            }
         }
     }
 }
