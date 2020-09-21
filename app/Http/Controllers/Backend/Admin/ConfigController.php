@@ -98,6 +98,15 @@ class ConfigController extends Controller
         if ($request->get('onesignal_status') == null) {
             $requests['onesignal_status'] = 0;
         }
+        if ($request->get('onesignal_status') == null) {
+            $requests['onesignal_status'] = 0;
+        }
+        if ($request->get('access__users__registration_mail') == null) {
+            $requests['access__users__registration_mail'] = 0;
+        }
+        if ($request->get('access__users__order_mail') == null) {
+            $requests['access__users__order_mail'] = 0;
+        }
         foreach ($requests->all() as $key => $value) {
             if ($key != '_token') {
                 $key = str_replace('__', '.', $key);

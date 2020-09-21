@@ -135,7 +135,7 @@
                                         ->class('form-control')
                                         ->placeholder(__('labels.backend.general_settings.app_name'))
                                         ->attribute('maxlength', 191)
-                                        
+
                                         ->value(config('app.name'))
                                         ->autofocus()
                                         }}
@@ -405,6 +405,36 @@
                                         ->placeholder(__('labels.backend.general_settings.teacher_commission_rate'))
                                         ->value(config('commission_rate'))
                                         }}
+                                </div><!--col-->
+                            </div><!--form-group-->
+
+                            <div class="form-group row">
+                                {{ html()->label(__('labels.backend.general_settings.admin_registration_mail'))->class('col-md-2 form-control-label')->for('admin_registration_mail') }}
+                                <div class="col-md-10">
+                                    <div class="checkbox">
+                                        {{ html()->label(
+                                                html()->checkbox('access__users__registration_mail', config('access.users.registration_mail') ? true : false,1)->id('admin_registration_mail')
+                                                      ->class('switch-input')->value(1)
+                                                . '<span class="switch-label"></span><span class="switch-handle"></span>')
+                                            ->class('switch switch-sm switch-3d switch-primary')
+                                        }}
+                                    </div>
+                                    <small><i> {{__('labels.backend.general_settings.admin_registration_mail_note')}}</i></small>
+                                </div><!--col-->
+                            </div><!--form-group-->
+
+                            <div class="form-group row">
+                                {{ html()->label(__('labels.backend.general_settings.admin_order_mail'))->class('col-md-2 form-control-label')->for('admin_order_mail') }}
+                                <div class="col-md-10">
+                                    <div class="checkbox">
+                                        {{ html()->label(
+                                                html()->checkbox('access__users__order_mail', config('access.users.order_mail') ? true : false,1)->id('admin_order_mail')
+                                                      ->class('switch-input')->value(1)
+                                                . '<span class="switch-label"></span><span class="switch-handle"></span>')
+                                            ->class('switch switch-sm switch-3d switch-primary')
+                                        }}
+                                    </div>
+                                    <small><i> {{__('labels.backend.general_settings.admin_order_mail_note')}}</i></small>
                                 </div><!--col-->
                             </div><!--form-group-->
 
