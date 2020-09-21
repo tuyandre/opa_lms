@@ -503,6 +503,10 @@ return array (
       'theme_layout' => 'Theme Layout',
       'layout_note' => 'This will change frontend theme layout',
       'show_offers_note' => 'Enable / Disable if Coupon offers page link to be displayed in bottom footer',
+      'admin_registration_mail' => 'Registration Mail',
+      'admin_registration_mail_note' => 'Enable / Disable if admin will be able to received new registration user mail',
+      'admin_order_mail' => 'Order Mail',
+      'admin_order_mail_note' => 'Enable / Disable if admin will be able to received new order mail',
       'newsletter' =>
       array (
         'mail_provider' => 'Mail Service Provider',
