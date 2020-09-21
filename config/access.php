@@ -85,6 +85,11 @@ return [
          * When new user register then admin can receive  mail or not
          */
         'registration_mail' => env('REGISTRATION_MAIL', false),
+
+        /*
+         * When new order create then admin can receive  mail or not
+         */
+        'order_mail' => env('ORDER_MAIL', false),
     ],
 
     /*
