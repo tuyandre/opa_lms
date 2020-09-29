@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Auth\User;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
@@ -13,7 +14,7 @@ class Bundle extends Model
     use SoftDeletes;
 
 
-    protected $fillable = ['category_id', 'title', 'slug', 'description', 'price', 'course_image', 'start_date', 'published','free', 'featured', 'trending', 'popular', 'meta_title', 'meta_description', 'meta_keywords','user_id'];
+    protected $fillable = ['category_id', 'title', 'slug', 'description', 'price', 'course_image', 'start_date', 'published','free', 'featured', 'trending', 'popular', 'meta_title', 'meta_description', 'meta_keywords','user_id', 'expire_at'];
 
     protected $appends = ['image'];
 
@@ -100,6 +101,12 @@ class Bundle extends Model
         return url('storage/uploads/'.$this->course_image);
     }
 
-
+    // scope for disable bundle if bundle expire date is less than tomorrow date
+    public function scopeCanDisableBundle($query)
+    {
+        return $query->where(function($q){
+            $q->whereNull('expire_at')->orWhereDate('expire_at', '>=', Carbon::now()->format('Y-m-d'));
+        });
+    }
 
 }

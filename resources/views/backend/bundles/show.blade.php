@@ -107,6 +107,10 @@
                             <td>{{ $bundle->start_date }}</td>
                         </tr>
                         <tr>
+                            <th>@lang('labels.backend.bundles.fields.expire_at')</th>
+                            <td>{{ $bundle->expire_at }}</td>
+                        </tr>
+                        <tr>
                             <th>@lang('labels.backend.bundles.fields.published')</th>
                             <td>{{ Form::checkbox("published", 1, $bundle->published == 1 ? true : false, ["disabled"]) }}</td>
                         </tr>

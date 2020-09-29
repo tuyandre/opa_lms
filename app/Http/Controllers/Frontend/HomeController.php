@@ -304,16 +304,16 @@ class HomeController extends Controller
     {
 
         if (request('type') == 'popular') {
-            $bundles = Bundle::withoutGlobalScope('filter')->where('published', 1)->where('popular', '=', 1)->orderBy('id', 'desc')->paginate(12);
+            $bundles = Bundle::withoutGlobalScope('filter')->canDisableBundle()->where('published', 1)->where('popular', '=', 1)->orderBy('id', 'desc')->paginate(12);
 
         } else if (request('type') == 'trending') {
-            $bundles = Bundle::withoutGlobalScope('filter')->where('published', 1)->where('trending', '=', 1)->orderBy('id', 'desc')->paginate(12);
+            $bundles = Bundle::withoutGlobalScope('filter')->canDisableBundle()->where('published', 1)->where('trending', '=', 1)->orderBy('id', 'desc')->paginate(12);
 
         } else if (request('type') == 'featured') {
-            $bundles = Bundle::withoutGlobalScope('filter')->where('published', 1)->where('featured', '=', 1)->orderBy('id', 'desc')->paginate(12);
+            $bundles = Bundle::withoutGlobalScope('filter')->canDisableBundle()->where('published', 1)->where('featured', '=', 1)->orderBy('id', 'desc')->paginate(12);
 
         } else {
-            $bundles = Bundle::withoutGlobalScope('filter')->where('published', 1)->orderBy('id', 'desc')->paginate(12);
+            $bundles = Bundle::withoutGlobalScope('filter')->canDisableBundle()->where('published', 1)->orderBy('id', 'desc')->paginate(12);
         }
 
 
@@ -350,6 +350,7 @@ class HomeController extends Controller
             $bundles = Bundle::where('title', 'LIKE', '%' . $request->q . '%')
                 ->orWhere('description', 'LIKE', '%' . $request->q . '%')
                 ->where('published', '=', 1)
+                ->canDisableBundle()
                 ->paginate(12);
 
         }
