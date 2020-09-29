@@ -212,7 +212,7 @@ if (!function_exists('section_filter')) {
                 $content[] = $single_item;
             }
         } else if ($type == 2) {
-            $section_content = \App\Models\Course::where('featured', '=', 1)
+            $section_content = \App\Models\Course::canDisableCourse()->where('featured', '=', 1)
                 ->has('category')
                 ->where('published', '=', 1)
                 ->orderBy('created_at', 'desc')
@@ -228,7 +228,7 @@ if (!function_exists('section_filter')) {
             }
 
         } else if ($type == 3) {
-            $section_content = \App\Models\Course::where('trending', '=', 1)
+            $section_content = \App\Models\Course::canDisableCourse()->where('trending', '=', 1)
                 ->has('category')
                 ->where('published', '=', 1)
                 ->orderBy('created_at', 'desc')
@@ -244,7 +244,7 @@ if (!function_exists('section_filter')) {
             }
 
         } else if ($type == 4) {
-            $section_content = \App\Models\Course::where('popular', '=', 1)
+            $section_content = \App\Models\Course::canDisableCourse()->where('popular', '=', 1)
                 ->has('category')
                 ->where('published', '=', 1)
                 ->orderBy('created_at', 'desc')

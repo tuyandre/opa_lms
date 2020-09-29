@@ -131,12 +131,12 @@ class AppServiceProvider extends ServiceProvider
 
         if (Schema::hasTable('courses')) {
 
-            $global_featured_course = Course::withoutGlobalScope('filter')
+            $global_featured_course = Course::withoutGlobalScope('filter')->canDisableCourse()
                 ->whereHas('category')
                 ->where('published', '=', 1)
                 ->where('featured', '=', 1)->where('trending', '=', 1)->first();
 
-            $featured_courses = Course::withoutGlobalScope('filter')->where('published', '=', 1)
+            $featured_courses = Course::withoutGlobalScope('filter')->canDisableCourse()->where('published', '=', 1)
                 ->whereHas('category')
                 ->where('featured', '=', 1)->take(8)->get();
 

@@ -63,18 +63,18 @@ class HomeController extends Controller
         $sections = Config::where('key', '=', 'layout_' . $type)->first();
         $sections = json_decode($sections->value);
 
-        $popular_courses = Course::withoutGlobalScope('filter')
+        $popular_courses = Course::withoutGlobalScope('filter')->canDisableCourse()
             ->whereHas('category')
             ->where('published', '=', 1)
             ->where('popular', '=', 1)->take(6)->get();
 
-        $featured_courses = Course::withoutGlobalScope('filter')->where('published', '=', 1)
+        $featured_courses = Course::withoutGlobalScope('filter')->canDisableCourse()->where('published', '=', 1)
             ->whereHas('category')
             ->where('featured', '=', 1)->take(8)->get();
 
         $course_categories = Category::with('courses')->where('icon', '!=', "")->take(12)->get();
 
-        $trending_courses = Course::withoutGlobalScope('filter')
+        $trending_courses = Course::withoutGlobalScope('filter')->canDisableCourse()
             ->whereHas('category')
             ->where('published', '=', 1)
             ->where('trending', '=', 1)->take(2)->get();
@@ -96,8 +96,8 @@ class HomeController extends Controller
             $total_courses = config('total_courses');
             $total_teachers = config('total_teachers');
         } else {
-            $total_course = Course::where('published', '=', 1)->get()->count();
-            $total_bundle = Bundle::where('published', '=', 1)->get()->count();
+            $total_course = Course::where('published', '=', 1)->canDisableCourse()->get()->count();
+            $total_bundle = Bundle::where('published', '=', 1)->canDisableBundle()->get()->count();
             $total_students = User::role('student')->get()->count();
             $total_courses = $total_course + $total_bundle;
             $total_teachers = User::role('teacher')->get()->count();
@@ -237,16 +237,16 @@ class HomeController extends Controller
     {
 
         if (request('type') == 'popular') {
-            $courses = Course::withoutGlobalScope('filter')->where('published', 1)->where('popular', '=', 1)->orderBy('id', 'desc')->paginate(12);
+            $courses = Course::withoutGlobalScope('filter')->canDisableCourse()->where('published', 1)->where('popular', '=', 1)->orderBy('id', 'desc')->paginate(12);
 
         } else if (request('type') == 'trending') {
-            $courses = Course::withoutGlobalScope('filter')->where('published', 1)->where('trending', '=', 1)->orderBy('id', 'desc')->paginate(12);
+            $courses = Course::withoutGlobalScope('filter')->canDisableCourse()->where('published', 1)->where('trending', '=', 1)->orderBy('id', 'desc')->paginate(12);
 
         } else if (request('type') == 'featured') {
-            $courses = Course::withoutGlobalScope('filter')->where('published', 1)->where('featured', '=', 1)->orderBy('id', 'desc')->paginate(12);
+            $courses = Course::withoutGlobalScope('filter')->canDisableCourse()->where('published', 1)->where('featured', '=', 1)->orderBy('id', 'desc')->paginate(12);
 
         } else {
-            $courses = Course::withoutGlobalScope('filter')->where('published', 1)->orderBy('id', 'desc')->paginate(12);
+            $courses = Course::withoutGlobalScope('filter')->canDisableCourse()->where('published', 1)->orderBy('id', 'desc')->paginate(12);
         }
 
 

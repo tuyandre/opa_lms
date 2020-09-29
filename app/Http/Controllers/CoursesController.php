@@ -37,30 +37,30 @@ class CoursesController extends Controller
     public function all()
     {
         if (request('type') == 'popular') {
-            $courses = Course::withoutGlobalScope('filter')->where('published', 1)->where('popular', '=', 1)->orderBy('id', 'desc')->paginate(9);
+            $courses = Course::withoutGlobalScope('filter')->canDisableCourse()->where('published', 1)->where('popular', '=', 1)->orderBy('id', 'desc')->paginate(9);
 
         } else if (request('type') == 'trending') {
-            $courses = Course::withoutGlobalScope('filter')->where('published', 1)->where('trending', '=', 1)->orderBy('id', 'desc')->paginate(9);
+            $courses = Course::withoutGlobalScope('filter')->canDisableCourse()->where('published', 1)->where('trending', '=', 1)->orderBy('id', 'desc')->paginate(9);
 
         } else if (request('type') == 'featured') {
-            $courses = Course::withoutGlobalScope('filter')->where('published', 1)->where('featured', '=', 1)->orderBy('id', 'desc')->paginate(9);
+            $courses = Course::withoutGlobalScope('filter')->canDisableCourse()->where('published', 1)->where('featured', '=', 1)->orderBy('id', 'desc')->paginate(9);
 
         } else {
-            $courses = Course::withoutGlobalScope('filter')->where('published', 1)->orderBy('id', 'desc')->paginate(9);
+            $courses = Course::withoutGlobalScope('filter')->canDisableCourse()->where('published', 1)->orderBy('id', 'desc')->paginate(9);
         }
         $purchased_courses = NULL;
         $purchased_bundles = NULL;
         $categories = Category::where('status','=',1)->get();
 
         if (\Auth::check()) {
-            $purchased_courses = Course::withoutGlobalScope('filter')->whereHas('students', function ($query) {
+            $purchased_courses = Course::withoutGlobalScope('filter')->canDisableCourse()->whereHas('students', function ($query) {
                 $query->where('id', \Auth::id());
             })
                 ->with('lessons')
                 ->orderBy('id', 'desc')
                 ->get();
         }
-        $featured_courses = Course::withoutGlobalScope('filter')->where('published', '=', 1)
+        $featured_courses = Course::withoutGlobalScope('filter')->canDisableCourse()->where('published', '=', 1)
             ->where('featured', '=', 1)->take(8)->get();
 
         $recent_news = Blog::orderBy('created_at', 'desc')->take(2)->get();

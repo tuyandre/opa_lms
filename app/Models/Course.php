@@ -26,9 +26,11 @@ class Course extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['category_id', 'title', 'slug', 'description', 'price', 'course_image','course_video', 'start_date', 'published', 'free','featured', 'trending', 'popular', 'meta_title', 'meta_description', 'meta_keywords'];
+    protected $fillable = ['category_id', 'title', 'slug', 'description', 'price', 'course_image','course_video', 'start_date', 'published', 'free','featured', 'trending', 'popular', 'meta_title', 'meta_description', 'meta_keywords', 'expire_at'];
 
     protected $appends = ['image'];
+
+//    protected $dates = ['expire_at'];
 
 
     protected static function boot()
@@ -234,6 +236,13 @@ class Course extends Model
 
     }
 
+    // scope for disable course if course expire date is less than tomorrow date
+    public function scopeCanDisableCourse($query)
+    {
+        return $query->where(function($q){
+                $q->whereNull('expire_at')->orWhereDate('expire_at', '>=', Carbon::now()->format('Y-m-d'));
+        });
+    }
 
 
 }
