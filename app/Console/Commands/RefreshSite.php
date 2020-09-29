@@ -41,6 +41,8 @@ class RefreshSite extends Command
         shell_exec('rm -rf storage/framework/sessions/*');
         shell_exec('git stash');
         shell_exec('git clean -fd');
+        shell_exec('sudo chmod -R 777 public');
+        shell_exec('sudo chown -R www-data:www-data public');
 
         Artisan::call('migrate:refresh');
         Artisan::call('db:seed');
