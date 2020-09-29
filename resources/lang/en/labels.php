@@ -33,6 +33,7 @@ return array (
         ),
         'course' => 'Course',
         'status' => 'Status',
+        'expire_at' => 'Expire / Disable Course Date',
       ),
       'add_teachers' => 'Add Teachers',
       'add_categories' => 'Add Categories',
@@ -972,6 +973,7 @@ return array (
         'meta_description' => 'Meta Description',
         'meta_keywords' => 'Meta Keywords',
         'sidebar' => 'Add Sidebar',
+        'expire_at' => 'Expire / Disable Bundle Date',
         'lessons' =>
         array (
           'add' => 'Add Lessons',
