@@ -107,6 +107,9 @@ class ConfigController extends Controller
         if ($request->get('access__users__order_mail') == null) {
             $requests['access__users__order_mail'] = 0;
         }
+        if ($request->get('services__instamojo__active') == null) {
+            $requests['services__instamojo__active'] = 0;
+        }
         foreach ($requests->all() as $key => $value) {
             if ($key != '_token') {
                 $key = str_replace('__', '.', $key);

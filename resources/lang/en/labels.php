@@ -482,6 +482,11 @@ return array (
         'bluesnap' => 'Bluesnap Payment Method',
         'bluesnap_note' => 'Bluesnap card form for payment',
         'how_to_bluesnap' => 'How to get Bluesnap API Credentials?',
+        'instamojo' => 'Instamojo Payment Method',
+        'instamojo_note' => 'Redirects to instamojo for payment',
+        'instamojo_token' => 'API Token',
+        'instamojo_mode_note' => '<b>Sandbox</b>= Will be used for testing payments with Instamojo Test Credentials. This options will redirect to test Instamojo payment with Sandbox User Credentials. It will be used for dummy transactions only.<br>
+<b>Live</b> = Will be used with you Live Instamojo credentials to make actual transaction with normal users with Instamojo account.',
       ),
       'management' => 'General Settings',
       'app_name' => 'App Name',
@@ -1291,6 +1296,8 @@ return array (
       'amount' => 'Amount',
       'total_payable' => 'Total Payable',
       'price' => 'Price',
+      'instamojo' => 'Instamojo',
+      'pay_securely_instamojo' => 'Pay securely with Instamojo',
     ),
     'contact' =>
     array (
