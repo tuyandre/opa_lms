@@ -47,6 +47,12 @@ return [
         'mode' => env('INSTAMOJO_MODE','sandbox')
     ],
 
+    'razrorpay' => [
+        'active' => false,
+        'key' => env('RAZORPAY_KEY'),
+        'secret' => env('RAZORPAY_SECRET'),
+    ],
+
     /*
      * Socialite Credentials
      * Redirect URL's need to be the same as specified on each network you set up this application on
