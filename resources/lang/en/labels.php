@@ -485,8 +485,11 @@ return array (
         'instamojo' => 'Instamojo Payment Method',
         'instamojo_note' => 'Redirects to instamojo for payment',
         'instamojo_token' => 'API Token',
-        'instamojo_mode_note' => '<b>Sandbox</b>= Will be used for testing payments with Instamojo Test Credentials. This options will redirect to test Instamojo payment with Sandbox User Credentials. It will be used for dummy transactions only.<br>
-<b>Live</b> = Will be used with you Live Instamojo credentials to make actual transaction with normal users with Instamojo account.',
+        'instamojo_mode_note' => '<b>Sandbox</b>= Will be used for testing payments with Instamojo Test Credentials. This options will redirect to test Instamojo payment with Sandbox User Credentials. It will be used for dummy transactions only.<br><a href="//test.instamojo.com/">How to get Instamojo Test API Credentials?</a><br>
+<b>Live</b> = Will be used with you Live Instamojo credentials to make actual transaction with normal users with Instamojo account.<br><a href="//www.instamojo.com">How to get Instamojo Live API Credentials?</a>',
+        'razorpay' => 'Razorpay Payment Method',
+        'razorpay_note' => 'Redirects to RazorPay for payment',
+        'how_to_razorpay' => 'How to get RAZORPAY API Credentials?',
       ),
       'management' => 'General Settings',
       'app_name' => 'App Name',
@@ -1298,6 +1301,8 @@ return array (
       'price' => 'Price',
       'instamojo' => 'Instamojo',
       'pay_securely_instamojo' => 'Pay securely with Instamojo',
+      'razorpay' => 'RazorPay',
+      'pay_securely_razorpay' => 'Pay securely with RazorPay',
     ),
     'contact' =>
     array (
