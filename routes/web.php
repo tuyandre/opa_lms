@@ -148,6 +148,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('cart/instamojo-payment',['uses' => 'CartController@instamojoPayment', 'as' => 'cart.instamojo.payment']);
     Route::get('cart/instamojo-payment/status', ['uses' => 'CartController@getInstamojoStatus'])->name('cart.instamojo.status');
 
+    Route::post('cart/razorpay-payment',['uses' => 'CartController@razorpayPayment', 'as' => 'cart.razorpay.payment']);
+    Route::post('cart/razorpay-payment/status', ['uses' => 'CartController@getRazorpayStatus'])->name('cart.razorpay.status');
+
     Route::get('status', function () {
         return view('frontend.cart.status');
     })->name('status');

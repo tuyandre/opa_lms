@@ -136,7 +136,7 @@
                             </div>
                         </div>
                         @if(count($courses) > 0)
-                            @if((config('services.stripe.active') == 0) && (config('paypal.active') == 0) && (config('payment_offline_active') == 0) && (config('services.instamojo.active') == 0))
+                            @if((config('services.stripe.active') == 0) && (config('paypal.active') == 0) && (config('payment_offline_active') == 0) && (config('services.instamojo.active') == 0) && (config('services.razrorpay.active') == 0))
                                 <div class="order-payment">
                                     <div class="section-title-2  headline text-left">
                                 <h2>@lang('labels.frontend.cart.no_payment_method')</h2>
@@ -317,6 +317,51 @@
                                             </div>
                                         @endif
 
+                                        @if(config('services.razrorpay.active') == 1)
+                                            <div class="payment-method w-100 mb-0">
+                                                <div class="payment-method-header">
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="method-header-text">
+                                                                <div class="radio">
+                                                                    <label>
+                                                                        <input data-toggle="collapse"
+                                                                               href="#collapsePaymentFive"
+                                                                               type="radio" name="paymentMethod"
+                                                                               value="5">
+                                                                        @lang('labels.frontend.cart.razorpay')
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-6">
+                                                            <div class="payment-img float-right">
+                                                                <img src="{{asset('assets/img/banner/p-4.png')}}"
+                                                                     alt="">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="check-out-form collapse disabled" id="collapsePaymentFive"
+                                                     data-parent="#accordion">
+
+                                                    <form class="w3-container w3-display-middle w3-card-4 "
+                                                          method="POST"
+                                                          action="{{route('cart.razorpay.payment')}}">
+                                                        {{ csrf_field() }}
+                                                        <p> @lang('labels.frontend.cart.pay_securely_razorpay')</p>
+
+                                                        <button type="submit"
+                                                                class="text-white genius-btn mt25 gradient-bg text-center text-uppercase  bold-font">
+                                                            @lang('labels.frontend.cart.pay_now') <i
+                                                                class="fas fa-caret-right"></i>
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        @endif
+
                                         @if(config('payment_offline_active') == 1)
                                             <div class="payment-method w-100 mb-0">
                                                 <div class="payment-method-header">
@@ -418,7 +463,16 @@
     </section>
     <!-- End  of Checkout content
         ============================================= -->
+    @if(session()->get('razorpay'))
 
+        <button id="razor-pay-btn" class="d-none">Pay</button>
+        <form id="razorpay-callback-form" method="post" action="{{ route('cart.razorpay.status') }}">
+            @csrf
+            <input type="hidden" name="razorpay_payment_id" id="razorpay_payment_id">
+            <input type="hidden" name="razorpay_order_id" id="razorpay_order_id">
+            <input type="hidden" name="razorpay_signature" id="razorpay_signature">
+        </form>
+    @endif
 
 @endsection
 
@@ -487,4 +541,40 @@
 
         })
     </script>
+    @if(session()->get('razorpay'))
+        @php
+            $cart = session()->get('razorpay');
+        @endphp
+
+        <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+        <script>
+            var options = {
+                "key": "{{ config('services.razrorpay.key') }}", // Enter the Key ID generated from the Dashboard
+                "amount": "{{ $cart['amount'] }}", // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+                "currency": "{{ $cart['currency'] }}",
+                "name": "{{ config('app.name') }}",
+                "description": "{{ $cart['description'] }}",
+                "image": "{{asset("storage/logos/".config('logo_b_image'))}}",
+                "order_id": "{{ $cart['order_id'] }}", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+                "handler": function (response){
+                    $('#razorpay_payment_id').val(response.razorpay_payment_id);
+                    $('#razorpay_order_id').val(response.razorpay_order_id);
+                    $('#razorpay_signature').val(response.razorpay_signature)
+                    $("#razorpay-callback-form").submit();
+                },
+                "prefill": {
+                    "name": "{{ $cart['name'] }}",
+                    "email": "{{ $cart['email'] }}",
+                }
+            };
+            var rzp1 = new Razorpay(options);
+            document.getElementById('razor-pay-btn').onclick = function(e){
+                rzp1.open();
+                e.preventDefault();
+            }
+            window.onload = function () {
+                document.getElementById('razor-pay-btn').click();
+            }
+        </script>
+    @endif
 @endpush

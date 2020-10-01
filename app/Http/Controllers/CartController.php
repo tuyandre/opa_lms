@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helpers\General\EarningHelper;
 use App\Helpers\Payments\InstamojoWrapper;
+use App\Helpers\Payments\RazorpayWrapper;
 use App\Mail\Frontend\AdminOrederMail;
 use App\Mail\OfflineOrderMail;
 use App\Models\Auth\User;
@@ -650,6 +651,57 @@ class CartController extends Controller
             return Redirect::route('status');
         }
         else {
+            \Session::flash('failure', trans('labels.frontend.cart.payment_failed'));
+            return Redirect::route('status');
+        }
+    }
+
+    public function razorpayPayment(Request $request)
+    {
+        $currency = $this->currency['short_code'];
+        $amount = number_format(Cart::session(auth()->user()->id)->getTotal(), 2) * 100;
+        $razorWrapper = new RazorpayWrapper();
+        $orderId = $razorWrapper->order($currency, $amount);
+        $cart = [
+            'order_id' => $orderId,
+            'amount' =>  $amount,
+            'currency' => $currency,
+            'description' => auth()->user()->name,
+            'name' => auth()->user()->name,
+            'email' => auth()->user()->email,
+        ];
+        return redirect()->route('cart.index')->with(['razorpay' => $cart]);
+    }
+
+    public function getRazorpayStatus(Request $request)
+    {
+        $attributes = ['razorpay_signature' => $request->razorpay_signature, 'razorpay_payment_id' => $request->razorpay_payment_id, 'razorpay_order_id' => $request->razorpay_order_id];
+        $razorWrapper = new RazorpayWrapper();
+        if ($razorWrapper->verifySignature($attributes)) {
+            $order = $this->makeOrder();
+            $order->payment_type = 4;
+            $order->transaction_id = request()->get('payment_id');
+            $order->save();
+            \Session::flash('success', trans('labels.frontend.cart.payment_done'));
+            $order->status = 1;
+            $order->save();
+            (new EarningHelper)->insert($order);
+            foreach ($order->items as $orderItem) {
+                //Bundle Entries
+                if ($orderItem->item_type == Bundle::class) {
+                    foreach ($orderItem->item->courses as $course) {
+                        $course->students()->attach($order->user_id);
+                    }
+                }
+                $orderItem->item->students()->attach($order->user_id);
+            }
+
+            //Generating Invoice
+            generateInvoice($order);
+            $this->adminOrderMail($order);
+            Cart::session(auth()->user()->id)->clear();
+            return Redirect::route('status');
+        } else {
             \Session::flash('failure', trans('labels.frontend.cart.payment_failed'));
             return Redirect::route('status');
         }
