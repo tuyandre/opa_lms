@@ -145,6 +145,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('cart/paypal-payment', ['uses' => 'CartController@paypalPayment', 'as' => 'cart.paypal.payment']);
     Route::get('cart/paypal-payment/status', ['uses' => 'CartController@getPaymentStatus'])->name('cart.paypal.status');
 
+    Route::post('cart/instamojo-payment',['uses' => 'CartController@instamojoPayment', 'as' => 'cart.instamojo.payment']);
+    Route::get('cart/instamojo-payment/status', ['uses' => 'CartController@getInstamojoStatus'])->name('cart.instamojo.status');
+
     Route::get('status', function () {
         return view('frontend.cart.status');
     })->name('status');

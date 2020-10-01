@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\General\EarningHelper;
+use App\Helpers\Payments\InstamojoWrapper;
 use App\Mail\Frontend\AdminOrederMail;
 use App\Mail\OfflineOrderMail;
 use App\Models\Auth\User;
@@ -595,6 +596,62 @@ class CartController extends Controller
             foreach ($admins as $admin) {
                 \Mail::to($admin->email)->send(new AdminOrederMail($content, $admin));
             }
+        }
+    }
+
+    public function instamojoPayment(Request $request)
+    {
+        if ($this->checkDuplicate()) {
+            return $this->checkDuplicate();
+        }
+
+        $cartTotal = number_format(Cart::session(auth()->user()->id)->getTotal(), 2);
+        $cartdata = [
+            "purpose" => "Buy Course/Bundle",
+            "amount" => $cartTotal,
+            "buyer_name" => auth()->user()->name,
+            "send_email" => true,
+            "email" => auth()->user()->email,
+            "redirect_url" => route('cart.instamojo.status'),
+        ];
+        $instamojoWrapper =  new InstamojoWrapper();
+        return $instamojoWrapper->pay($cartdata);
+    }
+
+    public function getInstamojoStatus()
+    {
+        \Session::forget('failure');
+        if (request()->get('payment_status') == 'Credit') {
+            $order = $this->makeOrder();
+            $order->payment_type = 4;
+            $order->transaction_id = request()->get('payment_id');
+            $order->save();
+            \Session::flash('success', trans('labels.frontend.cart.payment_done'));
+            $order->status = 1;
+            $order->save();
+            (new EarningHelper)->insert($order);
+            foreach ($order->items as $orderItem) {
+                //Bundle Entries
+                if ($orderItem->item_type == Bundle::class) {
+                    foreach ($orderItem->item->courses as $course) {
+                        $course->students()->attach($order->user_id);
+                    }
+                }
+                $orderItem->item->students()->attach($order->user_id);
+            }
+
+            //Generating Invoice
+            generateInvoice($order);
+            $this->adminOrderMail($order);
+            Cart::session(auth()->user()->id)->clear();
+            return Redirect::route('status');
+        }else if (request()->get('payment_status') == 'Failed') {
+            \Session::flash('failure', trans('labels.frontend.cart.payment_failed'));
+            return Redirect::route('status');
+        }
+        else {
+            \Session::flash('failure', trans('labels.frontend.cart.payment_failed'));
+            return Redirect::route('status');
         }
     }
 }
