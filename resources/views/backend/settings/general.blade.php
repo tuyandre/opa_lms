@@ -857,8 +857,6 @@
 
                                             ->class('switch switch-sm switch-3d switch-primary')
                                         }}
-                                        <a target="_blank" href="https://developer.paypal.com/developer/applications/"
-                                           class="float-right font-italic font-weight-bold">{{ __('labels.backend.general_settings.payment_settings.how_to_paypal')}}</a>
                                     </div>
                                     <small>
                                         <i> {{ __('labels.backend.general_settings.payment_settings.instamojo_note')}}</i>
@@ -892,6 +890,47 @@
                                                 {{ html()->text('services__instamojo__secret')
                                                      ->class('form-control')
                                                      ->value(config('services.instamojo.secret'))
+                                                     }}
+                                            </div><!--col-->
+                                        </div><!--form-group-->
+                                    </div>
+                                </div><!--col-->
+                            </div><!--form-group-->
+                            <div class="form-group row">
+                                {{ html()->label(__('labels.backend.general_settings.payment_settings.razorpay'))->class('col-md-3 form-control-label')->for('services.razorpay.active') }}
+                                <div class="col-md-9">
+                                    <div class="checkbox">
+                                        {{ html()->label(
+                                                html()->checkbox('services__razorpay__active', config('services.razorpay.active') ? true : false,1)
+                                                      ->class('switch-input')->value(1)
+                                                . '<span class="switch-label"></span><span class="switch-handle"></span>')
+
+                                            ->class('switch switch-sm switch-3d switch-primary')
+                                        }}
+                                        <a class="float-right font-weight-bold font-italic"
+                                           href="https://dashboard.razorpay.com/"
+                                           target="_blank">{{ __('labels.backend.general_settings.payment_settings.how_to_razorpay')}}</a>
+                                    </div>
+                                    <small>
+                                        <i> {{ __('labels.backend.general_settings.payment_settings.razorpay_note')}}</i>
+                                    </small>
+                                    <div class="switch-content @if(config('services.razorpay.active') == 0 || config('services.razorpay.active') == false) d-none @endif">
+                                        <br>
+                                        <div class="form-group row">
+                                            {{ html()->label(__('labels.backend.general_settings.payment_settings.key'))->class('col-md-2 form-control-label')->for('services.razorpay.key') }}
+                                            <div class="col-md-8 col-xs-12">
+                                                {{ html()->text('services__razorpay__key')
+                                                     ->class('form-control')
+                                                     ->value(config('services.razorpay.key'))
+                                                     }}
+                                            </div><!--col-->
+                                        </div><!--form-group-->
+                                        <div class="form-group row">
+                                            {{ html()->label(__('labels.backend.general_settings.payment_settings.secret'))->class('col-md-2 form-control-label')->for('services.razorpay.secret') }}
+                                            <div class="col-md-8 col-xs-12">
+                                                {{ html()->text('services__razorpay__secret')
+                                                     ->class('form-control')
+                                                     ->value(config('services.razorpay.secret'))
                                                      }}
                                             </div><!--col-->
                                         </div><!--form-group-->
