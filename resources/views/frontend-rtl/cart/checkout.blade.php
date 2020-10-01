@@ -136,7 +136,7 @@
                             </div>
                         </div>
                         @if(count($courses) > 0)
-                            @if((config('services.stripe.active') == 0) && (config('paypal.active') == 0) && (config('payment_offline_active') == 0))
+                            @if((config('services.stripe.active') == 0) && (config('paypal.active') == 0) && (config('payment_offline_active') == 0) && (config('services.instamojo.active') == 0))
                                 <div class="order-payment">
                                     <div class="section-title-2  headline text-left">
                                 <h2>@lang('labels.frontend.cart.no_payment_method')</h2>
@@ -267,6 +267,50 @@
                                                         <button type="submit"
                                                                 class="text-white genius-btn mt25 gradient-bg text-center text-uppercase  bold-font">
                                                             @lang('labels.frontend.cart.pay_now') <i class="fas fa-caret-right"></i>
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        @endif
+
+                                        @if(config('services.instamojo.active') == 1)
+                                            <div class="payment-method w-100 mb-0">
+                                                <div class="payment-method-header">
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="method-header-text">
+                                                                <div class="radio">
+                                                                    <label>
+                                                                        <input data-toggle="collapse"
+                                                                               href="#collapsePaymentFour"
+                                                                               type="radio" name="paymentMethod"
+                                                                               value="4">
+                                                                        @lang('labels.frontend.cart.instamojo')
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-6">
+                                                            <div class="payment-img float-right">
+                                                                <img src="{{asset('assets/img/banner/p-3.png')}}"
+                                                                     alt="">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="check-out-form collapse disabled" id="collapsePaymentFour"
+                                                     data-parent="#accordion">
+                                                    <form class="w3-container w3-display-middle w3-card-4 "
+                                                          method="POST"
+                                                          id="payment-form" action="{{route('cart.instamojo.payment')}}">
+                                                        {{ csrf_field() }}
+                                                        <p> @lang('labels.frontend.cart.pay_securely_instamojo')</p>
+
+                                                        <button type="submit"
+                                                                class="text-white genius-btn mt25 gradient-bg text-center text-uppercase  bold-font">
+                                                            @lang('labels.frontend.cart.pay_now') <i
+                                                                class="fas fa-caret-right"></i>
                                                         </button>
                                                     </form>
                                                 </div>
