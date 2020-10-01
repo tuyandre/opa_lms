@@ -40,6 +40,13 @@ return [
         ],
     ],
 
+    'instamojo' => [
+        'active' => false,
+        'key' => env('INSTAMOJO_KEY'),
+        'secret' => env('INSTAMOJO_SECRET'),
+        'mode' => env('INSTAMOJO_MODE','sandbox')
+    ],
+
     /*
      * Socialite Credentials
      * Redirect URL's need to be the same as specified on each network you set up this application on
