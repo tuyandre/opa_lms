@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\General\EarningHelper;
+use App\Helpers\Payments\CaseFreeWrapper;
 use App\Helpers\Payments\InstamojoWrapper;
 use App\Helpers\Payments\RazorpayWrapper;
 use App\Mail\Frontend\AdminOrederMail;
@@ -679,7 +680,7 @@ class CartController extends Controller
         $razorWrapper = new RazorpayWrapper();
         if ($razorWrapper->verifySignature($attributes)) {
             $order = $this->makeOrder();
-            $order->payment_type = 4;
+            $order->payment_type = 5;
             $order->transaction_id = request()->get('payment_id');
             $order->save();
             \Session::flash('success', trans('labels.frontend.cart.payment_done'));
@@ -705,5 +706,58 @@ class CartController extends Controller
             \Session::flash('failure', trans('labels.frontend.cart.payment_failed'));
             return Redirect::route('status');
         }
+    }
+
+    public function cashfreeFreePayment(Request $request)
+    {
+        $amount = number_format(Cart::session(auth()->user()->id)->getTotal(), 2);
+        $currency = $this->currency['short_code'];
+        $parameter = [
+            'orderAmount' => $amount,
+            'orderCurrency' => 'INR',
+            'orderNote' => auth()->user()->name,
+            'customerName' => $request->user_name,
+            'customerPhone' => $request->user_phone,
+            'customerEmail' => auth()->user()->email,
+        ];
+
+        $caseFreeWrapper = new CaseFreeWrapper();
+        return $caseFreeWrapper->request($parameter);
+    }
+
+    public function getCashFreeStatus(Request $request)
+    {
+        $caseFreeWrapper = new CaseFreeWrapper();
+        $response = $caseFreeWrapper->signatureVerification($request->except('signature'), $request->signature);
+        if($response && $request->txStatus == "SUCCESS"){
+            $order = $this->makeOrder();
+            $order->payment_type = 6;
+            $order->transaction_id = request()->get('payment_id');
+            $order->save();
+            \Session::flash('success', trans('labels.frontend.cart.payment_done'));
+            $order->status = 1;
+            $order->save();
+            (new EarningHelper)->insert($order);
+            foreach ($order->items as $orderItem) {
+                //Bundle Entries
+                if ($orderItem->item_type == Bundle::class) {
+                    foreach ($orderItem->item->courses as $course) {
+                        $course->students()->attach($order->user_id);
+                    }
+                }
+                $orderItem->item->students()->attach($order->user_id);
+            }
+
+            //Generating Invoice
+            generateInvoice($order);
+            $this->adminOrderMail($order);
+            Cart::session(auth()->user()->id)->clear();
+            \Log::info('Gateway:CaseFree,Message:'.$request->txMsg.'txStatus:'.$request->txStatus. ' for id = ' . auth()->user()->id);
+            return Redirect::route('status');
+
+        }
+        \Log::info('Gateway:CaseFree,Message:'.$request->txMsg.'txStatus:'.$request->txStatus. ' for id = ' . auth()->user()->id);
+        \Session::flash('failure', trans('labels.frontend.cart.payment_failed'));
+        return Redirect::route('status');
     }
 }
