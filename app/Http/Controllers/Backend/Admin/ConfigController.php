@@ -113,6 +113,9 @@ class ConfigController extends Controller
         if ($request->get('services__razorpay__active') == null) {
             $requests['services__razorpay__active'] = 0;
         }
+        if ($request->get('services__cashfree__active') == null) {
+            $requests['services__cashfree__active'] = 0;
+        }
         foreach ($requests->all() as $key => $value) {
             if ($key != '_token') {
                 $key = str_replace('__', '.', $key);

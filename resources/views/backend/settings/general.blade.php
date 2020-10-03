@@ -938,6 +938,56 @@
                                 </div><!--col-->
                             </div><!--form-group-->
                             <div class="form-group row">
+                                {{ html()->label(__('labels.backend.general_settings.payment_settings.cashfree'))->class('col-md-3 form-control-label')}}
+                                <div class="col-md-9">
+                                    <div class="checkbox">
+                                        {{ html()->label(
+                                                html()->checkbox('services__cashfree__active', config('services.cashfree.active') ? true : false,1)
+                                                      ->class('switch-input')->value(1)
+                                                . '<span class="switch-label"></span><span class="switch-handle"></span>')
+
+                                            ->class('switch switch-sm switch-3d switch-primary')
+                                        }}
+                                    </div>
+                                    <small>
+                                        <i> {{ __('labels.backend.general_settings.payment_settings.cashfree_note')}}</i>
+                                    </small>
+                                    <div class="switch-content @if(config('services.cashfree.active') == 0 || config('services.cashfree.active') == false) d-none @endif">
+                                        <br>
+                                        <div class="form-group row">
+                                            {{ html()->label(__('labels.backend.general_settings.payment_settings.mode'))->class('col-md-2 form-control-label') }}
+                                            <div class="col-md-8 col-xs-12">
+                                                <select class="form-control" id="cashfree_settings_mode"
+                                                        name="services__cashfree__mode">
+                                                    <option selected
+                                                            value="sandbox">{{__('labels.backend.general_settings.payment_settings.sandbox')}}</option>
+                                                    <option value="live">{{__('labels.backend.general_settings.payment_settings.live')}}</option>
+                                                </select>
+                                                <span class="help-text font-italic">{!!  __('labels.backend.general_settings.payment_settings.cashfree_mode_note') !!}</span>
+                                            </div><!--col-->
+                                        </div><!--form-group-->
+                                        <div class="form-group row">
+                                            {{ html()->label(__('labels.backend.general_settings.payment_settings.cashfree_app_id'))->class('col-md-2 form-control-label') }}
+                                            <div class="col-md-8 col-xs-12">
+                                                {{ html()->text('services__cashfree__app_id')
+                                                     ->class('form-control')
+                                                     ->value(config('services.cashfree.app_id'))
+                                                     }}
+                                            </div><!--col-->
+                                        </div><!--form-group-->
+                                        <div class="form-group row">
+                                            {{ html()->label(__('labels.backend.general_settings.payment_settings.cashfree_secret'))->class('col-md-2 form-control-label')->for('paypal.paypal.secret') }}
+                                            <div class="col-md-8 col-xs-12">
+                                                {{ html()->text('services__cashfree__secret')
+                                                     ->class('form-control')
+                                                     ->value(config('services.cashfree.secret'))
+                                                     }}
+                                            </div><!--col-->
+                                        </div><!--form-group-->
+                                    </div>
+                                </div><!--col-->
+                            </div><!--form-group-->
+                            <div class="form-group row">
                                 {{ html()->label(__('labels.backend.general_settings.payment_settings.offline_mode'))->class('col-md-3 form-control-label')}}
                                 <div class="col-md-9">
                                     <div class="checkbox">
@@ -1262,6 +1312,12 @@
             @if(config('services.instamojo.mode') != "")
             $('#instamojo_settings_mode').find('option').removeAttr('selected')
             $('#instamojo_settings_mode').find('option[value="{{config('services.instamojo.mode')}}"]').attr('selected', 'selected');
+            @endif
+
+            //======== Preset PaymentMode for Cashfree =======>
+            @if(config('services.cashfree.mode') != "")
+            $('#cashfree_settings_mode').find('option').removeAttr('selected')
+            $('#cashfree_settings_mode').find('option[value="{{config('services.cashfree.mode')}}"]').attr('selected', 'selected');
             @endif
 
 
