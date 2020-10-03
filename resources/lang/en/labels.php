@@ -490,6 +490,13 @@ return array (
         'razorpay' => 'Razorpay Payment Method',
         'razorpay_note' => 'Redirects to RazorPay for payment',
         'how_to_razorpay' => 'How to get RAZORPAY API Credentials?',
+        'cashfree' => 'CashFree Payment Method',
+        'cashfree_note' => 'Redirects to CashFree for payment',
+        'cashfree_app_id' => 'App ID',
+        'cashfree_secret' => 'Secret Key',
+        'cashfree_mode_note' => '<b>Sandbox</b>= Will be used for testing payments with CasFree Test Credentials. Account with INR only can make payments with Cashfree for now. This options will redirect to test Cashfree payment with Sandbox User Credentials. It will be used for dummy transactions only.<br><a href="//test.cashfree.com">How to get Cashfree Test API Credentials?</a><br>
+<b>Live</b> = Will be used with you Live Cashfree credentials to make actual transaction with normal users with Cashfree account.<br><strong>If you set this payment gateway then set your currency as INR</strong><br><a href="//www.cashfree.com">How to get Cashfree Live API Credentials?</a>',
+
       ),
       'management' => 'General Settings',
       'app_name' => 'App Name',
@@ -1303,6 +1310,11 @@ return array (
       'pay_securely_instamojo' => 'Pay securely with Instamojo',
       'razorpay' => 'RazorPay',
       'pay_securely_razorpay' => 'Pay securely with RazorPay',
+      'cashfree' => 'CashFree',
+      'pay_securely_cashfree' => 'Pay securely with CashFree',
+      'user_email' => 'Email',
+      'user_phone' => 'Phone',
+      'user_name' => 'Name',
     ),
     'contact' =>
     array (
