@@ -53,6 +53,12 @@ return [
         'secret' => env('RAZORPAY_SECRET'),
     ],
 
+    'cashfree' => [
+        'active' => false,
+        'app_id' => env('CASHFREE_KEY'),
+        'secret' => env('CASHFREE_SECRET'),
+        'mode' => env('CASHFREE_MODE','sandbox')
+    ],
     /*
      * Socialite Credentials
      * Redirect URL's need to be the same as specified on each network you set up this application on
