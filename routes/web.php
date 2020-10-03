@@ -151,6 +151,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('cart/razorpay-payment',['uses' => 'CartController@razorpayPayment', 'as' => 'cart.razorpay.payment']);
     Route::post('cart/razorpay-payment/status', ['uses' => 'CartController@getRazorpayStatus'])->name('cart.razorpay.status');
 
+    Route::post('cart/cashfree-payment',['uses' => 'CartController@cashfreeFreePayment', 'as' => 'cart.cashfree.payment']);
+    Route::post('cart/cashfree-payment/status', ['uses' => 'CartController@getCashFreeStatus'])->name('cart.cashfree.status');
+
     Route::get('status', function () {
         return view('frontend.cart.status');
     })->name('status');
