@@ -154,6 +154,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('cart/cashfree-payment',['uses' => 'CartController@cashfreeFreePayment', 'as' => 'cart.cashfree.payment']);
     Route::post('cart/cashfree-payment/status', ['uses' => 'CartController@getCashFreeStatus'])->name('cart.cashfree.status');
 
+    Route::post('cart/payu-payment',['uses' => 'CartController@payuPayment', 'as' => 'cart.payu.payment']);
+    Route::post('cart/payu-payment/status', ['uses' => 'CartController@getPayUStatus'])->name('cart.pauy.status');
+
     Route::get('status', function () {
         return view('frontend.cart.status');
     })->name('status');
