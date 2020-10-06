@@ -496,6 +496,12 @@ return array (
         'cashfree_secret' => 'Secret Key',
         'cashfree_mode_note' => '<b>Sandbox</b>= Will be used for testing payments with CasFree Test Credentials. Account with INR only can make payments with Cashfree for now. This options will redirect to test Cashfree payment with Sandbox User Credentials. It will be used for dummy transactions only.<br><a href="//test.cashfree.com">How to get Cashfree Test API Credentials?</a><br>
 <b>Live</b> = Will be used with you Live Cashfree credentials to make actual transaction with normal users with Cashfree account.<br><strong>If you set this payment gateway then set your currency as INR</strong><br><a href="//www.cashfree.com">How to get Cashfree Live API Credentials?</a>',
+        'payu' => 'PayUMoney Payment Method',
+        'payu_note' => 'Redirects to PayUMoney for payment',
+        'payu_salt' => 'Salt',
+        'how_to_payu' => 'How to get PayUMoney API Credentials?',
+        'payu_mode_note' => '<b>Sandbox</b>= Will be used for testing payments with PayUMoney Test Credentials. Account with INR only can make payments with Payment for now. This options will redirect to test PayUMoney payment with Sandbox User Credentials. It will be used for dummy transactions only.<br>
+<b>Live</b> = Will be used with you Live PayUMoney credentials to make actual transaction with normal users with PayUMoney account.<br><strong>If you set this payment gateway then set your currency as INR</strong>',
 
       ),
       'management' => 'General Settings',
@@ -1315,6 +1321,8 @@ return array (
       'user_email' => 'Email',
       'user_phone' => 'Phone',
       'user_name' => 'Name',
+      'payu' => 'PayUMoney',
+      'pay_securely_payu' => 'Pay securely with PayUMoney',
     ),
     'contact' =>
     array (
