@@ -141,7 +141,6 @@
                             </div>
                         </div>
                         @if(count($courses) > 0)
-                            @if((config('services.stripe.active') == 0) && (config('paypal.active') == 0) && (config('payment_offline_active') == 0) && (config('services.instamojo.active') == 0) && (config('services.razorpay.active') == 0) && (config('services.cashfree.active') == 0))
                             @if((config('services.stripe.active') == 0) && (config('paypal.active') == 0) && (config('payment_offline_active') == 0) && (config('services.instamojo.active') == 0) && (config('services.razorpay.active') == 0) && (config('services.cashfree.active') == 0) && (config('services.payu.active') == 0))
                                 <div class="order-payment">
                                     <div class="section-title-2 headline text-left">
@@ -423,7 +422,7 @@
                                                                         <input data-toggle="collapse"
                                                                                href="#collapsePaymentSix"
                                                                                type="radio" name="paymentMethod"
-                                                                               value="5">
+                                                                               value="6">
                                                                         @lang('labels.frontend.cart.cashfree')
                                                                     </label>
                                                                 </div>
