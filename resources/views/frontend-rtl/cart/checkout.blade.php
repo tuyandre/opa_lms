@@ -304,10 +304,36 @@
                                                      data-parent="#accordion">
                                                     <form class="w3-container w3-display-middle w3-card-4 "
                                                           method="POST"
-                                                          id="payment-form" action="{{route('cart.instamojo.payment')}}">
+                                                          action="{{route('cart.instamojo.payment')}}">
                                                         {{ csrf_field() }}
                                                         <p> @lang('labels.frontend.cart.pay_securely_instamojo')</p>
-
+                                                        <div class="payment-info">
+                                                            <label class=" control-label">@lang('labels.frontend.cart.user_name')
+                                                                :</label>
+                                                            <input type="text" autocomplete='off'
+                                                                   class="form-control"
+                                                                   name="user_name"
+                                                                   placeholder="@lang('labels.frontend.cart.user_name')"
+                                                                   value="{{ auth()->user()->name }}" required>
+                                                        </div>
+                                                        <div class="payment-info">
+                                                            <label class=" control-label">@lang('labels.frontend.cart.user_email')
+                                                                :</label>
+                                                            <input type="text" autocomplete='off'
+                                                                   class="form-control"
+                                                                   name="user_email"
+                                                                   placeholder="@lang('labels.frontend.cart.user_email')"
+                                                                   value="{{ auth()->user()->email }}" required>
+                                                        </div>
+                                                        <div class="payment-info">
+                                                            <label class=" control-label">@lang('labels.frontend.cart.user_phone')
+                                                                :</label>
+                                                            <input type="text" autocomplete='off'
+                                                                   class="form-control"
+                                                                   name="user_phone"
+                                                                   placeholder="@lang('labels.frontend.cart.user_phone')"
+                                                                   value="" required>
+                                                        </div>
                                                         <button type="submit"
                                                                 class="text-white genius-btn mt25 gradient-bg text-center text-uppercase  bold-font">
                                                             @lang('labels.frontend.cart.pay_now') <i

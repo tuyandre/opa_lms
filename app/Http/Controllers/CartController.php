@@ -613,7 +613,9 @@ class CartController extends Controller
             "purpose" => "Buy Course/Bundle",
             "amount" => $cartTotal,
             "buyer_name" => auth()->user()->name,
-            "send_email" => true,
+            "send_email" => false,
+            "send_sms" => false,
+            "phone" => $request->user_phone,
             "email" => auth()->user()->email,
             "redirect_url" => route('cart.instamojo.status'),
         ];
