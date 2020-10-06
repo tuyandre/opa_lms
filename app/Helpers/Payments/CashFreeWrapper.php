@@ -4,7 +4,7 @@
 namespace App\Helpers\Payments;
 
 
-class CaseFreeWrapper
+class CashFreeWrapper
 {
     protected $parameters = array();
     protected $signature = '';
@@ -18,13 +18,13 @@ class CaseFreeWrapper
 
     public function __construct()
     {
-        $this->appID = config('services.casefree.app_id');
-        $this->sectetKey = config('services.casefree.secret');
-        $this->testMode = (config('services.casefree.mode') == 'sandbox' ? true : false);
+        $this->appID = config('services.cashfree.app_id');
+        $this->sectetKey = config('services.cashfree.secret');
+        $this->testMode = (config('services.cashfree.mode') == 'sandbox' ? true : false);
 
         $this->parameters['appId'] = $this->appID;
         $this->parameters['orderId'] = $this->generateTransactionID();
-        $this->parameters['returnUrl'] = route('cart.casefree.status');
+        $this->parameters['returnUrl'] = route('cart.cashfree.status');
         $this->parameters['notifyUrl'] = "";
     }
 
@@ -45,7 +45,7 @@ class CaseFreeWrapper
 
     public function send()
     {
-        return view('includes.casefree-payment-form')
+        return view('includes.cashfreeForm')
             ->with('parameters',$this->parameters)
             ->with('signature',$this->signature)
             ->with('endPoint',$this->getEndPoint());

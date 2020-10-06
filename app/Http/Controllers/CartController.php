@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\General\EarningHelper;
-use App\Helpers\Payments\CaseFreeWrapper;
+use App\Helpers\Payments\CashFreeWrapper;
 use App\Helpers\Payments\InstamojoWrapper;
 use App\Helpers\Payments\PayuMoneyWrapper;
 use App\Helpers\Payments\RazorpayWrapper;
@@ -722,14 +722,14 @@ class CartController extends Controller
             'customerEmail' => auth()->user()->email,
         ];
 
-        $caseFreeWrapper = new CaseFreeWrapper();
-        return $caseFreeWrapper->request($parameter);
+        $cashFreeWrapper = new CashFreeWrapper();
+        return $cashFreeWrapper->request($parameter);
     }
 
     public function getCashFreeStatus(Request $request)
     {
-        $caseFreeWrapper = new CaseFreeWrapper();
-        $response = $caseFreeWrapper->signatureVerification($request->except('signature'), $request->signature);
+        $cashFreeWrapper = new CashFreeWrapper();
+        $response = $cashFreeWrapper->signatureVerification($request->except('signature'), $request->signature);
         if($response && $request->txStatus == "SUCCESS"){
             $order = $this->makeOrder();
             $order->payment_type = 6;
