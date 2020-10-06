@@ -59,6 +59,14 @@ return [
         'secret' => env('CASHFREE_SECRET'),
         'mode' => env('CASHFREE_MODE','sandbox')
     ],
+
+    'payu' => [
+        'active' => false,
+        'key' => env('PAYU_KEY'),
+        'salt' => env('PAYU_SALT'),
+        'mode' => env('PAYU_MODE','sandbox')
+    ],
+
     /*
      * Socialite Credentials
      * Redirect URL's need to be the same as specified on each network you set up this application on
