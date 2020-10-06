@@ -142,6 +142,7 @@
                         </div>
                         @if(count($courses) > 0)
                             @if((config('services.stripe.active') == 0) && (config('paypal.active') == 0) && (config('payment_offline_active') == 0) && (config('services.instamojo.active') == 0) && (config('services.razorpay.active') == 0) && (config('services.cashfree.active') == 0))
+                            @if((config('services.stripe.active') == 0) && (config('paypal.active') == 0) && (config('payment_offline_active') == 0) && (config('services.instamojo.active') == 0) && (config('services.razorpay.active') == 0) && (config('services.cashfree.active') == 0) && (config('services.payu.active') == 0))
                                 <div class="order-payment">
                                     <div class="section-title-2 headline text-left">
                                         <h2>@lang('labels.frontend.cart.no_payment_method')</h2>
@@ -418,6 +419,78 @@
                                                           action="{{route('cart.cashfree.payment')}}">
                                                         {{ csrf_field() }}
                                                         <p> @lang('labels.frontend.cart.pay_securely_cashfree')</p>
+
+                                                        <div class="payment-info">
+                                                            <label class=" control-label">@lang('labels.frontend.cart.user_name')
+                                                                :</label>
+                                                            <input type="text" autocomplete='off'
+                                                                   class="form-control"
+                                                                   name="user_name"
+                                                                   placeholder="@lang('labels.frontend.cart.user_name')"
+                                                                   value="{{ auth()->user()->name }}" required>
+                                                        </div>
+                                                        <div class="payment-info">
+                                                            <label class=" control-label">@lang('labels.frontend.cart.user_email')
+                                                                :</label>
+                                                            <input type="text" autocomplete='off'
+                                                                   class="form-control"
+                                                                   name="user_email"
+                                                                   placeholder="@lang('labels.frontend.cart.user_email')"
+                                                                   value="{{ auth()->user()->email }}" required>
+                                                        </div>
+                                                        <div class="payment-info">
+                                                            <label class=" control-label">@lang('labels.frontend.cart.user_phone')
+                                                                :</label>
+                                                            <input type="text" autocomplete='off'
+                                                                   class="form-control"
+                                                                   name="user_phone"
+                                                                   placeholder="@lang('labels.frontend.cart.user_phone')"
+                                                                   value="" required>
+                                                        </div>
+                                                        <button type="submit"
+                                                                class="text-white genius-btn mt25 gradient-bg text-center text-uppercase  bold-font">
+                                                            @lang('labels.frontend.cart.pay_now') <i
+                                                                class="fas fa-caret-right"></i>
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        @endif
+
+                                        @if(config('services.payu.active') == 1)
+                                            <div class="payment-method w-100 mb-0">
+                                                <div class="payment-method-header">
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="method-header-text">
+                                                                <div class="radio">
+                                                                    <label>
+                                                                        <input data-toggle="collapse"
+                                                                               href="#collapsePaymentPayU"
+                                                                               type="radio" name="paymentMethod"
+                                                                               value="5">
+                                                                        @lang('labels.frontend.cart.payu')
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-6">
+                                                            <div class="payment-img float-right">
+                                                                <img src="{{asset('assets/img/banner/p-7.png')}}"
+                                                                     alt="">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="check-out-form collapse disabled" id="collapsePaymentPayU"
+                                                     data-parent="#accordion">
+
+                                                    <form class="w3-container w3-display-middle w3-card-4 "
+                                                          method="POST"
+                                                          action="{{route('cart.payu.payment')}}">
+                                                        {{ csrf_field() }}
+                                                        <p> @lang('labels.frontend.cart.pay_securely_payu')</p>
 
                                                         <div class="payment-info">
                                                             <label class=" control-label">@lang('labels.frontend.cart.user_name')

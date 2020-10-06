@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Helpers\General\EarningHelper;
 use App\Helpers\Payments\CaseFreeWrapper;
 use App\Helpers\Payments\InstamojoWrapper;
+use App\Helpers\Payments\PayuMoneyWrapper;
 use App\Helpers\Payments\RazorpayWrapper;
 use App\Mail\Frontend\AdminOrederMail;
 use App\Mail\OfflineOrderMail;
@@ -757,6 +758,57 @@ class CartController extends Controller
 
         }
         \Log::info('Gateway:CaseFree,Message:'.$request->txMsg.'txStatus:'.$request->txStatus. ' for id = ' . auth()->user()->id);
+        \Session::flash('failure', trans('labels.frontend.cart.payment_failed'));
+        return Redirect::route('status');
+    }
+
+    public function payuPayment(Request $request)
+    {
+        $payumoneyWrapper = new PayuMoneyWrapper;
+        $currency = $this->currency['short_code'];
+        $amount = number_format(Cart::session(auth()->user()->id)->getTotal(), 2);
+        $parameter = [
+            'amount' => $amount,
+            'firstname' => auth()->user()->name,
+            'productinfo' => auth()->user()->name,
+            'email' => auth()->user()->email,
+            'phone' => $request->user_phone,
+        ];
+        return $payumoneyWrapper->request($parameter);
+    }
+
+    public function getPayUStatus(Request $request)
+    {
+        \Session::forget('failure');
+        $payumoneyWrapper = new PayuMoneyWrapper();
+        $response = $payumoneyWrapper->response($request);
+        if(is_array($response) && $response['status'] == 'success'){
+            $order = $this->makeOrder();
+            $order->payment_type = 7;
+            $order->transaction_id = $response['payuMoneyId'];
+            $order->save();
+            \Session::flash('success', trans('labels.frontend.cart.payment_done'));
+            $order->status = 1;
+            $order->save();
+            (new EarningHelper)->insert($order);
+            foreach ($order->items as $orderItem) {
+                //Bundle Entries
+                if ($orderItem->item_type == Bundle::class) {
+                    foreach ($orderItem->item->courses as $course) {
+                        $course->students()->attach($order->user_id);
+                    }
+                }
+                $orderItem->item->students()->attach($order->user_id);
+            }
+
+            //Generating Invoice
+            generateInvoice($order);
+            $this->adminOrderMail($order);
+            Cart::session(auth()->user()->id)->clear();
+            \Log::info('Gateway:PayUMoney,Message:'.$response['error_Message'].',txStatus:'.$response['status']. ' for id = ' . auth()->user()->id);
+            return Redirect::route('status');
+        }
+        \Log::info('Gateway:PayUMoney,Message:'.$response['error_Message'].',txStatus:'.$response['status']. ' for id = ' . auth()->user()->id);
         \Session::flash('failure', trans('labels.frontend.cart.payment_failed'));
         return Redirect::route('status');
     }
