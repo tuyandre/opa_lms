@@ -53,69 +53,14 @@ class ConfigController extends Controller
 
         }
         $requests = $this->saveLogos($request);
-        if ($request->get('access_registration') == null) {
-            $requests['access_registration'] = 0;
+        $switchInputs = ['access_registration','mailchimp_double_opt_in','access_users_change_email','access_users_confirm_email','access_captcha_registration','access_users_requires_approval','services__stripe__active','paypal__active','payment_offline_active','backup__status','access__captcha__registration','retest','lesson_timer','show_offers','onesignal_status','access__users__registration_mail','access__users__order_mail','services__instamojo__active','services__razorpay__active','services__cashfree__active','services__payu__active'];
+
+        foreach ($switchInputs as $switchInput) {
+            if ($request->get($switchInput) == null) {
+                $requests[$switchInput] = 0;
+            }
         }
-        if (!$request->get('mailchimp_double_opt_in')) {
-            $requests['mailchimp_double_opt_in'] = 0;
-        }
-        if ($request->get('access_users_change_email') == null) {
-            $requests['access_users_change_email'] = 0;
-        }
-        if ($request->get('access_users_confirm_email') == null) {
-            $requests['access_users_confirm_email'] = 0;
-        }
-        if ($request->get('access_captcha_registration') == null) {
-            $requests['access_captcha_registration'] = 0;
-        }
-        if ($request->get('access_users_requires_approval') == null) {
-            $requests['access_users_requires_approval'] = 0;
-        }
-        if ($request->get('services__stripe__active') == null) {
-            $requests['services__stripe__active'] = 0;
-        }
-        if ($request->get('paypal__active') == null) {
-            $requests['paypal__active'] = 0;
-        }
-        if ($request->get('payment_offline_active') == null) {
-            $requests['payment_offline_active'] = 0;
-        }
-        if ($request->get('backup__status') == null) {
-            $requests['backup__status'] = 0;
-        }
-        if ($request->get('access__captcha__registration') == null) {
-            $requests['access__captcha__registration'] = 0;
-        }
-        if ($request->get('retest') == null) {
-            $requests['retest'] = 0;
-        }
-        if ($request->get('lesson_timer') == null) {
-            $requests['lesson_timer'] = 0;
-        }
-        if ($request->get('show_offers') == null) {
-            $requests['show_offers'] = 0;
-        }
-        if ($request->get('onesignal_status') == null) {
-            $requests['onesignal_status'] = 0;
-        }
-        if ($request->get('onesignal_status') == null) {
-            $requests['onesignal_status'] = 0;
-        }
-        if ($request->get('access__users__registration_mail') == null) {
-            $requests['access__users__registration_mail'] = 0;
-        }
-        if ($request->get('access__users__order_mail') == null) {
-            $requests['access__users__order_mail'] = 0;
-        }
-        if ($request->get('services__instamojo__active') == null) {
-            $requests['services__instamojo__active'] = 0;
-        }
-        if ($request->get('services__razorpay__active') == null) {
-            $requests['services__razorpay__active'] = 0;
-        }
-        if ($request->get('services__cashfree__active') == null) {
-            $requests['services__cashfree__active'] = 0;
-        }
+
         foreach ($requests->all() as $key => $value) {
             if ($key != '_token') {
                 $key = str_replace('__', '.', $key);

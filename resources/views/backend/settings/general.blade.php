@@ -988,6 +988,59 @@
                                 </div><!--col-->
                             </div><!--form-group-->
                             <div class="form-group row">
+                                {{ html()->label(__('labels.backend.general_settings.payment_settings.payu'))->class('col-md-3 form-control-label')}}
+                                <div class="col-md-9">
+                                    <div class="checkbox">
+                                        {{ html()->label(
+                                                html()->checkbox('services__payu__active', config('services.payu.active') ? true : false,1)
+                                                      ->class('switch-input')->value(1)
+                                                . '<span class="switch-label"></span><span class="switch-handle"></span>')
+
+                                            ->class('switch switch-sm switch-3d switch-primary')
+                                        }}
+                                        <a class="float-right font-weight-bold font-italic"
+                                           href="//www.payumoney.com/merchant-dashboard/#/integration"
+                                           target="_blank">{{ __('labels.backend.general_settings.payment_settings.how_to_payu')}}</a>
+                                    </div>
+                                    <small>
+                                        <i> {{ __('labels.backend.general_settings.payment_settings.payu_note')}}</i>
+                                    </small>
+                                    <div class="switch-content @if(config('services.payu.active') == 0 || config('services.payu.active') == false) d-none @endif">
+                                        <br>
+                                        <div class="form-group row">
+                                            {{ html()->label(__('labels.backend.general_settings.payment_settings.mode'))->class('col-md-2 form-control-label') }}
+                                            <div class="col-md-8 col-xs-12">
+                                                <select class="form-control" id="payu_settings_mode"
+                                                        name="services__payu__mode">
+                                                    <option selected
+                                                            value="sandbox">{{__('labels.backend.general_settings.payment_settings.sandbox')}}</option>
+                                                    <option value="live">{{__('labels.backend.general_settings.payment_settings.live')}}</option>
+                                                </select>
+                                                <span class="help-text font-italic">{!!  __('labels.backend.general_settings.payment_settings.payu_mode_note') !!}</span>
+                                            </div><!--col-->
+                                        </div><!--form-group-->
+                                        <div class="form-group row">
+                                            {{ html()->label(__('labels.backend.general_settings.payment_settings.key'))->class('col-md-2 form-control-label') }}
+                                            <div class="col-md-8 col-xs-12">
+                                                {{ html()->text('services__payu__key')
+                                                     ->class('form-control')
+                                                     ->value(config('services.payu.key'))
+                                                     }}
+                                            </div><!--col-->
+                                        </div><!--form-group-->
+                                        <div class="form-group row">
+                                            {{ html()->label(__('labels.backend.general_settings.payment_settings.payu_salt'))->class('col-md-2 form-control-label')->for('services__payu__salt') }}
+                                            <div class="col-md-8 col-xs-12">
+                                                {{ html()->text('services__payu__salt')
+                                                     ->class('form-control')
+                                                     ->value(config('services.payu.salt'))
+                                                     }}
+                                            </div><!--col-->
+                                        </div><!--form-group-->
+                                    </div>
+                                </div><!--col-->
+                            </div><!--form-group-->
+                            <div class="form-group row">
                                 {{ html()->label(__('labels.backend.general_settings.payment_settings.offline_mode'))->class('col-md-3 form-control-label')}}
                                 <div class="col-md-9">
                                     <div class="checkbox">
@@ -1318,6 +1371,12 @@
             @if(config('services.cashfree.mode') != "")
             $('#cashfree_settings_mode').find('option').removeAttr('selected')
             $('#cashfree_settings_mode').find('option[value="{{config('services.cashfree.mode')}}"]').attr('selected', 'selected');
+            @endif
+
+            //======== Preset PaymentMode for PayUMoney =======>
+            @if(config('services.payu.mode') != "")
+            $('#cashfree_settings_mode').find('option').removeAttr('selected')
+            $('#cashfree_settings_mode').find('option[value="{{config('services.payu.mode')}}"]').attr('selected', 'selected');
             @endif
 
 
