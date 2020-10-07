@@ -53,6 +53,10 @@
         <link href="{{asset('assets/css/colors/color-9.css')}}" rel="alternate stylesheet" type="text/css"
               title="color-9">
 
+        <link href="{{asset('/vendor/unisharp/laravel-ckeditor/plugins/codesnippet/lib/highlight/styles/monokai.css') }}" rel="stylesheet">
+        <script src="{{asset('/vendor/unisharp/laravel-ckeditor/plugins/codesnippet/lib/highlight/highlight.pack.js') }}"></script>
+        <script>hljs.initHighlightingOnLoad();</script>
+
         <style>
             .breadcrumb-section .page-breadcrumb-content {
                 bottom: 0;
