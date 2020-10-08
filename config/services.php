@@ -47,7 +47,7 @@ return [
         'mode' => env('INSTAMOJO_MODE','sandbox')
     ],
 
-    'razrorpay' => [
+    'razorpay' => [
         'active' => false,
         'key' => env('RAZORPAY_KEY'),
         'secret' => env('RAZORPAY_SECRET'),

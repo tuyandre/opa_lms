@@ -13,7 +13,7 @@ class RazorpayWrapper
     private $razorPay;
     public function __construct()
     {
-        $this->razorPay = new Api(config('services.razrorpay.key'),config('services.razrorpay.secret'));
+        $this->razorPay = new Api(config('services.razorpay.key'),config('services.razorpay.secret'));
     }
 
     public function order($currency, $amount)
