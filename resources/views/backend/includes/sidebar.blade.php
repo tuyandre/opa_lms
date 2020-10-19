@@ -347,6 +347,20 @@
                     @lang('menus.backend.sidebar.system')
                 </li>
 
+                <li class="nav-item nav-dropdown {{ active_class(Active::checkUriPattern(['admin/stripe*','admin/stripe/plans*']), 'open') }}">
+                    <a class="nav-link nav-dropdown-toggle {{ active_class(Active::checkUriPattern('admin/stripe*')) }}"
+                       href="#">
+                        <i class="nav-icon fab fa-stripe"></i> @lang('menus.backend.stripe.title')
+                    </a>
+                    <ul class="nav-dropdown-items">
+                        <li class="nav-item">
+                            <a class="nav-link {{ active_class(Active::checkUriPattern('admin/stripe/plans*')) }}"
+                               href="{{ route('admin.stripe.plans.index') }}">
+                                @lang('menus.backend.stripe.plan')
+                            </a>
+                        </li>
+                    </ul>
+                </li>
                 <li class="nav-item nav-dropdown {{ active_class(Active::checkUriPattern('admin/auth*'), 'open') }}">
                     <a class="nav-link nav-dropdown-toggle {{ active_class(Active::checkUriPattern('admin/auth*')) }}"
                        href="#">

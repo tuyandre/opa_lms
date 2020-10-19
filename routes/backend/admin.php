@@ -328,3 +328,13 @@ Route::group(['prefix'=> 'live-lesson-slots'], function () {
     Route::delete('permanent/{id}', ['uses' => 'LiveLessonSlotController@permanent', 'as' => 'live-lesson-slots.perma_del']);
 });
 Route::resource('live-lesson-slots', 'LiveLessonSlotController');
+
+Route::group(['namespace' => 'Admin\Stripe', 'prefix' => 'stripe', 'as' => 'stripe.'], function () {
+    //==== Stripe Plan Controller ====//
+    Route::group(['prefix' => 'plans'], function() {
+        Route::get('data', ['uses' => 'StripePlanController@getData', 'as' => 'plans.get_data']);
+        Route::post('restore/{id}', ['uses' => 'StripePlanController@restore', 'as' => 'plans.restore']);
+        Route::delete('permanent/{id}', ['uses' => 'StripePlanController@permanent', 'as' => 'plans.perma_del']);
+    });
+    Route::resource('plans', 'StripePlanController');
+});
