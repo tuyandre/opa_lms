@@ -15,6 +15,7 @@ use App\Models\OrderItem;
 use App\Models\Traits\Uuid;
 use App\Models\VideoProgress;
 use Illuminate\Support\Collection;
+use Laravel\Cashier\Billable;
 use Laravel\Passport\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
@@ -35,7 +36,8 @@ use Lexx\ChatMessenger\Traits\Messagable;
  */
 class User extends Authenticatable
 {
-    use HasRoles,
+    use Billable,
+        HasRoles,
         Notifiable,
         SendUserPasswordReset,
         SoftDeletes,
