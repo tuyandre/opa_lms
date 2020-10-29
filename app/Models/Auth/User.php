@@ -36,8 +36,10 @@ use Lexx\ChatMessenger\Traits\Messagable;
  */
 class User extends Authenticatable
 {
-    use Billable,
-        HasRoles,
+    use Billable {
+        invoices as StripeInvoices;
+        }
+    use  HasRoles,
         Notifiable,
         SendUserPasswordReset,
         SoftDeletes,
