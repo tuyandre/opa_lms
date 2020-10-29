@@ -55,7 +55,7 @@
             <div class="row">
                 <div class="col-12 form-group">
                     {!! Form::label('tests', trans('labels.backend.questions.fields.tests'), ['class' => 'control-label']) !!}
-                    {!! Form::select('tests[]', $tests, old('tests'), ['class' => 'form-control select2', 'multiple' => 'multiple']) !!}
+                    {!! Form::select('tests[]', $tests, old('tests'), ['class' => 'form-control select2 required', 'multiple' => 'multiple', 'required' => true]) !!}
                     <p class="help-block"></p>
                     @if($errors->has('tests'))
                         <p class="help-block">
@@ -74,7 +74,7 @@
             <div class="row">
                 <div class="col-12 form-group">
                     {!! Form::label('option_text_' . $question, trans('labels.backend.questions.fields.option_text').'*', ['class' => 'control-label']) !!}
-                    {!! Form::textarea('option_text_' . $question, old('option_text'), ['class' => 'form-control ', 'rows' => 3]) !!}
+                    {!! Form::textarea('option_text_' . $question, old('option_text'), ['class' => 'form-control ', 'rows' => 3, 'required' =>  true]) !!}
                     <p class="help-block"></p>
                     @if($errors->has('option_text_' . $question))
                         <p class="help-block">

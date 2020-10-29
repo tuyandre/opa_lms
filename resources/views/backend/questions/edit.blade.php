@@ -80,7 +80,7 @@
             <div class="row">
                 <div class="col-12 form-group">
                     {!! Form::label('tests', trans('labels.backend.questions.fields.tests'), ['class' => 'control-label']) !!}
-                    {!! Form::select('tests[]', $tests, old('tests') ? old('tests') : $question->tests->pluck('id')->toArray(), ['class' => 'form-control select2', 'multiple' => 'multiple']) !!}
+                    {!! Form::select('tests[]', $tests, old('tests') ? old('tests') : $question->tests->pluck('id')->toArray(), ['class' => 'form-control select2', 'multiple' => 'multiple', 'required' => true]) !!}
                     <p class="help-block"></p>
                     @if($errors->has('tests'))
                         <p class="help-block">
@@ -91,6 +91,8 @@
             </div>
         </div>
     </div>
+    @if($question->options->count())
+    {!! Form::hidden('options_available', 1) !!}
     @foreach ($question->options as $key=>$option)
         @php $key++ @endphp
         <div class="card">
@@ -98,7 +100,7 @@
                 <div class="row">
                     <div class="col-12 form-group">
                         {!! Form::label('option_text_' . $option->id, trans('labels.backend.questions.fields.option_text').'*', ['class' => 'control-label']) !!}
-                        {!! Form::textarea('option_text_' . $key, $option->option_text, ['class' => 'form-control ', 'rows' => 3]) !!}
+                        {!! Form::textarea('option_text_' . $key, $option->option_text, ['class' => 'form-control ', 'rows' => 3, 'required' => true]) !!}
                         <p class="help-block"></p>
                         @if($errors->has('option_text_' . $option->id))
                             <p class="help-block">
@@ -137,6 +139,52 @@
             </div>
         </div>
     @endforeach
+    @else
+    {!! Form::hidden('options_available', 0) !!}
+    @for ($question=1; $question<=4; $question++)
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12 form-group">
+                        {!! Form::label('option_text_' . $question, trans('labels.backend.questions.fields.option_text').'*', ['class' => 'control-label']) !!}
+                        {!! Form::textarea('option_text_' . $question, old('option_text'), ['class' => 'form-control ', 'rows' => 3, 'required' =>  true]) !!}
+                        <p class="help-block"></p>
+                        @if($errors->has('option_text_' . $question))
+                            <p class="help-block">
+                                {{ $errors->first('option_text_' . $question) }}
+                            </p>
+                        @endif
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 form-group">
+                        {!! Form::label('explanation_' . $question, trans('labels.backend.questions.fields.option_explanation'), ['class' => 'control-label']) !!}
+                        {!! Form::textarea('explanation_' . $question, old('explanation_'.$question), ['class' => 'form-control ', 'rows' => 3]) !!}
+                        <p class="help-block"></p>
+                        @if($errors->has('explanation_' . $question))
+                            <p class="help-block">
+                                {{ $errors->first('explanation_' . $question) }}
+                            </p>
+                        @endif
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 form-group">
+                        {!! Form::label('correct_' . $question, trans('labels.backend.questions.fields.correct'), ['class' => 'control-label']) !!}
+                        {!! Form::hidden('correct_' . $question, 0) !!}
+                        {!! Form::checkbox('correct_' . $question, 1, false, []) !!}
+                        <p class="help-block"></p>
+                        @if($errors->has('correct_' . $question))
+                            <p class="help-block">
+                                {{ $errors->first('correct_' . $question) }}
+                            </p>
+                        @endif
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endfor
+    @endif
     <div class="row">
         <div class="col-12 text-center mb-4">
             {!! Form::submit(trans('strings.backend.general.app_update'), ['class' => 'btn btn-danger']) !!}

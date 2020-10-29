@@ -197,19 +197,35 @@ class QuestionsController extends Controller
         $question->save();
         $question->tests()->sync(array_filter((array)$request->input('tests')));
 
-        for ($q = 1; $q <= 4; $q++) {
-            $option = $request->input('option_text_' . $q, '');
-            $explanation = $request->input('explanation_' . $q, '');
-            $option_id = $request->input('option_id_' . $q, '');
-            $correct = ($request->input('correct_' . $q) == 1) ? 1 : 0;
-            if ($option != '') {
-                $option_data = QuestionsOption::find($option_id);
-                if ($option_data) {
-                    $option_data->question_id = $question->id;
-                    $option_data->option_text = $option;
-                    $option_data->explanation = $explanation;
-                    $option_data->correct = $correct;
-                    $option_data->save();
+        if($request->input('options_available')) {
+
+            for ($q = 1; $q <= 4; $q++) {
+                $option = $request->input('option_text_' . $q, '');
+                $explanation = $request->input('explanation_' . $q, '');
+                $option_id = $request->input('option_id_' . $q, '');
+                $correct = ($request->input('correct_' . $q) == 1) ? 1 : 0;
+                if ($option != '') {
+                    $option_data = QuestionsOption::find($option_id);
+                    if ($option_data) {
+                        $option_data->question_id = $question->id;
+                        $option_data->option_text = $option;
+                        $option_data->explanation = $explanation;
+                        $option_data->correct = $correct;
+                        $option_data->save();
+                    }
+                }
+            }
+        }else{
+            for ($nq = 1; $nq <= 4; $nq++) {
+                $option = $request->input('option_text_' . $nq, '');
+                $explanation = $request->input('explanation_' . $nq, '');
+                if ($option != '') {
+                    QuestionsOption::create([
+                        'question_id' => $question->id,
+                        'option_text' => $option,
+                        'explanation' => $explanation,
+                        'correct' => $request->input('correct_' . $nq)
+                    ]);
                 }
             }
         }
