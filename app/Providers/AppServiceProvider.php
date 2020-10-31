@@ -81,6 +81,8 @@ class AppServiceProvider extends ServiceProvider
             foreach (Config::all() as $setting) {
                 \Illuminate\Support\Facades\Config::set($setting->key, $setting->value);
             }
+            \Illuminate\Support\Facades\Config::set('cashier.key', config('services.stripe.key'));
+            \Illuminate\Support\Facades\Config::set('cashier.secret',config('services.stripe.secret'));
         }
 
         /*
