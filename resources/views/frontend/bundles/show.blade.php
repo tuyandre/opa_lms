@@ -38,6 +38,12 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-9">
+                    @if(session()->has('danger'))
+                        <div class="alert alert-dismissable alert-danger fade show">
+                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                            {!! session('danger')  !!}
+                        </div>
+                    @endif
                     @if(session()->has('success'))
                         <div class="alert alert-dismissable alert-success fade show">
                             <button type="button" class="close" data-dismiss="alert">&times;</button>
@@ -364,6 +370,10 @@
                                            data-target="#myModal" href="#">@lang('labels.frontend.course.add_to_cart')
                                             <i
                                                     class="fa fa-shopping-bag"></i></a>
+
+                                        <a id="openLoginModal"
+                                           class="genius-btn btn-block text-white  gradient-bg text-center text-uppercase  bold-font"
+                                           data-target="#myModal" href="#">@lang('labels.frontend.course.subscribe')</a>
                                     @endif
                                 @elseif(auth()->check() && (auth()->user()->hasRole('student')))
                                     @if($bundle->free == 1)
@@ -395,6 +405,21 @@
                                                         class="fa fa-shopping-bag"></i>
                                             </button>
                                         </form>
+
+                                        @if(auth()->user()->subscription('default'))
+                                            <form action="{{ route('subscription.course_subscribe') }}" method="POST">
+                                                @csrf
+                                                <input type="hidden" name="bundle_id" value="{{ $bundle->id }}"/>
+                                                <input type="hidden" name="amount" value="{{($bundle->free == 1) ? 0 : $bundle->price}}"/>
+                                                <button type="submit"
+                                                        class="genius-btn btn-block text-white  gradient-bg text-center text-uppercase  bold-font">
+                                                    @lang('labels.frontend.course.subscribe')</button>
+                                            </form>
+                                        @else
+                                            <a class="genius-btn btn-block text-white  gradient-bg text-center text-uppercase  bold-font"
+                                               href="{{ route('subscription.plans') }}">@lang('labels.frontend.course.subscribe')</a>
+                                        @endif
+
                                     @endif
                                 @else
                                     <h6 class="alert alert-danger"> @lang('labels.frontend.course.buy_note')</h6>
