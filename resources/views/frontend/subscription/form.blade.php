@@ -250,32 +250,37 @@
 
         cardButton.addEventListener('click', (e) => {
             e.preventDefault();
-            stripe.handleCardSetup(clientSecret,cardElement,{
-                payment_method_data:{
-                    billing_details: {
-                        name: cardHolderName.value,
-                        address:{
-                            city: city.value,
-                            country:null,
-                            line1:address.value,
-                            line2:null,
-                            postal_code:zip.value,
-                            state:state.value
+            if(city.value == '' || state.value == '' || zip.value == '' || address.value == ''){
+                alert('Please fill Billing Address Field');
+            }else{
+                $('#card-button').attr('disabled', true);
+                stripe.handleCardSetup(clientSecret,cardElement,{
+                    payment_method_data:{
+                        billing_details: {
+                            name: cardHolderName.value,
+                            address:{
+                                city: city.value,
+                                country:null,
+                                line1:address.value,
+                                line2:null,
+                                postal_code:zip.value,
+                                state:state.value
+                            }
                         }
                     }
-                }
-            }).then(function (result) {
-                console.log(result);
-                if (result.error) {
-                    // Inform the user if there was an error.
-                    var errorElement = document.getElementById('card-errors');
-                    errorElement.textContent = result.error.message;
-                } else {
-                    console.log(result);
-                    // Send the token to your server.
-                    stripeTokenHandler(result.setupIntent.payment_method);
-                }
-            });
+                }).then(function (result) {
+                    if (result.error) {
+                        $('#card-button').attr('disabled', false);
+                        // Inform the user if there was an error.
+                        var errorElement = document.getElementById('card-errors');
+                        errorElement.textContent = result.error.message;
+                    } else {
+                        // Send the token to your server.
+                        stripeTokenHandler(result.setupIntent.payment_method);
+                    }
+                });
+            }
+
         });
 
         // Submit the form with the token ID.
