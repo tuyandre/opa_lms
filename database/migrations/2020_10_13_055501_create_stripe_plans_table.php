@@ -22,10 +22,8 @@ class CreateStripePlansTable extends Migration
             $table->string('amount');
             $table->string('currency');
             $table->string('interval');
-            $table->integer('trial_period_days');
             $table->integer('course')->nullable();
             $table->integer('bundle')->nullable();
-            $table->integer('quantity')->nullable();
             $table->timestamps();
             $table->softDeletes();
 
