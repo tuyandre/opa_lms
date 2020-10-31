@@ -129,6 +129,12 @@ class PermissionRoleTableSeeder extends Seeder
             ['id' => 81, 'name' => 'live_lesson_slot_view'],
             ['id' => 82, 'name' => 'live_lesson_slot_delete'],
 
+            ['id' => 83, 'name' => 'stripe_plan_access'],
+            ['id' => 84, 'name' => 'stripe_plan_create'],
+            ['id' => 85, 'name' => 'stripe_plan_edit'],
+            ['id' => 86, 'name' => 'stripe_plan_view'],
+            ['id' => 87, 'name' => 'stripe_plan_delete'],
+            ['id' => 87, 'name' => 'stripe_plan_restore'],
         ];
 
         foreach ($permissions as $item) {
