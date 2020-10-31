@@ -843,6 +843,8 @@ return array (
       'pending' => 'Pending',
       'success' => 'Success',
       'failed' => 'Failed',
+      'my_subscribed_courses' => 'My Subscribed Courses',
+      'my_subscribed_course_bundles' => 'My Subscribed Course Bundles',
     ),
     'questions_options' =>
     array (
@@ -1184,7 +1186,51 @@ return array (
             'auto_recording' => 'Auto Recording',
             'timezone' => 'Timezone',
         )
-    )
+    ),
+    'stripe' => array(
+        'plan' => array(
+            'title' => 'Stripe Plans',
+            'create' => 'Create Stripe Plan',
+            'edit' => 'Edit Stripe Plan',
+            'view' => 'View Stripe Plan',
+            'select_product' => 'Select Product',
+            'course' => '{0} Unlimited Access|{99} Not Access|[1,*] :quantity',
+            'bundle' => '{0} Unlimited Access|{99} Not Access|[1,*] :quantity',
+            'interval_type' => array(
+                '' => 'Select Interval',
+                'day' => 'Day',
+                'week' => 'Week',
+                'month' => 'Month',
+                'year' => 'Year',
+            ),
+            'input_quantity_note' => '0 Means Unlimited Access, 99  Means Not Access',
+            'fields' => array(
+                'product' => 'Product',
+                'name' => 'Name',
+                'description' => 'Description',
+                'amount' => 'Amount',
+                'currency' => 'Currency',
+                'interval' => 'Interval',
+                'course' => 'Course Quantity',
+                'bundle' => 'Bundle Quantity',
+            )
+        )
+    ),
+    'subscription' => array(
+        'title' => 'Subscription',
+        'invoice_list' => 'Invoice List',
+        'click_here' => 'Click Here',
+        'cancel_title' => 'Cancel Subscription',
+        'subscribe_plan' => 'Subscribe Plan',
+        'date' => 'Date',
+        'sub_total' => 'Sub Total',
+        'total' => 'Total',
+        'download' => 'Download',
+        'active_plan' => 'Active Plan',
+        'course' => 'Course',
+        'bundle' => 'Bundle',
+        'quantity' => '{0} Unlimited|{99} Not Access|[1,*] :quantity',
+    ),
   ),
   'general' =>
   array (
@@ -1422,6 +1468,7 @@ return array (
       'live_lesson_meeting_duration' => 'Durations',
       'book_slot' => 'Book a Slot',
       'full_slot' => 'Slot is full',
+      'subscribe' => 'Subscribe',
     ),
     'home' =>
     array (
@@ -1599,5 +1646,34 @@ return array (
       'ifsc_code' => 'IFSC Code',
     ),
     'description' => 'Description',
+  ),
+  'subscription' => array(
+      'title' => 'Subscription Plan',
+      'quantity' => '{0} Unlimited Access|[1,*] Total :quantity Quantity Access',
+      'course' => '{0} Unlimited Courses Access|{99} Course Not Available|[1,1]:quantity Course|[2,*]:quantity Courses',
+      'bundle' => '{0} Unlimited Bundles Access|{99} Bundle Not Available|[1,1]:quantity Bundle|[2,*]:quantity Bundles',
+      'button' => 'Subscribe',
+      'plan' => 'Plan',
+      'price' => 'Price',
+      'trial_period' => 'Trial Period :days Days',
+      'payment_status' => 'Subscription Payment Status',
+      'already_subscribe' => 'Already Subscribe',
+      'your_subscription_status' => 'Your <span>Subscription Status.</span>',
+      'go_to_home' => 'Home',
+      'go_to_plan' => 'Go to Plans',
+      'done' => 'Subscription done successfully !',
+      'update' => 'Subscription update successfully !',
+      'failed' => 'Error! Subscription Failed!',
+      'cancel' => 'Subscription Canceled!',
+      'resume' => 'Subscription Resume!',
+      'form' => array(
+          'name' => 'Name',
+          'email' => 'Email',
+          'address' => 'Address',
+          'city' => 'City',
+          'state' => 'State',
+          'zip' => 'ZIP',
+          'card' => 'Card',
+      )
   ),
 );

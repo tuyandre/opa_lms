@@ -183,6 +183,10 @@ return array (
     'live_lesson_slots' =>
     array(
         'title' => 'Live Lesson Slots'
+    ),
+    'subscription' =>
+    array(
+        'title' => 'Subscription'
     )
     ),
     'access' =>
@@ -213,6 +217,11 @@ return array (
       'dashboard' => 'Debug dashboard',
       'logs' => 'Logs',
       'main' => 'Log Viewer',
+    ),
+    'stripe' =>
+    array(
+        'title' => 'Stripe',
+        'plan' => 'Plans',
     ),
   ),
   'language-picker' =>
