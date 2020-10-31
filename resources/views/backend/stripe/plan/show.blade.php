@@ -1,5 +1,5 @@
 @extends('backend.layouts.app')
-@section('title', __('labels.backend.live_lesson_slots.title').' | '.app_name())
+@section('title', __('labels.backend.stripe.plan.title').' | '.app_name())
 
 @section('content')
 
@@ -29,21 +29,12 @@
                         </tr>
                         <tr>
                             <th>@lang('labels.backend.stripe.plan.fields.course')</th>
-                            <td>{{ $plan->course }}</td>
+                            <td>{{ trans_choice('labels.backend.stripe.plan.course', $plan->course, ['quantity' => $plan->course]) }}</td>
                         </tr>
                         <tr>
                             <th>@lang('labels.backend.stripe.plan.fields.bundle')</th>
-                            <td>{{ $plan->bundle }}</td>
+                            <td>{{ trans_choice('labels.backend.stripe.plan.bundle', $plan->bundle, ['quantity' => $plan->bundle]) }}</td>
                         </tr>
-                        <tr>
-                            <th>@lang('labels.backend.stripe.plan.fields.quantity')</th>
-                            <td>{!! $plan->quantity !!}</td>
-                        </tr>
-                        <tr>
-                            <th>@lang('labels.backend.stripe.plan.fields.trial_period_days')</th>
-                            <td>{!! $plan->trial_period_days !!}</td>
-                        </tr>
-
 
                     </table>
                 </div>

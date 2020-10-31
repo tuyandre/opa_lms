@@ -41,7 +41,6 @@
                             <th>@lang('labels.backend.stripe.plan.fields.name')</th>
                             <th>@lang('labels.backend.stripe.plan.fields.amount')</th>
                             <th>@lang('labels.backend.stripe.plan.fields.interval')</th>
-                            <th>@lang('labels.backend.stripe.plan.fields.trial_period_days')</th>
                             @if( request('show_deleted') == 1 )
                                 <th>@lang('strings.backend.general.actions') &nbsp;</th>
                             @else
@@ -103,7 +102,6 @@
                     {data: "name", name: 'name'},
                     {data: "amount", name: 'amount', searchable: false, orderable:false},
                     {data: "interval", name: 'interval', searchable: false, orderable:false},
-                    {data: "trial_period_days", name: 'trial_period_days', searchable: false, orderable:false},
                     {data: "actions", name: "actions", searchable: false, orderable:false}
                 ],
                 @if(request('show_deleted') != 1)
