@@ -190,6 +190,16 @@ Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth',
     \UniSharp\LaravelFilemanager\Lfm::routes();
 });
 
+Route::group(['prefix' => 'subscription'], function(){
+    Route::get('plans', 'SubscriptionController@plans')->name('subscription.plans');
+    Route::get('/{plan}/{name}', 'SubscriptionController@showForm')->name('subscription.form');
+    Route::post('subscribe/{plan}', 'SubscriptionController@subscribe')->name('subscription.subscribe');
+    Route::post('update/{plan}', 'SubscriptionController@updateSubscription')->name('subscription.update');
+    Route::get('status','SubscriptionController@status')->name('subscription.status');
+    Route::post('subscribe','SubscriptionController@courseSubscribed')->name('subscription.course_subscribe');
+});
+
+
 Route::group(['namespace' => 'Frontend', 'as' => 'frontend.'], function () {
     Route::get('/{page?}', [HomeController::class, 'index'])->name('index');
 });
