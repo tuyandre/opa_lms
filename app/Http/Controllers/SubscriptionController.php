@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Bundle;
+use App\Models\Course;
+use App\Models\Order;
 use App\Models\Stripe\StripePlan;
 use Illuminate\Http\Request;
 
@@ -41,6 +44,7 @@ class SubscriptionController extends Controller
      */
     public function subscribe(Request $request, StripePlan $plan)
     {
+        $this->
         $paymentMethod = $request->paymentMethod;
         // grab the user
         $user = $request->user();
@@ -56,7 +60,6 @@ class SubscriptionController extends Controller
         $user->createOrGetStripeCustomer();
 
         $user->updateStripeCustomer([
-            'description' => 'Software development services',
             'email' => $request->stripeEmail,
             "address" => $address
         ]);
@@ -64,8 +67,6 @@ class SubscriptionController extends Controller
         // create the subscription
         try {
            $user->newSubscription('default', $plan->plan_id)
-            ->quantity($plan->quantity??0)
-            ->trialDays($plan->trial_period_days??0)
             ->create($paymentMethod, [
                 'email' => $user->email,
             ]);
@@ -86,7 +87,7 @@ class SubscriptionController extends Controller
         $user = $request->user();
 
         // if a user is cancelled
-        if ($user->subscribed('default') and $user->subscription('default')->onGracePeriod()) {
+        if ($user->subscribed('default') && $user->subscription('default')->onGracePeriod()) {
 
             if ($user->onPlan($plan->plan_id)) {
                 // resume the plan
@@ -102,14 +103,100 @@ class SubscriptionController extends Controller
             $user->subscription('default')->swap($plan->plan_id);
         }
 
-        $user->subscription('default')->updateQuantity($plan->quantity??0);
-
 
         \Session::flash('success', trans('labels.subscription.update'));
         return redirect()->route('subscription.status');
     }
 
-    public function status(){
+    private function checkQuantity($isQuantity)
+    {
+        if($isQuantity == 0 || $isQuantity == 99){
+            return false;
+        }
+        return true;
+    }
+
+    public function status()
+    {
         return view('frontend.subscription.status');
+    }
+
+    public function courseSubscribed(Request $request)
+    {
+        $user  = $request->user();
+
+        if($user->subscription()->ended()){
+            return redirect()->back()->withDanger(trans('alerts.frontend.course.subscription_plan_expired'));
+        }
+
+        if(!$user->subscription()->cancelled()){
+
+            if($user->subscription()->active()){
+                $plan = $this->getPlan($user->subscription()->stripe_plan);
+                if($request->course_id){
+                    if($plan->course == 99){
+                        return redirect()->back()->withDanger(trans('alerts.frontend.course.sub_course_not_access'));
+                    }
+                    if($plan->course != 0 && $user->subscribedCourse()->count() >= $plan->course){
+                        return redirect()->back()->withDanger(trans('alerts.frontend.course.sub_course_limit_over'));
+                    }
+                }else{
+                    if($plan->bundle == 99){
+                        return redirect()->back()->withDanger(trans('alerts.frontend.course.sub_bundle_not_access'));
+                    }
+                    if($plan->bundle != 0 && $user->subscribedBundles()->count() >= $plan->bundle){
+                        return redirect()->back()->withDanger(trans('alerts.frontend.course.sub_bundle_limit_over'));
+                    }
+                }
+
+                $this->subscribeBundleOrCourse($request);
+
+                return redirect()->route('admin.dashboard')->withFlashSuccess($request->course_id ? trans('alerts.frontend.course.sub_course_success') : trans('alerts.frontend.course.sub_bundle_success'));
+            }
+        }else{
+            return redirect()->back()->withDanger(trans('alerts.frontend.course.subscription_plan_cancelled'));
+        }
+    }
+
+    private function getPlan($planId)
+    {
+        return StripePlan::where('plan_id', $planId)->firstorfail();
+    }
+
+    private function subscribeBundleOrCourse(Request $request)
+    {
+        $order = new Order();
+        $order->user_id = auth()->user()->id;
+        $order->reference_no = str_random(8);
+        $order->amount = 0;
+        $order->status = 1;
+        $order->payment_type = 0;
+        $order->order_type = 1;
+        $order->save();
+        //Getting and Adding items
+        if ($request->course_id) {
+            $type = Course::class;
+            $id = $request->course_id;
+        } else {
+            $type = Bundle::class;
+            $id = $request->bundle_id;
+
+        }
+        $order->items()->create([
+            'item_id' => $id,
+            'item_type' => $type,
+            'price' => 0,
+            'type' => 1
+        ]);
+
+        foreach ($order->items as $orderItem) {
+            //Bundle Entries
+            if ($orderItem->item_type == Bundle::class) {
+                foreach ($orderItem->item->courses as $course) {
+                    $course->students()->attach($order->user_id);
+                }
+            }
+            $orderItem->item->students()->attach($order->user_id);
+        }
     }
 }
