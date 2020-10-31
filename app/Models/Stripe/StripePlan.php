@@ -14,6 +14,6 @@ class StripePlan extends Model
      *
      * @var array
      */
-    protected $fillable = ['plan_id', 'product', 'name', 'description', 'amount', 'currency', 'interval', 'trial_period_days', 'course', 'bundle', 'quantity'];
+    protected $fillable = ['plan_id', 'product', 'name', 'description', 'amount', 'currency', 'interval', 'course', 'bundle'];
 
 }
