@@ -73,7 +73,7 @@ class StripePlanController extends Controller
                 $edit = "";
                 $delete = "";
                 if ($request->show_deleted == 1) {
-                    return view('backend.datatable.action-trashed')->with(['route_label' => 'admin.stripe.plans', 'label' => 'id', 'value' => $stripePlan->id]);
+                    return view('backend.datatable.action-restore')->with(['route_label' => 'admin.stripe.plans', 'label' => 'id', 'value' => $stripePlan->id]);
                 }
                 if ($has_view) {
                     $view = view('backend.datatable.action-view')
@@ -130,11 +130,10 @@ class StripePlanController extends Controller
             'amount' => 'required',
             'currency' => 'required',
             'interval' => 'required',
-            'trial_period_days' => 'required',
         ]);
         $stripeProduct = $this->stripeWrapper->createProduct($request->only('name'));
         $request->request->add(['product' => $stripeProduct->id]);
-        $stripePlan = $this->stripeWrapper->createPlan($request->only('amount', 'currency', 'interval', 'product', 'trial_period_days'));
+        $stripePlan = $this->stripeWrapper->createPlan($request->only('amount', 'currency', 'interval', 'product'));
         $request->request->add(['plan_id' => $stripePlan->id]);
         $plan = StripePlan::create($request->all());
         return redirect()->route('admin.stripe.plans.index')->withFlashSuccess(__('alerts.backend.general.created'));
@@ -187,10 +186,8 @@ class StripePlanController extends Controller
             'amount' => 'required',
             'currency' => 'required',
             'interval' => 'required',
-            'trial_period_days' => 'required',
         ]);
         $this->stripeWrapper->updateProduct($plan->product,$request->only('name'));
-        $this->stripeWrapper->updatePlan($plan->plan_id, $request->only('trial_period_days'));
         $plan->update($request->all());
         return redirect()->route('admin.stripe.plans.index')->withFlashSuccess(__('alerts.backend.general.updated'));
     }
