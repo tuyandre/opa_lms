@@ -36,6 +36,8 @@ class DashboardController extends Controller
 
             $purchased_courses = auth()->user()->purchasedCourses();
             $purchased_bundles = auth()->user()->purchasedBundles();
+            $subscribed_courses = auth()->user()->subscribedCourse();
+            $subscribed_bundles = auth()->user()->subscribedBundles();
             $pending_orders = auth()->user()->pendingOrders();
 
             if(auth()->user()->hasRole('teacher')){
@@ -80,6 +82,6 @@ class DashboardController extends Controller
             }
         }
 
-        return view('backend.dashboard',compact('purchased_courses','students_count','recent_reviews','threads','purchased_bundles','teachers_count','courses_count','recent_orders','recent_contacts','pending_orders'));
+        return view('backend.dashboard',compact('purchased_courses','students_count','recent_reviews','threads','purchased_bundles','teachers_count','courses_count','recent_orders','recent_contacts','pending_orders', 'subscribed_courses','subscribed_bundles'));
     }
 }
