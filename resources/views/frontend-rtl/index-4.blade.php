@@ -161,7 +161,7 @@
                                     {{--</div>--}}
                                     {{--@if($key%2 == 1)--}}
                                 {{--</div>--}}
-                            @endif
+{{--                            @endif--}}
                         @endforeach
                     </div>
                 @endif
