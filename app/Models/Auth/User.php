@@ -15,6 +15,7 @@ use App\Models\OrderItem;
 use App\Models\Traits\Uuid;
 use App\Models\VideoProgress;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use Laravel\Cashier\Billable;
 use Laravel\Passport\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
@@ -187,6 +188,7 @@ class User extends Authenticatable
     public function purchasedCourses()
     {
         $orders = Order::where('status', '=', 1)
+            ->where('order_type', '=', 0)
             ->where('user_id', '=', $this->id)
             ->pluck('id');
         $courses_id = OrderItem::whereIn('order_id', $orders)
@@ -200,6 +202,7 @@ class User extends Authenticatable
     public function purchasedBundles()
     {
         $orders = Order::where('status', '=', 1)
+            ->where('order_type', '=', 0)
             ->where('user_id', '=', $this->id)
             ->pluck('id');
         $bundles_id = OrderItem::whereIn('order_id', $orders)
@@ -270,5 +273,56 @@ class User extends Authenticatable
     public function lessonSlotBookings()
     {
         return $this->hasMany(LessonSlotBooking::class);
+    }
+
+    public function order()
+    {
+        return $this->hasMany(Order::class);
+    }
+
+    public function subscribedCourse()
+    {
+        $orders = Order::where('order_type', '=', 1)
+                    ->where('user_id', '=', $this->id)
+                    ->pluck('id');
+        $courses_id = OrderItem::whereIn('order_id', $orders)
+                    ->where('item_type', '=', Course::class)
+                    ->pluck('item_id');
+        return Course::whereIn('id', $courses_id)->get();
+    }
+
+    public function subscribedBundles()
+    {
+        $orders = Order::where('order_type', '=', 1)
+            ->where('user_id', '=', $this->id)
+            ->pluck('id');
+        $bundles_id = OrderItem::whereIn('order_id', $orders)
+            ->where('item_type', '=', Bundle::class)
+            ->pluck('item_id');
+
+        return Bundle::whereIn('id', $bundles_id)->get();
+    }
+
+    public function getSubscribedCoursesIds()
+    {
+        $courseIds = $this->subscribedCourse()->pluck('id')->toArray();
+        if($this->subscribedBundles()->count())
+        {
+            foreach($this->subscribedBundles() as $bundle){
+                $courseIds = array_merge($courseIds, $bundle->courses()->pluck('id')->toArray());
+            }
+        }
+        return $courseIds;
+    }
+
+    public function getPurchasedCoursesIds(){
+        $courseIds = $this->purchasedCourses()->pluck('id')->toArray();
+        if($this->purchasedBundles()->count())
+        {
+            foreach($this->purchasedBundles() as $bundle){
+                $courseIds = array_merge($courseIds, $bundle->courses()->pluck('id')->toArray());
+            }
+        }
+        return $courseIds;
     }
 }
