@@ -25,6 +25,7 @@
     <div class="col-12 col-lg-6 form-group">
         {!! Form::label('currency', trans('labels.backend.stripe.plan.fields.currency').'*', ['class' => 'control-label']) !!}
         {!! Form::text('currency', old('currency'), ['class' => 'form-control', 'placeholder' => trans('labels.backend.stripe.plan.fields.currency'), 'required' => true, 'readonly' => $plan->id? true: false]) !!}
+        <small class="help-text font-italic">@lang('labels.backend.stripe.plan.stripe_currency_note')</small>
     </div>
     <div class="col-12 col-lg-6 form-group">
         {!! Form::label('interval', trans('labels.backend.stripe.plan.fields.interval').'*', ['class' => 'control-label']) !!}

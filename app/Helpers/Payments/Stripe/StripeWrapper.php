@@ -91,6 +91,7 @@ class StripeWrapper
      */
     public function createPlan($request)
     {
+        $request['amount'] = $this->amountFix($request['amount'], $request['currency']);
         return $this->stripe->plans->create($request);
     }
 
@@ -123,5 +124,20 @@ class StripeWrapper
     public function deletePlan($id)
     {
         return $this->stripe->plans->delete($id,[]);
+    }
+
+
+    private function amountFix($amount, $currency)
+    {
+        if(in_array($currency,['bif','clp','djf','gnf','jpy','kmf','krw','mga','pyg','rwf','ugx','vnd','vuv','xaf','xof','xpf']))
+        {
+            $amount = number_format(ceil($amount) , 0, '', '');
+        }
+        else
+        {
+            $amount = number_format(($amount*100) , 0, '', '');
+        }
+
+        return $amount;
     }
 }

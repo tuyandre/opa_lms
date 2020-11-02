@@ -1204,6 +1204,7 @@ return array (
                 'year' => 'Year',
             ),
             'input_quantity_note' => '0 Means Unlimited Access, 99  Means Not Access',
+            'stripe_currency_note' => '<strong>Please use currency code in lower case. Find your currency code <a href="//stripe.com/docs/currencies#presentment-currencies" target="_blank">Here</a></strong>',
             'fields' => array(
                 'product' => 'Product',
                 'name' => 'Name',
