@@ -11,7 +11,8 @@
                 </div><!--card-header-->
                 <div class="card-body">
                     <div class="row">
-                        @if(!auth()->user()->subscription()->cancelled())
+                        @if(auth()->user()->subscription('default'))
+                        @if(!auth()->user()->subscription('default')->cancelled())
                         <div class="col-md-4 col-12">
                             <div class="card text-white bg-dark text-center py-3">
                                 <div class="card-body">
@@ -37,7 +38,8 @@
                             </div>
                         </div>
                         @endif
-
+                        @endif
+                        @if(auth()->user()->subscription('default'))
                         <div class="col-md-12">
                             <div class="d-inline-block form-group w-100">
                                 <h4 class="mb-0">
@@ -58,6 +60,7 @@
                             </div>
 
                         </div>
+                        @endif
 
 
                         <div class="col-md-12 col-12">
@@ -87,6 +90,7 @@
                                         </td>
                                     </tr>
                                 @empty
+                                    <tr><td colspan="4"> <h4> You have not subscribe any plan</h4></td></tr>
                                 @endforelse
                                 </tbody>
                             </table>

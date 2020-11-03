@@ -44,7 +44,6 @@ class SubscriptionController extends Controller
      */
     public function subscribe(Request $request, StripePlan $plan)
     {
-        $this->
         $paymentMethod = $request->paymentMethod;
         // grab the user
         $user = $request->user();
