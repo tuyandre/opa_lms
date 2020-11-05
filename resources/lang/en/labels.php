@@ -1675,6 +1675,7 @@ return array (
           'state' => 'State',
           'zip' => 'ZIP',
           'card' => 'Card',
+          'country_code' => 'Country Code',
       )
   ),
 );

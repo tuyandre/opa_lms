@@ -49,7 +49,7 @@ class SubscriptionController extends Controller
         $user = $request->user();
         $address = [
             "city" => $request->city,
-            "country" => "IN",
+            "country" => $request->country,
             "line1" => $request->address,
             "line2" => null,
             "postal_code" => $request->postal_code,
