@@ -252,5 +252,13 @@ class Course extends Model
         return;
     }
 
+    public function getCoursePageStrikePriceAttribute()
+    {
+        if($this->strike) {
+            return '<div class="h6">'.trans('labels.frontend.course.original_price').'<span> '.$this->strikePrice .'</span></div>';
+        }
+        return ;
+    }
+
 
 }

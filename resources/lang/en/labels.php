@@ -1471,6 +1471,7 @@ return array (
       'book_slot' => 'Book a Slot',
       'full_slot' => 'Slot is full',
       'subscribe' => 'Subscribe',
+      'original_price' => 'Original Price',
     ),
     'home' =>
     array (
