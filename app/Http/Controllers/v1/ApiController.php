@@ -9,6 +9,7 @@ use App\Http\Requests\Frontend\User\UpdatePasswordRequest;
 use App\Http\Requests\Frontend\User\UpdateProfileRequest;
 use App\Http\Resources\API\SubscribedResource;
 use App\Mail\Frontend\Contact\SendContact;
+use App\Mail\Frontend\LiveLesson\StudentMeetingSlotMail;
 use App\Mail\OfflineOrderMail;
 use App\Models\Auth\Traits\SendUserPasswordReset;
 use App\Models\Auth\User;
@@ -23,6 +24,8 @@ use App\Models\Coupon;
 use App\Models\Course;
 use App\Models\Faq;
 use App\Models\Lesson;
+use App\Models\LessonSlotBooking;
+use App\Models\LiveLessonSlot;
 use App\Models\Media;
 use App\Models\Order;
 use App\Models\Page;
@@ -499,7 +502,15 @@ class ApiController extends Controller
                 if (in_array($item->model_id, $completed_lessons)) {
                     $completed = true;
                 }
-                $type = 'lesson';
+                $type = $item->model->live_lesson?'live_lesson':'lesson';
+                $slots = [];
+                if($item->model->live_lesson){
+                    if($item->model->liveLessonSlots->count()){
+                        foreach ($item->model->liveLessonSlots as $slot){
+                            $slots[] = $slot;
+                        }
+                    }
+                }
                 $description = "";
                 if ($item->model_type == 'App\Models\Test') {
                     $type = 'test';
@@ -513,6 +524,7 @@ class ApiController extends Controller
                     'id' => $item->model_id,
                     'description' => $description,
                     'completed' => $completed,
+                    'slots' => $slots,
                 ];
             }
         }
@@ -747,6 +759,89 @@ class ApiController extends Controller
         return response()->json(['status' => 'success','result_id' =>$test_result->id, 'score' => $test_score,'result' => $result]);
     }
 
+    /**
+     * Get Live Lesson Slot
+     *
+     *  @return [json] Success message
+     */
+    public function getLiveLesson(Request $request)
+    {
+        $lesson = Lesson::where('published', '=', 1)
+            ->where('id', '=', $request->lesson_id)
+            ->first();
+        if ($lesson != null) {
+            $course = $lesson->course;
+            $previous_lesson = $lesson->course->courseTimeline()->where('sequence', '<', $lesson->courseTimeline->sequence)
+                ->orderBy('sequence', 'desc')
+                ->first();
+            $next_lesson = $lesson->course->courseTimeline()->where('sequence', '>', $lesson->courseTimeline->sequence)
+                ->orderBy('sequence', 'asc')
+                ->first();
+
+            $is_certified = $lesson->course->isUserCertified();
+            $course_progress = $lesson->course->progress();
+
+            $downloadable_media = $lesson->downloadable_media;
+
+            $mediaVideo = (!$lesson->mediaVideo) ? null : $lesson->mediaVideo->toArray();
+            if ($mediaVideo && $mediaVideo['type'] == 'embed') {
+                preg_match('/src="([^"]+)"/', $mediaVideo['url'], $match);
+                $url = $match[1];
+                $mediaVideo['file_name'] = $url;
+            }
+
+            $video = $mediaVideo;
+            $pdf = $lesson->mediaPDF;
+            $audio = $lesson->mediaAudio;
+            $lesson_media = [
+                'downloadable_media' => $downloadable_media,
+                'video' => $video,
+                'pdf' => $pdf,
+                'audio' => $audio,
+            ];
+
+            $is_available_slot = true;
+            $slots = $lesson->liveLessonSlots->each(function($slot){
+                if($slot->lessonSlotBookings->count() >= $slot->student_limit){
+                    $slot['is_slot_available'] = false;
+                }else{
+                    $slot['is_slot_available'] = true;
+                }
+                return $slot->lesson_slot_bookings;
+            });
+
+            $slot_booked = false;
+            $slot_booked_id = null;
+            if($lesson->lessonSlotBooking && $lesson->lessonSlotBooking->where('user_id', auth()->user()->id)->count()){
+                $slot_booked = true;
+                $slot_booked_id = $lesson->lessonSlotBooking->where('user_id', auth()->user()->id)->first()->live_lesson_slot_id;
+            }
+
+            return response()->json(['status' => 'success', 'result' => ['lesson' => $lesson, 'lesson_media' => $lesson_media, 'previous_lesson' => $previous_lesson, 'next_lesson' => $next_lesson, 'is_certified' => $is_certified, 'course_progress' => $course_progress, 'course' => $course, 'zoom_timezone' => \config('zoom.timezone'), 'slot_booked_id' => $slot_booked_id, 'slot_booked' => $slot_booked, 'slots' => $slots]]);
+        }
+        return response()->json(['status' => 'failure']);
+    }
+
+    /**
+     * Booked Live Lessons Slot
+     *
+     *  @return [json] Success message
+     */
+    public function bookedSlot(Request $request)
+    {
+        $lesson_slot = LiveLessonSlot::findOrFail($request->slot_id);
+        if (!$lesson_slot) {
+            return response()->json(['status' => 'failure']);
+        }
+
+        if(LessonSlotBooking::where('lesson_id', $request->lesson_id)->where('user_id', auth()->user()->id)->count() == 0){
+            LessonSlotBooking::create(
+                ['lesson_id' => $request->lesson_id, 'live_lesson_slot_id' => $request->slot_id, 'user_id' => auth()->user()->id]
+            );
+            \Mail::to(auth()->user()->email)->send(new StudentMeetingSlotMail($lesson_slot));
+        }
+        return response()->json(['status' => 'success']);
+    }
 
     /**
      * Complete Lesson
