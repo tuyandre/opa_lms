@@ -94,6 +94,9 @@ Route::group(['prefix' => 'v1','namespace'=>'v1'],function (){
         Route::post('remove-coupon','ApiController@removeCoupon');
         Route::post('order-confirmation','ApiController@orderConfirmation');
         Route::post('single-user','ApiController@getSingleUser');
+        Route::post('subscription-plans','ApiController@subscriptionsPlans');
+        Route::post('my-subscription', 'ApiController@mySubscription');
+        Route::post('subscribed','ApiController@subscribeBundleOrCourse');
 
     });
     Route::post('send-reset-link','ApiController');

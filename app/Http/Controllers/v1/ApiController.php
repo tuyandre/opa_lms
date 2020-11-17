@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\Traits\FileUploadTrait;
 use App\Http\Requests\Frontend\User\UpdatePasswordRequest;
 use App\Http\Requests\Frontend\User\UpdateProfileRequest;
+use App\Http\Resources\API\SubscribedResource;
 use App\Mail\Frontend\Contact\SendContact;
 use App\Mail\OfflineOrderMail;
 use App\Models\Auth\Traits\SendUserPasswordReset;
@@ -30,6 +31,7 @@ use App\Models\QuestionsOption;
 use App\Models\Reason;
 use App\Models\Review;
 use App\Models\Sponsor;
+use App\Models\Stripe\StripePlan;
 use App\Models\System\Session;
 use App\Models\Tag;
 use App\Models\Tax;
@@ -2278,5 +2280,114 @@ class ApiController extends Controller
             return $taxData;
         }
         return false;
+    }
+
+    public function subscriptionsPlans()
+    {
+        $plans = StripePlan::orderBy('id','desc')->get();
+        return response()->json(['status' => 'success', 'results' => ['plans' => $plans]]);
+    }
+
+    public function mySubscription()
+    {
+        $user = auth()->user();
+        $activePlan = $user->subscribed('default') ? StripePlan::where('plan_id', $user->subscription()->stripe_plan)->first()??optional() : optional();
+        $subscribed_courses = $user->subscribedCourse();
+        $subscribed_bundles = $user->subscribedBundles();
+
+        return response()->json(['status' => 'success', 'results' => ['active_plan' => new SubscribedResource($activePlan), 'course' => $subscribed_courses, 'bundles' => $subscribed_bundles]]);
+    }
+
+    public function checkSubscription(Request $request)
+    {
+        $user = auth()->user();
+        if($user->subscription('default')){
+            if(!in_array($request->course_id, $user->getPurchasedCoursesIds())) {
+                if (in_array($request->course_id, $user->getSubscribedCoursesIds())) {
+                    if ($user->subscription()->ended()) {
+                        return redirect()->back()->withFlashDanger(trans('alerts.frontend.course.subscription_plan_expired'));
+                        return response()->json(['status' => 'failure', 'result' => ['message' => 'You cann\'t access because you subscription plan ended.']]);
+                    }
+                    if ($user->subscription()->cancelled() && !$user->subscription()->onGracePeriod()) {
+                        return response()->json(['status' => 'failure', 'result' => ['message' => 'You cann\'t access because you subscription plan ended.']]);
+                    }
+                }
+            }
+        }
+
+    }
+
+    public function subscribeBundleOrCourse(Request $request)
+    {
+        $user = auth()->user();
+        if($user->subscription('default')){
+            if ($user->subscription()->ended()) {
+                return response()->json(['status' => 'failure', 'result' => ['message' => 'You cann\'t subscribed because you subscription plan ended.']]);
+            }
+            if ($user->subscription()->cancelled() && !$user->subscription()->onGracePeriod()) {
+                return response()->json(['status' => 'failure', 'result' => ['message' => 'You cann\'t subscribed because you subscription plan cancelled.']]);
+            }
+
+            if($user->subscription()->active()){
+                $plan = $this->getPlan($user->subscription()->stripe_plan);
+                if($request->type == 'course'){
+                    if($plan->course == 99){
+                        return response()->json(['status' => 'failure', 'result' => ['message' => 'Your Subscription Plan Not Any Course Access.']]);
+                    }
+                    if($plan->course != 0 && $user->subscribedCourse()->count() >= $plan->course){
+                        return response()->json(['status' => 'failure', 'result' => ['message' => 'Your Subscription Plan Course Limit Over.']]);
+                    }
+                }else{
+                    if($plan->bundle == 99){
+                        return response()->json(['status' => 'failure', 'result' => ['message' => 'Your Subscription Plan Not Any Bundle Access.']]);
+                    }
+                    if($plan->bundle != 0 && $user->subscribedBundles()->count() >= $plan->bundle){
+                        return response()->json(['status' => 'failure', 'result' => ['message' => 'Your Subscription Plan Bundle Limit Over.']]);
+                    }
+                }
+            }
+
+            $order = new Order();
+            $order->user_id = $user->id;
+            $order->reference_no = str_random(8);
+            $order->amount = 0;
+            $order->status = 1;
+            $order->payment_type = 0;
+            $order->order_type = 1;
+            $order->save();
+            if($request->type == 'course'){
+                $type = Course::class;
+                $id = $request->id;
+            } else {
+                $type = Bundle::class;
+                $id = $request->id;
+
+            }
+
+            $order->items()->create([
+                'item_id' => $id,
+                'item_type' => $type,
+                'price' => 0,
+                'type' => 1
+            ]);
+
+            foreach ($order->items as $orderItem) {
+                //Bundle Entries
+                if ($orderItem->item_type == Bundle::class) {
+                    foreach ($orderItem->item->courses as $course) {
+                        $course->students()->attach($order->user_id);
+                    }
+                }
+                $orderItem->item->students()->attach($order->user_id);
+            }
+
+            return response()->json(['status' => 'success', 'result' => ['message' => 'Subscribe Successfully.']]);
+        }
+        return response()->json(['status' => 'failure', 'result' => ['message' => 'You cann\'t subscribed any plan.']]);
+
+    }
+    private function getPlan($planId)
+    {
+        return StripePlan::where('plan_id', $planId)->firstorfail();
     }
 }
