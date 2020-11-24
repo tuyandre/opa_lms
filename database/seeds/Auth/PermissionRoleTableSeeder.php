@@ -134,7 +134,7 @@ class PermissionRoleTableSeeder extends Seeder
             ['id' => 85, 'name' => 'stripe_plan_edit'],
             ['id' => 86, 'name' => 'stripe_plan_view'],
             ['id' => 87, 'name' => 'stripe_plan_delete'],
-            ['id' => 87, 'name' => 'stripe_plan_restore'],
+            ['id' => 88, 'name' => 'stripe_plan_restore'],
         ];
 
         foreach ($permissions as $item) {
