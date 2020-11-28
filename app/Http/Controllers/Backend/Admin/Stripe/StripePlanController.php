@@ -109,6 +109,9 @@ class StripePlanController extends Controller
         if (!Gate::allows('stripe_plan_create')) {
             return abort(401);
         }
+        if(!config('services.stripe.secret')) {
+            return redirect()->route('admin.stripe.plans.index')->withFlashDanger(__('alerts.backend.stripe_plan.stripe_credentials'));
+        }
         return view('backend.stripe.plan.create');
     }
 

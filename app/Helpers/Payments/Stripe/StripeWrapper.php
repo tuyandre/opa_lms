@@ -23,7 +23,10 @@ class StripeWrapper
 
     public function init()
     {
-        return new StripeClient(config('services.stripe.secret'));
+        if(config('services.stripe.secret')) {
+            return new StripeClient(config('services.stripe.secret'));
+        }
+        return ;
     }
 
     /**
