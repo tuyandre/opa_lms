@@ -39,6 +39,9 @@ return array (
       'deleted_permanently' => 'The user was deleted permanently.',
       'restored' => 'The user was successfully restored.',
     ),
+    'stripe_plan' => array(
+      'stripe_credentials' => 'Stripe credentials not available'
+    )
   ),
   'frontend' =>
   array (
