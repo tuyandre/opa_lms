@@ -20,6 +20,7 @@ return array (
         'slug' => 'Slug',
         'description' => 'Description',
         'price' => 'Price',
+        'strike' => 'Strike Price',
         'course_image' => 'Course Image',
         'start_date' => 'Start Date',
         'meta_title' => 'Meta Title',
@@ -1470,6 +1471,7 @@ return array (
       'book_slot' => 'Book a Slot',
       'full_slot' => 'Slot is full',
       'subscribe' => 'Subscribe',
+      'original_price' => 'Original Price',
     ),
     'home' =>
     array (

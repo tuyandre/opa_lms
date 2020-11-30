@@ -118,7 +118,10 @@
                                                                 @if($course->free == 1)
                                                                     <span>{{trans('labels.backend.courses.fields.free')}}</span>
                                                                 @else
-                                                                    <span> {{$appCurrency['symbol'].' '.$course->price}}</span>
+                                                                    <span>
+                                                                        {!!  $course->strikePrice  !!}
+                                                                        {{$appCurrency['symbol'].' '.$course->price}}
+                                                                    </span>
                                                                 @endif
                                                             </div>
 
@@ -189,6 +192,7 @@
                                                                         @if($course->free == 1)
                                                                             {{trans('labels.backend.courses.fields.free')}}
                                                                         @else
+                                                                            {!!  $course->strikePrice  !!}
                                                                             {{$appCurrency['symbol'].' '.$course->price}}
                                                                         @endif
                                                                     </a></span>

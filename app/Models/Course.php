@@ -26,7 +26,7 @@ class Course extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['category_id', 'title', 'slug', 'description', 'price', 'course_image','course_video', 'start_date', 'published', 'free','featured', 'trending', 'popular', 'meta_title', 'meta_description', 'meta_keywords', 'expire_at'];
+    protected $fillable = ['category_id', 'title', 'slug', 'description', 'price', 'course_image','course_video', 'start_date', 'published', 'free','featured', 'trending', 'popular', 'meta_title', 'meta_description', 'meta_keywords', 'expire_at','strike'];
 
     protected $appends = ['image'];
 
@@ -242,6 +242,22 @@ class Course extends Model
         return $query->where(function($q){
                 $q->whereNull('expire_at')->orWhereDate('expire_at', '>=', Carbon::now()->format('Y-m-d'));
         });
+    }
+
+    public function getStrikePriceAttribute()
+    {
+        if($this->strike) {
+            return '<strike class="text-secondary">' . getCurrency(config('app.currency'))['symbol'] . ' ' . $this->strike . '</strike>';
+        }
+        return;
+    }
+
+    public function getCoursePageStrikePriceAttribute()
+    {
+        if($this->strike) {
+            return '<div class="h6">'.trans('labels.frontend.course.original_price').'<span> '.$this->strikePrice .'</span></div>';
+        }
+        return ;
     }
 
 

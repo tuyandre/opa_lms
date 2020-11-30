@@ -443,6 +443,7 @@
                                     @if($course->free == 1)
                                         <span> {{trans('labels.backend.courses.fields.free')}}</span>
                                     @else
+                                        {!!  $course->CoursePageStrikePrice  !!}
                                         @lang('labels.frontend.course.price')<span>   {{$appCurrency['symbol'].' '.$course->price}}</span>
                                     @endif</h3>
 
