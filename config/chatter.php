@@ -26,20 +26,34 @@ return [
         'login'      => 'login',
     ],
 
-   /*
-    |--------------------------------------------------------------------------
-    | Headline logo
-    |--------------------------------------------------------------------------
-    |
-    | Specify the url for your logo. If left empty the headline and
-    | description from the language files will be used.
-    |
-    |   *headline_logo*: If this is set an image will be used on the forum home
-    |       instead of text. Specify the relative path to the image here.
-    |
-    */
+    'controllers' => [
+        'default'    => \SkyRaptor\Chatter\Controllers\ChatterController::class,
+        'discussion' => \SkyRaptor\Chatter\Controllers\ChatterDiscussionController::class,
+        'post'       => \SkyRaptor\Chatter\Controllers\ChatterPostController::class,
+        'atom'       => \SkyRaptor\Chatter\Controllers\ChatterAtomController::class,
+    ],
 
-    'headline_logo' => '/vendor/devdojo/chatter/assets/images/logo-light.png',
+    'models' => [
+        'category' => \SkyRaptor\Chatter\Models\Category::class,
+        'discussion' => \SkyRaptor\Chatter\Models\Discussion::class,
+        'post' => \SkyRaptor\Chatter\Models\Post::class,
+    ],
+
+
+    /*
+     |--------------------------------------------------------------------------
+     | Headline logo
+     |--------------------------------------------------------------------------
+     |
+     | Specify the url for your logo. If left empty the headline and
+     | description from the language files will be used.
+     |
+     |   *headline_logo*: If this is set an image will be used on the forum home
+     |       instead of text. Specify the relative path to the image here.
+     |
+     */
+
+    'headline_logo' => '/vendor/skyraptor/chatter/assets/images/logo-light.png',
 
     /*
     |--------------------------------------------------------------------------
@@ -192,7 +206,7 @@ return [
 
     'tinymce' => [
         'toolbar' => 'bold italic underline | alignleft aligncenter alignright | bullist numlist outdent indent | link image',
-        'plugins' => 'link, image',
+        'plugins' => 'link, image, paste',
     ],
 
     /*
@@ -258,7 +272,7 @@ return [
     'paginate' => [
         'num_of_results' => 10,
     ],
-    
+
     /*
     |--------------------------------------------------------------------------
     | Show missing fields to users in forms
