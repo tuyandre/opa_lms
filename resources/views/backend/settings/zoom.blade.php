@@ -55,7 +55,7 @@
                                 <option> Select Timezone</option>
                                 @foreach(\DateTimeZone::listIdentifiers(DateTimeZone::ALL) as $time_zone)
                                     <option value="{{ $time_zone}}"
-                                        {{ config('zoom.timezone')??'UTC' == $time_zone?'selected':'' }}>
+                                        {{ (config('zoom.timezone')? config('zoom.timezone'):'UTC') == $time_zone?'selected':'' }}>
                                         {{$time_zone}}
                                     </option>
                                 @endforeach
