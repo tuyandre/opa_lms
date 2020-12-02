@@ -46,20 +46,13 @@ use App\Models\VideoProgress;
 use App\Repositories\Frontend\Auth\UserRepository;
 use Arcanedev\NoCaptcha\Rules\CaptchaRule;
 use Carbon\Carbon;
-use DevDojo\Chatter\Events\ChatterAfterNewResponse;
-use DevDojo\Chatter\Events\ChatterBeforeNewDiscussion;
-use DevDojo\Chatter\Events\ChatterBeforeNewResponse;
-use DevDojo\Chatter\Mail\ChatterDiscussionUpdated;
 use Harimayco\Menu\Models\MenuItems;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Cart;
-use DevDojo\Chatter\Events\ChatterAfterNewDiscussion;
 use Event;
-use DevDojo\Chatter\Models\Models;
-use DevDojo\Chatter\Helpers\ChatterHelper as Helper;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Password;
@@ -70,6 +63,12 @@ use Lexx\ChatMessenger\Models\Thread;
 use Purifier;
 //use Messenger;
 use Newsletter;
+use SkyRaptor\Chatter\Events\ChatterAfterNewDiscussion;
+use SkyRaptor\Chatter\Events\ChatterAfterNewResponse;
+use SkyRaptor\Chatter\Events\ChatterBeforeNewDiscussion;
+use SkyRaptor\Chatter\Events\ChatterBeforeNewResponse;
+use SkyRaptor\Chatter\Mail\ChatterDiscussionUpdated;
+use SkyRaptor\Chatter\Models\Models;
 
 class ApiController extends Controller
 {
@@ -829,7 +828,7 @@ class ApiController extends Controller
      */
     public function bookedSlot(Request $request)
     {
-        $lesson_slot = LiveLessonSlot::findOrFail($request->slot_id);
+        $lesson_slot = LiveLessonSlot::find($request->slot_id);
         if (!$lesson_slot) {
             return response()->json(['status' => 'failure']);
         }
@@ -2481,6 +2480,7 @@ class ApiController extends Controller
         return response()->json(['status' => 'failure', 'result' => ['message' => 'You cann\'t subscribed any plan.']]);
 
     }
+
     private function getPlan($planId)
     {
         return StripePlan::where('plan_id', $planId)->firstorfail();
