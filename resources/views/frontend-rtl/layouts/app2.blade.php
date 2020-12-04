@@ -149,6 +149,14 @@
                                         @endif
 
                                         @if(auth()->check())
+                                            @if($logged_in_user->hasRole('student'))
+                                                <li>
+                                                    <a href="{{ route('admin.dashboard') }}">@lang('navs.frontend.dashboard')</a>
+                                                </li>
+                                                <li>
+                                                    <a href="{{ route('frontend.auth.logout') }}"><i class="fas fa-sign-out-alt"></i></a>
+                                                </li>
+                                            @else
                                             <li class="menu-item-has-children ul-li-block">
                                                 <a href="#!">{{ $logged_in_user->name }}</a>
                                                 <ul class="sub-menu">
@@ -164,6 +172,7 @@
                                                     </li>
                                                 </ul>
                                             </li>
+                                            @endif
                                         @else
                                             <li class="log-in mt-0">
                                                 @if(!auth()->check())
