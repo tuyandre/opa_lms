@@ -187,6 +187,10 @@ return array (
     'subscription' =>
     array(
         'title' => 'Subscription'
+    ),
+    'wishlist' =>
+    array(
+        'title' => 'Wishlist'
     )
     ),
     'access' =>

@@ -65,6 +65,7 @@
                                     {{--<li><a href="">125k Unrolled</a></li>--}}
                                 </ul>
                             </div>
+                            @include('frontend.layouts.partials.wishlist',['course' => $item->id, 'price' => $item->price])
                         </div>
                     </div>
                     <!-- /item -->

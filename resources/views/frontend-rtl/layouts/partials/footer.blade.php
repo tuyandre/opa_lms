@@ -131,3 +131,29 @@
 @endif
 <!-- End of footer area
 ============================================= -->
+@push('after-scripts')
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.rtl.min.css"/>
+    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+    <script>
+        window.addEventListener('load', function () {
+            alertify.set('notifier', 'position', 'top-right');
+        });
+
+        function showNotice(type, message) {
+            var alertifyFunctions = {
+                'success': alertify.success,
+                'error': alertify.error,
+                'info': alertify.message,
+                'warning': alertify.warning
+            };
+
+            alertifyFunctions[type](message, 10);
+        }
+    </script>
+    <script src="{{ asset('js/wishlist.js') }}"></script>
+    <style>
+        .alertify-notifier .ajs-message{
+            color: #ffffff;
+        }
+    </style>
+@endpush

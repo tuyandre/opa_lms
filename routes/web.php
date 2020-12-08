@@ -200,6 +200,9 @@ Route::group(['prefix' => 'subscription'], function(){
 });
 
 
+// wishlist
+Route::post('add-to-wishlist','Backend\WishlistController@store')->name('add-to-wishlist');
+
 Route::group(['namespace' => 'Frontend', 'as' => 'frontend.'], function () {
     Route::get('/{page?}', [HomeController::class, 'index'])->name('index');
 });

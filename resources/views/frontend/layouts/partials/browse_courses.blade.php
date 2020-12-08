@@ -29,7 +29,7 @@
                                             <span> {{trans('labels.backend.courses.fields.free')}}</span>
                                         @else
                                             <span>
-                                                <strike class="text-secondary">{{$appCurrency['symbol'].' '.$item->strike }}</strike>
+                                                {!! $item->strikePrice !!}
                                                 {{$appCurrency['symbol'].' '.$item->price}}
                                             </span>
                                         @endif
@@ -62,6 +62,7 @@
                                                     @lang('labels.frontend.layouts.partials.students')</a>
                                             </span>
                                     </div>
+                                    @include('frontend.layouts.partials.wishlist',['course' => $item->id, 'price' => $item->price])
                                 </div>
                             </div>
                         </div>

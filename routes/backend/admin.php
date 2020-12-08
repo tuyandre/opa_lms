@@ -342,3 +342,7 @@ Route::group(['namespace' => 'Admin\Stripe', 'prefix' => 'stripe', 'as' => 'stri
 Route::get('subscriptions', 'SubscriptionController')->name('subscriptions');
 Route::get('subscription/invoice/{invoice}', 'SubscriptionController@downloadInvoice')->name('subscriptions.download_invoice');
 Route::get('subscriptions/cancel','SubscriptionController@deleteSubscription')->name('subscriptions.delete');
+
+// Wishlist Route
+Route::get('wishlist/data',['uses' => 'WishlistController@getData', 'as' => 'wishlist.get_data']);
+Route::resource('wishlist','WishlistController');

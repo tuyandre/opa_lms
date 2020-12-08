@@ -136,6 +136,7 @@
                                                                 <span class="course-author"><a href="#">{{ $course->students()->count() }}
                                                                         @lang('labels.frontend.search_result.students')</a></span>
                                                             </div>
+                                                            @include('frontend.layouts.partials.wishlist',['course' => $course->id, 'price' => $course->price])
                                                         </div>
                                                     </div>
                                                 </div>

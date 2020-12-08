@@ -348,6 +348,13 @@
                     <span class="title">@lang('menus.backend.sidebar.subscription.title')</span>
                 </a>
             </li>
+            <li class="nav-item ">
+                <a class="nav-link {{ $request->segment(1) == 'wishlist' ? 'active' : '' }}"
+                   href="{{ route('admin.wishlist.index') }}">
+                    <i class="nav-icon fas fa-heart"></i>
+                    <span class="title">@lang('menus.backend.sidebar.wishlist.title')</span>
+                </a>
+            </li>
             @endif
             @if ($logged_in_user->isAdmin())
 

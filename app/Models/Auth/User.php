@@ -14,6 +14,7 @@ use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Traits\Uuid;
 use App\Models\VideoProgress;
+use App\Models\WishList;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Laravel\Cashier\Billable;
@@ -324,5 +325,13 @@ class User extends Authenticatable
             }
         }
         return $courseIds;
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function wishlist()
+    {
+        return $this->hasMany(WishList::class);
     }
 }

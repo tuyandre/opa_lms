@@ -260,5 +260,13 @@ class Course extends Model
         return ;
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function wishlist()
+    {
+        return $this->hasMany(WishList::class);
+    }
+
 
 }

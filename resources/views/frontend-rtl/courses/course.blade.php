@@ -520,6 +520,7 @@
                                 @else
                                     <h6 class="alert alert-danger"> @lang('labels.frontend.course.buy_note')</h6>
                                 @endif
+                                @include('frontend.layouts.partials.wishlist',['course' => $course->id, 'price' => $course->price])
                             @else
 
                                 @if($continue_course)

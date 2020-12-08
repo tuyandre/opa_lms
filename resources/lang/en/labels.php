@@ -1254,6 +1254,10 @@ return array (
         'bundle' => 'Bundle',
         'quantity' => '{0} Unlimited|{99} Not Access|[1,*] :quantity',
     ),
+    'wishlist' => array(
+        'title' => 'Wishlist',
+        'course' => 'Course'
+    ),
   ),
   'general' =>
   array (

@@ -64,5 +64,9 @@ return array (
     ),
     'duplicate_course' => 'is already course purchased.',
     'duplicate_bundle' => 'is already bundle purchased.',
+    'wishlist' => array(
+        'exist' => 'This course already in wishlist',
+        'added' => 'Course added successfully in wishlist'
+    )
   ),
 );
