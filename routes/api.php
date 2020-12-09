@@ -99,7 +99,9 @@ Route::group(['prefix' => 'v1','namespace'=>'v1'],function (){
         Route::post('subscription-plans','ApiController@subscriptionsPlans');
         Route::post('my-subscription', 'ApiController@mySubscription');
         Route::post('subscribed','ApiController@subscribeBundleOrCourse');
-
+        Route::post('subscribed','ApiController@subscribeBundleOrCourse');
+        Route::post('add-to-wishlist','ApiController@addToWishlist');
+        Route::post('wishlist','ApiController@wishlist');
     });
     Route::post('send-reset-link','ApiController');
     Route::post('configs','ApiController@getConfigs');

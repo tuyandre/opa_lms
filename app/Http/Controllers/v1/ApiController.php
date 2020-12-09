@@ -43,6 +43,7 @@ use App\Models\Testimonial;
 use App\Models\TestsResult;
 use App\Models\TestsResultsAnswer;
 use App\Models\VideoProgress;
+use App\Models\WishList;
 use App\Repositories\Frontend\Auth\UserRepository;
 use Arcanedev\NoCaptcha\Rules\CaptchaRule;
 use Carbon\Carbon;
@@ -2379,7 +2380,7 @@ class ApiController extends Controller
     public function subscriptionsPlans()
     {
         $plans = StripePlan::orderBy('id','desc')->get();
-        return response()->json(['status' => 'success', 'results' => ['plans' => $plans]]);
+        return response()->json(['status' => 'success', 'result' => ['plans' => $plans]]);
     }
 
     public function mySubscription()
@@ -2389,7 +2390,7 @@ class ApiController extends Controller
         $subscribed_courses = $user->subscribedCourse();
         $subscribed_bundles = $user->subscribedBundles();
 
-        return response()->json(['status' => 'success', 'results' => ['active_plan' => new SubscribedResource($activePlan), 'course' => $subscribed_courses, 'bundles' => $subscribed_bundles]]);
+        return response()->json(['status' => 'success', 'result' => ['active_plan' => new SubscribedResource($activePlan), 'course' => $subscribed_courses, 'bundles' => $subscribed_bundles]]);
     }
 
     public function checkSubscription(Request $request)
@@ -2481,8 +2482,42 @@ class ApiController extends Controller
 
     }
 
+    /**
+     * @param $planId
+     * @return mixed
+     */
     private function getPlan($planId)
     {
         return StripePlan::where('plan_id', $planId)->firstorfail();
+    }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function addToWishlist(Request $request)
+    {
+        if(!Wishlist::where('course_id',$request->course_id)->where('user_id',auth()->user()->id)->first()){
+            Wishlist::create([
+                'user_id' => auth()->user()->id,
+                'course_id' => $request->course_id,
+                'price' => $request->price
+            ]);
+            return response()->json(['status' => 'success','result' => ['message' => trans('alerts.frontend.wishlist.added')]]);
+        }else{
+            return response()->json(['status' => 'failure', 'result' => ['message' => trans('alerts.frontend.wishlist.exist')]]);
+        }
+    }
+
+    /**
+     *
+     */
+    public function wishlist()
+    {
+//        $blog = Blog::orderBy('created_at', 'desc')
+//            ->select('id', 'category_id', 'user_id', 'title', 'slug', 'content', 'image')
+//            ->paginate(10);
+        $wishlists = Wishlist::query()->with(['course'])->where('user_id',auth()->user()->id)->orderBy('id','desc')->paginate();
+        return response()->json(['status' => 'success','result' => $wishlists]);
     }
 }
