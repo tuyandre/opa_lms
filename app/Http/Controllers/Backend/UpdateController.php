@@ -59,6 +59,8 @@ class UpdateController extends Controller
                 $zipper->make(public_path() . '/updates/' . $file_name)->extractTo(base_path());
                 unlink(public_path() . '/updates/' . $file_name);
 
+                $dir = base_path('database/seeds');
+                $this->unlinkAllFiles($dir);
 
                 Artisan::call("config:clear");
                 Artisan::call("migrate");
@@ -69,7 +71,7 @@ class UpdateController extends Controller
 
                 unlink(base_path() . '/bootstrap/cache/packages.php');
                 unlink(base_path() . '/bootstrap/cache/services.php');
-                Artisan::call("db:seed", ['--class' => 'V53Seeder']);
+
 
                 return redirect(route('admin.update-theme'))->withFlashSuccess(__('alerts.backend.general.updated'));
             }catch (\Exception $e){
