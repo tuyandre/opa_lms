@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
-use App\Models\Wishlist;
+use App\Models\WishList;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 
@@ -26,7 +26,7 @@ class WishlistController extends Controller
      */
     public function getData(Request $request)
     {
-        $wishlists = Wishlist::query()->with(['course'])->where('user_id',auth()->user()->id);
+        $wishlists = WishList::query()->with(['course'])->where('user_id',auth()->user()->id);
 
 
         return DataTables::of($wishlists)
@@ -53,8 +53,8 @@ class WishlistController extends Controller
      */
     public function store(Request $request)
     {
-        if(!Wishlist::where('course_id',$request->course)->where('user_id',auth()->user()->id)->first()){
-            Wishlist::create([
+        if(!WishList::where('course_id',$request->course)->where('user_id',auth()->user()->id)->first()){
+            WishList::create([
                 'user_id' => auth()->user()->id,
                 'course_id' => $request->course,
                 'price' => $request->price
@@ -68,10 +68,10 @@ class WishlistController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Wishlist  $wishlist
+     * @param  \App\Models\WishList  $wishlist
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Wishlist $wishlist)
+    public function destroy(WishList $wishlist)
     {
         $wishlist->delete();
         return redirect()->route('admin.wishlist.index')->withFlashSuccess(__('alerts.backend.general.deleted'));
