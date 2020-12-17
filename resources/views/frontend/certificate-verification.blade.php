@@ -63,7 +63,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="contact-info">
-                                        <input class="name" value="{{(session('data')['name']) ? session('data')['name'] : old('name')}}" name="name" type="text"
+                                        <input class="name" value="{{(session('data')) ? session('data')['name'] : old('name')}}" name="name" type="text"
                                                placeholder="@lang('labels.frontend.certificate_verification.name_on_certificate')">
                                         @if($errors->has('name'))
                                             <span class="help-block text-danger">{{$errors->first('name')}}</span>
@@ -73,7 +73,7 @@
                                 </div>
                                 <div class="col-md-12">
                                     <div class="contact-info">
-                                        <input class="date" value="{{(session('data')['date']) ? session('data')['date'] : old('date')}}" name="date"
+                                        <input class="date" value="{{(session('data')) ? session('data')['date'] : old('date')}}" name="date"
                                                pattern="\d{4}-\d{2}-\d{2}" type="text"
                                                placeholder="@lang('labels.frontend.certificate_verification.date_on_certificate')">
                                         @if($errors->has('date'))
@@ -135,4 +135,4 @@
     </section>
     <!-- End of contact area form
         ============================================= -->
-@endsection    
+@endsection
