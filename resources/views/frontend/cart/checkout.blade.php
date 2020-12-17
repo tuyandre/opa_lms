@@ -141,7 +141,7 @@
                             </div>
                         </div>
                         @if(count($courses) > 0)
-                            @if((config('services.stripe.active') == 0) && (config('paypal.active') == 0) && (config('payment_offline_active') == 0) && (config('services.instamojo.active') == 0) && (config('services.razorpay.active') == 0) && (config('services.cashfree.active') == 0) && (config('services.payu.active') == 0))
+                            @if((config('services.stripe.active') == 0) && (config('paypal.active') == 0) && (config('payment_offline_active') == 0) && (config('services.instamojo.active') == 0) && (config('services.razorpay.active') == 0) && (config('services.cashfree.active') == 0) && (config('services.payu.active') == 0) && (config('flutter.active') == 0))
                                 <div class="order-payment">
                                     <div class="section-title-2 headline text-left">
                                         <h2>@lang('labels.frontend.cart.no_payment_method')</h2>
@@ -293,6 +293,54 @@
                                                     </form>
                                                 </div>
                                             </div>
+                                        @endif
+                                        @if(config('flutter.active') == 1)
+                                        <div class="payment-method w-100 mb-0">
+                                            <div class="payment-method-header">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="method-header-text">
+                                                            <div class="radio">
+                                                                <label>
+                                                                    <input data-toggle="collapse"
+                                                                           href="#collapsePaymentTwo"
+                                                                           type="radio" name="paymentMethod"
+                                                                           value="8">
+                                                                    @lang('labels.frontend.cart.flutter')
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <div class="payment-img float-right">
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="check-out-form collapse disabled" id="collapsePaymentTwo"
+                                                 data-parent="#accordion">
+                                                <form class="w3-container w3-display-middle w3-card-4 "
+                                                      method="POST"
+                                                      id="paymentForm" action="{{route('cart.flutter.payment')}}">
+                                                    {{ csrf_field() }}
+                                                    <p> @lang('labels.frontend.cart.pay_securely_flutter')</p>
+
+                                                    <input type="text" autocomplete='off'
+                                                           class="form-control"
+                                                           name="user_phone"
+                                                           placeholder="@lang('labels.frontend.cart.user_phone')"
+                                                           value="" required>
+
+                                                    <button type="submit"
+                                                            class="text-white genius-btn mt25 gradient-bg text-center text-uppercase  bold-font">
+                                                        @lang('labels.frontend.cart.pay_now') <i
+                                                                class="fas fa-caret-right"></i>
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </div>
                                         @endif
 
                                         @if(config('services.instamojo.active') == 1)

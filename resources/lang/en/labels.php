@@ -503,6 +503,9 @@ return array (
         'how_to_payu' => 'How to get PayUMoney API Credentials?',
         'payu_mode_note' => '<b>Sandbox</b>= Will be used for testing payments with PayUMoney Test Credentials. Account with INR only can make payments with Payment for now. This options will redirect to test PayUMoney payment with Sandbox User Credentials. It will be used for dummy transactions only.<br>
 <b>Live</b> = Will be used with you Live PayUMoney credentials to make actual transaction with normal users with PayUMoney account.<br><strong>If you set this payment gateway then set your currency as INR</strong>',
+        'flutter' => 'Flutter Payment Method',
+        'how_to_flutter' => 'How to get Flutter API Credentials?',
+        'flutter_note' => 'Redirects to Flutter for payment',
 
       ),
       'management' => 'General Settings',
@@ -1396,6 +1399,8 @@ return array (
       'user_name' => 'Name',
       'payu' => 'PayUMoney',
       'pay_securely_payu' => 'Pay securely with PayUMoney',
+      'flutter' => 'Flutter',
+      'pay_securely_flutter' => 'Pay securely with Flutter',
     ),
     'contact' =>
     array (

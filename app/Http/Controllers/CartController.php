@@ -22,6 +22,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
+use KingFlamez\Rave\Facades\Rave;
 use Omnipay\Omnipay;
 
 class CartController extends Controller
@@ -812,6 +813,64 @@ class CartController extends Controller
         }
         \Log::info('Gateway:PayUMoney,Message:'.$response['error_Message'].',txStatus:'.$response['status']. ' for id = ' . auth()->user()->id);
         \Session::flash('failure', trans('labels.frontend.cart.payment_failed'));
+        return Redirect::route('status');
+    }
+
+    public function flatterPayment(Request $request)
+    {
+        $request->request->add([
+            'amount' => number_format(Cart::session(auth()->user()->id)->getTotal(), 2),
+            'payment_method' => 'both',
+            'description' => auth()->user()->name,
+            'country' => '',
+            'currency' => $this->currency['short_code'],
+            'email' => auth()->user()->email,
+            'firstname' => auth()->user()->first_name,
+            'lastname' => auth()->user()->last_name,
+            'metadata' => '',
+            'phonenumber' => $request->user_phone,
+//            'logo' => 'https://demo.neonlms.com/storage/logos/popup-logo.png',
+            'logo' => asset('storage/logos/'.config('logo_popup')),
+            'title' =>  config('app.name'),
+        ]);
+        if($request->method() == "POST") {
+            Rave::initialize(route('cart.flutter.status'));
+        }else{
+            \Session::flash('failure', trans('labels.frontend.cart.payment_failed'));
+            return Redirect::route('status');
+        }
+    }
+
+    public function getFlatterStatus(Request $request)
+    {
+        $response = json_decode($request->resp,true);
+        if($response['respcode'] == '00' || $response['respcode'] == "0") {
+            $data = Rave::verifyTransaction($response['data']['transactionobject']['txRef']);
+            $order = $this->makeOrder();
+            $order->payment_type = 7;
+            $order->transaction_id = $response['data']['transactionobject']['txRef'];
+            $order->status = 1;
+            $order->save();
+            (new EarningHelper)->insert($order);
+            foreach ($order->items as $orderItem) {
+                //Bundle Entries
+                if ($orderItem->item_type == Bundle::class) {
+                    foreach ($orderItem->item->courses as $course) {
+                        $course->students()->attach($order->user_id);
+                    }
+                }
+                $orderItem->item->students()->attach($order->user_id);
+            }
+            //Generating Invoice
+            generateInvoice($order);
+            $this->adminOrderMail($order);
+            Cart::session(auth()->user()->id)->clear();
+            \Log::info('Gateway:Flutter,Message:'.$response['respmsg'].',txStatus:'.$response['data']['data']['status']. ' for id = ' . auth()->user()->id);
+            \Session::flash('success', trans('labels.frontend.cart.payment_done'));
+        }else{
+            \Log::info('Gateway:Flutter,Message:'.json_encode($response). ' for id = ' . auth()->user()->id);
+            \Session::flash('failure', trans('labels.frontend.cart.payment_failed'));
+        }
         return Redirect::route('status');
     }
 }

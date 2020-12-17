@@ -157,6 +157,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('cart/payu-payment',['uses' => 'CartController@payuPayment', 'as' => 'cart.payu.payment']);
     Route::post('cart/payu-payment/status', ['uses' => 'CartController@getPayUStatus'])->name('cart.pauy.status');
 
+    Route::match(['GET','POST'],'cart/flutter-payment',['uses' => 'CartController@flatterPayment', 'as' => 'cart.flutter.payment']);
+    Route::get('cart/flutter-payment/status',['uses' => 'CartController@getFlatterStatus', 'as' => 'cart.flutter.status']);
+
     Route::get('status', function () {
         return view('frontend.cart.status');
     })->name('status');

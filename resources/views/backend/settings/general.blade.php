@@ -846,6 +846,59 @@
                                     </div>
                                 </div><!--col-->
                             </div><!--form-group-->
+
+                            <div class="form-group row">
+                                {{ html()->label(__('labels.backend.general_settings.payment_settings.flutter'))->class('col-md-3 form-control-label')}}
+                                <div class="col-md-9">
+                                    <div class="checkbox">
+                                        {{ html()->label(
+                                                html()->checkbox('flutter__active', config('flutter.active') ? true : false,1)
+                                                      ->class('switch-input')->value(1)
+                                                . '<span class="switch-label"></span><span class="switch-handle"></span>')
+
+                                            ->class('switch switch-sm switch-3d switch-primary')
+                                        }}
+                                        <a target="_blank" href="https://developer.flutterwave.com/docs/api-keys"
+                                           class="float-right font-italic font-weight-bold">{{ __('labels.backend.general_settings.payment_settings.how_to_flutter')}}</a>
+                                    </div>
+                                    <small>
+                                        <i> {{ __('labels.backend.general_settings.payment_settings.flutter_note')}}</i>
+                                    </small>
+                                    <div class="switch-content @if(config('flutter.active') == 0 || config('flutter.active') == false) d-none @endif">
+                                        <br>
+                                        <div class="form-group row">
+                                            {{ html()->label(__('labels.backend.general_settings.payment_settings.mode'))->class('col-md-2 form-control-label') }}
+                                            <div class="col-md-8 col-xs-12">
+                                                <select class="form-control" id="rave__env"
+                                                        name="rave__env">
+                                                    <option selected
+                                                            value="staging">{{__('labels.backend.general_settings.payment_settings.sandbox')}}</option>
+                                                    <option value="live">{{__('labels.backend.general_settings.payment_settings.live')}}</option>
+                                                </select>
+                                            </div><!--col-->
+                                        </div><!--form-group-->
+                                        <div class="form-group row">
+                                            {{ html()->label(__('labels.backend.general_settings.payment_settings.key'))->class('col-md-2 form-control-label') }}
+                                            <div class="col-md-8 col-xs-12">
+                                                {{ html()->text('rave__publicKey')
+                                                     ->class('form-control')
+                                                     ->value(config('rave.publicKey'))
+                                                     }}
+                                            </div><!--col-->
+                                        </div><!--form-group-->
+                                        <div class="form-group row">
+                                            {{ html()->label(__('labels.backend.general_settings.payment_settings.secret'))->class('col-md-2 form-control-label')->for('rave__secretKey') }}
+                                            <div class="col-md-8 col-xs-12">
+                                                {{ html()->text('rave__secretKey')
+                                                     ->class('form-control')
+                                                     ->value(config('rave.secretKey'))
+                                                     }}
+                                            </div><!--col-->
+                                        </div><!--form-group-->
+                                    </div>
+                                </div><!--col-->
+                            </div><!--form-group-->
+
                             <div class="form-group row">
                                 {{ html()->label(__('labels.backend.general_settings.payment_settings.instamojo'))->class('col-md-3 form-control-label')}}
                                 <div class="col-md-9">
@@ -1377,6 +1430,12 @@
             @if(config('services.payu.mode') != "")
             $('#cashfree_settings_mode').find('option').removeAttr('selected')
             $('#cashfree_settings_mode').find('option[value="{{config('services.payu.mode')}}"]').attr('selected', 'selected');
+            @endif
+
+            //======== Preset PaymentMode for Flutter =======>
+            @if(config('rave.env') != "")
+            $('#rave_env').find('option').removeAttr('selected')
+            $('#rave_env').find('option[value="{{config('rave.env')}}"]').attr('selected', 'selected');
             @endif
 
 
