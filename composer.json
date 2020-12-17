@@ -27,6 +27,7 @@
         "hashids/hashids": "^4.1.0",
         "hieu-le/active": "v8.0.0",
         "jenssegers/agent": "^2.6",
+        "kingflamez/laravelrave": "^3.0",
         "laravel/cashier": "^12.4",
         "laravel/framework": "^8.0",
         "laravel/helpers": "^1.4",
