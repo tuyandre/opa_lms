@@ -2509,14 +2509,12 @@ class ApiController extends Controller
         }
     }
 
+
     /**
-     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function wishlist()
     {
-//        $blog = Blog::orderBy('created_at', 'desc')
-//            ->select('id', 'category_id', 'user_id', 'title', 'slug', 'content', 'image')
-//            ->paginate(10);
         $wishlists = Wishlist::query()->with(['course'])->where('user_id',auth()->user()->id)->orderBy('id','desc')->paginate();
         return response()->json(['status' => 'success','result' => $wishlists]);
     }
