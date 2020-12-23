@@ -154,8 +154,8 @@ class CartController extends Controller
         //Apply Tax
         $taxData = $this->applyTax('total');
 
-
-        return view($this->path . '.cart.checkout', compact('courses', 'total', 'taxData'));
+        return redirect(route('cart.index'));
+//        return view($this->path . '.cart.checkout', compact('courses', 'total', 'taxData'));
     }
 
     public function clear(Request $request)
