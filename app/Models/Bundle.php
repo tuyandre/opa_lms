@@ -19,9 +19,13 @@ class Bundle extends Model
     protected $appends = ['image'];
 
 
-    protected static function boot()
+    /**
+     * Perform any actions required after the model boots.
+     *
+     * @return void
+     */
+    protected static function booted()
     {
-        parent::boot();
         static::deleting(function ($bundle) { // before delete() method call this
             if($bundle->isForceDeleting()){
                 if(File::exists(public_path('/storage/uploads/'.$bundle->course_image))) {

@@ -18,9 +18,13 @@ class Blog extends Model
         return $this->author->full_name;
     }
 
-    public static function boot()
+    /**
+     * Perform any actions required after the model boots.
+     *
+     * @return void
+     */
+    protected static function booted()
     {
-        parent::boot();
 
         static::deleting(function ($blog) { // before delete() method call this
             if (File::exists(public_path('/storage/uploads/' . $blog->image))) {

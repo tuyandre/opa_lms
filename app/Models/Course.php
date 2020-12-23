@@ -33,9 +33,13 @@ class Course extends Model
 //    protected $dates = ['expire_at'];
 
 
-    protected static function boot()
+    /**
+     * Perform any actions required after the model boots.
+     *
+     * @return void
+     */
+    protected static function booted()
     {
-        parent::boot();
         if (auth()->check()) {
             if (auth()->user()->hasRole('teacher')) {
                 static::addGlobalScope('filter', function (Builder $builder) {

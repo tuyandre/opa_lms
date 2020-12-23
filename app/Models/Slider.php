@@ -9,9 +9,13 @@ class Slider extends Model
 {
     protected $guarded = [];
 
-    protected static function boot()
+    /**
+     * Perform any actions required after the model boots.
+     *
+     * @return void
+     */
+    protected static function booted()
     {
-        parent::boot();
 
         static::deleting(function ($slider) { // before delete() method call this
             if (File::exists(public_path('/storage/uploads/' . $slider->bg_image))) {

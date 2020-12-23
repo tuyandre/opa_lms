@@ -10,6 +10,29 @@ class Category extends Model
 {
     use SoftDeletes;
 
+    /**
+     * Perform any actions required after the model boots.
+     *
+     * @return void
+     */
+    protected static function booted()
+    {
+        Static::deleted(function($category){
+            if($category->courses->count()){
+                $category->courses()->delete();
+            }
+            if($category->bundles->count()){
+                $category->bundles()->delete();
+            }
+            if($category->blogs->count()){
+                $category->blogs()->delete();
+            }
+            if($category->faqs->count()){
+                $category->faqs()->delete();
+            }
+        });
+    }
+
     protected $guarded = [];
 
     public function courses(){

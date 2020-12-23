@@ -23,9 +23,13 @@ class Test extends Model
     protected $fillable = ['title', 'description','slug', 'published', 'course_id', 'lesson_id'];
 
 
-    protected static function boot()
+    /**
+     * Perform any actions required after the model boots.
+     *
+     * @return void
+     */
+    protected static function booted()
     {
-        parent::boot();
         if(auth()->check()) {
             if (auth()->user()->hasRole('teacher')) {
                 static::addGlobalScope('filter', function (Builder $builder) {
@@ -59,17 +63,17 @@ class Test extends Model
     {
         $this->attributes['lesson_id'] = $input ? $input : null;
     }
-    
+
     public function course()
     {
         return $this->belongsTo(Course::class, 'course_id')->withTrashed();
     }
-    
+
     public function lesson()
     {
         return $this->belongsTo(Lesson::class, 'lesson_id')->withTrashed();
     }
-    
+
     public function questions()
     {
         return $this->belongsToMany(Question::class, 'question_test')->withTrashed();

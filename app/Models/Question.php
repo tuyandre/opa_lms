@@ -21,9 +21,13 @@ class Question extends Model
 
     protected $fillable = ['question', 'question_image', 'score'];
 
-    protected static function boot()
+    /**
+     * Perform any actions required after the model boots.
+     *
+     * @return void
+     */
+    protected static function booted()
     {
-        parent::boot();
         if (auth()->check()) {
             if (auth()->user()->hasRole('teacher')) {
                 static::addGlobalScope('filter', function (Builder $builder) {

@@ -35,9 +35,13 @@ class Lesson extends Model
     protected $appends = ['image','lesson_readtime'];
 
 
-    public static function boot()
+    /**
+     * Perform any actions required after the model boots.
+     *
+     * @return void
+     */
+    protected static function booted()
     {
-        parent::boot();
 
         static::deleting(function ($lesson) { // before delete() method call this
             if ($lesson->isForceDeleting()) {
