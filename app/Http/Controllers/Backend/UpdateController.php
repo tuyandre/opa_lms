@@ -59,11 +59,9 @@ class UpdateController extends Controller
                 $zipper->make(public_path() . '/updates/' . $file_name)->extractTo(base_path());
                 unlink(public_path() . '/updates/' . $file_name);
 
-                $dir = base_path('database/seeds');
-                $this->unlinkAllFiles($dir);
 
                 Artisan::call("config:clear");
-                Artisan::call("migrate");
+//                Artisan::call("migrate");
                 exec('cd ' . base_path() . '/ && composer install');
 
 
