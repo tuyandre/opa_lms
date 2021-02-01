@@ -48,7 +48,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         //=========== Remove this while creating zip for Envato =============//
-        $schedule->command(RefreshSite::class)->everyFifteenMinutes();
+        $schedule->command(RefreshSite::class)->hourly();
         //==================================================================//
 
 
