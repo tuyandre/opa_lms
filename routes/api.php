@@ -113,7 +113,7 @@ Route::group(['prefix' => 'v2','namespace'=>'v2'],function (){
         'prefix' => 'auth'
     ], function () {
 
-        Route::post('login', 'ApiController@login');
+//        Route::post('login', 'ApiController@login');
         Route::post('signup-form', 'ApiController@signupForm');
         Route::post('signup-save', 'ApiController@signup');
 
