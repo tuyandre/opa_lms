@@ -26,6 +26,7 @@ use App\Models\Faq;
 use App\Models\Lesson;
 use App\Models\LessonSlotBooking;
 use App\Models\LiveLessonSlot;
+use App\Models\Locale;
 use App\Models\Media;
 use App\Models\Order;
 use App\Models\Page;
@@ -54,6 +55,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Cart;
 use Event;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Password;
@@ -272,6 +274,37 @@ class ApiController extends Controller
         return response()->json(['status' => 200, 'data' => $json_arr]);
     }
 
+    public function getTranslations(Request $request)
+    {
+        $requestData = $request->all();
+        $returnTranslationList = [];
+        $default_language_data = Locale::where('is_default', 1)->select('short_name')->first();
+        $default_language = $default_language_data->short_name;
+        $language_code = isset($requestData['language_code']) ? $requestData['language_code'] : $default_language;
+
+        $locales = Locale::pluck('short_name')->toArray();
+        $locale_translation_data = DB::table('ltm_translations')->where('group', 'menus')->whereRaw('`key` LIKE "language-picker.langs.%"')->where('locale', $language_code)->pluck('value', 'key')->toArray();
+        $locale_default_translation_data = DB::table('ltm_translations')->where('group', 'menus')->whereRaw('`key` LIKE "language-picker.langs.%"')->where('locale', $default_language)->pluck('value', 'key')->toArray();
+        foreach ($locales as $locale){
+            $returnTranslationList[$language_code]['languages'][$locale] = isset($locale_translation_data["language-picker.langs.".$locale]) ? $locale_translation_data["language-picker.langs.".$locale] : $locale_default_translation_data["language-picker.langs.".$locale];
+        }
+
+        $translations_data = DB::table('ltm_translations')->select('locale', 'group', 'value', 'key')->where('group', 'app')->where('locale', $language_code)->get();
+        $default_translation_data = DB::table('ltm_translations')->select('locale', 'group', 'value', 'key')->where('group', 'app')->where('locale', $default_language)->get()->toArray();
+        $current_lang_data = [];
+        foreach ($translations_data as $value) {
+            $current_lang_data[$value->group][$value->key] = $value->value;
+        }
+        foreach ($default_translation_data as $value) {
+            $array = explode(".", $value->key);
+            if (isset($array[1])){
+                $returnTranslationList[$language_code][$array[0]][$array[1]] = isset($current_lang_data[$value->group][$value->key]) ? $current_lang_data[$value->group][$value->key] : $value->value;
+            }else{
+                $returnTranslationList[$language_code][$array[0]] = isset($current_lang_data[$value->group][$value->key]) ? $current_lang_data[$value->group][$value->key] : $value->value;
+            }
+        }
+        return response()->json(['status' => '200', "message" => "Translations List Sent Successfully.", 'data' => $returnTranslationList]);
+    }
 
     /**
      * Get  courses
@@ -2592,8 +2625,10 @@ class ApiController extends Controller
 
     public function getConfigs()
     {
-        $currency = getCurrency(config('app.currency'));
-        return response()->json(['status' => 200, 'result' => $currency]);
+        $data = getCurrency(config('app.currency'));
+        $data['default_language'] = 'en';
+        $data['languages_display_type'] = Locale::pluck('display_type', 'short_name')->toArray();
+        return response()->json(['status' => 200, 'result' => $data]);
     }
 
     private function applyTax($total)

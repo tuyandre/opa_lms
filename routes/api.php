@@ -190,6 +190,7 @@ Route::group(['prefix' => 'v2','namespace'=>'v2'],function (){
         Route::post('wishlist','ApiController@wishlist');
     });
     Route::post('send-reset-link','ApiController');
+    Route::post('translations','ApiController@getTranslations');
     Route::post('configs','ApiController@getConfigs');
 });
 
