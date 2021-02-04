@@ -145,7 +145,7 @@ class AppTranslationsSeeder extends Seeder
                 'paid' => "PAID"
             ],
         ];
-        DB::table('ltm_translations')->where('group', 'app')->delete();
+        DB::table('ltm_translations')->where('group', 'app')->where('locale', 'en')->delete();
         foreach ($translations as $page => $values){
             foreach ($values as $key => $value){
                 DB::table('ltm_translations')->insert([

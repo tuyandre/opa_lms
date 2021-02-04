@@ -47,6 +47,7 @@ class RefreshSite extends Command
         Artisan::call('migrate:refresh');
         Artisan::call('db:seed');
         Artisan::call('db:seed',['--class'=>'DummyDataSeeder']);
+        Artisan::call('db:seed',['--class'=>'AppTranslationsSeeder']);
         Artisan::call('store:oauth_clients');
     }
 }
