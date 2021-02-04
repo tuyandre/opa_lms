@@ -271,7 +271,7 @@ class ApiController extends Controller
             }
             $json_arr[$data->key] = (is_null(json_decode($data->value, true))) ? $data->value : json_decode($data->value, true);
         }
-        return response()->json(['status' => 200, 'data' => $json_arr]);
+        return response()->json(['status' => 200, 'result' => $json_arr]);
     }
 
     public function getTranslations(Request $request)
