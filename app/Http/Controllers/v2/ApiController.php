@@ -303,7 +303,7 @@ class ApiController extends Controller
                 $returnTranslationList[$language_code][$array[0]] = isset($current_lang_data[$value->group][$value->key]) ? $current_lang_data[$value->group][$value->key] : $value->value;
             }
         }
-        return response()->json(['status' => '200', "message" => "Translations List Sent Successfully.", 'data' => $returnTranslationList]);
+        return response()->json(['status' => '200', "message" => "Translations List Sent Successfully.", 'result' => $returnTranslationList]);
     }
 
     /**
