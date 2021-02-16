@@ -833,7 +833,7 @@ class ApiController extends Controller
             $data['test'] = $test->toArray();
             $data['is_test_given'] = $is_test_given;
             $data['test_result'] = $result_data;
-            return response()->json(['status' => 200, "message" => "Test details sent successfully", 'response' => $data]);
+            return response()->json(['status' => 200, "message" => "Test details sent successfully", 'result' => $data]);
         } catch (\Exception $e) {
             return response()->json(['status' => 100, 'message' => $e->getMessage()]);
         }
