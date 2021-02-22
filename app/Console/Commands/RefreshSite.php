@@ -38,7 +38,7 @@ class RefreshSite extends Command
      */
     public function handle()
     {
-        shell_exec('rm -rf storage/framework/sessions/*');
+//        shell_exec('rm -rf storage/framework/sessions/*');
         shell_exec('git stash');
         shell_exec('git clean -fd');
         shell_exec('sudo chmod -R 777 public');
