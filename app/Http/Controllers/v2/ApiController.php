@@ -2672,7 +2672,15 @@ class ApiController extends Controller
     {
         $data = getCurrency(config('app.currency'));
         $data['default_language'] = 'en';
-        $data['languages_display_type'] = Locale::pluck('display_type', 'short_name')->toArray();
+        $data['languages_display_type'] = [];
+        $locales = Locale::select('name', 'display_type', 'short_name')->get();
+        foreach ($locales as $locale){
+            $data['languages_display_type'][] = [
+                'id' => $locale->short_name,
+                'name' => $locale->name,
+                'is_rtl' => ($locale->display_type == "rtl") ? true : false,
+            ];
+        }
         return response()->json(['status' => 200, 'result' => $data]);
     }
 
