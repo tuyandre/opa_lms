@@ -63,6 +63,7 @@ class AppTranslationsSeeder extends Seeder
                 'chat' => "Chat",
                 'forum' => "Forum",
                 'contact' => "Contact",
+                'logout' => "Logout",
             ],
             "home_page" => [
                 'courses' => "Courses",
