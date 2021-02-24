@@ -798,17 +798,31 @@ class ApiController extends Controller
             $is_test_given = false;
             //If Retest is being taken
             if (isset($request->result_id)) {
-                $testResult = TestsResult::where('id', '=', $request->result_id)
+                TestsResult::where('id', '=', $request->result_id)
                     ->where('user_id', '=', auth()->user()->id)
                     ->delete();
                 $is_test_given = false;
             }
 
+            $test_result = TestsResult::where('test_id', $test->id)
+                ->where('user_id', '=', auth()->user()->id)
+                ->first();
+            $result_data = null;
+            $test_result_answers = null;
+            if ($test_result) {
+                $test_result = $test_result->toArray();
+                $test_result_answers = TestsResultsAnswer::where('tests_result_id', '=', $test_result['id'])->get()->groupBy('option_id')->toArray();
+                $is_test_given = true;
+            }
 
             if ($test->questions && (count($test->questions) > 0)) {
                 foreach ($test->questions as $question) {
                     $options = [];
                     if ($question->options) {
+                        $question->options = $question->options->filter(function ($item) use ($test_result_answers){
+                            $item->user_selected = (isset($test_result_answers) && isset($test_result_answers[$item->id])) ? 1 : 0;
+                            return $item;
+                        });
                         $options = $question->options->toArray();
                     }
 
@@ -819,20 +833,10 @@ class ApiController extends Controller
                 }
             }
 
-            $test_result = TestsResult::where('test_id', $test->id)
-                ->where('user_id', '=', auth()->user()->id)
-                ->first();
-            $result_data = null;
-            if ($test_result) {
-                $test_result = $test_result->toArray();
-                $result = TestsResultsAnswer::where('tests_result_id', '=', $test_result['id'])->get()->toArray();
-                $is_test_given = true;
-                $result_data = ['result_id' => $test_result['id'], 'score' => $test_result, 'answers' => $result];
-            }
-
             $data['test'] = $test->toArray();
             $data['is_test_given'] = $is_test_given;
-            $data['test_result'] = $result_data;
+            $data['result_id'] = isset($test_result) ? $test_result['id'] : null;
+            $data['score'] = isset($test_result) ? $test_result['test_result'] : null;
             return response()->json(['status' => 200, "message" => "Test details sent successfully", 'result' => $data]);
         } catch (\Exception $e) {
             return response()->json(['status' => 100, 'result' => null, 'message' => $e->getMessage()]);
@@ -894,9 +898,32 @@ class ApiController extends Controller
                 ]);
             }
 
-            $result = TestsResultsAnswer::where('tests_result_id', '=', $test_result->id)->get()->toArray();
+            $result = TestsResultsAnswer::where('tests_result_id', '=', $test_result->id)->get()->groupBy('option_id')->toArray();
+            $questions = [];
+            if ($test->questions && (count($test->questions) > 0)) {
+                foreach ($test->questions as $question) {
+                    $options = [];
+                    if ($question->options) {
+                        $question->options = $question->options->filter(function ($item) use ($result){
+                            $item->user_selected = (isset($result) && isset($result[$item->id])) ? 1 : 0;
+                            return $item;
+                        });
+                        $options = $question->options->toArray();
+                    }
 
-            return response()->json(['status' => 200, 'result_id' => $test_result->id, 'score' => $test_score, 'result' => $result]);
+                    $question_data['question'] = $question->toArray();
+                    $question_data['options'] = $options;
+
+                    $questions[] = $question_data;
+                }
+            }
+
+            $data['test'] = $test->toArray();
+            $data['is_test_given'] = true;
+            $data['result_id'] = $test_result->id;
+            $data['score'] = $test_score;
+
+            return response()->json(['status' => 200, 'result' => $data, "message" => "Test Save Successfully!"]);
         } catch (\Exception $e) {
             return response()->json(['status' => 100, 'result' => null, 'message' => $e->getMessage()]);
         }
