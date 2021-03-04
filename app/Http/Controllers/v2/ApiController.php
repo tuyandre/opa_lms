@@ -1329,7 +1329,6 @@ class ApiController extends Controller
             $coursesData = $bundlesData->merge($courses);
             $total = $coursesData->sum('price');
             $subtotal = $total;
-
             if (count(Cart::getConditionsByType('coupon')) > 0) {
                 $coupon = Cart::getConditionsByType('coupon')->first();
                 $couponData = Coupon::where('code', '=', $coupon->getName())->first();
@@ -1353,7 +1352,7 @@ class ApiController extends Controller
             }
 
             $total = Cart::session(auth()->user()->id)->getTotal();
-            return ['status' => 200, 'message' => "Cart data sent successfully", 'result' => ['courses' => $courses, 'bundles' => $bundles, 'count' => count($courses) + count($bundles), 'coupon' => $couponArray, 'tax' => $taxData, 'subtotal' => $subtotal, 'total' => $total]];
+            return ['status' => 200, 'message' => "Cart data sent successfully", 'result' => ['courses' => $courses, 'bundles' => $bundles, 'count' => count($courses) + count($bundles), 'coupon' => $couponArray, 'tax' => $taxData, 'subtotal' => round($subtotal, 2), 'total' => round($total, 2)]];
         }
         return ['status' => 200, 'result' => ['count' => 0], 'message' => "No Record Found"];
     }
@@ -2484,7 +2483,6 @@ class ApiController extends Controller
                                 $isCouponValid = true;
                             }
                         }
-
                         if ($coupon->expires_at != null) {
                             if (Carbon::parse($coupon->expires_at) >= Carbon::now()) {
                                 $isCouponValid = true;
@@ -2492,7 +2490,6 @@ class ApiController extends Controller
                                 $isCouponValid = false;
                             }
                         }
-
                         if ($isCouponValid == true) {
                             $type = null;
                             if ($coupon->type == 1) {
@@ -2500,6 +2497,7 @@ class ApiController extends Controller
                             } else {
                                 $discount = $coupon->amount;
                             }
+
                             $data['subtotal'] = (float)number_format($total, 2);
 
                             //$data['discounted_total'] = (float)number_format($total - $discount,2);
@@ -2509,7 +2507,7 @@ class ApiController extends Controller
 
                             //Apply Tax
                             $data['tax_data'] = $this->applyTax($total);
-                            $tax_amount = $data['tax_data']['total_tax'];
+                            $tax_amount = $data['tax_data']['total_tax'] ?? 0;
 
                             $discount = $data['coupon_data']['total_coupon_discount'];
                             $data['final_total'] = ($total - $discount) + $tax_amount;
