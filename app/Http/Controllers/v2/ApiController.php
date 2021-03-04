@@ -1993,6 +1993,7 @@ class ApiController extends Controller
             auth()->user()->load('threads.messages.user');
             $threads = auth()->user()->threads;
             $threads = $threads->each(function ($item, $key) {
+                $item->participant_name = $item->participants()->with('user')->where('user_id','<>', auth()->user()->id)->first()->user->name;
                 $item->messages->each(function ($item1, $key1) {
                     $item1->sender_id = $item1->user_id;
                     $item1->sender = $item1->user;
@@ -2046,7 +2047,18 @@ class ApiController extends Controller
             if ($recipients) {
                 $thread->addParticipant($recipients);
             }
-            return response()->json(['status' => 200, 'result' => $message->thread_id]);
+
+            $thread = auth()->user()->threads()
+                ->where('chat_threads.id', '=', $message->thread_id)
+                ->first();
+            $thread->participant_name = $thread->participants()->with('user')->where('user_id','<>', auth()->user()->id)->first()->user->name;
+            $thread->messages->each(function ($item1, $key1) {
+                $item1->sender_id = $item1->user_id;
+                $item1->sender = $item1->user;
+                unset($item1->user_id);
+                unset($item1->user);
+            });
+            return response()->json(['status' => 200, 'result' => $thread]);
         } catch (\Exception $e) {
             return response()->json(['status' => 100, 'result' => null, 'message' => $e->getMessage()]);
         }
@@ -2077,7 +2089,17 @@ class ApiController extends Controller
             $participant->last_read = Carbon::now();
             $participant->save();
 
-            return response()->json(['status' => 200, 'result' => $message->thread_id]);
+            $thread = auth()->user()->threads()
+                ->where('chat_threads.id', '=', $request->thread_id)
+                ->first();
+            $thread->participant_name = $thread->participants()->with('user')->where('user_id','<>', auth()->user()->id)->first()->user->name;
+            $thread->messages->each(function ($item1, $key1) {
+                $item1->sender_id = $item1->user_id;
+                $item1->sender = $item1->user;
+                unset($item1->user_id);
+                unset($item1->user);
+            });
+            return response()->json(['status' => 200, 'result' => $thread]);
         } catch (\Exception $e) {
             return response()->json(['status' => 100, 'result' => null, 'message' => $e->getMessage()]);
         }

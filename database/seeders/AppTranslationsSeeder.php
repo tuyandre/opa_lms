@@ -50,6 +50,7 @@ class AppTranslationsSeeder extends Seeder
                 'email_invalid_error' => "Please enter valid email",
                 'password' => "Password",
                 'password_required_error' => "Please enter password",
+                'password_invalid_error' => "Please enter a valid password",
                 'city' => "City",
                 'sign_up_button' => "Sign Up",
             ],
