@@ -1220,7 +1220,8 @@ class ApiController extends Controller
             $total = Cart::session(auth()->user()->id)->getTotal();
             $this->applyTax($total);
 
-            return response()->json(['status' => 200, 'result' => null]);
+            $response = self::getCartDetailArray();
+            return response()->json($response);
         } catch (\Exception $e) {
             return response()->json(['status' => 100, 'result' => null, 'message' => $e->getMessage()]);
         }
@@ -1286,52 +1287,8 @@ class ApiController extends Controller
                     Cart::session(auth()->user()->id)->remove($request->item_id);
                 }
             }
-            $course_ids = [];
-            $bundle_ids = [];
-            $couponArray = [];
-            if (count(Cart::session(auth()->user()->id)->getContent()) > 0) {
-                foreach (Cart::session(auth()->user()->id)->getContent() as $item) {
-                    if ($item->attributes->type == 'bundle') {
-                        $bundle_ids[] = $item->id;
-                    } else {
-                        $course_ids[] = $item->id;
-                    }
-                }
-                $courses = Course::find($course_ids);
-                $bundles = Bundle::find($bundle_ids);
-                $bundlesData = Bundle::find($bundle_ids);
-
-                $coursesData = $bundlesData->merge($courses);
-                $total = $coursesData->sum('price');
-                $subtotal = $total;
-
-                if (count(Cart::getConditionsByType('coupon')) > 0) {
-                    $coupon = Cart::getConditionsByType('coupon')->first();
-                    $couponData = Coupon::where('code', '=', $coupon->getName())->first();
-                    $couponArray = [
-                        'name' => $couponData->name,
-                        'code' => $couponData->code,
-                        'type' => ($couponData->type == 1) ? trans('labels.backend.coupons.discount_rate') : trans('labels.backend.coupons.flat_rate'),
-                        'value' => $coupon->getValue(),
-                        'amount' => number_format($coupon->getCalculatedValue($total), 2)
-                    ];
-                }
-
-                $taxes = Tax::where('status', '=', 1)->get();
-                $taxData = [];
-                if ($taxes != null) {
-                    foreach ($taxes as $tax) {
-                        $total = Cart::session(auth()->user()->id)->getTotal();
-                        $amount = number_format($total * $tax->rate / 100, 2);
-                        $taxData[] = ['name' => '+' . $tax->rate . '% ' . $tax->name, 'amount' => $amount];
-                    }
-                }
-
-                $total = Cart::session(auth()->user()->id)->getTotal();
-
-                return response()->json(['status' => 200, 'message' => "Cart Item Removed Successfully", 'result' => ['courses' => $courses, 'bundles' => $bundles, 'coupon' => $couponArray, 'tax' => $taxData, 'subtotal' => $subtotal, 'total' => $total]]);
-            }
-            return response()->json(['status' => 200, 'result' => null, 'message' => "Cart Item Removed Successfully"]);
+            $response = self::getCartDetailArray();
+            return response()->json($response);
         } catch (\Exception $e) {
             return response()->json(['status' => 100, 'result' => null, 'message' => $e->getMessage()]);
         }
@@ -1346,58 +1303,60 @@ class ApiController extends Controller
     public function getCartData(Request $request)
     {
         try {
-            $course_ids = [];
-            $bundle_ids = [];
-            $couponArray = [];
-            if (count(Cart::session(auth()->user()->id)->getContent()) > 0) {
-                foreach (Cart::session(auth()->user()->id)->getContent() as $item) {
-                    if ($item->attributes->type == 'bundle') {
-                        $bundle_ids[] = $item->id;
-                    } else {
-                        $course_ids[] = $item->id;
-                    }
-                }
-                $courses = Course::find($course_ids);
-                $bundles = Bundle::find($bundle_ids);
-                $bundlesData = Bundle::find($bundle_ids);
-
-                $coursesData = $bundlesData->merge($courses);
-                $total = $coursesData->sum('price');
-                $subtotal = $total;
-
-                if (count(Cart::getConditionsByType('coupon')) > 0) {
-                    $coupon = Cart::getConditionsByType('coupon')->first();
-                    $couponData = Coupon::where('code', '=', $coupon->getName())->first();
-                    $couponArray = [
-                        'name' => $couponData->name,
-                        'code' => $couponData->code,
-                        'type' => ($couponData->type == 1) ? trans('labels.backend.coupons.discount_rate') : trans('labels.backend.coupons.flat_rate'),
-                        'value' => $coupon->getValue(),
-                        'amount' => number_format($coupon->getCalculatedValue($total), 2)
-                    ];
-                }
-
-                $taxes = Tax::where('status', '=', 1)->get();
-                $taxData = [];
-                if ($taxes != null) {
-                    foreach ($taxes as $tax) {
-                        $total = Cart::session(auth()->user()->id)->getTotal();
-                        $amount = number_format($total * $tax->rate / 100, 2);
-                        $taxData[] = ['name' => '+' . $tax->rate . '% ' . $tax->name, 'amount' => $amount];
-                    }
-                }
-
-                $total = Cart::session(auth()->user()->id)->getTotal();
-
-
-                return response()->json(['status' => 200, 'message' => "Cart data sent successfully", 'result' => ['courses' => $courses, 'bundles' => $bundles, 'coupon' => $couponArray, 'tax' => $taxData, 'subtotal' => $subtotal, 'total' => $total]]);
-            }
-            return response()->json(['status' => 200, 'result' => null, 'message' => "No Record Found"]);
+            $response = self::getCartDetailArray();
+            return response()->json($response);
         } catch (\Exception $e) {
             return response()->json(['status' => 100, 'result' => null, 'message' => $e->getMessage()]);
         }
     }
 
+    public function getCartDetailArray(){
+        $course_ids = [];
+        $bundle_ids = [];
+        $couponArray = [];
+        if (count(Cart::session(auth()->user()->id)->getContent()) > 0) {
+            foreach (Cart::session(auth()->user()->id)->getContent() as $item) {
+                if ($item->attributes->type == 'bundle') {
+                    $bundle_ids[] = $item->id;
+                } else {
+                    $course_ids[] = $item->id;
+                }
+            }
+            $courses = Course::find($course_ids);
+            $bundles = Bundle::find($bundle_ids);
+            $bundlesData = Bundle::find($bundle_ids);
+
+            $coursesData = $bundlesData->merge($courses);
+            $total = $coursesData->sum('price');
+            $subtotal = $total;
+
+            if (count(Cart::getConditionsByType('coupon')) > 0) {
+                $coupon = Cart::getConditionsByType('coupon')->first();
+                $couponData = Coupon::where('code', '=', $coupon->getName())->first();
+                $couponArray = [
+                    'name' => $couponData->name,
+                    'code' => $couponData->code,
+                    'type' => ($couponData->type == 1) ? trans('labels.backend.coupons.discount_rate') : trans('labels.backend.coupons.flat_rate'),
+                    'value' => $coupon->getValue(),
+                    'amount' => number_format($coupon->getCalculatedValue($total), 2)
+                ];
+            }
+
+            $taxes = Tax::where('status', '=', 1)->get();
+            $taxData = [];
+            if ($taxes != null) {
+                foreach ($taxes as $tax) {
+                    $total = Cart::session(auth()->user()->id)->getTotal();
+                    $amount = number_format($total * $tax->rate / 100, 2);
+                    $taxData[] = ['name' => '+' . $tax->rate . '% ' . $tax->name, 'amount' => $amount];
+                }
+            }
+
+            $total = Cart::session(auth()->user()->id)->getTotal();
+            return ['status' => 200, 'message' => "Cart data sent successfully", 'result' => ['courses' => $courses, 'bundles' => $bundles, 'count' => count($courses) + count($bundles), 'coupon' => $couponArray, 'tax' => $taxData, 'subtotal' => $subtotal, 'total' => $total]];
+        }
+        return ['status' => 200, 'result' => ['count' => 0], 'message' => "No Record Found"];
+    }
     /**
      * Clear Cart
      *
