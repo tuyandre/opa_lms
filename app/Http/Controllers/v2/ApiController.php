@@ -1952,7 +1952,9 @@ class ApiController extends Controller
             auth()->user()->load('threads.messages.user');
             $threads = auth()->user()->threads;
             $threads = $threads->each(function ($item, $key) {
-                $item->participant_name = $item->participants()->with('user')->where('user_id','<>', auth()->user()->id)->first()->user->name;
+                $user = $item->participants()->with('user')->where('user_id','<>', auth()->user()->id)->first()->user;
+                $item->participant_name = $user->name;
+                $item->participant_image = $user->image;
                 $item->messages->each(function ($item1, $key1) {
                     $item1->sender_id = $item1->user_id;
                     $item1->sender = $item1->user;
@@ -2010,7 +2012,9 @@ class ApiController extends Controller
             $thread = auth()->user()->threads()
                 ->where('chat_threads.id', '=', $message->thread_id)
                 ->first();
-            $thread->participant_name = $thread->participants()->with('user')->where('user_id','<>', auth()->user()->id)->first()->user->name;
+            $user = $thread->participants()->with('user')->where('user_id','<>', auth()->user()->id)->first()->user;
+            $thread->participant_name = $user->name;
+            $thread->participant_image = $user->image;
             $thread->messages->each(function ($item1, $key1) {
                 $item1->sender_id = $item1->user_id;
                 $item1->sender = $item1->user;
@@ -2051,7 +2055,9 @@ class ApiController extends Controller
             $thread = auth()->user()->threads()
                 ->where('chat_threads.id', '=', $request->thread_id)
                 ->first();
-            $thread->participant_name = $thread->participants()->with('user')->where('user_id','<>', auth()->user()->id)->first()->user->name;
+            $user = $thread->participants()->with('user')->where('user_id','<>', auth()->user()->id)->first()->user;
+            $thread->participant_name = $user->name;
+            $thread->participant_image = $user->image;
             $thread->messages->each(function ($item1, $key1) {
                 $item1->sender_id = $item1->user_id;
                 $item1->sender = $item1->user;
