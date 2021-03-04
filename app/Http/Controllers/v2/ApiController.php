@@ -1948,7 +1948,7 @@ class ApiController extends Controller
     {
         try {
             $thread = "";
-            $teachers = User::role('teacher')->select('id', 'first_name', 'last_name')->get();
+            $teachers = User::role('teacher')->select('id', 'first_name', 'last_name', 'email', 'avatar_type', 'avatar_location')->get();
             auth()->user()->load('threads.messages.user');
             $threads = auth()->user()->threads;
             $threads = $threads->each(function ($item, $key) {
