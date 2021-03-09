@@ -212,7 +212,7 @@ class AppTranslationsSeeder extends Seeder
                     'status' => 0,
                     'locale' => 'en',
                     'group' => 'app',
-                    'key' => $page . ' . ' . $key,
+                    'key' => $page . '.' . $key,
                     'value' => $value,
                     'created_at' => \Carbon\Carbon::now(),
                     'updated_at' => \Carbon\Carbon::now(),
