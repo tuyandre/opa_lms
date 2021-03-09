@@ -22,6 +22,9 @@ class AppTranslationsSeeder extends Seeder
                 'no' => "No",
                 'ok' => "Ok",
                 'no_data_found' => "No Data Found",
+                'price' => "Price",
+                'pariatur' => "Pariatur",
+                'search_placeholder' => "Search here..",
             ],
             "login_page" => [
                 'header' => "Hello! Login Here",
@@ -76,6 +79,7 @@ class AppTranslationsSeeder extends Seeder
                 'why_us' => "Why Us",
                 'testimonial' => "Testimonial",
                 'about_us' => "About Us",
+                'info_text' => "Inventive Solution For Education",
             ],
             "courses_page" => [
                 'header' => "Course",
@@ -84,6 +88,9 @@ class AppTranslationsSeeder extends Seeder
                 'popular' => "Popular",
                 'trending' => "Trending",
                 'featured' => "Featured",
+                "course_timeline" => "Course Timeline : ",
+                "timeline_header" => "TimeLine Detail",
+                'course_buy_require_error' => 'Please buy couse',
             ],
             "bundles_page" => [
                 'header' => "Bundle",
@@ -100,8 +107,12 @@ class AppTranslationsSeeder extends Seeder
             "teachers_page" => [
                 'header' => "Teachers",
                 'information_message' => "Find Your Questions & Answers",
+                'about_teacher' => "About Teacher",
+                'teacher_specialist' => "Teacher Specialist",
             ],
             "blog_page" => [
+                'header' => "Blog",
+                'detail_header' => "Blog Detail",
                 'previous_post' => "Previous Post",
                 'next_post' => "Next Post",
                 'course_timeline' => "Course Timeline : ",
@@ -117,8 +128,10 @@ class AppTranslationsSeeder extends Seeder
                 'email_invalid_error' => "Please enter valid email",
                 'phone_number' => "Your Phone",
                 'phone_number_required_error' => "Please enter phone number",
+                'phone_number_characters_size_error' => "Please enter a valid phone number",
                 'message' => "Message",
                 'message_required_error' => "Please enter your comment",
+                "submit_button" => "Submit"
             ],
             "cart_page" => [
                 'header' => "Cart",
@@ -141,20 +154,65 @@ class AppTranslationsSeeder extends Seeder
             "message_page" => [
                 'header' => "Message",
                 'search_user' => "Search User",
-                'invoice' => "Invoice",
                 'all' => "ALL",
                 'outstanding' => "OUTSTANDING",
-                'paid' => "PAID"
+                'paid' => "PAID",
+                "type_here" => 'Type here',
+                "create_message_header" => 'Create Message',
+                "text_required_error" => "Please enter text",
+                "user_required_error" => "At lest select one"
             ],
+            "profile_page" => [
+                "header" => "Profile",
+                'my_detail_title' => 'My Detail',
+                "first_name" => "Enter Your First Name",
+                "last_name" => "Enter Your Last Name",
+                "phone_number" => "Enter Your phone Number",
+                "email" => "Enter Your Email",
+                "address" => "Enter Your Address",
+                "city" => "Enter Your City",
+                "state" => "Enter Your State",
+                "pin_code" => "Enter Your pincode",
+                "country" => "Enter Your Country",
+                "save_button" => "Save & Continue",
+            ],
+            "quiz_page" => [
+                'error_message' => 'please select answer',
+                'next_button' => 'Next',
+                'result_button' => 'Show Result',
+                'start_button' => 'Start',
+                'retest_button' => 'Retest'
+            ],
+            "certificate_page" => [
+                "header" => "Certificate",
+                'progress' => 'Progress',
+                "memory_access_permission_text" => 'App needs access to memory to download the file',
+                'storage_permission' => 'Storage Permission',
+                'permission_denied' => 'Permission Denied!',
+                "storage_permission_text" => 'You need to give storage permission to download the file',
+                "download" => 'Download'
+            ],
+            "forums_page" => [
+                "header_forums" => 'Forums',
+                "detail_header" => 'Forums Detail',
+                "answer_text" => 'Answer',
+                "categories_placeholder" => 'Select categories',
+                "discussion_placeholder" => 'Add New Discussion',
+                "title_placeholder" => 'Title',
+                "add_button" => "Add",
+                'category_required_error' => "Please select categories",
+                'title_required_error' => "Please enter title",
+                'discussion_required_error' => "Please enter discussion",
+            ]
         ];
         DB::table('ltm_translations')->where('group', 'app')->where('locale', 'en')->delete();
-        foreach ($translations as $page => $values){
-            foreach ($values as $key => $value){
+        foreach ($translations as $page => $values) {
+            foreach ($values as $key => $value) {
                 DB::table('ltm_translations')->insert([
                     'status' => 0,
                     'locale' => 'en',
                     'group' => 'app',
-                    'key' => $page.'.'.$key,
+                    'key' => $page . ' . ' . $key,
                     'value' => $value,
                     'created_at' => \Carbon\Carbon::now(),
                     'updated_at' => \Carbon\Carbon::now(),
