@@ -183,7 +183,11 @@
                             <hr/>
                             @if (!is_null($test_result))
                                 <div class="alert alert-info">@lang('labels.frontend.course.your_test_score')
-                                    : {{ $test_result->test_result }}</div>
+                                    : {{ $test_result->test_result }}
+                                    <br>
+                                    @lang('labels.frontend.course.your_score') : {{ number_format($percentage,2) }}% <br>
+                                    @lang('labels.frontend.course.your_result') : {{ $test_pass }}
+                                </div>
                                 @if(config('retest'))
                                     <form action="{{route('lessons.retest',[$test_result->test->slug])}}" method="post">
                                         @csrf

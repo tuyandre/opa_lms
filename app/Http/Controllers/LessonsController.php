@@ -39,17 +39,25 @@ class LessonsController extends Controller
     {
         $test_result = "";
         $completed_lessons = "";
+        $test_pass = "";
+        $total_questions = "";
+        $percentage = "";
         $lesson = Lesson::where('slug', $lesson_slug)->where('course_id', $course_id)->where('published', '=', 1)->first();
 
         if ($lesson == "") {
             $lesson = Test::where('slug', $lesson_slug)->where('course_id', $course_id)->where('published', '=', 1)->firstOrFail();
             $lesson->full_text = $lesson->description;
 
-            $test_result = NULL;
-            if ($lesson) {
-                $test_result = TestsResult::where('test_id', $lesson->id)
-                    ->where('user_id', \Auth::id())
-                    ->first();
+            $test_result = TestsResult::where('test_id', $lesson->id)
+                ->where('user_id', \Auth::id())
+                ->first();
+            if ($lesson && $test_result) {
+
+                // get the tes't score
+
+                $total_questions = $lesson->questions->count();
+                $percentage = $test_result->test_result / $total_questions * 100;
+                $test_pass = ($percentage < $lesson->passing_score) ? "Failed" : "Pass";
             }
         }
 
@@ -103,7 +111,7 @@ class LessonsController extends Controller
             ->toArray();
 
         return view($this->path . '.courses.lesson', compact('lesson', 'previous_lesson', 'next_lesson', 'test_result',
-            'purchased_course', 'test_exists', 'lessons', 'completed_lessons'));
+            'purchased_course', 'test_exists', 'lessons', 'completed_lessons','test_pass','percentage','total_questions'));
     }
 
     public function test($lesson_slug, Request $request)
@@ -111,6 +119,7 @@ class LessonsController extends Controller
         $test = Test::where('slug', $lesson_slug)->firstOrFail();
         $answers = [];
         $test_score = 0;
+        $total_score = 0;
         if(!$request->get('questions')){
 
             return back()->with(['flash_warning'=>'No options selected']);
@@ -140,9 +149,16 @@ class LessonsController extends Controller
             'test_id' => $test->id,
             'user_id' => \Auth::id(),
             'test_result' => $test_score,
+            'test_score' =>$total_score,
+            'course_id' => $test->course_id,
         ]);
         $test_result->answers()->createMany($answers);
 
+        // get the test score
+
+        $total_questions = count($request->get('questions'));
+        $percentage = $test_score / $total_questions * 100;
+        $test_pass = ($percentage < $test->passing_score) ? "Failed" : "Pass";
 
         if ($test->chapterStudents()->where('user_id', \Auth::id())->get()->count() == 0) {
             $test->chapterStudents()->create([
@@ -154,7 +170,8 @@ class LessonsController extends Controller
         }
 
 
-        return back()->with(['message'=>'Test score: ' . $test_score,'result'=>$test_result]);
+        return back()->with(['message'=>'Test score: ' . $test_score,'result'=>$test_result,'test_percentage' => $percentage,
+            'test_pass' => $test_pass , 'total_score' => $total_score]);
     }
 
     public function retest(Request $request)

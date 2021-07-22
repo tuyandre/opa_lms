@@ -285,11 +285,11 @@ class LiveLessonSlotController extends Controller
         }
 
         $meeting->settings()->make([
-            'join_before_host' => $request->change_default_setting ? $request->join_before_host ? true: false : config('zoom.join_before_host')? true: false,
-            'host_video' => $request->change_default_setting ? $request->host_video ? true: false : config('zoom.host_video') ? true : false,
-            'participant_video' => $request->change_default_setting ? $request->participant_video ? true: false : config('zoom.participant_video') ? true : false,
-            'mute_upon_entry' => $request->change_default_setting ? $request->participant_mic_mute ? true: false : config('zoom.mute_upon_entry') ? true : false,
-            'waiting_room' => $request->change_default_setting ? $request->waiting_room ? true: false : config('zoom.waiting_room') ? true : false,
+            'join_before_host' => $request->change_default_setting ? ($request->join_before_host ? true: false) : (config('zoom.join_before_host')? true: false),
+            'host_video' => $request->change_default_setting ? ($request->host_video ? true: false) : (config('zoom.host_video') ? true : false),
+            'participant_video' => $request->change_default_setting ? ($request->participant_video ? true: false) : (config('zoom.participant_video') ? true : false),
+            'mute_upon_entry' => $request->change_default_setting ? ($request->participant_mic_mute ? true: false) : (config('zoom.mute_upon_entry') ? true : false),
+            'waiting_room' => $request->change_default_setting ? ($request->waiting_room ? true: false) : (config('zoom.waiting_room') ? true : false),
             'approval_type' => $request->change_default_setting ? $request->approval_type : config('zoom.approval_type'),
             'audio' => $request->change_default_setting ? $request->audio_option : config('zoom.audio'),
             'auto_recording' => config('zoom.auto_recording')
