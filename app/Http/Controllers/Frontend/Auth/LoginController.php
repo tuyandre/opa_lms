@@ -83,12 +83,7 @@ class LoginController extends Controller
                         'last_login_at' => Carbon::now()->toDateTimeString(),
                         'last_login_ip' => $request->getClientIp()
                     ]);
-                    if($request->ajax()){
-                        return response(['success' => true,'redirect' => $redirect], Response::HTTP_OK);
-                    }else{
-                        return redirect('/user/dashboard');
-                    }
-
+                    return response(['success' => true,'redirect' => $redirect], Response::HTTP_OK);
                 }else{
                     \Illuminate\Support\Facades\Auth::logout();
 

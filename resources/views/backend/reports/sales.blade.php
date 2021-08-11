@@ -62,7 +62,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-12 col-lg-5">
+                <div class="col-12 col-lg-3">
                     <div class="card text-white bg-primary text-center">
                         <div class="card-body">
                             <h2 class="">{{$appCurrency['symbol'].' '.$total_earnings}}</h2>
@@ -70,11 +70,27 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-12 col-lg-5 ml-auto">
+                <div class="col-12 col-lg-3 ml-auto">
                     <div class="card text-white bg-success text-center">
                         <div class="card-body">
                             <h2 class="">{{$total_sales}}</h2>
                             <h5>@lang('labels.backend.reports.total_sales')</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-3 ml-auto">
+                    <div class="card text-white bg-danger text-center">
+                        <div class="card-body">
+                            <h2 class="">{{$subscribe_sales}}</h2>
+                            <h5>@lang('labels.backend.reports.total_subscribe')</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-3 ml-auto">
+                    <div class="card text-white bg-dark text-center">
+                        <div class="card-body">
+                            <h2 class="">{{$appCurrency['symbol'].' '.$subscribe_earnings}}</h2>
+                            <h5>@lang('labels.backend.reports.subscribe_earning')</h5>
                         </div>
                     </div>
                 </div>
@@ -126,6 +142,30 @@
                     </div>
                 </div>
             </div>
+
+            <hr>
+            <div class="row">
+                <div class="col-12">
+                    <h4>@lang('labels.backend.reports.subscribed_plan')</h4>
+                    <div class="table-responsive">
+                        <table id="mySubscribeTable" class="table table-bordered table-striped ">
+                            <thead>
+                            <tr>
+                                <th>@lang('labels.general.sr_no')</th>
+                                <th>@lang('labels.general.id')</th>
+                                <th>@lang('labels.backend.reports.fields.student')</th>
+                                <th>@lang('labels.backend.reports.fields.subscribed_name')</th>
+                                <th>@lang('labels.backend.reports.fields.amount') <span style="font-weight: lighter">(in {{$appCurrency['symbol']}})</span></th>
+                                <th>@lang('labels.backend.reports.fields.date')</th>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -156,6 +196,7 @@
         $(document).ready(function () {
             var course_route = '{{route('admin.reports.get_course_data')}}?'+queryParams;
             var bundle_route = '{{route('admin.reports.get_bundle_data')}}?'+queryParams;
+            var subscribe_route = '{{route('admin.reports.get_subscribe_data')}}?'+queryParams;
 
             $('#myCourseTable').DataTable({
                 processing: true,
@@ -186,7 +227,7 @@
                     {data: "DT_RowIndex", name: 'DT_RowIndex', width: '8%',  orderable: false, searchable: false},
                     {data: "id", name: 'id', width: '8%'},
                     {data: "student", name: 'order.user.name', orderable: false, searchable: false},
-                    {data: "title", name: 'item.title', orderable: false, searchable: false},
+                    {data: "title", name: 'item.title', orderable: false, searchable: true},
                     {data: "transaction", name: 'order.transaction_id', orderable: false, searchable: false},
                     {data: "amount", name: 'order.amount', orderable: false, searchable: false},
                     {data: "created_at", name: 'created_at'},
@@ -227,9 +268,9 @@
                     {data: "DT_RowIndex", name: 'DT_RowIndex', width: '8%',  orderable: false, searchable: false},
                     {data: "id", name: 'id', width: '8%'},
                     {data: "student", name: 'order.user.name', orderable: false, searchable: false},
-                    {data: "title", name: 'item.title', orderable: false, searchable: false},
+                    {data: "title", name: 'item.title', orderable: false, searchable: true},
                     {data: "transaction", name: 'order.transaction_id', orderable: false, searchable: false},
-                    {data: "amount", name: 'order.amount', orderable: false, searchable: false},
+                    {data: "amount", name: 'order.amount', orderable: false, searchable: true},
                     {data: "created_at", name: 'created_at'},
                 ],
                 language:{
@@ -242,6 +283,44 @@
                 },
 
 
+                createdRow: function (row, data, dataIndex) {
+                    $(row).attr('data-entry-id', data.id);
+                },
+            });
+
+            $('#mySubscribeTable').DataTable({
+                processing: true,
+                serverSide: true,
+                iDisplayLength: 10,
+                retrieve: true,
+                order: [
+                    [5, 'desc']
+                ],
+                dom: 'lfBrtip<"actions">',
+                buttons: [
+                    {
+                        extend: 'csv',
+                        exportOptions: {
+                            columns: ':visible',
+                        }
+                    },
+                    {
+                        extend: 'pdf',
+                        exportOptions: {
+                            columns: ':visible',
+                        }
+                    },
+                    'colvis'
+                ],
+                ajax: subscribe_route,
+                columns: [
+                    {data: "DT_RowIndex", name: 'DT_RowIndex', width: '8%',  orderable: false, searchable: false},
+                    {data: "id", name: 'id', width: '8%'},
+                    {data: "student", name: 'student', orderable: false, searchable: true},
+                    {data: "title", name: 'title', orderable: false, searchable: true},
+                    {data: "amount", name: 'amount', orderable: false, searchable: true},
+                    {data: "created_at", name: 'created_at'},
+                ],
                 createdRow: function (row, data, dataIndex) {
                     $(row).attr('data-entry-id', data.id);
                 },

@@ -78,7 +78,17 @@ class ReportController extends Controller
 
         $bundles = Bundle::ofTeacher()->get(['id', 'title']);
 
-        return view('backend.reports.sales', compact('total_earnings', 'total_sales', 'students', 'courses', 'bundles'));
+        $subscribe = Order::query()->with(['plan', 'user'])->where('status', '=', 1)->where('plan_id', '!=', 0)->get();
+        // bundle sales and amount count
+        $subscribe_sales = $subscribe->count();
+        $subscribe_earnings=0;
+        if($subscribe){
+            foreach ($subscribe as $sub){
+                $subscribe_earnings += $sub->plan->amount;
+            }
+        }
+
+        return view('backend.reports.sales', compact('total_earnings', 'total_sales', 'students', 'courses', 'bundles','subscribe_sales','subscribe_earnings'));
     }
 
     public function getStudentsReport()
@@ -92,6 +102,7 @@ class ReportController extends Controller
 
         $course_orders = OrderItem::query()->with(['item', 'order', 'order.user'])->whereHas('order', function ($q) {
             $q->where('status', '=', 1);
+            $q->where('plan_id', '=', 0);
         });
 
         if($request->get('course')){
@@ -119,7 +130,6 @@ class ReportController extends Controller
         }
 
         $course_orders =  $this->dateFilter($course_orders);
-
         return \DataTables::of($course_orders)
             ->addColumn('course', function ($query) {
                 $course_name = $query->item->title;
@@ -156,6 +166,7 @@ class ReportController extends Controller
 
         $bundle_orders = OrderItem::query()->with(['item', 'order', 'order.user'])->whereHas('order', function ($q) {
             $q->where('status', '=', 1);
+            $q->where('plan_id', '=', 0);
         });
 
         if($request->get('bundle')){
@@ -214,7 +225,28 @@ class ReportController extends Controller
             ->rawColumns(['bundle'])
             ->make();
     }
+    public function getSubscibeData(Request $request)
+    {
+        $orders = Order::query()->with(['plan', 'user'])->where('status', '=', 1)->where('plan_id', '!=', 0)->get();
 
+        return \DataTables::of($orders)
+            ->addIndexColumn()
+            ->addColumn('title', function ($query) {
+                return $query->plan->name;
+            })
+            ->addColumn('amount', function ($query) {
+                return $query->amount;
+            })
+            ->addColumn('student', function ($query) {
+                return $query->user->name;
+            })
+            ->editColumn('created_at', function ($query) {
+                return $query->created_at->format('d-m-y H:i:s A');
+            })
+            ->rawColumns(['student','title'])
+            ->make();
+
+    }
     public function getStudentsData(Request $request)
     {
         $courses = Course::ofTeacher()->has('students', '>', 0)->withCount('students')->get();

@@ -39,6 +39,7 @@ class LessonsController extends Controller
     {
         $test_result = "";
         $completed_lessons = "";
+
         $test_pass = "";
         $total_questions = "";
         $percentage = "";
@@ -48,6 +49,7 @@ class LessonsController extends Controller
             $lesson = Test::where('slug', $lesson_slug)->where('course_id', $course_id)->where('published', '=', 1)->firstOrFail();
             $lesson->full_text = $lesson->description;
 
+            //$test_result = NULL;
             $test_result = TestsResult::where('test_id', $lesson->id)
                 ->where('user_id', \Auth::id())
                 ->first();
@@ -168,7 +170,6 @@ class LessonsController extends Controller
                 'course_id' => $test->course->id
             ]);
         }
-
 
         return back()->with(['message'=>'Test score: ' . $test_score,'result'=>$test_result,'test_percentage' => $percentage,
             'test_pass' => $test_pass , 'total_score' => $total_score]);

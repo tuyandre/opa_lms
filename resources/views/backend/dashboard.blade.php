@@ -428,7 +428,6 @@
                                 @endforeach
                             @endif
 
-
                     @elseif(auth()->user()->hasRole('teacher'))
                         <div class="col-12">
                             <div class="row">

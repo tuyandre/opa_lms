@@ -38,11 +38,11 @@
                     <div class="card">
                         <div class="card-body">
                             <form
-                                @if(auth()->user()->subscribed('default'))
-                                action="{{ route('subscription.update',['plan' => $plan]) }}"
-                                @else
+{{--                                @if(auth()->user()->subscribed('default'))--}}
+{{--                                action="{{ route('subscription.update',['plan' => $plan]) }}"--}}
+{{--                                @else--}}
                                 action="{{ route('subscription.subscribe',['plan' => $plan]) }}"
-                                @endif
+{{--                                @endif--}}
                                 method="post" id="subscribe-form">
                                 @csrf
                                 <div class="form-row">

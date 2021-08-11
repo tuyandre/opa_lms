@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Models\Auth;
-
 use App\Models\Bundle;
 use App\Models\Certificate;
 use App\Models\ChapterStudent;
@@ -12,9 +11,13 @@ use App\Models\LessonSlotBooking;
 use App\Models\Media;
 use App\Models\Order;
 use App\Models\OrderItem;
+use App\Models\Stripe\StripePlan;
+use App\Models\stripe\Subscription;
+use App\Models\stripe\UserCourses;
 use App\Models\Traits\Uuid;
 use App\Models\VideoProgress;
 use App\Models\WishList;
+use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Laravel\Cashier\Billable;
@@ -289,7 +292,9 @@ class User extends Authenticatable
         $courses_id = OrderItem::whereIn('order_id', $orders)
                     ->where('item_type', '=', Course::class)
                     ->pluck('item_id');
-        return Course::whereIn('id', $courses_id)->get();
+        return Course::whereHas('courseUser',function($q){
+            $q->whereDate('expire_at','>=',Carbon::now());
+        })->whereIn('id', $courses_id)->get();
     }
 
     public function subscribedBundles()
@@ -301,7 +306,9 @@ class User extends Authenticatable
             ->where('item_type', '=', Bundle::class)
             ->pluck('item_id');
 
-        return Bundle::whereIn('id', $bundles_id)->get();
+        return Bundle::whereHas('bundleUser',function($q){
+            $q->whereDate('expire_at','>=',Carbon::now());
+        })->whereIn('id', $bundles_id)->get();
     }
 
     public function getSubscribedCoursesIds()
@@ -334,4 +341,23 @@ class User extends Authenticatable
     {
         return $this->hasMany(WishList::class);
     }
+
+    public function checkPlanSubcribeUser()
+    {
+        $subscriptionCheck = Subscription::where('user_id', '=', $this->id)->get();
+        $plansArr=[];
+        if(!empty($subscriptionCheck))
+        {
+            foreach ($subscriptionCheck as $subscribe)
+            {
+               $plans = StripePlan::where('plan_id', '=', $subscribe->stripe_plan)->select('id')->get();
+               if(!empty($plans)) {
+                   $plansArr[] = $plans;
+               }
+            }
+        }
+        return $plansArr;
+    }
+
+
 }

@@ -22,6 +22,7 @@ class DashboardController extends Controller
      */
     public function index()
     {
+
         $purchased_courses = NULL;
         $students_count = NULL;
         $recent_reviews = NULL;
@@ -39,7 +40,6 @@ class DashboardController extends Controller
             $subscribed_courses = auth()->user()->subscribedCourse();
             $subscribed_bundles = auth()->user()->subscribedBundles();
             $pending_orders = auth()->user()->pendingOrders();
-
             if(auth()->user()->hasRole('teacher')){
                 //IF logged in user is teacher
                 $students_count = Course::whereHas('teachers', function ($query) {
@@ -81,6 +81,7 @@ class DashboardController extends Controller
                 $recent_contacts = Contact::orderBy('created_at','desc')->take(10)->get();
             }
         }
+
 
         return view('backend.dashboard',compact('purchased_courses','students_count','recent_reviews','threads','purchased_bundles','teachers_count','courses_count','recent_orders','recent_contacts','pending_orders', 'subscribed_courses','subscribed_bundles'));
     }

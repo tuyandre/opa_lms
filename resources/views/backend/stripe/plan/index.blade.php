@@ -41,6 +41,8 @@
                             <th>@lang('labels.backend.stripe.plan.fields.name')</th>
                             <th>@lang('labels.backend.stripe.plan.fields.amount')</th>
                             <th>@lang('labels.backend.stripe.plan.fields.interval')</th>
+                            <th>@lang('labels.backend.stripe.plan.fields.expire')</th>
+{{--                            <th>Recurring</th>--}}
                             @if( request('show_deleted') == 1 )
                                 <th>@lang('strings.backend.general.actions') &nbsp;</th>
                             @else
@@ -63,7 +65,7 @@
     <script>
 
         $(document).ready(function () {
-            var route = '{{route('admin.stripe.plans.get_data')}}';
+            let route = '{{route('admin.stripe.plans.get_data')}}';
 
 
             @php
@@ -102,6 +104,8 @@
                     {data: "name", name: 'name'},
                     {data: "amount", name: 'amount', searchable: false, orderable:false},
                     {data: "interval", name: 'interval', searchable: false, orderable:false},
+                    {data: "expire", name: 'expire', searchable: false, orderable:false},
+                    // {data: "recurring", name: 'recurring', searchable: false, orderable:false},
                     {data: "actions", name: "actions", searchable: false, orderable:false}
                 ],
                 @if(request('show_deleted') != 1)
@@ -111,7 +115,7 @@
                 ],
                 @endif
 
-                createdRow: function (row, data, dataIndex) {
+                createdRow: function (row, data) {
                     $(row).attr('data-entry-id', data.id);
                 },
                 language:{

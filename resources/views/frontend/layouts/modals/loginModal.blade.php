@@ -76,7 +76,6 @@
                             <span class="success-response text-success">{{(session()->get('flash_success'))}}</span>
                             <form class="contact_form" id="loginForm" action="{{route('frontend.auth.login.post')}}"
                                   method="POST" enctype="multipart/form-data">
-                                @csrf
                                 <a href="#" class="go-register float-left text-info pl-0">
                                     @lang('labels.frontend.modal.new_user_note')
                                 </a>
@@ -277,6 +276,7 @@
 
                 $('#loginForm').on('submit', function (e) {
                     e.preventDefault();
+
                     var $this = $(this);
                     $('.success-response').empty();
                     $('.error-response').empty();

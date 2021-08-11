@@ -95,6 +95,27 @@
                                         <li><span class="fa-li"><i class="fas fa-check"></i></span>{{ trans_choice('labels.subscription.trial_period', $plan->bundle, ['days' => $plan->trial_period_days]) }}</li>
                                     @endif
                                 </ul>
+                                <!-- add course plan and bundle plan data -->
+                                @if(count($plan->subcribeCourses)>0 && !empty($plan->subcribeCourses))
+                                <hr>
+                                <span class="badge badge-pill badge-success" style="padding: 6px 20px;margin-bottom: 10px;">@lang('labels.frontend.subscription.courses')</span>
+                                <ul class="fa-ul">
+                                    @foreach($plan->subcribeCourses as $subcribCourses)
+                                    <li><span class="fa-li"><i class="fas fa-arrow-right"></i></span><a href="{{ route('courses.show', [$subcribCourses->course->slug]) }}" target="_blank">{{$subcribCourses->course->title}}</a></li>
+                                    @endforeach
+                                </ul>
+                                @endif
+
+                                @if(count($plan->subcribeBundle)>0 && !empty($plan->subcribeBundle))
+                                    <hr>
+                                    <span class="badge badge-pill badge-primary" style="padding: 6px 20px;margin-bottom: 10px;">@lang('labels.frontend.subscription.bundles')</span>
+                                    <ul class="fa-ul">
+                                        @foreach($plan->subcribeBundle as $subcribBundle)
+                                            <li><span class="fa-li"><i class="fas fa-arrow-right"></i></span><a href="{{ route('bundles.show', [$subcribBundle->bundle->slug]) }}" target="_blank">{{$subcribBundle->bundle->title}}</a></li>
+                                        @endforeach
+                                    </ul>
+                                @endif
+
                                 @if(auth()->check())
                                     @if(auth()->user()->subscribed('default'))
                                         @if(auth()->user()->onPlan($plan->plan_id) && auth()->user()->subscription('default')->ends_at == null)

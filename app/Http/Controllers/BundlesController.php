@@ -62,9 +62,11 @@ class BundlesController extends Controller
 
     public function show($bundle_slug)
     {
+
         $recent_news = Blog::orderBy('created_at', 'desc')->take(2)->get();
         $bundle = Bundle::withoutGlobalScope('filter')->where('slug', $bundle_slug)->first();
         $purchased_bundle = \Auth::check() && $bundle->students()->where('user_id', \Auth::id())->count() > 0;
+        $checkSubcribePlan=[];
         if(($bundle->published == 0) && ($purchased_bundle == false)){
             abort(404);
         }
@@ -73,6 +75,7 @@ class BundlesController extends Controller
         $is_reviewed = false;
         if(auth()->check() && $bundle->reviews()->where('user_id','=',auth()->user()->id)->first()){
             $is_reviewed = true;
+            $checkSubcribePlan = auth()->user()->checkPlanSubcribeUser();
         }
         if ($bundle->reviews->count() > 0) {
             $bundle_rating = $bundle->reviews->avg('rating');
@@ -80,8 +83,8 @@ class BundlesController extends Controller
         }
         $courses = $bundle->courses()->orderby('id','asc')->get();
 
-
-        return view( $this->path.'.bundles.show', compact('bundle', 'purchased_bundle', 'recent_news', 'bundle_rating','bundle_rating','courses','total_ratings','is_reviewed'));
+        $bundleInPlan = courseOrBundlePlanExits('',$bundle->id);
+        return view( $this->path.'.bundles.show', compact('bundle', 'purchased_bundle', 'recent_news', 'bundle_rating','bundle_rating','courses','total_ratings','is_reviewed','checkSubcribePlan','bundleInPlan'));
     }
 
 

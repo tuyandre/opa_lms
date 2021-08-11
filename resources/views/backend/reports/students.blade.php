@@ -81,7 +81,7 @@
 
                     {data: "DT_RowIndex", name: 'DT_RowIndex', width: '8%'},
                     {data: "id", name: 'id', width: '8%'},
-                    {data: "title", name: 'course'},
+                    {data: "title", name: 'title'},
                     {data: "students_count", name: 'students'},
                     {data: "completed", name: 'completed'},
                 ],

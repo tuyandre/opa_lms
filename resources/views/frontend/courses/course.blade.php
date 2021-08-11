@@ -433,8 +433,12 @@
                     <div class="side-bar">
                         <div class="course-side-bar-widget">
 
+                            @php
+                                $matched = checkCourseSubscribeOrNot($checkSubcribePlan,$course->id);
+                                $courseExpire = courseOrBundleExpire($course->id,'');
+                            @endphp
 
-                            @if (!$purchased_course)
+                            @if ($courseExpire==true && empty($checkSubcribePlan) && !$purchased_course && $matched['matched']==false && $matched['matchedBundle']==false)
                                 <h3>
                                     @if($course->free == 1)
                                         <span> {{trans('labels.backend.courses.fields.free')}}</span>
@@ -498,19 +502,27 @@
                                                 @lang('labels.frontend.course.add_to_cart') <i
                                                         class="fa fa-shopping-bag"></i></button>
                                         </form>
-                                        @if(auth()->user()->subscription('default'))
-                                        <form action="{{ route('subscription.course_subscribe') }}" method="POST">
-                                            @csrf
-                                            <input type="hidden" name="course_id" value="{{ $course->id }}"/>
-                                            <input type="hidden" name="amount" value="{{($course->free == 1) ? 0 : $course->price}}"/>
-                                            <button type="submit"
-                                                    class="genius-btn btn-block text-white  gradient-bg text-center text-uppercase  bold-font">
-                                                @lang('labels.frontend.course.subscribe')</button>
-                                        </form>
-                                        @else
-                                        <a class="genius-btn btn-block text-white  gradient-bg text-center text-uppercase  bold-font"
+                                        @if($courseInPlan==true)
+                                            <a class="genius-btn btn-block text-white  gradient-bg text-center text-uppercase  bold-font"
                                            href="{{ route('subscription.plans') }}">@lang('labels.frontend.course.subscribe')</a>
                                         @endif
+
+{{--                                        @if(auth()->user()->subscription('default'))--}}
+{{--                                        <form action="{{ route('subscription.course_subscribe') }}" method="POST">--}}
+{{--                                            @csrf--}}
+{{--                                            <input type="hidden" name="course_id" value="{{ $course->id }}"/>--}}
+{{--                                            <input type="hidden" name="amount" value="{{($course->free == 1) ? 0 : $course->price}}"/>--}}
+{{--                                            <button type="submit"--}}
+{{--                                                    class="genius-btn btn-block text-white  gradient-bg text-center text-uppercase  bold-font">--}}
+{{--                                                Course @lang('labels.frontend.course.subscribe')</button>--}}
+{{--                                        </form>--}}
+{{--                                        <br/>--}}
+{{--                                        <a class="genius-btn btn-block text-white  bg-dark text-center text-uppercase  bold-font"--}}
+{{--                                               href="{{ route('subscription.plans') }}">@lang('labels.frontend.course.subscribe')</a>--}}
+{{--                                        @else--}}
+{{--                                        <a class="genius-btn btn-block text-white  gradient-bg text-center text-uppercase  bold-font"--}}
+{{--                                           href="{{ route('subscription.plans') }}">@lang('labels.frontend.course.subscribe')</a>--}}
+{{--                                        @endif--}}
                                     @endif
 
 
@@ -520,7 +532,7 @@
                                 @include('frontend.layouts.partials.wishlist',['course' => $course->id, 'price' => $course->price])
                             @else
 
-                                @if($continue_course)
+                                @if($continue_course || !empty($checkSubcribePlan))
                                     <a href="{{route('lessons.show',['course_id' => $course->id,'slug'=>$continue_course->model->slug])}}"
                                        class="genius-btn btn-block text-white  gradient-bg text-center text-uppercase  bold-font">
 
