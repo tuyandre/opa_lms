@@ -206,7 +206,7 @@ class HomeController extends Controller
     public function showTeacher(Request $request)
     {
         $recent_news = Blog::orderBy('created_at', 'desc')->take(2)->get();
-        $teacher = User::role('teacher')->where('id', '=', $request->id)->first();
+        $teacher = User::with('teacherProfile')->role('teacher')->where('id', '=', $request->id)->first();
         $courses = $teacher->courses;
         if (count($teacher->courses) > 0) {
             $courses = $teacher->courses()->paginate(12);
