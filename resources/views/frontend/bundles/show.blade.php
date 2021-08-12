@@ -344,7 +344,7 @@
                              $courseExpire = courseOrBundleExpire('',$bundle->id);
                             @endphp
 
-                            @if (!$purchased_bundle && $matched==false || $courseExpire==true)
+                            @if (!$purchased_bundle && $matched==false || $courseExpire==false)
                                 <h3>
                                     @if($bundle->free == 1)
                                         <span> {{trans('labels.backend.courses.fields.free')}}</span>

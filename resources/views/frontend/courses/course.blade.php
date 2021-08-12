@@ -437,8 +437,7 @@
                                 $matched = checkCourseSubscribeOrNot($checkSubcribePlan,$course->id);
                                 $courseExpire = courseOrBundleExpire($course->id,'');
                             @endphp
-
-                            @if ($courseExpire==true && empty($checkSubcribePlan) && !$purchased_course && $matched['matched']==false && $matched['matchedBundle']==false)
+                            @if ($courseExpire==false && !$purchased_course && $matched['matched']==false && $matched['matchedBundle']==false)
                                 <h3>
                                     @if($course->free == 1)
                                         <span> {{trans('labels.backend.courses.fields.free')}}</span>
