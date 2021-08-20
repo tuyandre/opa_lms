@@ -14,6 +14,14 @@ class StripePlan extends Model
      *
      * @var array
      */
-    protected $fillable = ['plan_id', 'product', 'name', 'description', 'amount', 'currency', 'interval', 'course', 'bundle'];
+    protected $fillable = ['plan_id', 'product', 'name', 'description', 'amount', 'currency','expire','recurring', 'interval', 'course', 'bundle'];
 
+    public function subcribeCourses()
+    {
+        return $this->hasMany(SubscribeCourse::class,'stripe_id','id');
+    }
+    public function subcribeBundle()
+    {
+        return $this->hasMany(SubscribeBundle::class,'stripe_id','id');
+    }
 }

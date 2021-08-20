@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Auth\User;
+use App\Models\stripe\UserCourses;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -111,6 +112,11 @@ class Bundle extends Model
         return $query->where(function($q){
             $q->whereNull('expire_at')->orWhereDate('expire_at', '>=', Carbon::now()->format('Y-m-d'));
         });
+    }
+
+    public function bundleUser()
+    {
+        return $this->hasOne(UserCourses::class,'bundle_id','id')->where('user_id',\Auth::id());
     }
 
 }

@@ -93,6 +93,11 @@
                                                 </li>
                                             </ul>
                                         </div>
+                                        @if(isset($teacher['teacherProfile']['description']))
+                                            <div class="address-details">
+                                                {{ $teacher['teacherProfile']['description'] }}
+                                            </div>
+                                        @endif
                                     </div>
                                 </div>
                             </div>

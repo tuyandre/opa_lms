@@ -2,6 +2,7 @@
 
 use App\Helpers\General\Timezone;
 use App\Helpers\General\HtmlHelper;
+use Carbon\Carbon;
 
 /*
  * Global helpers file with misc functions.
@@ -390,3 +391,146 @@ if (!function_exists('menuList')) {
         return $temp_array;
     }
 }
+if (!function_exists('checkCourseSubscribeOrNot')) {
+    function checkCourseSubscribeOrNot($courseArr, $courseId)
+    {
+        $matched = false;
+        $matchedBundle = false;
+        $matcheCoursedArr = [];
+        if ($courseArr) {
+            foreach ($courseArr[0] as $subPlan) {
+                if ($subPlan) {
+                    //course check
+                    foreach ($subPlan->subcribeCourses as $planDetail) {
+                        $matcheCoursedArr[] = $planDetail->course->id;
+                    }
+                    //bundle check course
+                    foreach ($subPlan->subcribeBundle as $planDetail) {
+                        $bundleCourse = App\Models\BundleCourses::where('bundle_id','=',$planDetail->bundle->id)->where('course_id','=',$courseId)->first();
+                        if($bundleCourse && $bundleCourse!=null)
+                        {
+                            $matchedBundle = true;
+                        }
+                    }
+                }
+            }
+            if (in_array($courseId, $matcheCoursedArr)) {
+                $matched = true;
+            }
+
+        }
+        $checkArr = ["matched" => $matched,"matchedBundle"=>$matchedBundle];
+        return $checkArr;
+    }
+}
+if (!function_exists('checkBundleSubscribeOrNot')) {
+    function checkBundleSubscribeOrNot($bundleArr, $bundleId)
+    {
+        $matched = false;
+        $matcheBundledArr = [];
+        if ($bundleArr) {
+            foreach ($bundleArr[0] as $subPlan) {
+                if ($subPlan) {
+                    foreach ($subPlan->subcribeBundle as $planDetail) {
+                        $matcheBundledArr[] = $planDetail->bundle->id;
+                    }
+                }
+            }
+            if (in_array($bundleId, $matcheBundledArr)) {
+                $matched = true;
+            }
+        }
+        return $matched;
+    }
+}
+
+if (!function_exists('checkExistingUserSubcribtionDate'))
+{
+    function checkExistingUserSubcribtionDate($Interval,$expireDays,$ExpireDateExits)
+    {
+        if($Interval=='day' && !empty($ExpireDateExits)) {
+
+            $returnDate = date('Y-m-d H:i:s', strtotime('+'.$expireDays.' day', strtotime($ExpireDateExits)));
+
+        } else if($Interval=='day' && empty($ExpireDateExits) && !empty($expireDays)){
+
+            $returnDate = date("Y-m-d H:i:s", strtotime('+'.$expireDays.' day'));
+
+        } else if($Interval=='week' && !empty($ExpireDateExits)){
+
+            $returnDate = date('Y-m-d H:i:s', strtotime('+'.$expireDays.'week', strtotime($ExpireDateExits)));
+
+        } else if($Interval=='week' && empty($ExpireDateExits) && !empty($expireDays)){
+
+            $returnDate = date("Y-m-d H:i:s", strtotime('+'.$expireDays.' week'));
+
+        } else if($Interval=='month' && !empty($ExpireDateExits)){
+
+            $returnDate = date('Y-m-d H:i:s', strtotime('+'.$expireDays.' month', strtotime($ExpireDateExits)));
+
+        } else if($Interval=='month' && empty($ExpireDateExits) && !empty($expireDays)){
+
+            $returnDate = date("Y-m-d H:i:s", strtotime('+'.$expireDays.' month'));
+
+        } else if($Interval=='year' && !empty($ExpireDateExits)){
+
+            $returnDate = date('Y-m-d H:i:s', strtotime('+'.$expireDays.' year', strtotime($ExpireDateExits)));
+
+        } else if($Interval=='year' && empty($ExpireDateExits) && !empty($expireDays)){
+
+            $returnDate = date("Y-m-d H:i:s", strtotime('+'.$expireDays.' year'));
+
+        } else {
+            $returnDate='';
+        }
+        return $returnDate;
+    }
+}
+
+/** check courses and bundle on plan existed **/
+if(!function_exists('courseOrBundlePlanExits')){
+    function courseOrBundlePlanExits($courseId=null,$bundleId=null)
+    {
+        $result = false;
+        if($courseId){
+            $Course = App\Models\Stripe\SubscribeCourse::where('course_id','=',$courseId)->first();
+            if($Course){
+                $result = true;
+            }
+        }
+        if($bundleId){
+            $bundleCourse = App\Models\Stripe\SubscribeBundle::where('bundle_id','=',$bundleId)->first();
+            if($bundleCourse){
+                $result = true;
+            }
+
+        }
+        return $result;
+    }
+}
+
+
+/** check courses and bundle expire**/
+if(!function_exists('courseOrBundleExpire')){
+    function courseOrBundleExpire($courseId=null,$bundleId=null)
+    {
+
+        $result = false;
+        if($courseId){
+            $courseEx = App\Models\Stripe\UserCourses::where('user_id',Auth::id())->where('course_id','=',$courseId)->whereDate('expire_at','>=',Carbon::now())->first();
+            if($courseEx==null){
+                $result = true;
+            }
+        }
+        if($bundleId){
+            $bundleEx = App\Models\Stripe\UserCourses::where('user_id',Auth::id())->where('bundle_id','=',$bundleId)->whereDate('expire_at','>=',Carbon::now())->first();
+            if($bundleEx==null){
+                $result = true;
+            }
+
+        }
+        return $result;
+    }
+}
+
+

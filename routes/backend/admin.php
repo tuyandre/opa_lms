@@ -46,6 +46,8 @@ Route::group(['middleware' => 'role:administrator'], function () {
 
     Route::post('settings/general', ['uses' => 'Admin\ConfigController@saveGeneralSettings'])->name('general-settings');
 
+    Route::post('settings/contact', ['uses' => 'Admin\ConfigController@saveGeneralSettings'])->name('general-contact');
+
     Route::get('settings/social', ['uses' => 'Admin\ConfigController@getSocialSettings'])->name('social-settings');
 
     Route::post('settings/social', ['uses' => 'Admin\ConfigController@saveSocialSettings'])->name('social-settings');
@@ -161,6 +163,7 @@ Route::group(['middleware' => 'role:administrator|teacher'], function () {
 
     Route::get('get-course-reports-data', ['uses' => 'ReportController@getCourseData', 'as' => 'reports.get_course_data']);
     Route::get('get-bundle-reports-data', ['uses' => 'ReportController@getBundleData', 'as' => 'reports.get_bundle_data']);
+    Route::get('get-subscribe-reports-data', ['uses' => 'ReportController@getSubscibeData', 'as' => 'reports.get_subscribe_data']);
     Route::get('get-students-reports-data', ['uses' => 'ReportController@getStudentsData', 'as' => 'reports.get_students_data']);
 
 

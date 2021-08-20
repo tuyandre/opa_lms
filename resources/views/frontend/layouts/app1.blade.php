@@ -331,6 +331,7 @@
         $('#loginForm').find('#email').val('student@lms.com')
         $('#loginForm').find('#password').val('secret')
         $('#loginForm').find('button').trigger('click');
+
         @elseif(request()->has('user')  && (request('user') == 'teacher'))
 
         $('#myModal').modal('show');

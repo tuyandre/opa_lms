@@ -277,6 +277,7 @@
 
                 $('#loginForm').on('submit', function (e) {
                     e.preventDefault();
+
                     var $this = $(this);
                     $('.success-response').empty();
                     $('.error-response').empty();

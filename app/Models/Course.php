@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Auth\User;
+use App\Models\stripe\UserCourses;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
@@ -271,6 +272,12 @@ class Course extends Model
     {
         return $this->hasMany(WishList::class);
     }
+
+    public function courseUser()
+    {
+        return $this->hasOne(UserCourses::class,'course_id','id')->where('user_id',\Auth::id());
+    }
+
 
 
 }

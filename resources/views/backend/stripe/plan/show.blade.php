@@ -35,6 +35,30 @@
                             <th>@lang('labels.backend.stripe.plan.fields.bundle')</th>
                             <td>{{ trans_choice('labels.backend.stripe.plan.bundle', $plan->bundle, ['quantity' => $plan->bundle]) }}</td>
                         </tr>
+                        <tr>
+                            <th>Selected Courses</th>
+                            <th>
+                                @if(count($plan->subcribeCourses))
+                                    @foreach($plan->subcribeCourses as $subCourse)
+                                        <a href="{{ route('courses.show', [$subCourse->course->slug]) }}" target="_blank"><span class="badge badge-info" style="padding: 8px 11px;">{{$subCourse->course->title}}</span></a>
+                                    @endforeach
+                                @else
+                                    <span class="badge badge-primary" style="padding: 8px 11px;">All</span>
+                                @endif
+                            </th>
+                        </tr>
+                        <tr>
+                            <th>Selected Bundle</th>
+                            <th>
+                                @if(count($plan->subcribeBundle))
+                                    @foreach($plan->subcribeBundle as $subBundle)
+                                        <a href="{{ route('courses.show', [$subBundle->bundle->slug]) }}" target="_blank"><span class="badge badge-info" style="padding: 8px 11px;">{{$subBundle->bundle->title}}</span></a>
+                                    @endforeach
+                                @else
+                                    <span class="badge badge-primary" style="padding: 8px 11px;">All</span>
+                                @endif
+                            </th>
+                        </tr>
 
                     </table>
                 </div>
