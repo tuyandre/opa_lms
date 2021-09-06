@@ -161,7 +161,7 @@ class UserRepository extends BaseRepository
             if ($input['avatar_type'] == 'storage') {
                 // If there is no existing image
                 if (! strlen(auth()->user()->avatar_location)) {
-                    throw new GeneralException('You must supply a profile image.');
+                    // throw new GeneralException('You must supply a profile image.');
                 }
             } else {
                 // If there is a current image, and they are not using it anymore, get rid of it

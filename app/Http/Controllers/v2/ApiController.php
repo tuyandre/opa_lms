@@ -2202,7 +2202,6 @@ class ApiController extends Controller
             // E-mail address was updated, user has to reconfirm
             if (is_array($output) && $output['email_changed']) {
                 auth()->logout();
-
                 return response()->json(['status' => 200, 'result' => null, 'message' => __('strings.frontend.user.email_changed_notice')]);
             }
 
