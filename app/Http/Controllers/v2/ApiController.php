@@ -236,7 +236,7 @@ class ApiController extends Controller
     {
         $provider = $request->input('provider');
         $social_user = Socialite::with($provider)->user();
-
+        dd($social_user);
         abort_if($social_user == null, 422, 'Provider missing');
 
         $social_user_details = $social_user->userFromToken($request->input('access_token'));
