@@ -215,14 +215,14 @@ class ApiController extends Controller
     {
         $validator = Validator::make($request->all(),
             [
-                'username' => 'required|string|email',
+                'email' => 'required|string|email',
                 'password' => 'required|string',
                 'remember_me' => 'boolean'
             ]);
         if ($validator->fails()) {
             throw new Exception(implode(",", $validator->errors()->all()));
         }
-        $credentials = request(['username', 'password']);
+        $credentials = request(['email', 'password']);
         if (!Auth::attempt($credentials)) {
             throw new Exception('Unauthorized');
         }
