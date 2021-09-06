@@ -235,6 +235,7 @@ class ApiController extends Controller
     protected function social(Request $request)
     {
         $provider = $request->input('provider');
+        dd($provider);
         $social_user = Socialite::with($provider)->user();
         dd($social_user);
         abort_if($social_user == null, 422, 'Provider missing');
