@@ -281,14 +281,18 @@ class ApiController extends Controller
      */
     public function getConfig(Request $request)
     {
-        $data = ['font_color', 'contact_data', 'counter', 'total_students', 'total_courses', 'total_teachers', 'logo_b_image', 'logo_w_image', 'logo_white_image', 'contact_data', 'footer_data', 'app.locale', 'app.display_type', 'app.currency', 'app.name', 'app.url', 'access.captcha.registration', 'paypal.active', 'payment_offline_active','facebook','google','twitter'];
+        $data = ['font_color', 'contact_data', 'counter', 'total_students', 'total_courses', 'total_teachers', 'logo_b_image', 'logo_w_image', 'logo_white_image', 'contact_data', 'footer_data', 'app.locale', 'app.display_type', 'app.currency', 'app.name', 'app.url', 'access.captcha.registration', 'paypal.active', 'payment_offline_active', 'facebook', 'google', 'twitter'];
         $json_arr = [];
         $config = Config::query()->whereIn('key', $data)->select('key', 'value')->get();
         foreach ($config as $data) {
             if ((array_first(explode('_', $data->key)) == 'logo') || (array_first(explode('_', $data->key)) == 'favicon')) {
                 $data->value = asset('storage/logos/' . $data->value);
             }
-            $json_arr[$data->key] = (is_null(json_decode($data->value, true))) ? $data->value : json_decode($data->value, true);
+            if (is_bool($data->value)) {
+                $json_arr[$data->key] = $data->value;
+            } else {
+                $json_arr[$data->key] = (is_null(json_decode($data->value, true))) ? $data->value : json_decode($data->value, true);
+            }
         }
         return response()->json(['status' => 200, 'result' => $json_arr]);
     }
