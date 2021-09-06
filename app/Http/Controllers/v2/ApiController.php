@@ -284,6 +284,7 @@ class ApiController extends Controller
         $data = ['font_color', 'contact_data', 'counter', 'total_students', 'total_courses', 'total_teachers', 'logo_b_image', 'logo_w_image', 'logo_white_image', 'contact_data', 'footer_data', 'app.locale', 'app.display_type', 'app.currency', 'app.name', 'app.url', 'access.captcha.registration', 'paypal.active', 'payment_offline_active', 'facebook', 'google', 'twitter'];
         $json_arr = [];
         $config = Config::query()->whereIn('key', $data)->select('key', 'value')->get();
+        return response()->json($config->toArray());
         foreach ($config as $data) {
             if ((array_first(explode('_', $data->key)) == 'logo') || (array_first(explode('_', $data->key)) == 'favicon')) {
                 $data->value = asset('storage/logos/' . $data->value);
