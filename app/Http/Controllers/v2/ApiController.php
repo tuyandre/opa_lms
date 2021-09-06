@@ -195,7 +195,7 @@ class ApiController extends Controller
             }
             return response()->json([
                 'status' => 200,
-                'access_token' => $tokenResult->token,
+                'access_token' => $tokenResult,
                 'token_type' => 'Bearer',
                 'expires_at' => Carbon::parse(
                     $tokenResult->token->expires_at
@@ -213,8 +213,7 @@ class ApiController extends Controller
      */
     private function loginViaPassword(Request $request)
     {
-        $validator = Validator::make($request->all(),
-            [
+        $validator = Validator::make($request->all(), [
                 'email' => 'required|string|email|exists:users,email',
                 'password' => 'required|string',
                 'remember_me' => 'sometimes|boolean'
