@@ -49,6 +49,7 @@ use App\Models\WishList;
 use App\Repositories\Frontend\Auth\UserRepository;
 use Arcanedev\NoCaptcha\Rules\CaptchaRule;
 use Carbon\Carbon;
+use Exception;
 use Harimayco\Menu\Models\MenuItems;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 use Illuminate\Http\Request;
@@ -194,7 +195,7 @@ class ApiController extends Controller
             }
             return response()->json([
                 'status' => 200,
-                'access_token' => $tokenResult->accessToken,
+                'access_token' => $tokenResult['access_token'],
                 'token_type' => 'Bearer',
                 'expires_at' => Carbon::parse(
                     $tokenResult->token->expires_at
@@ -207,33 +208,26 @@ class ApiController extends Controller
         }
     }
 
+    /**
+     * @throws Exception
+     */
     private function loginViaPassword(Request $request)
     {
         $validator = Validator::make($request->all(),
             [
-                'email' => 'required|string|email',
+                'username' => 'required|string|email',
                 'password' => 'required|string',
                 'remember_me' => 'boolean'
             ]);
         if ($validator->fails()) {
-            return response()->json(['status' => 100, 'result' => null,
-                'message' => implode(",", $validator->errors()->all()),
-            ]);
+            throw new Exception(implode(",", $validator->errors()->all()));
         }
-        $credentials = request(['email', 'password']);
+        $credentials = request(['username', 'password']);
         if (!Auth::attempt($credentials)) {
-            return response()->json([
-                'status' => 100, 'result' => null,
-                'message' => 'Unauthorized'
-            ]);
+            throw new Exception('Unauthorized');
         }
         $user = $request->user();
-        $tokenResult = $this->issueToken($user);
-        $token = $tokenResult['access_token'];
-        if ($request->remember_me) {
-            $token->expires_at = Carbon::now()->addWeeks(1);
-        }
-        return $tokenResult;
+        return $user->token() ?? $user->createToken('socialLogin');
     }
 
     /**
@@ -259,22 +253,13 @@ class ApiController extends Controller
             ->with('user')->first();
 
         if ($account) {
-            return $this->issueToken($account->user);
+            return $account->user->token() ?? $account->user->createToken('socialLogin');
         } else {
             // create new user and social login if user with social id not found.
             throw new \Exception('User Not Found with Provided Details');
         }
     }
 
-    private function issueToken(User $user)
-    {
-
-        $userToken = $user->token() ?? $user->createToken('socialLogin');
-        return [
-            "token_type" => "Bearer",
-            "access_token" => $userToken->accessToken
-        ];
-    }
 
     /**
      * Logout user (Revoke the token)
