@@ -242,7 +242,7 @@ class ApiController extends Controller
 
         abort_if($social_user_details == null, 400, 'Invalid credentials');*/ //|| $fb_user->id != $request->input('userID')
 
-        $account = SocialAccount::query()->where("provider_user_id", $request->social_id)
+        $account = SocialAccount::query()->where("provider_id", $request->social_id)
             ->where("provider", $request->provider)
             ->with('user')->first();
 
