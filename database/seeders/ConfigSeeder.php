@@ -97,9 +97,9 @@ class ConfigSeeder extends Seeder
             'access.captcha.registration' => 0,
             'sitemap.chunk' => 500,
             'one_signal' => 0,
-            'facebook' => true,
-            'google' => true,
-            'twitter' => false,
+            'facebook' => json_encode('config.services.facebook'),
+            'google' => json_encode('config.services.google'),
+            'twitter' => json_encode('config.services.twitter'),
         ];
 
         foreach ($data as $key => $value) {
