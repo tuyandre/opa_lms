@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -107,13 +108,8 @@ Route::group(['prefix' => 'v1','namespace'=>'v1'],function (){
 
 
 Route::group(['prefix' => 'v2','namespace'=>'v2'],function (){
-
-
-    Route::group([
-        'prefix' => 'auth'
-    ], function () {
-
-//        Route::post('login', 'ApiController@login');
+    Route::group(['prefix' => 'auth'], function () {
+        Route::post('login', 'ApiController@login');
         Route::post('signup-form', 'ApiController@signupForm');
         Route::post('signup-save', 'ApiController@signup');
 
