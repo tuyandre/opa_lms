@@ -214,10 +214,10 @@ class ApiController extends Controller
     private function loginViaPassword(Request $request)
     {
         $validator = Validator::make($request->all(), [
-                'email' => 'required|string|email|exists:users,email',
-                'password' => 'required|string',
-                'remember_me' => 'sometimes|boolean'
-            ]);
+            'email' => 'required|string|email|exists:users,email',
+            'password' => 'required|string',
+            'remember_me' => 'sometimes|boolean'
+        ]);
         if ($validator->fails()) {
             throw new Exception(implode(",", $validator->errors()->all()));
         }
@@ -237,21 +237,17 @@ class ApiController extends Controller
         /*$provider = $request->input('provider');
         $social_user = Socialite::with($provider)->user();
         abort_if($social_user == null, 422, 'Provider missing');
-
         $social_user_details = $social_user->userFromToken($request->input('access_token'));
-
         abort_if($social_user_details == null, 400, 'Invalid credentials');*/ //|| $fb_user->id != $request->input('userID')
 
         $account = SocialAccount::query()->where("provider_id", $request->social_id)
             ->where("provider", $request->provider)
             ->with('user')->first();
 
-        if ($account) {
-            return $account->user->token() ?? $account->user->createToken('socialLogin');
-        } else {
-            // create new user and social login if user with social id not found.
+        if (!$account) {
             throw new \Exception('User Not Found with Provided Details');
         }
+        return $account->user->token() ?? $account->user->createToken('socialLogin');
     }
 
 
