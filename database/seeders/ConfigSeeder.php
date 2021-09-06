@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\Config;
 use Illuminate\Database\Seeder;
 
 class ConfigSeeder extends Seeder
@@ -105,9 +104,9 @@ class ConfigSeeder extends Seeder
 
         foreach ($data as $key => $value) {
             $key = str_replace('__', '.', $key);
-            Config::query()->updateOrCreate([
-                'key' => $key
-            ], $value);
+            $config = \App\Models\Config::firstOrCreate(['key' => $key]);
+            $config->value = $value;
+            $config->save();
         }
     }
 }
