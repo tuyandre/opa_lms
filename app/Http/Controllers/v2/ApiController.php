@@ -234,18 +234,16 @@ class ApiController extends Controller
      */
     protected function social(Request $request)
     {
-        $provider = $request->input('provider');
-        dd($provider);
+        /*$provider = $request->input('provider');
         $social_user = Socialite::with($provider)->user();
-        dd($social_user);
         abort_if($social_user == null, 422, 'Provider missing');
 
         $social_user_details = $social_user->userFromToken($request->input('access_token'));
 
-        abort_if($social_user_details == null, 400, 'Invalid credentials'); //|| $fb_user->id != $request->input('userID')
+        abort_if($social_user_details == null, 400, 'Invalid credentials');*/ //|| $fb_user->id != $request->input('userID')
 
-        $account = SocialAccount::query()->where("provider_user_id", $social_user_details->id)
-            ->where("provider", $provider)
+        $account = SocialAccount::query()->where("provider_user_id", $request->social_id)
+            ->where("provider", $request->provider)
             ->with('user')->first();
 
         if ($account) {
