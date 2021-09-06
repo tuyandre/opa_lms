@@ -195,7 +195,7 @@ class ApiController extends Controller
             }
             return response()->json([
                 'status' => 200,
-                'access_token' => $tokenResult,
+                'access_token' => $tokenResult->accessToken,
                 'token_type' => 'Bearer',
                 'expires_at' => Carbon::parse(
                     $tokenResult->token->expires_at
