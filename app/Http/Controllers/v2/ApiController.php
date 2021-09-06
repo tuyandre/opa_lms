@@ -62,6 +62,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Validator;
+use Laravel\Socialite\Facades\Socialite;
 use Lexx\ChatMessenger\Models\Message;
 use Lexx\ChatMessenger\Models\Participant;
 use Lexx\ChatMessenger\Models\Thread;
@@ -75,7 +76,6 @@ use SkyRaptor\Chatter\Events\ChatterBeforeNewDiscussion;
 use SkyRaptor\Chatter\Events\ChatterBeforeNewResponse;
 use SkyRaptor\Chatter\Mail\ChatterDiscussionUpdated;
 use SkyRaptor\Chatter\Models\Models;
-use Socialite;
 
 class ApiController extends Controller
 {
