@@ -11,6 +11,7 @@ use App\Http\Resources\API\SubscribedResource;
 use App\Mail\Frontend\Contact\SendContact;
 use App\Mail\Frontend\LiveLesson\StudentMeetingSlotMail;
 use App\Mail\OfflineOrderMail;
+use App\Models\Auth\SocialAccount;
 use App\Models\Auth\Traits\SendUserPasswordReset;
 use App\Models\Auth\User;
 use App\Models\Blog;
@@ -64,6 +65,7 @@ use Lexx\ChatMessenger\Models\Message;
 use Lexx\ChatMessenger\Models\Participant;
 use Lexx\ChatMessenger\Models\Thread;
 use Purifier;
+
 //use Messenger;
 use Newsletter;
 use SkyRaptor\Chatter\Events\ChatterAfterNewDiscussion;
@@ -72,6 +74,7 @@ use SkyRaptor\Chatter\Events\ChatterBeforeNewDiscussion;
 use SkyRaptor\Chatter\Events\ChatterBeforeNewResponse;
 use SkyRaptor\Chatter\Mail\ChatterDiscussionUpdated;
 use SkyRaptor\Chatter\Models\Models;
+use Socialite;
 
 class ApiController extends Controller
 {
@@ -178,41 +181,17 @@ class ApiController extends Controller
     /**
      * Login user and create token
      *
-     * @param  [string] email
-     * @param  [string] password
-     * @param  [boolean] remember_me
-     * @return [string] access_token
-     * @return [string] token_type
-     * @return [string] expires_at
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse [string] access_token
      */
     public function login(Request $request)
     {
         try {
-            $validator = Validator::make($request->all(),
-                [
-                    'email' => 'required|string|email',
-                    'password' => 'required|string',
-                    'remember_me' => 'boolean'
-                ]);
-            if ($validator->fails()) {
-                return response()->json(['status' => 100, 'result' => null,
-                    'message' => implode(",", $validator->errors()->all()),
-                ]);
+            if ($request->grant_type == 'password') {
+                $tokenResult = $this->loginViaPassword($request);
+            } else {
+                $tokenResult = $this->social($request);
             }
-            $credentials = request(['email', 'password']);
-            if (!Auth::attempt($credentials)) {
-                return response()->json([
-                    'status' => 100, 'result' => null,
-                    'message' => 'Unauthorized'
-                ]);
-            }
-            $user = $request->user();
-            $tokenResult = $user->createToken('Personal Access Token');
-            $token = $tokenResult->token;
-            if ($request->remember_me) {
-                $token->expires_at = Carbon::now()->addWeeks(1);
-            }
-            $token->save();
             return response()->json([
                 'status' => 200,
                 'access_token' => $tokenResult->accessToken,
@@ -222,9 +201,81 @@ class ApiController extends Controller
                 )->toDateTimeString()
             ]);
         } catch (\Exception $e) {
+            // TODO:remove
             dd($e);
             return response()->json(['status' => 100, 'result' => null, 'message' => $e->getMessage()]);
         }
+    }
+
+    private function loginViaPassword(Request $request)
+    {
+        $validator = Validator::make($request->all(),
+            [
+                'email' => 'required|string|email',
+                'password' => 'required|string',
+                'remember_me' => 'boolean'
+            ]);
+        if ($validator->fails()) {
+            return response()->json(['status' => 100, 'result' => null,
+                'message' => implode(",", $validator->errors()->all()),
+            ]);
+        }
+        $credentials = request(['email', 'password']);
+        if (!Auth::attempt($credentials)) {
+            return response()->json([
+                'status' => 100, 'result' => null,
+                'message' => 'Unauthorized'
+            ]);
+        }
+        $user = $request->user();
+        $tokenResult = $this->issueToken($user);
+        $token = $tokenResult->token;
+        if ($request->remember_me) {
+            $token->expires_at = Carbon::now()->addWeeks(1);
+        }
+        $token->save();
+        return $tokenResult;
+    }
+
+    /**
+     * @throws \Exception
+     */
+    protected function social(Request $request)
+    {
+        $provider = $request->input('provider');
+
+        $social_user = Socialite::driver($provider)->fields([
+            'social_id',
+            'social_type',
+        ]);
+
+        abort_if($social_user == null, 422, 'Provider missing');
+
+        $social_user_details = $social_user->userFromToken($request->input('access_token'));
+
+        abort_if($social_user_details == null, 400, 'Invalid credentials'); //|| $fb_user->id != $request->input('userID')
+
+        $account = SocialAccount::query()->where("provider_user_id", $social_user_details->id)
+            ->where("provider", $provider)
+            ->with('user')->first();
+
+        if ($account) {
+            return $this->issueToken($account->user);
+        } else {
+            // create new user and social login if user with social id not found.
+            throw new \Exception('User Not Found with Provided Details');
+        }
+    }
+
+    private function issueToken(User $user)
+    {
+
+        $userToken = $user->token() ?? $user->createToken('socialLogin');
+
+        return [
+            "token_type" => "Bearer",
+            "access_token" => $userToken->accessToken
+        ];
     }
 
     /**
@@ -820,7 +871,7 @@ class ApiController extends Controller
                 foreach ($test->questions as $question) {
                     $options = [];
                     if ($question->options) {
-                        $question->options = $question->options->filter(function ($item) use ($test_result_answers){
+                        $question->options = $question->options->filter(function ($item) use ($test_result_answers) {
                             $item->user_selected = (isset($test_result_answers) && isset($test_result_answers[$item->id])) ? 1 : 0;
                             return $item;
                         });
@@ -905,7 +956,7 @@ class ApiController extends Controller
                 foreach ($test->questions as $question) {
                     $options = [];
                     if ($question->options) {
-                        $question->options = $question->options->filter(function ($item) use ($result){
+                        $question->options = $question->options->filter(function ($item) use ($result) {
                             $item->user_selected = (isset($result) && isset($result[$item->id])) ? 1 : 0;
                             return $item;
                         });
@@ -1311,7 +1362,8 @@ class ApiController extends Controller
         }
     }
 
-    public function getCartDetailArray(){
+    public function getCartDetailArray()
+    {
         $course_ids = [];
         $bundle_ids = [];
         $couponArray = [];
@@ -1357,6 +1409,7 @@ class ApiController extends Controller
         }
         return ['status' => 200, 'result' => ['count' => 0], 'message' => "No Record Found"];
     }
+
     /**
      * Clear Cart
      *
@@ -1906,7 +1959,7 @@ class ApiController extends Controller
      * Delete Response.
      *
      * @param string $id
-     * @param  \Illuminate\Http\Request
+     * @param \Illuminate\Http\Request
      *
      * @return [json] success message
      */
@@ -1939,7 +1992,7 @@ class ApiController extends Controller
     /**
      * Get Conversations.
      *
-     * @param  \Illuminate\Http\Request
+     * @param \Illuminate\Http\Request
      *
      * @return [json] messages
      */
@@ -1952,7 +2005,7 @@ class ApiController extends Controller
             auth()->user()->load('threads.messages.user');
             $threads = auth()->user()->threads;
             $threads = $threads->each(function ($item, $key) {
-                $user = $item->participants()->with('user')->where('user_id','<>', auth()->user()->id)->first()->user;
+                $user = $item->participants()->with('user')->where('user_id', '<>', auth()->user()->id)->first()->user;
                 $item->participant_name = $user->name;
                 $item->participant_image = $user->image;
                 $item->messages->each(function ($item1, $key1) {
@@ -1985,7 +2038,7 @@ class ApiController extends Controller
     /**
      * Create Message
      *
-     * @param  \Illuminate\Http\Request
+     * @param \Illuminate\Http\Request
      *
      * @return [json] Success Message
      */
@@ -2012,7 +2065,7 @@ class ApiController extends Controller
             $thread = auth()->user()->threads()
                 ->where('chat_threads.id', '=', $message->thread_id)
                 ->first();
-            $user = $thread->participants()->with('user')->where('user_id','<>', auth()->user()->id)->first()->user;
+            $user = $thread->participants()->with('user')->where('user_id', '<>', auth()->user()->id)->first()->user;
             $thread->participant_name = $user->name;
             $thread->participant_image = $user->image;
             $thread->messages->each(function ($item1, $key1) {
@@ -2031,7 +2084,7 @@ class ApiController extends Controller
     /**
      * Reply Message
      *
-     * @param  \Illuminate\Http\Request
+     * @param \Illuminate\Http\Request
      *
      * @return [json] Success Message
      */
@@ -2055,7 +2108,7 @@ class ApiController extends Controller
             $thread = auth()->user()->threads()
                 ->where('chat_threads.id', '=', $request->thread_id)
                 ->first();
-            $user = $thread->participants()->with('user')->where('user_id','<>', auth()->user()->id)->first()->user;
+            $user = $thread->participants()->with('user')->where('user_id', '<>', auth()->user()->id)->first()->user;
             $thread->participant_name = $user->name;
             $thread->participant_image = $user->image;
             $thread->messages->each(function ($item1, $key1) {
@@ -2073,7 +2126,7 @@ class ApiController extends Controller
     /**
      * Get Unread Messages
      *
-     * @param  \Illuminate\Http\Request
+     * @param \Illuminate\Http\Request
      *
      * @return [json] Success Message
      */
@@ -2103,7 +2156,7 @@ class ApiController extends Controller
     /**
      * Get My Certificates
      *
-     * @param  \Illuminate\Http\Request
+     * @param \Illuminate\Http\Request
      *
      * @return [json] certificates object
      */
@@ -2121,7 +2174,7 @@ class ApiController extends Controller
     /**
      * Get My Courses / Bundles / Purchases
      *
-     * @param  \Illuminate\Http\Request
+     * @param \Illuminate\Http\Request
      *
      * @return [json] certificates object
      */
@@ -2140,7 +2193,7 @@ class ApiController extends Controller
     /**
      * Get My Account
      *
-     * @param  \Illuminate\Http\Request
+     * @param \Illuminate\Http\Request
      *
      * @return [json] Loggedin user object
      */
@@ -2158,7 +2211,7 @@ class ApiController extends Controller
     /**
      * Update My Account
      *
-     * @param  \Illuminate\Http\Request
+     * @param \Illuminate\Http\Request
      *
      * @return [json] Update account
      */
@@ -2195,7 +2248,7 @@ class ApiController extends Controller
     /**
      * Update Password
      *
-     * @param  \Illuminate\Http\Request
+     * @param \Illuminate\Http\Request
      *
      * @return [json] Update password
      */
@@ -2216,7 +2269,7 @@ class ApiController extends Controller
     /**
      * Update Pages (About-us)
      *
-     * @param  \Illuminate\Http\Request
+     * @param \Illuminate\Http\Request
      *
      * @return [json] Update password
      */
@@ -2238,7 +2291,7 @@ class ApiController extends Controller
     /**
      * Subscribe newsletter
      *
-     * @param  \Illuminate\Http\Request
+     * @param \Illuminate\Http\Request
      *
      * @return [json] response
      */
@@ -2318,7 +2371,7 @@ class ApiController extends Controller
     /**
      * Get Offers
      *
-     * @param  \Illuminate\Http\Request
+     * @param \Illuminate\Http\Request
      *
      * @return [json] response
      */
@@ -2336,7 +2389,7 @@ class ApiController extends Controller
     /**
      * Apply Coupon
      *
-     * @param  \Illuminate\Http\Request
+     * @param \Illuminate\Http\Request
      *
      * @return [json] response
      */
@@ -2687,7 +2740,7 @@ class ApiController extends Controller
         $data['default_language'] = 'en';
         $data['languages_display_type'] = [];
         $locales = Locale::select('name', 'display_type', 'short_name')->get();
-        foreach ($locales as $locale){
+        foreach ($locales as $locale) {
             $data['languages_display_type'][] = [
                 'id' => $locale->short_name,
                 'name' => $locale->name,
@@ -2738,7 +2791,7 @@ class ApiController extends Controller
     {
         try {
             $user = auth()->user();
-            $activePlan = $user->subscribed('default') ? StripePlan::where('plan_id', $user->subscription()->stripe_plan)->first()??optional() : optional();
+            $activePlan = $user->subscribed('default') ? StripePlan::where('plan_id', $user->subscription()->stripe_plan)->first() ?? optional() : optional();
             $subscribed_courses = $user->subscribedCourse();
             $subscribed_bundles = $user->subscribedBundles();
             return response()->json(['status' => 200, 'result' => ['active_plan' => new SubscribedResource($activePlan), 'course' => $subscribed_courses, 'bundles' => $subscribed_bundles]]);

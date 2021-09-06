@@ -22,4 +22,9 @@ class SocialAccount extends Model
      * @var array
      */
     protected $fillable = ['user_id', 'provider', 'provider_id', 'token', 'avatar'];
+
+    public function user()
+    {
+        return $this->hasOne(User::class, 'id', 'user_id');
+    }
 }
