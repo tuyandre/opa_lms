@@ -229,11 +229,10 @@ class ApiController extends Controller
         }
         $user = $request->user();
         $tokenResult = $this->issueToken($user);
-        $token = $tokenResult->token;
+        $token = $tokenResult['access_token'];
         if ($request->remember_me) {
             $token->expires_at = Carbon::now()->addWeeks(1);
         }
-        $token->save();
         return $tokenResult;
     }
 
@@ -271,7 +270,6 @@ class ApiController extends Controller
     {
 
         $userToken = $user->token() ?? $user->createToken('socialLogin');
-
         return [
             "token_type" => "Bearer",
             "access_token" => $userToken->accessToken
