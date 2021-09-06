@@ -202,8 +202,6 @@ class ApiController extends Controller
                 )->toDateTimeString()
             ]);
         } catch (\Exception $e) {
-            // TODO:remove
-            dd($e);
             return response()->json(['status' => 100, 'result' => null, 'message' => $e->getMessage()]);
         }
     }
