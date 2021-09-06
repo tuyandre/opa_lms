@@ -59,7 +59,8 @@
         "torann/geoip": "^3.0.1",
         "unisharp/laravel-filemanager": "~2.2.0",
         "yajra/laravel-datatables-buttons": "^4.5",
-        "yajra/laravel-datatables-oracle": "~9.0"
+        "yajra/laravel-datatables-oracle": "~9.0",
+        "ext-json": "*"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",
