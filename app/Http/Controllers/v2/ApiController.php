@@ -396,8 +396,8 @@ class ApiController extends Controller
             $result = $blogs->merge($bundles)->merge($courses)->paginate(10);
             $type = $request->type;
             $q = $request->q;
-            $result['q'] = $q;
-            $result['type'] = $type;
+            $result->q = $q;
+            $result->type = $type;
             return response()->json(['status' => 200, 'message' => "Search result sent successfully.", 'q' => $q, 'type' => $type, 'result' => $result]);
         } catch (\Exception $e) {
             return response()->json(['status' => 100, 'result' => null, 'message' => $e->getMessage()]);
