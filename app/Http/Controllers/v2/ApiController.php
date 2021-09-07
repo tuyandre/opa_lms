@@ -393,7 +393,7 @@ class ApiController extends Controller
                $q->type = 'blog';
                return $q;
             });
-            $result = $blogs->merge($bundles)->merge($courses)->paginate(10);
+            $result = $courses->merge($bundles)->merge($blogs)->paginate(10);
             $type = $request->type;
             $q = $request->q;
             $result->q = $q;
