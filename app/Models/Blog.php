@@ -10,7 +10,7 @@ class Blog extends Model
 {
     protected $dates = ['deleted_at'];
 
-    protected $appends = ['blog_category','blog_image','blog_author'];
+    protected $appends = ['blog_category', 'blog_image', 'blog_author'];
 
 
     public function getBlogAuthorAttribute()
@@ -81,7 +81,9 @@ class Blog extends Model
 
     public function getBlogImageAttribute()
     {
-        return url('storage/uploads/'.$this->image);
+        if (is_null($this->image))
+            return null;
+        return url('storage/uploads/' . $this->image);
     }
 
 }

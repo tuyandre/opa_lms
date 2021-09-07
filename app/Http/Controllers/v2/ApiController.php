@@ -2728,6 +2728,7 @@ class ApiController extends Controller
                 'is_rtl' => $locale->display_type == "rtl",
             ];
         }
+        $data['current_language'] = collect($data['languages_display_type'])->where('id',$data['default_language'])->first();
         $data['social_platforms'] = Config::query()->whereIn('key', ['twitter', 'google', 'facebook'])->select('key', 'value')->get()->toArray();
         return response()->json(['status' => 200, 'result' => $data]);
     }
