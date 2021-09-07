@@ -2207,7 +2207,8 @@ class ApiController extends Controller
                 return response()->json(['status' => 200, 'result' => null, 'message' => __('strings.frontend.user.email_changed_notice')]);
             }
             $user = $this->userRepository->getById($request->user()->id);
-            return response()->json(['status' => 200, 'result' => ['user' => $user], 'message' => __('strings.frontend.user.profile_updated')]);
+            $test = gravatar()->get('hemantkumawat275@gmail.com', ['size' => 100]);
+            return response()->json(['status' => 200, 'result' => ['user' => $user, 'test' => $test], 'message' => __('strings.frontend.user.profile_updated')]);
         } catch (\Exception $e) {
             return response()->json(['status' => 100, 'result' => null, 'message' => $e->getMessage()]);
         }
@@ -2716,6 +2717,8 @@ class ApiController extends Controller
             ];
         }
         $data['social_platforms'] = Config::query()->whereIn('key', ['twitter', 'google', 'facebook'])->select('key', 'value')->get()->toArray();
+        //TODO:remove
+        $data['default_language'] = 'ar';
         return response()->json(['status' => 200, 'result' => $data]);
     }
 
