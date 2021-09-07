@@ -365,24 +365,20 @@ class ApiController extends Controller
         try {
             $result = null;
             if ($request->type) {
-                if ($request->type == 1) {
-                    $result = Course::where('title', 'LIKE', '%' . $request->q . '%')
-                        ->orWhere('description', 'LIKE', '%' . $request->q . '%')
-                        ->where('published', '=', 1)
-                        ->with('teachers')
-                        ->paginate(10);
-                } elseif ($request->type == 2) {
-                    $result = Bundle::where('title', 'LIKE', '%' . $request->q . '%')
-                        ->orWhere('description', 'LIKE', '%' . $request->q . '%')
-                        ->where('published', '=', 1)
-                        ->with('user')
-                        ->paginate(10);
-                } elseif ($request->type == 3) {
-                    $result = Blog::where('title', 'LIKE', '%' . $request->q . '%')
-                        ->orWhere('content', 'LIKE', '%' . $request->q . '%')
-                        ->with('author')
-                        ->paginate(10);
-                }
+                $result['courses'] = Course::query()->where('title', 'LIKE', '%' . $request->q . '%')
+                    ->orWhere('description', 'LIKE', '%' . $request->q . '%')
+                    ->where('published', '=', 1)
+                    ->with('teachers')
+                    ->paginate(10);
+                $result['bundles'] = Bundle::query()->where('title', 'LIKE', '%' . $request->q . '%')
+                    ->orWhere('description', 'LIKE', '%' . $request->q . '%')
+                    ->where('published', '=', 1)
+                    ->with('user')
+                    ->paginate(10);
+                $result['blogs'] = Blog::query()->where('title', 'LIKE', '%' . $request->q . '%')
+                    ->orWhere('content', 'LIKE', '%' . $request->q . '%')
+                    ->with('author')
+                    ->paginate(10);
             }
             $type = $request->type;
             $q = $request->q;
