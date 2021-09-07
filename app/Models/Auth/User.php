@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Models\Auth;
+
 use App\Models\Bundle;
 use App\Models\Certificate;
 use App\Models\ChapterStudent;
@@ -43,7 +44,7 @@ class User extends Authenticatable
 {
     use Billable {
         invoices as StripeInvoices;
-        }
+    }
     use  HasRoles,
         Notifiable,
         SendUserPasswordReset,
@@ -54,9 +55,9 @@ class User extends Authenticatable
         UserScope,
         Uuid;
     use HasApiTokens;
-    use Messagable{
-          UserAttribute::getNameAttribute insteadof Messagable;
-      }
+    use Messagable {
+        UserAttribute::getNameAttribute insteadof Messagable;
+    }
 
     /**
      * The attributes that are mass assignable.
@@ -103,7 +104,7 @@ class User extends Authenticatable
      * The dynamic attributes from mutators that should be returned with the user object.
      * @var array
      */
-    protected $appends = ['full_name','image'];
+    protected $appends = ['full_name', 'image'];
 
     /**
      * The attributes that should be cast to native types.
@@ -114,7 +115,6 @@ class User extends Authenticatable
         'active' => 'boolean',
         'confirmed' => 'boolean',
     ];
-
 
 
     public function lessons()
@@ -146,6 +146,8 @@ class User extends Authenticatable
 
     public function getImageAttribute()
     {
+        if ($this->avatar_type == 'gravatar')
+            return gravatar()->get($this->email, ['size' => 100]);
         return $this->picture;
     }
 
@@ -167,7 +169,7 @@ class User extends Authenticatable
             foreach ($videos as $video) {
                 $total_percentage = $total_percentage + $video->getProgressPercentage($this->id);
             }
-            $percentage = $total_percentage /$count;
+            $percentage = $total_percentage / $count;
         } else {
             $percentage = 0;
         }
@@ -249,16 +251,16 @@ class User extends Authenticatable
     }
 
     /**
-    * Get the earning owns the teacher.
-    */
+     * Get the earning owns the teacher.
+     */
     public function earnings()
     {
         return $this->hasMany(Earning::class, 'user_id', 'id');
     }
 
     /**
-    * Get the withdraw owns the teacher.
-    */
+     * Get the withdraw owns the teacher.
+     */
     public function withdraws()
     {
         return $this->hasMany(Withdraw::class, 'user_id', 'id');
@@ -287,13 +289,13 @@ class User extends Authenticatable
     public function subscribedCourse()
     {
         $orders = Order::where('order_type', '=', 1)
-                    ->where('user_id', '=', $this->id)
-                    ->pluck('id');
+            ->where('user_id', '=', $this->id)
+            ->pluck('id');
         $courses_id = OrderItem::whereIn('order_id', $orders)
-                    ->where('item_type', '=', Course::class)
-                    ->pluck('item_id');
-        return Course::whereHas('courseUser',function($q){
-            $q->whereDate('expire_at','>=',Carbon::now());
+            ->where('item_type', '=', Course::class)
+            ->pluck('item_id');
+        return Course::whereHas('courseUser', function ($q) {
+            $q->whereDate('expire_at', '>=', Carbon::now());
         })->whereIn('id', $courses_id)->get();
     }
 
@@ -306,28 +308,27 @@ class User extends Authenticatable
             ->where('item_type', '=', Bundle::class)
             ->pluck('item_id');
 
-        return Bundle::whereHas('bundleUser',function($q){
-            $q->whereDate('expire_at','>=',Carbon::now());
+        return Bundle::whereHas('bundleUser', function ($q) {
+            $q->whereDate('expire_at', '>=', Carbon::now());
         })->whereIn('id', $bundles_id)->get();
     }
 
     public function getSubscribedCoursesIds()
     {
         $courseIds = $this->subscribedCourse()->pluck('id')->toArray();
-        if($this->subscribedBundles()->count())
-        {
-            foreach($this->subscribedBundles() as $bundle){
+        if ($this->subscribedBundles()->count()) {
+            foreach ($this->subscribedBundles() as $bundle) {
                 $courseIds = array_merge($courseIds, $bundle->courses()->pluck('id')->toArray());
             }
         }
         return $courseIds;
     }
 
-    public function getPurchasedCoursesIds(){
+    public function getPurchasedCoursesIds()
+    {
         $courseIds = $this->purchasedCourses()->pluck('id')->toArray();
-        if($this->purchasedBundles()->count())
-        {
-            foreach($this->purchasedBundles() as $bundle){
+        if ($this->purchasedBundles()->count()) {
+            foreach ($this->purchasedBundles() as $bundle) {
                 $courseIds = array_merge($courseIds, $bundle->courses()->pluck('id')->toArray());
             }
         }
@@ -345,15 +346,13 @@ class User extends Authenticatable
     public function checkPlanSubcribeUser()
     {
         $subscriptionCheck = Subscription::where('user_id', '=', $this->id)->get();
-        $plansArr=[];
-        if(!empty($subscriptionCheck))
-        {
-            foreach ($subscriptionCheck as $subscribe)
-            {
-               $plans = StripePlan::where('plan_id', '=', $subscribe->stripe_plan)->select('id')->get();
-               if(!empty($plans)) {
-                   $plansArr[] = $plans;
-               }
+        $plansArr = [];
+        if (!empty($subscriptionCheck)) {
+            foreach ($subscriptionCheck as $subscribe) {
+                $plans = StripePlan::where('plan_id', '=', $subscribe->stripe_plan)->select('id')->get();
+                if (!empty($plans)) {
+                    $plansArr[] = $plans;
+                }
             }
         }
         return $plansArr;
