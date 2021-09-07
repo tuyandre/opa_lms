@@ -218,6 +218,9 @@ class UserRepository extends BaseRepository
 
     protected function storeImageFromBase64($image)
     {
+        if(!Storage::exists('public/avatars')){
+            Storage::makeDirectory('public/avatars');
+        }
         $path = storage_path('app/public/avatars/');
         $image_parts = explode(";base64,", $image);
         $image_type_aux = explode("image/", $image_parts[0]);
