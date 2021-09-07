@@ -363,41 +363,40 @@ class ApiController extends Controller
     public function search(Request $request)
     {
         try {
-            $result = null;
-
             $courses = Course::query()->where('title', 'LIKE', '%' . $request->q . '%')
                 ->orWhere('description', 'LIKE', '%' . $request->q . '%')
                 ->where('published', '=', 1)
                 ->with('teachers')
-                ->paginate(4)->items();
-            $courses = collect($courses)->map(function($q){
-               $q->type = 'course';
-               return $q;
-            });
+                ->get()->map(function ($q) {
+                    $q->type = 'course';
+                    return $q;
+                });
             $totalBundles = 3 + (4 - count($courses));
             $bundles = Bundle::query()->where('title', 'LIKE', '%' . $request->q . '%')
                 ->orWhere('description', 'LIKE', '%' . $request->q . '%')
                 ->where('published', '=', 1)
                 ->with('user')
-                ->paginate($totalBundles)->items();
-            $bundles = collect($bundles)->map(function($q){
-               $q->type = 'bundle';
-               return $q;
-            });
+                ->get()->map(function ($q) {
+                    $q->type = 'bundle';
+                    return $q;
+                });
             $totalBlogs = 3 + (7 - (count($courses) + count($bundles)));
             $blogs = Blog::query()->where('title', 'LIKE', '%' . $request->q . '%')
                 ->orWhere('content', 'LIKE', '%' . $request->q . '%')
                 ->with('author')
-                ->paginate($totalBlogs)->items();
-            $blogs = collect($blogs)->map(function($q){
-               $q->type = 'blog';
-               return $q;
-            });
-            $result = $courses->merge($bundles)->merge($blogs)->paginate(10);
+                ->get()->map(function ($q) {
+                    $q->type = 'blog';
+                    return $q;
+                });
+
+            $result = $blogs->merge($bundles)->merge($courses)->paginate(10)->toArray();
+            shuffle($result['data']);
+            $result['data'] = array_values($result['data']);
             $type = $request->type;
             $q = $request->q;
-            $result->q = $q;
-            $result->type = $type;
+            $result['q'] = $q;
+            $result['type'] = $type;
+
             return response()->json(['status' => 200, 'message' => "Search result sent successfully.", 'q' => $q, 'type' => $type, 'result' => $result]);
         } catch (\Exception $e) {
             return response()->json(['status' => 100, 'result' => null, 'message' => $e->getMessage()]);
@@ -2728,7 +2727,7 @@ class ApiController extends Controller
                 'is_rtl' => $locale->display_type == "rtl",
             ];
         }
-        $data['current_language'] = collect($data['languages_display_type'])->where('id',$data['default_language'])->first();
+        $data['current_language'] = collect($data['languages_display_type'])->where('id', $data['default_language'])->first();
         $data['social_platforms'] = Config::query()->whereIn('key', ['twitter', 'google', 'facebook'])->select('key', 'value')->get()->toArray();
         return response()->json(['status' => 200, 'result' => $data]);
     }
