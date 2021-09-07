@@ -2197,7 +2197,7 @@ class ApiController extends Controller
             $output = $this->userRepository->update(
                 $request->user()->id,
                 $request->only('first_name', 'last_name', 'dob', 'phone', 'gender', 'address', 'city', 'pincode', 'state', 'country', 'avatar_type', 'avatar_location'),
-                $request->has('avatar_location') ? $request->file('avatar_location') : false
+                $request->has('avatar_location') ? $request->avatar_location : false, true
             );
 
             // E-mail address was updated, user has to reconfirm
@@ -2206,7 +2206,7 @@ class ApiController extends Controller
                 return response()->json(['status' => 200, 'result' => null, 'message' => __('strings.frontend.user.email_changed_notice')]);
             }
             $user = $this->userRepository->getById($request->user()->id);
-            return response()->json(['status' => 200, 'result' => ['user'=>$user], 'message' => __('strings.frontend.user.profile_updated')]);
+            return response()->json(['status' => 200, 'result' => ['user' => $user], 'message' => __('strings.frontend.user.profile_updated')]);
         } catch (\Exception $e) {
             return response()->json(['status' => 100, 'result' => null, 'message' => $e->getMessage()]);
         }
