@@ -2717,8 +2717,6 @@ class ApiController extends Controller
             ];
         }
         $data['social_platforms'] = Config::query()->whereIn('key', ['twitter', 'google', 'facebook'])->select('key', 'value')->get()->toArray();
-        //TODO:remove
-        $data['default_language'] = 'ar';
         return response()->json(['status' => 200, 'result' => $data]);
     }
 
