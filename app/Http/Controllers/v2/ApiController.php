@@ -233,9 +233,10 @@ class ApiController extends Controller
      */
     protected function social(Request $request)
     {
-        $user = User::query()->where('email', $request->email)->first();
-        if ($user == null)
+        $user = User::query()->where(['email' => $request->email])->first();
+        if ($user == null) {
             throw new \Exception('User Not Found with Provided Details');
+        }
 
         SocialAccount::query()->updateOrCreate([
             'user_id' => $user->id,
