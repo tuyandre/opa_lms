@@ -369,27 +369,31 @@ class ApiController extends Controller
                 ->orWhere('description', 'LIKE', '%' . $request->q . '%')
                 ->where('published', '=', 1)
                 ->with('teachers')
-                ->get()->map(function($q){
-                    $q->type = 'course';
-                    return $q;
-                });
+                ->paginate(4)->items();
+            $courses = collect($courses)->map(function($q){
+               $q->type = 'course';
+               return $q;
+            });
+            $totalBundles = 3 + (4 - count($courses));
             $bundles = Bundle::query()->where('title', 'LIKE', '%' . $request->q . '%')
                 ->orWhere('description', 'LIKE', '%' . $request->q . '%')
                 ->where('published', '=', 1)
                 ->with('user')
-                ->get()->map(function($q){
-                    $q->type = 'bundle';
-                    return $q;
-                });
+                ->paginate($totalBundles)->items();
+            $bundles = collect($bundles)->map(function($q){
+               $q->type = 'bundle';
+               return $q;
+            });
+            $totalBlogs = 3 + (7 - (count($courses) + count($bundles)));
             $blogs = Blog::query()->where('title', 'LIKE', '%' . $request->q . '%')
                 ->orWhere('content', 'LIKE', '%' . $request->q . '%')
                 ->with('author')
-                ->get()->map(function($q){
-                    $q->type = 'blog';
-                    return $q;
-                });
-
-            $result = $courses->merge($bundles)->merge($blogs)->paginate(10);
+                ->paginate($totalBlogs)->items();
+            $blogs = collect($blogs)->map(function($q){
+               $q->type = 'blog';
+               return $q;
+            });
+            $result = $blogs->merge($bundles)->merge($courses)->paginate(10);
             $type = $request->type;
             $q = $request->q;
             return response()->json(['status' => 200, 'message' => "Search result sent successfully.", 'q' => $q, 'type' => $type, 'result' => $result]);
