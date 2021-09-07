@@ -61,6 +61,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Socialite\Facades\Socialite;
 use Lexx\ChatMessenger\Models\Message;
@@ -2713,7 +2714,7 @@ class ApiController extends Controller
                 'is_rtl' => $locale->display_type == "rtl",
             ];
         }
-        $data['social_platforms'] = Config::query()->whereIn('key',['twitter','google','facebook'])->select('key','value')->get()->toArray();
+        $data['social_platforms'] = Config::query()->whereIn('key', ['twitter', 'google', 'facebook'])->select('key', 'value')->get()->toArray();
         return response()->json(['status' => 200, 'result' => $data]);
     }
 

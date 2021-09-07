@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Frontend\Auth;
 
+use App\Models\TransportItems;
 use Carbon\Carbon;
 use App\Models\Auth\User;
 use Illuminate\Http\UploadedFile;
@@ -14,6 +15,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Events\Frontend\Auth\UserConfirmed;
 use App\Events\Frontend\Auth\UserProviderRegistered;
 use App\Notifications\Frontend\Auth\UserNeedsConfirmation;
+use Illuminate\Support\Str;
 
 /**
  * Class UserRepository.
@@ -93,14 +95,14 @@ class UserRepository extends BaseRepository
     {
         return DB::transaction(function () use ($data) {
             $user = parent::create([
-                'first_name'        => $data['first_name'],
-                'last_name'         => $data['last_name'],
-                'email'             => $data['email'],
+                'first_name' => $data['first_name'],
+                'last_name' => $data['last_name'],
+                'email' => $data['email'],
                 'confirmation_code' => md5(uniqid(mt_rand(), true)),
-                'active'            => 1,
-                'password'          => $data['password'],
-                                    // If users require approval or needs to confirm email
-                'confirmed'         => config('access.users.requires_approval') || config('access.users.confirm_email') ? 0 : 1,
+                'active' => 1,
+                'password' => $data['password'],
+                // If users require approval or needs to confirm email
+                'confirmed' => config('access.users.requires_approval') || config('access.users.confirm_email') ? 0 : 1,
             ]);
 
 //            if ($user) {
@@ -132,44 +134,34 @@ class UserRepository extends BaseRepository
     /**
      * @param       $id
      * @param array $input
-     * @param bool|UploadedFile  $image
+     * @param bool|UploadedFile $image
      *
      * @return array|bool
      * @throws GeneralException
      */
-    public function update($id, array $input, $image = false)
+    public function update($id, array $input, $image = false, $isApi = false)
     {
         $user = $this->getById($id);
         $user->first_name = $input['first_name'];
         $user->last_name = $input['last_name'];
         $user->avatar_type = $input['avatar_type'];
-        $user->dob = isset($input['dob']) ? $input['dob'] : NULL ;
-        $user->phone = isset($input['phone']) ? $input['phone'] : NULL ;
-        $user->gender = isset($input['gender']) ? $input['gender'] : NULL;
-        $user->address = isset($input['address']) ? $input['address'] : NULL;
-        $user->city =  isset($input['city']) ? $input['city'] : NULL;
-        $user->pincode = isset($input['pincode']) ? $input['pincode'] : NULL;
-        $user->state = isset($input['state']) ? $input['state'] : NULL;
-        $user->country = isset($input['country']) ? $input['country'] : NULL;
+        $user->dob = $input['dob'] ?? NULL;
+        $user->phone = $input['phone'] ?? NULL;
+        $user->gender = $input['gender'] ?? NULL;
+        $user->address = $input['address'] ?? NULL;
+        $user->city = $input['city'] ?? NULL;
+        $user->pincode = $input['pincode'] ?? NULL;
+        $user->state = $input['state'] ?? NULL;
+        $user->country = $input['country'] ?? NULL;
         $user->save();
 
         // Upload profile image if necessary
         if ($image) {
-            $user->avatar_location = $image->store('/avatars', 'public');
-        } else {
-            // No image being passed
-            if ($input['avatar_type'] == 'storage') {
-                // If there is no existing image
-                if (! strlen(auth()->user()->avatar_location)) {
-                    // throw new GeneralException('You must supply a profile image.');
-                }
-            } else {
-                // If there is a current image, and they are not using it anymore, get rid of it
-                if (strlen(auth()->user()->avatar_location)) {
-                    Storage::disk('public')->delete(auth()->user()->avatar_location);
-                }
-
-                $user->avatar_location = null;
+            if ($isApi) {
+                $user->avatar_location = $this->storeImageFromBase64($image);
+            }
+            if (request()->hasFile('avatar_location') && $image) {
+                $user->avatar_location = $this->storeImageFromObj($id, $image, $input['avatar_type']);
             }
         }
 
@@ -198,8 +190,42 @@ class UserRepository extends BaseRepository
                 ];
             }
         }
-
         return $user->save();
+    }
+
+    protected function storeImageFromObj($user_id, $image = false, $avatar_type = 'storage')
+    {
+        $user = User::query()->findOrFail($user_id);
+        if ($image) {
+            $avatar_location = $image->store('/avatars', 'public');
+        } else {
+            // No image being passed
+            if ($avatar_type == 'storage') {
+                // If there is no existing image
+                if (!strlen($user->avatar_location)) {
+                    // throw new GeneralException('You must supply a profile image.');
+                }
+            } else {
+                // If there is a current image, and they are not using it anymore, get rid of it
+                if (strlen($user->avatar_location)) {
+                    Storage::disk('public')->delete($user->avatar_location);
+                }
+                $avatar_location = null;
+            }
+        }
+        return $avatar_location ?? null;
+    }
+
+    protected function storeImageFromBase64($image)
+    {
+        $path = storage_path('app/public/avatars/');
+        $image_parts = explode(";base64,", $image);
+        $image_type_aux = explode("image/", $image_parts[0]);
+        $image_type = $image_type_aux[1];
+        $image_base64 = base64_decode($image_parts[1]);
+        $file = Str::random() . '.' . $image_type;
+        file_put_contents($path . $file, $image_base64);
+        return 'avatars/' . $file;
     }
 
     /**
@@ -269,9 +295,9 @@ class UserRepository extends BaseRepository
          * The true flag indicate that it is a social account
          * Which triggers the script to use some default values in the create method
          */
-        if (! $user) {
+        if (!$user) {
             // Registration is not enabled
-            if (! config('access.registration')) {
+            if (!config('access.registration')) {
                 throw new GeneralException(__('exceptions.frontend.auth.registration_disabled'));
             }
 
@@ -279,8 +305,8 @@ class UserRepository extends BaseRepository
             $nameParts = $this->getNameParts($data->getName());
 
             $user = parent::create([
-                'first_name'  => $nameParts['first_name'],
-                'last_name'  => $nameParts['last_name'],
+                'first_name' => $nameParts['first_name'],
+                'last_name' => $nameParts['last_name'],
                 'email' => $user_email,
                 'active' => 1,
                 'confirmed' => 1,
@@ -294,19 +320,19 @@ class UserRepository extends BaseRepository
         }
 
         // See if the user has logged in with this social account before
-        if (! $user->hasProvider($provider)) {
+        if (!$user->hasProvider($provider)) {
             // Gather the provider data for saving and associate it with the user
             $user->providers()->save(new SocialAccount([
-                'provider'    => $provider,
+                'provider' => $provider,
                 'provider_id' => $data->id,
-                'token'       => $data->token,
-                'avatar'      => $data->avatar,
+                'token' => $data->token,
+                'avatar' => $data->avatar,
             ]));
         } else {
             // Update the users information, token and avatar can be updated.
             $user->providers()->update([
-                'token'       => $data->token,
-                'avatar'      => $data->avatar,
+                'token' => $data->token,
+                'avatar' => $data->avatar,
             ]);
 
             $user->avatar_type = $provider;
@@ -335,12 +361,12 @@ class UserRepository extends BaseRepository
             $result['last_name'] = null;
         }
 
-        if (! empty($parts) && $size == 1) {
+        if (!empty($parts) && $size == 1) {
             $result['first_name'] = $parts[0];
             $result['last_name'] = null;
         }
 
-        if (! empty($parts) && $size >= 2) {
+        if (!empty($parts) && $size >= 2) {
             $result['first_name'] = $parts[0];
             $result['last_name'] = $parts[1];
         }
