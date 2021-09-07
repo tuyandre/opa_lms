@@ -369,16 +369,25 @@ class ApiController extends Controller
                 ->orWhere('description', 'LIKE', '%' . $request->q . '%')
                 ->where('published', '=', 1)
                 ->with('teachers')
-                ->get();
+                ->get()->map(function($q){
+                    $q->type = 'course';
+                    return $q;
+                });
             $bundles = Bundle::query()->where('title', 'LIKE', '%' . $request->q . '%')
                 ->orWhere('description', 'LIKE', '%' . $request->q . '%')
                 ->where('published', '=', 1)
                 ->with('user')
-                ->get();
+                ->get()->map(function($q){
+                    $q->type = 'bundle';
+                    return $q;
+                });
             $blogs = Blog::query()->where('title', 'LIKE', '%' . $request->q . '%')
                 ->orWhere('content', 'LIKE', '%' . $request->q . '%')
                 ->with('author')
-                ->get();
+                ->get()->map(function($q){
+                    $q->type = 'blog';
+                    return $q;
+                });
 
             $result = $courses->merge($bundles)->merge($blogs)->paginate(10);
             $type = $request->type;
