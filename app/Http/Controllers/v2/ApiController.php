@@ -364,22 +364,23 @@ class ApiController extends Controller
     {
         try {
             $result = null;
-            if ($request->type) {
-                $result['courses'] = Course::query()->where('title', 'LIKE', '%' . $request->q . '%')
-                    ->orWhere('description', 'LIKE', '%' . $request->q . '%')
-                    ->where('published', '=', 1)
-                    ->with('teachers')
-                    ->paginate(10);
-                $result['bundles'] = Bundle::query()->where('title', 'LIKE', '%' . $request->q . '%')
-                    ->orWhere('description', 'LIKE', '%' . $request->q . '%')
-                    ->where('published', '=', 1)
-                    ->with('user')
-                    ->paginate(10);
-                $result['blogs'] = Blog::query()->where('title', 'LIKE', '%' . $request->q . '%')
-                    ->orWhere('content', 'LIKE', '%' . $request->q . '%')
-                    ->with('author')
-                    ->paginate(10);
-            }
+
+            $courses = Course::query()->where('title', 'LIKE', '%' . $request->q . '%')
+                ->orWhere('description', 'LIKE', '%' . $request->q . '%')
+                ->where('published', '=', 1)
+                ->with('teachers')
+                ->get();
+            $bundles = Bundle::query()->where('title', 'LIKE', '%' . $request->q . '%')
+                ->orWhere('description', 'LIKE', '%' . $request->q . '%')
+                ->where('published', '=', 1)
+                ->with('user')
+                ->get();
+            $blogs = Blog::query()->where('title', 'LIKE', '%' . $request->q . '%')
+                ->orWhere('content', 'LIKE', '%' . $request->q . '%')
+                ->with('author')
+                ->get();
+
+            $result = $courses->merge($bundles)->merge($blogs)->paginate(10);
             $type = $request->type;
             $q = $request->q;
             return response()->json(['status' => 200, 'message' => "Search result sent successfully.", 'q' => $q, 'type' => $type, 'result' => $result]);

@@ -21,6 +21,8 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
 use App\Resolvers\SocialUserResolver;
 use Coderello\SocialGrant\Resolvers\SocialUserResolverInterface;
+use Illuminate\Support\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 /**
  * Class AppServiceProvider.
@@ -179,7 +181,6 @@ class AppServiceProvider extends ServiceProvider
 //        });
         }
 
-
     }
 
     function menuList($array)
@@ -217,6 +218,33 @@ class AppServiceProvider extends ServiceProvider
         }
         \Illuminate\Support\Collection::macro('lists', function ($a, $b = null) {
             return collect($this->items)->pluck($a, $b);
+        });
+
+        $this->paginateMacro();
+    }
+
+    protected function paginateMacro(){
+        /**
+         * Paginate a standard Laravel Collection.
+         *
+         * @param int $perPage
+         * @param int $total
+         * @param int $page
+         * @param string $pageName
+         * @return array
+         */
+        Collection::macro('paginate', function($perPage, $total = null, $page = null, $pageName = 'page') {
+            $page = $page ?: LengthAwarePaginator::resolveCurrentPage($pageName);
+            return new LengthAwarePaginator(
+                $this->forPage($page, $perPage),
+                $total ?: $this->count(),
+                $perPage,
+                $page,
+                [
+                    'path' => LengthAwarePaginator::resolveCurrentPath(),
+                    'pageName' => $pageName,
+                ]
+            );
         });
     }
 }
