@@ -2205,8 +2205,8 @@ class ApiController extends Controller
                 auth()->logout();
                 return response()->json(['status' => 200, 'result' => null, 'message' => __('strings.frontend.user.email_changed_notice')]);
             }
-
-            return response()->json(['status' => 200, 'result' => null, 'message' => __('strings.frontend.user.profile_updated')]);
+            $user = $this->userRepository->getById($request->user()->id);
+            return response()->json(['status' => 200, 'result' => ['user'=>$user], 'message' => __('strings.frontend.user.profile_updated')]);
         } catch (\Exception $e) {
             return response()->json(['status' => 100, 'result' => null, 'message' => $e->getMessage()]);
         }
