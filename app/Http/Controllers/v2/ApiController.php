@@ -1445,7 +1445,8 @@ class ApiController extends Controller
             'image' => asset('storage/logos/popup-logo.png'),
             'gateway_key' => config('services.razorpay.key'),
             'gateway_secret' => config('services.razorpay.secret'),
-            'gateway_active' => config('services.razorpay.active')
+            'gateway_active' => config('services.razorpay.active'),
+            'theme_color' => '#03386F',
         ];
     }
 
