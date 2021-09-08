@@ -1411,7 +1411,7 @@ class ApiController extends Controller
     {
         try {
             switch ($request->payment_mode) {
-                case 'razorpay':
+                case 4:
                     $response = $this->razorpayPayment($request);
                     break;
                 default:
@@ -1442,6 +1442,10 @@ class ApiController extends Controller
             'name' => $request->user()->name,
             'email' => $request->user()->email,
             'payment_mode' => 'razorpay',
+            'image' => asset('storage/logos/popup-logo.png'),
+            'gateway_key' => config('services.razorpay.key'),
+            'gateway_secret' => config('services.razorpay.secret'),
+            'gateway_active' => config('services.razorpay.active')
         ];
     }
 
@@ -2753,43 +2757,33 @@ class ApiController extends Controller
         }
     }
 
-    public function getPaymentModesList()
+    public function getPaymentModsList()
     {
-        // stripe
-        //instamojo
-        //razorpay
-        //cashfree
-        //payu
-        //paypal
         return [
-            1 => array_merge([
+            1 => [
                 'name' => 'Stripe',
                 'is_active' => false,
-            ], config('services.stripe')),
-            2 => array_merge([
+            ],
+            2 => [
                 'name' => 'Paypal',
                 'is_active' => false,
-            ], config('services.paypal') ?? []),
+            ],
             3 => [
                 'name' => 'Offline',
                 'is_active' => true,
             ],
-            4 => array_merge([
+            4 => [
                 'name' => 'Razorpay',
                 'is_active' => true,
-            ], config('services.razorpay')),
-            5 => array_merge([
+            ],
+            5 => [
                 'name' => 'PayU',
                 'is_active' => false,
-            ], config('services.payu')),
-            6 => array_merge([
-                'name' => 'CashFree',
-                'is_active' => false,
-            ], config('services.cashfree')),
-            7 => array_merge([
+            ],
+            6 => [
                 'name' => 'InstaMojo',
                 'is_active' => false,
-            ], config('services.instamojo'))
+            ]
         ];
     }
 
@@ -2814,7 +2808,7 @@ class ApiController extends Controller
         } else {
             $data['user_default_language'] = $data['current_language'];
         }
-        $data['payment_modes'] = $this->getPaymentModesList();
+        $data['payment_modes'] = $this->getPaymentModsList();
         $data['social_platforms'] = Config::query()->whereIn('key', ['twitter', 'google', 'facebook'])->select('key', 'value')->get()->toArray();
         return response()->json(['status' => 200, 'result' => $data]);
     }
