@@ -67,6 +67,8 @@ return [
         'mode' => env('PAYU_MODE', 'sandbox')
     ],
 
+
+
     /*
      * Socialite Credentials
      * Redirect URL's need to be the same as specified on each network you set up this application on

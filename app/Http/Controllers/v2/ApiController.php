@@ -2753,6 +2753,46 @@ class ApiController extends Controller
         }
     }
 
+    public function getPaymentModesList()
+    {
+        // stripe
+        //instamojo
+        //razorpay
+        //cashfree
+        //payu
+        //paypal
+        return [
+            1 => array_merge([
+                'name' => 'Stripe',
+                'is_active' => false,
+            ], config('services.stripe')),
+            2 => array_merge([
+                'name' => 'Paypal',
+                'is_active' => false,
+            ], config('services.paypal') ?? []),
+            3 => [
+                'name' => 'Offline',
+                'is_active' => true,
+            ],
+            4 => array_merge([
+                'name' => 'Razorpay',
+                'is_active' => true,
+            ], config('services.razorpay')),
+            5 => array_merge([
+                'name' => 'PayU',
+                'is_active' => false,
+            ], config('services.payu')),
+            6 => array_merge([
+                'name' => 'CashFree',
+                'is_active' => false,
+            ], config('services.cashfree')),
+            7 => array_merge([
+                'name' => 'InstaMojo',
+                'is_active' => false,
+            ], config('services.instamojo'))
+        ];
+    }
+
     public function getConfigs()
     {
         $data = getCurrency(config('app.currency'));
@@ -2774,12 +2814,7 @@ class ApiController extends Controller
         } else {
             $data['user_default_language'] = $data['current_language'];
         }
-        $data['payment_modes'] = [
-            'stripe' => config('services.stripe'),
-            'instamojo' => config('services.instamojo'),
-            'razorpay' => config('services.razorpay'),
-            'cashfree' => config('services.cashfree'),
-            'payu' => config('services.payu')];
+        $data['payment_modes'] = $this->getPaymentModesList();
         $data['social_platforms'] = Config::query()->whereIn('key', ['twitter', 'google', 'facebook'])->select('key', 'value')->get()->toArray();
         return response()->json(['status' => 200, 'result' => $data]);
     }
