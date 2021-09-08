@@ -151,6 +151,7 @@ Route::group(['prefix' => 'v2','namespace'=>'v2'],function (){
         Route::post('remove-from-cart','ApiController@removeFromCart');
         Route::post('get-cart-data','ApiController@getCartData');
         Route::post('clear-cart','ApiController@clearCart');
+        Route::post('make-order-payment','ApiController@makeOnlinePayment');
         Route::post('payment-status','ApiController@paymentStatus');
         Route::post('get-blog','ApiController@getBlog');
         Route::post('blog-by-category','ApiController@getBlogByCategory');

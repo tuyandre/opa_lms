@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\v2;
 
 use App\Helpers\General\EarningHelper;
+use App\Helpers\Payments\RazorpayWrapper;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Traits\FileUploadTrait;
 use App\Http\Requests\Frontend\User\UpdatePasswordRequest;
@@ -1406,6 +1407,44 @@ class ApiController extends Controller
     }
 
 
+    public function makeOnlinePayment(Request $request)
+    {
+        try {
+            switch ($request->payment_mode) {
+                case 'razorpay':
+                    $response = $this->razorpayPayment($request);
+                    break;
+                default:
+                    throw new Exception('Please Select on of the available online payment Modes.');
+            }
+            return response()->json(['status' => 200, 'message' => 'Payment Mode Details', 'result' => $response ?? []]);
+        } catch (Exception $e) {
+            return response()->json(['status' => 100, 'message' => $e->getMessage(), 'data' => []]);
+        }
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function razorpayPayment(Request $request)
+    {
+        $currency = getCurrency(config('app.currency'))['short_code'];
+        if (!$request->total_amount)
+            throw new Exception("Please Provide Cart Grand Total \"total_amount\"");
+        $amount = $request->total_amount * 100;
+        $razorWrapper = new RazorpayWrapper();
+        $razorpay_order_id = $razorWrapper->order($currency, $amount);
+        return [
+            'order_id' => $razorpay_order_id,
+            'amount' => $amount,
+            'currency' => $currency,
+            'description' => $request->user()->name,
+            'name' => $request->user()->name,
+            'email' => $request->user()->email,
+            'payment_mode' => 'razorpay',
+        ];
+    }
+
     /**
      * Payment Status
      *
@@ -2735,6 +2774,12 @@ class ApiController extends Controller
         } else {
             $data['user_default_language'] = $data['current_language'];
         }
+        $data['payment_modes'] = [
+            'stripe' => config('services.stripe'),
+            'instamojo' => config('services.instamojo'),
+            'razorpay' => config('services.razorpay'),
+            'cashfree' => config('services.cashfree'),
+            'payu' => config('services.payu')];
         $data['social_platforms'] = Config::query()->whereIn('key', ['twitter', 'google', 'facebook'])->select('key', 'value')->get()->toArray();
         return response()->json(['status' => 200, 'result' => $data]);
     }
