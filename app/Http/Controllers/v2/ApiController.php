@@ -3,12 +3,14 @@
 namespace App\Http\Controllers\v2;
 
 use App\Helpers\General\EarningHelper;
+use App\Helpers\Payments\PayuMoneyWrapper;
 use App\Helpers\Payments\RazorpayWrapper;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Traits\FileUploadTrait;
 use App\Http\Requests\Frontend\User\UpdatePasswordRequest;
 use App\Http\Requests\Frontend\User\UpdateProfileRequest;
 use App\Http\Resources\API\SubscribedResource;
+use App\Mail\Frontend\AdminOrederMail;
 use App\Mail\Frontend\Contact\SendContact;
 use App\Mail\Frontend\LiveLesson\StudentMeetingSlotMail;
 use App\Mail\OfflineOrderMail;
@@ -62,6 +64,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Socialite\Facades\Socialite;
@@ -1414,6 +1417,9 @@ class ApiController extends Controller
                 case 4:
                     $response = $this->razorpayPayment($request);
                     break;
+                case 5:
+                    $response = $this->payuPayment($request);
+                    break;
                 default:
                     throw new Exception('Please Select on of the available online payment Modes.');
             }
@@ -1448,6 +1454,95 @@ class ApiController extends Controller
             'gateway_active' => config('services.razorpay.active'),
             'theme_color' => '#03386F',
         ];
+    }
+
+
+    public function getPaymentGatewayStatus(Request $request)
+    {
+        try {
+            switch ($request->payment_mode) {
+                case 4:
+                    $response = $this->getRazorpayStatus($request);
+                    break;
+                default:
+                    throw new Exception('Please Select on of the available online payment Modes.');
+            }
+            return response()->json(['status' => 200, 'message' => 'Payment Mode Details', 'result' => $response ?? []]);
+        } catch (Exception $e) {
+            return response()->json(['status' => 100, 'message' => $e->getMessage(), 'data' => []]);
+        }
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function getRazorpayStatus(Request $request)
+    {
+        $attributes = [
+            'razorpay_signature' => $request->razorpay_signature,
+            'razorpay_payment_id' => $request->razorpay_payment_id,
+            'razorpay_order_id' => $request->razorpay_order_id
+        ];
+        $razorWrapper = new RazorpayWrapper();
+        return $razorWrapper->verifySignature($attributes);
+    }
+
+    public function payuPayment(Request $request)
+    {
+        $payumoneyWrapper = new PayuMoneyWrapper;
+        // $currency = getCurrency(config('app.currency'))['short_code'];
+        $order_confirmation_id = $request->order_confirmation_id;
+        $order = Order::query()->findOrFail($order_confirmation_id);
+        $amount = number_format($order->amount, 2);
+        $parameter = [
+            'amount' => $amount,
+            'firstname' => $request->user()->name,
+            'productinfo' => $request->user()->name,
+            'email' => $request->user()->email,
+            'phone' => $request->user()->phone,
+            /*'key'=>config('services.razorpay.key'),
+            'salt'=>config('services.razorpay.salt'),
+            'mode'=>config('services.razorpay.mode'),
+            'gateway_active'=>config('services.razorpay.active')*/
+        ];
+        // dd($payumoneyWrapper->request($parameter));
+        return $payumoneyWrapper->request($parameter);
+    }
+
+    public function getPayUStatus(Request $request)
+    {
+        \Session::forget('failure');
+        $payumoneyWrapper = new PayuMoneyWrapper();
+        $response = $payumoneyWrapper->response($request);
+        if (is_array($response) && $response['status'] == 'success') {
+            $order = $this->makeOrder();
+            $order->payment_type = 7;
+            $order->transaction_id = $response['payuMoneyId'];
+            $order->save();
+            \Session::flash('success', trans('labels.frontend.cart.payment_done'));
+            $order->status = 1;
+            $order->save();
+            (new EarningHelper)->insert($order);
+            foreach ($order->items as $orderItem) {
+                //Bundle Entries
+                if ($orderItem->item_type == Bundle::class) {
+                    foreach ($orderItem->item->courses as $course) {
+                        $course->students()->attach($order->user_id);
+                    }
+                }
+                $orderItem->item->students()->attach($order->user_id);
+            }
+
+            //Generating Invoice
+            generateInvoice($order);
+            $this->adminOrderMail($order);
+            Cart::session(auth()->user()->id)->clear();
+            \Log::info('Gateway:PayUMoney,Message:' . $response['error_Message'] . ',txStatus:' . $response['status'] . ' for id = ' . auth()->user()->id);
+            return Redirect::route('status');
+        }
+        \Log::info('Gateway:PayUMoney,Message:' . $response['error_Message'] . ',txStatus:' . $response['status'] . ' for id = ' . auth()->user()->id);
+        \Session::flash('failure', trans('labels.frontend.cart.payment_failed'));
+        return Redirect::route('status');
     }
 
     /**

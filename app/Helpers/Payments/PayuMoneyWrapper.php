@@ -38,13 +38,9 @@ class PayuMoneyWrapper
     public function request($parameters)
     {
         $this->parameters = array_merge($this->parameters,$parameters);
-
         $this->checkParameters($this->parameters);
-
         $this->encrypt();
-
         return $this->send();
-
     }
 
     /**
