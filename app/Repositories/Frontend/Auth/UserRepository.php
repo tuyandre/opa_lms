@@ -145,14 +145,15 @@ class UserRepository extends BaseRepository
         $user->first_name = $input['first_name'];
         $user->last_name = $input['last_name'];
         $user->avatar_type = $input['avatar_type'];
-        $user->dob = $input['dob'] ?? NULL;
-        $user->phone = $input['phone'] ?? NULL;
-        $user->gender = $input['gender'] ?? NULL;
-        $user->address = $input['address'] ?? NULL;
-        $user->city = $input['city'] ?? NULL;
-        $user->pincode = $input['pincode'] ?? NULL;
-        $user->state = $input['state'] ?? NULL;
-        $user->country = $input['country'] ?? NULL;
+        $user->dob = $input['dob'] ?? $user->dob;
+        $user->phone = $input['phone'] ?? $user->phone;
+        $user->gender = $input['gender'] ?? $user->gender;
+        $user->address = $input['address'] ?? $user->address;
+        $user->city = $input['city'] ?? $user->city;
+        $user->pincode = $input['pincode'] ?? $user->pincode;
+        $user->state = $input['state'] ?? $user->state;
+        $user->country = $input['country'] ?? $user->country;
+        $user->language_code = $input['language_code'] ?? $user->language_code->short_name??config('app.locale');
         $user->save();
 
         // Upload profile image if necessary
@@ -218,7 +219,7 @@ class UserRepository extends BaseRepository
 
     protected function storeImageFromBase64($image)
     {
-        if(!Storage::exists('public/avatars')){
+        if (!Storage::exists('public/avatars')) {
             Storage::makeDirectory('public/avatars');
         }
         $path = storage_path('app/public/avatars/');

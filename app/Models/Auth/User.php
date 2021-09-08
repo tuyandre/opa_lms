@@ -9,6 +9,7 @@ use App\Models\Course;
 use App\Models\Invoice;
 use App\Models\Lesson;
 use App\Models\LessonSlotBooking;
+use App\Models\Locale;
 use App\Models\Media;
 use App\Models\Order;
 use App\Models\OrderItem;
@@ -76,6 +77,7 @@ class User extends Authenticatable
         'pincode',
         'state',
         'country',
+        'language_code',
         'avatar_type',
         'avatar_location',
         'password',
@@ -149,6 +151,20 @@ class User extends Authenticatable
         if ($this->avatar_type == 'gravatar')
             return gravatar()->get($this->email, ['size' => 100]);
         return $this->picture;
+    }
+
+    public function getLanguageCodeAttribute()
+    {
+        return Locale::query()
+            ->where('short_name', $this->attributes['language_code'] ?? config('app.locale'))
+            ->get()->map(function ($e) {
+                $m['id'] = $e->short_name;
+                $m['name'] = $e->name;
+                $m['is_rtl'] = $e->display_type == "rtl";
+                return $m;
+            })->first();
+        //->select('short_name as id', 'name', 'display_type as is_rtl')->first();
+
     }
 
 

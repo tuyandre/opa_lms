@@ -2208,7 +2208,7 @@ class ApiController extends Controller
             }
             $output = $this->userRepository->update(
                 $request->user()->id,
-                $request->only('first_name', 'last_name', 'dob', 'phone', 'gender', 'address', 'city', 'pincode', 'state', 'country', 'avatar_type', 'avatar_location'),
+                $request->only('first_name', 'last_name', 'dob', 'phone', 'gender', 'address', 'city', 'pincode', 'state', 'country', 'language_code', 'avatar_type', 'avatar_location'),
                 $request->has('avatar_location') ? $request->avatar_location : false, true
             );
 
@@ -2719,7 +2719,7 @@ class ApiController extends Controller
         $data = getCurrency(config('app.currency'));
         $data['default_language'] = 'en';
         $data['languages_display_type'] = [];
-        $locales = Locale::select('name', 'display_type', 'short_name')->get();
+        $locales = Locale::query()->select('name', 'display_type', 'short_name')->get();
         foreach ($locales as $locale) {
             $data['languages_display_type'][] = [
                 'id' => $locale->short_name,
@@ -2728,6 +2728,13 @@ class ApiController extends Controller
             ];
         }
         $data['current_language'] = collect($data['languages_display_type'])->where('id', $data['default_language'])->first();
+
+        if (request()->has('user_id')) {
+            $user = User::query()->findOrFail(request()->user_id);
+            $data['user_default_language'] = $user->language_code;
+        } else {
+            $data['user_default_language'] = $data['current_language'];
+        }
         $data['social_platforms'] = Config::query()->whereIn('key', ['twitter', 'google', 'facebook'])->select('key', 'value')->get()->toArray();
         return response()->json(['status' => 200, 'result' => $data]);
     }
