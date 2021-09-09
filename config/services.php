@@ -44,7 +44,9 @@ return [
         'active' => false,
         'key' => env('INSTAMOJO_KEY'),
         'secret' => env('INSTAMOJO_SECRET'),
-        'mode' => env('INSTAMOJO_MODE', 'sandbox')
+        'mode' => env('INSTAMOJO_MODE', 'sandbox'),
+        'test_base_url'=>'test.instamojo.com',
+        'live_base_url'=>'www.instamojo.com',
     ],
 
     'razorpay' => [

@@ -168,7 +168,6 @@ class CartController extends Controller
     {
         Cart::session(auth()->user()->id)->removeConditionsByType('coupon');
 
-
         if (Cart::session(auth()->user()->id)->getContent()->count() < 2) {
             Cart::session(auth()->user()->id)->clearCartConditions();
             Cart::session(auth()->user()->id)->removeConditionsByType('tax');
@@ -186,11 +185,9 @@ class CartController extends Controller
         }
         //Making Order
         $order = $this->makeOrder();
-
         $gateway = Omnipay::create('Stripe');
         $gateway->setApiKey(config('services.stripe.secret'));
         $token = $request->reservation['stripe_token'];
-
         $amount = Cart::session(auth()->user()->id)->getTotal();
         $currency = $this->currency['short_code'];
         $response = $gateway->purchase([

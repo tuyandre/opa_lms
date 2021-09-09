@@ -8,11 +8,11 @@ use Illuminate\Support\Facades\Validator;
 
 class PayuMoneyWrapper
 {
-    protected $parameters = array();
+    public $parameters = array();
     protected $testMode = false;
     protected $merchantKey = '';
     protected $salt = '';
-    protected $hash = '';
+    public $hash = '';
     protected $liveEndPoint = 'https://secure.payu.in/_payment';
     protected $testEndPoint = 'https://sandboxsecure.payu.in/_payment';
     public $response = '';
@@ -21,7 +21,7 @@ class PayuMoneyWrapper
     {
         $this->merchantKey = config('services.payu.key');
         $this->salt = config('services.payu.salt');
-        $this->testMode = (config('services.payu.mode') == 'sandbox' ? true : false);
+        $this->testMode = config('services.payu.mode') == 'sandbox';
 
         $this->parameters['key'] = $this->merchantKey;
         $this->parameters['txnid'] = $this->generateTransactionID();
@@ -32,12 +32,15 @@ class PayuMoneyWrapper
 
     public function getEndPoint()
     {
-        return $this->testMode?$this->testEndPoint:$this->liveEndPoint;
+        return $this->testMode ? $this->testEndPoint : $this->liveEndPoint;
     }
 
+    /**
+     * @throws \Exception
+     */
     public function request($parameters)
     {
-        $this->parameters = array_merge($this->parameters,$parameters);
+        $this->parameters = array_merge($this->parameters, $parameters);
         $this->checkParameters($this->parameters);
         $this->encrypt();
         return $this->send();
@@ -48,10 +51,9 @@ class PayuMoneyWrapper
      */
     public function send()
     {
-        return view('includes.payUform')->with('hash',$this->hash)
-            ->with('parameters',$this->parameters)
-            ->with('endPoint',$this->getEndPoint());
-
+        return view('includes.payUform')->with('hash', $this->hash)
+            ->with('parameters', $this->parameters)
+            ->with('endPoint', $this->getEndPoint());
     }
 
 
@@ -66,7 +68,7 @@ class PayuMoneyWrapper
 
         $response_hash = $this->decrypt($response);
 
-        if($response_hash!=$response['hash']){
+        if ($response_hash != $response['hash']) {
             return false;
         }
 
@@ -77,6 +79,7 @@ class PayuMoneyWrapper
     /**
      * @param $parameters
      * @throws IndipayParametersMissingException
+     * @throws \Exception
      */
     public function checkParameters($parameters)
     {
@@ -92,15 +95,16 @@ class PayuMoneyWrapper
             'service_provider' => 'required',
             'amount' => 'required|numeric',
         ]);
-
-
+        if ($validator->fails()) {
+            throw new \Exception($validator->messages()[0]);
+        }
     }
 
     /**
      * PayUMoney Encrypt Function
      *
      */
-    protected function encrypt()
+    public function encrypt(): string
     {
         $this->hash = '';
         $hashSequence = "key|txnid|amount|productinfo|firstname|email|udf1|udf2|udf3|udf4|udf5|udf6|udf7|udf8|udf9|udf10";
@@ -108,13 +112,14 @@ class PayuMoneyWrapper
         $hashVarsSeq = explode('|', $hashSequence);
         $hash_string = '';
 
-        foreach($hashVarsSeq as $hash_var) {
+        foreach ($hashVarsSeq as $hash_var) {
             $hash_string .= isset($this->parameters[$hash_var]) ? $this->parameters[$hash_var] : '';
             $hash_string .= '|';
         }
 
         $hash_string .= $this->salt;
         $this->hash = strtolower(hash('sha512', $hash_string));
+        return $this->hash;
     }
 
     /**
@@ -129,18 +134,17 @@ class PayuMoneyWrapper
 
         $hashSequence = "status||||||udf5|udf4|udf3|udf2|udf1|email|firstname|productinfo|amount|txnid|key";
         $hashVarsSeq = explode('|', $hashSequence);
-        $hash_string = $this->salt."|";
+        $hash_string = $this->salt . "|";
 
-        foreach($hashVarsSeq as $hash_var) {
+        foreach ($hashVarsSeq as $hash_var) {
             $hash_string .= isset($response[$hash_var]) ? $response[$hash_var] : '';
             $hash_string .= '|';
         }
 
-        $hash_string = trim($hash_string,'|');
+        $hash_string = trim($hash_string, '|');
 
         return strtolower(hash('sha512', $hash_string));
     }
-
 
 
     public function generateTransactionID()

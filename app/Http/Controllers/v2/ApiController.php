@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\v2;
 
 use App\Helpers\General\EarningHelper;
+use App\Helpers\Payments\InstamojoWrapper;
 use App\Helpers\Payments\PayuMoneyWrapper;
 use App\Helpers\Payments\RazorpayWrapper;
 use App\Http\Controllers\Controller;
@@ -33,6 +34,7 @@ use App\Models\LiveLessonSlot;
 use App\Models\Locale;
 use App\Models\Media;
 use App\Models\Order;
+use App\Models\OrderItem;
 use App\Models\Page;
 use App\Models\Question;
 use App\Models\QuestionsOption;
@@ -71,6 +73,7 @@ use Laravel\Socialite\Facades\Socialite;
 use Lexx\ChatMessenger\Models\Message;
 use Lexx\ChatMessenger\Models\Participant;
 use Lexx\ChatMessenger\Models\Thread;
+use Omnipay\Omnipay;
 use Purifier;
 
 //use Messenger;
@@ -1461,8 +1464,17 @@ class ApiController extends Controller
     {
         try {
             switch ($request->payment_mode) {
+                case 1:
+                    $response = $this->stripePayment($request);
+                    break;
+                case 2:
+                    $response = $this->paypalPayment($request);
+                    break;
                 case 4:
                     $response = $this->getRazorpayStatus($request);
+                    break;
+                case 5:
+                    $response = $this->getPayUStatus($request);
                     break;
                 default:
                     throw new Exception('Please Select on of the available online payment Modes.');
@@ -1487,6 +1499,10 @@ class ApiController extends Controller
         return $razorWrapper->verifySignature($attributes);
     }
 
+    /**
+     * @return array
+     * @throws Exception
+     */
     public function payuPayment(Request $request)
     {
         $payumoneyWrapper = new PayuMoneyWrapper;
@@ -1494,32 +1510,62 @@ class ApiController extends Controller
         $order_confirmation_id = $request->order_confirmation_id;
         $order = Order::query()->findOrFail($order_confirmation_id);
         $amount = number_format($order->amount, 2);
-        $parameter = [
+        $parameters = [
             'amount' => $amount,
             'firstname' => $request->user()->name,
             'productinfo' => $request->user()->name,
             'email' => $request->user()->email,
             'phone' => $request->user()->phone,
-            /*'key'=>config('services.razorpay.key'),
-            'salt'=>config('services.razorpay.salt'),
-            'mode'=>config('services.razorpay.mode'),
-            'gateway_active'=>config('services.razorpay.active')*/
         ];
-        // dd($payumoneyWrapper->request($parameter));
-        return $payumoneyWrapper->request($parameter);
+        $parameters = array_merge($payumoneyWrapper->parameters, $parameters);
+        $payumoneyWrapper->checkParameters($parameters);
+        $hash = $payumoneyWrapper->encrypt();
+        $response = [
+            'hash' => $hash,
+            'endpoint' => $payumoneyWrapper->getEndPoint(),
+            'key' => config('services.payu.key'),
+            'salt' => config('services.payu.salt'),
+            'mode' => config('services.payu.mode'),
+            'gateway_active' => config('services.payu.active')
+        ];
+        return array_merge($parameters, $response);
     }
 
     public function getPayUStatus(Request $request)
     {
-        \Session::forget('failure');
         $payumoneyWrapper = new PayuMoneyWrapper();
         $response = $payumoneyWrapper->response($request);
-        if (is_array($response) && $response['status'] == 'success') {
+        \Log::info('Gateway:PayUMoney,Message:' . $response['error_Message'] . ',txStatus:' . $response['status'] . ' for id = ' . $request->user()->id);
+        return $response;
+    }
+
+    public function instamojoPayment(Request $request)
+    {
+        $order_confirmation_id = $request->order_confirmation_id;
+        $order = Order::query()->findOrFail($order_confirmation_id);
+        $amount = number_format($order->amount, 2);
+        $user = $request->user();
+        $cartData = [
+            "purpose" => "Buy Course/Bundle",
+            "amount" => $amount,
+            "buyer_name" => $user->name,
+            "send_email" => false,
+            "send_sms" => false,
+            "phone" => $request->phone,
+            "email" => $user->email,
+            "redirect_url" => route('cart.instamojo.status'),
+        ];
+        $instamojoWrapper = new InstamojoWrapper();
+        return $instamojoWrapper->pay($cartData);
+    }
+
+    public function getInstamojoStatus()
+    {
+        if (request()->get('payment_status') == 'Credit') {
             $order = $this->makeOrder();
-            $order->payment_type = 7;
-            $order->transaction_id = $response['payuMoneyId'];
+            $order->payment_type = 4;
+            $order->transaction_id = request()->get('payment_id');
             $order->save();
-            \Session::flash('success', trans('labels.frontend.cart.payment_done'));
             $order->status = 1;
             $order->save();
             (new EarningHelper)->insert($order);
@@ -1537,18 +1583,101 @@ class ApiController extends Controller
             generateInvoice($order);
             $this->adminOrderMail($order);
             Cart::session(auth()->user()->id)->clear();
-            \Log::info('Gateway:PayUMoney,Message:' . $response['error_Message'] . ',txStatus:' . $response['status'] . ' for id = ' . auth()->user()->id);
+            return Redirect::route('status');
+        } else if (request()->get('payment_status') == 'Failed') {
+            \Session::flash('failure', trans('labels.frontend.cart.payment_failed'));
+            return Redirect::route('status');
+        } else {
+            \Session::flash('failure', trans('labels.frontend.cart.payment_failed'));
             return Redirect::route('status');
         }
-        \Log::info('Gateway:PayUMoney,Message:' . $response['error_Message'] . ',txStatus:' . $response['status'] . ' for id = ' . auth()->user()->id);
-        \Session::flash('failure', trans('labels.frontend.cart.payment_failed'));
-        return Redirect::route('status');
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function paypalPayment(Request $request)
+    {
+        try {
+            $gateway = Omnipay::create('PayPal_Rest');
+            $gateway->setClientId(config('paypal.client_id'));
+            $gateway->setSecret(config('paypal.secret'));
+            $mode = config('paypal.settings.mode') == 'sandbox';
+            $gateway->setTestMode($mode);
+
+            $order_confirmation_id = $request->order_confirmation_id;
+            $order = Order::query()->findOrFail($order_confirmation_id);
+            $amount = number_format($order->amount, 2);
+            $user = $request->user();
+            $currency = getCurrency(config('app.currency'))['short_code'];
+            return $gateway->purchase([
+                'amount' => $amount,
+                'currency' => $currency,
+                'description' => $user->first_name . ' ' . $user->last_name,
+                'cancelUrl' => route('cart.paypal.status', ['status' => 0]),
+                'returnUrl' => route('cart.paypal.status', ['status' => 1]),
+            ])->send();
+        } catch (\Exception $e) {
+            throw new Exception($e->getMessage());
+        }
+
+    }
+
+    public function stripePayment(Request $request)
+    {
+        //Making Order
+        $order = $this->makeOrder();
+        $gateway = Omnipay::create('Stripe');
+        $gateway->setApiKey(config('services.stripe.secret'));
+        $token = $request->reservation['stripe_token'];
+        $amount = Cart::session($request->user()->id)->getTotal();
+        $currency = getCurrency(config('app.currency'))['short_code'];
+
+        $response = $gateway->purchase([
+            'amount' => $amount,
+            'currency' => $currency,
+            'token' => $token,
+            'confirm' => true,
+            'description' => $request->user()->name
+        ])->send();
+
+        if ($response->isSuccessful()) {
+            $order->status = 1;
+            $order->payment_type = 1;
+            $order->save();
+            (new EarningHelper)->insert($order);
+            foreach ($order->items as $orderItem) {
+                //Bundle Entries
+                if ($orderItem->item_type == Bundle::class) {
+                    foreach ($orderItem->item->courses as $course) {
+                        $course->students()->attach($order->user_id);
+                    }
+                }
+                $orderItem->item->students()->attach($order->user_id);
+            }
+
+            //Generating Invoice
+            generateInvoice($order);
+            $this->adminOrderMail($order);
+
+            Cart::session(auth()->user()->id)->clear();
+            \Illuminate\Support\Facades\Session::flash('success', trans('labels.frontend.cart.payment_done'));
+            return redirect()->route('status');
+
+        } else {
+            $order->status = 2;
+            $order->save();
+            \Log::info($response->getMessage() . ' for id = ' . auth()->user()->id);
+            Session::flash('failure', trans('labels.frontend.cart.try_again'));
+            return redirect()->route('cart.index');
+        }
     }
 
     /**
      * Payment Status
      *
-     * @return [json] Success Message
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse [json] Success Message
      */
     public function paymentStatus(Request $request)
     {
@@ -1575,11 +1704,9 @@ class ApiController extends Controller
                         $counter++;
                         array_push($items, ['number' => $counter, 'name' => $cartItem->item->name, 'price' => $cartItem->item->price]);
                     }
-
                     $content['items'] = $items;
                     $content['total'] = $order->amount;
                     $content['reference_no'] = $order->reference_no;
-
                     try {
                         \Mail::to(auth()->user()->email)->send(new OfflineOrderMail($content));
                     } catch (\Exception $e) {
@@ -1595,11 +1722,9 @@ class ApiController extends Controller
                         }
                         $orderItem->item->students()->attach($order->user_id);
                     }
-
                     //Generating Invoice
                     generateInvoice($order);
                 }
-
                 return response()->json(['status' => 200, 'result' => null]);
             } else {
                 return response()->json(['status' => 100, 'result' => null, 'message' => 'No order found']);
@@ -1608,7 +1733,6 @@ class ApiController extends Controller
             return response()->json(['status' => 100, 'result' => null, 'message' => $e->getMessage()]);
         }
     }
-
 
     /**
      * Create Order
