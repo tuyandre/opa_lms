@@ -288,46 +288,46 @@ if (!function_exists('generateInvoice')) {
             $title = $item->item->title;
             $price = $item->item->price;
             $qty = 1;
-            $id = 'prod-'.$item->item->id;
+            $id = 'prod-' . $item->item->id;
             $invoice->addItem($title, $price, $qty, $id);
         }
 //        $invoice->number($order->id);
         $total = $order->items->sum('price');
         $coupon = \App\Models\Coupon::find($order->coupon_id);
-        if($coupon != null){
-            $discount =  $order->items->sum('price') * $coupon->amount/100;
+        if ($coupon != null) {
+            $discount = $order->items->sum('price') * $coupon->amount / 100;
             $invoice->addDiscountData($discount);
             $total = $total - $discount;
         }
-        $taxes = \App\Models\Tax::where('status','=',1)->get();
-        $rateSum = \App\Models\Tax::where('status','=',1)->sum('rate');
-        if($taxes != null){
+        $taxes = \App\Models\Tax::where('status', '=', 1)->get();
+        $rateSum = \App\Models\Tax::where('status', '=', 1)->sum('rate');
+        if ($taxes != null) {
             $taxData = [];
-            foreach ($taxes as $tax){
+            foreach ($taxes as $tax) {
 
-                $taxData [] = ['name'=>$tax->name,'amount' => $total * $tax->rate/100];
+                $taxData [] = ['name' => $tax->name, 'amount' => $total * $tax->rate / 100];
             }
             $invoice->addTaxData($taxData);
-            $total =  $total + ($total * $rateSum/100);
+            $total = $total + ($total * $rateSum / 100);
         }
         $invoice->addTotal($total);
         $user = \App\Models\Auth\User::find($order->user_id);
 
         $invoice->customer([
-                'name' => $user->full_name,
-                'id' => $user->id,
-                'email' => $user->email
-            ])
-            ->save('public/invoices/invoice-'.$order->id.'.pdf');
+            'name' => $user->full_name,
+            'id' => $user->id,
+            'email' => $user->email
+        ])
+            ->save('public/invoices/invoice-' . $order->id . '.pdf');
 //                ->download('invoice-'.$order->id.'.pdf');
 //                ->show('invoice-'.$order->id.'.pdf');
 
-        $invoiceEntry = \App\Models\Invoice::where('order_id','=',$order->id)->first();
-        if($invoiceEntry == ""){
+        $invoiceEntry = \App\Models\Invoice::where('order_id', '=', $order->id)->first();
+        if ($invoiceEntry == "") {
             $invoiceEntry = new \App\Models\Invoice();
             $invoiceEntry->user_id = $order->user_id;
             $invoiceEntry->order_id = $order->id;
-            $invoiceEntry->url = 'invoice-'.$order->id.'.pdf';
+            $invoiceEntry->url = 'invoice-' . $order->id . '.pdf';
             $invoiceEntry->save();
         }
     }
@@ -367,18 +367,16 @@ if (!function_exists('getCurrency')) {
     {
         $currencies = config('currencies');
         $currency = "";
-            foreach ($currencies as $key => $val) {
-                if ($val['short_code'] == $short_code) {
-                    $currency = $val;
-                }
+        foreach ($currencies as $key => $val) {
+            if ($val['short_code'] == $short_code) {
+                $currency = $val;
             }
-       return $currency;
+        }
+        return $currency;
     }
 }
 
 if (!function_exists('menuList')) {
-
-
     function menuList($array)
     {
         $temp_array = array();
@@ -391,6 +389,14 @@ if (!function_exists('menuList')) {
         return $temp_array;
     }
 }
+
+if (!function_exists('floatNumber')) {
+    function floatNumber($number)
+    {
+        return number_format((float)$number, 2, '.', '');
+    }
+}
+
 if (!function_exists('checkCourseSubscribeOrNot')) {
     function checkCourseSubscribeOrNot($courseArr, $courseId)
     {
@@ -406,9 +412,8 @@ if (!function_exists('checkCourseSubscribeOrNot')) {
                     }
                     //bundle check course
                     foreach ($subPlan->subcribeBundle as $planDetail) {
-                        $bundleCourse = App\Models\BundleCourses::where('bundle_id','=',$planDetail->bundle->id)->where('course_id','=',$courseId)->first();
-                        if($bundleCourse && $bundleCourse!=null)
-                        {
+                        $bundleCourse = App\Models\BundleCourses::where('bundle_id', '=', $planDetail->bundle->id)->where('course_id', '=', $courseId)->first();
+                        if ($bundleCourse && $bundleCourse != null) {
                             $matchedBundle = true;
                         }
                     }
@@ -419,7 +424,7 @@ if (!function_exists('checkCourseSubscribeOrNot')) {
             }
 
         }
-        $checkArr = ["matched" => $matched,"matchedBundle"=>$matchedBundle];
+        $checkArr = ["matched" => $matched, "matchedBundle" => $matchedBundle];
         return $checkArr;
     }
 }
@@ -444,63 +449,62 @@ if (!function_exists('checkBundleSubscribeOrNot')) {
     }
 }
 
-if (!function_exists('checkExistingUserSubcribtionDate'))
-{
-    function checkExistingUserSubcribtionDate($Interval,$expireDays,$ExpireDateExits)
+if (!function_exists('checkExistingUserSubcribtionDate')) {
+    function checkExistingUserSubcribtionDate($Interval, $expireDays, $ExpireDateExits)
     {
-        if($Interval=='day' && !empty($ExpireDateExits)) {
+        if ($Interval == 'day' && !empty($ExpireDateExits)) {
 
-            $returnDate = date('Y-m-d H:i:s', strtotime('+'.$expireDays.' day', strtotime($ExpireDateExits)));
+            $returnDate = date('Y-m-d H:i:s', strtotime('+' . $expireDays . ' day', strtotime($ExpireDateExits)));
 
-        } else if($Interval=='day' && empty($ExpireDateExits) && !empty($expireDays)){
+        } else if ($Interval == 'day' && empty($ExpireDateExits) && !empty($expireDays)) {
 
-            $returnDate = date("Y-m-d H:i:s", strtotime('+'.$expireDays.' day'));
+            $returnDate = date("Y-m-d H:i:s", strtotime('+' . $expireDays . ' day'));
 
-        } else if($Interval=='week' && !empty($ExpireDateExits)){
+        } else if ($Interval == 'week' && !empty($ExpireDateExits)) {
 
-            $returnDate = date('Y-m-d H:i:s', strtotime('+'.$expireDays.'week', strtotime($ExpireDateExits)));
+            $returnDate = date('Y-m-d H:i:s', strtotime('+' . $expireDays . 'week', strtotime($ExpireDateExits)));
 
-        } else if($Interval=='week' && empty($ExpireDateExits) && !empty($expireDays)){
+        } else if ($Interval == 'week' && empty($ExpireDateExits) && !empty($expireDays)) {
 
-            $returnDate = date("Y-m-d H:i:s", strtotime('+'.$expireDays.' week'));
+            $returnDate = date("Y-m-d H:i:s", strtotime('+' . $expireDays . ' week'));
 
-        } else if($Interval=='month' && !empty($ExpireDateExits)){
+        } else if ($Interval == 'month' && !empty($ExpireDateExits)) {
 
-            $returnDate = date('Y-m-d H:i:s', strtotime('+'.$expireDays.' month', strtotime($ExpireDateExits)));
+            $returnDate = date('Y-m-d H:i:s', strtotime('+' . $expireDays . ' month', strtotime($ExpireDateExits)));
 
-        } else if($Interval=='month' && empty($ExpireDateExits) && !empty($expireDays)){
+        } else if ($Interval == 'month' && empty($ExpireDateExits) && !empty($expireDays)) {
 
-            $returnDate = date("Y-m-d H:i:s", strtotime('+'.$expireDays.' month'));
+            $returnDate = date("Y-m-d H:i:s", strtotime('+' . $expireDays . ' month'));
 
-        } else if($Interval=='year' && !empty($ExpireDateExits)){
+        } else if ($Interval == 'year' && !empty($ExpireDateExits)) {
 
-            $returnDate = date('Y-m-d H:i:s', strtotime('+'.$expireDays.' year', strtotime($ExpireDateExits)));
+            $returnDate = date('Y-m-d H:i:s', strtotime('+' . $expireDays . ' year', strtotime($ExpireDateExits)));
 
-        } else if($Interval=='year' && empty($ExpireDateExits) && !empty($expireDays)){
+        } else if ($Interval == 'year' && empty($ExpireDateExits) && !empty($expireDays)) {
 
-            $returnDate = date("Y-m-d H:i:s", strtotime('+'.$expireDays.' year'));
+            $returnDate = date("Y-m-d H:i:s", strtotime('+' . $expireDays . ' year'));
 
         } else {
-            $returnDate='';
+            $returnDate = '';
         }
         return $returnDate;
     }
 }
 
 /** check courses and bundle on plan existed **/
-if(!function_exists('courseOrBundlePlanExits')){
-    function courseOrBundlePlanExits($courseId=null,$bundleId=null)
+if (!function_exists('courseOrBundlePlanExits')) {
+    function courseOrBundlePlanExits($courseId = null, $bundleId = null)
     {
         $result = false;
-        if($courseId){
-            $Course = App\Models\Stripe\SubscribeCourse::where('course_id','=',$courseId)->first();
-            if($Course){
+        if ($courseId) {
+            $Course = App\Models\Stripe\SubscribeCourse::where('course_id', '=', $courseId)->first();
+            if ($Course) {
                 $result = true;
             }
         }
-        if($bundleId){
-            $bundleCourse = App\Models\Stripe\SubscribeBundle::where('bundle_id','=',$bundleId)->first();
-            if($bundleCourse){
+        if ($bundleId) {
+            $bundleCourse = App\Models\Stripe\SubscribeBundle::where('bundle_id', '=', $bundleId)->first();
+            if ($bundleCourse) {
                 $result = true;
             }
 
@@ -511,20 +515,20 @@ if(!function_exists('courseOrBundlePlanExits')){
 
 
 /** check courses and bundle expire**/
-if(!function_exists('courseOrBundleExpire')){
-    function courseOrBundleExpire($courseId=null,$bundleId=null)
+if (!function_exists('courseOrBundleExpire')) {
+    function courseOrBundleExpire($courseId = null, $bundleId = null)
     {
 
         $result = false;
-        if($courseId){
-            $courseEx = App\Models\Stripe\UserCourses::where('user_id',Auth::id())->where('course_id','=',$courseId)->whereDate('expire_at','>=',Carbon::now())->first();
-            if($courseEx==null){
+        if ($courseId) {
+            $courseEx = App\Models\Stripe\UserCourses::where('user_id', Auth::id())->where('course_id', '=', $courseId)->whereDate('expire_at', '>=', Carbon::now())->first();
+            if ($courseEx == null) {
                 $result = true;
             }
         }
-        if($bundleId){
-            $bundleEx = App\Models\Stripe\UserCourses::where('user_id',Auth::id())->where('bundle_id','=',$bundleId)->whereDate('expire_at','>=',Carbon::now())->first();
-            if($bundleEx==null){
+        if ($bundleId) {
+            $bundleEx = App\Models\Stripe\UserCourses::where('user_id', Auth::id())->where('bundle_id', '=', $bundleId)->whereDate('expire_at', '>=', Carbon::now())->first();
+            if ($bundleEx == null) {
                 $result = true;
             }
 

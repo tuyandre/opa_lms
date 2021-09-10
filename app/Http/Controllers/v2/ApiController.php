@@ -1448,7 +1448,7 @@ class ApiController extends Controller
         $razorpay_order_id = $razorWrapper->order($currency, $amount);
         return [
             'order_id' => $razorpay_order_id,
-            'amount' => $amount/100,
+            'amount' => $amount / 100,
             'currency' => $currency,
             'description' => $request->user()->name,
             'name' => $request->user()->name,
@@ -1528,7 +1528,7 @@ class ApiController extends Controller
             'isDebug' => true,
             'hash' => '461d4002c1432b3393cf2bfaae7acc4c50601c66568fb49a4a125e060c3bfc0e489290e7c902750d5db3fc8be2f180daf4d534d7b9bef46fa0158a4c8a057b61',
             'payment_mode' => 5,
-            'gateway_active'=>true,
+            'gateway_active' => true,
         ];
         $payumoneyWrapper = new PayuMoneyWrapper;
         // $currency = getCurrency(config('app.currency'))['short_code'];
@@ -1554,7 +1554,7 @@ class ApiController extends Controller
             //TODO:remove:replace bool with dynamic value.
             'gateway_active' => true, config('services.payu.active'),
             'payment_mode' => 5,
-            'merchant_id'=>config('services.payu.merchant_id')
+            'merchant_id' => config('services.payu.merchant_id')
         ];
         return array_merge($parameters, $response);
     }
@@ -2884,7 +2884,6 @@ class ApiController extends Controller
                         array_push($items, $bundle);
                     } else {
                         $status = false;
-
                         $course = Course::where('id', '=', $id)
                             ->where('price', '=', $price)
                             ->where('published', '=', 1)
@@ -2903,8 +2902,11 @@ class ApiController extends Controller
                     }
                 }
                 $data['data'] = $items;
+                /*$a = (float)$request->total;
+                $b = floatval($total);
+                if (abs(($a - $b) / $b) < 0.00001) {*/
 
-                if ((float)$request->total == floatval($total)) {
+                if (floatNumber($request->total) == floatNumber($total)) {
                     $coupon = $request->coupon;
                     $discount = 0;
                     $tax_amount = 0;
@@ -2926,8 +2928,6 @@ class ApiController extends Controller
                     } else {
                         $data['coupon_data'] = false;
                     }
-
-
                     $data['subtotal'] = (float)$total;
                     $total = $total - $discount;
 
@@ -2936,12 +2936,9 @@ class ApiController extends Controller
                     if ($data['tax_data'] != 0) {
                         $tax_amount = $data['tax_data']['total_tax'];
                     }
-
                     $data['final_total'] = $total + $tax_amount;
-
                     $order = $this->makeOrder($data);
                     $data['order'] = $order;
-
                     return ['status' => 200, 'result' => $data];
                 } else {
                     return ['status' => 100, 'message' => 'Total Mismatch', 'result' => $data];
