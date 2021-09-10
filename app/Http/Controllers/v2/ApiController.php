@@ -1445,7 +1445,7 @@ class ApiController extends Controller
         $razorpay_order_id = $razorWrapper->order($currency, $amount);
         return [
             'order_id' => $razorpay_order_id,
-            'amount' => $amount,
+            'amount' => $amount/100,
             'currency' => $currency,
             'description' => $request->user()->name,
             'name' => $request->user()->name,
