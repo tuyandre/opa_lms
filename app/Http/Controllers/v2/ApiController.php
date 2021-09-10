@@ -1450,7 +1450,7 @@ class ApiController extends Controller
             'description' => $request->user()->name,
             'name' => $request->user()->name,
             'email' => $request->user()->email,
-            'payment_mode' => 6,
+            'payment_mode' => 4,
             'image' => asset('storage/logos/popup-logo.png'),
             'gateway_key' => config('services.razorpay.key'),
             'gateway_secret' => config('services.razorpay.secret'),
