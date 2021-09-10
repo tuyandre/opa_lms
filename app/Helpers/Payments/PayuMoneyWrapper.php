@@ -65,13 +65,10 @@ class PayuMoneyWrapper
     public function response($request)
     {
         $response = $request->all();
-
         $response_hash = $this->decrypt($response);
-
         if ($response_hash != $response['hash']) {
             return false;
         }
-
         return $response;
     }
 
@@ -135,14 +132,11 @@ class PayuMoneyWrapper
         $hashSequence = "status||||||udf5|udf4|udf3|udf2|udf1|email|firstname|productinfo|amount|txnid|key";
         $hashVarsSeq = explode('|', $hashSequence);
         $hash_string = $this->salt . "|";
-
         foreach ($hashVarsSeq as $hash_var) {
-            $hash_string .= isset($response[$hash_var]) ? $response[$hash_var] : '';
+            $hash_string .= $response[$hash_var] ?? '';
             $hash_string .= '|';
         }
-
         $hash_string = trim($hash_string, '|');
-
         return strtolower(hash('sha512', $hash_string));
     }
 
