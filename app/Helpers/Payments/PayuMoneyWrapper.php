@@ -96,7 +96,7 @@ class PayuMoneyWrapper
             'amount' => 'required|numeric',
         ]);
         if ($validator->fails()) {
-            throw new \Exception($validator->messages()[0]);
+            // throw new \Exception($validator->messages()[0]);
         }
     }
 

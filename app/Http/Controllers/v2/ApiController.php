@@ -1518,7 +1518,7 @@ class ApiController extends Controller
             'phone' => $request->user()->phne,
         ];
         $parameters = array_merge($payumoneyWrapper->parameters, $parameters);
-        $payumoneyWrapper->checkParameters($parameters);
+        // $payumoneyWrapper->checkParameters($parameters);
         $hash = $payumoneyWrapper->encrypt();
         $response = [
             'hash' => $hash,
