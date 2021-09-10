@@ -45,8 +45,8 @@ return [
         'key' => env('INSTAMOJO_KEY'),
         'secret' => env('INSTAMOJO_SECRET'),
         'mode' => env('INSTAMOJO_MODE', 'sandbox'),
-        'test_base_url'=>'test.instamojo.com',
-        'live_base_url'=>'www.instamojo.com',
+        'test_base_url' => 'test.instamojo.com',
+        'live_base_url' => 'www.instamojo.com',
     ],
 
     'razorpay' => [
@@ -66,9 +66,9 @@ return [
         'active' => false,
         'key' => env('PAYU_KEY'),
         'salt' => env('PAYU_SALT'),
-        'mode' => env('PAYU_MODE', 'sandbox')
+        'mode' => env('PAYU_MODE', 'sandbox'),
+        'merchant_id' => env('PAYU_MERCHANT_ID', 8291730),
     ],
-
 
 
     /*

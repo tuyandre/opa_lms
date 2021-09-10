@@ -1532,6 +1532,7 @@ class ApiController extends Controller
             //TODO:remove:replace bool with dynamic value.
             'gateway_active' => true, config('services.payu.active'),
             'payment_mode' => 5,
+            'merchant_id'=>config('services.payu.merchant_id')
         ];
         return array_merge($parameters, $response);
     }
