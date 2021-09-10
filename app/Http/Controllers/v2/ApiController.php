@@ -1417,6 +1417,9 @@ class ApiController extends Controller
     {
         try {
             switch ($request->payment_mode) {
+                case 1:
+                    $response = $this->stripePayment($request);
+                    break;
                 case 4:
                     $response = $this->razorpayPayment($request);
                     break;
@@ -1526,7 +1529,8 @@ class ApiController extends Controller
             'key' => config('services.payu.key'),
             'salt' => config('services.payu.salt'),
             'mode' => config('services.payu.mode'),
-            'gateway_active' => config('services.payu.active'),
+            //TODO:remove:replace bool with dynamic value.
+            'gateway_active' => true, config('services.payu.active'),
             'payment_mode' => 5,
         ];
         return array_merge($parameters, $response);
