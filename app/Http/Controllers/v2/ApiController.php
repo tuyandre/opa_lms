@@ -1450,7 +1450,7 @@ class ApiController extends Controller
             'description' => $request->user()->name,
             'name' => $request->user()->name,
             'email' => $request->user()->email,
-            'payment_mode' => 'razorpay',
+            'payment_mode' => 6,
             'image' => asset('storage/logos/popup-logo.png'),
             'gateway_key' => config('services.razorpay.key'),
             'gateway_secret' => config('services.razorpay.secret'),
@@ -1515,7 +1515,7 @@ class ApiController extends Controller
             'firstname' => $request->user()->name,
             'productinfo' => $request->user()->name,
             'email' => $request->user()->email,
-            'phone' => $request->user()->phone,
+            'phone' => $request->user()->phne,
         ];
         $parameters = array_merge($payumoneyWrapper->parameters, $parameters);
         $payumoneyWrapper->checkParameters($parameters);
@@ -1526,7 +1526,8 @@ class ApiController extends Controller
             'key' => config('services.payu.key'),
             'salt' => config('services.payu.salt'),
             'mode' => config('services.payu.mode'),
-            'gateway_active' => config('services.payu.active')
+            'gateway_active' => config('services.payu.active'),
+            'payment_mode' => 5,
         ];
         return array_merge($parameters, $response);
     }
