@@ -1511,6 +1511,7 @@ class ApiController extends Controller
         return [
             'amount' => '10.0',
             'txnId' => '1594976828726',
+            'txnid' => '1594976828726',
             'productName' => 'product_info',
             'firstName' => 'firstname',
             'firstname' => 'firstname',
