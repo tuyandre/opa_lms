@@ -1565,8 +1565,8 @@ class ApiController extends Controller
         $response = [
             'hash' => $hash,
             'endpoint' => $payumoneyWrapper->getEndPoint(),
-            'key' => config('services.payu.key'),
-            'salt' => config('services.payu.salt'),
+            'key' => "8xiadOGw", // config('services.payu.key'),
+            'salt' => "Kkpv4fZQfh", // config('services.payu.salt'),
             'mode' => config('services.payu.mode'),
             //TODO:remove:replace bool with dynamic value.
             'gateway_active' => true, // config('services.payu.active'),
