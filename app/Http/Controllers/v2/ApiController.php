@@ -1531,7 +1531,7 @@ class ApiController extends Controller
             'productName' => 'product_info',
             'productinfo' => 'product_info',
             'firstname' => 'firstname',
-            "service_provider"=> "payu_paisa",
+            "service_provider" => "payu_paisa",
             'email' => 'xyz@gmail.com',
             'phone' => '9782075607',
             'merchantId' => '5960507',
@@ -1540,7 +1540,7 @@ class ApiController extends Controller
             'surl' => 'https://www.payumoney.com/mobileapp/payumoney/success.php',
             'furl' => 'https://www.payumoney.com/mobileapp/payumoney/failure.php',
             'isDebug' => true,
-            "endpoint"=> "https://sandboxsecure.payu.in/_payment",
+            "endpoint" => "https://sandboxsecure.payu.in/_payment",
             'hash' => '461d4002c1432b3393cf2bfaae7acc4c50601c66568fb49a4a125e060c3bfc0e489290e7c902750d5db3fc8be2f180daf4d534d7b9bef46fa0158a4c8a057b61',
             'payment_mode' => 5,
             'gateway_active' => true,
@@ -1555,7 +1555,7 @@ class ApiController extends Controller
             'firstname' => $request->user()->name,
             'productinfo' => $request->user()->name,
             'email' => $request->user()->email,
-            'phone' => $request->user()->phone??7854521252,
+            'phone' => $request->user()->phone ?? 7854521252,
         ];
         $parameters = array_merge($payumoneyWrapper->parameters, $parameters);
         // $payumoneyWrapper->checkParameters($parameters);
@@ -1591,15 +1591,15 @@ class ApiController extends Controller
             'test' => $test,
             'salt' => "CEAnGe0H6M", // config('services.payu.salt'),
         ];*/
-         return array_merge($parameters, $response);
+        return array_merge($parameters, $response);
         // return $response;
     }
 
     public function updateOrderStatus(Request $request)
     {
         return Order::query()->findOrFail($request->order_confirmation_id)->update([
-            "payment_type" => $request->payment_type,
-            "status" => $request->status,
+            "payment_type" => $request->payment_type ?? $request->payment_mode,
+            "status" => in_array($request->status, ['successful', 1, 'success', '1', 'Success', 'Successful']) ? 1 : 0,
             "transaction_id" => $request->transaction_id,
             "remarks" => $request->remarks ?? '',
         ]);
