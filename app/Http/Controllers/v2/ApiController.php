@@ -1576,7 +1576,7 @@ class ApiController extends Controller
             'merchant_id' => config('services.payu.merchant_id')
         ];
         return [
-            'amount' => '15.00',
+            'amount' => '10.00',
             'txnId' => '1594976828726',
             'productName' => 'product_info',
             'firstName' => $request->user()->name,
