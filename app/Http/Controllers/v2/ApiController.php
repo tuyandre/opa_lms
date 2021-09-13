@@ -1530,7 +1530,7 @@ class ApiController extends Controller
             'payment_mode' => 5,
             'gateway_active' => true,
         ];*/
-        return [
+        $test = [
             'amount' => '1.00',
             'txnId' => '1594976828726',
             'productName' => 'product_info',
@@ -1547,6 +1547,7 @@ class ApiController extends Controller
             'payment_mode' => 5,
             'gateway_active' => true,
         ];
+
 
         $payumoneyWrapper = new PayuMoneyWrapper;
         // $currency = getCurrency(config('app.currency'))['short_code'];
@@ -1573,6 +1574,25 @@ class ApiController extends Controller
             'gateway_active' => true, config('services.payu.active'),
             'payment_mode' => 5,
             'merchant_id' => config('services.payu.merchant_id')
+        ];
+        return [
+            'amount' => '15.00',
+            'txnId' => '1594976828726',
+            'productName' => 'product_info',
+            'firstName' => $request->user()->name,
+            'email' => $request->user()->email,
+            'phone' => $request->user()->phne,
+            'merchantId' => 'CEAnGe0H6M',
+            'key' => '7m5HkHqT',
+            // 'key' => config('services.payu.key'),
+            'successUrl' => 'https://www.payumoney.com/mobileapp/payumoney/success.php',
+            'failedUrl' => 'https://www.payumoney.com/mobileapp/payumoney/failure.php',
+            'isDebug' => true,
+            'hash' => $hash,
+            'payment_mode' => 5,
+            'gateway_active' => true,
+            'test' => $test,
+            'salt' => config('services.payu.salt'),
         ];
         // return array_merge($parameters, $response);
     }
