@@ -1593,8 +1593,8 @@ class ApiController extends Controller
             'test' => $test,
             'salt' => "CEAnGe0H6M", // config('services.payu.salt'),
         ];*/
-        // return array_merge($parameters, $response);
-        return $response;
+         return array_merge($parameters, $response);
+        // return $response;
     }
 
     public function updateOrderStatus(Request $request)
