@@ -64,8 +64,8 @@ return [
 
     'payu' => [
         'active' => false,
-        'key' => env('PAYU_KEY'),
-        'salt' => env('PAYU_SALT'),
+        'key' => env('PAYU_KEY', "7m5HkHqT"),
+        'salt' => env('PAYU_SALT', "CEAnGe0H6M"),
         'mode' => env('PAYU_MODE', 'sandbox'),
         'merchant_id' => env('PAYU_MERCHANT_ID', 5007461),
     ],
