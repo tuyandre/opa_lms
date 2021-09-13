@@ -128,7 +128,6 @@ class PayuMoneyWrapper
      */
     protected function decrypt($response)
     {
-
         $hashSequence = "status||||||udf5|udf4|udf3|udf2|udf1|email|firstname|productinfo|amount|txnid|key";
         $hashVarsSeq = explode('|', $hashSequence);
         $hash_string = $this->salt . "|";

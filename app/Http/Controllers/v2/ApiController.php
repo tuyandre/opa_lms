@@ -1575,7 +1575,7 @@ class ApiController extends Controller
             'payment_mode' => 5,
             'merchant_id' => config('services.payu.merchant_id')
         ];
-        return [
+        /*return [
             'amount' => '10.00',
             'txnId' => '1594976828726',
             'productName' => 'product_info',
@@ -1593,8 +1593,8 @@ class ApiController extends Controller
             'gateway_active' => true,
             'test' => $test,
             'salt' => "CEAnGe0H6M", // config('services.payu.salt'),
-        ];
-        // return array_merge($parameters, $response);
+        ];*/
+         return array_merge($parameters, $response);
     }
 
     public function getPayUStatus(Request $request)
