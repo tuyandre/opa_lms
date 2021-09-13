@@ -1477,7 +1477,7 @@ class ApiController extends Controller
                     $response = $this->getRazorpayStatus($request);
                     break;
                 case 5:
-                    $response = $this->getPayUStatus($request);
+                    $response = $this->updateOrderStatus($request);
                     break;
                 default:
                     throw new Exception('Please Select on of the available online payment Modes.');
@@ -1547,8 +1547,6 @@ class ApiController extends Controller
             'payment_mode' => 5,
             'gateway_active' => true,
         ];
-
-
         $payumoneyWrapper = new PayuMoneyWrapper;
         // $currency = getCurrency(config('app.currency'))['short_code'];
         $order_confirmation_id = $request->order_confirmation_id;
@@ -1594,15 +1592,17 @@ class ApiController extends Controller
             'test' => $test,
             'salt' => "CEAnGe0H6M", // config('services.payu.salt'),
         ];*/
-         return array_merge($parameters, $response);
+        return array_merge($parameters, $response);
     }
 
-    public function getPayUStatus(Request $request)
+    public function updateOrderStatus(Request $request)
     {
-        $payumoneyWrapper = new PayuMoneyWrapper();
-        $response = $payumoneyWrapper->response($request);
-        \Log::info('Gateway:PayUMoney,Message:' . $response['error_Message'] . ',txStatus:' . $response['status'] . ' for id = ' . $request->user()->id);
-        return $response;
+        return Order::query()->findOrFail($request->order_confirmation_id)->update([
+            "payment_type" => $request->payment_type,
+            "status" => $request->status,
+            "transaction_id" => $request->transaction_id,
+            "remarks" => $request->remarks ?? '',
+        ]);
     }
 
     public function instamojoPayment(Request $request)
