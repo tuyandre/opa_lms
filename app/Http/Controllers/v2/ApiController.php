@@ -1557,7 +1557,7 @@ class ApiController extends Controller
             'firstname' => $request->user()->name,
             'productinfo' => $request->user()->name,
             'email' => $request->user()->email,
-            'phone' => $request->user()->phone,
+            'phone' => $request->user()->phone??7854521252,
         ];
         $parameters = array_merge($payumoneyWrapper->parameters, $parameters);
         // $payumoneyWrapper->checkParameters($parameters);
