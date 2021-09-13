@@ -67,7 +67,7 @@ return [
         'key' => env('PAYU_KEY'),
         'salt' => env('PAYU_SALT'),
         'mode' => env('PAYU_MODE', 'sandbox'),
-        'merchant_id' => env('PAYU_MERCHANT_ID', 8291730),
+        'merchant_id' => env('PAYU_MERCHANT_ID', 5007461),
     ],
 
 

@@ -110,7 +110,7 @@ class PayuMoneyWrapper
         $hash_string = '';
 
         foreach ($hashVarsSeq as $hash_var) {
-            $hash_string .= isset($this->parameters[$hash_var]) ? $this->parameters[$hash_var] : '';
+            $hash_string .= $this->parameters[$hash_var] ?? '';
             $hash_string .= '|';
         }
 
@@ -128,6 +128,7 @@ class PayuMoneyWrapper
      */
     protected function decrypt($response)
     {
+
         $hashSequence = "status||||||udf5|udf4|udf3|udf2|udf1|email|firstname|productinfo|amount|txnid|key";
         $hashVarsSeq = explode('|', $hashSequence);
         $hash_string = $this->salt . "|";

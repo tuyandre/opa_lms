@@ -1572,7 +1572,7 @@ class ApiController extends Controller
             'gateway_active' => true, config('services.payu.active'),
             'payment_mode' => 5,
             'merchantId' => config('services.payu.merchant_id'),
-            'test'=>$test,
+            'test' => $test,
         ];
         /*return [
             'amount' => '10.00',
@@ -1593,7 +1593,8 @@ class ApiController extends Controller
             'test' => $test,
             'salt' => "CEAnGe0H6M", // config('services.payu.salt'),
         ];*/
-        return array_merge($parameters, $response);
+        // return array_merge($parameters, $response);
+        return $response;
     }
 
     public function updateOrderStatus(Request $request)
