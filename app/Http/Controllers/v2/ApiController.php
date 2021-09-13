@@ -1582,7 +1582,7 @@ class ApiController extends Controller
             'firstName' => $request->user()->name,
             'email' => $request->user()->email,
             'phone' => $request->user()->phone,
-            'merchantId' => 'CEAnGe0H6M',
+            'merchantId' => '5007461',
             'key' => '7m5HkHqT',
             // 'key' => config('services.payu.key'),
             'successUrl' => 'https://www.payumoney.com/mobileapp/payumoney/success.php',
@@ -1592,7 +1592,7 @@ class ApiController extends Controller
             'payment_mode' => 5,
             'gateway_active' => true,
             'test' => $test,
-            'salt' => config('services.payu.salt'),
+            'salt' => "CEAnGe0H6M", // config('services.payu.salt'),
         ];
         // return array_merge($parameters, $response);
     }
