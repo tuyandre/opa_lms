@@ -1466,7 +1466,8 @@ class ApiController extends Controller
     public function getPaymentGatewayStatus(Request $request)
     {
         try {
-            switch ($request->payment_mode) {
+            $payment_mode = $request->payment_mode ?? $request->payment_type;
+            switch ($payment_mode) {
                 case 1:
                     $response = $this->stripePayment($request);
                     break;
