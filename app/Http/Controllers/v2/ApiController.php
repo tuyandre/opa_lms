@@ -1535,7 +1535,7 @@ class ApiController extends Controller
             'txnId' => '1594976828726',
             'productName' => 'product_info',
             'firstName' => 'firstname',
-            'email' => $request->user()->email,
+            'email' => 'xyz@gmail.com',
             'phone' => '9782075607',
             'merchantId' => '5960507',
             'key' => 'QylhKRVd',
