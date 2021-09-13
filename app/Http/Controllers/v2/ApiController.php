@@ -1559,7 +1559,7 @@ class ApiController extends Controller
             'firstname' => $request->user()->name,
             'productinfo' => $request->user()->name,
             'email' => $request->user()->email,
-            'phone' => $request->user()->phne,
+            'phone' => $request->user()->phone,
         ];
         $parameters = array_merge($payumoneyWrapper->parameters, $parameters);
         // $payumoneyWrapper->checkParameters($parameters);
@@ -1581,7 +1581,7 @@ class ApiController extends Controller
             'productName' => 'product_info',
             'firstName' => $request->user()->name,
             'email' => $request->user()->email,
-            'phone' => $request->user()->phne,
+            'phone' => $request->user()->phone,
             'merchantId' => 'CEAnGe0H6M',
             'key' => '7m5HkHqT',
             // 'key' => config('services.payu.key'),
