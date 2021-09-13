@@ -1531,7 +1531,7 @@ class ApiController extends Controller
             'gateway_active' => true,
         ];*/
         return [
-            'amount' => '10.0',
+            'amount' => '1.00',
             'txnId' => '1594976828726',
             'productName' => 'product_info',
             'firstName' => 'firstname',
