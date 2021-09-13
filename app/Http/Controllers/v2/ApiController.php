@@ -1569,7 +1569,7 @@ class ApiController extends Controller
             'salt' => config('services.payu.salt'),
             'mode' => config('services.payu.mode'),
             //TODO:remove:replace bool with dynamic value.
-            'gateway_active' => true, config('services.payu.active'),
+            'gateway_active' => true, // config('services.payu.active'),
             'payment_mode' => 5,
             'merchantId' => config('services.payu.merchant_id'),
             'test' => $test,
