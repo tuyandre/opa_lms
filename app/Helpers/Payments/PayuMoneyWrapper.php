@@ -19,8 +19,8 @@ class PayuMoneyWrapper
 
     public function __construct()
     {
-        $this->merchantKey = "8xiadOGw"; // config('services.payu.key');
-        $this->salt = "Kkpv4fZQfh"; // config('services.payu.salt');
+        $this->merchantKey = config('services.payu.key');
+        $this->salt = config('services.payu.salt');
         $this->testMode = config('services.payu.mode') == 'sandbox';
 
         $this->parameters['key'] = $this->merchantKey;
