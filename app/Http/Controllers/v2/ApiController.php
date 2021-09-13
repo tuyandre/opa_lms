@@ -1508,29 +1508,7 @@ class ApiController extends Controller
      */
     public function payuPayment(Request $request)
     {
-        /*return [
-            'productinfo' => 'Thare kaai hogo.',
-            'amount' => '10.0',
-            'txnId' => '1594976828726',
-            'txnid' => '1594976828726',
-            'productName' => 'product_info',
-            'firstName' => 'firstname',
-            'firstname' => 'firstname',
-            'email' => 'xyz@gmail.com',
-            'phone' => '9639999999',
-            'merchantId' => '5960507',
-            'merchant_id' => '5960507',
-            'key' => 'QylhKRVd',
-            'successUrl' => 'https://www.payumoney.com/mobileapp/payumoney/success.php',
-            'failedUrl' => 'https://www.payumoney.com/mobileapp/payumoney/failure.php',
-            'surl' => 'https://www.payumoney.com/mobileapp/payumoney/success.php',
-            'furl' => 'https://www.payumoney.com/mobileapp/payumoney/failure.php',
-            'isDebug' => true,
-            'hash' => '461d4002c1432b3393cf2bfaae7acc4c50601c66568fb49a4a125e060c3bfc0e489290e7c902750d5db3fc8be2f180daf4d534d7b9bef46fa0158a4c8a057b61',
-            'payment_mode' => 5,
-            'gateway_active' => true,
-        ];*/
-        $test = [
+        /*$test = [
             'amount' => '10.0',
             'txnId' => '1594976828726',
             'productName' => 'product_info',
@@ -1543,6 +1521,26 @@ class ApiController extends Controller
             'successUrl' => 'https://www.payumoney.com/mobileapp/payumoney/success.php',
             'failedUrl' => 'https://www.payumoney.com/mobileapp/payumoney/failure.php',
             'isDebug' => true,
+            'hash' => '461d4002c1432b3393cf2bfaae7acc4c50601c66568fb49a4a125e060c3bfc0e489290e7c902750d5db3fc8be2f180daf4d534d7b9bef46fa0158a4c8a057b61',
+            'payment_mode' => 5,
+            'gateway_active' => true,
+        ];*/
+        $test = [
+            'amount' => '10.0',
+            'txnid' => '1594976828726',
+            'productName' => 'product_info',
+            'productinfo' => 'product_info',
+            'firstname' => 'firstname',
+            "service_provider"=> "payu_paisa",
+            'email' => 'xyz@gmail.com',
+            'phone' => '9782075607',
+            'merchantId' => '5960507',
+            'key' => 'QylhKRVd',
+            // 'key' => config('services.payu.key'),
+            'surl' => 'https://www.payumoney.com/mobileapp/payumoney/success.php',
+            'furl' => 'https://www.payumoney.com/mobileapp/payumoney/failure.php',
+            'isDebug' => true,
+            "endpoint"=> "https://sandboxsecure.payu.in/_payment",
             'hash' => '461d4002c1432b3393cf2bfaae7acc4c50601c66568fb49a4a125e060c3bfc0e489290e7c902750d5db3fc8be2f180daf4d534d7b9bef46fa0158a4c8a057b61',
             'payment_mode' => 5,
             'gateway_active' => true,
