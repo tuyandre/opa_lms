@@ -1672,7 +1672,7 @@ class ApiController extends Controller
             'secret_key' => config('services.stripe.secret'),
             'description' => 'Order Payment',
             'order_id' => $order_confirmation_id,
-            'amount' => number_format((float)$amount, 2, '.', ''),
+            'amount' => number_format((float)$amount, 2, '.', '') * 100,
         ];
     }
 
