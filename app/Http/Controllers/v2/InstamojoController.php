@@ -68,15 +68,16 @@ class InstamojoController extends Controller
                 "remarks" => '',
             ]);
             $message = 'Payment Successfully Done';
-            return view('web_view.status', compact('message'));
+            return route('instamojo-payment.success', compact('message'));
         } else if (request()->get('payment_status') == 'Failed') {
             $message = trans('labels.frontend.cart.payment_failed');
-            return view('web_view.status', compact('message'));
+            return redirect()->route('instamojo-payment.declined', compact('message'));
         } else {
             $message = trans('labels.frontend.cart.payment_failed');
-            return view('web_view.status', compact('message'));
+            return redirect()->route('instamojo-payment.declined', compact('message'));
         }
     }
+
 
     public function pay($cartdata)
     {
