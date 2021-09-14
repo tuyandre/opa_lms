@@ -1669,7 +1669,7 @@ class ApiController extends Controller
             'currency' => $currency,
             'payment_mode' => 1,
             'stripe_publishable_key' => config('services.stripe.key'),
-            'Secret_key' => config('services.stripe.secret'),
+            'secret_key' => config('services.stripe.secret'),
             'order_id' => $order_confirmation_id,
             'amount' => number_format((float)$amount, 2, '.', ''),
         ];
