@@ -1666,9 +1666,9 @@ class ApiController extends Controller
         $amount = number_format($order->amount, 2);
         $currency = getCurrency(config('app.currency'))['short_code'];
         return [
-            'CURRENCY' => $currency,
+            'currency' => $currency,
             'payment_mode' => 1,
-            'STRIPE_PUBLISHABLE_KEY' => config('services.stripe.key'),
+            'stripe_publishable_key' => config('services.stripe.key'),
             'Secret_key' => config('services.stripe.secret'),
             'order_id' => $order_confirmation_id,
             'amount' => number_format((float)$amount, 2, '.', ''),
