@@ -1422,7 +1422,7 @@ class ApiController extends Controller
                     break;
                 case 2:
                     $response = [
-                        'handle_payment_url' => route('paypal-handle-payment',$request->order_confirmation_id),
+                        'handle_payment_url' => route('paypal-handle-payment', $request->order_confirmation_id),
                         'success_url' => route('paypal-payment.success'),
                         'declined_url' => route('paypal-payment.declined'),
                         'order_confirmation_id' => $request->order_confirmation_id,
@@ -1434,6 +1434,15 @@ class ApiController extends Controller
                     break;
                 case 5:
                     $response = $this->payuPayment($request);
+                    break;
+                case 6:
+                    $response = [
+                        'handle_payment_url' => route('instamojo-handle-payment', $request->order_confirmation_id),
+                        'success_url' => route('instamojo-payment.success'),
+                        'declined_url' => route('instamojo-payment.declined'),
+                        'order_confirmation_id' => $request->order_confirmation_id,
+                        'payment_mode' => 6,
+                    ];
                     break;
                 default:
                     throw new Exception('Please Select on of the available online payment Modes.');
