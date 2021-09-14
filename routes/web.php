@@ -200,7 +200,6 @@ Route::group(['prefix' => 'subscription'], function () {
     Route::post('subscribe', 'SubscriptionController@courseSubscribed')->name('subscription.course_subscribe');
 });
 
-
 Route::get('paypal-handle-payment/{order_id}', [PaypalPaymentController::class, 'paypalHandlePayment'])->name('paypal-handle-payment');
 Route::get('paypal-transaction/success', [PaypalPaymentController::class, 'getPaymentStatus'])->name('paypal-payment.success');
 Route::get('paypal-transaction/declined', [PaypalPaymentController::class, 'getPaymentStatus'])->name('paypal-payment.declined');

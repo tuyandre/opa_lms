@@ -103,9 +103,10 @@ class PaypalPaymentController extends Controller
                 break;
             }
         }
-
+        // Order::query()->findOrFail($order_id)->update(['transaction_id' => $payment->getId()]);
         Session::put('paypal_payment_id', $payment->getId());
         Session::put('paypal_payment', ['paypal_payment_id' => $payment->getId(), 'order_id' => $order_id]);
+        Session::save();
         if (isset($redirect_url)) {
             return Redirect::away($redirect_url);
         }
@@ -116,9 +117,11 @@ class PaypalPaymentController extends Controller
     public function getPaymentStatus(Request $request)
     {
         $payment_id = Session::get('paypal_payment_id');
-        $paypal_payment = session()->get('paypal_payment');
+        $paypal_payment = Session::get('paypal_payment');
+
         $order_id = $paypal_payment['order_id'];
-        session()->forget('paypal_payment');
+
+        Session::forget('paypal_payment');
         Session::forget('paypal_payment_id');
         if (empty($request->input('PayerID')) || empty($request->input('token'))) {
             $message = 'Payment failed';
@@ -136,10 +139,11 @@ class PaypalPaymentController extends Controller
                 "transaction_id" => $payment_id,
                 "remarks" => '',
             ]);
-            $message = 'Payment success !!';
-            return Redirect::route('paypal-payment.success', compact('message'));
+
+            \Session::put('success', 'Payment success !!');
+            return view('web_view.status');
         }
-        $message = 'Payment failed !!';
-        return Redirect::route('paypal-payment.declined', compact('message'));
+        \Session::put('error', 'Payment failed !!');
+        return view('web_view.status');
     }
 }
