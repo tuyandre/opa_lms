@@ -122,7 +122,7 @@ class PaypalPaymentController extends Controller
         Session::forget('paypal_payment_id');
         if (empty($request->input('PayerID')) || empty($request->input('token'))) {
             $message = 'Payment failed';
-            return Redirect::route('paypal-payment-declined', compact('message'));
+            return Redirect::route('paypal-payment.declined', compact('message'));
         }
         $payment = Payment::get($payment_id, $this->_api_context);
         $execution = new PaymentExecution();
@@ -137,9 +137,9 @@ class PaypalPaymentController extends Controller
                 "remarks" => '',
             ]);
             $message = 'Payment success !!';
-            return Redirect::route('paypal-payment-success', compact('message'));
+            return Redirect::route('paypal-payment.success', compact('message'));
         }
         $message = 'Payment failed !!';
-        return Redirect::route('paypal-payment-declined', compact('message'));
+        return Redirect::route('paypal-payment.declined', compact('message'));
     }
 }
