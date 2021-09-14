@@ -207,12 +207,8 @@ Route::get('paypal-transaction/declined', [PaypalPaymentController::class, 'getP
 
 Route::get('instamojo-handle-payment/{order_id}', [InstamojoController::class, 'instamojoPayment'])->name('instamojo-handle-payment');
 Route::get('instamojo-transaction/status', [InstamojoController::class, 'getInstamojoStatus'])->name('instamojo-payment.status');
-Route::get('instamojo-transaction/success', function () {
-    return view('web_view.status');
-})->name('instamojo-payment.success');
-Route::get('instamojo-transaction/declined', function () {
-    return view('web_view.status');
-})->name('instamojo-payment.declined');
+Route::get('instamojo-transaction/success', [InstamojoController::class, 'status'])->name('instamojo-payment.success');
+Route::get('instamojo-transaction/declined', [InstamojoController::class, 'status'])->name('instamojo-payment.declined');
 
 // wishlist
 Route::post('add-to-wishlist', 'Backend\WishlistController@store')->name('add-to-wishlist');
