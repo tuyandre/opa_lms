@@ -29,7 +29,6 @@ class PaypalPaymentController extends Controller
 
     public function __construct()
     {
-
         $paypal_configuration = \Config::get('paypal');
         $this->_api_context = new ApiContext(new OAuthTokenCredential($paypal_configuration['client_id'], $paypal_configuration['secret']));
         $this->_api_context->setConfig($paypal_configuration['settings']);
@@ -78,8 +77,8 @@ class PaypalPaymentController extends Controller
             ->setDescription('Enter Your transaction description');
 
         $redirect_urls = new RedirectUrls();
-        $redirect_urls->setReturnUrl(URL::route('paypal-payment.status', compact('requestData')))
-            ->setCancelUrl(URL::route('paypal-payment.status'));
+        $redirect_urls->setReturnUrl(URL::route('paypal-payment.success', compact('requestData')))
+            ->setCancelUrl(URL::route('paypal-payment.declined'));
 
         $payment = new Payment();
         $payment->setIntent('Sale')
@@ -90,11 +89,11 @@ class PaypalPaymentController extends Controller
             $payment->create($this->_api_context);
         } catch (\Exception $ex) {
             if (\Config::get('app.debug')) {
-                \Session::put('error', 'Connection timeout');
-                return Redirect::route('paypal-make-payment');
+                $message = 'Connection timeout';
+                return Redirect::route('paypal-payment.declined', compact('message'));
             } else {
-                \Session::put('error', 'Some error occur, sorry for inconvenient');
-                return Redirect::route('paypal-make-payment');
+                $message = 'Some error occur, sorry for inconvenient';
+                return Redirect::route('paypal-payment.declined', compact('message'));
             }
         }
 
@@ -110,9 +109,8 @@ class PaypalPaymentController extends Controller
         if (isset($redirect_url)) {
             return Redirect::away($redirect_url);
         }
-
-        \Session::put('error', 'Unknown error occurred');
-        return Redirect::route('paypal-make-payment');
+        $message = 'Unknown error occurred';
+        return Redirect::route('paypal-payment.declined', compact('message'));
     }
 
     public function getPaymentStatus(Request $request)
@@ -123,8 +121,8 @@ class PaypalPaymentController extends Controller
         session()->forget('paypal_payment');
         Session::forget('paypal_payment_id');
         if (empty($request->input('PayerID')) || empty($request->input('token'))) {
-            \Session::put('error', 'Payment failed');
-            return Redirect::route('paypal-make-payment', $order_id);
+            $message = 'Payment failed';
+            return Redirect::route('paypal-payment-declined', compact('message'));
         }
         $payment = Payment::get($payment_id, $this->_api_context);
         $execution = new PaymentExecution();
@@ -138,10 +136,10 @@ class PaypalPaymentController extends Controller
                 "transaction_id" => $payment_id,
                 "remarks" => '',
             ]);
-            \Session::put('success', 'Payment success !!');
-            return view('web_view.status');
+            $message = 'Payment success !!';
+            return Redirect::route('paypal-payment-success', compact('message'));
         }
-        \Session::put('error', 'Payment failed !!');
-        return Redirect::route('paypal-make-payment', $order_id);
+        $message = 'Payment failed !!';
+        return Redirect::route('paypal-payment-declined', compact('message'));
     }
 }

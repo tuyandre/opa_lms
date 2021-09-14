@@ -1420,6 +1420,19 @@ class ApiController extends Controller
                 case 1:
                     $response = $this->stripePayment($request);
                     break;
+                case 2:
+                    $response = [
+                        'handle_payment_url' => route('paypal-handle-payment'),
+                        'data' => encrypt(['order_id' => $request->order_confirmation_id]),
+                        'success_url' => route('paypal-payment.success'),
+                        'declined_url' => route('paypal-payment.declined'),
+                        'client_id' => config('paypal.client_id'),
+                        'secret' => config('paypal.secret'),
+                        'mode' => config('paypal.settings.mode'),
+                        'order_confirmation_id' => $request->order_confirmation_id,
+                        'payment_mode' => 2,
+                    ];
+                    break;
                 case 4:
                     $response = $this->razorpayPayment($request);
                     break;

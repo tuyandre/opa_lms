@@ -200,10 +200,6 @@ Route::group(['prefix' => 'subscription'], function () {
     Route::post('subscribe', 'SubscriptionController@courseSubscribed')->name('subscription.course_subscribe');
 });
 
-Route::get('paypal-make-payment/{order_id}', [PaypalPaymentController::class, 'payWithPaypal'])->name('paypal-make-payment');
-Route::POST('paypal-handle-payment', [PaypalPaymentController::class, 'paypalHandlePayment'])->name('paypal-handle-payment');
-Route::get('paypal-status', [PaypalPaymentController::class, 'getPaymentStatus'])->name('paypal-payment.status');
-
 // wishlist
 Route::post('add-to-wishlist', 'Backend\WishlistController@store')->name('add-to-wishlist');
 
