@@ -1422,13 +1422,9 @@ class ApiController extends Controller
                     break;
                 case 2:
                     $response = [
-                        'handle_payment_url' => route('paypal-handle-payment'),
-                        'data' => encrypt(['order_id' => $request->order_confirmation_id]),
+                        'handle_payment_url' => route('paypal-handle-payment',$request->order_confirmation_id),
                         'success_url' => route('paypal-payment.success'),
                         'declined_url' => route('paypal-payment.declined'),
-                        'client_id' => config('paypal.client_id'),
-                        'secret' => config('paypal.secret'),
-                        'mode' => config('paypal.settings.mode'),
                         'order_confirmation_id' => $request->order_confirmation_id,
                         'payment_mode' => 2,
                     ];
