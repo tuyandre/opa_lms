@@ -37,9 +37,17 @@ class PaypalPaymentController extends Controller
 
     public function payWithPaypal($order_id)
     {
-        Order::query()->findOrFail($order_id);
-        $data = encrypt(['order_id' => $order_id]);
-        return view('web_view.paypal_payment', compact('data'));
+        try {
+            $order = Order::query()->where(['id' => $order_id])->first();
+            if ($order == null)
+                throw new \Exception("Invalid Payment Request");
+            if ($order->status == 1)
+                throw new \Exception("Payment Already Processed.");
+            $data = encrypt(['order_id' => $order_id]);
+            return view('web_view.paypal_payment', compact('data'));
+        } catch (\Exception $e) {
+            return view('web_view.status')->with('error', $e->getMessage());
+        }
     }
 
     public function paypalHandlePayment(Request $request)
