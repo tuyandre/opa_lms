@@ -1659,55 +1659,20 @@ class ApiController extends Controller
     }
 
 
-
     public function stripePayment(Request $request)
     {
-        //Making Order
-        $order = $this->makeOrder();
-        $gateway = Omnipay::create('Stripe');
-        $gateway->setApiKey(config('services.stripe.secret'));
-        $token = $request->reservation['stripe_token'];
-        $amount = Cart::session($request->user()->id)->getTotal();
+        $order_confirmation_id = $request->order_confirmation_id;
+        $order = Order::query()->findOrFail($order_confirmation_id);
+        $amount = number_format($order->amount, 2);
         $currency = getCurrency(config('app.currency'))['short_code'];
-
-        $response = $gateway->purchase([
-            'amount' => $amount,
-            'currency' => $currency,
-            'token' => $token,
-            'confirm' => true,
-            'description' => $request->user()->name
-        ])->send();
-
-        if ($response->isSuccessful()) {
-            $order->status = 1;
-            $order->payment_type = 1;
-            $order->save();
-            (new EarningHelper)->insert($order);
-            foreach ($order->items as $orderItem) {
-                //Bundle Entries
-                if ($orderItem->item_type == Bundle::class) {
-                    foreach ($orderItem->item->courses as $course) {
-                        $course->students()->attach($order->user_id);
-                    }
-                }
-                $orderItem->item->students()->attach($order->user_id);
-            }
-
-            //Generating Invoice
-            generateInvoice($order);
-            $this->adminOrderMail($order);
-
-            Cart::session(auth()->user()->id)->clear();
-            \Illuminate\Support\Facades\Session::flash('success', trans('labels.frontend.cart.payment_done'));
-            return redirect()->route('status');
-
-        } else {
-            $order->status = 2;
-            $order->save();
-            \Log::info($response->getMessage() . ' for id = ' . auth()->user()->id);
-            Session::flash('failure', trans('labels.frontend.cart.try_again'));
-            return redirect()->route('cart.index');
-        }
+        return [
+            'CURRENCY' => $currency,
+            'payment_mode' => 1,
+            'STRIPE_PUBLISHABLE_KEY' => config('services.stripe.key'),
+            'Secret_key' => config('services.stripe.secret'),
+            'order_id' => $order_confirmation_id,
+            'amount' => number_format((float)$amount, 2, '.', ''),
+        ];
     }
 
     /**
