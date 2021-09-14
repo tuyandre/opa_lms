@@ -91,6 +91,11 @@ return [
     |
     */
 
+    /**
+     * Default Currency
+     */
+    'currency' => 'INR',
+
     'date_format' => 'Y-m-d',
     'date_format_js' => 'yy-mm-dd',
 
@@ -235,7 +240,6 @@ return [
         App\Providers\RouteServiceProvider::class,
 
 
-
     ],
 
     /*
@@ -301,9 +305,6 @@ return [
         'Cart' => Darryldecode\Cart\Facades\CartFacade::class,
         'Menu' => Harimayco\Menu\Facades\Menu::class,
         'PDF' => Barryvdh\DomPDF\Facade::class,
-
-
-
     ],
 
     /*

@@ -10,6 +10,8 @@
     "type": "project",
     "require": {
         "php": "^7.3|^8.0",
+        "ext-curl": "*",
+        "ext-json": "*",
         "appstract/laravel-blade-directives": "^1.10.0",
         "arcanedev/log-viewer": "^8.0.2",
         "arcanedev/no-captcha": "^12.1.0",
@@ -52,6 +54,7 @@
         "omnipay/paypal": "^3.0",
         "omnipay/stripe": "^3.1",
         "paragonie/certainty": "^2",
+        "paypal/rest-api-sdk-php": "^1.14",
         "razorpay/razorpay": "^2.5",
         "sendgrid/sendgrid": "~7",
         "skyraptor/chatter": "^0.5.11",
@@ -60,12 +63,11 @@
         "spatie/laravel-html": "^2.26.0",
         "spatie/laravel-newsletter": "^4.8.0",
         "spatie/laravel-permission": "^3.18",
+        "srmklive/paypal": "^3.0",
         "torann/geoip": "^3.0.1",
         "unisharp/laravel-filemanager": "~2.2.0",
         "yajra/laravel-datatables-buttons": "^4.5",
-        "yajra/laravel-datatables-oracle": "~9.0",
-        "ext-json": "*",
-        "ext-curl": "*"
+        "yajra/laravel-datatables-oracle": "~9.0"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",

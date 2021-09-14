@@ -1472,13 +1472,11 @@ class ApiController extends Controller
                     $response = $this->stripePayment($request);
                     break;
                 case 2:
-                    $response = $this->paypalPayment($request);
+                case 5:
+                    $response = $this->updateOrderStatus($request);
                     break;
                 case 4:
                     $response = $this->getRazorpayStatus($request);
-                    break;
-                case 5:
-                    $response = $this->updateOrderStatus($request);
                     break;
                 default:
                     throw new Exception('Please Select on of the available online payment Modes.');
@@ -1660,35 +1658,7 @@ class ApiController extends Controller
         }
     }
 
-    /**
-     * @throws Exception
-     */
-    public function paypalPayment(Request $request)
-    {
-        try {
-            $gateway = Omnipay::create('PayPal_Rest');
-            $gateway->setClientId(config('paypal.client_id'));
-            $gateway->setSecret(config('paypal.secret'));
-            $mode = config('paypal.settings.mode') == 'sandbox';
-            $gateway->setTestMode($mode);
 
-            $order_confirmation_id = $request->order_confirmation_id;
-            $order = Order::query()->findOrFail($order_confirmation_id);
-            $amount = number_format($order->amount, 2);
-            $user = $request->user();
-            $currency = getCurrency(config('app.currency'))['short_code'];
-            return $gateway->purchase([
-                'amount' => $amount,
-                'currency' => $currency,
-                'description' => $user->first_name . ' ' . $user->last_name,
-                'cancelUrl' => route('cart.paypal.status', ['status' => 0]),
-                'returnUrl' => route('cart.paypal.status', ['status' => 1]),
-            ])->send();
-        } catch (\Exception $e) {
-            throw new Exception($e->getMessage());
-        }
-
-    }
 
     public function stripePayment(Request $request)
     {
