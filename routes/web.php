@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\Frontend\HomeController;
+use App\Http\Controllers\v2\InstamojoController;
 use App\Http\Controllers\v2\PaypalPaymentController;
 
 /*
@@ -203,6 +204,11 @@ Route::group(['prefix' => 'subscription'], function () {
 Route::get('paypal-handle-payment/{order_id}', [PaypalPaymentController::class, 'paypalHandlePayment'])->name('paypal-handle-payment');
 Route::get('paypal-transaction/success', [PaypalPaymentController::class, 'getPaymentStatus'])->name('paypal-payment.success');
 Route::get('paypal-transaction/declined', [PaypalPaymentController::class, 'getPaymentStatus'])->name('paypal-payment.declined');
+
+Route::get('instamojo-handle-payment/{order_id}', [InstamojoController::class, 'instamojoPayment'])->name('instamojo-handle-payment');
+Route::get('instamojo-transaction/status', [InstamojoController::class, 'getInstamojoStatus'])->name('instamojo-payment.status');
+Route::get('instamojo-transaction/success', [InstamojoController::class, 'getInstamojoStatus'])->name('instamojo-payment.success');
+Route::get('instamojo-transaction/declined', [InstamojoController::class, 'getInstamojoStatus'])->name('instamojo-payment.declined');
 
 // wishlist
 Route::post('add-to-wishlist', 'Backend\WishlistController@store')->name('add-to-wishlist');

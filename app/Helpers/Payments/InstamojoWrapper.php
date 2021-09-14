@@ -4,15 +4,13 @@
 namespace App\Helpers\Payments;
 
 
-
-
 use Illuminate\Support\Facades\Redirect;
 
 class InstamojoWrapper
 {
-    const API_VERSION         = '1.1';
-    const TEST_BASE_URL       = 'https://test.instamojo.com/api/'.self::API_VERSION;
-    const PRODUCTION_BASE_URL = 'https://www.instamojo.com/api/'.self::API_VERSION;
+    const API_VERSION = '1.1';
+    const TEST_BASE_URL = 'https://test.instamojo.com/api/' . self::API_VERSION;
+    const PRODUCTION_BASE_URL = 'https://www.instamojo.com/api/' . self::API_VERSION;
     private $url;
     private $http_code;
     private $error_message;
@@ -22,33 +20,33 @@ class InstamojoWrapper
      */
     public function __construct()
     {
-        $this->url = (config('services.instamojo.mode') == 'sandbox')? self::TEST_BASE_URL: self::PRODUCTION_BASE_URL;
+        $this->url = (config('services.instamojo.mode') == 'sandbox') ? self::TEST_BASE_URL : self::PRODUCTION_BASE_URL;
     }
 
     public function pay($cartdata)
     {
         try {
+            $user = auth()->user() ?? request()->user()->id ?? null;
             $response = $this->api_request($cartdata);
-            if($response->success == true){
+            if ($response->success == true) {
                 return Redirect::away($response->payment_request->longurl);
-            }else{
-                \Log::info(json_encode($this->error_message, true) . ' for id = ' . auth()->user()->id);
+            } else {
+                \Log::info(json_encode($this->error_message, true) . ' for id = ' . ($user->id ?? ''));
                 \Session::put('failure', trans('labels.frontend.cart.unknown_error'));
                 return Redirect::route('cart.instamojo.status');
             }
-        }
-        catch (\Exception $e) {
-            \Log::info($e->getMessage() . ' for id = ' . auth()->user()->id);
+        } catch (\Exception $e) {
+            \Log::info($e->getMessage() . ' for id = ' . ($user->id ?? null));
         }
     }
 
 
     private function api_request($payload)
     {
-        $headers = array("X-Api-Key:".config('services.instamojo.key'),
-            "X-Auth-Token:".config('services.instamojo.secret'));
+        $headers = array("X-Api-Key:" . config('services.instamojo.key'),
+            "X-Auth-Token:" . config('services.instamojo.secret'));
 
-        $request_url = $this->url.'/payment-requests/';
+        $request_url = $this->url . '/payment-requests/';
         $options = array();
         $options[CURLOPT_URL] = $request_url;
         $options[CURLOPT_HEADER] = false;
