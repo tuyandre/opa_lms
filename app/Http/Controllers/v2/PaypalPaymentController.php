@@ -46,7 +46,8 @@ class PaypalPaymentController extends Controller
             $data = encrypt(['order_id' => $order_id]);
             return view('web_view.paypal_payment', compact('data'));
         } catch (\Exception $e) {
-            return view('web_view.status')->with('error', $e->getMessage());
+            \Session::put('error', $e->getMessage());
+            return view('web_view.status');
         }
     }
 
