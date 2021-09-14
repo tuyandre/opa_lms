@@ -50,10 +50,9 @@ class PaypalPaymentController extends Controller
         }
     }
 
-    public function paypalHandlePayment(Request $request)
+    public function paypalHandlePayment($order_id)
     {
-        $requestData = decrypt($request->data);
-        $order = Order::query()->findOrFail($requestData['order_id']);
+        $order = Order::query()->findOrFail($order_id);
         $payer = new Payer();
         $payer->setPaymentMethod('paypal');
 
@@ -77,7 +76,8 @@ class PaypalPaymentController extends Controller
             ->setDescription('Enter Your transaction description');
 
         $redirect_urls = new RedirectUrls();
-        $redirect_urls->setReturnUrl(URL::route('paypal-payment.success', compact('requestData')))
+        $message = 'Payment Successfully Done.';
+        $redirect_urls->setReturnUrl(URL::route('paypal-payment.success', compact('message')))
             ->setCancelUrl(URL::route('paypal-payment.declined'));
 
         $payment = new Payment();
@@ -105,7 +105,7 @@ class PaypalPaymentController extends Controller
         }
 
         Session::put('paypal_payment_id', $payment->getId());
-        Session::put('paypal_payment', ['paypal_payment_id' => $payment->getId(), 'order_id' => $requestData['order_id']]);
+        Session::put('paypal_payment', ['paypal_payment_id' => $payment->getId(), 'order_id' => $order_id]);
         if (isset($redirect_url)) {
             return Redirect::away($redirect_url);
         }

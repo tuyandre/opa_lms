@@ -187,11 +187,6 @@ Route::group(['prefix' => 'v2', 'namespace' => 'v2'], function () {
         Route::post('subscribed', 'ApiController@subscribeBundleOrCourse');
         Route::post('add-to-wishlist', 'ApiController@addToWishlist');
         Route::post('wishlist', 'ApiController@wishlist');
-
-
-        Route::POST('paypal-handle-payment', [PaypalPaymentController::class, 'paypalHandlePayment'])->name('paypal-handle-payment');
-        Route::get('paypal-transaction/success', [PaypalPaymentController::class, 'getPaymentStatus'])->name('paypal-payment.success');
-        Route::get('paypal-transaction/declined', [PaypalPaymentController::class, 'getPaymentStatus'])->name('paypal-payment.declined');
     });
 
     Route::post('send-reset-link', 'ApiController');
