@@ -1433,7 +1433,13 @@ class ApiController extends Controller
                     $response = $this->razorpayPayment($request);
                     break;
                 case 5:
-                    $response = $this->payuPayment($request);
+                    $response = [
+                        'handle_payment_url' => route('payu-handle-payment', $request->order_confirmation_id),
+                        'success_url' => route('payu-payment.success'),
+                        'declined_url' => route('payu-payment.declined'),
+                        'order_confirmation_id' => $request->order_confirmation_id,
+                        'payment_mode' => 5,
+                    ];
                     break;
                 case 6:
                     $response = [
@@ -1519,77 +1525,6 @@ class ApiController extends Controller
         return $razorWrapper->verifySignature($attributes);
     }
 
-    function makeHash($key, $txnid, $amount, $productinfo, $firstname, $email)
-    {
-        $salt = config('services.payu.salt'); //Please change the value with the live salt for production environment
-        $payHash_str = $key . '|' . $this->checkNull($txnid) . '|' . $this->checkNull($amount) . '|' . $this->checkNull($productinfo) . '|' . $this->checkNull($firstname) . '|' . $this->checkNull($email) . '|||||||||||' . $salt;
-        return strtolower(hash('sha512', $payHash_str));
-    }
-
-    function checkNull($value)
-    {
-        if ($value == null) {
-            return '';
-        } else {
-            return $value;
-        }
-    }
-
-    /**
-     * @return array
-     * @throws Exception
-     */
-    public function payuPayment(Request $request)
-    {
-        $test = [
-            'amount' => '10.0',
-            'txnid' => '1594976828726',
-            'productName' => 'product_info',
-            'productinfo' => 'product_info',
-            'firstname' => 'firstname',
-            "service_provider" => "payu_paisa",
-            'email' => 'xyz@gmail.com',
-            'phone' => '9782075607',
-            'merchantId' => '5960507',
-            'key' => 'QylhKRVd',
-            // 'key' => config('services.payu.key'),
-            'surl' => 'https://www.payumoney.com/mobileapp/payumoney/success.php',
-            'furl' => 'https://www.payumoney.com/mobileapp/payumoney/failure.php',
-            'isDebug' => true,
-            "endpoint" => "https://sandboxsecure.payu.in/_payment",
-            'hash' => '461d4002c1432b3393cf2bfaae7acc4c50601c66568fb49a4a125e060c3bfc0e489290e7c902750d5db3fc8be2f180daf4d534d7b9bef46fa0158a4c8a057b61',
-            'payment_mode' => 5,
-            'gateway_active' => true,
-        ];
-        // $currency = getCurrency(config('app.currency'))['short_code'];
-        $order_confirmation_id = $request->order_confirmation_id;
-        $order = Order::query()->findOrFail($order_confirmation_id);
-        $amount = number_format($order->amount, 2);
-        $parameters = [
-            'key' => config('services.payu.key'),
-            'txnId' => substr(hash('sha256', mt_rand() . microtime()), 0, 20),
-            'amount' => $amount,
-            'firstName' => $request->user()->name,
-            'email' => $request->user()->email,
-            'phone' => $request->user()->phone ?? 7854521252,
-            'productName' => $request->user()->name,
-            'successUrl' => route('cart.pauy.status'),
-            'failedUrl' => route('cart.pauy.status'),
-            'service_provider' => 'payu_paisa',
-            'isDebug' => config('services.payu.mode') == 'sandbox',
-        ];
-        $response = [
-            'hash' => $this->makeHash($parameters['key'],$parameters['txnId'],$amount,$parameters['productName'],$parameters['firstName'],$parameters['email']),
-            'endpoint' => config('services.payu.mode') == 'sandbox' ? "https://sandboxsecure.payu.in/_payment" : "https://secure.payu.in/_payment",
-            'salt' => config('services.payu.salt'),
-            'mode' => config('services.payu.mode'),
-            'gateway_active' => config('services.payu.active'),
-            'payment_mode' => 5,
-            'merchantId' => config('services.payu.merchant_id'),
-            'test' => $test,
-        ];
-        return array_merge($parameters, $response);
-    }
 
     public function updateOrderStatus(Request $request)
     {
