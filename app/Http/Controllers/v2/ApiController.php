@@ -1430,24 +1430,24 @@ class ApiController extends Controller
                     ];
                     break;
                 case 4:
-                    $response = $this->razorpayPayment($request);
-                    break;
-                case 5:
-                    $response = [
-                        'handle_payment_url' => route('payu-handle-payment', $request->order_confirmation_id),
-                        'success_url' => route('payu-payment.success'),
-                        'declined_url' => route('payu-payment.declined'),
-                        'order_confirmation_id' => $request->order_confirmation_id,
-                        'payment_mode' => 5,
-                    ];
-                    break;
-                case 6:
                     $response = [
                         'handle_payment_url' => route('instamojo-handle-payment', $request->order_confirmation_id),
                         'success_url' => route('instamojo-payment.success'),
                         'declined_url' => route('instamojo-payment.declined'),
                         'order_confirmation_id' => $request->order_confirmation_id,
-                        'payment_mode' => 6,
+                        'payment_mode' => 4,
+                    ];
+                    break;
+                case 5:
+                    $response = $this->razorpayPayment($request);
+                    break;
+                case 7:
+                    $response = [
+                        'handle_payment_url' => route('payu-handle-payment', $request->order_confirmation_id),
+                        'success_url' => route('payu-payment.success'),
+                        'declined_url' => route('payu-payment.declined'),
+                        'order_confirmation_id' => $request->order_confirmation_id,
+                        'payment_mode' => 7,
                     ];
                     break;
                 default:
@@ -1477,7 +1477,7 @@ class ApiController extends Controller
             'description' => $request->user()->name,
             'name' => $request->user()->name,
             'email' => $request->user()->email,
-            'payment_mode' => 4,
+            'payment_mode' => 5,
             'image' => asset('storage/logos/popup-logo.png'),
             'gateway_key' => config('services.razorpay.key'),
             'gateway_secret' => config('services.razorpay.secret'),
@@ -1493,14 +1493,8 @@ class ApiController extends Controller
             $payment_mode = $request->payment_mode ?? $request->payment_type;
             switch ($payment_mode) {
                 case 1:
-                    $response = $this->stripePayment($request);
-                    break;
-                case 2:
                 case 5:
                     $response = $this->updateOrderStatus($request);
-                    break;
-                case 4:
-                    $response = $this->getRazorpayStatus($request);
                     break;
                 default:
                     throw new Exception('Please Select on of the available online payment Modes.');
@@ -1511,21 +1505,6 @@ class ApiController extends Controller
         }
     }
 
-    /**
-     * @throws Exception
-     */
-    public function getRazorpayStatus(Request $request)
-    {
-        $attributes = [
-            'razorpay_signature' => $request->razorpay_signature,
-            'razorpay_payment_id' => $request->razorpay_payment_id,
-            'razorpay_order_id' => $request->razorpay_order_id
-        ];
-        $razorWrapper = new RazorpayWrapper();
-        return $razorWrapper->verifySignature($attributes);
-    }
-
-
     public function updateOrderStatus(Request $request)
     {
         return Order::query()->findOrFail($request->order_confirmation_id)->update([
@@ -1535,61 +1514,6 @@ class ApiController extends Controller
             "remarks" => $request->remarks ?? '',
         ]);
     }
-
-    public function instamojoPayment(Request $request)
-    {
-        $order_confirmation_id = $request->order_confirmation_id;
-        $order = Order::query()->findOrFail($order_confirmation_id);
-        $amount = number_format($order->amount, 2);
-        $user = $request->user();
-        $cartData = [
-            "purpose" => "Buy Course/Bundle",
-            "amount" => $amount,
-            "buyer_name" => $user->name,
-            "send_email" => false,
-            "send_sms" => false,
-            "phone" => $request->phone,
-            "email" => $user->email,
-            "redirect_url" => route('cart.instamojo.status'),
-        ];
-        $instamojoWrapper = new InstamojoWrapper();
-        return $instamojoWrapper->pay($cartData);
-    }
-
-    public function getInstamojoStatus()
-    {
-        if (request()->get('payment_status') == 'Credit') {
-            $order = $this->makeOrder();
-            $order->payment_type = 4;
-            $order->transaction_id = request()->get('payment_id');
-            $order->save();
-            $order->status = 1;
-            $order->save();
-            (new EarningHelper)->insert($order);
-            foreach ($order->items as $orderItem) {
-                //Bundle Entries
-                if ($orderItem->item_type == Bundle::class) {
-                    foreach ($orderItem->item->courses as $course) {
-                        $course->students()->attach($order->user_id);
-                    }
-                }
-                $orderItem->item->students()->attach($order->user_id);
-            }
-
-            //Generating Invoice
-            generateInvoice($order);
-            $this->adminOrderMail($order);
-            Cart::session(auth()->user()->id)->clear();
-            return Redirect::route('status');
-        } else if (request()->get('payment_status') == 'Failed') {
-            \Session::flash('failure', trans('labels.frontend.cart.payment_failed'));
-            return Redirect::route('status');
-        } else {
-            \Session::flash('failure', trans('labels.frontend.cart.payment_failed'));
-            return Redirect::route('status');
-        }
-    }
-
 
     public function stripePayment(Request $request)
     {
@@ -2925,16 +2849,20 @@ class ApiController extends Controller
                 'is_active' => true,
             ],
             4 => [
-                'name' => 'Razorpay',
+                'name' => 'InstaMojo',
                 'is_active' => true,
             ],
             5 => [
-                'name' => 'PayU',
-                'is_active' => false,
+                'name' => 'Razorpay',
+                'is_active' => true,
             ],
             6 => [
-                'name' => 'InstaMojo',
+                'name' => 'CashFree',
                 'is_active' => false,
+            ],
+            7 => [
+                'name' => 'PayUMoney',
+                'is_active' => true,
             ]
         ];
     }

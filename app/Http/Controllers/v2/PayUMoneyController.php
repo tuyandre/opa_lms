@@ -61,7 +61,7 @@ class PayUMoneyController extends Controller
         if ($requestData['status'] == 'success') {
             $order_id = $requestData['udf1'];
             Order::query()->findOrFail($order_id)->update([
-                "payment_type" => 5,
+                "payment_type" => 7,
                 "status" => 1,
                 "transaction_id" => $requestData['txnid'],
                 "remarks" => '',

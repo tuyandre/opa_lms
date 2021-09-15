@@ -62,7 +62,7 @@ class InstamojoController extends Controller
         \Session::forget('instamojo_payment');
         if (request()->get('payment_status') == 'Credit') {
             Order::query()->findOrFail($order_id)->update([
-                "payment_type" => 6,
+                "payment_type" => 5,
                 "status" => 1,
                 "transaction_id" => $requestData['payment_id'],
                 "remarks" => '',
