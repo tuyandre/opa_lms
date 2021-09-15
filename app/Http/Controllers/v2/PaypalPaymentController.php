@@ -5,6 +5,7 @@ namespace App\Http\Controllers\v2;
 use App\Http\Controllers\Controller;
 use App\Http\Requests;
 use App\Models\Order;
+use Exception;
 use Illuminate\Http\Request;
 use Validator;
 use URL;
@@ -50,9 +51,17 @@ class PaypalPaymentController extends Controller
         }
     }
 
+    /**
+     * @throws Exception
+     */
     public function paypalHandlePayment($order_id)
     {
-        $order = Order::query()->findOrFail($order_id);
+        $order = Order::query()->find($order_id);
+        if (is_null($order))
+            throw new Exception("Invalid Request");
+        if ($order->status == 1)
+            throw new Exception("Payment Already Done");
+
         $payer = new Payer();
         $payer->setPaymentMethod('paypal');
 

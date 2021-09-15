@@ -31,17 +31,17 @@ class InstamojoController extends Controller
     public function instamojoPayment($order_id)
     {
         $order = Order::query()->find($order_id);
-        /*if (is_null($order))
+        if (is_null($order))
             throw new Exception("Invalid Request");
         if ($order->status == 1)
             throw new Exception("Payment Already Done");
 
         // $cartTotal = number_format($order->amount, 2);
         if ($order->amount <= 9)
-            return redirect()->route('instamojo-payment.declined', ['message' => 'Order Amount Cannot be less then 10']);*/
+            return redirect()->route('instamojo-payment.declined', ['message' => 'Order Amount Cannot be less then 10']);
         $cartdata = [
             "purpose" => "Buy Course/Bundle",
-            "amount" => 10, //$order->amount,
+            "amount" => $order->amount,
             "buyer_name" => $order->user->first_name,
             "send_email" => true,
             //"send_sms" => true,

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\v2;
 
 use App\Http\Controllers\Controller;
 use App\Models\Order;
+use Exception;
 use Illuminate\Support\Facades\Http;
 
 class PayUMoneyController extends Controller
@@ -24,7 +25,12 @@ class PayUMoneyController extends Controller
      */
     public function handlePayment($order_id)
     {
-        $order = Order::query()->findOrFail($order_id);
+        $order = Order::query()->find($order_id);
+        if (is_null($order))
+            throw new Exception("Invalid Request");
+        if ($order->status == 1)
+            throw new Exception("Payment Already Done");
+
         $user = $order->user;
         $this->formData = [
             'key' => $this->merchant_key,
@@ -55,7 +61,7 @@ class PayUMoneyController extends Controller
         if ($requestData['status'] == 'success') {
             $order_id = $requestData['udf1'];
             Order::query()->findOrFail($order_id)->update([
-                "payment_type" => 2,
+                "payment_type" => 5,
                 "status" => 1,
                 "transaction_id" => $requestData['txnid'],
                 "remarks" => '',
