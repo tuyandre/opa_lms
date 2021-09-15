@@ -1520,28 +1520,48 @@ class ApiController extends Controller
     }
 
     /**
+     * @throws Exception
+     */
+    protected function getPayUHasKey($params)
+    {
+        $SALT = config('services.payu.salt');
+        // Hash Sequence
+        $hashSequence = "key|txnid|amount|productinfo|firstname|email|udf1|udf2|udf3|udf4|udf5|udf6|udf7|udf8|udf9|udf10";
+        if (empty($params['hash']) && sizeof($params) > 0) {
+            if (
+                empty($params['key'])
+                || empty($params['txnid'])
+                || empty($params['amount'])
+                || empty($params['firstname'])
+                || empty($params['email'])
+                || empty($params['phone'])
+                || empty($params['productinfo'])
+                || empty($params['surl'])
+                || empty($params['furl'])
+                || empty($params['service_provider'])
+            ) {
+                throw new Exception("Please fill all mandatory fields. 'key','txnid','amount','firstname','email','phone','productinfo','surl','furl','service_provider'");
+            } else {
+                //$posted['productinfo'] = json_encode(json_decode('[{"name":"tutionfee","description":"","value":"500","isRequired":"false"},{"name":"developmentfee","description":"monthly tution fee","value":"1500","isRequired":"false"}]'));
+                $hashVarsSeq = explode('|', $hashSequence);
+                $hash_string = '';
+                foreach ($hashVarsSeq as $hash_var) {
+                    $hash_string .= $params[$hash_var] ?? '';
+                    $hash_string .= '|';
+                }
+
+                $hash_string .= $SALT;
+                return strtolower(hash('sha512', $hash_string));
+            }
+        }
+    }
+
+    /**
      * @return array
      * @throws Exception
      */
     public function payuPayment(Request $request)
     {
-        /*$test = [
-            'amount' => '10.0',
-            'txnId' => '1594976828726',
-            'productName' => 'product_info',
-            'firstName' => 'firstname',
-            'email' => 'xyz@gmail.com',
-            'phone' => '9782075607',
-            'merchantId' => '5960507',
-            'key' => 'QylhKRVd',
-            // 'key' => config('services.payu.key'),
-            'successUrl' => 'https://www.payumoney.com/mobileapp/payumoney/success.php',
-            'failedUrl' => 'https://www.payumoney.com/mobileapp/payumoney/failure.php',
-            'isDebug' => true,
-            'hash' => '461d4002c1432b3393cf2bfaae7acc4c50601c66568fb49a4a125e060c3bfc0e489290e7c902750d5db3fc8be2f180daf4d534d7b9bef46fa0158a4c8a057b61',
-            'payment_mode' => 5,
-            'gateway_active' => true,
-        ];*/
         $test = [
             'amount' => '10.0',
             'txnid' => '1594976828726',
@@ -1562,54 +1582,35 @@ class ApiController extends Controller
             'payment_mode' => 5,
             'gateway_active' => true,
         ];
-        $payumoneyWrapper = new PayuMoneyWrapper;
         // $currency = getCurrency(config('app.currency'))['short_code'];
         $order_confirmation_id = $request->order_confirmation_id;
         $order = Order::query()->findOrFail($order_confirmation_id);
         $amount = number_format($order->amount, 2);
         $parameters = [
+            'key' => config('services.payu.key'),
+            'txnid' => substr(hash('sha256', mt_rand() . microtime()), 0, 20),
             'amount' => $amount,
             'firstname' => $request->user()->name,
-            'productinfo' => $request->user()->name,
             'email' => $request->user()->email,
             'phone' => $request->user()->phone ?? 7854521252,
+            'productinfo' => $request->user()->name,
+            'surl' => route('cart.pauy.status'),
+            'furl' => route('cart.pauy.status'),
+            'service_provider' => 'payu_paisa',
         ];
-        $parameters = array_merge($payumoneyWrapper->parameters, $parameters);
-        // $payumoneyWrapper->checkParameters($parameters);
-        $hash = $payumoneyWrapper->encrypt();
         $response = [
-            'hash' => $hash,
-            'endpoint' => $payumoneyWrapper->getEndPoint(),
-            'key' => "8xiadOGw", // config('services.payu.key'),
-            'salt' => "Kkpv4fZQfh", // config('services.payu.salt'),
+            'hash' => $this->getPayUHasKey($parameters),
+            'endpoint' => config('services.payu.mode') == 'sandbox' ? "https://sandboxsecure.payu.in" : "https://secure.payu.in",
+            'key' => config('services.payu.key'),
+            'salt' => config('services.payu.salt'),
             'mode' => config('services.payu.mode'),
             //TODO:remove:replace bool with dynamic value.
-            'gateway_active' => true, // config('services.payu.active'),
+            'gateway_active' => config('services.payu.active'),
             'payment_mode' => 5,
             'merchantId' => config('services.payu.merchant_id'),
             'test' => $test,
         ];
-        /*return [
-            'amount' => '10.00',
-            'txnId' => '1594976828726',
-            'productName' => 'product_info',
-            'firstName' => $request->user()->name,
-            'email' => $request->user()->email,
-            'phone' => $request->user()->phone,
-            'merchantId' => '5007461',
-            'key' => '7m5HkHqT',
-            // 'key' => config('services.payu.key'),
-            'successUrl' => 'https://www.payumoney.com/mobileapp/payumoney/success.php',
-            'failedUrl' => 'https://www.payumoney.com/mobileapp/payumoney/failure.php',
-            'isDebug' => true,
-            'hash' => $hash,
-            'payment_mode' => 5,
-            'gateway_active' => true,
-            'test' => $test,
-            'salt' => "CEAnGe0H6M", // config('services.payu.salt'),
-        ];*/
         return array_merge($parameters, $response);
-        // return $response;
     }
 
     public function updateOrderStatus(Request $request)

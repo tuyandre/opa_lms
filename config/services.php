@@ -63,7 +63,7 @@ return [
     ],
 
     'payu' => [
-        'active' => false,
+        'active' => true,
         'key' => env('PAYU_KEY', "7m5HkHqT"),
         'salt' => env('PAYU_SALT', "CEAnGe0H6M"),
         'mode' => env('PAYU_MODE', 'sandbox'),
