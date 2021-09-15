@@ -161,7 +161,11 @@ class UserRepository extends BaseRepository
         // Upload profile image if necessary
         if ($image) {
             if ($isApi && $input['avatar_type'] == 'storage' && isset($input['avatar_location']) && $input['avatar_location'] != null) {
-                $user->avatar_location = $this->storeImageFromBase64($image);
+                try {
+                    $user->avatar_location = $this->storeImageFromBase64($image);
+                } catch (\Exception $e) {
+
+                }
             }
             if (request()->hasFile('avatar_location') && $image) {
                 $user->avatar_location = $this->storeImageFromObj($id, $image, $input['avatar_type']);
