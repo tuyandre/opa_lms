@@ -145,6 +145,8 @@ class UserRepository extends BaseRepository
         $user->first_name = $input['first_name'];
         $user->last_name = $input['last_name'];
         $user->avatar_type = $input['avatar_type'];
+        if ($input['avatar_type'] == 'gravatar')
+            $user->avatar_location = null;
         $user->dob = $input['dob'] ?? $user->dob;
         $user->phone = $input['phone'] ?? $user->phone;
         $user->gender = $input['gender'] ?? $user->gender;
@@ -153,12 +155,12 @@ class UserRepository extends BaseRepository
         $user->pincode = $input['pincode'] ?? $user->pincode;
         $user->state = $input['state'] ?? $user->state;
         $user->country = $input['country'] ?? $user->country;
-        $user->language_code = $input['language_code'] ?? $user->language_code->short_name??config('app.locale');
+        $user->language_code = $input['language_code'] ?? $user->language_code->short_name ?? config('app.locale');
         $user->save();
 
         // Upload profile image if necessary
         if ($image) {
-            if ($isApi) {
+            if ($isApi && $input['avatar_type'] == 'storage' && isset($input['avatar_location']) && $input['avatar_location'] != null) {
                 $user->avatar_location = $this->storeImageFromBase64($image);
             }
             if (request()->hasFile('avatar_location') && $image) {
