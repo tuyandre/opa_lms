@@ -1519,40 +1519,19 @@ class ApiController extends Controller
         return $razorWrapper->verifySignature($attributes);
     }
 
-    /**
-     * @throws Exception
-     */
-    protected function getPayUHasKey($params)
+    function makeHash($key, $txnid, $amount, $productinfo, $firstname, $email)
     {
-        $SALT = config('services.payu.salt');
-        // Hash Sequence
-        $hashSequence = "key|txnid|amount|productinfo|firstname|email|udf1|udf2|udf3|udf4|udf5|udf6|udf7|udf8|udf9|udf10";
-        if (empty($params['hash']) && sizeof($params) > 0) {
-            if (
-                empty($params['key'])
-                || empty($params['txnid'])
-                || empty($params['amount'])
-                || empty($params['firstname'])
-                || empty($params['email'])
-                || empty($params['phone'])
-                || empty($params['productinfo'])
-                || empty($params['surl'])
-                || empty($params['furl'])
-                || empty($params['service_provider'])
-            ) {
-                throw new Exception("Please fill all mandatory fields. 'key','txnid','amount','firstname','email','phone','productinfo','surl','furl','service_provider'");
-            } else {
-                //$posted['productinfo'] = json_encode(json_decode('[{"name":"tutionfee","description":"","value":"500","isRequired":"false"},{"name":"developmentfee","description":"monthly tution fee","value":"1500","isRequired":"false"}]'));
-                $hashVarsSeq = explode('|', $hashSequence);
-                $hash_string = '';
-                foreach ($hashVarsSeq as $hash_var) {
-                    $hash_string .= $params[$hash_var] ?? '';
-                    $hash_string .= '|';
-                }
+        $salt = config('services.payu.salt'); //Please change the value with the live salt for production environment
+        $payHash_str = $key . '|' . $this->checkNull($txnid) . '|' . $this->checkNull($amount) . '|' . $this->checkNull($productinfo) . '|' . $this->checkNull($firstname) . '|' . $this->checkNull($email) . '|||||||||||' . $salt;
+        return strtolower(hash('sha512', $payHash_str));
+    }
 
-                $hash_string .= $SALT;
-                return strtolower(hash('sha512', $hash_string));
-            }
+    function checkNull($value)
+    {
+        if ($value == null) {
+            return '';
+        } else {
+            return $value;
         }
     }
 
@@ -1588,23 +1567,22 @@ class ApiController extends Controller
         $amount = number_format($order->amount, 2);
         $parameters = [
             'key' => config('services.payu.key'),
-            'txnid' => substr(hash('sha256', mt_rand() . microtime()), 0, 20),
+            'txnId' => substr(hash('sha256', mt_rand() . microtime()), 0, 20),
             'amount' => $amount,
-            'firstname' => $request->user()->name,
+            'firstName' => $request->user()->name,
             'email' => $request->user()->email,
             'phone' => $request->user()->phone ?? 7854521252,
-            'productinfo' => $request->user()->name,
-            'surl' => route('cart.pauy.status'),
-            'furl' => route('cart.pauy.status'),
+            'productName' => $request->user()->name,
+            'successUrl' => route('cart.pauy.status'),
+            'failedUrl' => route('cart.pauy.status'),
             'service_provider' => 'payu_paisa',
+            'isDebug' => config('services.payu.mode') == 'sandbox',
         ];
         $response = [
-            'hash' => $this->getPayUHasKey($parameters),
+            'hash' => $this->makeHash($parameters['key'],$parameters['txnId'],$amount,$parameters['productName'],$parameters['firstName'],$parameters['email']),
             'endpoint' => config('services.payu.mode') == 'sandbox' ? "https://sandboxsecure.payu.in" : "https://secure.payu.in",
-            'key' => config('services.payu.key'),
             'salt' => config('services.payu.salt'),
             'mode' => config('services.payu.mode'),
-            //TODO:remove:replace bool with dynamic value.
             'gateway_active' => config('services.payu.active'),
             'payment_mode' => 5,
             'merchantId' => config('services.payu.merchant_id'),
