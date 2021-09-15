@@ -23,8 +23,8 @@ return [
             'errors'            => 'Please fix the following errors:',
             'prevent_spam'      => 'In order to prevent spam, please allow at least :minutes in between submitting content.',
             'trouble'           => 'Sorry, there seems to have been a problem submitting your response.',
-            'update_post'       => 'Nah ah ah... Could not update your response. Make sure you\'re not doing anything shady.',
-            'destroy_post'      => 'Nah ah ah... Could not delete the response. Make sure you\'re not doing anything shady.',
+            'update_post'       => 'You don\'t have permission to change post.',
+            'destroy_post'      => 'You don\'t have permission to change post.',
             'create_discussion' => 'Whoops :( There seems to be a problem creating your '.mb_strtolower(trans('chatter::intro.titles.discussion')).'.',
         	'title_required'    => 'Please write a title',
         	'title_min'		    => 'The title has to have at least :min characters.',
@@ -33,8 +33,8 @@ return [
         	'content_min'  		=> 'The content has to have at least :min characters',
         	'category_required' => 'Please choose a category',
 
-       
-       
+
+
         ],
     ],
 ];

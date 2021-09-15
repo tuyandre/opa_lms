@@ -611,7 +611,11 @@ class ApiController extends Controller
             $contact->message = $request->message;
             $contact->save();
 
-            Mail::send(new SendContact($request));
+            try {
+                Mail::send(new SendContact($request));
+            } catch (Exception $e) {
+                \Log::error($e->getMessage());
+            }
             return response()->json(['status' => 200, 'result' => null, 'message' => "Contact us data save successfully."]);
         } catch (\Exception $e) {
             return response()->json(['status' => 100, 'result' => null, 'message' => $e->getMessage()]);
@@ -2343,7 +2347,7 @@ class ApiController extends Controller
 
             return response()->json(['status' => 200, 'result' => ['user' => $user], 'message' => __('strings.frontend.user.profile_updated')]);
         } catch (\Exception $e) {
-            return response()->json(['status' => 100, 'result' => null, 'message' => $e->getMessage()]);
+            return response()->json(['status' => 100, 'result' => null, 'message' => $e->getMessage() . ' At Line No.' . $e->getLine()]);
         }
     }
 
