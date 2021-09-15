@@ -4,6 +4,7 @@ use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\v2\InstamojoController;
 use App\Http\Controllers\v2\PaypalPaymentController;
+use App\Http\Controllers\v2\PayUMoneyController;
 
 /*
  * Global Routes
@@ -200,6 +201,10 @@ Route::group(['prefix' => 'subscription'], function () {
     Route::get('status', 'SubscriptionController@status')->name('subscription.status');
     Route::post('subscribe', 'SubscriptionController@courseSubscribed')->name('subscription.course_subscribe');
 });
+
+Route::get('payu-handle-payment/{order_id}', [PayUMoneyController::class, 'handlePayment'])->name('payu-handle-payment');
+Route::post('payu-transaction/success', [PayUMoneyController::class, 'paymentStatus'])->name('payu-payment.success');
+Route::post('payu-transaction/declined', [PayUMoneyController::class, 'paymentStatus'])->name('payu-payment.declined');
 
 Route::get('paypal-handle-payment/{order_id}', [PaypalPaymentController::class, 'paypalHandlePayment'])->name('paypal-handle-payment');
 Route::get('paypal-transaction/success', [PaypalPaymentController::class, 'getPaymentStatus'])->name('paypal-payment.success');

@@ -17,6 +17,8 @@ class VerifyCsrfToken extends Middleware
     protected $except = [
         'cart/cashfree-payment/status',
         'cart/payu-payment/status',
-        'cart/flutter-payment/status'
+        'cart/flutter-payment/status',
+        'payu-transaction/success',
+        'payu-transaction/declined'
     ];
 }
