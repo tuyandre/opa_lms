@@ -1580,7 +1580,7 @@ class ApiController extends Controller
         ];
         $response = [
             'hash' => $this->makeHash($parameters['key'],$parameters['txnId'],$amount,$parameters['productName'],$parameters['firstName'],$parameters['email']),
-            'endpoint' => config('services.payu.mode') == 'sandbox' ? "https://sandboxsecure.payu.in" : "https://secure.payu.in",
+            'endpoint' => config('services.payu.mode') == 'sandbox' ? "https://sandboxsecure.payu.in/_payment" : "https://secure.payu.in/_payment",
             'salt' => config('services.payu.salt'),
             'mode' => config('services.payu.mode'),
             'gateway_active' => config('services.payu.active'),
