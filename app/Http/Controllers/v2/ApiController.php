@@ -51,6 +51,7 @@ use App\Models\TestsResult;
 use App\Models\TestsResultsAnswer;
 use App\Models\VideoProgress;
 use App\Models\WishList;
+use App\Repositories\Frontend\Api\OrderRepository;
 use App\Repositories\Frontend\Auth\UserRepository;
 use Arcanedev\NoCaptcha\Rules\CaptchaRule;
 use Carbon\Carbon;
@@ -1206,10 +1207,8 @@ class ApiController extends Controller
             $result['bundle'] = Bundle::where('published', '=', 1)
                 ->where('id', '=', $request->bundle_id)
                 ->first();
-
-            $purchased_bundle = \Auth::check() && $result['bundle']->students()->where('user_id', \Auth::id())->count() > 0;
-
-
+            $user = $request->user();
+            $purchased_bundle = ($user != null) && $result['bundle']->students()->where('user_id', $user->id)->count() > 0;
             if ($result['bundle'] == null) {
                 return response()->json(['status' => 100, 'result' => null, 'message' => 'Invalid Request']);
             }
@@ -1498,7 +1497,14 @@ class ApiController extends Controller
             switch ($payment_mode) {
                 case 1:
                 case 5:
-                    $response = $this->updateOrderStatus($request);
+                    $orderRepository = new OrderRepository();
+                    $response = $orderRepository->updateOrderStatus(
+                        $request->order_confirmation_id,
+                        $request->transaction_id,
+                        $request->payment_type ?? $request->payment_mode,
+                        $request->status,
+                        $request->remarks ?? ''
+                    );
                     break;
                 default:
                     throw new Exception('Please Select on of the available online payment Modes.');
@@ -1507,16 +1513,6 @@ class ApiController extends Controller
         } catch (Exception $e) {
             return response()->json(['status' => 100, 'message' => $e->getMessage(), 'data' => []]);
         }
-    }
-
-    public function updateOrderStatus(Request $request)
-    {
-        return Order::query()->findOrFail($request->order_confirmation_id)->update([
-            "payment_type" => $request->payment_type ?? $request->payment_mode,
-            "status" => in_array($request->status, ['successful', 1, 'success', '1', 'Success', 'Successful']) ? 1 : 0,
-            "transaction_id" => $request->transaction_id,
-            "remarks" => $request->remarks ?? '',
-        ]);
     }
 
     public function stripePayment(Request $request)

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\v2;
 
 use App\Http\Controllers\Controller;
 use App\Models\Order;
+use App\Repositories\Frontend\Api\OrderRepository;
 use Exception;
 use Illuminate\Support\Facades\Http;
 
@@ -60,12 +61,14 @@ class PayUMoneyController extends Controller
         $requestData = request()->all();
         if ($requestData['status'] == 'success') {
             $order_id = $requestData['udf1'];
-            Order::query()->findOrFail($order_id)->update([
+            /*Order::query()->findOrFail($order_id)->update([
                 "payment_type" => 7,
                 "status" => 1,
                 "transaction_id" => $requestData['txnid'],
                 "remarks" => '',
-            ]);
+            ]);*/
+            $orderRepository = new OrderRepository();
+            $orderRepository->updateOrderStatus($order_id, $requestData['txnid'], 7, 1);
         }
         return view('web_view.status');
     }

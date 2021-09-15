@@ -5,6 +5,7 @@ namespace App\Http\Controllers\v2;
 use App\Http\Controllers\Controller;
 use App\Http\Requests;
 use App\Models\Order;
+use App\Repositories\Frontend\Api\OrderRepository;
 use Exception;
 use Illuminate\Http\Request;
 use Validator;
@@ -142,13 +143,14 @@ class PaypalPaymentController extends Controller
         $result = $payment->execute($execution, $this->_api_context);
 
         if ($result->getState() == 'approved') {
-            Order::query()->findOrFail($order_id)->update([
+            /*Order::query()->findOrFail($order_id)->update([
                 "payment_type" => 2,
                 "status" => 1,
                 "transaction_id" => $payment_id,
                 "remarks" => '',
-            ]);
-
+            ]);*/
+            $orderRepository = new OrderRepository();
+            $orderRepository->updateOrderStatus($order_id, $payment_id, 2, 1);
             \Session::put('success', 'Payment success !!');
             return view('web_view.status');
         }

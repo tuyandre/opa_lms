@@ -4,6 +4,7 @@ namespace App\Http\Controllers\v2;
 
 use App\Http\Controllers\Controller;
 use App\Models\Order;
+use App\Repositories\Frontend\Api\OrderRepository;
 use Exception;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
@@ -61,12 +62,14 @@ class InstamojoController extends Controller
         \Session::forget('failure');
         \Session::forget('instamojo_payment');
         if (request()->get('payment_status') == 'Credit') {
-            Order::query()->findOrFail($order_id)->update([
+            /*Order::query()->findOrFail($order_id)->update([
                 "payment_type" => 5,
                 "status" => 1,
                 "transaction_id" => $requestData['payment_id'],
                 "remarks" => '',
-            ]);
+            ]);*/
+            $orderRepository = new OrderRepository();
+            $orderRepository->updateOrderStatus($order_id, $requestData['payment_id'], 5, 1);
             $message = 'Payment Successfully Done';
             return redirect()->route('instamojo-payment.success', compact('message'));
         } else if (request()->get('payment_status') == 'Failed') {
