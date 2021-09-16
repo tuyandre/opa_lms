@@ -23,6 +23,7 @@ class AppTranslationsSeeder extends Seeder
                 'ok' => "Ok",
                 'language_app_modal_message' => 'This feature requires app Restart, would you like to continue?',
                 'language_app_modal_title' => 'Language Change!',
+                'exit_app_title'=>'Hold On!',
                 'no_data_found' => "No Data Found",
                 'price' => "Price",
                 'pariatur' => "Pariatur",
