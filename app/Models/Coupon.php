@@ -15,8 +15,6 @@ class Coupon extends Model
 
     public function useByUser()
     {
-        $count = Order::where('coupon_id', '=', $this->id)->where('user_id', '=', auth()->user()->id)->get()->count();
-
-        return $count;
+        return Order::where('coupon_id', '=', $this->id)->where('user_id', '=', auth()->user()->id)->get()->count();
     }
 }

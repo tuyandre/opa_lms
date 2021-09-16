@@ -2653,13 +2653,11 @@ class ApiController extends Controller
                             } else {
                                 $discount = $coupon->amount;
                             }
-
                             $data['subtotal'] = (float)number_format($total, 2);
 
                             //$data['discounted_total'] = (float)number_format($total - $discount,2);
                             $data['coupon_data'] = $coupon->toArray();
                             $data['coupon_data']['total_coupon_discount'] = (float)number_format($discount, 2);
-
 
                             //Apply Tax
                             $data['tax_data'] = $this->applyTax($total);
@@ -2667,7 +2665,6 @@ class ApiController extends Controller
 
                             $discount = $data['coupon_data']['total_coupon_discount'];
                             $data['final_total'] = ($total - $discount) + $tax_amount;
-
 
                             return ['status' => 200, 'result' => $data];
                         } else {
@@ -2679,7 +2676,7 @@ class ApiController extends Controller
                 }
                 return ['status' => 100, 'result' => null, 'message' => 'Add Items to Cart before applying coupon'];
             }
-            return ['status' => 100, 'result' => null, 'message' => 'Please input valid coupon'];
+            return ['status' => 100, 'result' => null, 'message' => 'Please apply a valid coupon'];
         } catch (\Exception $e) {
             return response()->json(['status' => 100, 'result' => null, 'message' => $e->getMessage()]);
         }
