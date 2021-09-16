@@ -21,7 +21,7 @@ class CouponSeeder extends Seeder
                 'code' => "SAVE10",
                 'type' => 1,
                 'amount' => 92,
-                'min_price' => 100,
+                'min_price' => 10,
                 'expires_at' => now()->addDays(5),
                 'per_user_limit' => 1,
                 'status' => 1,
