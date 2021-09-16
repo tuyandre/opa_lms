@@ -38,7 +38,7 @@ class CouponSeeder extends Seeder
                 'status' => 1,
             ]
         ];
-
+        Coupon::query()->truncate();
         foreach ($coupons as $coupon)
             Coupon::query()->create($coupon);
     }
