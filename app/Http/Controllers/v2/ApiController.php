@@ -2343,6 +2343,7 @@ class ApiController extends Controller
 
             return response()->json(['status' => 200, 'result' => ['user' => $user], 'message' => __('strings.frontend.user.profile_updated')]);
         } catch (\Exception $e) {
+            throw $e;
             return response()->json(['status' => 100, 'result' => null, 'message' => $e->getMessage()]);
         }
     }
