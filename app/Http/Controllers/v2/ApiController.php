@@ -2343,7 +2343,6 @@ class ApiController extends Controller
 
             return response()->json(['status' => 200, 'result' => ['user' => $user], 'message' => __('strings.frontend.user.profile_updated')]);
         } catch (\Exception $e) {
-            throw $e;
             return response()->json(['status' => 100, 'result' => null, 'message' => $e->getMessage()]);
         }
     }
@@ -2868,7 +2867,12 @@ class ApiController extends Controller
     public function getConfigs()
     {
         $data = getCurrency(config('app.currency'));
-        $data['default_language'] = 'en';
+        $user = User::query()->find(request()->user_id ?? null);
+        if (!is_null($user)) {
+            $data['default_language'] = $user->language_code;
+        } else {
+            $data['default_language'] = 'en';
+        }
         $data['languages_display_type'] = [];
         $locales = Locale::query()->select('name', 'display_type', 'short_name')->get();
         foreach ($locales as $locale) {
@@ -2879,11 +2883,8 @@ class ApiController extends Controller
             ];
         }
         $data['current_language'] = collect($data['languages_display_type'])->where('id', $data['default_language'])->first();
-
-        if (request()->user_id != null) {
-            $user = User::query()->findOrFail(request()->user_id);
+        if (!is_null($user)) {
             $data['user_default_language'] = $user->language_code;
-            $data['current_language'] = $user->language_code;
         } else {
             $data['user_default_language'] = $data['current_language'];
         }
