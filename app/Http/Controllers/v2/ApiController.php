@@ -2869,7 +2869,7 @@ class ApiController extends Controller
         $data = getCurrency(config('app.currency'));
         $user = User::query()->find(request()->user_id ?? null);
         if (!is_null($user)) {
-            $data['default_language'] = $user->language_code;
+            $data['default_language'] = $user->language_code['id'];
         } else {
             $data['default_language'] = 'en';
         }
