@@ -144,7 +144,7 @@ class UserRepository extends BaseRepository
         $user = $this->getById($id);
         $user->first_name = $input['first_name']??$user->first_name;
         $user->last_name = $input['last_name']??$user->last_name;
-        if(isset($user->avatar_type)) {
+        if(isset($input['avatar_type'])) {
             $user->avatar_type = $input['avatar_type'];
             if ($input['avatar_type'] == 'gravatar')
                 $user->avatar_location = null;
