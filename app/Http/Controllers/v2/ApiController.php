@@ -2879,9 +2879,10 @@ class ApiController extends Controller
         }
         $data['current_language'] = collect($data['languages_display_type'])->where('id', $data['default_language'])->first();
 
-        if (request()->has('user_id')) {
+        if (request()->user()->check()) {
             $user = User::query()->findOrFail(request()->user_id);
             $data['user_default_language'] = $user->language_code;
+            $data['current_language'] = $user->language_code;
         } else {
             $data['user_default_language'] = $data['current_language'];
         }

@@ -142,11 +142,13 @@ class UserRepository extends BaseRepository
     public function update($id, array $input, $image = false, $isApi = false)
     {
         $user = $this->getById($id);
-        $user->first_name = $input['first_name']??$user->first_name;
-        $user->last_name = $input['last_name']??$user->last_name;
-        $user->avatar_type = $input['avatar_type'];
-        if ($input['avatar_type'] == 'gravatar')
-            $user->avatar_location = null;
+        $user->first_name = $input['first_name'] ?? $user->first_name;
+        $user->last_name = $input['last_name'] ?? $user->last_name;
+        if (isset($user->avatar_type)) {
+            $user->avatar_type = $input['avatar_type'];
+            if ($input['avatar_type'] == 'gravatar')
+                $user->avatar_location = null;
+        }
         $user->dob = $input['dob'] ?? $user->dob;
         $user->phone = $input['phone'] ?? $user->phone;
         $user->gender = $input['gender'] ?? $user->gender;
