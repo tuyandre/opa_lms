@@ -1331,7 +1331,7 @@ class ApiController extends Controller
                     Cart::session(auth()->user()->id)->remove($request->item_id);
                 }
             }
-            $response = self::getCartDetailArray();
+            $response = $this->getCartDetailArray();
             return response()->json($response);
         } catch (\Exception $e) {
             return response()->json(['status' => 100, 'result' => null, 'message' => $e->getMessage()]);
@@ -1354,6 +1354,9 @@ class ApiController extends Controller
         }
     }
 
+    /**
+     * @throws InvalidConditionException
+     */
     public function getCartDetailArray()
     {
         $course_ids = [];
@@ -1374,10 +1377,10 @@ class ApiController extends Controller
             $coursesData = $bundlesData->merge($courses);
             $total = $coursesData->sum('price');
             $subtotal = $total;
-
             if (count(Cart::session(request()->user()->id)->getConditionsByType('coupon')) > 0) {
                 $coupon = Cart::session(request()->user()->id)->getConditionsByType('coupon')->first();
                 $couponData = Coupon::where('code', '=', $coupon->getName())->first();
+                $this->addCouponToCartSession($couponData->id);
                 /*$couponArray = [
                     'name' => $couponData->name,
                     'code' => $couponData->code,
