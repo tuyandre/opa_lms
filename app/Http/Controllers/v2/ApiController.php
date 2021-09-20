@@ -55,6 +55,8 @@ use App\Repositories\Frontend\Api\OrderRepository;
 use App\Repositories\Frontend\Auth\UserRepository;
 use Arcanedev\NoCaptcha\Rules\CaptchaRule;
 use Carbon\Carbon;
+use Darryldecode\Cart\CartCondition;
+use Darryldecode\Cart\Exceptions\InvalidConditionException;
 use Exception;
 use Harimayco\Menu\Models\MenuItems;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
@@ -1213,7 +1215,8 @@ class ApiController extends Controller
                 return response()->json(['status' => 100, 'result' => null, 'message' => 'Invalid Request']);
             }
             $result['courses'] = $result['bundle']->courses;
-            return response()->json(['status' => 200, 'purchased_bundle' => $purchased_bundle, 'result' => $result]);
+            $result['purchased_bundle'] = $purchased_bundle;
+            return response()->json(['status' => 200, 'result' => $result]);
         } catch (\Exception $e) {
             return response()->json(['status' => 100, 'result' => null, 'message' => $e->getMessage()]);
         }
@@ -1261,8 +1264,7 @@ class ApiController extends Controller
             }
             $total = Cart::session(auth()->user()->id)->getTotal();
             $this->applyTax($total);
-
-            $response = self::getCartDetailArray();
+            $response = $this->getCartDetailArray();
             return response()->json($response);
         } catch (\Exception $e) {
             return response()->json(['status' => 100, 'result' => null, 'message' => $e->getMessage()]);
@@ -1345,7 +1347,7 @@ class ApiController extends Controller
     public function getCartData(Request $request)
     {
         try {
-            $response = self::getCartDetailArray();
+            $response = $this->getCartDetailArray();
             return response()->json($response);
         } catch (\Exception $e) {
             return response()->json(['status' => 100, 'result' => null, 'message' => $e->getMessage()]);
@@ -1372,16 +1374,18 @@ class ApiController extends Controller
             $coursesData = $bundlesData->merge($courses);
             $total = $coursesData->sum('price');
             $subtotal = $total;
-            if (count(Cart::getConditionsByType('coupon')) > 0) {
-                $coupon = Cart::getConditionsByType('coupon')->first();
+
+            if (count(Cart::session(request()->user()->id)->getConditionsByType('coupon')) > 0) {
+                $coupon = Cart::session(request()->user()->id)->getConditionsByType('coupon')->first();
                 $couponData = Coupon::where('code', '=', $coupon->getName())->first();
-                $couponArray = [
+                /*$couponArray = [
                     'name' => $couponData->name,
                     'code' => $couponData->code,
                     'type' => ($couponData->type == 1) ? trans('labels.backend.coupons.discount_rate') : trans('labels.backend.coupons.flat_rate'),
                     'value' => $coupon->getValue(),
                     'amount' => number_format($coupon->getCalculatedValue($total), 2)
-                ];
+                ];*/
+                $couponArray = $couponData->toArray();
             }
 
             $taxes = Tax::where('status', '=', 1)->get();
@@ -1409,6 +1413,7 @@ class ApiController extends Controller
     {
         try {
             Cart::session(auth()->user()->id)->clear();
+            Cart::session(auth()->user()->id)->clearCartConditions();
             return response()->json(['status' => 200, 'result' => null]);
         } catch (\Exception $e) {
             return response()->json(['status' => 100, 'result' => null, 'message' => $e->getMessage()]);
@@ -2552,7 +2557,7 @@ class ApiController extends Controller
                     $type = '-' . $coupon->amount;
                 }
 
-                $condition = new \Darryldecode\Cart\CartCondition(array(
+                $condition = new CartCondition(array(
                     'name' => $coupon->code,
                     'type' => 'coupon',
                     'target' => 'total', // this condition will be applied to cart's subtotal when getSubTotal() is called.
@@ -2563,8 +2568,6 @@ class ApiController extends Controller
                 Cart::session(auth()->user()->id)->condition($condition);
                 //Apply Tax
                 $taxData = $this->applyTax('subtotal');
-
-
                 return ['status' => 200, 'result' => null];
             }
         }
@@ -2582,99 +2585,98 @@ class ApiController extends Controller
                 ->where('status', '=', 1)
                 ->first();
             $isCouponValid = false;
+
             if ($coupon != null) {
-                if (count($request->data) > 0) {
-                    foreach ($request->data as $item) {
-                        $id = $item['id'];
-                        $price = $item['price'];
-                        if ($item['type'] == 'bundle') {
-                            $status = false;
-                            $bundle = Bundle::where('id', '=', $item['id'])
-                                ->where('price', '=', $item['price'])
-                                ->where('published', '=', 1)
-                                ->first();
-                            if ($bundle) {
-                                $status = true;
-                                $total = $total + $bundle->price;
-                            }
-                            $bundle = [
-                                'id' => $id,
-                                'type' => 'bundle',
-                                'price' => $price,
-                                'status' => $status
-                            ];
-                            array_push($items, $bundle);
-                        } else {
-                            $status = false;
-
-                            $course = Course::where('id', '=', $id)
-                                ->where('price', '=', $price)
-                                ->where('published', '=', 1)
-                                ->first();
-                            if ($course) {
-                                $status = true;
-                                $total = $total + $course->price;
-                            }
-                            $course = [
-                                'id' => $id,
-                                'type' => 'course',
-                                'price' => $price,
-                                'status' => $status
-                            ];
-                            array_push($items, $course);
+                if (count($request->data) <= 0) {
+                    throw new Exception('Add Items to Cart before applying coupon');
+                }
+                foreach ($request->data as $item) {
+                    $id = $item['id'];
+                    $price = $item['price'];
+                    if ($item['type'] == 'bundle') {
+                        $status = false;
+                        $bundle = Bundle::where('id', '=', $item['id'])
+                            ->where('price', '=', $item['price'])
+                            ->where('published', '=', 1)
+                            ->first();
+                        if ($bundle) {
+                            $status = true;
+                            $total = $total + $bundle->price;
                         }
-                    }
-                    $data['data'] = $items;
-
-                    $total = (float)number_format($total, 2);
-
-                    if ((float)$request->total == $total) {
-                        if ($coupon->per_user_limit > $coupon->useByUser()) {
-                            $isCouponValid = true;
-                            if (($coupon->min_price != null) && ($coupon->min_price > 0)) {
-                                if ($total >= $coupon->min_price) {
-                                    $isCouponValid = true;
-                                }
-                            } else {
-                                $isCouponValid = true;
-                            }
-                        }
-                        if ($coupon->expires_at != null) {
-                            if (Carbon::parse($coupon->expires_at) >= Carbon::now()) {
-                                $isCouponValid = true;
-                            } else {
-                                $isCouponValid = false;
-                            }
-                        }
-                        if ($isCouponValid == true) {
-                            $type = null;
-                            if ($coupon->type == 1) {
-                                $discount = $total * $coupon->amount / 100;
-                            } else {
-                                $discount = $coupon->amount;
-                            }
-                            $data['subtotal'] = (float)number_format($total, 2);
-
-                            //$data['discounted_total'] = (float)number_format($total - $discount,2);
-                            $data['coupon_data'] = $coupon->toArray();
-                            $data['coupon_data']['total_coupon_discount'] = (float)number_format($discount, 2);
-
-                            //Apply Tax
-                            $data['tax_data'] = $this->applyTax($total);
-                            $tax_amount = $data['tax_data']['total_tax'] ?? 0;
-
-                            $discount = $data['coupon_data']['total_coupon_discount'];
-                            $data['final_total'] = ($total - $discount) + $tax_amount;
-
-                            return ['status' => 200, 'result' => $data];
-                        } else {
-                            return ['status' => 100, 'result' => null, 'message' => 'Coupon is Invalid'];
-                        }
+                        $bundle = [
+                            'id' => $id,
+                            'type' => 'bundle',
+                            'price' => $price,
+                            'status' => $status
+                        ];
+                        array_push($items, $bundle);
                     } else {
-                        return ['status' => 100, 'message' => 'Total Mismatch', 'result' => $data];
+                        $status = false;
+
+                        $course = Course::where('id', '=', $id)
+                            ->where('price', '=', $price)
+                            ->where('published', '=', 1)
+                            ->first();
+                        if ($course) {
+                            $status = true;
+                            $total = $total + $course->price;
+                        }
+                        $course = [
+                            'id' => $id,
+                            'type' => 'course',
+                            'price' => $price,
+                            'status' => $status
+                        ];
+                        array_push($items, $course);
                     }
                 }
-                return ['status' => 100, 'result' => null, 'message' => 'Add Items to Cart before applying coupon'];
+                $data['data'] = $items;
+
+                $total = (float)number_format($total, 2);
+
+                if ((float)$request->total != $total) {
+                    return ['status' => 100, 'message' => 'Total Mismatch', 'result' => $data];
+                }
+                if ($coupon->per_user_limit > $coupon->useByUser()) {
+                    $isCouponValid = true;
+                    if (($coupon->min_price != null) && ($coupon->min_price > 0)) {
+                        if ($total >= $coupon->min_price) {
+                            $isCouponValid = true;
+                        } else {
+                            throw new Exception('Cart Total should be Greater than or equal to ' . $coupon->min_price . ' to Apply this Promo code.');
+                        }
+                    }
+                }
+                if ($coupon->expires_at != null) {
+                    if (Carbon::parse($coupon->expires_at) >= Carbon::now()) {
+                        $isCouponValid = true;
+                    } else {
+                        throw new Exception('Coupon is Expired');
+                    }
+                }
+                if ($isCouponValid == false) {
+                    throw new Exception('Coupon is Invalid');
+                }
+                $type = null;
+                if ($coupon->type == 1) {
+                    $discount = $total * $coupon->amount / 100;
+                } else {
+                    $discount = $coupon->amount;
+                }
+                $data['subtotal'] = (float)number_format($total, 2);
+                $this->addCouponToCartSession($coupon->id);
+
+                //$data['discounted_total'] = (float)number_format($total - $discount,2);
+                $data['coupon_data'] = $coupon->toArray();
+                $data['coupon_data']['total_coupon_discount'] = (float)number_format($discount, 2);
+
+                //Apply Tax
+                $data['tax_data'] = $this->applyTax($total);
+                $tax_amount = $data['tax_data']['total_tax'] ?? 0;
+
+                $discount = $data['coupon_data']['total_coupon_discount'];
+                $data['final_total'] = number_format(($total - $discount) + $tax_amount, 2);
+                return ['status' => 200, 'result' => $data];
             }
             return ['status' => 100, 'result' => null, 'message' => 'Please apply a valid coupon'];
         } catch (\Exception $e) {
@@ -2756,15 +2758,15 @@ class ApiController extends Controller
                     } else {
                         $data['coupon_data'] = false;
                     }
-                    $data['subtotal'] = (float)$total;
-                    $total = $total - $discount;
+                    $data['subtotal'] = number_format((float)$total, 2);
+                    $total = number_format($total - $discount, 2);
 
                     //Apply Tax
                     $data['tax_data'] = $this->applyTax($total);
                     if ($data['tax_data'] != 0) {
                         $tax_amount = $data['tax_data']['total_tax'];
                     }
-                    $data['final_total'] = $total + $tax_amount;
+                    $data['final_total'] = number_format((float)$total + (float)$tax_amount, 2);
                     $order = $this->makeOrder($data);
                     $data['order'] = $order;
                     return ['status' => 200, 'result' => $data];
@@ -2918,6 +2920,27 @@ class ApiController extends Controller
             return $taxData;
         }
         return false;
+    }
+
+    /**
+     * @throws InvalidConditionException
+     * @throws Exception
+     */
+    public function addCouponToCartSession($coupon_id)
+    {
+        $coupon = Coupon::query()->findOrFail($coupon_id);
+        $value = $coupon->type == 2 ? '-' . $coupon->amount : '-' . $coupon->amount . '%';
+        $condition = new CartCondition(array(
+            'name' => $coupon->code,
+            'type' => 'coupon',
+            'target' => 'total', // this condition will be applied to cart's subtotal when getSubTotal() is called.
+            'value' => $value,
+            'attributes' => array( // attributes field is optional
+                'description' => $coupon->description,
+                'coupon_id' => $coupon_id
+            )
+        ));
+        Cart::session(auth()->user()->id)->condition($condition);
     }
 
     public function subscriptionsPlans()

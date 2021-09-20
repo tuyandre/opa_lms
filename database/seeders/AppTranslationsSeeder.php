@@ -23,7 +23,7 @@ class AppTranslationsSeeder extends Seeder
                 'ok' => "Ok",
                 'language_app_modal_message' => 'This feature requires app Restart, would you like to continue?',
                 'language_app_modal_title' => 'Language Change!',
-                'exit_app_title'=>'Hold On!',
+                'exit_app_title' => 'Hold On!',
                 'no_data_found' => "No Data Found",
                 'price' => "Price",
                 'pariatur' => "Pariatur",
@@ -153,6 +153,9 @@ class AppTranslationsSeeder extends Seeder
                 'confirm_order_button' => "Confirm Order",
                 'payment_title' => "Payment",
                 'select_payment_method' => "Select Payment Method",
+                'expire_date' => 'Expiry Date',
+                'promo_code' => 'Promo Code',
+                'grand_total' => 'Grand Total',
             ],
             "message_page" => [
                 'header' => "Message",
