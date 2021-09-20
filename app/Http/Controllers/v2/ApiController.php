@@ -1331,6 +1331,7 @@ class ApiController extends Controller
                     Cart::session(auth()->user()->id)->remove($request->item_id);
                 }
             }
+            Cart::session(auth()->user()->id)->clearCartConditions();
             $response = $this->getCartDetailArray();
             return response()->json($response);
         } catch (\Exception $e) {
@@ -1354,9 +1355,6 @@ class ApiController extends Controller
         }
     }
 
-    /**
-     * @throws InvalidConditionException
-     */
     public function getCartDetailArray()
     {
         $course_ids = [];
@@ -1380,8 +1378,6 @@ class ApiController extends Controller
             if (count(Cart::session(request()->user()->id)->getConditionsByType('coupon')) > 0) {
                 $coupon = Cart::session(request()->user()->id)->getConditionsByType('coupon')->first();
                 $couponData = Coupon::where('code', '=', $coupon->getName())->first();
-                $this->removeCoupon(request());
-                $this->addCouponToCartSession($couponData->id);
                 /*$couponArray = [
                     'name' => $couponData->name,
                     'code' => $couponData->code,
