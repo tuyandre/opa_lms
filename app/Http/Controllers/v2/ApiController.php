@@ -1380,6 +1380,7 @@ class ApiController extends Controller
             if (count(Cart::session(request()->user()->id)->getConditionsByType('coupon')) > 0) {
                 $coupon = Cart::session(request()->user()->id)->getConditionsByType('coupon')->first();
                 $couponData = Coupon::where('code', '=', $coupon->getName())->first();
+                $this->removeCoupon(request());
                 $this->addCouponToCartSession($couponData->id);
                 /*$couponArray = [
                     'name' => $couponData->name,
