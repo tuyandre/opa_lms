@@ -82,15 +82,15 @@ class AppTranslationsSeeder extends Seeder
                 'teachers' => "Teachers",
                 'faqs' => "Faqs",
                 'contact_us' => "Contact Us",
-                'contact'=>'Contact',
+                'contact' => 'Contact',
                 'why_us' => "Why Us",
-                'why'=>'Why',
+                'why' => 'Why',
                 'testimonial' => "Testimonial",
                 'about_us' => "About Us",
                 'about' => 'About',
                 'us' => 'Us',
                 'info_text' => "Inventive Solution For Education",
-                'our'=>'Our'
+                'our' => 'Our'
             ],
             "courses_page" => [
                 'header' => "Course",
@@ -196,7 +196,10 @@ class AppTranslationsSeeder extends Seeder
                 'next_button' => 'Next',
                 'result_button' => 'Show Result',
                 'start_button' => 'Start',
-                'retest_button' => 'Retest'
+                'retest_button' => 'Retest',
+                'score_title' => 'Your Test Score',
+                'percentage_title' => 'Gained Percentage',
+                'result_title' => 'Your Result',
             ],
             "certificate_page" => [
                 "header" => "Certificate",
