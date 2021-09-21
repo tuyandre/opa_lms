@@ -2671,7 +2671,7 @@ class ApiController extends Controller
                 if ($coupon->type == 1) {
                     $discount = $total * $coupon->amount / 100;
                 } else {
-                    if($coupon->amount >= $total){
+                    if ($coupon->amount >= $total) {
                         throw new Exception('Coupon Amount should be less then Cart Sub Total.');
                     }
                     $discount = $coupon->amount;
@@ -2819,7 +2819,9 @@ class ApiController extends Controller
             $this->applyTax('subtotal');
 
             // return ['status' => 200, 'result' => null];
-            return $this->getCartDetailArray();
+            $res = $this->getCartDetailArray();
+            $res['message'] = 'Coupon Removed Successfully';
+            return $res;
         } catch (\Exception $e) {
             return response()->json(['status' => 100, 'result' => null, 'message' => $e->getMessage()]);
         }
