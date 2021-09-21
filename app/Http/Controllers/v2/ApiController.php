@@ -1432,7 +1432,6 @@ class ApiController extends Controller
                 }
             }
             $total = Cart::session(auth()->user()->id)->getTotal();
-
             return [
                 'status' => 200,
                 'message' => "Cart data sent successfully",
@@ -2765,10 +2764,13 @@ class ApiController extends Controller
             $data = [
                 'coupon_data' => $cartDetailArray['coupon'],
                 'final_total' => $cartDetailArray['total'],
+                'subtotal' => $cartDetailArray['subtotal'],
+                'tax_data' => $cartDetailArray['tax'],
                 'data' => $dataItems,
             ];
             $order = $this->makeOrder($data);
-             return ['status' => 200, 'result' => compact('order')];
+            $data['order'] = $order;
+            return ['status' => 200, 'result' => $data];
 
             if (count($request->data) > 0) {
                 foreach ($request->data as $item) {
@@ -2847,9 +2849,7 @@ class ApiController extends Controller
                     }
                     $data['final_total'] = number_format((float)$total + (float)$tax_amount, 2, '.', '');
                     $order = $this->makeOrder($data);
-                    $res = $this->getCartDetailArray();
-                    $res['order'] = $order;
-                    return $res;
+                    $data['order'] = $order;
                     return ['status' => 200, 'result' => $data];
                 } else {
                     return ['status' => 100, 'message' => 'Total Mismatch', 'result' => $data];
