@@ -1403,7 +1403,7 @@ class ApiController extends Controller
             if ($taxes != null) {
                 foreach ($taxes as $tax) {
                     $total = Cart::session(auth()->user()->id)->getTotal();
-                    $amount = number_format($total * $tax->rate / 100, 2);
+                    $amount = number_format($total * $tax->rate / 100, 2, '.', '');
                     $taxData[] = ['name' => '+' . $tax->rate . '% ' . $tax->name, 'amount' => $amount];
                 }
             }
@@ -1534,7 +1534,7 @@ class ApiController extends Controller
     {
         $order_confirmation_id = $request->order_confirmation_id;
         $order = Order::query()->findOrFail($order_confirmation_id);
-        $amount = number_format($order->amount, 2);
+        $amount = number_format($order->amount, 2, '.', '');
         $currency = getCurrency(config('app.currency'))['short_code'];
         return [
             'currency' => $currency,
@@ -1543,7 +1543,7 @@ class ApiController extends Controller
             'secret_key' => config('services.stripe.secret'),
             'description' => 'Order Payment',
             'order_id' => $order_confirmation_id,
-            'amount' => number_format((float)$amount, 2) * 100,
+            'amount' => (int)$amount * 100,
         ];
     }
 
@@ -2642,7 +2642,7 @@ class ApiController extends Controller
                 }
                 $data['data'] = $items;
 
-                $total = (float)number_format($total, 2);
+                $total = (float)number_format($total, 2, '.', '');
 
                 if ((float)$request->total != $total) {
                     return ['status' => 100, 'message' => 'Total Mismatch', 'result' => $data];
@@ -2673,12 +2673,12 @@ class ApiController extends Controller
                 } else {
                     $discount = $coupon->amount;
                 }
-                $data['subtotal'] = (float)number_format($total, 2);
+                $data['subtotal'] = (float)number_format($total, 2, '.', '');
                 $this->addCouponToCartSession($coupon->id);
 
                 //$data['discounted_total'] = (float)number_format($total - $discount,2);
                 $data['coupon_data'] = $coupon->toArray();
-                $data['coupon_data']['total_coupon_discount'] = (float)number_format($discount, 2);
+                $data['coupon_data']['total_coupon_discount'] = (float)number_format($discount, 2, '.', '');
 
                 //Apply Tax
                 $data['tax_data'] = $this->applyTax($total);
@@ -2687,7 +2687,7 @@ class ApiController extends Controller
                 $discount = $data['coupon_data']['total_coupon_discount'];
                 $res = $this->getCartDetailArray();
                 $res['message'] = 'Coupon Applied Successfully';
-                $res['result']['final_total'] = (float)number_format(($total - $discount) + $tax_amount, 2);
+                $res['result']['final_total'] = (float)number_format(($total - $discount) + $tax_amount, 2, '.', '');
                 return $res;
             }
             return ['status' => 100, 'result' => null, 'message' => 'Please apply a valid coupon'];
@@ -2765,20 +2765,20 @@ class ApiController extends Controller
                         }
                         //$data['discounted_total'] = (float)number_format($total - $discount,2);
                         $data['coupon_data'] = $coupon->toArray();
-                        $data['coupon_data']['total_coupon_discount'] = (float)number_format($discount, 2);
+                        $data['coupon_data']['total_coupon_discount'] = (float)number_format($discount, 2, '.', '');
                         $discount = $data['coupon_data']['total_coupon_discount'];
                     } else {
                         $data['coupon_data'] = false;
                     }
-                    $data['subtotal'] = number_format((float)$total, 2);
-                    $total = number_format($total - $discount, 2);
+                    $data['subtotal'] = number_format((float)$total, 2, '.', '');
+                    $total = number_format($total - $discount, 2, '.', '');
 
                     //Apply Tax
                     $data['tax_data'] = $this->applyTax($total);
                     if ($data['tax_data'] != 0) {
                         $tax_amount = $data['tax_data']['total_tax'];
                     }
-                    $data['final_total'] = number_format((float)$total + (float)$tax_amount, 2);
+                    $data['final_total'] = number_format((float)$total + (float)$tax_amount, 2, '.', '');
                     $order = $this->makeOrder($data);
                     $data['order'] = $order;
                     return ['status' => 200, 'result' => $data];
