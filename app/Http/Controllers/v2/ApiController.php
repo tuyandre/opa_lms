@@ -653,8 +653,6 @@ class ApiController extends Controller
                 $total_ratings = $course->reviews()->where('rating', '!=', "")->get()->count();
             }
             $lessons = $course->courseTimeline()->orderby('sequence', 'asc')->get();
-
-
             if (\Auth::check()) {
                 $completed_lessons = \Auth::user()->chapters()->where('course_id', $course->id)->get()->pluck('model_id')->toArray();
                 $continue_course = $course->courseTimeline()->orderby('sequence', 'asc')->whereNotIn('model_id', $completed_lessons)->first();
@@ -1258,7 +1256,8 @@ class ApiController extends Controller
                             'image' => $product->course_image,
                             'product_id' => $product->id,
                             'type' => $type,
-                            'teachers' => $teachers
+                            'teachers' => $teachers,
+                            'rating' => $product->reviews->avg('rating'),
                         ]
                     );
             }
@@ -1383,6 +1382,11 @@ class ApiController extends Controller
                 $couponData = Coupon::where('code', '=', $coupon->getName())->first();
                 Cart::session(auth()->user()->id)->clearCartConditions();
                 $this->addCouponToCartSession($couponData->id);
+                if ($couponData->type == 1) {
+                    $discount = $total * $couponData->amount / 100;
+                } else {
+                    $discount = $couponData->amount;
+                }
                 /*$couponArray = [
                     'name' => $couponData->name,
                     'code' => $couponData->code,
@@ -1391,6 +1395,7 @@ class ApiController extends Controller
                     'amount' => number_format($coupon->getCalculatedValue($total), 2)
                 ];*/
                 $couponArray = $couponData->toArray();
+                $couponArray['total_coupon_discount'] = $discount;
             }
 
             $taxes = Tax::where('status', '=', 1)->get();
@@ -1538,7 +1543,7 @@ class ApiController extends Controller
             'secret_key' => config('services.stripe.secret'),
             'description' => 'Order Payment',
             'order_id' => $order_confirmation_id,
-            'amount' => number_format((float)$amount, 2, '.', '') * 100,
+            'amount' => number_format((float)$amount, 2) * 100,
         ];
     }
 
@@ -2680,8 +2685,10 @@ class ApiController extends Controller
                 $tax_amount = $data['tax_data']['total_tax'] ?? 0;
 
                 $discount = $data['coupon_data']['total_coupon_discount'];
-                $data['final_total'] = number_format(($total - $discount) + $tax_amount, 2);
-                return ['status' => 200, 'result' => $data];
+                $res = $this->getCartDetailArray();
+                $res['message'] = 'Coupon Applied Successfully';
+                $res['result']['final_total'] = (float)number_format(($total - $discount) + $tax_amount, 2);
+                return $res;
             }
             return ['status' => 100, 'result' => null, 'message' => 'Please apply a valid coupon'];
         } catch (\Exception $e) {
