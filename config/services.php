@@ -48,7 +48,7 @@ return [
     ],
 
     'instamojo' => [
-        'active' => false,
+        'active' => true,
         'key' => env('INSTAMOJO_KEY'),
         'secret' => env('INSTAMOJO_SECRET'),
         'mode' => env('INSTAMOJO_MODE', 'sandbox'),
