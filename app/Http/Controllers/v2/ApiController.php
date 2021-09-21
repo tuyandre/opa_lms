@@ -966,10 +966,17 @@ class ApiController extends Controller
 
                     $question_data['question'] = $question->toArray();
                     $question_data['options'] = $options;
-
                     $questions[] = $question_data;
                 }
             }
+
+            $total_questions = $test->questions->count();
+            $percentage = $test_result['test_result'] / $total_questions * 100;
+            $test_pass = ($percentage < $test->passing_score) ? "Failed" : "Pass";
+
+            $data['test_score'] = $test_result['test_result'];
+            $data['gained_percentage'] = number_format($percentage,2);
+            $data['result'] = $test_pass;
 
             $data['test'] = $test->toArray();
             $data['is_test_given'] = true;
@@ -1379,8 +1386,14 @@ class ApiController extends Controller
                     $course_ids[] = $item->id;
                 }
             }
-            $courses = Course::find($course_ids);
-            $bundles = Bundle::find($bundle_ids);
+            $courses = Course::find($course_ids)->map(function($q){
+                $q->reviews->avg('rating');
+                return $q;
+            });
+            $bundles = Bundle::find($bundle_ids)->map(function($q){
+                $q->rating = $q->reviews->avg('rating');
+                return $q;
+            });
             $bundlesData = Bundle::find($bundle_ids);
 
             $coursesData = $bundlesData->merge($courses);
