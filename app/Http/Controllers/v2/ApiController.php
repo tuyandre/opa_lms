@@ -1443,7 +1443,9 @@ class ApiController extends Controller
                     'coupon' => $couponArray,
                     'tax' => $taxData,
                     'subtotal' => number_format($subtotal, 2, '.', ''),
-                    'total' => number_format($total, 2, '.', '')]
+                    'total' => number_format($total, 2, '.', ''),
+                    'final_total' => number_format($total, 2, '.', ''),
+                ],
             ];
         }
         return ['status' => 200, 'result' => ['count' => 0], 'message' => "No Record Found"];
