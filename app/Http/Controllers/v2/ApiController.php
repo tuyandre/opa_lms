@@ -1635,7 +1635,7 @@ class ApiController extends Controller
                     //Generating Invoice
                     generateInvoice($order);
                 }
-                return response()->json(['status' => 200, 'result' => null]);
+                return response()->json(['status' => 200, 'message' => 'Order Placed Successfully', 'result' => null]);
             } else {
                 return response()->json(['status' => 100, 'result' => null, 'message' => 'No order found']);
             }
