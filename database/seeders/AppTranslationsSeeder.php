@@ -82,9 +82,13 @@ class AppTranslationsSeeder extends Seeder
                 'teachers' => "Teachers",
                 'faqs' => "Faqs",
                 'contact_us' => "Contact Us",
+                'contact'=>'Contact',
                 'why_us' => "Why Us",
+                'why'=>'Why',
                 'testimonial' => "Testimonial",
                 'about_us' => "About Us",
+                'about' => 'About',
+                'us' => 'Us',
                 'info_text' => "Inventive Solution For Education",
             ],
             "courses_page" => [
