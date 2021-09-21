@@ -90,6 +90,7 @@ class AppTranslationsSeeder extends Seeder
                 'about' => 'About',
                 'us' => 'Us',
                 'info_text' => "Inventive Solution For Education",
+                'our'=>'Our'
             ],
             "courses_page" => [
                 'header' => "Course",
