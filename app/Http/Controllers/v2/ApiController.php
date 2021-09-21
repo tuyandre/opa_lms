@@ -1417,7 +1417,7 @@ class ApiController extends Controller
                     'amount' => number_format($coupon->getCalculatedValue($total), 2)
                 ];*/
                 $couponArray = $couponData->toArray();
-                $couponArray['total_coupon_discount'] = $discount;
+                $couponArray['total_coupon_discount'] = number_format($discount, 2, '.', '');
             } else {
                 $couponArray = null;
             }
@@ -1442,8 +1442,8 @@ class ApiController extends Controller
                     'count' => count($courses) + count($bundles),
                     'coupon' => $couponArray,
                     'tax' => $taxData,
-                    'subtotal' => number_format(round($subtotal, 2),2,'.',''),
-                    'total' => number_format(round($total, 2),2,'.','')]
+                    'subtotal' => number_format(round($subtotal, 2), 2, '.', ''),
+                    'total' => number_format(round($total, 2), 2, '.', '')]
             ];
         }
         return ['status' => 200, 'result' => ['count' => 0], 'message' => "No Record Found"];
