@@ -1676,7 +1676,6 @@ class ApiController extends Controller
             ]);
         }
         Cart::session(auth()->user()->id)->removeConditionsByType('coupon');
-
         return $order;
     }
 
@@ -2767,7 +2766,8 @@ class ApiController extends Controller
                 'data' => $dataItems,
             ];
             $order = $this->makeOrder($data);
-            return ['status' => 200, 'result' => compact('order')];
+            // return ['status' => 200, 'result' => compact('order')];
+
             if (count($request->data) > 0) {
                 foreach ($request->data as $item) {
                     $id = $item['id'];
@@ -2845,7 +2845,9 @@ class ApiController extends Controller
                     }
                     $data['final_total'] = number_format((float)$total + (float)$tax_amount, 2, '.', '');
                     $order = $this->makeOrder($data);
-                    $data['order'] = $order;
+                    $res = $this->getCartDetailArray();
+                    $res['order'] = $order;
+                    return $res;
                     return ['status' => 200, 'result' => $data];
                 } else {
                     return ['status' => 100, 'message' => 'Total Mismatch', 'result' => $data];
