@@ -1387,7 +1387,7 @@ class ApiController extends Controller
                 }
             }
             $courses = Course::find($course_ids)->map(function($q){
-                $q->reviews->avg('rating');
+                $q->rating = $q->reviews->avg('rating');
                 return $q;
             });
             $bundles = Bundle::find($bundle_ids)->map(function($q){
