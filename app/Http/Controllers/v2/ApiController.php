@@ -860,10 +860,10 @@ class ApiController extends Controller
                 $is_test_given = true;
 
                 $total_questions = $test->questions->count();
-                $percentage = $test_result->test_result / $total_questions * 100;
+                $percentage = $test_result['test_result'] / $total_questions * 100;
                 $test_pass = ($percentage < $test->passing_score) ? "Failed" : "Pass";
 
-                $data['test_score'] = $test_result->test_result;
+                $data['test_score'] = $test_result['test_result'];
                 $data['gained_percentage'] = number_format($percentage,2);
                 $data['result'] = $test_pass;
             }
