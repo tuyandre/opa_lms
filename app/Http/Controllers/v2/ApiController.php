@@ -864,7 +864,7 @@ class ApiController extends Controller
                 $test_pass = ($percentage < $test->passing_score) ? "Failed" : "Pass";
 
                 $data['test_score'] = $test_result['test_result'];
-                $data['gained_percentage'] = number_format($percentage,2);
+                $data['gained_percentage'] = number_format($percentage, 2);
                 $data['result'] = $test_pass;
             }
 
@@ -975,7 +975,7 @@ class ApiController extends Controller
             $test_pass = ($percentage < $test->passing_score) ? "Failed" : "Pass";
 
             $data['test_score'] = $test_result['test_result'];
-            $data['gained_percentage'] = number_format($percentage,2);
+            $data['gained_percentage'] = number_format($percentage, 2);
             $data['result'] = $test_pass;
 
             $data['test'] = $test->toArray();
@@ -1386,11 +1386,11 @@ class ApiController extends Controller
                     $course_ids[] = $item->id;
                 }
             }
-            $courses = Course::find($course_ids)->map(function($q){
+            $courses = Course::find($course_ids)->map(function ($q) {
                 $q->rating = $q->reviews->avg('rating');
                 return $q;
             });
-            $bundles = Bundle::find($bundle_ids)->map(function($q){
+            $bundles = Bundle::find($bundle_ids)->map(function ($q) {
                 $q->rating = $q->reviews->avg('rating');
                 return $q;
             });
@@ -1418,6 +1418,8 @@ class ApiController extends Controller
                 ];*/
                 $couponArray = $couponData->toArray();
                 $couponArray['total_coupon_discount'] = $discount;
+            } else {
+                $couponArray = null;
             }
 
             $taxes = Tax::where('status', '=', 1)->get();
@@ -1431,7 +1433,18 @@ class ApiController extends Controller
             }
 
             $total = Cart::session(auth()->user()->id)->getTotal();
-            return ['status' => 200, 'message' => "Cart data sent successfully", 'result' => ['courses' => $courses, 'bundles' => $bundles, 'count' => count($courses) + count($bundles), 'coupon' => $couponArray, 'tax' => $taxData, 'subtotal' => round($subtotal, 2), 'total' => round($total, 2)]];
+            return [
+                'status' => 200,
+                'message' => "Cart data sent successfully",
+                'result' => [
+                    'courses' => $courses,
+                    'bundles' => $bundles,
+                    'count' => count($courses) + count($bundles),
+                    'coupon' => $couponArray,
+                    'tax' => $taxData,
+                    'subtotal' => round($subtotal, 2),
+                    'total' => round($total, 2)]
+            ];
         }
         return ['status' => 200, 'result' => ['count' => 0], 'message' => "No Record Found"];
     }
