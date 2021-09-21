@@ -68,6 +68,7 @@ class AppTranslationsSeeder extends Seeder
                 'course' => "Course",
                 'bundle' => "Bundle",
                 'blog' => "Blog",
+                'my_wishlist'=>'My Wishlist',
                 'my_purchase' => "My Purchase",
                 'certificate' => "Certificate",
                 'chat' => "Chat",

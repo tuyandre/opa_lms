@@ -1709,7 +1709,6 @@ class ApiController extends Controller
                 'price' => $item['price']
             ]);
         }
-
         return $order;
     }
 
@@ -2741,6 +2740,34 @@ class ApiController extends Controller
             $data = [];
             $items = [];
             $total = 0;
+
+            $cartDetailArray = $this->getCartDetailArray()['result'];
+            $cartObj = Cart::session(auth()->user()->id);
+            if ($cartObj->getContent()->count() <= 0) {
+                throw new Exception("You don't have any item in your cart.");
+            }
+            $dataItems = [];
+            foreach ($cartDetailArray['courses'] as $course) {
+                $dataItems[] = [
+                    'type' => 'course',
+                    'id' => $course['id'],
+                    'price' => $course['price']
+                ];
+            }
+            foreach ($cartDetailArray['bundles'] as $course) {
+                $dataItems[] = [
+                    'type' => 'bundle',
+                    'id' => $course['id'],
+                    'price' => $course['price']
+                ];
+            }
+            $data = [
+                'coupon_data' => $cartDetailArray['coupon'],
+                'final_total' => $cartDetailArray['total'],
+                'data' => $dataItems,
+            ];
+            $order = $this->makeOrder($data);
+            return ['status' => 200, 'result' => compact('order')];
             if (count($request->data) > 0) {
                 foreach ($request->data as $item) {
                     $id = $item['id'];
