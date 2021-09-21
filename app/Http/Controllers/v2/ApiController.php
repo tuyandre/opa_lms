@@ -2671,6 +2671,9 @@ class ApiController extends Controller
                 if ($coupon->type == 1) {
                     $discount = $total * $coupon->amount / 100;
                 } else {
+                    if($coupon->amount >= $total){
+                        throw new Exception('Coupon Amount should be less then Cart Sub Total.');
+                    }
                     $discount = $coupon->amount;
                 }
                 $data['subtotal'] = (float)number_format($total, 2, '.', '');
