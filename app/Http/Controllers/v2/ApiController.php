@@ -1276,6 +1276,8 @@ class ApiController extends Controller
                             'rating' => $product->reviews->avg('rating'),
                         ]
                     );
+            } else {
+                throw new Exception('Item is Already exists in Cart');
             }
             $total = Cart::session(auth()->user()->id)->getTotal();
             $this->applyTax($total);
