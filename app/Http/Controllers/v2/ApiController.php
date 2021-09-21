@@ -2921,31 +2921,31 @@ class ApiController extends Controller
         return [
             1 => [
                 'name' => 'Stripe',
-                'is_active' => false,
+                'is_active' => config('services.stripe.active'),
             ],
             2 => [
                 'name' => 'Paypal',
-                'is_active' => false,
+                'is_active' => config('services.paypal.active'),
             ],
             3 => [
                 'name' => 'Offline',
-                'is_active' => true,
+                'is_active' => config('services.offline_payment.active'),
             ],
             4 => [
                 'name' => 'InstaMojo',
-                'is_active' => true,
+                'is_active' => config('services.instamojo.active'),
             ],
             5 => [
                 'name' => 'Razorpay',
-                'is_active' => true,
+                'is_active' => config('services.razorpay.active'),
             ],
             6 => [
                 'name' => 'CashFree',
-                'is_active' => false,
+                'is_active' => config('services.cashfree.active'),
             ],
             7 => [
                 'name' => 'PayUMoney',
-                'is_active' => true,
+                'is_active' => config('services.payu.active'),
             ]
         ];
     }

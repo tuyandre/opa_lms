@@ -38,6 +38,13 @@ return [
             'secret' => env('STRIPE_WEBHOOK_SECRET'),
             'tolerance' => env('STRIPE_WEBHOOK_TOLERANCE', 300),
         ],
+        'active' => true,
+    ],
+    'paypal' => [
+        'active' => true,
+    ],
+    'offline_payment' => [
+        'active' => true,
     ],
 
     'instamojo' => [
@@ -50,7 +57,7 @@ return [
     ],
 
     'razorpay' => [
-        'active' => false,
+        'active' => true,
         'key' => env('RAZORPAY_KEY'),
         'secret' => env('RAZORPAY_SECRET'),
     ],
