@@ -2768,7 +2768,7 @@ class ApiController extends Controller
                 'data' => $dataItems,
             ];
             $order = $this->makeOrder($data);
-            // return ['status' => 200, 'result' => compact('order')];
+             return ['status' => 200, 'result' => compact('order')];
 
             if (count($request->data) > 0) {
                 foreach ($request->data as $item) {
