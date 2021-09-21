@@ -28,6 +28,9 @@ class AppTranslationsSeeder extends Seeder
                 'price' => "Price",
                 'pariatur' => "Pariatur",
                 'search_placeholder' => "Search here..",
+                'placeholder' => 'Placeholder',
+                'no_certificate' => 'No Certificate',
+                'not_have_any_purchase' => 'You not have any purchase.'
             ],
             "login_page" => [
                 'header' => "Hello! Login Here",
@@ -93,7 +96,7 @@ class AppTranslationsSeeder extends Seeder
                 'featured' => "Featured",
                 "course_timeline" => "Course Timeline : ",
                 "timeline_header" => "TimeLine Detail",
-                'course_buy_require_error' => 'Please buy couse',
+                'course_buy_require_error' => 'Please buy course',
             ],
             "bundles_page" => [
                 'header' => "Bundle",
@@ -156,6 +159,7 @@ class AppTranslationsSeeder extends Seeder
                 'expire_date' => 'Expiry Date',
                 'promo_code' => 'Promo Code',
                 'grand_total' => 'Grand Total',
+                'course_buy_require_error' => 'Please buy course',
             ],
             "message_page" => [
                 'header' => "Message",
