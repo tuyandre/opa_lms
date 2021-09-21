@@ -2818,7 +2818,8 @@ class ApiController extends Controller
             //Apply Tax
             $this->applyTax('subtotal');
 
-            return ['status' => 200, 'result' => null];
+            // return ['status' => 200, 'result' => null];
+            return $this->getCartDetailArray();
         } catch (\Exception $e) {
             return response()->json(['status' => 100, 'result' => null, 'message' => $e->getMessage()]);
         }
