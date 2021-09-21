@@ -1253,16 +1253,18 @@ class ApiController extends Controller
                 $product = Course::findOrFail($request->item_id);
                 $teachers = $product->teachers->pluck('id', 'name');
                 $type = 'course';
+                $cart_item_id = 'course_' . $product->id;
             } elseif ($request->type == 'bundle') {
                 $product = Bundle::findOrFail($request->item_id);
                 $teachers = $product->user->name;
                 $type = 'bundle';
+                $cart_item_id = 'bundle_' . $product->id;
             }
             $cart_items = Cart::session(auth()->user()->id)->getContent()->keys()->toArray();
-            if (!in_array($product->id, $cart_items)) {
+            if (!in_array($request->type . '_' . $product->id, $cart_items)) {
                 Cart::session(auth()->user()->id)
                     ->add(
-                        $product->id,
+                        $cart_item_id, // $product->id,
                         $product->title,
                         $product->price,
                         1,
@@ -1345,7 +1347,8 @@ class ApiController extends Controller
         try {
             foreach (Cart::session(auth()->user()->id)->getContent() as $cartItem) {
                 if (($cartItem->attributes->type == $request->type) && ($cartItem->attributes->product_id == $request->item_id)) {
-                    Cart::session(auth()->user()->id)->remove($request->item_id);
+                    $cart_item_id = $request->type . '_' . $request->item_id;
+                    Cart::session(auth()->user()->id)->remove($cart_item_id);
                 }
             }
             $response = $this->getCartDetailArray();
@@ -1383,9 +1386,9 @@ class ApiController extends Controller
         if (count(Cart::session(auth()->user()->id)->getContent()) > 0) {
             foreach (Cart::session(auth()->user()->id)->getContent() as $item) {
                 if ($item->attributes->type == 'bundle') {
-                    $bundle_ids[] = $item->id;
+                    $bundle_ids[] = $item->attributes->product_id;
                 } else {
-                    $course_ids[] = $item->id;
+                    $course_ids[] = $item->attributes->product_id;
                 }
             }
             $courses = Course::find($course_ids)->map(function ($q) {
@@ -1396,18 +1399,15 @@ class ApiController extends Controller
                 $q->rating = $q->reviews->avg('rating');
                 return $q;
             });
-            $bundlesData = Bundle::find($bundle_ids);
+            $subtotal = Cart::session(auth()->user()->id)->getSubTotal();
 
-            $coursesData = $bundlesData->merge($courses);
-            $total = $coursesData->sum('price');
-            $subtotal = $total;
             if (count(Cart::session(request()->user()->id)->getConditionsByType('coupon')) > 0) {
                 $coupon = Cart::session(request()->user()->id)->getConditionsByType('coupon')->first();
                 $couponData = Coupon::where('code', '=', $coupon->getName())->first();
                 Cart::session(auth()->user()->id)->clearCartConditions();
                 $this->addCouponToCartSession($couponData->id);
                 if ($couponData->type == 1) {
-                    $discount = $total * $couponData->amount / 100;
+                    $discount = $subtotal * $couponData->amount / 100;
                 } else {
                     $discount = $couponData->amount;
                 }
@@ -1423,18 +1423,16 @@ class ApiController extends Controller
             } else {
                 $couponArray = null;
             }
-
             $taxes = Tax::where('status', '=', 1)->get();
             $taxData = [];
             if ($taxes != null) {
                 foreach ($taxes as $tax) {
-                    $total = Cart::session(auth()->user()->id)->getTotal();
-                    $amount = number_format($total * $tax->rate / 100, 2, '.', '');
+                    $amount = $subtotal * $tax->rate / 100;
                     $taxData[] = ['name' => '+' . $tax->rate . '% ' . $tax->name, 'amount' => $amount];
                 }
             }
-
             $total = Cart::session(auth()->user()->id)->getTotal();
+
             return [
                 'status' => 200,
                 'message' => "Cart data sent successfully",
@@ -1444,8 +1442,8 @@ class ApiController extends Controller
                     'count' => count($courses) + count($bundles),
                     'coupon' => $couponArray,
                     'tax' => $taxData,
-                    'subtotal' => number_format(round($subtotal, 2), 2, '.', ''),
-                    'total' => number_format(round($total, 2), 2, '.', '')]
+                    'subtotal' => number_format($subtotal, 2, '.', ''),
+                    'total' => number_format($total, 2, '.', '')]
             ];
         }
         return ['status' => 200, 'result' => ['count' => 0], 'message' => "No Record Found"];
@@ -2727,7 +2725,7 @@ class ApiController extends Controller
                 $discount = $data['coupon_data']['total_coupon_discount'];
                 $res = $this->getCartDetailArray();
                 $res['message'] = 'Coupon Applied Successfully';
-                $res['result']['final_total'] = (float)number_format(($total - $discount) + $tax_amount, 2, '.', '');
+                $res['result']['final_total'] = $res['result']['total']; // (float)number_format(($total - $discount) + $tax_amount, 2, '.', '');
                 return $res;
             }
             return ['status' => 100, 'result' => null, 'message' => 'Please apply a valid coupon'];
@@ -2923,6 +2921,7 @@ class ApiController extends Controller
 
     public function getConfigs()
     {
+
         $data = getCurrency(config('app.currency'));
         $user = User::query()->find(request()->user_id ?? null);
         if (!is_null($user)) {
