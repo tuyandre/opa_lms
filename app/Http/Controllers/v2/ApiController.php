@@ -1200,7 +1200,7 @@ class ApiController extends Controller
                         ->where($type, '=', 1)
                         ->paginate(10);
                 } else {
-                    return response()->json(['status' => 100, 'result' => null, 'message' => 'Invalid Request']);
+                    return response()->json(['status' => 200, 'message' => 'Bundles List', 'type' => $type, 'result' => $bundles ?? []]);
                 }
             } else {
                 $bundles = Bundle::where('published', '=', 1)
