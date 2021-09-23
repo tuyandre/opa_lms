@@ -2624,6 +2624,7 @@ class ApiController extends Controller
     public function applyCoupon(Request $request)
     {
         try {
+            $this->removeCoupon($request);
             $data = [];
             $items = [];
             $total = 0;
@@ -2632,6 +2633,7 @@ class ApiController extends Controller
                 ->where('status', '=', 1)
                 ->first();
             $isCouponValid = false;
+
 
             if ($coupon != null) {
                 if (count($request->data) <= 0) {
@@ -2865,7 +2867,8 @@ class ApiController extends Controller
     }
 
     public function removeCoupon(Request $request)
-    {//Obsolete
+    {
+        //Obsolete
         try {
             Cart::session(auth()->user()->id)->clearCartConditions();
             Cart::session(auth()->user()->id)->removeConditionsByType('coupon');
