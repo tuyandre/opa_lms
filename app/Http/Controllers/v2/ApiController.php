@@ -1484,6 +1484,9 @@ class ApiController extends Controller
                     ];
                     break;
                 case 4:
+                    $total = Cart::session(auth()->user()->id)->getTotal();
+                    if ($total <= 10)
+                        throw new Exception('Order Amount Cannot be less then 10');
                     $response = [
                         'handle_payment_url' => route('instamojo-handle-payment', $request->order_confirmation_id),
                         'success_url' => route('instamojo-payment.success'),
