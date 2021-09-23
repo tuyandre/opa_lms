@@ -50,7 +50,6 @@ class StoreOauthClientsTableData extends Command
             'password_client' => 1,
             'revoked' => 0,
         ]);
-
         $client->save();
     }
 }
