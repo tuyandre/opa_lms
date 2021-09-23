@@ -150,7 +150,9 @@ class PaypalPaymentController extends Controller
                 "remarks" => '',
             ]);*/
             $orderRepository = new OrderRepository();
+            $order = Order::query()->findOrFail($order_id);
             $orderRepository->updateOrderStatus($order_id, $payment_id, 2, 1);
+            clearCartById($order->user_id);
             \Session::put('success', 'Payment success !!');
             return view('web_view.status');
         }

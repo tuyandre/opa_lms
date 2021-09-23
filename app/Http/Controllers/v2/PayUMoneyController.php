@@ -69,6 +69,8 @@ class PayUMoneyController extends Controller
             ]);*/
             $orderRepository = new OrderRepository();
             $orderRepository->updateOrderStatus($order_id, $requestData['txnid'], 7, 1);
+            $order = Order::query()->findOrFail($order_id);
+            clearCartById($order->user_id);
         }
         return view('web_view.status');
     }

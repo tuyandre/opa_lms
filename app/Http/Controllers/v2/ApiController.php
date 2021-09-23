@@ -1551,6 +1551,7 @@ class ApiController extends Controller
             switch ($payment_mode) {
                 case 1:
                 case 5:
+                    $userId = auth()->user()->id;
                     $orderRepository = new OrderRepository();
                     $response = $orderRepository->updateOrderStatus(
                         $request->order_confirmation_id,
@@ -1559,6 +1560,7 @@ class ApiController extends Controller
                         $request->status,
                         $request->remarks ?? ''
                     );
+                    clearCartById($userId);
                     break;
                 default:
                     throw new Exception('Please Select on of the available online payment Modes.');
@@ -1638,6 +1640,7 @@ class ApiController extends Controller
                     //Generating Invoice
                     generateInvoice($order);
                 }
+                clearCartById($order->user_id);
                 return response()->json(['status' => 200, 'message' => 'Order Placed Successfully', 'result' => null]);
             } else {
                 return response()->json(['status' => 100, 'result' => null, 'message' => 'No order found']);

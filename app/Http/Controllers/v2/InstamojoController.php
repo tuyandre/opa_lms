@@ -70,6 +70,8 @@ class InstamojoController extends Controller
             ]);*/
             $orderRepository = new OrderRepository();
             $orderRepository->updateOrderStatus($order_id, $requestData['payment_id'], 5, 1);
+            $order = Order::query()->findOrFail($order_id);
+            clearCartById($order->user_id);
             $message = 'Payment Successfully Done';
             return redirect()->route('instamojo-payment.success', compact('message'));
         } else if (request()->get('payment_status') == 'Failed') {

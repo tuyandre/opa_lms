@@ -515,6 +515,20 @@ if (!function_exists('courseOrBundlePlanExits')) {
 
 
 /** check courses and bundle expire**/
+if (!function_exists('clearCartById')) {
+    function clearCartById($cart_id)
+    {
+        try {
+            Cart::session($cart_id)->clear();
+            Cart::session($cart_id)->clearCartConditions();
+            return true;
+        } catch (\Exception $e) {
+            return false;
+        }
+    }
+}
+
+/** check courses and bundle expire**/
 if (!function_exists('courseOrBundleExpire')) {
     function courseOrBundleExpire($courseId = null, $bundleId = null)
     {
