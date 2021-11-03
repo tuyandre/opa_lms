@@ -282,7 +282,7 @@
                                                                 <div class="radio">
                                                                     <label>
                                                                         <input data-toggle="collapse"
-                                                                               href="#collapsePaymentTwo"
+                                                                               href="#collapsePaymentThree"
                                                                                type="radio" name="paymentMethod"
                                                                                value="8">
                                                                         @lang('labels.frontend.cart.flutter')
@@ -298,7 +298,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="check-out-form collapse disabled" id="collapsePaymentTwo"
+                                                <div class="check-out-form collapse disabled" id="collapsePaymentThree"
                                                      data-parent="#accordion">
                                                     <form class="w3-container w3-display-middle w3-card-4 "
                                                           method="POST"
@@ -590,7 +590,7 @@
                                                                 <div class="radio">
                                                                     <label>
                                                                         <input data-toggle="collapse"
-                                                                               href="#collapsePaymentThree" type="radio"
+                                                                               href="#collapsePaymentOffline" type="radio"
                                                                                name="paymentMethod" value="3">
                                                                         @lang('labels.frontend.cart.offline_payment')
                                                                     </label>
@@ -600,7 +600,7 @@
 
                                                     </div>
                                                 </div>
-                                                <div class="check-out-form collapse disabled" id="collapsePaymentThree"
+                                                <div class="check-out-form collapse disabled" id="collapsePaymentOffline"
                                                      data-parent="#accordion">
                                                     <p> @lang('labels.frontend.cart.offline_payment_note')</p>
                                                     <p>{{ config('payment_offline_instruction')  }}</p>

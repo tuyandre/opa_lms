@@ -816,7 +816,7 @@ class CartController extends Controller
     public function flatterPayment(Request $request)
     {
         $request->request->add([
-            'amount' => number_format(Cart::session(auth()->user()->id)->getTotal(), 2),
+            'amount' => Cart::session(auth()->user()->id)->getTotal(),
             'payment_method' => 'both',
             'description' => auth()->user()->name,
             'country' => '',

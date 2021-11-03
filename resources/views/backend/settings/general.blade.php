@@ -871,9 +871,8 @@
                                             <div class="col-md-8 col-xs-12">
                                                 <select class="form-control" id="rave__env"
                                                         name="rave__env">
-                                                    <option selected
-                                                            value="staging">{{__('labels.backend.general_settings.payment_settings.sandbox')}}</option>
-                                                    <option value="live">{{__('labels.backend.general_settings.payment_settings.live')}}</option>
+                                                    <option {{ isset($flutter_wave_info) && $flutter_wave_info->value == "staging"?'selected':'' }} value="staging">{{__('labels.backend.general_settings.payment_settings.sandbox')}}</option>
+                                                    <option {{ isset($flutter_wave_info) && $flutter_wave_info->value == "live"?'selected':'' }} value="live">{{__('labels.backend.general_settings.payment_settings.live')}}</option>
                                                 </select>
                                             </div><!--col-->
                                         </div><!--form-group-->

@@ -22,11 +22,12 @@ class ConfigController extends Controller
         $type = config('theme_layout');
         $sections = Config::where('key', '=', 'layout_' . $type)->first();
         $footer_data = Config::where('key', '=', 'footer_data')->first();
+        $flutter_wave_info = Config::where('key', '=', 'rave.env')->first();
         $footer_data = json_decode($footer_data->value);
         $sections = json_decode($sections->value);
         $app_locales = Locale::get();
         $api_clients = OauthClient::paginate(10);
-        return view('backend.settings.general', compact('sections', 'footer_data','app_locales','api_clients'));
+        return view('backend.settings.general', compact('sections', 'footer_data','app_locales','api_clients','flutter_wave_info'));
     }
 
     public function saveGeneralSettings(Request $request)
