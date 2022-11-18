@@ -1,6 +1,14 @@
 <?php
 
 
+use DevDojo\Chatter\Controllers\ChatterAtomController;
+use DevDojo\Chatter\Controllers\ChatterController;
+use DevDojo\Chatter\Controllers\ChatterDiscussionController;
+use DevDojo\Chatter\Controllers\ChatterPostController;
+use DevDojo\Chatter\Models\Category;
+use DevDojo\Chatter\Models\Discussion;
+use DevDojo\Chatter\Models\Post;
+
 $path = 'frontend';
 if(config('app.display_type') == 'rtl'){
     $path = 'frontend-rtl';
@@ -27,16 +35,16 @@ return [
     ],
 
     'controllers' => [
-        'default'    => \SkyRaptor\Chatter\Controllers\ChatterController::class,
-        'discussion' => \SkyRaptor\Chatter\Controllers\ChatterDiscussionController::class,
-        'post'       => \SkyRaptor\Chatter\Controllers\ChatterPostController::class,
-        'atom'       => \SkyRaptor\Chatter\Controllers\ChatterAtomController::class,
+        'default'    => ChatterController::class,
+        'discussion' => ChatterDiscussionController::class,
+        'post'       => ChatterPostController::class,
+        'atom'       => ChatterAtomController::class,
     ],
 
     'models' => [
-        'category' => \SkyRaptor\Chatter\Models\Category::class,
-        'discussion' => \SkyRaptor\Chatter\Models\Discussion::class,
-        'post' => \SkyRaptor\Chatter\Models\Post::class,
+        'category' => Category::class,
+        'discussion' => Discussion::class,
+        'post' => Post::class,
     ],
 
 

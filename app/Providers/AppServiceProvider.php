@@ -2,21 +2,16 @@
 
 namespace App\Providers;
 
-use App\Helpers\Frontend\Auth\Socialite;
 use App\Models\Locale;
 use App\Models\Blog;
 use App\Models\Config;
 use App\Models\Course;
+use App\Models\MenuItems;
+use App\Models\Menus;
 use App\Models\Slider;
-use Barryvdh\TranslationManager\Manager;
-use Barryvdh\TranslationManager\Models\Translation;
 use Carbon\Carbon;
-use Harimayco\Menu\Facades\Menu;
-use Harimayco\Menu\Models\MenuItems;
-use Harimayco\Menu\Models\Menus;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
 use App\Resolvers\SocialUserResolver;
@@ -110,10 +105,8 @@ class AppServiceProvider extends ServiceProvider
                 ->get();
             $menu_name = Menus::find((int)config('nav_menu'));
             $menu_name = ($menu_name != NULL) ? $menu_name->name : NULL;
-            $custom_menus = menuList($custom_menus);
-            $max_depth = MenuItems::max('depth');
-            View::share('custom_menus', $custom_menus);
-            View::share('max_depth', $max_depth);
+//            $custom_menus = menuList($custom_menus);
+            View::share('custom_menus', $custom_menus ?? []);
             View::share('menu_name', $menu_name);
 
         }

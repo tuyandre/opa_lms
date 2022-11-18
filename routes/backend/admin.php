@@ -179,6 +179,9 @@ Route::group(['middleware' => 'role:administrator|teacher'], function () {
 
 
     Route::get('menu-manager', ['uses' => 'MenuController@index'])->name('menu-manager');
+    Route::post('menu-manager/store', ['uses' => 'MenuController@store'])->name('menu-manager.store');
+    Route::post('menu-manager/update-sort', ['uses' => 'MenuController@update'])->name('menu-manager.update_sort');
+    Route::get('menu-manager/delete/{id}', ['uses' => 'MenuController@delete'])->name('menu-manager.delete');
 
 });
 

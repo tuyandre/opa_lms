@@ -381,8 +381,8 @@ if (!function_exists('menuList')) {
     {
         $temp_array = array();
         foreach ($array as $item) {
-            if ($item->getsons($item->id)->except($item->id)) {
-                $item->subs = menuList($item->getsons($item->id)->except($item->id)); // here is the recursion
+            if ($item->getsons($item->id)) {
+                $item->subs = menuList($item->getsons($item->id)); // here is the recursion
                 $temp_array[] = $item;
             }
         }

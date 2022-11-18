@@ -170,14 +170,14 @@ Route::group(['middleware' => 'auth'], function () {
 //============= Menu  Manager Routes ===============//
 Route::group(['namespace' => 'Backend', 'prefix' => 'admin', 'middleware' => config('menu.middleware')], function () {
     //Route::get('wmenuindex', array('uses'=>'\Harimayco\Menu\Controllers\MenuController@wmenuindex'));
-    Route::post('add-custom-menu', 'MenuController@addcustommenu')->name('haddcustommenu');
-    Route::post('delete-item-menu', 'MenuController@deleteitemmenu')->name('hdeleteitemmenu');
-    Route::post('delete-menug', 'MenuController@deletemenug')->name('hdeletemenug');
-    Route::post('create-new-menu', 'MenuController@createnewmenu')->name('hcreatenewmenu');
-    Route::post('generate-menu-control', 'MenuController@generatemenucontrol')->name('hgeneratemenucontrol');
-    Route::post('update-item', 'MenuController@updateitem')->name('hupdateitem');
-    Route::post('save-custom-menu', 'MenuController@saveCustomMenu')->name('hcustomitem');
-    Route::post('change-location', 'MenuController@updateLocation')->name('update-location');
+//    Route::post('add-custom-menu', 'MenuController@addcustommenu')->name('haddcustommenu');
+//    Route::post('delete-item-menu', 'MenuController@deleteitemmenu')->name('hdeleteitemmenu');
+//    Route::post('delete-menug', 'MenuController@deletemenug')->name('hdeletemenug');
+//    Route::post('create-new-menu', 'MenuController@createnewmenu')->name('hcreatenewmenu');
+//    Route::post('generate-menu-control', 'MenuController@generatemenucontrol')->name('hgeneratemenucontrol');
+//    Route::post('update-item', 'MenuController@updateitem')->name('hupdateitem');
+//    Route::post('save-custom-menu', 'MenuController@saveCustomMenu')->name('hcustomitem');
+//    Route::post('change-location', 'MenuController@updateLocation')->name('update-location');
 });
 
 Route::get('certificate-verification', 'Backend\CertificateController@getVerificationForm')->name('frontend.certificates.getVerificationForm');

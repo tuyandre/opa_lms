@@ -469,9 +469,11 @@
                             <p>@lang('labels.backend.translations.choose_a_group')</p>
                             <select name="group" id="group" class="form-control group-select">
                                 @foreach($groups as $key => $value): ?>
+                                @if (str_contains($value, 'vendor/') !== true)
                                 <option value="{{$key}}" {{$key == $group ? ' selected':'' }}>
                                     {{$value}}
                                 </option>
+                                @endif
                                 @endforeach
                             </select>
                         </div>

@@ -216,14 +216,12 @@ return [
         Jenssegers\Agent\AgentServiceProvider::class,
         Darryldecode\Cart\CartServiceProvider::class,
         ConsoleTVs\Invoices\InvoicesServiceProvider::class,
-        Harimayco\Menu\MenuServiceProvider::class,
-
 
         Barryvdh\TranslationManager\ManagerServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
 
         Maatwebsite\Excel\ExcelServiceProvider::class,
-        BC\Laravel\DropboxDriver\ServiceProvider::class,
+//        BC\Laravel\DropboxDriver\ServiceProvider::class,
         Mtownsend\ReadTime\Providers\ReadTimeServiceProvider::class,
 
 
@@ -303,7 +301,6 @@ return [
 //        'Messenger' => Gerardojbaez\Messenger\Facades\Messenger::class,
         'Agent' => Jenssegers\Agent\Facades\Agent::class,
         'Cart' => Darryldecode\Cart\Facades\CartFacade::class,
-        'Menu' => Harimayco\Menu\Facades\Menu::class,
         'PDF' => Barryvdh\DomPDF\Facade::class,
     ],
 

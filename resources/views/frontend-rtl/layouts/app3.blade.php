@@ -168,23 +168,23 @@
                                         @if(count($custom_menus) > 0 )
                                             @foreach($custom_menus as $menu)
                                                 @if($menu['id'] == $menu['parent'])
-                                                    @if(count($menu->subs) == 0)
+{{--                                                    @if(count($menu->subs) == 0)--}}
                                                         <li class="nav-item">
                                                             <a href="{{asset($menu->link)}}"
                                                                class="nav-link {{ active_class(Active::checkRoute('frontend.user.dashboard')) }}"
                                                                id="menu-{{$menu->id}}">{{trans('custom-menu.'.$menu_name.'.'.str_slug($menu->label))}}</a>
                                                         </li>
-                                                    @else
-                                                        <li class="menu-item-has-children ul-li-block">
-                                                            <a href="#!">{{trans('custom-menu.'.$menu_name.'.'.str_slug($menu->label))}}</a>
-                                                            <ul class="sub-menu">
-                                                                @foreach($menu->subs as $item)
-                                                                    @include('frontend.layouts.partials.dropdown', $item)
-                                                                @endforeach
-                                                            </ul>
-                                                        </li>
+{{--                                                    @else--}}
+{{--                                                        <li class="menu-item-has-children ul-li-block">--}}
+{{--                                                            <a href="#!">{{trans('custom-menu.'.$menu_name.'.'.str_slug($menu->label))}}</a>--}}
+{{--                                                            <ul class="sub-menu">--}}
+{{--                                                                @foreach($menu->subs as $item)--}}
+{{--                                                                    @include('frontend.layouts.partials.dropdown', $item)--}}
+{{--                                                                @endforeach--}}
+{{--                                                            </ul>--}}
+{{--                                                        </li>--}}
 
-                                                    @endif
+{{--                                                    @endif--}}
 
                                                 @endif
                                             @endforeach
@@ -239,24 +239,24 @@
                                         @if(count($custom_menus) > 0 )
                                             @foreach($custom_menus as $menu)
                                                 @if($menu['id'] == $menu['parent'])
-                                                    @if(count($menu->subs) == 0)
+{{--                                                    @if(count($menu->subs) == 0)--}}
 
                                                         <li class="">
                                                             <a href="{{asset($menu->link)}}"
                                                                class="nav-link {{ active_class(Active::checkRoute('frontend.user.dashboard')) }}"
                                                                id="menu-{{$menu->id}}">{{trans('custom-menu.'.$menu_name.'.'.str_slug($menu->label))}}</a>
                                                         </li>
-                                                    @else
-                                                        <li class="">
-                                                            <a href="#!">{{trans('custom-menu.'.$menu_name.'.'.str_slug($menu->label))}}</a>
-                                                            <ul class="">
-                                                                @foreach($menu->subs as $item)
-                                                                    @include('frontend.layouts.partials.dropdown', $item)
-                                                                @endforeach
-                                                            </ul>
-                                                        </li>
+{{--                                                    @else--}}
+{{--                                                        <li class="">--}}
+{{--                                                            <a href="#!">{{trans('custom-menu.'.$menu_name.'.'.str_slug($menu->label))}}</a>--}}
+{{--                                                            <ul class="">--}}
+{{--                                                                @foreach($menu->subs as $item)--}}
+{{--                                                                    @include('frontend.layouts.partials.dropdown', $item)--}}
+{{--                                                                @endforeach--}}
+{{--                                                            </ul>--}}
+{{--                                                        </li>--}}
 
-                                                    @endif
+{{--                                                    @endif--}}
 
                                                 @endif
                                             @endforeach
@@ -316,7 +316,7 @@
             ============================================= -->
 
         @yield('content')
-        @include('cookieConsent::index')
+        @include('cookie-consent::index')
         @include('frontend-rtl.layouts.partials.footer')
 
     </div><!-- #app -->

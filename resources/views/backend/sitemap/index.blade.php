@@ -28,21 +28,21 @@
             <a class="mb-2 d-block" target="_blank"
                href="{{asset('sitemap-'.str_slug(config('app.name')).'/sitemap-index.xml')}}"><h6>Click here to see
                     Sitemap Index File</h6></a>
-
-            <div class="form-group row">
-                {{ html()->label(__('labels.backend.sitemap.records_per_file'))->class('col-md-2 form-control-label')->for('short_description') }}
-                <div class="col-md-10">
-                    {{ html()->input('number','sitemap__chunk')
-                  ->id('list_id')
-                  ->class('form-control')
-                  ->value(config('sitemap.chunk'))
-                  ->placeholder('Ex. 100 ')
-                  }}
-                </div>
-            </div>
+{{--            <div class="form-group row">--}}
+{{--                {{ html()->label(__('labels.backend.sitemap.records_per_file'))->class('col-md-2 form-control-label')->for('short_description') }}--}}
+{{--                <div class="col-md-10">--}}
+{{--                    {{ html()->input('number','sitemap__chunk')--}}
+{{--                  ->id('list_id')--}}
+{{--                  ->class('form-control')--}}
+{{--                  ->value(config('sitemap.chunk'))--}}
+{{--                  ->placeholder('Ex. 100 ')--}}
+{{--                  }}--}}
+{{--                </div>--}}
+{{--            </div>--}}
             <div class="form-group row">
                 <label class="col-md-2 col-form-label">{{__('labels.backend.sitemap.generate')}}</label>
                 <div class="col-md-10 col-form-label">
+                    <input type="hidden" name="sitemap__chunk" value="{{ config('sitemap.chunk') }}">
                     {{ html()->select('sitemap__schedule',['1' => __('labels.backend.sitemap.daily'),'2' => __('labels.backend.sitemap.weekly'),'3' => __('labels.backend.sitemap.monthly')])
          ->id('sitemap_schedule')
          ->class('form-control ')

@@ -9,8 +9,6 @@ use App\Models\Course;
 use App\Models\Stripe\StripePlan;
 use App\Models\Stripe\SubscribeCourse;
 use App\Models\Stripe\SubscribeBundle;
-use App\Models\Stripe\StripeProduct;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Yajra\DataTables\Facades\DataTables;

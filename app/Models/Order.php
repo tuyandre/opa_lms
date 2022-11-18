@@ -4,7 +4,6 @@ namespace App\Models;
 
 use App\Models\Auth\User;
 use App\Models\Stripe\StripePlan;
-use App\Models\stripe\UserCourses;
 use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model

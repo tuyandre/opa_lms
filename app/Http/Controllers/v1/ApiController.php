@@ -35,7 +35,6 @@ use App\Models\Reason;
 use App\Models\Review;
 use App\Models\Sponsor;
 use App\Models\Stripe\StripePlan;
-use App\Models\System\Session;
 use App\Models\Tag;
 use App\Models\Tax;
 use App\Models\Test;
@@ -64,12 +63,12 @@ use Lexx\ChatMessenger\Models\Thread;
 use Purifier;
 //use Messenger;
 use Newsletter;
-use SkyRaptor\Chatter\Events\ChatterAfterNewDiscussion;
-use SkyRaptor\Chatter\Events\ChatterAfterNewResponse;
-use SkyRaptor\Chatter\Events\ChatterBeforeNewDiscussion;
-use SkyRaptor\Chatter\Events\ChatterBeforeNewResponse;
-use SkyRaptor\Chatter\Mail\ChatterDiscussionUpdated;
-use SkyRaptor\Chatter\Models\Models;
+use DevDojo\Chatter\Events\ChatterAfterNewDiscussion;
+use DevDojo\Chatter\Events\ChatterAfterNewResponse;
+use DevDojo\Chatter\Events\ChatterBeforeNewDiscussion;
+use DevDojo\Chatter\Events\ChatterBeforeNewResponse;
+use DevDojo\Chatter\Mail\ChatterDiscussionUpdated;
+use DevDojo\Chatter\Models\Models;
 
 class ApiController extends Controller
 {
