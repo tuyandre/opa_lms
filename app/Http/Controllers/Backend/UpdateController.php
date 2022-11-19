@@ -61,7 +61,7 @@ class UpdateController extends Controller
 
 
                 Artisan::call("config:clear");
-//                Artisan::call("migrate");
+                Artisan::call("migrate");
                 exec('cd ' . base_path() . '/ && composer install');
 
 
