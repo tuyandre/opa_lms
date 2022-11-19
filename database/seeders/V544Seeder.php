@@ -58,5 +58,6 @@ class V544Seeder extends Seeder
         }
 
         MenuItems::where('link', 'forums')->update(['link' => 'forum']);
+        Config::where('key', 'flutter.active')->update(['value' => 0]);
     }
 }

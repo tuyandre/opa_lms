@@ -274,7 +274,7 @@
                                         @endif
 
                                         @if(config('flutter.active') == 1)
-                                            <div class="payment-method w-100 mb-0">
+<!--                                            <div class="payment-method w-100 mb-0">
                                                 <div class="payment-method-header">
                                                     <div class="row">
                                                         <div class="col-md-12">
@@ -319,7 +319,7 @@
                                                         </button>
                                                     </form>
                                                 </div>
-                                            </div>
+                                            </div>-->
                                         @endif
 
                                         @if(config('services.instamojo.active') == 1)
