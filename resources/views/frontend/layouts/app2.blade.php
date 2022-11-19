@@ -118,7 +118,7 @@
                                     <ul>
                                         @if(count($custom_menus) > 0 )
                                             @foreach($custom_menus as $menu)
-                                                @if($menu['id'] == $menu['parent'])
+{{--                                                @if($menu['id'] == $menu['parent'])--}}
 {{--                                                    @if(count($menu->subs) == 0)--}}
                                                         <li class="nav-item">
                                                             <a href="{{asset($menu->link)}}"
@@ -135,7 +135,7 @@
 {{--                                                            </ul>--}}
 {{--                                                        </li>--}}
 {{--                                                    @endif--}}
-                                                @endif
+{{--                                                @endif--}}
                                             @endforeach
                                         @endif
 
@@ -204,7 +204,7 @@
                                     <ul>
                                         @if(count($custom_menus) > 0 )
                                             @foreach($custom_menus as $menu)
-                                                @if($menu['id'] == $menu['parent'])
+{{--                                                @if($menu['id'] == $menu['parent'])--}}
 {{--                                                    @if(count($menu->subs) == 0)--}}
                                                         <li class="">
                                                             <a href="{{asset($menu->link)}}"
@@ -224,7 +224,7 @@
 {{--                                                    @endif--}}
 
 
-                                                @endif
+{{--                                                @endif--}}
                                             @endforeach
                                         @endif
 

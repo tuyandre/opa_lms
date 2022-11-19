@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fb83ce20701af6d9677ccd70c81df8cd",
+    "content-hash": "775b1f0eab2b8e94736eb3be43690a52",
     "packages": [
         {
             "name": "appstract/laravel-blade-directives",
@@ -387,16 +387,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.245.1",
+            "version": "3.246.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "abe53c3bcf351ffe1d8fa8784f1bf1dfbf35b5ab"
+                "reference": "90859d0b704d80a7f5b0743766562f956e43c79d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/abe53c3bcf351ffe1d8fa8784f1bf1dfbf35b5ab",
-                "reference": "abe53c3bcf351ffe1d8fa8784f1bf1dfbf35b5ab",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/90859d0b704d80a7f5b0743766562f956e43c79d",
+                "reference": "90859d0b704d80a7f5b0743766562f956e43c79d",
                 "shasum": ""
             },
             "require": {
@@ -475,9 +475,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.245.1"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.246.0"
             },
-            "time": "2022-11-17T19:21:17+00:00"
+            "time": "2022-11-18T19:56:22+00:00"
         },
         {
             "name": "barryvdh/laravel-dompdf",
@@ -2893,6 +2893,71 @@
             "time": "2022-10-26T20:30:45+00:00"
         },
         {
+            "name": "graham-campbell/guzzle-factory",
+            "version": "v5.1.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/GrahamCampbell/Guzzle-Factory.git",
+                "reference": "2cf8469e3ede97b62a4e8164f5cbf90b0ee58abb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/GrahamCampbell/Guzzle-Factory/zipball/2cf8469e3ede97b62a4e8164f5cbf90b0ee58abb",
+                "reference": "2cf8469e3ede97b62a4e8164f5cbf90b0ee58abb",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "^7.5.0",
+                "guzzlehttp/psr7": "^2.4.3",
+                "php": "^7.4.15 || ^8.0.2"
+            },
+            "require-dev": {
+                "graham-campbell/analyzer": "^3.1",
+                "phpunit/phpunit": "^9.5"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "GrahamCampbell\\GuzzleFactory\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Graham Campbell",
+                    "email": "hello@gjcampbell.co.uk",
+                    "homepage": "https://github.com/GrahamCampbell"
+                }
+            ],
+            "description": "Provides A Simple Guzzle Factory With Good Defaults",
+            "keywords": [
+                "Graham Campbell",
+                "GrahamCampbell",
+                "Guzzle",
+                "Guzzle Factory",
+                "Guzzle-Factory",
+                "http"
+            ],
+            "support": {
+                "issues": "https://github.com/GrahamCampbell/Guzzle-Factory/issues",
+                "source": "https://github.com/GrahamCampbell/Guzzle-Factory/tree/v5.1.2"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/GrahamCampbell",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/graham-campbell/guzzle-factory",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2022-11-06T17:37:38+00:00"
+        },
+        {
             "name": "graham-campbell/markdown",
             "version": "v14.0.0",
             "source": {
@@ -3763,6 +3828,69 @@
                 }
             ],
             "time": "2020-06-13T08:05:20+00:00"
+        },
+        {
+            "name": "kalnoy/nestedset",
+            "version": "v6.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/lazychaser/laravel-nestedset.git",
+                "reference": "bcfbccea5e3ddf31cb22e1bc3c6124da584505fc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/lazychaser/laravel-nestedset/zipball/bcfbccea5e3ddf31cb22e1bc3c6124da584505fc",
+                "reference": "bcfbccea5e3ddf31cb22e1bc3c6124da584505fc",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/database": "^7.0|^8.0|^9.0",
+                "illuminate/events": "^7.0|^8.0|^9.0",
+                "illuminate/support": "^7.0|^8.0|^9.0",
+                "php": "^7.2.5|^8.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "7.*|8.*|9.*"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "v5.0.x-dev"
+                },
+                "laravel": {
+                    "providers": [
+                        "Kalnoy\\Nestedset\\NestedSetServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Kalnoy\\Nestedset\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Alexander Kalnoy",
+                    "email": "lazychaser@gmail.com"
+                }
+            ],
+            "description": "Nested Set Model for Laravel 5.7 and up",
+            "keywords": [
+                "database",
+                "hierarchy",
+                "laravel",
+                "nested sets",
+                "nsm"
+            ],
+            "support": {
+                "issues": "https://github.com/lazychaser/laravel-nestedset/issues",
+                "source": "https://github.com/lazychaser/laravel-nestedset/tree/v6.0.1"
+            },
+            "time": "2022-02-11T06:17:57+00:00"
         },
         {
             "name": "laravel/cashier",
@@ -9371,6 +9499,73 @@
             "time": "2022-10-19T07:41:27+00:00"
         },
         {
+            "name": "riari/laravel-forum",
+            "version": "5.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Team-Tea-Time/laravel-forum.git",
+                "reference": "453eb5f01d3f2ef0dc31e56e979ba7e4e3bf0756"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Team-Tea-Time/laravel-forum/zipball/453eb5f01d3f2ef0dc31e56e979ba7e4e3bf0756",
+                "reference": "453eb5f01d3f2ef0dc31e56e979ba7e4e3bf0756",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/dbal": "^3.5",
+                "kalnoy/nestedset": "^6.0",
+                "laravel/framework": "^9",
+                "php": "^8.0"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^7.11"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "TeamTeaTime\\Forum\\ForumServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "TeamTeaTime\\Forum\\": "src",
+                    "TeamTeaTime\\Forum\\Database\\Seeders\\": "database/seeders",
+                    "TeamTeaTime\\Forum\\Database\\Factories\\": "database/factories"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Riari",
+                    "email": "riari@teamteatime.net"
+                },
+                {
+                    "name": "NeeHi",
+                    "email": "neehi@teamteatime.net"
+                }
+            ],
+            "description": "A Laravel 6/7/8/9 package providing a solid foundation for building discussion forums",
+            "keywords": [
+                "discuss",
+                "forum",
+                "laravel",
+                "laravel-6",
+                "laravel-7",
+                "laravel-8"
+            ],
+            "support": {
+                "issues": "https://github.com/Team-Tea-Time/laravel-forum/issues",
+                "source": "https://github.com/Team-Tea-Time/laravel-forum/tree/5.4.0"
+            },
+            "time": "2022-11-13T18:51:25+00:00"
+        },
+        {
             "name": "rize/uri-template",
             "version": "0.3.5",
             "source": {
@@ -9893,6 +10088,148 @@
             "time": "2022-09-01T20:20:26+00:00"
         },
         {
+            "name": "spatie/dropbox-api",
+            "version": "1.21.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spatie/dropbox-api.git",
+                "reference": "0fec337ca1244f21f0467f73a43893f7bd7fdcdb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/dropbox-api/zipball/0fec337ca1244f21f0467f73a43893f7bd7fdcdb",
+                "reference": "0fec337ca1244f21f0467f73a43893f7bd7fdcdb",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "graham-campbell/guzzle-factory": "^3.0|^4.0|^5.0",
+                "guzzlehttp/guzzle": "^6.2|^7.0",
+                "php": "^7.1|^8.0"
+            },
+            "conflict": {
+                "guzzlehttp/psr7": "<1.7.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^9.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Spatie\\Dropbox\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Alex Vanderbist",
+                    "email": "alex.vanderbist@gmail.com",
+                    "homepage": "https://spatie.be",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Freek Van der Herten",
+                    "email": "freek@spatie.be",
+                    "homepage": "https://spatie.be",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A minimal implementation of Dropbox API v2",
+            "homepage": "https://github.com/spatie/dropbox-api",
+            "keywords": [
+                "Dropbox-API",
+                "api",
+                "dropbox",
+                "spatie",
+                "v2"
+            ],
+            "support": {
+                "issues": "https://github.com/spatie/dropbox-api/issues",
+                "source": "https://github.com/spatie/dropbox-api/tree/1.21.0"
+            },
+            "funding": [
+                {
+                    "url": "https://spatie.be/open-source/support-us",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/spatie",
+                    "type": "github"
+                }
+            ],
+            "time": "2022-09-27T13:37:04+00:00"
+        },
+        {
+            "name": "spatie/flysystem-dropbox",
+            "version": "2.0.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spatie/flysystem-dropbox.git",
+                "reference": "60ac0f929da31aa1321b4b2ac2ca0ba961e4664a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/flysystem-dropbox/zipball/60ac0f929da31aa1321b4b2ac2ca0ba961e4664a",
+                "reference": "60ac0f929da31aa1321b4b2ac2ca0ba961e4664a",
+                "shasum": ""
+            },
+            "require": {
+                "league/flysystem": "^2.0.4 || ^3.0.0",
+                "php": "^8.0",
+                "spatie/dropbox-api": "^1.17.1"
+            },
+            "require-dev": {
+                "phpspec/prophecy-phpunit": "^2.0.1",
+                "phpunit/phpunit": "^9.5.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Spatie\\FlysystemDropbox\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Alex Vanderbist",
+                    "email": "alex.vanderbist@gmail.com",
+                    "homepage": "https://spatie.be",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Flysystem Adapter for the Dropbox v2 API",
+            "homepage": "https://github.com/spatie/flysystem-dropbox",
+            "keywords": [
+                "Flysystem",
+                "api",
+                "dropbox",
+                "flysystem-dropbox",
+                "spatie",
+                "v2"
+            ],
+            "support": {
+                "issues": "https://github.com/spatie/flysystem-dropbox/issues",
+                "source": "https://github.com/spatie/flysystem-dropbox/tree/2.0.6"
+            },
+            "funding": [
+                {
+                    "url": "https://spatie.be/open-source/support-us",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/spatie",
+                    "type": "github"
+                }
+            ],
+            "time": "2022-02-09T16:01:40+00:00"
+        },
+        {
             "name": "spatie/image",
             "version": "2.2.4",
             "source": {
@@ -10412,16 +10749,16 @@
         },
         {
             "name": "spatie/laravel-permission",
-            "version": "5.5.16",
+            "version": "5.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-permission.git",
-                "reference": "e57a67b51a02cbfcd074ed68786897db1dbbf2fa"
+                "reference": "76dd1533294e6a48877f17fdc2b499cff16d4661"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-permission/zipball/e57a67b51a02cbfcd074ed68786897db1dbbf2fa",
-                "reference": "e57a67b51a02cbfcd074ed68786897db1dbbf2fa",
+                "url": "https://api.github.com/repos/spatie/laravel-permission/zipball/76dd1533294e6a48877f17fdc2b499cff16d4661",
+                "reference": "76dd1533294e6a48877f17fdc2b499cff16d4661",
                 "shasum": ""
             },
             "require": {
@@ -10482,7 +10819,7 @@
             ],
             "support": {
                 "issues": "https://github.com/spatie/laravel-permission/issues",
-                "source": "https://github.com/spatie/laravel-permission/tree/5.5.16"
+                "source": "https://github.com/spatie/laravel-permission/tree/5.6.0"
             },
             "funding": [
                 {
@@ -10490,7 +10827,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-10-23T02:49:28+00:00"
+            "time": "2022-11-19T02:06:18+00:00"
         },
         {
             "name": "spatie/laravel-signal-aware-command",

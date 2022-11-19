@@ -64,9 +64,22 @@
                                     {{ html()->label(__('labels.backend.backup.app_token'))->class('col-md-2 form-control-label')->for('api.key') }}
 
                                     <div class="col-md-10">
-                                        {{ html()->text('filesystems__disks__dropbox__token')
+                                        {{ html()->text('filesystems__disks__dropbox__authorization_token')
                                             ->id('filesystems__disks__dropbox__token')
-                                            ->value(config('filesystems.disks.dropbox.token'))
+                                            ->value(config('filesystems.disks.dropbox.authorization_token'))
+                                            ->class('form-control')
+                                            ->placeholder('Ex. d814b5e4xxxxxxxxxxxxxxxxxcc27c-us17 ')
+                                            }}
+                                        <p class="help-text sendgrid-error mb-0 text-danger"></p>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    {{ html()->label(__('labels.backend.backup.app_key'))->class('col-md-2 form-control-label')->for('api.key') }}
+
+                                    <div class="col-md-10">
+                                        {{ html()->text('filesystems__disks__dropbox__key')
+                                            ->id('filesystems__disks__dropbox__key')
+                                            ->value(config('filesystems.disks.dropbox.key'))
                                             ->class('form-control')
                                             ->placeholder('Ex. d814b5e4xxxxxxxxxxxxxxxxxcc27c-us17 ')
                                             }}
@@ -77,9 +90,9 @@
                                     {{ html()->label(__('labels.backend.backup.app_secret'))->class('col-md-2 form-control-label')->for('api.key') }}
 
                                     <div class="col-md-10">
-                                        {{ html()->text('filesystems__disks__dropbox__app_secret')
-                                            ->id('filesystems__disks__dropbox__app_secret')
-                                            ->value(config('filesystems.disks.dropbox.app_secret'))
+                                        {{ html()->text('filesystems__disks__dropbox__secret')
+                                            ->id('filesystems__disks__dropbox__secret')
+                                            ->value(config('filesystems.disks.dropbox.secret'))
                                             ->class('form-control')
                                             ->placeholder('Ex. d814b5e4xxxxxxxxxxxxxxxxxcc27c-us17 ')
                                             }}

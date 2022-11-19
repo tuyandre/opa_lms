@@ -223,8 +223,7 @@ return [
         Maatwebsite\Excel\ExcelServiceProvider::class,
 //        BC\Laravel\DropboxDriver\ServiceProvider::class,
         Mtownsend\ReadTime\Providers\ReadTimeServiceProvider::class,
-
-
+        TeamTeaTime\Forum\ForumServiceProvider::class,
         /*
          * Application Service Providers...
          */
@@ -236,7 +235,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\ObserverServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-
+        App\Providers\DropboxServiceProvider::class,
 
     ],
 
