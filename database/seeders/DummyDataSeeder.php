@@ -20,7 +20,8 @@ class DummyDataSeeder extends Seeder
         $this->call(SponsorSeeder::class);
         $this->call(FaqSeeder::class);
         $this->call(ReasonSeeder::class);
-        $this->call(ChatterTableSeeder::class);
+//        $this->call(ChatterTableSeeder::class);
         $this->call(CouponSeeder::class);
+        $this->call(ForumSeeder::class);
     }
 }

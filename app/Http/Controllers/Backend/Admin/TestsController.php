@@ -234,12 +234,12 @@ class TestsController extends Controller
                 ->where('course_id', $request->course_id)->first();
             if ($timeline == null) {
                 $timeline = new CourseTimeline();
+                $timeline->course_id = $request->course_id;
+                $timeline->model_id = $test->id;
+                $timeline->model_type = Test::class;
+                $timeline->sequence = $sequence;
+                $timeline->save();
             }
-            $timeline->course_id = $request->course_id;
-            $timeline->model_id = $test->id;
-            $timeline->model_type = Test::class;
-            $timeline->sequence = $sequence;
-            $timeline->save();
         }
 
 

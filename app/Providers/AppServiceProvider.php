@@ -100,10 +100,10 @@ class AppServiceProvider extends ServiceProvider
         if (Schema::hasTable('admin_menu_items')) {
 
             $menu_name = NULL;
-            $custom_menus = MenuItems::where('menu', '=', config('nav_menu'))
+            $custom_menus = MenuItems::where('menu', '=', 1)
                 ->orderBy('sort')
                 ->get();
-            $menu_name = Menus::find((int)config('nav_menu'));
+            $menu_name = Menus::find((int)1);
             $menu_name = ($menu_name != NULL) ? $menu_name->name : NULL;
 //            $custom_menus = menuList($custom_menus);
             View::share('custom_menus', $custom_menus ?? []);

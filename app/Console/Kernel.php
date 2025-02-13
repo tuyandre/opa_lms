@@ -28,11 +28,6 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         Backup::class,
-
-        //================= Remove this while creating zip for Envato ==============//
-        RefreshSite::class,
-        //========================================================================//
-
         GenerateSitemap::class,
         TeacherProfileFix::class,
         LessonTestChaterStudentsFix::class,

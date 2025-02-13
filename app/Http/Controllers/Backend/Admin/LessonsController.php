@@ -391,12 +391,12 @@ class LessonsController extends Controller
                 ->where('course_id', $request->course_id)->first();
             if ($timeline == null) {
                 $timeline = new CourseTimeline();
+                $timeline->course_id = $request->course_id;
+                $timeline->model_id = $lesson->id;
+                $timeline->model_type = Lesson::class;
+                $timeline->sequence = $sequence;
+                $timeline->save();
             }
-            $timeline->course_id = $request->course_id;
-            $timeline->model_id = $lesson->id;
-            $timeline->model_type = Lesson::class;
-            $timeline->sequence = $sequence;
-            $timeline->save();
         }
 
 
